@@ -38,9 +38,9 @@ export enum TalentKey {
 }
 
 export class DefaultTalent {
-    static create(): Talent {
+    static create(name: string): Talent {
         return {
-            name: '',
+            name: name,
             ranked: Ranked.No,
             activation: Activation.Passive,
             tier: Tier.First,

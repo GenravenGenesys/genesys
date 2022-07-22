@@ -1,5 +1,5 @@
 import axios from "axios";
-import Talent from "../models/Talent";
+import Talent, {DefaultTalent} from "../models/Talent";
 import {Path} from "./Path";
 
 export default class TalentService {
@@ -17,7 +17,7 @@ export default class TalentService {
     }
 
     static async createTalent(name: string): Promise<Talent> {
-        return await axios.post(Path.Talent + '/' + name);
+        return await axios.post(Path.Talent, DefaultTalent.create(name));
     }
 
     static async updateTalent(name: string, talent: Talent): Promise<Talent> {
