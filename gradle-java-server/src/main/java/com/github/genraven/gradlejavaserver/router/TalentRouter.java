@@ -11,9 +11,9 @@ public class TalentRouter {
     @Bean
     public RouterFunction<ServerResponse> talentRouterMethod(final TalentHandler talentHandler) {
         return RouterFunctions.route()
-                .path("/talents", builder -> builder
-                        .GET("/", talentHandler::getAllTalents)
-                        .POST("/{name}", talentHandler::createTalent)
+                .path(TALENT_PATH, builder -> builder
+                        .GET(SLASH, talentHandler::getAllTalents)
+                        .POST(NAME_VARIABLE, talentHandler::createTalent)
                         .GET("/{name}", talentHandler::getTalent)
                         .PUT("/{name}", talentHandler::updateTalent))
                 .build();
