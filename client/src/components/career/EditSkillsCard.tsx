@@ -5,7 +5,7 @@ import {
 import CenteredCardHeader from "../common/card/CenteredCardHeader";
 import Career from "../../models/actor/player/Career";
 import Skill from "../../models/actor/Skill";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CareerService from "../../services/CareerService";
 import {useFetchCurrentSettingSkills} from "../skills/SkillWorkflow";
 import TableContainer from "@mui/material/TableContainer";
@@ -19,36 +19,40 @@ import {TypographyCenterTableCell} from "../common/table/TypographyTableCell";
 import CheckboxTableCell from "../common/table/CheckboxTableCell";
 
 interface Props {
-    career: Career
+    car: Career
 }
 
 export default function EditSkillsCard(props: Props): JSX.Element {
-    const {career} = props
-    const [skills, setSkills] = useState<Skill[]>(career.skills)
+    const {car} = props
+    const [career, setCareer] = useState<Career>(car)
+
+    useEffect(() => {
+        setCareer(car)
+    }, [car])
 
     const onSkillAddition = async (skill: Skill) => {
-        if (skills.length <= 8) {
-            setSkills(skills.concat(skill))
-            await updateCareer()
+        career.skills = career.skills.concat(skill)
+        if (career.skills.length > 8) {
+            career.skills.pop()
         }
+        await updateCareer()
     }
 
     const onSkillRemoval = async (skill: Skill) => {
-        skills.forEach((sk, index) => {
+        career.skills.forEach((sk, index) => {
             if (sk.name === skill.name) {
-                setSkills(skills.splice(index, 1))
+                career.skills = career.skills.splice(index, 1)
             }
         })
         await updateCareer()
     }
 
     const updateCareer = async () => {
-        career.skills = skills
         await CareerService.updateCareer(career.name, career)
     }
 
     const renderTableBody = (settingSKills: Skill[]): JSX.Element => {
-        if (!skills) {
+        if (!career.skills) {
             return <GenesysDescriptionTypography text={'None'}/>
         } else {
             return (
@@ -56,7 +60,7 @@ export default function EditSkillsCard(props: Props): JSX.Element {
                     {settingSKills.map((skill: Skill) => (
                         <TableRow key={skill.name}>
                             <TypographyCenterTableCell value={skill.name}/>
-                            <CheckboxTableCell value={skills.some(sk => sk.name === skill.name)}
+                            <CheckboxTableCell value={career.skills.some(sk => sk.name === skill.name)}
                                                onAddition={() => onSkillAddition(skill)}
                                                onRemoval={() => onSkillRemoval(skill)}/>
                         </TableRow>

@@ -57,6 +57,15 @@ export default function PlayerView(props: Props) {
     const onCareerChange = async (value: Career) => {
         const copyPlayer = {...player} as Player
         copyPlayer.career = value
+        let names = [] as string[]
+        copyPlayer.career.skills.forEach((skill, index) =>{
+            names.push(skill.name)
+        })
+        player.skills.forEach((skill, index) => {
+            if (names.includes(skill.name)) {
+                skill.career = true
+            }
+        })
         await updatePlayer(copyPlayer)
     }
 
@@ -124,9 +133,7 @@ export default function PlayerView(props: Props) {
                 <Grid container justifyContent={'center'}>
                     <Grid container spacing={2}>
                         <Grid item xs>
-                            <CareerSelectCard defaultValue={player.career} onCommit={(value: Career): void => {
-                                onCareerChange(value)
-                            }}/>
+                            <CareerSelectCard player={player}/>
                         </Grid>
                     </Grid>
                     <Divider/>
