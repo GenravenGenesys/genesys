@@ -15,3 +15,15 @@ export enum SkillType {
     Combat = 'Combat',
     Knowledge = 'Knowledge'
 }
+
+export class DefaultSkill {
+
+    static create(): Skill {
+        return {
+            characteristic: CharacteristicType.Agility,
+            name: "",
+            settings: [],
+            type: SkillType.General
+        }
+    }
+}

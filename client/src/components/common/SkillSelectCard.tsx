@@ -8,12 +8,14 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import {ChangeEvent, useEffect, useState} from "react";
+import {ChangeEvent, Fragment, useEffect, useState} from "react";
 import EditField from "./EditField";
 import SkillService from "../../services/SkillService";
 import SettingService from "../../services/SettingService";
 import Setting from "../../models/Setting";
 import CenteredCardHeader from "./card/CenteredCardHeader";
+import TableRow from "@mui/material/TableRow";
+import {TypographyCenterTableCell} from "./table/TypographyTableCell";
 
 interface TypeProps {
     defaultValue: Skill
@@ -100,6 +102,40 @@ export function AllSkillsSelectCard(props: AllProps): JSX.Element {
     )
 }
 
+interface CareerSkillProps {
+    title: string
+    skillList: Skill[]
+    defaultValue: Skill
+    onCommit: (value: Skill) => void
+}
+
+export function CareerSkillsSelectRow(props: CareerSkillProps): JSX.Element {
+    const {title, skillList, defaultValue, onCommit} = props
+    const [skills, setSkills] = useState<Skill[]>(skillList)
+
+    useEffect(() => {
+        setSkills(skillList)
+    }, [skillList]);
+
+    return (
+        <Fragment>
+            {skillList.map((skill) => {
+                <TableRow key={skill.name}>
+                    <TypographyCenterTableCell value={skill.name}/>
+                </TableRow>
+            })}
+            <Grid item xs>
+                <Card>
+                    <CenteredCardHeader title={title}/>
+                    <CardContent>
+                        <SkillSelectField defaultValue={defaultValue} skills={skills} onCommit={onCommit}/>
+                    </CardContent>
+                </Card>
+            </Grid>
+        </Fragment>
+    )
+}
+
 interface FieldProps {
     defaultValue: Skill
     skills: Skill[]
@@ -107,7 +143,7 @@ interface FieldProps {
     onChange?: (value: Skill) => void
 }
 
-function SkillSelectField(props: FieldProps): JSX.Element {
+export function SkillSelectField(props: FieldProps): JSX.Element {
     const {defaultValue, skills, onCommit, onChange} = props
     const [skill, setSkill] = useState(defaultValue)
     const [edit, setEdit] = useState(false)

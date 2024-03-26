@@ -4,7 +4,7 @@ import {
 } from "@mui/material";
 import CenteredCardHeader from "../common/card/CenteredCardHeader";
 import Career from "../../models/actor/player/Career";
-import Skill from "../../models/actor/Skill";
+import Skill, {DefaultSkill} from "../../models/actor/Skill";
 import {useEffect, useState} from "react";
 import CareerService from "../../services/CareerService";
 import {useFetchCurrentSettingSkills} from "../skills/SkillWorkflow";
@@ -15,7 +15,7 @@ import * as React from "react";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
-import {TypographyCenterTableCell} from "../common/table/TypographyTableCell";
+import {GenesysSkillSelectTableCell, TypographyCenterTableCell} from "../common/table/TypographyTableCell";
 import CheckboxTableCell from "../common/table/CheckboxTableCell";
 
 interface Props {
@@ -25,46 +25,53 @@ interface Props {
 export default function EditSkillsCard(props: Props): JSX.Element {
     const {car} = props
     const [career, setCareer] = useState<Career>(car)
+    const [skills, setSkills] = useState<Skill[]>(useFetchCurrentSettingSkills)
+    const [skillOne, setSkillOne] = useState<Skill>(DefaultSkill.create)
+    const [skillTwo, setSkillTwo] = useState<Skill>(DefaultSkill.create)
+    const [skillThree, setSkillThree] = useState<Skill>(DefaultSkill.create)
+    const [skillFour, setSkillFour] = useState<Skill>(DefaultSkill.create)
+    const [skillFive, setSkillFive] = useState<Skill>(DefaultSkill.create)
+    const [skillSix, setSkillSix] = useState<Skill>(DefaultSkill.create)
+    const [skillSeven, setSkillSeven] = useState<Skill>(DefaultSkill.create)
+    const [skillEight, setSkillEight] = useState<Skill>(DefaultSkill.create)
 
     useEffect(() => {
         setCareer(car)
     }, [car])
 
-    const onSkillAddition = async (skill: Skill) => {
-        career.skills = career.skills.concat(skill)
-        if (career.skills.length > 8) {
-            career.skills.pop()
+    const updateCareer = async (num: number) => {
+        switch (num) {
+            case 1:
+                break
+            case 2:
+                break
+            case 3:
+                break
+            case 4:
+                break
+            case 5:
+                break
+            case 6:
+                break
+            case 7:
+                break
+            case 8:
+                break
         }
-        await updateCareer()
-    }
-
-    const onSkillRemoval = async (skill: Skill) => {
-        career.skills.forEach((sk, index) => {
-            if (sk.name === skill.name) {
-                career.skills = career.skills.splice(index, 1)
-            }
-        })
-        await updateCareer()
-    }
-
-    const updateCareer = async () => {
+        career.skills = [skillOne, skillTwo, skillThree, skillFour, skillFive, skillSix, skillSeven, skillEight]
         await CareerService.updateCareer(career.name, career)
     }
 
-    const renderTableBody = (settingSKills: Skill[]): JSX.Element => {
+    const renderTableBody = (settingSkills: Skill[]): JSX.Element => {
         if (!career.skills) {
             return <GenesysDescriptionTypography text={'None'}/>
         } else {
             return (
                 <TableBody>
-                    {settingSKills.map((skill: Skill) => (
-                        <TableRow key={skill.name}>
-                            <TypographyCenterTableCell value={skill.name}/>
-                            <CheckboxTableCell value={career.skills.some(sk => sk.name === skill.name)}
-                                               onAddition={() => onSkillAddition(skill)}
-                                               onRemoval={() => onSkillRemoval(skill)}/>
-                        </TableRow>
-                    ))}
+                    <TableRow key={skillOne.name}>
+                        <TypographyCenterTableCell value={skillOne.name}/>
+                        <GenesysSkillSelectTableCell skill={skillOne} skills={settingSkills} onCommit={(value) => setSkillOne(value)}/>
+                    </TableRow>
                 </TableBody>
             )
         }

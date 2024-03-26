@@ -1,10 +1,12 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {TableCell, Typography} from "@mui/material";
 import GenesysDescriptionTypography from "../typography/GenesysDescriptionTypography";
 import Actor, {ActorSkill, getCharacteristicRanks} from "../../../models/actor/Actor";
 import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography";
 import {Difficulty} from "../../../models/common/Difficulty";
 import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
+import {SkillSelectField} from "../SkillSelectCard";
+import Skill from "../../../models/actor/Skill";
 
 interface LeftProps {
     value: string
@@ -71,6 +73,22 @@ export function GenesysDifficultyCenterTableCell(props: DifficultyProps): JSX.El
     return (
         <TableCell style={{textAlign: 'center'}}>
             <GenesysDifficultyDiceTypography difficulty={difficulty}/>
+        </TableCell>
+    )
+}
+
+interface SkillSelectProps {
+    skill: Skill
+    skills: Skill[]
+    onCommit: (value: Skill) => void
+}
+
+export function GenesysSkillSelectTableCell(props: SkillSelectProps): JSX.Element {
+    const {skill, skills, onCommit} = props
+
+    return (
+        <TableCell style={{textAlign: 'center'}}>
+            <SkillSelectField defaultValue={skill} skills={skills} onCommit={onCommit}/>
         </TableCell>
     )
 }
