@@ -26,6 +26,7 @@ import ArchetypeSelectCard from "./ArchetypeSelectCard";
 import Archetype from "../../../models/actor/player/Archetype";
 import ViewCharacteristicRow from "../common/ViewCharacteristicRow";
 import {ViewFieldCard} from "../../common/ViewFieldCard";
+import ExperienceCard from "../../common/ExperienceCard";
 
 interface Props {
     play: Player
@@ -120,6 +121,10 @@ export default function PlayerView(props: Props) {
         await updatePlayer(copyPlayer)
     }
 
+    const onPurchase = () => {
+
+    }
+
     const updatePlayer = async (copyPlayer: Player) => {
         copyPlayer.soak = copyPlayer.brawn
         copyPlayer.encumbrance = 5 + copyPlayer.brawn
@@ -151,6 +156,7 @@ export default function PlayerView(props: Props) {
                         {openCareerSkillDialog && <CareerSkillSelectDialog open={openCareerSkillDialog}
                                                                            onClose={(): void => setOpenCareerSkillDialog(false)}
                                                                            player={player}/>}
+                        <ExperienceCard experience={player.experience}/>
                     </Grid>
                     <Divider/>
                     <Grid container spacing={2}>

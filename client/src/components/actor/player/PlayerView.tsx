@@ -15,6 +15,8 @@ import {ViewDefenseCard} from "../DefenseCard";
 import PlayerTalentCard from "./talent/PlayerTalentCard";
 import PlayerEquipmentCard from "./equipment/PlayerEquipmentCard";
 import {ViewFieldCard} from "../../common/ViewFieldCard";
+import ExperienceCard from "../../common/ExperienceCard";
+import * as React from "react";
 
 interface Props {
     player: Player
@@ -44,6 +46,7 @@ export default function PlayerView(props: Props) {
                         <ViewFieldCard name={'Archetype'} value={player?.archetype?.name!}/>
                         <ViewFieldCard name={'Career'} value={player?.career?.name!}/>
                         <ViewFieldCard name={'Encumbrance'} value={String(player.encumbrance)}/>
+                        <ExperienceCard experience={player.experience}/>
                     </Grid>
                     <Divider/>
                     <ViewCharacteristicRow actor={player}/>
