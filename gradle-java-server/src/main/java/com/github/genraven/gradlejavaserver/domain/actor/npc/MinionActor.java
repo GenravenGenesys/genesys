@@ -11,11 +11,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Document(collection = "minions")
-public class Minion extends NonPlayerActor {
+public class MinionActor extends NonPlayerActor {
 
-    protected Minion() {}
+    protected MinionActor() {}
 
-    public Minion(final NonPlayerActor nonPlayerActor) {
+    public MinionActor(final NonPlayerActor nonPlayerActor) {
         this.setName(nonPlayerActor.getName());
         this.setBrawn(nonPlayerActor.getBrawn());
         this.setAgility(nonPlayerActor.getAgility());
@@ -30,6 +30,7 @@ public class Minion extends NonPlayerActor {
         this.setGeneral(nonPlayerActor.getGeneral());
         this.setAbilities(nonPlayerActor.getAbilities());
         this.setWeapons(nonPlayerActor.getWeapons());
+        this.setArmors(nonPlayerActor.getArmors());
     }
 
     private List<Talent> talents = new ArrayList<>();

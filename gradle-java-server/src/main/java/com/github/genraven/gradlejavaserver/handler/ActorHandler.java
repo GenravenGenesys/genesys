@@ -1,7 +1,7 @@
 package com.github.genraven.gradlejavaserver.handler;
 
 import com.github.genraven.gradlejavaserver.domain.actor.Actor;
-import com.github.genraven.gradlejavaserver.domain.actor.npc.Minion;
+import com.github.genraven.gradlejavaserver.domain.actor.npc.MinionActor;
 import com.github.genraven.gradlejavaserver.domain.actor.npc.Nemesis;
 import com.github.genraven.gradlejavaserver.domain.actor.npc.Rival;
 import com.github.genraven.gradlejavaserver.domain.actor.player.Player;
@@ -161,25 +161,25 @@ public class ActorHandler {
     public Mono<ServerResponse> getMinion(final ServerRequest serverRequest) {
         final String name = serverRequest.pathVariable(NAME);
         return minionService.getMinion(name)
-                .flatMap(minion -> ServerResponse.ok()
+                .flatMap(minionActor -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(minion)))
+                        .body(fromValue(minionActor)))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
     public Mono<ServerResponse> createMinion(final ServerRequest serverRequest) {
         return minionService.createMinion(serverRequest.pathVariable("name"))
-                .flatMap(minion -> ServerResponse.created(getURI(minion)).bodyValue(minion));
+                .flatMap(minionActor -> ServerResponse.created(getURI(minionActor)).bodyValue(minionActor));
     }
 
     public Mono<ServerResponse> updateMinion(final ServerRequest serverRequest) {
         final String name = serverRequest.pathVariable(NAME);
-        final Mono<Minion> minionMono = serverRequest.bodyToMono(Minion.class);
+        final Mono<MinionActor> minionMono = serverRequest.bodyToMono(MinionActor.class);
         return minionMono
-                .flatMap(minion -> minionService.updateMinion(name, minion))
-                .flatMap(minion -> ServerResponse.ok()
+                .flatMap(minionActor -> minionService.updateMinion(name, minionActor))
+                .flatMap(minionActor -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(minion)))
+                        .body(fromValue(minionActor)))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 

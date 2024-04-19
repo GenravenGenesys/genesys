@@ -1,7 +1,7 @@
 package com.github.genraven.gradlejavaserver.service.actor;
 
 import com.github.genraven.gradlejavaserver.domain.actor.Actor;
-import com.github.genraven.gradlejavaserver.domain.actor.npc.Minion;
+import com.github.genraven.gradlejavaserver.domain.actor.npc.MinionActor;
 import com.github.genraven.gradlejavaserver.domain.actor.npc.NonPlayerActor;
 import com.github.genraven.gradlejavaserver.repository.actor.MinionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,36 +19,36 @@ public class MinionService {
         this.minionRepository = minionRepository;
     }
 
-    public Flux<Minion> getAllMinions() {
+    public Flux<MinionActor> getAllMinions() {
         return minionRepository.findAll();
     }
 
-    public Mono<Minion> getMinion(final String name) {
+    public Mono<MinionActor> getMinion(final String name) {
         return minionRepository.findById(name);
     }
 
-    public Mono<Minion> createMinion(final String name) {
-        return minionRepository.save(new Minion(new NonPlayerActor(new Actor(name))));
+    public Mono<MinionActor> createMinion(final String name) {
+        return minionRepository.save(new MinionActor(new NonPlayerActor(new Actor(name))));
     }
 
-    public Mono<Minion> updateMinion(final String name, final Minion minion) {
+    public Mono<MinionActor> updateMinion(final String name, final MinionActor minionActor) {
         return minionRepository.findById(name).map(min -> {
-            min.setBrawn(minion.getBrawn());
-            min.setAgility(minion.getAgility());
-            min.setIntellect(minion.getIntellect());
-            min.setCunning(minion.getCunning());
-            min.setWillpower(minion.getWillpower());
-            min.setPresence(minion.getPresence());
-            min.setWounds(minion.getWounds());
-            min.setCombat(minion.getCombat());
-            min.setSocial(minion.getSocial());
-            min.setGeneral(minion.getGeneral());
-            min.setAbilities(minion.getAbilities());
-            min.setSkills(minion.getSkills());
-            min.setTalents(minion.getTalents());
-            min.setSettings(minion.getSettings());
-            min.setWeapons(minion.getWeapons());
-            min.setArmors(minion.getArmors());
+            min.setBrawn(minionActor.getBrawn());
+            min.setAgility(minionActor.getAgility());
+            min.setIntellect(minionActor.getIntellect());
+            min.setCunning(minionActor.getCunning());
+            min.setWillpower(minionActor.getWillpower());
+            min.setPresence(minionActor.getPresence());
+            min.setWounds(minionActor.getWounds());
+            min.setCombat(minionActor.getCombat());
+            min.setSocial(minionActor.getSocial());
+            min.setGeneral(minionActor.getGeneral());
+            min.setAbilities(minionActor.getAbilities());
+            min.setSkills(minionActor.getSkills());
+            min.setTalents(minionActor.getTalents());
+            min.setSettings(minionActor.getSettings());
+            min.setWeapons(minionActor.getWeapons());
+            min.setArmors(minionActor.getArmors());
             return min;
         }).flatMap(minionRepository::save);
     }

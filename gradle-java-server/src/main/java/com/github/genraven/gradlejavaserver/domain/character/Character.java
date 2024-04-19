@@ -38,6 +38,6 @@ public class Character {
     private StatusEffect disoriented = new StatusEffect(StatusEffect.Type.DISORIENTED);
     private StatusEffect immobilized = new StatusEffect(StatusEffect.Type.IMMOBILIZED);
     private StatusEffect staggered = new StatusEffect(StatusEffect.Type.STAGGERED);
-    private List<ActorWeapon> weapons;
-    private List<ActorArmor> armors;
+    private List<ActorWeapon> weapons = new ArrayList<>();
+    private List<ActorArmor> armors = new ArrayList<>();
 }
