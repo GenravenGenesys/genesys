@@ -11,6 +11,8 @@ import {Path} from "../../services/Path";
 import {useNavigate} from "react-router-dom";
 import Setting from "../../models/Setting";
 import SettingService from "../../services/SettingService";
+import RollDialog from "../roll/RollDialog";
+import {DefaultRoll} from "../../models/Roll";
 
 export default function NavBar() {
     let navigate = useNavigate()
@@ -44,8 +46,10 @@ export default function NavBar() {
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>GENESYS</Typography>
                 <Typography sx={{ flexGrow: 1, align: "center" }}>{getSetting()}</Typography>
+                {/*<Button color='secondary' variant='contained' onClick={(): void => setOpenCustomRollBackDrop(true)}>Roll</Button>*/}
+                {/*{openCustomRollBackDrop && <CustomRollDialog open={openCustomRollBackDrop} onClose={(): void => setOpenCustomRollBackDrop(false)}/>}*/}
                 <Button color='secondary' variant='contained' onClick={(): void => setOpenCustomRollBackDrop(true)}>Roll</Button>
-                {openCustomRollBackDrop && <CustomRollDialog open={openCustomRollBackDrop} onClose={(): void => setOpenCustomRollBackDrop(false)}/>}
+                {openCustomRollBackDrop && <RollDialog open={openCustomRollBackDrop} onClose={(): void => setOpenCustomRollBackDrop(false)} diceRoll={DefaultRoll.create()}/>}
             </Toolbar>
           </AppBar>
         </Box>
