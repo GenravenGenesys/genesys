@@ -32,8 +32,8 @@ export class DefaultResults {
             despair: 0,
             failure: 0,
             success: 4,
-            threat: 0,
-            triumph: 0
+            threat: 2,
+            triumph: 1
         }
     }
 }

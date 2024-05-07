@@ -166,12 +166,17 @@ export function GenesysResultsConversion(props: ResultsProps) {
                 final += `${word} `;
             }
         });
+        console.log(final)
         return final;
+    }
+
+    const getText = () => {
+        return generateResultText()
     }
 
     return (
         <Fragment>
-            <Typography style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: generateResultText()}}/>
+            <Typography style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: getText()}}/>
         </Fragment>
     )
 }
