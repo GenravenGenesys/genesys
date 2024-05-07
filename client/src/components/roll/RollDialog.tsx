@@ -18,13 +18,14 @@ import ViewRollTable from "./ViewRollTable";
 interface Props {
     open: boolean
     onClose: () => void
-    diceRoll?: Roll
+    diceRoll: Roll
 }
 
 export default function RollDialog(props: Props) {
     const {open, onClose, diceRoll} = props
-    const [roll, setRoll] = useState<Roll>(diceRoll || DefaultRoll.create)
-    const [results, setResults] = useState<Results>(DefaultResults.create())
+    console.log(diceRoll)
+    const [roll, setRoll] = useState<Roll>(() => diceRoll || DefaultRoll.create)
+    const [results, setResults] = useState<Results>(DefaultResults.create)
 
     const onClick = () => {
         results.success = results.success + 1
@@ -82,8 +83,9 @@ export default function RollDialog(props: Props) {
             roll.despair--
         }
         if (text === null || text === undefined) {
-            return '';
+            return <Fragment/>;
         }
+        console.log(text)
         const string = text.split(' ');
         const array = string.map((word: string) => {
             const target = word.toLowerCase();
@@ -129,6 +131,7 @@ export default function RollDialog(props: Props) {
                 final += `${word} `;
             }
         });
+        console.log(final)
         return (
             <Fragment>
                 <Typography style={{wordWrap: 'break-word'}}
@@ -137,7 +140,7 @@ export default function RollDialog(props: Props) {
         )
     };
 
-    const renderResults = () => {
+    const renderResults = (): JSX.Element => {
         let text = ''
         while (results.success > 0) {
             text = text.concat(ResultType.Success + ' ')
@@ -164,7 +167,7 @@ export default function RollDialog(props: Props) {
             results.despair--
         }
         if (text === null || text === undefined) {
-            return '';
+            return <Fragment/>;
         }
         const string = text.split(' ');
         const array = string.map((word: string) => {
@@ -199,6 +202,7 @@ export default function RollDialog(props: Props) {
                 final += `${word} `;
             }
         });
+        console.log(final)
         return (
             <Fragment>
                 <Typography style={{wordWrap: 'break-word'}}
@@ -212,6 +216,8 @@ export default function RollDialog(props: Props) {
             <DialogTitle style={{textAlign:'center'}}>Dice Pool</DialogTitle>
             <DialogContent>
                 <DialogContentText>
+                    {renderRoll()}
+                    <Divider/>
                     {renderResults()}
                 </DialogContentText>
             </DialogContent>
