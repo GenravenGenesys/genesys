@@ -16,6 +16,15 @@ export interface Results {
     despair: number
 }
 
+export enum ResultType {
+    Success='[success]',
+    Failure='[failure]',
+    Advantage='[advantage]',
+    Threat='[threat]',
+    Triumph='[triumph]',
+    Despair='[despair]',
+}
+
 export enum DieType {
     Boost= '[boost]',
     Ability = '[ability]',

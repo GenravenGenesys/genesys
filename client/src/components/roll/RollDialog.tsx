@@ -1,4 +1,4 @@
-import Roll, {DefaultResults, Results} from "../../models/Roll";
+import Roll, {DefaultResults, Results, ResultType} from "../../models/Roll";
 import {Fragment, useEffect, useState} from "react";
 import {
     Button,
@@ -31,30 +31,30 @@ export default function RollDialog(props: Props) {
         setResults(results)
     }
 
-    const renderResults = () => {
+    const renderRoll = () => {
         let text = ''
         while (results.success > 0) {
-            text = text.concat('[success] ')
+            text = text.concat(ResultType.Success + ' ')
             results.success--
         }
         while (results.failure > 0) {
-            text = text.concat('[failure] ')
+            text = text.concat(ResultType.Failure + ' ')
             results.failure--
         }
         while (results.advantage > 0) {
-            text = text.concat('[advantage] ')
+            text = text.concat(ResultType.Advantage + ' ')
             results.advantage--
         }
         while (results.threat > 0) {
-            text = text.concat('[threat] ')
+            text = text.concat(ResultType.Threat + ' ')
             results.threat--
         }
         while (results.triumph > 0) {
-            text = text.concat('[triumph] ')
+            text = text.concat(ResultType.Triumph + ' ')
             results.triumph--
         }
         while (results.despair > 0) {
-            text = text.concat('[despair] ')
+            text = text.concat(ResultType.Despair + ' ')
             results.despair--
         }
         if (text === null || text === undefined) {
@@ -64,17 +64,99 @@ export default function RollDialog(props: Props) {
         const array = string.map((word: string) => {
             const target = word.toLowerCase();
             switch (true) {
-                case target.includes('[advantage]'):
+                case target.includes('[boost]'):
+                    return '<i class="symbol d6 symbol-border boost-color"></i>';
+                case target.includes('[ability]'):
+                    return '<i class="symbol  d8 symbol-border ability-color"></i>';
+                case target.includes('[proficiency]'):
+                    return '<i class="symbol d12 symbol-border proficiency-color"></i>';
+                case target.includes('[setback]'):
+                    return '<i class="symbol d6 symbol-border setback-color"></i>';
+                case target.includes('[difficulty]'):
+                    return '<i class="symbol d8 symbol-border difficulty-color"></i>';
+                case target.includes('[challenge]'):
+                    return '<i class="symbol d12 symbol-border challenge-color"></i>';
+                case target.includes(ResultType.Advantage):
                     return '<i class="symbol advantage"></i>';
-                case target.includes('[success]'):
+                case target.includes(ResultType.Success):
                     return '<i class="symbol success"></i>';
-                case target.includes('[triumph]'):
+                case target.includes(ResultType.Triumph):
                     return '<i class="symbol triumph"></i>';
-                case target.includes('[threat]'):
+                case target.includes(ResultType.Threat):
                     return '<i class="symbol threat"></i>';
-                case target.includes('[failure]'):
+                case target.includes(ResultType.Failure):
                     return '<i class="symbol failure"></i>';
-                case target.includes('[despair]'):
+                case target.includes(ResultType.Despair):
+                    return '<i class="symbol despair"></i>';
+                default:
+                    return `${word}`;
+            }
+        });
+        let final = '';
+        array.forEach((word, index) => {
+            if (
+                (word.includes('symbol') &&
+                    array[index + 1] &&
+                    array[index + 1].includes('symbol')) ||
+                array.length === index + 1
+            ) {
+                final += word;
+            } else {
+                final += `${word} `;
+            }
+        });
+        return (
+            <Fragment>
+                <Typography style={{wordWrap: 'break-word'}}
+                            dangerouslySetInnerHTML={{__html: final}}/>
+            </Fragment>
+        )
+    };
+
+    const renderResults = () => {
+        let text = ''
+        while (results.success > 0) {
+            text = text.concat(ResultType.Success + ' ')
+            results.success--
+        }
+        while (results.failure > 0) {
+            text = text.concat(ResultType.Failure + ' ')
+            results.failure--
+        }
+        while (results.advantage > 0) {
+            text = text.concat(ResultType.Advantage + ' ')
+            results.advantage--
+        }
+        while (results.threat > 0) {
+            text = text.concat(ResultType.Threat + ' ')
+            results.threat--
+        }
+        while (results.triumph > 0) {
+            text = text.concat(ResultType.Triumph + ' ')
+            results.triumph--
+        }
+        while (results.despair > 0) {
+            text = text.concat(ResultType.Despair + ' ')
+            results.despair--
+        }
+        if (text === null || text === undefined) {
+            return '';
+        }
+        const string = text.split(' ');
+        const array = string.map((word: string) => {
+            const target = word.toLowerCase();
+            switch (true) {
+                case target.includes(ResultType.Advantage):
+                    return '<i class="symbol advantage"></i>';
+                case target.includes(ResultType.Success):
+                    return '<i class="symbol success"></i>';
+                case target.includes(ResultType.Triumph):
+                    return '<i class="symbol triumph"></i>';
+                case target.includes(ResultType.Threat):
+                    return '<i class="symbol threat"></i>';
+                case target.includes(ResultType.Failure):
+                    return '<i class="symbol failure"></i>';
+                case target.includes(ResultType.Despair):
                     return '<i class="symbol despair"></i>';
                 default:
                     return `${word}`;
