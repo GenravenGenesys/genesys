@@ -50,12 +50,12 @@ export class DefaultResults {
 export class DefaultRoll {
     static create(): Roll {
         return {
-            ability: 3,
-            advantage: 1,
-            boost: 1,
+            ability: 0,
+            advantage: 0,
+            boost: 0,
             challenge: 0,
             despair: 0,
-            difficulty: 2,
+            difficulty: 0,
             failure: 0,
             proficiency: 0,
             setback: 0,

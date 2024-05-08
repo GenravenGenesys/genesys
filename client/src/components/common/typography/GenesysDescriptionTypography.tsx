@@ -9,7 +9,6 @@ export default function GenesysDescriptionTypography(props: Props): JSX.Element 
     const {text} = props;
 
     const checkText = () => {
-        console.log(text);
         if (text === null || text === undefined) {
             return '';
         }

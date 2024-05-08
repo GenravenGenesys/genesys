@@ -18,13 +18,12 @@ import ViewRollTable from "./ViewRollTable";
 interface Props {
     open: boolean
     onClose: () => void
-    diceRoll: Roll
+    diceRoll(): Roll
 }
 
 export default function RollDialog(props: Props) {
     const {open, onClose, diceRoll} = props
-    console.log(diceRoll)
-    const [roll, setRoll] = useState<Roll>(() => diceRoll || DefaultRoll.create)
+    const [roll, setRoll] = useState<Roll>(diceRoll)
     const [results, setResults] = useState<Results>(DefaultResults.create)
 
     const onClick = () => {
@@ -134,7 +133,7 @@ export default function RollDialog(props: Props) {
         console.log(final)
         return (
             <Fragment>
-                <Typography style={{wordWrap: 'break-word'}}
+                <Typography style={{wordWrap: 'break-word', textAlign:'center'}}
                             dangerouslySetInnerHTML={{__html: final}}/>
             </Fragment>
         )
@@ -205,7 +204,7 @@ export default function RollDialog(props: Props) {
         console.log(final)
         return (
             <Fragment>
-                <Typography style={{wordWrap: 'break-word'}}
+                <Typography style={{wordWrap: 'break-word', textAlign:'center'}}
                             dangerouslySetInnerHTML={{__html: final}}/>
             </Fragment>
         )

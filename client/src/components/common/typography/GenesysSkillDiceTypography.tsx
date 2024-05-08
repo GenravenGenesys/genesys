@@ -1,5 +1,6 @@
 import {Fragment} from "react";
 import {Typography} from "@mui/material";
+import {DieType} from "../../../models/Roll";
 
 interface Props {
     characteristicRanks: number
@@ -12,19 +13,19 @@ export default function GenesysSkillDiceTypography(props: Props): JSX.Element {
     const generateSkillDice = () => {
         let text = ''
         while (characteristicRanks > 0 && skillRanks > 0) {
-            text = text.concat('[proficiency] ')
+            text = text.concat(DieType.Proficiency + ' ')
             characteristicRanks--
             skillRanks--
         }
         if (characteristicRanks > 0) {
             while (characteristicRanks > 0) {
-                text = text.concat('[ability] ')
+                text = text.concat(DieType.Ability + ' ')
                 characteristicRanks--
             }
         }
         if (skillRanks > 0) {
             while (skillRanks > 0) {
-                text = text.concat('[ability] ')
+                text = text.concat(DieType.Ability + ' ')
                 skillRanks--
             }
         }
@@ -32,22 +33,18 @@ export default function GenesysSkillDiceTypography(props: Props): JSX.Element {
         const array = string.map((word: string) => {
             const target = word.toLowerCase();
             switch (true) {
-                case target.includes('[boost]'):
+                case target.includes(DieType.Boost):
                     return '<i class="symbol d6 symbol-border boost-color"></i>';
-                case target.includes('[ability]'):
+                case target.includes(DieType.Ability):
                     return '<i class="symbol  d8 symbol-border ability-color"></i>';
-                case target.includes('[proficiency]'):
+                case target.includes(DieType.Proficiency):
                     return '<i class="symbol d12 symbol-border proficiency-color"></i>';
-                case target.includes('[setback]'):
+                case target.includes(DieType.Setback):
                     return '<i class="symbol d6 symbol-border setback-color"></i>';
-                case target.includes('[difficulty]'):
+                case target.includes(DieType.Difficulty):
                     return '<i class="symbol d8 symbol-border difficulty-color"></i>';
-                case target.includes('[challenge]'):
+                case target.includes(DieType.Challenge):
                     return '<i class="symbol d12 symbol-border challenge-color"></i>';
-                case target === '[removesetbacksetback]':
-                    return `<b>(-</b><i class="symbol d6 symbol-border setback-color"></i> <i class="symbol d6 symbol-border setback-color"></i><b>)</b>`;
-                case target.includes('[removesetback]'):
-                    return `<b>(-</b><i class="symbol d6 symbol-border setback-color"></i><b>)</b>`;
                 default:
                     return `${word}`;
             }

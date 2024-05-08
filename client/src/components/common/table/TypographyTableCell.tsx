@@ -1,5 +1,5 @@
-import React from "react";
-import {TableCell, Typography} from "@mui/material";
+import React, {useState} from "react";
+import {Button, TableCell, Typography} from "@mui/material";
 import GenesysDescriptionTypography from "../typography/GenesysDescriptionTypography";
 import Actor, {ActorSkill, getCharacteristicRanks} from "../../../models/actor/Actor";
 import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography";
@@ -7,6 +7,8 @@ import {Difficulty} from "../../../models/common/Difficulty";
 import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
 import Cost, {CostType} from "../../../models/common/Cost";
 import Limit, {LimitType} from "../../../models/common/Limit";
+import RollDialog from "../../roll/RollDialog";
+import Roll, {DefaultRoll, DieType} from "../../../models/Roll";
 
 interface LeftProps {
     value: string
@@ -110,10 +112,40 @@ interface SkillCenterProps {
 
 export function GenesysDicePoolCenterTableCell(props: SkillCenterProps): JSX.Element {
     const {actor, skill} = props
+    const [openRollDialog, setOpenRollDialog] = useState(false)
+
+    const createCharacteristicRoll = (): Roll => {
+        let roll = DefaultRoll.create()
+        let characteristicRanks = getCharacteristicRanks(actor, skill)
+        let skillRanks = skill.ranks
+
+        while (characteristicRanks > 0 && skillRanks > 0) {
+            roll.proficiency = roll.proficiency + 1
+            characteristicRanks--
+            skillRanks--
+        }
+        if (characteristicRanks > 0) {
+            while (characteristicRanks > 0) {
+                roll.ability= roll.ability + 1
+                characteristicRanks--
+            }
+        }
+        if (skillRanks > 0) {
+            while (skillRanks > 0) {
+                roll.ability= roll.ability + 1
+                skillRanks--
+            }
+        }
+        console.log(roll)
+        return roll
+    }
+
     return (
         <TableCell style={{textAlign: 'center'}}>
             <GenesysSkillDiceTypography characteristicRanks={getCharacteristicRanks(actor, skill)}
                                         skillRanks={skill.ranks}/>
+            <Button color='secondary' variant='contained' onClick={(): void => setOpenRollDialog(true)}>Roll</Button>
+            {openRollDialog && <RollDialog open={openRollDialog} onClose={(): void => setOpenRollDialog(false)} diceRoll={createCharacteristicRoll}/>}
         </TableCell>
     )
 }
