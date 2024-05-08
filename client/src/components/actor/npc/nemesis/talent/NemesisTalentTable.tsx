@@ -20,7 +20,7 @@ function Row(props: Props): JSX.Element {
     const {talent, skillRanks} = props
 
     return (
-        <TableRow>
+        <TableRow key={talent.name}>
             <TypographyCenterTableCell value={talent.name}/>
             <TableCell>
                 <GenesysTalentTypography text={talent.summary} ranks={talent.ranks} secondRanks={skillRanks}/>

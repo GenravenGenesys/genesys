@@ -31,7 +31,7 @@ interface CenterProps {
 export function TypographyCenterTableCell(props: CenterProps): JSX.Element {
     const {value, span} = props
     return (
-        <TableCell style={{textAlign: 'center'}} colSpan={span}>
+        <TableCell style={{textAlign: 'center'}} colSpan={span} key={value}>
             <Typography>{value}</Typography>
         </TableCell>
     )
