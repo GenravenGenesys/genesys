@@ -1,6 +1,5 @@
 import * as React from "react";
 import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import {Grid} from "@mui/material";
@@ -9,9 +8,8 @@ import TableContainer from "@mui/material/TableContainer";
 import Nemesis from "../../../../../models/actor/npc/Nemesis";
 import {renderDoubleRowTableHeader} from "../../../../common/table/TableRenders";
 import {SkillType} from "../../../../../models/actor/Skill";
-import {ActorSkill, getCharacteristicRanks, setSkillName} from "../../../../../models/actor/Actor";
+import {ActorSkill, setSkillName} from "../../../../../models/actor/Actor";
 import {GenesysDicePoolCenterTableCell, TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
-import GenesysSkillDiceTypography from "../../../../common/typography/GenesysSkillDiceTypography";
 
 interface GroupProps {
     nemesis: Nemesis,

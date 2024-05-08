@@ -4,7 +4,7 @@ import Player from '../../../models/actor/player/Player';
 import {StatsType} from '../../../models/actor/Stats';
 import {ActorPath} from '../../../services/Path';
 import EditIcon from "@mui/icons-material/Edit";
-import ViewPlayerSkillTable from './skill/ViewPlayerSkills';
+import ViewPlayerSkillTable from './skill/ViewPlayerSkillTable';
 import ViewCharacteristicRow from "../common/ViewCharacteristicRow";
 import Setting from "../../../models/Setting";
 import ViewSettingsCard from "../../common/setting/ViewSettingsCard";
