@@ -9,6 +9,7 @@ import Cost, {CostType} from "../../../models/common/Cost";
 import Limit, {LimitType} from "../../../models/common/Limit";
 import RollDialog from "../../roll/RollDialog";
 import Roll, {DefaultRoll, DieType} from "../../../models/Roll";
+import {renderSingleRowTableHeader} from "./TableRenders";
 
 interface LeftProps {
     value: string
@@ -140,11 +141,14 @@ export function GenesysDicePoolCenterTableCell(props: SkillCenterProps): JSX.Ele
         return roll
     }
 
+    const renderSkillDice = () => {
+        return <GenesysSkillDiceTypography characteristicRanks={getCharacteristicRanks(actor, skill)}
+                                           skillRanks={skill.ranks}/>
+    }
+
     return (
         <TableCell style={{textAlign: 'center'}}>
-            <GenesysSkillDiceTypography characteristicRanks={getCharacteristicRanks(actor, skill)}
-                                        skillRanks={skill.ranks}/>
-            <Button color='secondary' variant='contained' onClick={(): void => setOpenRollDialog(true)}>Roll</Button>
+            <Button onClick={(): void => setOpenRollDialog(true)}>{renderSkillDice()}</Button>
             {openRollDialog && <RollDialog open={openRollDialog} onClose={(): void => setOpenRollDialog(false)} diceRoll={createCharacteristicRoll}/>}
         </TableCell>
     )

@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import GenesysSkillDiceTypography from "../../../../common/typography/GenesysSkillDiceTypography";
 import {SkillType} from "../../../../../models/actor/Skill";
 import {ActorSkill, getCharacteristicRanks, setSkillName} from "../../../../../models/actor/Actor";
-import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
+import {GenesysDicePoolCenterTableCell, TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
 import {renderDoubleRowTableHeader} from "../../../../common/table/TableRenders";
 import Rival from "../../../../../models/actor/npc/Rival";
 
@@ -32,10 +32,7 @@ export function SkillTypeGroup(props: GroupProps) {
                     .map((actorSkill: ActorSkill) => (
                         <TableRow>
                             <TypographyCenterTableCell value={setSkillName(actorSkill)}/>
-                            <TableCell style={{textAlign: 'center'}}>
-                                {<GenesysSkillDiceTypography characteristicRanks={getCharacteristicRanks(rival, actorSkill)}
-                                                             skillRanks={actorSkill.ranks}/>}
-                            </TableCell>
+                            <GenesysDicePoolCenterTableCell actor={rival} skill={actorSkill}/>
                         </TableRow>
                     ))}
             </TableBody>

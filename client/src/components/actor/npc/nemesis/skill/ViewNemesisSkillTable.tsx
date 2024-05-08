@@ -10,7 +10,7 @@ import Nemesis from "../../../../../models/actor/npc/Nemesis";
 import {renderDoubleRowTableHeader} from "../../../../common/table/TableRenders";
 import {SkillType} from "../../../../../models/actor/Skill";
 import {ActorSkill, getCharacteristicRanks, setSkillName} from "../../../../../models/actor/Actor";
-import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
+import {GenesysDicePoolCenterTableCell, TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
 import GenesysSkillDiceTypography from "../../../../common/typography/GenesysSkillDiceTypography";
 
 interface GroupProps {
@@ -32,10 +32,7 @@ export function SkillTypeGroup(props: GroupProps) {
                     .map((actorSkill: ActorSkill) => (
                         <TableRow>
                             <TypographyCenterTableCell value={setSkillName(actorSkill)}/>
-                            <TableCell style={{textAlign: 'center'}}>
-                                <GenesysSkillDiceTypography characteristicRanks={getCharacteristicRanks(nemesis, actorSkill)}
-                                                             skillRanks={actorSkill.ranks}/>
-                            </TableCell>
+                            <GenesysDicePoolCenterTableCell actor={nemesis} skill={actorSkill}/>
                         </TableRow>
                     ))}
             </TableBody>
