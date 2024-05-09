@@ -1,15 +1,9 @@
 import Roll, {DefaultResults, Results} from "../../models/Roll";
 import {useEffect, useState} from "react";
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent, DialogContentText,
-    DialogTitle, Divider
-} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider} from "@mui/material";
 import * as React from "react";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
-import {renderResults, renderRoll} from "./RollRenders";
+import {renderResults, renderRoll, rollDice} from "./RollRenders";
 
 interface Props {
     open: boolean
@@ -19,7 +13,7 @@ interface Props {
 
 export default function RollDialog(props: Props) {
     const {open, onClose, diceRoll} = props
-    const roll = diceRoll()
+    let roll = diceRoll()
     // const [roll, setRoll] = useState<Roll>(diceRoll)
     const [results, setResults] = useState<Results>(DefaultResults.create)
     const [rollText, setRollText] = useState(renderRoll(roll))
@@ -30,8 +24,10 @@ export default function RollDialog(props: Props) {
     }, [results])
 
     const onClick = () => {
-        results.success = results.success + 1
-        setResultText(renderResults(results))
+        console.log(roll)
+        let result = rollDice(roll)
+        console.log(result)
+        setResultText(renderResults(result))
     }
 
     return (

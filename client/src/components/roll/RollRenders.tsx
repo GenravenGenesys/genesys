@@ -1,7 +1,4 @@
 import Roll, {DieType, Results, ResultType} from "../../models/Roll";
-import {Fragment} from "react";
-import * as React from "react";
-import {Typography} from "@mui/material";
 
 export const renderRoll = (roll: Roll) => {
     let text = ''
@@ -167,12 +164,70 @@ export const renderResults = (results: Results) => {
             final += `${word} `;
         }
     });
-    console.log(final)
     return final
-    // return (
-    //     <Fragment>
-    //         <Typography style={{wordWrap: 'break-word', textAlign:'center'}}
-    //                     dangerouslySetInnerHTML={{__html: final}}/>
-    //     </Fragment>
-    // )
 };
+
+const rollDie = (max: number) => {
+    return 1 + Math.floor(Math.random() * max)
+}
+
+const rollBoostDice = (dice: number, results: Results) => {
+    while (dice > 0) {
+        let face = rollDie(6)
+        switch (face) {
+            case 1:
+            case 2:
+                break
+            case 3:
+                results.success = results.success + 1
+                break
+            case 4:
+                results.success = results.success + 1
+                results.advantage = results.advantage + 1
+                break
+            case 5:
+                results.advantage = results.advantage + 2
+                break
+            case 6:
+                results.advantage = results.advantage + 1
+                break
+        }
+    }
+    return results
+}
+
+const rollAbilityDice = (dice: number, results: Results) => {
+    while (dice > 0) {
+        let face = rollDie(8)
+        console.log(face)
+        switch (face) {
+            case 1:
+                break
+            case 2:
+            case 3:
+                results.success = results.success + 1
+                break
+            case 4:
+                results.success = results.success + 2
+                break
+            case 5:
+            case 6:
+                results.advantage = results.advantage + 1
+                break
+            case 7:
+                results.success = results.success + 1
+                results.advantage = results.advantage + 1
+                break
+            case 8:
+                results.advantage = results.advantage + 2
+                break
+        }
+    }
+    return results
+}
+
+export const rollDice = (roll: Roll) => {
+    let results = {} as Results
+    results = rollAbilityDice(roll.ability, results)
+    return results
+}
