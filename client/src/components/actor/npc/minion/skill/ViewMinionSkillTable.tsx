@@ -20,14 +20,6 @@ export function SkillTypeGroup(props: GroupProps) {
     const {minion, type} = props
     const headers = ['Name', 'Group Skill']
 
-    const renderSkillRow = (skill: GroupSkill):JSX.Element => {
-        let text = 'No'
-        if (skill.group) {
-            text = 'Yes'
-        }
-        return <TypographyCenterTableCell value={text}/>
-    }
-
     return (
         <Table>
             {renderDoubleRowTableHeader(headers, type, headers.length)}
@@ -36,9 +28,9 @@ export function SkillTypeGroup(props: GroupProps) {
                     .sort((a, b) => a.name.localeCompare(b.name))
                     .filter((skill) => skill.type === type)
                     .map((actorSkill: GroupSkill) => (
-                        <TableRow>
+                        <TableRow key={actorSkill.name}>
                             <TypographyCenterTableCell value={setSkillName(actorSkill)}/>
-                            {renderSkillRow(actorSkill)}
+                            <TypographyCenterTableCell value={actorSkill.group ? 'Yes' : 'No'}/>
                         </TableRow>
                     ))}
             </TableBody>
@@ -57,23 +49,15 @@ export default function ViewMinionSkillTable(props: TableProps) {
         <Grid container>
             <Grid item xs={6}>
                 <TableContainer component={Paper}>
-                    <Table>
-                        <TableBody>
-                            <SkillTypeGroup minion={minion} type={SkillType.General}/>
-                            <SkillTypeGroup minion={minion} type={SkillType.Magic}/>
-                        </TableBody>
-                    </Table>
+                    <SkillTypeGroup minion={minion} type={SkillType.General}/>
+                    <SkillTypeGroup minion={minion} type={SkillType.Magic}/>
                 </TableContainer>
             </Grid>
             <Grid item xs={6}>
                 <TableContainer component={Paper}>
-                    <Table>
-                        <TableBody>
-                            <SkillTypeGroup minion={minion} type={SkillType.Combat}/>
-                            <SkillTypeGroup minion={minion} type={SkillType.Social}/>
-                            <SkillTypeGroup minion={minion} type={SkillType.Knowledge}/>
-                        </TableBody>
-                    </Table>
+                    <SkillTypeGroup minion={minion} type={SkillType.Combat}/>
+                    <SkillTypeGroup minion={minion} type={SkillType.Social}/>
+                    <SkillTypeGroup minion={minion} type={SkillType.Knowledge}/>
                 </TableContainer>
             </Grid>
         </Grid>

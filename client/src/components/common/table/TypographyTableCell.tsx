@@ -136,7 +136,6 @@ export function GenesysDicePoolCenterTableCell(props: SkillCenterProps): JSX.Ele
                 skillRanks--
             }
         }
-        console.log(roll)
         return roll
     }
 
@@ -148,7 +147,7 @@ export function GenesysDicePoolCenterTableCell(props: SkillCenterProps): JSX.Ele
     return (
         <TableCell style={{textAlign: 'center'}}>
             <Button onClick={(): void => setOpenRollDialog(true)}>{renderSkillDice()}</Button>
-            {openRollDialog && <RollDialog open={openRollDialog} onClose={(): void => setOpenRollDialog(false)} diceRoll={createCharacteristicRoll}/>}
+            {openRollDialog && <RollDialog open={openRollDialog} onClose={(): void => setOpenRollDialog(false)} diceRoll={createCharacteristicRoll()}/>}
         </TableCell>
     )
 }

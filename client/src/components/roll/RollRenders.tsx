@@ -1,7 +1,9 @@
-import Roll, {DieType, Results, ResultType} from "../../models/Roll";
+import Roll, {DefaultResults, DieType, Results, ResultType} from "../../models/Roll";
+import {useState} from "react";
 
 export const renderRoll = (roll: Roll) => {
     let text = ''
+    console.log(roll)
     while (roll.proficiency > 0) {
         text = text.concat(DieType.Proficiency + ' ')
         roll.proficiency--
@@ -174,6 +176,8 @@ const rollDie = (max: number) => {
 const rollBoostDice = (dice: number, results: Results) => {
     while (dice > 0) {
         let face = rollDie(6)
+        console.log("BOOST")
+        console.log(face)
         switch (face) {
             case 1:
             case 2:
@@ -199,6 +203,7 @@ const rollBoostDice = (dice: number, results: Results) => {
 const rollAbilityDice = (dice: number, results: Results) => {
     while (dice > 0) {
         let face = rollDie(8)
+        console.log("ABILITY")
         console.log(face)
         switch (face) {
             case 1:
@@ -226,8 +231,8 @@ const rollAbilityDice = (dice: number, results: Results) => {
     return results
 }
 
-export const rollDice = (roll: Roll) => {
-    let results = {} as Results
+export const rollDice = (roll: Roll, results: Results) => {
+    console.log(roll)
     results = rollAbilityDice(roll.ability, results)
     return results
 }

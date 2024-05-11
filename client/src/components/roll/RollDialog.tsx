@@ -8,15 +8,16 @@ import {renderResults, renderRoll, rollDice} from "./RollRenders";
 interface Props {
     open: boolean
     onClose: () => void
-    diceRoll(): Roll
+    diceRoll: Roll
 }
 
 export default function RollDialog(props: Props) {
     const {open, onClose, diceRoll} = props
-    let roll = diceRoll()
-    // const [roll, setRoll] = useState<Roll>(diceRoll)
-    const [results, setResults] = useState<Results>(DefaultResults.create)
+    const [roll, setRoll] = useState<Roll>(diceRoll)
+    console.log(roll)
     const [rollText, setRollText] = useState(renderRoll(roll))
+    console.log(rollText)
+    const [results, setResults] = useState<Results>(DefaultResults.create)
     const [resultText, setResultText] = useState(renderResults(results))
 
     useEffect(() => {
@@ -25,9 +26,8 @@ export default function RollDialog(props: Props) {
 
     const onClick = () => {
         console.log(roll)
-        let result = rollDice(roll)
-        console.log(result)
-        setResultText(renderResults(result))
+        setResults(rollDice(roll, results))
+        setResultText(renderResults(results))
     }
 
     return (

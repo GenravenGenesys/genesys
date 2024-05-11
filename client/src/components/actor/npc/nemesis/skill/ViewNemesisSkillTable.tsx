@@ -28,7 +28,7 @@ export function SkillTypeGroup(props: GroupProps) {
                     .sort((a, b) => a.name.localeCompare(b.name))
                     .filter((skill) => skill.type === type)
                     .map((actorSkill: ActorSkill) => (
-                        <TableRow>
+                        <TableRow key={actorSkill.name}>
                             <TypographyCenterTableCell value={setSkillName(actorSkill)}/>
                             <GenesysDicePoolCenterTableCell actor={nemesis} skill={actorSkill}/>
                         </TableRow>
@@ -49,23 +49,15 @@ export default function ViewNemesisSkillTable(props: TableProps) {
         <Grid container>
             <Grid item xs={6}>
                 <TableContainer component={Paper}>
-                    <Table>
-                        <TableBody>
-                            <SkillTypeGroup nemesis={nemesis} type={SkillType.General}/>
-                            <SkillTypeGroup nemesis={nemesis} type={SkillType.Magic}/>
-                        </TableBody>
-                    </Table>
+                    <SkillTypeGroup nemesis={nemesis} type={SkillType.General}/>
+                    <SkillTypeGroup nemesis={nemesis} type={SkillType.Magic}/>
                 </TableContainer>
             </Grid>
             <Grid item xs={6}>
                 <TableContainer component={Paper}>
-                    <Table>
-                        <TableBody>
-                            <SkillTypeGroup nemesis={nemesis} type={SkillType.Combat}/>
-                            <SkillTypeGroup nemesis={nemesis} type={SkillType.Social}/>
-                            <SkillTypeGroup nemesis={nemesis} type={SkillType.Knowledge}/>
-                        </TableBody>
-                    </Table>
+                    <SkillTypeGroup nemesis={nemesis} type={SkillType.Combat}/>
+                    <SkillTypeGroup nemesis={nemesis} type={SkillType.Social}/>
+                    <SkillTypeGroup nemesis={nemesis} type={SkillType.Knowledge}/>
                 </TableContainer>
             </Grid>
         </Grid>

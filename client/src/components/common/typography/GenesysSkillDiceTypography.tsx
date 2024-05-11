@@ -67,7 +67,7 @@ export default function GenesysSkillDiceTypography(props: Props): JSX.Element {
 
     return (
         <Fragment>
-            <Typography style={{ wordWrap: 'break-word' }} dangerouslySetInnerHTML={{ __html: generateSkillDice()}}/>
+            <Typography component={'div'} style={{ wordWrap: 'break-word' }} dangerouslySetInnerHTML={{ __html: generateSkillDice()}}/>
         </Fragment>
     )
 }
