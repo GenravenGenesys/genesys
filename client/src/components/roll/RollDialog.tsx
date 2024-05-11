@@ -1,6 +1,6 @@
 import Roll, {DefaultResults, Results} from "../../models/Roll";
 import {useEffect, useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider} from "@mui/material";
 import * as React from "react";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
 import {renderResults, renderRoll, rollDice} from "./RollRenders";
@@ -8,25 +8,19 @@ import {renderResults, renderRoll, rollDice} from "./RollRenders";
 interface Props {
     open: boolean
     onClose: () => void
-    diceRoll: Roll
+    diceRoll(): Roll
 }
 
 export default function RollDialog(props: Props) {
     const {open, onClose, diceRoll} = props
-    const [roll, setRoll] = useState<Roll>(diceRoll)
-    console.log(roll)
+    let roll = diceRoll()
     const [rollText, setRollText] = useState(renderRoll(roll))
     console.log(rollText)
-    const [results, setResults] = useState<Results>(DefaultResults.create)
+    const [results, setResults] = useState<Results>(DefaultResults.create())
     const [resultText, setResultText] = useState(renderResults(results))
 
-    useEffect(() => {
-        setResultText(renderResults(results))
-    }, [results])
-
     const onClick = () => {
-        console.log(roll)
-        setResults(rollDice(roll, results))
+        setResults(rollDice(diceRoll(), results))
         setResultText(renderResults(results))
     }
 
@@ -34,11 +28,9 @@ export default function RollDialog(props: Props) {
         <Dialog open={open} onClose={onClose}>
             <DialogTitle style={{textAlign: 'center'}}>Dice Pool</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    <GenesysDescriptionTypography text={rollText}/>
-                    <Divider/>
-                    <GenesysDescriptionTypography text={resultText}/>
-                </DialogContentText>
+                <GenesysDescriptionTypography text={rollText}/>
+                <Divider/>
+                <GenesysDescriptionTypography text={resultText}/>
             </DialogContent>
             <DialogActions>
                 <Button color='primary' variant='contained' onClick={onClick}>ROLL</Button>

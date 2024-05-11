@@ -1,5 +1,4 @@
-import Roll, {DefaultResults, DieType, Results, ResultType} from "../../models/Roll";
-import {useState} from "react";
+import Roll, {DieType, Results, ResultType} from "../../models/Roll";
 
 export const renderRoll = (roll: Roll) => {
     let text = ''
@@ -176,8 +175,6 @@ const rollDie = (max: number) => {
 const rollBoostDice = (dice: number, results: Results) => {
     while (dice > 0) {
         let face = rollDie(6)
-        console.log("BOOST")
-        console.log(face)
         switch (face) {
             case 1:
             case 2:
@@ -196,6 +193,7 @@ const rollBoostDice = (dice: number, results: Results) => {
                 results.advantage = results.advantage + 1
                 break
         }
+        dice--
     }
     return results
 }
@@ -203,8 +201,6 @@ const rollBoostDice = (dice: number, results: Results) => {
 const rollAbilityDice = (dice: number, results: Results) => {
     while (dice > 0) {
         let face = rollDie(8)
-        console.log("ABILITY")
-        console.log(face)
         switch (face) {
             case 1:
                 break
@@ -227,12 +223,153 @@ const rollAbilityDice = (dice: number, results: Results) => {
                 results.advantage = results.advantage + 2
                 break
         }
+        dice--
     }
     return results
 }
 
+const rollProficiencyDice = (dice: number, results: Results) => {
+    while (dice > 0) {
+        let face = rollDie(12)
+        switch (face) {
+            case 1:
+                break
+            case 2:
+            case 3:
+                results.success = results.success + 1
+                break
+            case 4:
+            case 5:
+                results.success = results.success + 2
+                break
+            case 6:
+                results.advantage = results.advantage + 1
+                break
+            case 7:
+            case 8:
+            case 9:
+                results.success = results.success + 1
+                results.advantage = results.advantage + 1
+                break
+            case 10:
+            case 11:
+                results.advantage = results.advantage + 2
+                break
+            case 12:
+                results.success = results.success + 1
+                results.triumph = results.triumph + 1
+                break
+        }
+        dice--
+    }
+    return results
+}
+
+const rollSetbackDice = (dice: number, results: Results) => {
+    while (dice > 0) {
+        let face = rollDie(6)
+        switch (face) {
+            case 1:
+            case 2:
+                break
+            case 3:
+            case 4:
+                results.failure = results.failure + 1
+                break
+            case 5:
+            case 6:
+                results.threat = results.threat + 1
+                break
+        }
+        dice--
+    }
+    return results
+}
+
+const rollDifficultyDice = (dice: number, results: Results) => {
+    while (dice > 0) {
+        let face = rollDie(8)
+        switch (face) {
+            case 1:
+                break
+            case 2:
+                results.failure = results.failure + 1
+                break
+            case 3:
+                results.failure = results.failure + 2
+                break
+            case 4:
+            case 5:
+            case 6:
+                results.threat = results.threat + 1
+                break
+            case 7:
+                results.threat = results.threat + 2
+                break
+            case 8:
+                results.failure = results.failure + 1
+                results.threat = results.threat + 1
+                break
+        }
+        dice--
+    }
+    return results
+}
+
+const rollChallengeDice = (dice: number, results: Results) => {
+    while (dice > 0) {
+        let face = rollDie(12)
+        switch (face) {
+            case 1:
+                break
+            case 2:
+            case 3:
+                results.failure = results.failure + 1
+                break
+            case 4:
+            case 5:
+                results.failure = results.failure + 2
+                break
+            case 6:
+            case 7:
+                results.threat = results.threat + 1
+                break
+            case 8:
+            case 9:
+                results.failure = results.failure + 1
+                results.threat = results.threat + 1
+                break
+            case 10:
+            case 11:
+                results.threat = results.threat + 2
+                break
+            case 12:
+                results.failure = results.failure + 1
+                results.despair = results.despair + 1
+                break
+        }
+        dice--
+    }
+    return results
+}
+
+const addUnrolledValues = (roll: Roll, results: Results) => {
+    results.success = roll.success
+    results.advantage = roll.advantage
+    results.triumph = roll.triumph
+    results.failure = roll.failure
+    results.threat = roll.threat
+    results.despair = roll.despair
+    return results
+}
+
 export const rollDice = (roll: Roll, results: Results) => {
-    console.log(roll)
+    results = addUnrolledValues(roll, results)
+    results = rollBoostDice(roll.boost, results)
     results = rollAbilityDice(roll.ability, results)
+    results = rollProficiencyDice(roll.proficiency, results)
+    results = rollSetbackDice(roll.setback, results)
+    results = rollDifficultyDice(roll.difficulty, results)
+    results = rollChallengeDice(roll.challenge, results)
     return results
 }

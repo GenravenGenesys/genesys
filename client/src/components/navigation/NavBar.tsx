@@ -31,7 +31,7 @@ export default function NavBar() {
                 {/*<Button color='secondary' variant='contained' onClick={(): void => setOpenCustomRollBackDrop(true)}>Roll</Button>*/}
                 {/*{openCustomRollBackDrop && <CustomRollDialog open={openCustomRollBackDrop} onClose={(): void => setOpenCustomRollBackDrop(false)}/>}*/}
                 <Button color='secondary' variant='contained' onClick={(): void => setOpenCustomRollBackDrop(true)}>Roll</Button>
-                {openCustomRollBackDrop && <RollDialog open={openCustomRollBackDrop} onClose={(): void => setOpenCustomRollBackDrop(false)} diceRoll={DefaultRoll.create()}/>}
+                {openCustomRollBackDrop && <RollDialog open={openCustomRollBackDrop} onClose={(): void => setOpenCustomRollBackDrop(false)} diceRoll={DefaultRoll.create}/>}
             </Toolbar>
           </AppBar>
         </Box>
