@@ -288,6 +288,7 @@ const rollSetbackDice = (dice: number, results: Results) => {
 
 const rollDifficultyDice = (dice: number, results: Results) => {
     while (dice > 0) {
+        console.log("DICE")
         let face = rollDie(8)
         switch (face) {
             case 1:
@@ -398,6 +399,8 @@ const resolveAdvantageAndThreat = (results: Results) => {
 }
 
 export const rollDice = (roll: Roll, results: Results) => {
+    console.log("ROLL")
+    console.log(roll)
     results = addUnrolledValues(roll, results)
     results = rollBoostDice(roll.boost, results)
     results = rollAbilityDice(roll.ability, results)
@@ -405,6 +408,6 @@ export const rollDice = (roll: Roll, results: Results) => {
     results = rollSetbackDice(roll.setback, results)
     results = rollDifficultyDice(roll.difficulty, results)
     results = rollChallengeDice(roll.challenge, results)
-    results = resolveResults(results)
+    // results = resolveResults(results)
     return results
 }
