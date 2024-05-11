@@ -363,6 +363,40 @@ const addUnrolledValues = (roll: Roll, results: Results) => {
     return results
 }
 
+const resolveResults = (results: Results) => {
+    results = resolveSuccessAndFailures(results)
+    results = resolveAdvantageAndThreat(results)
+    return results
+}
+
+const resolveSuccessAndFailures = (results: Results) => {
+    if (results.success === results.failure) {
+        results.success = 0
+        results.failure = 0
+    } else if (results.success <= results.failure) {
+        results.failure = results.failure - results.success
+        results.success = 0
+    } else {
+        results.success = results.success - results.failure
+        results.failure = 0
+    }
+    return results
+}
+
+const resolveAdvantageAndThreat = (results: Results) => {
+    if (results.advantage === results.threat) {
+        results.advantage = 0
+        results.threat = 0
+    } else if (results.advantage <= results.threat) {
+        results.threat = results.threat - results.advantage
+        results.advantage = 0
+    } else {
+        results.advantage = results.advantage - results.threat
+        results.threat = 0
+    }
+    return results
+}
+
 export const rollDice = (roll: Roll, results: Results) => {
     results = addUnrolledValues(roll, results)
     results = rollBoostDice(roll.boost, results)
@@ -371,5 +405,6 @@ export const rollDice = (roll: Roll, results: Results) => {
     results = rollSetbackDice(roll.setback, results)
     results = rollDifficultyDice(roll.difficulty, results)
     results = rollChallengeDice(roll.challenge, results)
+    results = resolveResults(results)
     return results
 }
