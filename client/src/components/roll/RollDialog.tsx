@@ -21,6 +21,8 @@ export default function RollDialog(props: Props) {
 
     const onChange = (type: DieType, value: number) => {
         let temp = roll
+        console.log("ROLL")
+        console.log(rollText)
         switch (type) {
             case DieType.Boost:
                 temp.boost = temp.boost + value
@@ -41,9 +43,10 @@ export default function RollDialog(props: Props) {
                 temp.challenge = temp.challenge + value
                 break
         }
+        console.log("CHANGE")
         setRoll(temp)
-        console.log(temp)
         setRollText(renderRoll(temp))
+        console.log(rollText)
     }
 
     const onClick = () => {

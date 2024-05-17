@@ -1,5 +1,5 @@
-import { ClickAwayListener, MenuItem, TextField, Typography } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import {ClickAwayListener, MenuItem, TextField, Typography} from "@mui/material";
+import {ChangeEvent, useState} from "react";
 import EditField from "./EditField";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function InputNumberRangeSelectField(props: Props): JSX.Element {
-    const { defaultValue, defaultEdit, min, max, editable, onChange, onCommit, helperText } = props;
+    const {defaultValue, defaultEdit, min, max, editable, onChange, onCommit, helperText} = props;
     const [value, setValue] = useState(defaultValue);
     const [edit, setEdit] = useState(defaultEdit ?? false);
 
@@ -36,12 +36,14 @@ export default function InputNumberRangeSelectField(props: Props): JSX.Element {
     const editElement = (
         <ClickAwayListener mouseEvent="onMouseUp" onClickAway={handleOnCommit}>
             <TextField value={value} helperText={helperText} onChange={inputOnChange} select>
-                {range.map((key) => (<MenuItem key={key} value={key}>{key}</MenuItem>))}
+                {range.map((key) => (
+                    <MenuItem key={key} value={key}>{key}</MenuItem>
+                ))}
             </TextField>
         </ClickAwayListener>
     );
 
-    const viewElement = <Typography style={{ wordWrap: 'break-word' }}>{value}</Typography>;
+    const viewElement = <Typography style={{wordWrap: 'break-word'}}>{value}</Typography>;
 
     const onCancel = (): void => {
         setEdit(!edit);
@@ -49,6 +51,7 @@ export default function InputNumberRangeSelectField(props: Props): JSX.Element {
     };
 
     return (
-        <EditField viewElement={viewElement} edit={edit} editable={editable} editElement={editElement} onEdit={(): void => setEdit(!edit)} onCancel={(): void => onCancel()} onCommit={handleOnCommit} />
+        <EditField viewElement={viewElement} edit={edit} editable={editable} editElement={editElement}
+                   onEdit={(): void => setEdit(!edit)} onCancel={(): void => onCancel()} onCommit={handleOnCommit}/>
     );
 }
