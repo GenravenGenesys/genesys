@@ -4,7 +4,7 @@ import {Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Divider
 import * as React from "react";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
 import {renderResults, renderRoll, rollDice} from "./RollRenders";
-import NumberRangeSelectCard from "../common/NumberRangeSelectCard";
+import DiceSelectCard from "../common/DiceSelectCard";
 
 interface Props {
     open: boolean
@@ -60,33 +60,33 @@ export default function RollDialog(props: Props) {
                 <DialogTitle style={{textAlign: 'center'}}>Dice Pool</DialogTitle>
                 <DialogContent>
                     <Grid container>
-                        <NumberRangeSelectCard defaultValue={roll.proficiency} title={DieType.Proficiency}
-                                               onChange={(value: number): void => {
-                                                   onChange(DieType.Proficiency, value)
-                                               }} min={0} max={6}/>
-                        <NumberRangeSelectCard defaultValue={roll.ability} title={DieType.Ability}
-                                               onChange={(value: number): void => {
-                                                   onChange(DieType.Ability, value)
-                                               }} min={0} max={6}/>
-                        <NumberRangeSelectCard defaultValue={roll.boost} title={DieType.Boost}
-                                               onChange={(value: number): void => {
-                                                   onChange(DieType.Boost, value)
-                                               }} min={0} max={6}/>
+                        <DiceSelectCard defaultValue={roll.proficiency} type={DieType.Proficiency}
+                                        onChange={(value: number): void => {
+                                            onChange(DieType.Proficiency, value)
+                                        }}/>
+                        <DiceSelectCard defaultValue={roll.ability} type={DieType.Ability}
+                                        onChange={(value: number): void => {
+                                            onChange(DieType.Ability, value)
+                                        }}/>
+                        <DiceSelectCard defaultValue={roll.boost} type={DieType.Boost}
+                                        onChange={(value: number): void => {
+                                            onChange(DieType.Boost, value)
+                                        }}/>
                     </Grid>
                     <Divider/>
                     <Grid container>
-                        <NumberRangeSelectCard defaultValue={roll.setback} title={DieType.Setback}
-                                               onChange={(value: number): void => {
-                                                   onChange(DieType.Setback, value)
-                                               }} min={0} max={6}/>
-                        <NumberRangeSelectCard defaultValue={roll.difficulty} title={DieType.Difficulty}
-                                               onChange={(value: number): void => {
-                                                   onChange(DieType.Difficulty, value)
-                                               }} min={0} max={6}/>
-                        <NumberRangeSelectCard defaultValue={roll.challenge} title={DieType.Challenge}
-                                               onChange={(value: number): void => {
-                                                   onChange(DieType.Challenge, value)
-                                               }} min={0} max={6}/>
+                        <DiceSelectCard defaultValue={roll.challenge} type={DieType.Challenge}
+                                        onChange={(value: number): void => {
+                                            onChange(DieType.Challenge, value)
+                                        }}/>
+                        <DiceSelectCard defaultValue={roll.difficulty} type={DieType.Difficulty}
+                                        onChange={(value: number): void => {
+                                            onChange(DieType.Difficulty, value)
+                                        }}/>
+                        <DiceSelectCard defaultValue={roll.setback} type={DieType.Setback}
+                                        onChange={(value: number): void => {
+                                            onChange(DieType.Setback, value)
+                                        }}/>
                     </Grid>
                     <Divider/>
                     <GenesysDescriptionTypography text={rollText}/>

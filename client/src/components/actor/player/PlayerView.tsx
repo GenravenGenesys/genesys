@@ -4,7 +4,6 @@ import Player from '../../../models/actor/player/Player';
 import {StatsType} from '../../../models/actor/Stats';
 import {ActorPath} from '../../../services/Path';
 import EditIcon from "@mui/icons-material/Edit";
-import ViewPlayerSkillTable from './skill/ViewPlayerSkillTable';
 import ViewCharacteristicRow from "../common/ViewCharacteristicRow";
 import Setting from "../../../models/Setting";
 import ViewSettingsCard from "../../common/setting/ViewSettingsCard";
@@ -14,6 +13,7 @@ import PlayerTalentCard from "./talent/PlayerTalentCard";
 import PlayerEquipmentCard from "./equipment/PlayerEquipmentCard";
 import {ViewFieldCard} from "../../common/ViewFieldCard";
 import PlayerSoakCard from "./PlayerSoakCard";
+import PlayerSkillCard from "./skill/PlayerSkillCard";
 
 interface Props {
     player: Player
@@ -54,7 +54,7 @@ export default function PlayerView(props: Props) {
                         <PlayerDefenseCard player={player}/>
                     </Grid>
                     <Divider/>
-                    <ViewPlayerSkillTable player={player}/>
+                    <PlayerSkillCard player={player}/>
                     <Divider/>
                     <PlayerEquipmentCard player={player}/>
                     <Divider/>
