@@ -2,7 +2,6 @@ import Roll, {DieType, Results, ResultType} from "../../models/Roll";
 
 export const renderRoll = (roll: Roll) => {
     let text = ''
-    console.log(roll)
     while (roll.proficiency > 0) {
         text = text.concat(DieType.Proficiency + ' ')
         roll.proficiency--
@@ -104,7 +103,6 @@ export const renderRoll = (roll: Roll) => {
 
 export const renderResults = (results: Results) => {
     let text = ''
-    console.log(results)
     while (results.success > 0) {
         text = text.concat(ResultType.Success + ' ')
         results.success--
@@ -288,7 +286,6 @@ const rollSetbackDice = (dice: number, results: Results) => {
 
 const rollDifficultyDice = (dice: number, results: Results) => {
     while (dice > 0) {
-        console.log("DICE")
         let face = rollDie(8)
         switch (face) {
             case 1:
