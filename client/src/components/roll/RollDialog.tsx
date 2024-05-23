@@ -2,14 +2,15 @@ import Roll, {DefaultResults, DieType, Results} from "../../models/Roll";
 import {useState} from "react";
 import {
     Button,
-    Card, CardActions,
-    CardContent,
+    Card,
+    CardActions,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     Divider,
-    Grid, Typography
+    Grid,
+    Typography
 } from "@mui/material";
 import * as React from "react";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
@@ -100,8 +101,10 @@ export default function RollDialog(props: Props) {
 
     const renderRollText = () => {
         console.log(rollText)
-        console.log(<Typography component={'div'} style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: rollText}}/>)
-        return <Typography component={'div'} style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: rollText}}/>
+        console.log(<Typography component={'div'} style={{wordWrap: 'break-word', textAlign: 'center'}}
+                                dangerouslySetInnerHTML={{__html: rollText}}/>)
+        return <Typography component={'div'} style={{wordWrap: 'break-word', textAlign: 'center'}}
+                           dangerouslySetInnerHTML={{__html: rollText}}/>
     }
 
     return (
