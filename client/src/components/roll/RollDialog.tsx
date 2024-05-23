@@ -1,6 +1,16 @@
 import Roll, {DefaultResults, DieType, Results} from "../../models/Roll";
-import {useEffect, useState} from "react";
-import {Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid} from "@mui/material";
+import {useState} from "react";
+import {
+    Button,
+    Card, CardActions,
+    CardContent,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    Grid, Typography
+} from "@mui/material";
 import * as React from "react";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
 import {renderResults, renderRoll, rollDice} from "./RollRenders";
@@ -14,41 +24,72 @@ interface Props {
 
 export default function RollDialog(props: Props) {
     const {open, onClose, diceRoll} = props
-    let incoming = diceRoll
-    console.log("incoming")
-    console.log(incoming)
-    const [roll, setRoll] = useState<Roll>(incoming)
-    const [rollText, setRollText] = useState<string>(renderRoll(roll))
-    const [results, setResults] = useState<Results>(DefaultResults.create())
+    const [roll, setRoll] = useState<Roll>(diceRoll)
+    console.log('incoming')
+    console.log(roll)
+    const initialRoll = renderRoll(roll)
+    console.log(initialRoll)
+    const [rollText, setRollText] = useState<string>(initialRoll)
+    const [results, setResults] = useState<Results>(DefaultResults.create)
     const [resultText, setResultText] = useState<string>(renderResults(results))
 
+    const renderPositiveDiceSelection = () => {
+        console.log(roll)
+        return (
+            <Grid container>
+                <DiceSelectCard defaultValue={roll.proficiency} type={DieType.Proficiency}
+                                onChange={(value: number): void => {
+                                    onChange(DieType.Proficiency, value)
+                                }}/>
+                <DiceSelectCard defaultValue={roll.ability} type={DieType.Ability}
+                                onChange={(value: number): void => {
+                                    onChange(DieType.Ability, value)
+                                }}/>
+                <DiceSelectCard defaultValue={roll.boost} type={DieType.Boost}
+                                onChange={(value: number): void => {
+                                    onChange(DieType.Boost, value)
+                                }}/>
+            </Grid>
+        )
+    }
+
     const onChange = (type: DieType, value: number) => {
-        let temp = roll
         console.log("ROLL")
+        console.log(roll)
         console.log(rollText)
         switch (type) {
             case DieType.Boost:
-                temp.boost = temp.boost + value
+                setRoll({
+                    ...roll, boost: roll.boost + value
+                })
                 break
             case DieType.Ability:
-                temp.ability = temp.ability + value
+                setRoll({
+                    ...roll, ability: roll.ability + value
+                })
                 break
             case DieType.Proficiency:
-                temp.proficiency = temp.proficiency + value
+                setRoll({
+                    ...roll, proficiency: roll.proficiency + value
+                })
                 break
             case DieType.Setback:
-                temp.setback = temp.setback + value
+                setRoll({
+                    ...roll, setback: roll.setback + value
+                })
                 break
             case DieType.Difficulty:
-                temp.difficulty = temp.difficulty + value
+                setRoll({
+                    ...roll, difficulty: roll.difficulty + value
+                })
                 break
             case DieType.Challenge:
-                temp.challenge = temp.challenge + value
+                setRoll({
+                    ...roll, challenge: roll.challenge + value
+                })
                 break
         }
-        console.log("CHANGE")
-        setRoll(temp)
-        setRollText(renderRoll(temp))
+        setRollText(renderRoll(roll))
         console.log(rollText)
     }
 
@@ -57,25 +98,18 @@ export default function RollDialog(props: Props) {
         setResultText(renderResults(results))
     }
 
+    const renderRollText = () => {
+        console.log(rollText)
+        console.log(<Typography component={'div'} style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: rollText}}/>)
+        return <Typography component={'div'} style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: rollText}}/>
+    }
+
     return (
         <Dialog open={open} onClose={onClose}>
             <Card sx={{width: 1}}>
                 <DialogTitle style={{textAlign: 'center'}}>Dice Pool</DialogTitle>
-                <DialogContent>
-                    <Grid container>
-                        <DiceSelectCard defaultValue={roll.proficiency} type={DieType.Proficiency}
-                                        onChange={(value: number): void => {
-                                            onChange(DieType.Proficiency, value)
-                                        }}/>
-                        <DiceSelectCard defaultValue={roll.ability} type={DieType.Ability}
-                                        onChange={(value: number): void => {
-                                            onChange(DieType.Ability, value)
-                                        }}/>
-                        <DiceSelectCard defaultValue={roll.boost} type={DieType.Boost}
-                                        onChange={(value: number): void => {
-                                            onChange(DieType.Boost, value)
-                                        }}/>
-                    </Grid>
+                <DialogActions>
+                    {renderPositiveDiceSelection()}
                     <Divider/>
                     <Grid container>
                         <DiceSelectCard defaultValue={roll.challenge} type={DieType.Challenge}
@@ -92,7 +126,9 @@ export default function RollDialog(props: Props) {
                                         }}/>
                     </Grid>
                     <Divider/>
-                    <GenesysDescriptionTypography text={rollText}/>
+                </DialogActions>
+                <DialogContent>
+                    {renderRollText()}
                     <Divider/>
                     <GenesysDescriptionTypography text={resultText}/>
                 </DialogContent>
@@ -102,5 +138,22 @@ export default function RollDialog(props: Props) {
                 </DialogActions>
             </Card>
         </Dialog>
+    )
+}
+
+interface DiceProps {
+    initial: Roll
+}
+
+function DiceCard(props: DiceProps) {
+    const {initial} = props
+    const [roll, setRoll] = useState<Roll>(initial)
+
+    return (
+        <Card sx={{width: 1}}>
+            <CardActions>
+
+            </CardActions>
+        </Card>
     )
 }

@@ -2,6 +2,8 @@ import Roll, {DieType, Results, ResultType} from "../../models/Roll";
 
 export const renderRoll = (roll: Roll) => {
     let text = ''
+    console.log('renderRoll')
+    console.log(roll)
     while (roll.proficiency > 0) {
         text = text.concat(DieType.Proficiency + ' ')
         roll.proficiency--
@@ -98,6 +100,7 @@ export const renderRoll = (roll: Roll) => {
             final += `${word} `;
         }
     });
+    console.log(final)
     return final;
 }
 
