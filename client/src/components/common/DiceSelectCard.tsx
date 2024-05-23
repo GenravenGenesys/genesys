@@ -2,7 +2,6 @@ import {Card, CardActions, Grid} from "@mui/material";
 import InputNumberRangeSelectField from "./InputNumberRangeSelect";
 import GenesysCenteredCardHeader from "./card/GenesysCenteredCardHeader";
 import {DieType} from "../../models/Roll";
-import CenteredCardHeader from "./card/CenteredCardHeader";
 
 interface Props {
     defaultValue: number
@@ -12,6 +11,7 @@ interface Props {
 
 export default function DiceSelectCard(props: Props) {
     const { defaultValue, type, onChange } = props
+    console.log(type + ' ' + String(defaultValue))
 
     return (
         <Grid item xs>

@@ -1,5 +1,5 @@
 import Roll, {DefaultResults, DieType, Results} from "../../models/Roll";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid} from "@mui/material";
 import * as React from "react";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
@@ -9,15 +9,18 @@ import DiceSelectCard from "../common/DiceSelectCard";
 interface Props {
     open: boolean
     onClose: () => void
-    diceRoll(): Roll
+    diceRoll: Roll
 }
 
 export default function RollDialog(props: Props) {
     const {open, onClose, diceRoll} = props
-    const [roll, setRoll] = useState(diceRoll())
-    const [rollText, setRollText] = useState(renderRoll(roll))
+    let incoming = diceRoll
+    console.log("incoming")
+    console.log(incoming)
+    const [roll, setRoll] = useState<Roll>(incoming)
+    const [rollText, setRollText] = useState<string>(renderRoll(roll))
     const [results, setResults] = useState<Results>(DefaultResults.create())
-    const [resultText, setResultText] = useState(renderResults(results))
+    const [resultText, setResultText] = useState<string>(renderResults(results))
 
     const onChange = (type: DieType, value: number) => {
         let temp = roll
@@ -50,7 +53,7 @@ export default function RollDialog(props: Props) {
     }
 
     const onClick = () => {
-        setResults(rollDice(diceRoll(), results))
+        setResults(rollDice(roll, results))
         setResultText(renderResults(results))
     }
 
