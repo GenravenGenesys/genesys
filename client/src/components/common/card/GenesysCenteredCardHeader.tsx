@@ -11,8 +11,6 @@ export default function GenesysCenteredCardHeader(props: Props): JSX.Element {
     const {type} = props
 
     return (
-        <CardHeader style={{textAlign: 'center'}}>
-            <GenesysDescriptionTypography text={String(type)}/>
-        </CardHeader>
+        <CardHeader style={{textAlign: 'center'}} title={<GenesysDescriptionTypography text={String(type)}/>}/>
     )
 }

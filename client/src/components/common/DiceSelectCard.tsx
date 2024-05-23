@@ -2,6 +2,7 @@ import {Card, CardActions, Grid} from "@mui/material";
 import InputNumberRangeSelectField from "./InputNumberRangeSelect";
 import GenesysCenteredCardHeader from "./card/GenesysCenteredCardHeader";
 import {DieType} from "../../models/Roll";
+import CenteredCardHeader from "./card/CenteredCardHeader";
 
 interface Props {
     defaultValue: number
