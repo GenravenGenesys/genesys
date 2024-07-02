@@ -1,25 +1,63 @@
 import axios from "axios";
-import {EquipmentPath} from "./RootPath";
+import {EquipmentPath, ModificationPath} from "./RootPath";
 import {Armor} from "../models/equipment/Armor";
 import {Gear} from "../models/equipment/Gear";
 import {Weapon} from "../models/equipment/Weapon";
+import Modifier from "../models/common/Modifier";
 
 export default class EquipmentService {
 
     static async createArmor(name: string): Promise<Armor> {
-        return await (await axios.post( EquipmentPath.Armor + name)).data
+        return await fetch(EquipmentPath.Armor, {method: "POST", body: JSON.stringify({name: name})})
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(res.statusText)
+                }
+                return res.json()
+            })
     }
 
     static async getArmors(): Promise<Armor[]> {
-        return await (await axios.get(EquipmentPath.Armor)).data
+        return await fetch(EquipmentPath.Armor)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(res.statusText)
+                }
+                return res.json()
+            })
     }
 
-    static async getArmor(name: string): Promise<Armor> {
-        return await (await axios.get(EquipmentPath.Armor + name)).data
+    static async getArmor(id: string): Promise<Armor> {
+        return await fetch(EquipmentPath.Armor + `${id}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(res.statusText)
+                }
+                return res.json()
+            })
     }
 
-    static async updateArmor(name: string, armor: Armor): Promise<Armor> {
-        return await (await axios.put(EquipmentPath.Armor + name, armor)).data
+    static async updateArmor(armor: Armor): Promise<Armor> {
+        return await fetch(EquipmentPath.Armor + `${armor.armor_id}`, {method: 'PUT', body: JSON.stringify(armor)})
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(res.statusText)
+                }
+                return res.json()
+            })
+    }
+
+    static async addArmorModification(id: string, modifier: Modifier) {
+        return await fetch(ModificationPath.ModificationArmor + `${id}`, {
+            method: 'POST',
+            body: JSON.stringify(modifier)
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(res.statusText)
+                }
+                return res.json()
+            })
     }
 
     static async createWeapon(name: string): Promise<Weapon> {

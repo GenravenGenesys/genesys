@@ -11,11 +11,11 @@ interface Props {
     armor: Armor
 }
 
-export default function ArmorQualityCard(props: Props): JSX.Element {
+export default function ArmorQualityCard(props: Props) {
     const {armor} = props
     const [openAddArmorQualityDialog, setOpenAddArmorQualityDialog] = useState(false)
 
-    const renderTable = (): JSX.Element => {
+    const renderTable = () => {
         if (armor.qualities.length === 0) {
             return <Typography style={{textAlign: 'center'}}>None</Typography>
         }

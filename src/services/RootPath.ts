@@ -12,20 +12,21 @@ export enum RootPath {
     Archetype = '/archetypes/',
 }
 
-export enum ModificationPath {
-    ModificationInjury = '/modifications' + RootPath.Injury,
-    ModificationTalent = '/modifications' + RootPath.Talent,
-    ModificationQuality = '/modifications' + RootPath.Qualities,
-}
-
-export enum LorePath {
-    Organization = '/lore/organizations/',
-}
-
 export enum EquipmentPath {
     Armor = '/equipment/armors/',
     Weapon = '/equipment/weapons/',
     Gear = '/equipment/gears/',
+}
+
+export enum ModificationPath {
+    ModificationInjury = '/modifications' + RootPath.Injury,
+    ModificationTalent = '/modifications' + RootPath.Talent,
+    ModificationQuality = '/modifications' + RootPath.Qualities,
+    ModificationArmor = '/modifications' + EquipmentPath.Armor,
+}
+
+export enum LorePath {
+    Organization = '/lore/organizations/',
 }
 
 export enum ActorPath {

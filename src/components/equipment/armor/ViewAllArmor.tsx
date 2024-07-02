@@ -4,7 +4,6 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import * as React from 'react';
@@ -12,10 +11,10 @@ import {Fragment, useEffect, useState} from 'react';
 import {Armor} from "../../../models/equipment/Armor";
 import EquipmentService from "../../../services/EquipmentService";
 import GenesysDescriptionTypography from "../../common/typography/GenesysDescriptionTypography";
-import ActionsTableCell from "../../common/table/ActionsTableCell";
+import {ViewActionTableCell} from "../../common/table/ActionsTableCell";
 import {EquipmentPath} from "../../../services/RootPath";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
-import {renderHeaders} from '../../common/table/TableRenders';
+import {renderSingleRowTableHeader} from '../../common/table/TableRenders';
 import {renderPrice, renderSoak} from '../../../models/equipment/EquipmentHelper';
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import CreateEquipmentDialog from "../CreateEquipmentDialog";
@@ -26,7 +25,7 @@ interface Props {
     columns: number
 }
 
-function Row(props: Props): JSX.Element {
+function Row(props: Props) {
     const {armor, columns} = props
     const [open, setOpen] = useState(false)
 
@@ -39,7 +38,7 @@ function Row(props: Props): JSX.Element {
                 <TypographyCenterTableCell value={String(armor.encumbrance)}/>
                 <TypographyCenterTableCell value={renderPrice(armor)}/>
                 <TypographyCenterTableCell value={String(armor.rarity)}/>
-                <ActionsTableCell name={armor.name} path={EquipmentPath.Armor}/>
+                <ViewActionTableCell id={armor.armor_id} path={EquipmentPath.Armor}/>
             </TableRow>
             <TableRow>
                 <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={columns}>
@@ -65,13 +64,9 @@ export default function ViewAllArmor() {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            const armorList = await EquipmentService.getArmors()
-            if (!armorList) {
-                return
-            }
-            setArmors(armorList)
+            setArmors(await EquipmentService.getArmors())
         })()
-    }, [])
+    }, [setArmors])
 
     return (
         <Card>
@@ -84,9 +79,7 @@ export default function ViewAllArmor() {
             <CardContent>
                 <TableContainer component={Paper}>
                     <Table>
-                        <TableHead>
-                            {renderHeaders(headers)}
-                        </TableHead>
+                        {renderSingleRowTableHeader(headers)}
                         <TableBody>
                             {armors.map((armor: Armor) => (
                                 <Row key={armor.name} armor={armor} columns={headers.length}/>

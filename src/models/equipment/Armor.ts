@@ -2,6 +2,7 @@ import Equipment from "./Equipment";
 import {Option} from "../../components/common/InputSelectField";
 
 export interface Armor extends Equipment {
+    armor_id: number
     soak: number
     defense: number
 }

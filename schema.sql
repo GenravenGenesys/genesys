@@ -82,6 +82,9 @@ DROP TABLE IF EXISTS TalentModification;
 DROP TABLE IF EXISTS Ability;
 DROP TABLE IF EXISTS AbilityModification;
 DROP TABLE IF EXISTS Skill;
+DROP TABLE IF EXISTS Armor;
+DROP TABLE IF EXISTS ArmorModification;
+DROP TABLE IF EXISTS ArmorQuality;
 
 CREATE TABLE IF NOT EXISTS Talent
 (
@@ -120,4 +123,62 @@ CREATE TABLE IF NOT EXISTS Skill
     name           TEXT,
     type           TEXT,
     characteristic TEXT
+);
+CREATE TABLE IF NOT EXISTS Armor
+(
+    armor_id    INTEGER PRIMARY KEY,
+    name        TEXT,
+    description TEXT,
+    price       INTEGER,
+    restricted  INTEGER,
+    encumbrance INTEGER,
+    rarity      INTEGER,
+    soak        INTEGER,
+    defense     INTEGER
+);
+CREATE TABLE IF NOT EXISTS ArmorModification
+(
+    armor_id INTEGER,
+    type     TEXT,
+    ranks    INTEGER,
+    FOREIGN KEY (armor_id) REFERENCES Armor (armor_id)
+);
+CREATE TABLE IF NOT EXISTS ArmorQuality
+(
+    armor_id   INTEGER,
+    quality_id INTEGER,
+    ranks      INTEGER,
+    FOREIGN KEY (armor_id) REFERENCES Armor (armor_id),
+    FOREIGN KEY (quality_id) REFERENCES Quality (quality_id)
+);
+CREATE TABLE IF NOT EXISTS Weapon
+(
+    weapon_id   INTEGER PRIMARY KEY,
+    name        TEXT,
+    description TEXT,
+    price       INTEGER,
+    restricted  INTEGER,
+    encumbrance INTEGER,
+    rarity      INTEGER,
+    damage      INTEGER,
+    critical    INTEGER,
+    range       TEXT,
+    brawn       INTEGER,
+    hands       INTEGER,
+    skill_id    INTEGER
+);
+CREATE TABLE IF NOT EXISTS WeaponModification
+(
+    weapon_id INTEGER,
+    type      TEXT,
+    ranks     INTEGER,
+    FOREIGN KEY (weapon_id) REFERENCES Weapon (weapon_id)
+);
+CREATE TABLE IF NOT EXISTS WeaponQuality
+(
+    weapon_id  INTEGER,
+    quality_id INTEGER,
+    ranks      INTEGER,
+    FOREIGN KEY (weapon_id) REFERENCES Weapon (weapon_id),
+    FOREIGN KEY (quality_id) REFERENCES Quality (quality_id)
 );

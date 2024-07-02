@@ -5,30 +5,27 @@ import EditIcon from '@mui/icons-material/Edit';
 import {Armor} from "../../../models/equipment/Armor";
 import {ViewFieldCard} from "../../common/ViewFieldCard";
 import {EquipmentPath} from "../../../services/RootPath";
-import Setting from "../../../models/Setting";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import {renderHeaders} from "../../common/table/TableRenders";
+import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import {renderPrice, renderQualities, renderSoak} from "../../../models/equipment/EquipmentHelper";
-import ViewSettingsCard from "../../common/setting/ViewSettingsCard";
+import ArmorModifierCard from "./modifier/ArmorModifierCard";
 
 interface Props {
     armor: Armor
-    settings: Setting[]
 }
 
 export default function ArmorView(props: Props) {
-    const {armor, settings} = props
+    const {armor} = props
     let navigate = useNavigate()
     const headers = ['Name', 'Defense', 'Soak', 'Encumbrance', 'Price', 'Rarity', 'Qualities']
 
     const onEdit = () => {
-        navigate(EquipmentPath.Armor + armor.name + '/edit');
+        navigate(EquipmentPath.Armor + armor.armor_id + '/edit');
     }
 
     return (
@@ -40,34 +37,30 @@ export default function ArmorView(props: Props) {
                     <EditIcon color='primary' fontSize='small'/>
                 </IconButton>}>
             </CardHeader>
-            <Divider/>
             <CardContent>
                 <Grid container justifyContent={'center'}>
                     <Grid container spacing={10}>
-                        <ViewFieldCard name={'Description'} value={armor?.description!!}/>
+                        <ViewFieldCard name={'Description'} value={armor.description}/>
                     </Grid>
                     <Divider/>
                     <TableContainer component={Paper}>
-                        <Table aria-label="collapsible table">
-                            <TableHead>
-                                {renderHeaders(headers)}
-                            </TableHead>
+                        <Table>
+                            {renderSingleRowTableHeader(headers)}
                             <TableBody>
                                 <TableRow>
-                                    <TypographyCenterTableCell value={armor?.name!!}/>
-                                    <TypographyCenterTableCell value={String(armor?.defense!!)}/>
+                                    <TypographyCenterTableCell value={armor.name}/>
+                                    <TypographyCenterTableCell value={String(armor.defense)}/>
                                     <TypographyCenterTableCell value={renderSoak(armor)}/>
-                                    <TypographyCenterTableCell value={String(armor?.encumbrance!!)}/>
+                                    <TypographyCenterTableCell value={String(armor.encumbrance)}/>
                                     <TypographyCenterTableCell value={renderPrice(armor)}/>
-                                    <TypographyCenterTableCell value={String(armor?.rarity!!)}/>
+                                    <TypographyCenterTableCell value={String(armor.rarity)}/>
                                     <TypographyCenterTableCell value={renderQualities(armor)}/>
                                 </TableRow>
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Grid>
-                <Divider/>
-                <ViewSettingsCard settings={armor?.settings!!} allSettings={settings}/>
+                <ArmorModifierCard armor={armor}/>
             </CardContent>
         </Card>
     )

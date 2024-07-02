@@ -4,12 +4,11 @@ import {Armor} from "../../../models/equipment/Armor";
 import {ViewFieldCard} from "../../common/ViewFieldCard";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import {renderHeaders} from "../../common/table/TableRenders";
+import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import {renderPrice, renderSoak} from "../../../models/equipment/EquipmentHelper";
 import CenteredCardHeader from "../../common/card/CenteredCardHeader";
 
@@ -23,27 +22,24 @@ export default function ArmorViewShort(props: Props) {
 
     return (
         <Card>
-            <CenteredCardHeader title={armor?.name!!}/>
-            <Divider/>
+            <CenteredCardHeader title={armor.name}/>
             <CardContent>
                 <Grid container justifyContent={'center'}>
                     <Grid container spacing={10}>
-                        <ViewFieldCard name={'Description'} value={armor?.description!!}/>
+                        <ViewFieldCard name={'Description'} value={armor.description}/>
                     </Grid>
                     <Divider/>
                     <TableContainer component={Paper}>
                         <Table>
-                            <TableHead>
-                                {renderHeaders(headers)}
-                            </TableHead>
+                            {renderSingleRowTableHeader(headers)}
                             <TableBody>
                                 <TableRow>
-                                    <TypographyCenterTableCell value={armor?.name!!}/>
-                                    <TypographyCenterTableCell value={String(armor?.defense!!)}/>
+                                    <TypographyCenterTableCell value={armor.name}/>
+                                    <TypographyCenterTableCell value={String(armor.defense)}/>
                                     <TypographyCenterTableCell value={renderSoak(armor)}/>
-                                    <TypographyCenterTableCell value={String(armor?.encumbrance!!)}/>
+                                    <TypographyCenterTableCell value={String(armor.encumbrance)}/>
                                     <TypographyCenterTableCell value={renderPrice(armor)}/>
-                                    <TypographyCenterTableCell value={String(armor?.rarity!!)}/>
+                                    <TypographyCenterTableCell value={String(armor.rarity)}/>
                                 </TableRow>
                             </TableBody>
                         </Table>

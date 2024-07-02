@@ -9,7 +9,6 @@ import {Button} from "@mui/material";
 import QualityService from "../../../services/QualityService";
 import Quality from "../../../models/Quality";
 import QualityBackdrop from "../QualityBackdrop";
-import EquipmentService from "../../../services/EquipmentService";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import {Armor} from "../../../models/equipment/Armor";
 
@@ -18,23 +17,22 @@ interface RowProps {
     armor: Armor
 }
 
-function QualityRow(props: RowProps): JSX.Element {
+function QualityRow(props: RowProps) {
     const {quality, armor} = props;
     const [openQualityBackDrop, setOpenQualityBackDrop] = useState(false)
 
     const addQuality = async () => {
-        if (armor.qualities.find(equipmentQuality  => equipmentQuality.name === quality.name)) {
+        if (armor.qualities.find(equipmentQuality => equipmentQuality.name === quality.name)) {
             armor.qualities.forEach((equipmentQuality, index) => {
                 if (equipmentQuality.name === quality.name) {
                     equipmentQuality.ranks = equipmentQuality.ranks + 1
                     armor.qualities[index] = equipmentQuality
                 }
             })
-        }
-        else {
+        } else {
             armor.qualities = armor.qualities.concat({...quality, ranks: 1})
         }
-        await EquipmentService.updateArmor(armor.name, armor)
+        // await EquipmentService.updateArmor(armor.name, armor)
     }
 
     return (
@@ -63,11 +61,7 @@ export default function ArmorQualitySelectionTable(props: TableProps) {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            const qualityList = await QualityService.getQualities()
-            if (!qualityList) {
-                return
-            }
-            setQualities(qualityList)
+            setQualities(await QualityService.getQualities())
         })()
     }, [setQualities])
 

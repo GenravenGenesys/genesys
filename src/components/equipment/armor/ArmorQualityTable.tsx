@@ -5,7 +5,6 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import {EquipmentQuality} from "../../../models/Quality";
-import {Weapon} from "../../../models/equipment/Weapon";
 import {
     GenesysDescriptionTypographyCenterTableCell,
     TypographyCenterTableCell
@@ -17,7 +16,7 @@ interface Props {
     quality: EquipmentQuality
 }
 
-function Row(props: Props): JSX.Element {
+function Row(props: Props) {
     const {quality} = props
 
     return (
