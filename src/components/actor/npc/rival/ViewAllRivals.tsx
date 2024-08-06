@@ -10,7 +10,7 @@ import {Fragment, useEffect, useState} from 'react';
 import * as React from 'react';
 import ActorService from '../../../../services/ActorService'
 import Rival from "../../../../models/actor/npc/Rival";
-import ActionsTableCell from "../../../common/table/ActionsTableCell";
+import ActionsTableCell, {ViewActionTableCell} from "../../../common/table/ActionsTableCell";
 import {ActorPath} from "../../../../services/RootPath";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
@@ -22,7 +22,7 @@ interface Props {
     rival: Rival
 }
 
-function Row(props: Props): JSX.Element {
+function Row(props: Props) {
     const {rival} = props
     const [open, setOpen] = useState(false)
 
@@ -30,7 +30,7 @@ function Row(props: Props): JSX.Element {
         <Fragment>
             <TableRow sx={{'& > *': {borderBottom: 'unset'}}} onClick={() => setOpen(!open)}>
                 <TypographyCenterTableCell value={rival.name}/>
-                <ActionsTableCell name={rival.name} path={ActorPath.Rival}/>
+                <ViewActionTableCell id={rival.actor_id} path={ActorPath.Rival}/>
             </TableRow>
             <TableRow>
                 <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
@@ -55,13 +55,9 @@ export default function ViewAllRivals() {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            const rivalList = await ActorService.getRivals()
-            if (!rivalList) {
-                return
-            }
-            setRivals(rivalList)
+            setRivals(await ActorService.getRivals())
         })()
-    }, [])
+    }, [setRivals])
 
     return (
         <Card>

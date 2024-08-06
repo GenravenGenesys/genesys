@@ -42,12 +42,7 @@ export default function CreateActorDialog(props: Props) {
                 break
             case ActorType.Rival:
                 let rival = {...await ActorService.createRival(name)}
-                rival.settings.push(currentSetting)
-                skills.forEach((skill) => {
-                    rival.skills.push({ranks: 0, ...skill})
-                })
-                await ActorService.updateRival(rival.name, rival)
-                navigate(ActorPath.Rival + rival.name + '/edit')
+                navigate(ActorPath.Rival + rival.actor_id + '/edit')
                 break
             case ActorType.Nemesis:
                 let nemesis = {...await ActorService.createNemesis(name)}
@@ -90,7 +85,6 @@ export default function CreateActorDialog(props: Props) {
             <DialogTitle>{getTitle()}</DialogTitle>
             <DialogContentText>
                 <TextField onChange={onNameChange} value={name} required/>
-                <Divider/>
                 <InputSelectField defaultValue={type} options={getActorTypes()}
                                   onCommit={(value: string) => {
                                       onTypeChange(value as ActorType)

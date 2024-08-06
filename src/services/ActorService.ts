@@ -18,7 +18,7 @@ export default class ActorService {
     }
 
     static async createPlayer(name: string): Promise<Player> {
-        return await (await axios.post( ActorPath.Player + name)).data;
+        return await (await axios.post(ActorPath.Player + name)).data;
     }
 
     static async getPlayer(name: string): Promise<Player> {
@@ -34,7 +34,7 @@ export default class ActorService {
     }
 
     static async createNemesis(name: string): Promise<Nemesis> {
-        return await (await axios.post( ActorPath.Nemesis + name)).data;
+        return await (await axios.post(ActorPath.Nemesis + name)).data;
     }
 
     static async getNemesis(name: string): Promise<Nemesis> {
@@ -50,7 +50,13 @@ export default class ActorService {
     }
 
     static async createRival(name: string): Promise<Rival> {
-        return await (await axios.post( ActorPath.Rival + name)).data;
+        return await fetch(ActorPath.Rival, {method: "POST", body: JSON.stringify({name: name})})
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(res.statusText)
+                }
+                return res.json()
+            })
     }
 
     static async getRival(name: string): Promise<Rival> {
@@ -58,7 +64,13 @@ export default class ActorService {
     }
 
     static async getRivals(): Promise<Rival[]> {
-        return await (await axios.get(ActorPath.Rival)).data;
+        return await fetch(ActorPath.Rival)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(res.statusText)
+                }
+                return res.json()
+            })
     }
 
     static async updateRival(name: string, rival: Rival): Promise<Rival> {
@@ -66,7 +78,7 @@ export default class ActorService {
     }
 
     static async createMinion(name: string): Promise<Minion> {
-        return await (await axios.post( ActorPath.Minion + name)).data;
+        return await (await axios.post(ActorPath.Minion + name)).data;
     }
 
     static async getMinion(name: string): Promise<Minion> {

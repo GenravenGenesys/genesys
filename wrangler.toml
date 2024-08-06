@@ -5,8 +5,12 @@ compatibility_flags = [ "nodejs_compat" ]
 
 [env.production]
 compatibility_date = "2024-05-29"
-
-[[d1_databases]]
-binding = "GENESYS" # available in your Worker on env.DB
+[[env.production.d1_databases]]
+binding = "GENESYS"
 database_name = "genesys"
 database_id = "a0eafd91-8532-481e-abbe-16f98c5ef657"
+
+[[env.preview.d1_databases]]
+binding = "GENESYS"
+database_name = "genesys-test"
+database_id = "4e91d78c-4761-4912-8507-a431cd566559"
