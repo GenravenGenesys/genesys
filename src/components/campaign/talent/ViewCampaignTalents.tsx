@@ -9,7 +9,8 @@ import CampaignService from "../../../services/CampaignService";
 import Talent from "../../../models/Talent";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import CreateTalentDialog from "../../talents/CreateTalentDialog";
-import {TalentRow} from "../../talents/ViewAllTalents";
+import TableRow from "@mui/material/TableRow";
+import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 
 interface TableProps {
     campaign_id: string
@@ -19,7 +20,7 @@ export default function ViewCampaignTalents(props: TableProps) {
     const {campaign_id} = props
     const [talents, setTalents] = useState<Talent[]>([])
     const [openTalentCreationDialog, setOpenTalentCreationDialog] = useState(false)
-    const headers = ['Name', 'Ranked', 'Activation', 'Tier', 'View']
+    const headers = ['Name', 'Ranked', 'Activation', 'Tier']
 
     useEffect(() => {
         (async (): Promise<void> => {
@@ -31,7 +32,7 @@ export default function ViewCampaignTalents(props: TableProps) {
         <Card>
             <CardHeader
                 style={{textAlign: 'center'}}
-                title={'View All Talents'}
+                title={'Campaign Talents'}
                 action={<Button color='primary' variant='contained'
                                 onClick={(): void => setOpenTalentCreationDialog(true)}>Add Talent</Button>}>
             </CardHeader>
@@ -50,5 +51,27 @@ export default function ViewCampaignTalents(props: TableProps) {
             {openTalentCreationDialog && <CreateTalentDialog open={openTalentCreationDialog}
                                                              onClose={(): void => setOpenTalentCreationDialog(false)}/>}
         </Card>
+    );
+}
+
+interface Props {
+    talent: Talent
+    columns: number
+}
+
+export function TalentRow(props: Props) {
+    const {talent} = props
+
+    const renderRanked = (): string => {
+        return talent.ranked ? 'Yes' : 'No'
+    }
+
+    return (
+            <TableRow>
+                <TypographyCenterTableCell value={talent.name}/>
+                <TypographyCenterTableCell value={renderRanked()}/>
+                <TypographyCenterTableCell value={talent.activation}/>
+                <TypographyCenterTableCell value={talent.tier}/>
+            </TableRow>
     );
 }
