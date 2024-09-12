@@ -25,7 +25,7 @@ export default function ViewCampaignTalents(props: TableProps) {
         (async (): Promise<void> => {
             setTalents(await CampaignService.getCampaignTalents(campaign_id))
         })()
-    }, [setTalents])
+    }, [setTalents, campaign_id])
 
     return (
         <Card>

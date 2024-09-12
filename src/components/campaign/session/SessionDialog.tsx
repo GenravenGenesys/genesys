@@ -10,7 +10,7 @@ interface Props {
     onClose: () => void
     campaignName: string
 }
-export default function SessionDialog(props: Props): JSX.Element {
+export default function SessionDialog(props: Props) {
     const {open,onClose,campaignName} = props
     const [sessionName,setSessionName] = useState('')
     let navigate = useNavigate()

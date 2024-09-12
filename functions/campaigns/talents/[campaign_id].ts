@@ -9,7 +9,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                         JSON_ARRAY(
                                 JSON_OBJECT('type', tm.type, 'ranks', tm.ranks)
                         ) AS "modifiers"
-                 FROM Talent
+                 FROM Talent AS t
                           LEFT JOIN TalentModification tm ON t.talent_id = tm.talent_id
                           JOIN CampaignTalent ct ON ct.talent_id = t.talent_id
                  WHERE ct.campaign_id = ?;`;

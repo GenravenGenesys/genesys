@@ -12,6 +12,7 @@ import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import CampaignDialog from "../campaign/CampaignDialog";
+import CampaignPage from "../campaign/CampaignPage";
 
 export default function HomeCampaignDashboard() {
     const campaign = useFetchCurrentCampaign();
@@ -37,6 +38,10 @@ export default function HomeCampaignDashboard() {
 
     const renderLoreDashboard = () => {
         return <LoreDashboard/>
+    }
+
+    const renderCampaignPage = () => {
+        return <CampaignPage campaign={campaign}/>
     }
 
     const getSubHeader = () => {
@@ -66,12 +71,14 @@ export default function HomeCampaignDashboard() {
                                 <Tab label="Actor" value="2"/>
                                 <Tab label="Equipment" value="3"/>
                                 <Tab label="Lore" value="4"/>
+                                <Tab label="Campaign" value="5"/>
                             </TabList>
                         </Grid>
                         <TabPanel value="1">{renderDefaultDashboard()}</TabPanel>
                         <TabPanel value="2">{renderActorDashboard()}</TabPanel>
                         <TabPanel value="3">{renderEquipmentDashboard()}</TabPanel>
                         <TabPanel value="4">{renderLoreDashboard()}</TabPanel>
+                        <TabPanel value="5">{renderCampaignPage()}</TabPanel>
                     </TabContext>
                 </Grid>
             </CardContent>
