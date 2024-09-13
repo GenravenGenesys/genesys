@@ -46,8 +46,8 @@ export default class CampaignService {
             })
     }
 
-    static async addCampaignTalent(campaign_id: string, talent: Talent): Promise<void> {
-        return await fetch(CampaignPath.Talents + `${campaign_id}`, {method: "POST", body: JSON.stringify({talent})})
+    static async addCampaignTalent(campaign_id: string, talent_id: string): Promise<void> {
+        return await fetch(CampaignPath.Talents + `${campaign_id}`, {method: "POST", body: JSON.stringify({talent_id: talent_id})})
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(res.statusText)
