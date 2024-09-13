@@ -11,6 +11,7 @@ import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import CreateTalentDialog from "../../talents/CreateTalentDialog";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
+import CampaignTalentSelectionDialog from "./CampaignTalentSelectionDialog";
 
 interface TableProps {
     campaign_id: string
@@ -28,6 +29,10 @@ export default function ViewCampaignTalents(props: TableProps) {
         })()
     }, [setTalents, campaign_id])
 
+    const renderRanked = (talent: Talent): string => {
+        return talent.ranked ? 'Yes' : 'No'
+    }
+
     return (
         <Card>
             <CardHeader
@@ -42,36 +47,19 @@ export default function ViewCampaignTalents(props: TableProps) {
                         {renderSingleRowTableHeader(headers)}
                         <TableBody>
                             {talents.map((talent: Talent) => (
-                                <TalentRow key={talent.name} talent={talent} columns={headers.length}/>
+                                <TableRow key={talent.name}>
+                                    <TypographyCenterTableCell value={talent.name}/>
+                                    <TypographyCenterTableCell value={renderRanked(talent)}/>
+                                    <TypographyCenterTableCell value={talent.activation}/>
+                                    <TypographyCenterTableCell value={talent.tier}/>
+                                </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </CardContent>
-            {openTalentCreationDialog && <CreateTalentDialog open={openTalentCreationDialog}
-                                                             onClose={(): void => setOpenTalentCreationDialog(false)}/>}
+            {openTalentCreationDialog && <CampaignTalentSelectionDialog open={openTalentCreationDialog}
+                                                             onClose={(): void => setOpenTalentCreationDialog(false)} campaign_id={campaign_id}/>}
         </Card>
-    );
-}
-
-interface Props {
-    talent: Talent
-    columns: number
-}
-
-export function TalentRow(props: Props) {
-    const {talent} = props
-
-    const renderRanked = (): string => {
-        return talent.ranked ? 'Yes' : 'No'
-    }
-
-    return (
-            <TableRow>
-                <TypographyCenterTableCell value={talent.name}/>
-                <TypographyCenterTableCell value={renderRanked()}/>
-                <TypographyCenterTableCell value={talent.activation}/>
-                <TypographyCenterTableCell value={talent.tier}/>
-            </TableRow>
     );
 }

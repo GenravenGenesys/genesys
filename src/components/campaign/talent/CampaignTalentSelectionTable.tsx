@@ -7,34 +7,23 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {Button} from "@mui/material";
 import Talent from "../../../models/Talent";
-import Campaign from "../../../models/campaign/Campaign";
 import TalentBackdrop from "../../actor/common/talent/TalentBackdrop";
 import TalentService from "../../../services/TalentService";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
+import CampaignService from "../../../services/CampaignService";
 
 interface RowProps {
     talent: Talent
-    campaign: Campaign
+    campaign_id: string
 }
 
 function TalentNameRow(props: RowProps) {
-    const {talent, campaign} = props;
-    console.log(campaign)
-    const [openTalentBackDrop, setOpenTalentBackDrop] = useState(false)
+    const {talent, campaign_id} = props;
+    const [openTalentBackDrop, setOpenTalentBackDrop] = useState(false);
 
-    // const addTalent = async () => {
-    //     if (player.talents.some(actorTalent => actorTalent.name === talent.name)) {
-    //         player.talents.forEach((actorTalent, index) => {
-    //             if (talent.name === actorTalent.name) {
-    //                 actorTalent.ranks = actorTalent.ranks + 1
-    //                 player.talents[index] = actorTalent
-    //             }
-    //         })
-    //     } else {
-    //         player.talents.push({...talent, ranks: 1})
-    //     }
-    //     await ActorService.updatePlayer(player.name, player)
-    // }
+    const addTalent = async () => {
+        await CampaignService.addCampaignTalent(campaign_id, String(talent.talent_id));
+    }
 
     return (
         <TableRow>
@@ -45,18 +34,18 @@ function TalentNameRow(props: RowProps) {
                                     talent={talent}/>}
             </TableCell>
             <TableCell>
-                <Button>Add</Button>
+                <Button onClick={addTalent}>Add</Button>
             </TableCell>
         </TableRow>
-    )
+    );
 }
 
 interface TableProps {
-    campaign: Campaign
+    campaign_id: string
 }
 
 export default function CampaignTalentSelectionTable(props: TableProps) {
-    const {campaign} = props
+    const {campaign_id} = props
     const [talents, setTalents] = useState<Talent[]>([])
     const headers = ['Name', 'Add']
 
@@ -64,7 +53,7 @@ export default function CampaignTalentSelectionTable(props: TableProps) {
         (async (): Promise<void> => {
             setTalents(await TalentService.getTalents())
         })()
-    }, [setTalents])
+    }, [setTalents]);
 
     return (
         <TableContainer component={Paper}>
@@ -72,10 +61,10 @@ export default function CampaignTalentSelectionTable(props: TableProps) {
                 {renderSingleRowTableHeader(headers)}
                 <TableBody>
                     {talents.map((talent: Talent) => (
-                        <TalentNameRow talent={talent} campaign={campaign}/>
+                        <TalentNameRow talent={talent} campaign_id={campaign_id}/>
                     ))}
                 </TableBody>
             </Table>
         </TableContainer>
-    )
+    );
 }

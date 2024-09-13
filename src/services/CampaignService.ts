@@ -26,8 +26,8 @@ export default class CampaignService {
             })
     }
 
-    static async getCampaign(id: string): Promise<Campaign> {
-        return await fetch(CampaignPath.Campaign + `${id}`)
+    static async getCampaign(campaign_id: string): Promise<Campaign> {
+        return await fetch(CampaignPath.Campaign + `${campaign_id}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(res.statusText)
@@ -36,8 +36,18 @@ export default class CampaignService {
             })
     }
 
-    static async getCampaignTalents(id: string): Promise<Talent[]> {
-        return await fetch(CampaignPath.Talents + `${id}`)
+    static async getCampaignTalents(campaign_id: string): Promise<Talent[]> {
+        return await fetch(CampaignPath.Talents + `${campaign_id}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(res.statusText)
+                }
+                return res.json()
+            })
+    }
+
+    static async addCampaignTalent(campaign_id: string, talent_id: string): Promise<void> {
+        return await fetch(CampaignPath.Talents + `${campaign_id}`, {method: "POST", body: JSON.stringify({talent_id: talent_id})})
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(res.statusText)
@@ -56,8 +66,8 @@ export default class CampaignService {
             })
     }
 
-    static async setCurrentCampaign(id: string): Promise<Campaign> {
-        return await fetch(CampaignPath.Current  + `${id}`, {method: "PUT"})
+    static async setCurrentCampaign(campaign_id: string): Promise<Campaign> {
+        return await fetch(CampaignPath.Current  + `${campaign_id}`, {method: "PUT"})
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(res.statusText)
