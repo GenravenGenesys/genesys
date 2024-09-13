@@ -22,7 +22,7 @@ function TalentNameRow(props: RowProps) {
     const [openTalentBackDrop, setOpenTalentBackDrop] = useState(false);
 
     const addTalent = async () => {
-        await CampaignService.addCampaignTalent(campaign_id, String(talent.talent_id));
+        await CampaignService.addCampaignTalent(campaign_id, talent);
     }
 
     return (
