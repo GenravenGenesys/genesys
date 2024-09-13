@@ -22,7 +22,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
     const talent = await context.request.json() as Talent;
-    const result = await context.env.GENESYS.prepare('INSERT INTO CampaignTalent (campaign_id, name, talent_id) VALUES (?1, ?2);')
+    const result = await context.env.GENESYS.prepare('INSERT INTO CampaignTalent (campaign_id, talent_id) VALUES (?1, ?2);')
         .bind(context.params.campaign_id, talent.talent_id);
     return Response.json(result);
 }
