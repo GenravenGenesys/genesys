@@ -24,6 +24,6 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const talent = await context.request.json() as Talent;
     const result = await context.env.GENESYS.prepare(`INSERT INTO CampaignTalent (campaign_id, talent_id) VALUES (?1, ?2) RETURNING *`)
         .bind(context.params.campaign_id, talent.talent_id);
-    console.log(result);
+    console.log(Response.json(result));
     return Response.json(result);
 }
