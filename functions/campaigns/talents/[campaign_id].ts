@@ -14,7 +14,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                           JOIN CampaignTalent ct ON ct.talent_id = t.talent_id
                  WHERE ct.campaign_id = ?;`;
     const {results} = await context.env.GENESYS.prepare(query).bind(context.params.campaign_id).all<Talent>();
-    console.log(results);
     for (let talent of results) {
         if (typeof talent.modifiers === 'string') talent.modifiers = JSON.parse(talent.modifiers);
     }
@@ -23,7 +22,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
     const talent = await context.request.json() as Talent;
-    const result = await context.env.GENESYS.prepare(`INSERT INTO CampaignTalent (campaign_id, talent_id) VALUES (?1, ?2)`)
+    const result = await context.env.GENESYS.prepare(`INSERT INTO CampaignTalent (campaign_id, talent_id) VALUES (?1, ?2) RETURNING *`)
         .bind(context.params.campaign_id, talent.talent_id);
     return Response.json(result);
 }
