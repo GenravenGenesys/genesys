@@ -1,12 +1,10 @@
 package com.github.genraven.genesys.handler;
 
-import com.github.genraven.genesys.domain.Talent;
 import com.github.genraven.genesys.domain.actor.npc.Minion;
 import com.github.genraven.genesys.domain.actor.npc.Nemesis;
 import com.github.genraven.genesys.domain.actor.npc.Rival;
 import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.service.SceneService;
-import com.github.genraven.genesys.service.actor.RivalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;

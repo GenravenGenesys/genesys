@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.domain.actor;
 
-import com.github.genraven.genesys.domain.Talent;
+import com.github.genraven.genesys.domain.talent.Talent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,6 +18,9 @@ public class ActorTalent extends Talent {
         this.setTier(talent.getTier());
         this.setDescription(talent.getDescription());
         this.setSummary(talent.getSummary());
+        this.setCost(talent.getCost());
+        this.setLimit(talent.getLimit());
+        this.setTalentSkills(talent.getTalentSkills());
     }
 
     private int ranks = 1;

@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.handler;
 
-import com.github.genraven.genesys.domain.Talent;
+import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.service.TalentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.service;
 
-import com.github.genraven.genesys.domain.Talent;
+import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.repository.CampaignRepository;
 import com.github.genraven.genesys.repository.TalentRepository;
@@ -52,6 +52,7 @@ public class TalentService {
                     tal.setSummary(talent.getSummary());
                     tal.setCost(talent.getCost());
                     tal.setLimit(talent.getLimit());
+                    tal.setTalentSkills(talent.getTalentSkills());
                     tal.setModifiers(talent.getModifiers());
                     return tal;
                 }).flatMap(talentRepository::save)

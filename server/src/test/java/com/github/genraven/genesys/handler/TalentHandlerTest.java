@@ -3,7 +3,7 @@ package com.github.genraven.genesys.handler;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.github.genraven.genesys.domain.Talent;
+import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.service.TalentService;
 import org.junit.jupiter.api.BeforeEach;

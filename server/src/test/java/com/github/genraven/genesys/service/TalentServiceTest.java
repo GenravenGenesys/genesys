@@ -4,7 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.github.genraven.genesys.domain.Activation;
-import com.github.genraven.genesys.domain.Talent;
+import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.repository.CampaignRepository;
 import com.github.genraven.genesys.repository.TalentRepository;

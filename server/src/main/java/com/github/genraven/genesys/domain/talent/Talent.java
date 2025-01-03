@@ -1,6 +1,9 @@
-package com.github.genraven.genesys.domain;
+package com.github.genraven.genesys.domain.talent;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.genraven.genesys.domain.Activation;
+import com.github.genraven.genesys.domain.Cost;
+import com.github.genraven.genesys.domain.Limit;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +35,7 @@ public class Talent {
     private String description;
     private Cost cost = new Cost();
     private Limit limit = new Limit();
+    private TalentSkills talentSkills = new TalentSkills();
     private List<Modifier> modifiers = new ArrayList<>();
 
     @AllArgsConstructor
