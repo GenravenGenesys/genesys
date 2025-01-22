@@ -4,8 +4,10 @@ import com.github.genraven.genesys.domain.actor.npc.Minion;
 import com.github.genraven.genesys.domain.actor.npc.MinionGroup;
 import com.github.genraven.genesys.domain.actor.npc.Nemesis;
 import com.github.genraven.genesys.domain.actor.npc.Rival;
+import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.domain.campaign.Scene;
+import com.github.genraven.genesys.domain.campaign.encounter.Character;
 import com.github.genraven.genesys.repository.CampaignRepository;
 import com.github.genraven.genesys.repository.SceneRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -87,5 +90,21 @@ public class SceneService {
             existingScene.getEnemyNemeses().add(nemesis);
             return sceneRepository.save(existingScene);
         });
+    }
+
+    public Mono<List<Character>> getPlayerCharactersForScene(final String sceneId) {
+        return getScene(sceneId).flatMap(scene -> Flux.fromIterable(scene.getParty().getPlayers()).map(Character::new).collectList());
+    }
+
+    public Mono<List<Character>> getNonPlayerCharactersForScene(final String sceneId) {
+        return getScene(sceneId).flatMap(scene -> Flux.merge(
+                        Flux.fromIterable(scene.getEnemyNemeses())
+                                .flatMap(nemesis -> Mono.just(new Character(nemesis))),
+                        Flux.fromIterable(scene.getEnemyRivals())
+                                .flatMap(rival -> Mono.just(new Character(rival))),
+                        Flux.fromIterable(scene.getEnemyMinionGroups())
+                                .flatMap(minionGroup -> Mono.just(new Character(minionGroup)))
+                )
+                .collectList());
     }
 }
