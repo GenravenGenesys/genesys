@@ -12,7 +12,7 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import PartyCard from "../party/PartyCard";
 import NonPlayerCharacterScene from "./npc/NonPlayerCharacterScene";
-import EncounterCard from "./encounter/EncounterCard";
+import ViewEncountersCard from "./ViewEncountersCard";
 
 export default function EditableScenePage() {
     const {id} = useParams<{ id: string }>();
@@ -58,7 +58,7 @@ export default function EditableScenePage() {
                             <PartyCard party={scene.party}/>
                         </TabPanel>
                         <TabPanel value="2">
-                            <EncounterCard scene={scene}/>
+                            <ViewEncountersCard scene={scene}/>
                         </TabPanel>
                         <TabPanel value="3">
                             <NonPlayerCharacterScene scene={scene}/>

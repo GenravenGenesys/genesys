@@ -12,6 +12,7 @@ import PartyCard from "../party/PartyCard";
 import NonPlayerCharacterScene from "./npc/NonPlayerCharacterScene";
 import EncounterCard from "./encounter/EncounterCard";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
+import ViewEncountersCard from "./ViewEncountersCard";
 
 export default function ScenePage() {
     const {id} = useParams<{ id: string }>();
@@ -57,7 +58,8 @@ export default function ScenePage() {
                             <PartyCard party={scene.party}/>
                         </TabPanel>
                         <TabPanel value="2">
-                            <EncounterCard scene={scene}/>
+                            <ViewEncountersCard scene={scene}/>
+                            {/*<EncounterCard scene={scene}/>*/}
                         </TabPanel>
                         <TabPanel value="3">
                             <NonPlayerCharacterScene scene={scene}/>
