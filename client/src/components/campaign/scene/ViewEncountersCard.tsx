@@ -5,20 +5,35 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import AddEncounterDialog from "./encounter/AddEncounterDialog";
 import TabPanel from "@mui/lab/TabPanel";
 import EncounterCard from "./encounter/EncounterCard";
+import SceneService from "../../../services/SceneService";
+import Encounter from "../../../models/campaign/encounter/Encounter";
 
 interface Props {
-    scene: Scene
+    initialScene: Scene
     disabled: boolean
 }
 
 export default function ViewEncountersCard(props: Props) {
-    const {scene, disabled} = props;
+    const {initialScene, disabled} = props;
     const [value, setValue] = useState('0');
+    const [scene, setScene] = useState<Scene>(initialScene);
     const [addEncounterDialog, setAddEncounterDialog] = useState(false);
+
+    useEffect(() => {
+        setScene(scene);
+    }, [scene]);
+
+    const addEncounter = (encounter: Encounter) => {
+        updateScene({...scene, encounters: [...scene.encounters, encounter]})
+    };
+
+    const updateScene = async (updatedScene: Scene) => {
+        setScene(await SceneService.updateScene(updatedScene));
+    };
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -32,14 +47,14 @@ export default function ViewEncountersCard(props: Props) {
                     <TabContext value={value}>
                         <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
                             <TabList onChange={handleChange} centered>
-                                {scene.encounters.map((encounter, index) => (
+                                {initialScene.encounters.map((encounter, index) => (
                                     <Tab label={encounter.type} value={String(index)}/>
                                 ))}
                             </TabList>
                         </Grid>
-                        {scene.encounters.map((encounter, index) => (
+                        {initialScene.encounters.map((encounter, index) => (
                             <TabPanel value={String(index)}>
-                                <EncounterCard scene={scene}/>
+                                <EncounterCard scene={initialScene}/>
                             </TabPanel>
                         ))}
                     </TabContext>
@@ -49,7 +64,7 @@ export default function ViewEncountersCard(props: Props) {
                         Encounter</Button>
                     {addEncounterDialog && <AddEncounterDialog open={addEncounterDialog}
                                                                onClose={(): void => setAddEncounterDialog(false)}
-                                                               createEncounter={} party={scene.party}/>}
+                                                               createEncounter={addEncounter} party={initialScene.party}/>}
                 </Grid>}
             </CardContent>
         </Card>

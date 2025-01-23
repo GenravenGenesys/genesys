@@ -10,7 +10,6 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import PartyCard from "../party/PartyCard";
 import NonPlayerCharacterScene from "./npc/NonPlayerCharacterScene";
-import EncounterCard from "./encounter/EncounterCard";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import ViewEncountersCard from "./ViewEncountersCard";
 
@@ -58,7 +57,7 @@ export default function ScenePage() {
                             <PartyCard party={scene.party}/>
                         </TabPanel>
                         <TabPanel value="2">
-                            <ViewEncountersCard scene={scene}/>
+                            <ViewEncountersCard initialScene={scene} disabled={false}/>
                             {/*<EncounterCard scene={scene}/>*/}
                         </TabPanel>
                         <TabPanel value="3">

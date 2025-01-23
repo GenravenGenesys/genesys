@@ -59,7 +59,7 @@ export default function EditableScenePage() {
                         </TabPanel>
                         <TabPanel value="2">
                             {/*Add Pathname for disablement*/}
-                            <ViewEncountersCard scene={scene} disabled={false}/>
+                            <ViewEncountersCard initialScene={scene} disabled={false}/>
                         </TabPanel>
                         <TabPanel value="3">
                             <NonPlayerCharacterScene scene={scene}/>
