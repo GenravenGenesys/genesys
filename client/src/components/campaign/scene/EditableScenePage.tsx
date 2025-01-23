@@ -58,7 +58,8 @@ export default function EditableScenePage() {
                             <PartyCard party={scene.party}/>
                         </TabPanel>
                         <TabPanel value="2">
-                            <ViewEncountersCard scene={scene}/>
+                            {/*Add Pathname for disablement*/}
+                            <ViewEncountersCard scene={scene} disabled={false}/>
                         </TabPanel>
                         <TabPanel value="3">
                             <NonPlayerCharacterScene scene={scene}/>

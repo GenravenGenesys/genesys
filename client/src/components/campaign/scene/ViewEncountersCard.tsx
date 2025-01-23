@@ -12,10 +12,11 @@ import EncounterCard from "./encounter/EncounterCard";
 
 interface Props {
     scene: Scene
+    disabled: boolean
 }
 
 export default function ViewEncountersCard(props: Props) {
-    const {scene} = props;
+    const {scene, disabled} = props;
     const [value, setValue] = useState('0');
     const [addEncounterDialog, setAddEncounterDialog] = useState(false);
 
@@ -43,12 +44,13 @@ export default function ViewEncountersCard(props: Props) {
                         ))}
                     </TabContext>
                 </Grid>
-                <Grid container justifyContent={'center'}>
+                {disabled && <Grid container justifyContent={'center'}>
                     <Button color='primary' variant='contained' onClick={(): void => setAddEncounterDialog(true)}>Add
                         Encounter</Button>
                     {addEncounterDialog && <AddEncounterDialog open={addEncounterDialog}
-                                                               onClose={(): void => setAddEncounterDialog(false)}/>}
-                </Grid>
+                                                               onClose={(): void => setAddEncounterDialog(false)}
+                                                               createEncounter={} party={scene.party}/>}
+                </Grid>}
             </CardContent>
         </Card>
     )
