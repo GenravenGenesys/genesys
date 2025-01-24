@@ -3,7 +3,7 @@ import {ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {RootPath} from "../../services/RootPath";
 import QualityService from "../../services/QualityService";
-import {GenesysDialogActions} from "../common/dialog/GenesysDialogActions";
+import GenesysDialogActions from "../common/dialog/GenesysDialogActions";
 
 interface Props {
     open: boolean

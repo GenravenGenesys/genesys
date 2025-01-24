@@ -4,7 +4,7 @@ import EncounterTypeCard from "../../../common/card/select/EncounterTypeCard";
 import Encounter, { Type } from "../../../../models/campaign/encounter/Encounter";
 import React, { useState } from "react";
 import Party from "../../../../models/campaign/Party";
-import { GenesysDialogActions } from "../../../common/dialog/GenesysDialogActions";
+import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
 
 interface Props {
     open: boolean;
