@@ -23,20 +23,6 @@ interface Props {
 const PlayerTalentCard: React.FC<Props> = ({ player, talents }) => {
     const headers = ['Name', 'Summary', 'Activate'];
 
-    const renderTableBody = () => {
-        return (
-            <TableBody>
-                {talents.map((talent: ActorTalent, index) => (
-                    <TableRow key={index}>
-                        <TypographyCenterTableCell value={talent.name} />
-                        <GenesysDescriptionTypographyCenterTableCell value={talent.summary} />
-                        <TalentActivationTableCell talent={talent} actor={player} />
-                    </TableRow>
-                ))}
-            </TableBody>
-        )
-    };
-
     return (
         <Card sx={{ "width": 1 }}>
             <CenteredCardHeader title={'Talents'} />
@@ -44,7 +30,15 @@ const PlayerTalentCard: React.FC<Props> = ({ player, talents }) => {
                 <TableContainer component={Paper}>
                     <Table>
                         {renderSingleRowTableHeader(headers)}
-                        {renderTableBody()}
+                        <TableBody>
+                            {talents.map((talent: ActorTalent, index) => (
+                                <TableRow key={index}>
+                                    <TypographyCenterTableCell value={talent.name} />
+                                    <GenesysDescriptionTypographyCenterTableCell value={talent.summary} />
+                                    <TalentActivationTableCell talent={talent} actor={player} />
+                                </TableRow>
+                            ))}
+                        </TableBody>
                     </Table>
                 </TableContainer>
             </CardContent>
