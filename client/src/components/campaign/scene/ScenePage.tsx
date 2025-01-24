@@ -43,25 +43,19 @@ export default function ScenePage() {
                     <TabContext value={value}>
                         <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
                             <TabList onChange={handleChange} centered>
-                                {/*<Tab label="Settings" value="1"/>*/}
                                 <Tab label="Party" value="1"/>
-                                <Tab label="Encounters" value="2"/>
-                                <Tab label="Enemy NPC" value="3"/>
+                                <Tab label="NPC" value="2"/>
+                                <Tab label="Encounters" value="3"/>
                             </TabList>
                         </Grid>
-                        {/*<TabPanel value="1">*/}
-                        {/*    <Button variant="contained" color="primary" onClick={startSession}>Start Session</Button>*/}
-                        {/*    <Button variant="contained" color="primary" onClick={endSession}>End Session</Button>*/}
-                        {/*</TabPanel>*/}
                         <TabPanel value="1">
                             <PartyCard party={scene.party}/>
                         </TabPanel>
                         <TabPanel value="2">
-                            <ViewEncountersCard initialScene={scene} disabled={false}/>
-                            {/*<EncounterCard scene={scene}/>*/}
+                            <NonPlayerCharacterScene scene={scene}/>
                         </TabPanel>
                         <TabPanel value="3">
-                            <NonPlayerCharacterScene scene={scene}/>
+                            <ViewEncountersCard initialScene={scene} disabled={false}/>
                         </TabPanel>
                     </TabContext>
                 </Grid>

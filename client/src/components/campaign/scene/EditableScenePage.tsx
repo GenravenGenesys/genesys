@@ -12,7 +12,6 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import PartyCard from "../party/PartyCard";
 import NonPlayerCharacterScene from "./npc/NonPlayerCharacterScene";
-import ViewEncountersCard from "./ViewEncountersCard";
 
 export default function EditableScenePage() {
     const {id} = useParams<{ id: string }>();
@@ -44,24 +43,14 @@ export default function EditableScenePage() {
                     <TabContext value={value}>
                         <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
                             <TabList onChange={handleChange} centered>
-                                {/*<Tab label="Settings" value="1"/>*/}
                                 <Tab label="Party" value="1"/>
-                                <Tab label="Encounters" value="2"/>
-                                <Tab label="Enemy NPC" value="3"/>
+                                <Tab label="NPC" value="2"/>
                             </TabList>
                         </Grid>
-                        {/*<TabPanel value="1">*/}
-                        {/*    <Button variant="contained" color="primary" onClick={startSession}>Start Session</Button>*/}
-                        {/*    <Button variant="contained" color="primary" onClick={endSession}>End Session</Button>*/}
-                        {/*</TabPanel>*/}
                         <TabPanel value="1">
                             <PartyCard party={scene.party}/>
                         </TabPanel>
                         <TabPanel value="2">
-                            {/*Add Pathname for disablement*/}
-                            <ViewEncountersCard initialScene={scene} disabled={false}/>
-                        </TabPanel>
-                        <TabPanel value="3">
                             <NonPlayerCharacterScene scene={scene}/>
                         </TabPanel>
                     </TabContext>
