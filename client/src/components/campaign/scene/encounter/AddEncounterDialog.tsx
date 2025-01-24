@@ -1,20 +1,19 @@
-import {Dialog, DialogContent} from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
 import EncounterTypeCard from "../../../common/card/select/EncounterTypeCard";
-import Encounter, {Type} from "../../../../models/campaign/encounter/Encounter";
-import {useState} from "react";
+import Encounter, { Type } from "../../../../models/campaign/encounter/Encounter";
+import React, { useState } from "react";
 import Party from "../../../../models/campaign/Party";
-import {GenesysDialogActions} from "../../../common/dialog/GenesysDialogActions";
+import { GenesysDialogActions } from "../../../common/dialog/GenesysDialogActions";
 
 interface Props {
-    open: boolean
-    onClose: () => void
-    createEncounter: (encounter: Encounter) => void
-    party: Party
+    open: boolean;
+    onClose: () => void;
+    createEncounter: (encounter: Encounter) => void;
+    party: Party;
 }
 
-export default function AddEncounterDialog(props: Props) {
-    const {open, onClose, createEncounter, party} = props;
+const AddEncounterDialog: React.FC<Props> = ({ open, onClose, createEncounter, party }) => {
     const [encounter, setEncounter] = useState<Encounter>({
         minions: [],
         nemeses: [],
@@ -35,11 +34,13 @@ export default function AddEncounterDialog(props: Props) {
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <CenteredDialogTitle title={'Add Encounter'}/>
+            <CenteredDialogTitle title={'Add Encounter'} />
             <DialogContent>
-                <EncounterTypeCard value={encounter.type} onChange={updateEncounter<Type>} disabled={false}/>
+                <EncounterTypeCard value={encounter.type} onChange={updateEncounter<Type>} disabled={false} />
             </DialogContent>
-            <GenesysDialogActions handleCreate={onCreate} onClose={onClose}/>
+            <GenesysDialogActions handleCreate={onCreate} onClose={onClose} />
         </Dialog>
-    )
-}
+    );
+};
+
+export default AddEncounterDialog;
