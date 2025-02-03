@@ -64,7 +64,8 @@ export default function ViewEncountersCard(props: Props) {
                     {addEncounterDialog && <AddEncounterDialog open={addEncounterDialog}
                                                                onClose={(): void => setAddEncounterDialog(false)}
                                                                createEncounter={addEncounter}
-                                                               party={initialScene.party}/>}
+                                                               party={initialScene.party}
+                                                               scene={initialScene}/>}
                 </Grid>
             </CardContent>
         </Card>

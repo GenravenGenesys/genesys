@@ -1,30 +1,26 @@
-import {Card, CardContent, Grid, MenuItem, Select} from "@mui/material";
+import { Card, CardContent, Grid, MenuItem, Select } from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
-import {Type} from "../../../../models/campaign/encounter/Encounter";
+import { Type } from "../../../../models/campaign/encounter/Encounter";
 
 interface Props {
-    value: Type
-    onChange: (field: string, value: Type) => void
-    disabled: boolean
+    value: Type;
+    onChange: (field: string, value: Type) => void;
 }
 
-export default function EncounterTypeCard(props: Props) {
-    const {value, onChange, disabled} = props;
-
+const EncounterTypeCard: React.FC<Props> = ({ value, onChange }) => {
     return (
         <Grid item xs>
             <Card>
-                <CenteredCardHeader title={'Encounter Type'}/>
+                <CenteredCardHeader title="Encounter Type" />
                 <CardContent>
                     <Select
                         value={value}
                         onChange={(e) => onChange('type', e.target.value as Type)}
-                        disabled={disabled}
                         fullWidth
-                        label={'Encounter Type'}
+                        label="Encounter Type"
                     >
-                        {Object.values(Type).map(option => (
+                        {Object.values(Type).map((option) => (
                             <MenuItem key={option} value={option}>
                                 {option}
                             </MenuItem>
@@ -33,5 +29,7 @@ export default function EncounterTypeCard(props: Props) {
                 </CardContent>
             </Card>
         </Grid>
-    )
-}
+    );
+};
+
+export default EncounterTypeCard;
