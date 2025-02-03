@@ -1,6 +1,6 @@
-import {Card, CardContent, Grid} from "@mui/material";
-import {useParams} from "react-router-dom";
-import {Fragment, useEffect, useState} from "react";
+import { Card, CardContent, Grid } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
 import * as React from "react";
 import Scene from "../../../models/campaign/Scene";
 import SceneService from "../../../services/SceneService";
@@ -13,8 +13,8 @@ import NonPlayerCharacterScene from "./npc/NonPlayerCharacterScene";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import ViewEncountersCard from "./ViewEncountersCard";
 
-export default function ScenePage() {
-    const {id} = useParams<{ id: string }>();
+const ScenePage: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
     const [scene, setScene] = useState<Scene | null>(null);
     const [value, setValue] = useState('1');
 
@@ -28,7 +28,7 @@ export default function ScenePage() {
     }, [id, setScene]);
 
     if (!scene) {
-        return <Fragment/>;
+        return <Fragment />;
     }
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -37,29 +37,31 @@ export default function ScenePage() {
 
     return (
         <Card>
-            <CenteredCardHeader title={scene.name}/>
+            <CenteredCardHeader title={scene.name} />
             <CardContent>
-                <Grid sx={{width: 1}}>
+                <Grid sx={{ width: 1 }}>
                     <TabContext value={value}>
-                        <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <Grid sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <TabList onChange={handleChange} centered>
-                                <Tab label="Party" value="1"/>
-                                <Tab label="NPC" value="2"/>
-                                <Tab label="Encounters" value="3"/>
+                                <Tab label="Party" value="1" />
+                                <Tab label="NPC" value="2" />
+                                <Tab label="Encounters" value="3" />
                             </TabList>
                         </Grid>
                         <TabPanel value="1">
-                            <PartyCard party={scene.party}/>
+                            <PartyCard party={scene.party} />
                         </TabPanel>
                         <TabPanel value="2">
-                            <NonPlayerCharacterScene scene={scene}/>
+                            <NonPlayerCharacterScene scene={scene} />
                         </TabPanel>
                         <TabPanel value="3">
-                            <ViewEncountersCard initialScene={scene} disabled={false}/>
+                            <ViewEncountersCard initialScene={scene} />
                         </TabPanel>
                     </TabContext>
                 </Grid>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default ScenePage;

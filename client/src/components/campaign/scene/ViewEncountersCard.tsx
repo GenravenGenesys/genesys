@@ -14,11 +14,10 @@ import Encounter from "../../../models/campaign/encounter/Encounter";
 
 interface Props {
     initialScene: Scene
-    disabled: boolean
 }
 
 export default function ViewEncountersCard(props: Props) {
-    const {initialScene, disabled} = props;
+    const {initialScene} = props;
     const [value, setValue] = useState('0');
     const [scene, setScene] = useState<Scene>(initialScene);
     const [addEncounterDialog, setAddEncounterDialog] = useState(false);
@@ -59,13 +58,14 @@ export default function ViewEncountersCard(props: Props) {
                         ))}
                     </TabContext>
                 </Grid>
-                {disabled && <Grid container justifyContent={'center'}>
+                <Grid container justifyContent={'center'}>
                     <Button color='primary' variant='contained' onClick={(): void => setAddEncounterDialog(true)}>Add
                         Encounter</Button>
                     {addEncounterDialog && <AddEncounterDialog open={addEncounterDialog}
                                                                onClose={(): void => setAddEncounterDialog(false)}
-                                                               createEncounter={addEncounter} party={initialScene.party}/>}
-                </Grid>}
+                                                               createEncounter={addEncounter}
+                                                               party={initialScene.party}/>}
+                </Grid>
             </CardContent>
         </Card>
     )

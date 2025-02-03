@@ -6,7 +6,7 @@ interface Props {
 }
 
 const CenteredCardHeader: React.FC<Props> = ({title}) => {
-    return <CardHeader title={title}/>;
+    return <CardHeader title={title} style={{textAlign: 'center'}}/>;
 }
 
 export default CenteredCardHeader;
