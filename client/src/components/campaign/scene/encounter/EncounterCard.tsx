@@ -1,45 +1,28 @@
 import {Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor";
-import SceneService from "../../../../services/SceneService";
-import Scene from "../../../../models/campaign/Scene";
 import InitiativeTrackCard from "./InitiativeTrackCard";
+import Encounter from "../../../../models/campaign/encounter/Encounter";
 
 interface Props {
-    scene: Scene
+    encounter: Encounter
 }
 
-export default function EncounterCard(props: Props) {
-    const {scene} = props;
-    const [singleNonPlayerCharacters, setSingleNonPlayerCharacters] = useState<SingleNonPlayerCharacter[]>([]);
-    // const [value, setValue] = useState('1');
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            const minions = await SceneService.getEnemyMinionsForScene(scene.id);
-            const rivals = await SceneService.getEnemyRivalsForScene(scene.id);
-            const nemeses = await SceneService.getEnemyNemesesForScene(scene.id);
-            const combinedEnemies = [
-                ...minions.map(minion => ({...minion})),
-                ...rivals.map(rival => ({...rival})),
-                ...nemeses.map(nemesis => ({...nemesis}))
-            ];
-            setSingleNonPlayerCharacters(combinedEnemies);
-        })();
-    }, [scene]);
-
-    // const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    //     setValue(newValue);
-    // };
+const EncounterCard = ({encounter}: Props) => {
+    const combinedEnemies = [
+        ...encounter.minions.map(minion => ({...minion})),
+        ...encounter.rivals.map(rival => ({...rival})),
+        ...encounter.nemeses.map(nemesis => ({...nemesis}))
+    ];
 
     return (
         <Card>
             <CenteredCardHeader title={'Encounters'}/>
             <CardContent>
-                <InitiativeTrackCard npcs={singleNonPlayerCharacters}/>
+                <InitiativeTrackCard npcs={combinedEnemies}/>
             </CardContent>
         </Card>
     );
 }
+
+export default EncounterCard;

@@ -53,7 +53,7 @@ export default function ViewEncountersCard(props: Props) {
                         </Grid>
                         {initialScene.encounters.map((encounter, index) => (
                             <TabPanel value={String(index)}>
-                                <EncounterCard scene={initialScene}/>
+                                <EncounterCard encounter={encounter}/>
                             </TabPanel>
                         ))}
                     </TabContext>
