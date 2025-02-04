@@ -10,14 +10,14 @@ interface Props {
 
 const EncounterCard = ({encounter}: Props) => {
     const combinedEnemies = [
-        ...encounter.minions.map(minion => ({...minion})),
-        ...encounter.rivals.map(rival => ({...rival})),
-        ...encounter.nemeses.map(nemesis => ({...nemesis}))
+        ...(encounter.minions ? encounter.minions.map(minion => ({...minion})) : []),
+        ...(encounter.rivals ? encounter.rivals.map(rival => ({...rival})) : []),
+        ...(encounter.nemeses ? encounter.nemeses.map(nemesis => ({...nemesis})) : [])
     ];
 
     return (
         <Card>
-            <CenteredCardHeader title={'Encounters'}/>
+            <CenteredCardHeader title={'Encounter'}/>
             <CardContent>
                 <InitiativeTrackCard npcs={combinedEnemies}/>
             </CardContent>
