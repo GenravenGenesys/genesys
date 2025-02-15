@@ -6,6 +6,8 @@ import com.github.genraven.genesys.domain.actor.npc.Rival;
 import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.service.SceneService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -20,6 +22,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 @RequiredArgsConstructor
 public class SceneHandler extends BaseHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(SceneHandler.class);
     private final SceneService sceneService;
 
     public Mono<ServerResponse> getAllScenes(final ServerRequest serverRequest) {
@@ -47,6 +50,7 @@ public class SceneHandler extends BaseHandler {
     }
 
     public Mono<ServerResponse> updateScene(final ServerRequest serverRequest) {
+        logger.info("Updating scene {}", serverRequest.bodyToMono(Scene.class)); // Rivals vs enemyRivals
         return serverRequest.bodyToMono(Scene.class)
                 .flatMap(scene -> sceneService.updateScene(serverRequest.pathVariable(NAME), scene))
                 .flatMap(scene -> ServerResponse.ok()

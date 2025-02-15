@@ -11,6 +11,8 @@ import com.github.genraven.genesys.domain.campaign.encounter.Character;
 import com.github.genraven.genesys.repository.CampaignRepository;
 import com.github.genraven.genesys.repository.SceneRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SceneService {
 
+    private static final Logger logger = LoggerFactory.getLogger(SceneService.class);
     private final SceneRepository sceneRepository;
     private final CampaignRepository campaignRepository;
 
@@ -38,11 +41,14 @@ public class SceneService {
     }
 
     public Mono<Scene> updateScene(final String name, final Scene updatedScene) {
+        logger.debug("Updating scene: {}", updatedScene);
         return getScene(name).map(scene -> {
-            scene.setName(updatedScene.getName());
-            scene.setParty(updatedScene.getParty());
-            return scene;
-        }).flatMap(sceneRepository::save);
+                    scene.setName(updatedScene.getName());
+                    scene.setParty(updatedScene.getParty());
+                    scene.setEncounters(updatedScene.getEncounters());
+                    return scene;
+                }).flatMap(sceneRepository::save)
+                .doOnNext(scene -> logger.debug("Updated scene: {}", scene));
     }
 
     public Mono<List<Scene>> getScenesForCurrentCampaign() {

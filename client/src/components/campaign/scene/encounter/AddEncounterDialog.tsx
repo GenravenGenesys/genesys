@@ -54,10 +54,12 @@ const AddEncounterDialog: React.FC<Props> = ({open, onClose, createEncounter, pa
     };
 
     const updateEncounter = <T, >(field: string, value: T) => {
+        console.log(field + " " + value)
         setEncounter({...encounter, [field]: value as T});
     };
 
     const onCreate = () => {
+        console.log(encounter)
         createEncounter(encounter);
         onClose();
     };

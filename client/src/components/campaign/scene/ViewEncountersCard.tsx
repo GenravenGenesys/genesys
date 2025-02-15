@@ -26,11 +26,12 @@ export default function ViewEncountersCard(props: Props) {
         setScene(scene);
     }, [scene]);
 
-    const addEncounter = (encounter: Encounter) => {
-        updateScene({...scene, encounters: [...scene.encounters, encounter]})
+    const addEncounter = async (encounter: Encounter) => {
+        await updateScene({...scene, encounters: [...scene.encounters, encounter]})
     };
 
     const updateScene = async (updatedScene: Scene) => {
+        console.log(updatedScene)
         setScene(await SceneService.updateScene(updatedScene));
     };
 
