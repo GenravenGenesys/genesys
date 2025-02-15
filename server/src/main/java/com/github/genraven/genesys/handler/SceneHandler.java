@@ -6,14 +6,13 @@ import com.github.genraven.genesys.domain.actor.npc.Rival;
 import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.service.SceneService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
-
-import java.net.URI;
 
 import static com.github.genraven.genesys.constants.CommonConstants.ID;
 import static com.github.genraven.genesys.constants.CommonConstants.NAME;
@@ -21,8 +20,9 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
 @RequiredArgsConstructor
-public class SceneHandler {
+public class SceneHandler extends BaseHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(SceneHandler.class);
     private final SceneService sceneService;
 
     public Mono<ServerResponse> getAllScenes(final ServerRequest serverRequest) {
@@ -37,8 +37,7 @@ public class SceneHandler {
     }
 
     public Mono<ServerResponse> getScene(final ServerRequest serverRequest) {
-        final String name = serverRequest.pathVariable(NAME);
-        return sceneService.getScene(name)
+        return sceneService.getScene(serverRequest.pathVariable(NAME))
                 .flatMap(scene -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(scene))
@@ -47,14 +46,13 @@ public class SceneHandler {
 
     public Mono<ServerResponse> createScene(final ServerRequest serverRequest) {
         return sceneService.createScene(serverRequest.pathVariable(NAME))
-                .flatMap(scene -> ServerResponse.created(getURI(scene)).bodyValue(scene));
+                .flatMap(scene -> ServerResponse.created(getURI(scene.getName())).bodyValue(scene));
     }
 
     public Mono<ServerResponse> updateScene(final ServerRequest serverRequest) {
-        final String name = serverRequest.pathVariable(NAME);
-        final Mono<Scene> sceneMono = serverRequest.bodyToMono(Scene.class);
-        return sceneMono
-                .flatMap(scene -> sceneService.updateScene(name, scene))
+        logger.info("Updating scene {}", serverRequest.bodyToMono(Scene.class)); // Rivals vs enemyRivals
+        return serverRequest.bodyToMono(Scene.class)
+                .flatMap(scene -> sceneService.updateScene(serverRequest.pathVariable(NAME), scene))
                 .flatMap(scene -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(scene))
@@ -113,7 +111,15 @@ public class SceneHandler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
-    private URI getURI(final Scene scene) {
-        return UriComponentsBuilder.fromPath(("/{id}")).buildAndExpand(scene.getName()).toUri();
+    public Mono<ServerResponse> getPlayerCharacters(final ServerRequest serverRequest) {
+        return sceneService.getPlayerCharactersForScene(serverRequest.pathVariable(ID))
+                .flatMap(players -> ServerResponse.ok().bodyValue(players))
+                .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
+    public Mono<ServerResponse> getNonPlayerCharacters(final ServerRequest serverRequest) {
+        return sceneService.getNonPlayerCharactersForScene(serverRequest.pathVariable(ID))
+                .flatMap(players -> ServerResponse.ok().bodyValue(players))
+                .switchIfEmpty(ServerResponse.notFound().build());
     }
 }

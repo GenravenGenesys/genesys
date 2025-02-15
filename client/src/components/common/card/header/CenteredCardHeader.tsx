@@ -2,13 +2,11 @@ import {CardHeader} from "@mui/material";
 import * as React from "react";
 
 interface Props {
-    title: string
+    title: string;
 }
 
-export default function CenteredCardHeader(props: Props) {
-    const {title} = props;
-
-    return (
-        <CardHeader style={{textAlign: 'center'}} title={title}/>
-    );
+const CenteredCardHeader: React.FC<Props> = ({title}) => {
+    return <CardHeader title={title} style={{textAlign: 'center'}}/>;
 }
+
+export default CenteredCardHeader;

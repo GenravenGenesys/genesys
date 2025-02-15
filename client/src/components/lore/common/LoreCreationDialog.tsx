@@ -3,7 +3,7 @@ import {ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {LorePath} from "../../../services/RootPath";
 import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import {GenesysDialogActions} from "../../common/dialog/GenesysDialogActions";
+import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
 import OrganizationService from "../../../services/lore/OrganizationService";
 
 

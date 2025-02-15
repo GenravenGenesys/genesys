@@ -6,7 +6,7 @@ import Rival from "../../../../models/actor/npc/Rival";
 import RatingCard from "../RatingCard";
 import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import {Fragment} from "react";
-import CharacteristicRow, {ActorCharacteristicRow} from "../../actor/common/CharacteristicRow";
+import CharacteristicRow from "../../actor/common/CharacteristicRow";
 import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
 import {StatsType} from "../../../../models/actor/Stats";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
@@ -106,12 +106,6 @@ export default function RivalCharacteristicTab(props: Props) {
         return <Fragment/>
     };
 
-    const renderCharacteristicRow = () => {
-        return pathname.endsWith(rival.id + '/edit') ?
-            <ActorCharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange}/> :
-            <CharacteristicRow actor={rival}/>;
-    };
-
     const renderWoundsCard = () => {
         return pathname.endsWith(rival.id + '/edit') ?
             <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={rival.wounds.threshold}
@@ -122,7 +116,7 @@ export default function RivalCharacteristicTab(props: Props) {
 
     return (
         <Grid container justifyContent={'center'}>
-            {renderCharacteristicRow()}
+            <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange}/>
             <Divider/>
             <Grid container spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(rival.soak)}/>

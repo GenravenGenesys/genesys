@@ -51,5 +51,8 @@ export enum CampaignPath {
 }
 
 export enum ScenePath {
-    Rivals = '/scenes/rivals/'
+    Nemesis = '/nemeses/enemies/',
+    Rival = '/rivals/enemies/',
+    Minion = '/minions/enemies/',
+    Encounter = '/encounters/',
 }

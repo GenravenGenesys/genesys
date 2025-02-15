@@ -3,7 +3,7 @@ import * as React from "react";
 import {useState} from "react";
 import Ability from "../../../../models/Ability";
 import {Activation} from "../../../../models/Talent";
-import {GenesysDialogActions} from "../../../common/dialog/GenesysDialogActions";
+import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
 import {LimitType} from "../../../../models/common/Limit";
 import {CostType} from "../../../../models/common/Cost";
 import {useLocation} from "react-router-dom";

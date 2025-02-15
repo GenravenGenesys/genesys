@@ -6,7 +6,7 @@ import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import {Grid} from "@mui/material";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
-import CharacteristicRow, {ActorCharacteristicRow} from "../../actor/common/CharacteristicRow";
+import CharacteristicRow from "../../actor/common/CharacteristicRow";
 import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
 import {StatsType} from "../../../../models/actor/Stats";
 import {ViewFieldCard} from "../../../common/ViewFieldCard";
@@ -109,12 +109,6 @@ export default function MinionCharacteristicTab(props: Props) {
         return <Fragment/>
     };
 
-    const renderCharacteristicRow = () => {
-        return pathname.endsWith(minion.id + '/edit') ?
-            <ActorCharacteristicRow actor={minion} handleCharacteristicChange={handleCharacteristicChange}/> :
-            <CharacteristicRow actor={minion}/>;
-    };
-
     const renderWoundsCard = () => {
         return pathname.endsWith(minion.id + '/edit') ?
             <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={minion.wounds.threshold}
@@ -125,7 +119,7 @@ export default function MinionCharacteristicTab(props: Props) {
 
     return (
         <Grid container justifyContent={'center'}>
-            {renderCharacteristicRow()}
+            <CharacteristicRow actor={minion} handleCharacteristicChange={handleCharacteristicChange}/>
             <Grid container spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(minion.soak)}/>
                 {renderWoundsCard()}

@@ -2,7 +2,7 @@ import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import {ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import TalentService from "../../services/TalentService";
-import {GenesysDialogActions} from "../common/dialog/GenesysDialogActions";
+import GenesysDialogActions from "../common/dialog/GenesysDialogActions";
 import {RootPath} from "../../services/RootPath";
 
 interface Props {

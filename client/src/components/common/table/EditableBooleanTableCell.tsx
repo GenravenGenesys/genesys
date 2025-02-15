@@ -1,5 +1,4 @@
 import {MenuItem, Select, TableCell} from "@mui/material";
-import {Fragment} from "react";
 import * as React from "react";
 import BooleanTableCell from "./BooleanTableCell";
 
@@ -10,13 +9,8 @@ interface Props {
     span?: number
 }
 
-export default function EditableBooleanTableCell(props: Props) {
-    const {bool, disabled, onChange, span} = props;
-
+const EditableBooleanTableCell: React.FC<Props> = ({bool, disabled, onChange, span}) => {
     const renderTableCell = () => {
-        if (disabled) {
-            return <BooleanTableCell bool={bool}/>;
-        }
         return (
             <TableCell style={{textAlign: 'center'}} colSpan={span}>
                 <Select
@@ -32,9 +26,7 @@ export default function EditableBooleanTableCell(props: Props) {
         );
     };
 
-    return (
-        <Fragment>
-            {renderTableCell()}
-        </Fragment>
-    )
+    return disabled ? <BooleanTableCell bool={bool}/> : renderTableCell();
 }
+
+export default EditableBooleanTableCell;

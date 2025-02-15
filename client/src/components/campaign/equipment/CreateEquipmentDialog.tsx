@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {EquipmentPath} from "../../../services/RootPath";
 import {Dialog, DialogContentText, DialogTitle, TextField,} from "@mui/material";
 import EquipmentService from "../../../services/EquipmentService";
-import {GenesysDialogActions} from "../../common/dialog/GenesysDialogActions";
+import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
 
 interface Props {
     open: boolean;

@@ -4,7 +4,7 @@ import {useState} from "react";
 import {ActorWeapon, Weapon, WeaponSlot} from "../../../../../models/equipment/Weapon";
 import Skill, {SkillType} from "../../../../../models/actor/Skill";
 import {RangeBand} from "../../../../../models/common/RangeBand";
-import {GenesysDialogActions} from "../../../../common/dialog/GenesysDialogActions";
+import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
 import {useFetchSkillsByType} from "../../../../skills/SkillWorkflow";
 import {ActorSkill} from "../../../../../models/actor/Actor";
 import {useLocation} from "react-router-dom";

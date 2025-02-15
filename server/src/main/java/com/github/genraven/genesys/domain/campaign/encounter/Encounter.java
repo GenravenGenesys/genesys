@@ -20,7 +20,7 @@ public class Encounter {
     private List<Rival> enemyRivals = new ArrayList<>();
     private List<Nemesis> enemyNemeses = new ArrayList<>();
     private List<MinionGroup> enemyMinionGroups = new ArrayList<>();
-    private List<InitiativeSlot> slot = new ArrayList<>();
+    private List<InitiativeSlot> slots = new ArrayList<>();
 
     @Getter
     @AllArgsConstructor

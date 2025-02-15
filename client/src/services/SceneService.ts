@@ -1,8 +1,9 @@
 import Scene from "../models/campaign/Scene";
-import {ActorPath, RootPath} from "./RootPath";
+import {RootPath, ScenePath} from "./RootPath";
 import Rival from "../models/actor/npc/Rival";
 import Nemesis from "../models/actor/npc/Nemesis";
 import Minion, {MinionGroup} from "../models/actor/npc/Minion";
+import Character from "../models/campaign/encounter/Character";
 
 
 export default class SceneService {
@@ -58,17 +59,21 @@ export default class SceneService {
     }
 
     static async getEnemyMinionsForScene(id: string): Promise<MinionGroup[]> {
-        return await fetch(RootPath.Scenes + `${id}` + ActorPath.Minion + 'enemies/')
+        return await fetch(RootPath.Scenes + `${id}` + ScenePath.Minion)
             .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
+                switch (res.status) {
+                    case 204:
+                        return []
+                    case 200:
+                        return res.json()
+                    default:
+                        throw new Error(res.statusText)
                 }
-                return res.json()
             })
     }
 
     static async addMinionToScene(id: string, minion: Minion): Promise<Scene> {
-        return await fetch(RootPath.Scenes + `${id}` + ActorPath.Minion + 'enemies/3', {
+        return await fetch(RootPath.Scenes + `${id}` + ScenePath.Minion + '3', {
             method: "POST",
             body: JSON.stringify(minion),
             headers: {
@@ -84,17 +89,21 @@ export default class SceneService {
     }
 
     static async getEnemyRivalsForScene(id: string): Promise<Rival[]> {
-        return await fetch(RootPath.Scenes + `${id}` + ActorPath.Rival + 'enemies/')
+        return await fetch(RootPath.Scenes + `${id}` + ScenePath.Rival)
             .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
+                switch (res.status) {
+                    case 204:
+                        return []
+                    case 200:
+                        return res.json()
+                    default:
+                        throw new Error(res.statusText)
                 }
-                return res.json()
             })
     }
 
     static async addRivalToScene(id: string, rival: Rival): Promise<Scene> {
-        return await fetch(RootPath.Scenes + `${id}` + ActorPath.Rival + 'enemies/', {
+        return await fetch(RootPath.Scenes + `${id}` + ScenePath.Rival, {
             method: "POST",
             body: JSON.stringify(rival),
             headers: {
@@ -110,17 +119,21 @@ export default class SceneService {
     }
 
     static async getEnemyNemesesForScene(id: string): Promise<Nemesis[]> {
-        return await fetch(RootPath.Scenes + `${id}` + ActorPath.Nemesis + 'enemies/')
+        return await fetch(RootPath.Scenes + `${id}` + ScenePath.Nemesis)
             .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
+                switch (res.status) {
+                    case 204:
+                        return []
+                    case 200:
+                        return res.json()
+                    default:
+                        throw new Error(res.statusText)
                 }
-                return res.json()
             })
     }
 
     static async addNemesisToScene(id: string, nemesis: Nemesis): Promise<Scene> {
-        return await fetch(RootPath.Scenes + `${id}` + ActorPath.Nemesis + 'enemies/', {
+        return await fetch(RootPath.Scenes + `${id}` + ScenePath.Nemesis, {
             method: "POST",
             body: JSON.stringify(nemesis),
             headers: {
@@ -132,6 +145,20 @@ export default class SceneService {
                     throw new Error(res.statusText)
                 }
                 return res.json()
+            })
+    }
+
+    static async getPlayerCharactersForScene(id: string): Promise<Character[]> {
+        return await fetch(RootPath.Scenes + `${id}` + ScenePath.Nemesis)
+            .then((res) => {
+                switch (res.status) {
+                    case 204:
+                        return []
+                    case 200:
+                        return res.json()
+                    default:
+                        throw new Error(res.statusText)
+                }
             })
     }
 }

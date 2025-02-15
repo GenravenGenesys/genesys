@@ -5,7 +5,7 @@ import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import {Grid} from "@mui/material";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
-import CharacteristicRow, {ActorCharacteristicRow} from "../../actor/common/CharacteristicRow";
+import CharacteristicRow from "../../actor/common/CharacteristicRow";
 import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
 import {StatsType} from "../../../../models/actor/Stats";
 import {ViewFieldCard} from "../../../common/ViewFieldCard";
@@ -118,15 +118,9 @@ export default function NemesisCharacteristicTab(props: Props) {
         return <Fragment/>
     };
 
-    const renderCharacteristicRow = () => {
-        return pathname.endsWith(nemesis.id + '/edit') ?
-            <ActorCharacteristicRow actor={nemesis} handleCharacteristicChange={handleCharacteristicChange}/> :
-            <CharacteristicRow actor={nemesis}/>;
-    };
-
     return (
         <Grid container justifyContent={'center'}>
-            {renderCharacteristicRow()}
+            <CharacteristicRow actor={nemesis} handleCharacteristicChange={handleCharacteristicChange}/>
             <Grid container spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(nemesis.soak)}/>
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={nemesis.wounds.threshold}
