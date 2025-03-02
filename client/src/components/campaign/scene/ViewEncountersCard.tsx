@@ -31,7 +31,6 @@ export default function ViewEncountersCard(props: Props) {
     };
 
     const updateScene = async (updatedScene: Scene) => {
-        console.log(updatedScene)
         setScene(await SceneService.updateScene(updatedScene));
     };
 

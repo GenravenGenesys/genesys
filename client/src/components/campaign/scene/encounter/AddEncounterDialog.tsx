@@ -26,10 +26,10 @@ interface Props {
 
 const AddEncounterDialog: React.FC<Props> = ({open, onClose, createEncounter, party, scene}) => {
     const [encounter, setEncounter] = useState<Encounter>({
-        minions: [],
-        nemeses: [],
+        enemyMinionGroups: [],
+        enemyNemeses: [],
         party: party,
-        rivals: [],
+        enemyRivals: [],
         slots: [],
         type: Type.Combat
     });
@@ -42,9 +42,9 @@ const AddEncounterDialog: React.FC<Props> = ({open, onClose, createEncounter, pa
             const nemeses = await SceneService.getEnemyNemesesForScene(scene.id);
             setEncounter(prevEncounter => ({
                 ...prevEncounter,
-                minions: minions,
-                rivals: rivals,
-                nemeses: nemeses,
+                enemyMinionGroups: minions,
+                enemyRivals: rivals,
+                enemyNemeses: nemeses,
             }));
         })();
     }, [scene.id]);
@@ -54,12 +54,10 @@ const AddEncounterDialog: React.FC<Props> = ({open, onClose, createEncounter, pa
     };
 
     const updateEncounter = <T, >(field: string, value: T) => {
-        console.log(field + " " + value)
         setEncounter({...encounter, [field]: value as T});
     };
 
     const onCreate = () => {
-        console.log(encounter)
         createEncounter(encounter);
         onClose();
     };
@@ -78,13 +76,13 @@ const AddEncounterDialog: React.FC<Props> = ({open, onClose, createEncounter, pa
                         </TabList>
                     </Grid>
                     <TabPanel value={"1"}>
-                        <NonPlayerCharacterEncounterTable npcs={encounter.minions} onChange={updateEncounter<MinionGroup[]>}/>
+                        <NonPlayerCharacterEncounterTable npcs={encounter.enemyMinionGroups} onChange={updateEncounter<MinionGroup[]>}/>
                     </TabPanel>
                     <TabPanel value={"2"}>
-                        <NonPlayerCharacterEncounterTable npcs={encounter.rivals} onChange={updateEncounter<Rival[]>}/>
+                        <NonPlayerCharacterEncounterTable npcs={encounter.enemyRivals} onChange={updateEncounter<Rival[]>}/>
                     </TabPanel>
                     <TabPanel value={"3"}>
-                        <NonPlayerCharacterEncounterTable npcs={encounter.nemeses} onChange={updateEncounter<Rival[]>}/>
+                        <NonPlayerCharacterEncounterTable npcs={encounter.enemyNemeses} onChange={updateEncounter<Rival[]>}/>
                     </TabPanel>
                 </TabContext>
             </DialogContent>

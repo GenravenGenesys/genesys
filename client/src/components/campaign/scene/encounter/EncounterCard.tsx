@@ -10,9 +10,9 @@ interface Props {
 
 const EncounterCard = ({encounter}: Props) => {
     const combinedEnemies = [
-        ...(encounter.minions ? encounter.minions.map(minion => ({...minion})) : []),
-        ...(encounter.rivals ? encounter.rivals.map(rival => ({...rival})) : []),
-        ...(encounter.nemeses ? encounter.nemeses.map(nemesis => ({...nemesis})) : [])
+        ...(encounter.enemyMinionGroups ? encounter.enemyMinionGroups.map(minion => ({...minion})) : []),
+        ...(encounter.enemyRivals ? encounter.enemyRivals.map(rival => ({...rival})) : []),
+        ...(encounter.enemyNemeses ? encounter.enemyNemeses.map(nemesis => ({...nemesis})) : [])
     ];
 
     return (

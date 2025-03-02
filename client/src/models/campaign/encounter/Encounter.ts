@@ -7,9 +7,9 @@ import InitiativeSlot from "./InitiativeSlot";
 export default interface Encounter {
     type: Type
     party: Party
-    minions: MinionGroup[]
-    rivals: Rival[]
-    nemeses: Nemesis[]
+    enemyMinionGroups: MinionGroup[]
+    enemyRivals: Rival[]
+    enemyNemeses: Nemesis[]
     slots: InitiativeSlot[]
 }
 

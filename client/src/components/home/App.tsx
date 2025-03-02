@@ -25,6 +25,7 @@ import GearWorkflow from '../campaign/equipment/gear/GearWorkflow';
 import SessionPage from "../campaign/session/SessionPage";
 import EditableScenePage from "../campaign/scene/EditableScenePage";
 import ScenePage from "../campaign/scene/ScenePage";
+import EncounterPage from "../campaign/scene/encounter/EncounterPage";
 
 export default function App() {
 
@@ -111,6 +112,7 @@ export default function App() {
                     <Route path={CampaignPath.Session + ':name'} element={<SessionPage/>}/>
 
                     <Route path={CampaignPath.Scene + ':id'} element={<ScenePage/>}/>
+                    <Route path={CampaignPath.Scene + ':id/encounter/:type'} element={<EncounterPage/>}/>
                 </Routes>
             </HashRouter>
         </ThemeProvider>
