@@ -9,7 +9,7 @@ import {SingleActionTableCell} from "../../common/table/ActionsTableCell";
 import {CampaignPath} from "../../../services/RootPath";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import CampaignService from "../../../services/CampaignService";
-import CenteredCardHeaderWithDialog from "../../common/card/header/CenteredCardHeaderWithDialog";
+import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
 import CampaignSceneSelectionDialog from "./CampaignSceneSelectionDialog";
 
 export default function ViewCampaignScenes() {
@@ -25,7 +25,7 @@ export default function ViewCampaignScenes() {
 
     return (
         <Card>
-            <CenteredCardHeaderWithDialog title={'Scenes'} onClick={() => setOpenSceneDialog(true)}
+            <CenteredCardHeaderWithButton title={'Scenes'} onClick={() => setOpenSceneDialog(true)}
                                           buttonText={'Add Scene'}/>
             {openSceneDialog && <CampaignSceneSelectionDialog open={openSceneDialog}
                                                      onClose={(): void => setOpenSceneDialog(false)}/>}

@@ -18,7 +18,7 @@ import {ActorType} from "../../../../models/actor/Actor";
 import {useFetchCurrentCampaign} from "../../CampaignWorkflow";
 import {ActorPath} from "../../../../services/RootPath";
 import CreateActorDialog from "../../actor/common/CreateActorDialog";
-import CenteredCardHeaderWithDialog from "../../../common/card/header/CenteredCardHeaderWithDialog";
+import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
 
 interface Props {
     rival: Rival
@@ -65,7 +65,7 @@ export default function CampaignRivals() {
 
     return (
         <Card>
-            <CenteredCardHeaderWithDialog title={'Campaign Rivals'}
+            <CenteredCardHeaderWithButton title={'Campaign Rivals'}
                                           onClick={(): void => setOpenActorCreationDialog(true)}
                                           buttonText={'Create Rival'}/>
             <CardContent>

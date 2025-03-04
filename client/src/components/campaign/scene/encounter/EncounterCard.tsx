@@ -1,28 +1,54 @@
 import {Card, CardContent} from "@mui/material";
-import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import * as React from "react";
-import InitiativeTrackCard from "./InitiativeTrackCard";
 import Encounter from "../../../../models/campaign/encounter/Encounter";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
+import TableBody from "@mui/material/TableBody";
+import {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor";
+import TableContainer from "@mui/material/TableContainer";
+import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
+import TableRow from "@mui/material/TableRow";
+import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
+import {useNavigate} from "react-router-dom";
+import {CampaignPath} from "../../../../services/RootPath";
 
 interface Props {
-    encounter: Encounter
+    sceneId: string;
+    encounter: Encounter;
 }
 
-const EncounterCard = ({encounter}: Props) => {
+const EncounterCard = ({sceneId, encounter}: Props) => {
     const combinedEnemies = [
         ...(encounter.enemyMinionGroups ? encounter.enemyMinionGroups.map(minion => ({...minion})) : []),
         ...(encounter.enemyRivals ? encounter.enemyRivals.map(rival => ({...rival})) : []),
         ...(encounter.enemyNemeses ? encounter.enemyNemeses.map(nemesis => ({...nemesis})) : [])
     ];
+    let headers = ['Name', 'Type'];
+    let navigate = useNavigate();
 
     return (
         <Card>
-            <CenteredCardHeader title={'Encounter'}/>
+            <CenteredCardHeaderWithButton title={'Encounter'}
+                                          onClick={(): void => navigate(CampaignPath.Scene + sceneId + '/encounter/' + encounter.type)}
+                                          buttonText={'Start Encounter'}/>
             <CardContent>
-                <InitiativeTrackCard npcs={combinedEnemies}/>
+                <TableContainer component={Paper}>
+                    <Table>
+                        {renderSingleRowTableHeader(headers)}
+                        <TableBody>
+                            {combinedEnemies.map((npc: SingleNonPlayerCharacter) => (
+                                <TableRow key={npc.id}>
+                                    <TypographyCenterTableCell value={npc.name}/>
+                                    <TypographyCenterTableCell value={npc.type}/>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </CardContent>
         </Card>
     );
-}
+};
 
 export default EncounterCard;

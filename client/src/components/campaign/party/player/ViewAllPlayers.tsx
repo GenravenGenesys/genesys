@@ -14,7 +14,7 @@ import {Card, CardContent} from "@mui/material";
 import CreateActorDialog from "../../actor/common/CreateActorDialog";
 import {ActorType} from "../../../../models/actor/Actor";
 import {useFetchCurrentCampaign} from "../../CampaignWorkflow";
-import CenteredCardHeaderWithDialog from "../../../common/card/header/CenteredCardHeaderWithDialog";
+import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
 import PlayerService from "../../../../services/actor/PlayerService";
 
 export default function ViewAllPlayers() {
@@ -32,7 +32,7 @@ export default function ViewAllPlayers() {
 
     return (
         <Card>
-            <CenteredCardHeaderWithDialog title={'View All Players'}
+            <CenteredCardHeaderWithButton title={'View All Players'}
                                           onClick={(): void => setOpenActorCreationDialog(true)}
                                           buttonText={'Create Player'}/>
             <CardContent>

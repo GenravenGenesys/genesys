@@ -1,5 +1,5 @@
 import {Card, CardContent, Table, TableContainer} from "@mui/material";
-import CenteredCardHeaderWithDialog from "../../common/card/header/CenteredCardHeaderWithDialog";
+import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
 import React, {useEffect, useState} from "react";
 import Scene from "../../../models/campaign/Scene";
 import Paper from "@mui/material/Paper";
@@ -25,7 +25,7 @@ export default function ViewScenes() {
 
     return (
         <Card>
-            <CenteredCardHeaderWithDialog title={'Scenes'} onClick={() => setOpenSceneDialog(true)}
+            <CenteredCardHeaderWithButton title={'Scenes'} onClick={() => setOpenSceneDialog(true)}
                                           buttonText={'Create Scene'}/>
             {openSceneDialog && <SceneCreationDialog open={openSceneDialog}
                                                      onClose={(): void => setOpenSceneDialog(false)}/>}

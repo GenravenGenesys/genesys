@@ -13,7 +13,7 @@ import SceneService from "../../../services/SceneService";
 import Encounter from "../../../models/campaign/encounter/Encounter";
 
 interface Props {
-    initialScene: Scene
+    initialScene: Scene;
 }
 
 export default function ViewEncountersCard(props: Props) {
@@ -53,7 +53,7 @@ export default function ViewEncountersCard(props: Props) {
                         </Grid>
                         {initialScene.encounters.map((encounter, index) => (
                             <TabPanel value={String(index)}>
-                                <EncounterCard encounter={encounter}/>
+                                <EncounterCard sceneId={scene.id} encounter={encounter}/>
                             </TabPanel>
                         ))}
                     </TabContext>

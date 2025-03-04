@@ -52,6 +52,17 @@ export default function InitiativeTrackCard(props: Props) {
         })
     };
 
+    const areAllSkillsSelected = () => {
+        if (nonPlayerCharacterSkills.length <= 0) {
+            return true;
+        }
+        for (let skill in nonPlayerCharacterSkills) {
+            if (skill === null || skill === undefined) {
+                return true;
+            }
+        }
+    };
+
     const renderInitiativeTrack = () => {
         if (slots.length !== 0) {
             return (
@@ -81,7 +92,8 @@ export default function InitiativeTrackCard(props: Props) {
                     {renderInitiativeTrack()}
                 </Grid>
                 <Grid container justifyContent={'center'}>
-                    {slots.length === 0 && <Button color='primary' variant='contained' onClick={rollInitiative}>Roll Initiative</Button>}
+                    {slots.length === 0 && <Button color='primary' variant='contained' onClick={rollInitiative}
+                                                   disabled={areAllSkillsSelected()}>Roll Initiative</Button>}
                 </Grid>
             </CardContent>
         </Card>
