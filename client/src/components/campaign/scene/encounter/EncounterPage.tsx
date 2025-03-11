@@ -11,12 +11,14 @@ import InitiativeTrackCard from "./InitiativeTrackCard";
 import {useNavigate, useParams} from "react-router-dom";
 import SceneService from "../../../../services/SceneService";
 import {CampaignPath} from "../../../../services/RootPath";
+import InitiativeSlot from "../../../../models/campaign/encounter/InitiativeSlot";
 
 const EncounterPage: React.FC = () => {
     const {id, type} = useParams<{ id: string, type: Type }>();
     const [scene, setScene] = useState<Scene | null>(null);
     const [encounter, setEncounter] = useState<Encounter | null>();
     const [value, setValue] = useState('0');
+    const [slots, setSlots] = useState<InitiativeSlot[]>([]);
     let navigate = useNavigate();
 
     const combinedEnemies = !encounter ? [] : [
@@ -51,8 +53,13 @@ const EncounterPage: React.FC = () => {
     };
 
     const onReturnToScene = () => {
-        navigate(CampaignPath.Scene + scene.id)
-    }
+        navigate(CampaignPath.Scene + scene.id);
+    };
+
+    const claimSlotsTab = (initiativeSlots: InitiativeSlot[]) => {
+        setSlots(initiativeSlots);
+        setValue("1");
+    };
 
     return (
         <Card>
@@ -61,11 +68,16 @@ const EncounterPage: React.FC = () => {
                 <TabContext value={value}>
                     <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
                         <TabList centered>
-                            <Tab label={'Roll Initiative'} value={"0"}/>
+                            <Tab label={'Roll Initiative'} value={"0"} disabled={value !== "0"} />
+                            <Tab label={'Claim Slots'} value={"1"} disabled={value !== "1"}/>
                         </TabList>
                     </Grid>
                     <TabPanel value={"0"}>
-                        <InitiativeTrackCard npcs={combinedEnemies}/>
+                        <InitiativeTrackCard npcs={combinedEnemies}
+                                             updateSlots={claimSlotsTab}/>
+                    </TabPanel>
+                    <TabPanel value={"1"}>
+                        {/*<InitiativeTrackCard npcs={combinedEnemies}/>*/}
                     </TabPanel>
                 </TabContext>
             </CardContent>
