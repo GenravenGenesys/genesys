@@ -12,6 +12,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import SceneService from "../../../../services/SceneService";
 import {CampaignPath} from "../../../../services/RootPath";
 import InitiativeSlot from "../../../../models/campaign/encounter/InitiativeSlot";
+import ClaimInitiativeSlotTrack from "./ClaimInitiativeSlotTrack";
 
 const EncounterPage: React.FC = () => {
     const {id, type} = useParams<{ id: string, type: Type }>();
@@ -48,17 +49,22 @@ const EncounterPage: React.FC = () => {
         return <Fragment/>;
     }
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
+    // const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    //     setValue(newValue);
+    // };
 
     const onReturnToScene = () => {
         navigate(CampaignPath.Scene + scene.id);
     };
 
-    const claimSlotsTab = (initiativeSlots: InitiativeSlot[]) => {
+    const moveToClaimSlotsTab = (initiativeSlots: InitiativeSlot[]) => {
         setSlots(initiativeSlots);
         setValue("1");
+    };
+
+    const moveToActiveTurnTab = (initiativeSlots: InitiativeSlot[]) => {
+        setSlots(initiativeSlots);
+        setValue("2");
     };
 
     return (
@@ -70,14 +76,17 @@ const EncounterPage: React.FC = () => {
                         <TabList centered>
                             <Tab label={'Roll Initiative'} value={"0"} disabled={value !== "0"} />
                             <Tab label={'Claim Slots'} value={"1"} disabled={value !== "1"}/>
+                            <Tab label={'Execute Active Turn'} value={"2"} disabled={value !== "2"}/>
+                            <Tab label={'Resolve Active Turn'} value={"3"} disabled={value !== "3"}/>
+                            <Tab label={'Resolve Encounter'} value={"4"} disabled={value !== "4"}/>
                         </TabList>
                     </Grid>
                     <TabPanel value={"0"}>
                         <InitiativeTrackCard npcs={combinedEnemies}
-                                             updateSlots={claimSlotsTab}/>
+                                             updateSlots={moveToClaimSlotsTab}/>
                     </TabPanel>
                     <TabPanel value={"1"}>
-                        {/*<InitiativeTrackCard npcs={combinedEnemies}/>*/}
+                        <ClaimInitiativeSlotTrack npcs={combinedEnemies} slots={slots} updateSlots={moveToActiveTurnTab}/>
                     </TabPanel>
                 </TabContext>
             </CardContent>
