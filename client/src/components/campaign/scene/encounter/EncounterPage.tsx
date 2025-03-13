@@ -87,7 +87,7 @@ const EncounterPage: React.FC = () => {
                                              updateSlots={moveToClaimSlotsTab}/>
                     </TabPanel>
                     <TabPanel value={"1"}>
-                        <ClaimInitiativeSlotTrack npcs={combinedEnemies} slots={slots} updateInitiativeSlots={moveToActiveTurnTab}/>
+                        <ClaimInitiativeSlotTrack npcs={combinedEnemies} initialSlots={slots} updateInitiativeSlots={moveToActiveTurnTab}/>
                     </TabPanel>
                     <TabPanel value={"2"}>
 
