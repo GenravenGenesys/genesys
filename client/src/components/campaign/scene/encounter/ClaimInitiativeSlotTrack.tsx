@@ -3,20 +3,30 @@ import InitiativeSlot from "../../../../models/campaign/encounter/InitiativeSlot
 import {Fragment} from "react";
 import * as React from "react";
 import InitiativeSlotCard from "./InitiativeSlotCard";
+import Character from "../../../../models/campaign/encounter/Character";
 
 interface Props {
     npcs: SingleNonPlayerCharacter[];
     slots: InitiativeSlot[];
-    updateSlots: (updatedSlots: InitiativeSlot[]) => void;
+    updateInitiativeSlots: (updatedSlots: InitiativeSlot[]) => void;
 }
 
-const ClaimInitiativeSlotTrack: React.FC<Props> = ({npcs, slots, updateSlots}) => {
-    
+const ClaimInitiativeSlotTrack: React.FC<Props> = ({npcs, slots, updateInitiativeSlots}) => {
+    const characters = [
+        ...(npcs ? npcs.map(npc => ({...npc, effects: []} as Character)) : [])
+    ];
+
+    const updateSlots = (updatedSlot: InitiativeSlot, index: number) => {
+        updateInitiativeSlots(slots.map((slot, i) =>
+            i === index ? updatedSlot : slot
+        ));
+    };
     
     return (
         <Fragment>
-            {slots.map((slot) => (
-                <InitiativeSlotCard slot={slot}/>
+            {slots.map((slot, index) => (
+                <InitiativeSlotCard slot={slot} characters={characters}
+                                    updateSlot={updateSlots} index={index} />
             ))}
         </Fragment>
     )

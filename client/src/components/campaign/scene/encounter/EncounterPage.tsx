@@ -1,4 +1,4 @@
-import {Card, CardContent, CardHeader, Grid} from "@mui/material";
+import {Card, CardContent, Grid} from "@mui/material";
 import Encounter, {Type} from "../../../../models/campaign/encounter/Encounter";
 import Scene from "../../../../models/campaign/Scene";
 import * as React from "react";
@@ -13,6 +13,7 @@ import SceneService from "../../../../services/SceneService";
 import {CampaignPath} from "../../../../services/RootPath";
 import InitiativeSlot from "../../../../models/campaign/encounter/InitiativeSlot";
 import ClaimInitiativeSlotTrack from "./ClaimInitiativeSlotTrack";
+import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
 
 const EncounterPage: React.FC = () => {
     const {id, type} = useParams<{ id: string, type: Type }>();
@@ -54,7 +55,7 @@ const EncounterPage: React.FC = () => {
     // };
 
     const onReturnToScene = () => {
-        navigate(CampaignPath.Scene + scene.id);
+            navigate(CampaignPath.Scene + scene.id);
     };
 
     const moveToClaimSlotsTab = (initiativeSlots: InitiativeSlot[]) => {
@@ -69,7 +70,7 @@ const EncounterPage: React.FC = () => {
 
     return (
         <Card>
-            <CardHeader style={{textAlign: 'center'}} title={encounter.type + ' Encounter'} action={onReturnToScene}/>
+            <CenteredCardHeaderWithButton title={encounter.type + ' Encounter'} onClick={onReturnToScene} buttonText={'Return to Scene'}/>
             <CardContent>
                 <TabContext value={value}>
                     <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -86,12 +87,21 @@ const EncounterPage: React.FC = () => {
                                              updateSlots={moveToClaimSlotsTab}/>
                     </TabPanel>
                     <TabPanel value={"1"}>
-                        <ClaimInitiativeSlotTrack npcs={combinedEnemies} slots={slots} updateSlots={moveToActiveTurnTab}/>
+                        <ClaimInitiativeSlotTrack npcs={combinedEnemies} slots={slots} updateInitiativeSlots={moveToActiveTurnTab}/>
+                    </TabPanel>
+                    <TabPanel value={"2"}>
+
+                    </TabPanel>
+                    <TabPanel value={"3"}>
+
+                    </TabPanel>
+                    <TabPanel value={"4"}>
+
                     </TabPanel>
                 </TabContext>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
 
 export default EncounterPage;
