@@ -16,8 +16,7 @@ interface Props {
     initialScene: Scene;
 }
 
-export default function ViewEncountersCard(props: Props) {
-    const {initialScene} = props;
+const ViewEncountersCard: React.FC<Props> = ({initialScene})=> {
     const [value, setValue] = useState('0');
     const [scene, setScene] = useState<Scene>(initialScene);
     const [addEncounterDialog, setAddEncounterDialog] = useState(false);
@@ -69,5 +68,7 @@ export default function ViewEncountersCard(props: Props) {
                 </Grid>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default ViewEncountersCard;
