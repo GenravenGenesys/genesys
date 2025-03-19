@@ -1,5 +1,5 @@
 import { Card, CardContent, Grid } from "@mui/material";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import * as React from "react";
 import Scene from "../../../models/campaign/Scene";
@@ -10,13 +10,15 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import PartyCard from "../party/PartyCard";
 import NonPlayerCharacterScene from "./npc/NonPlayerCharacterScene";
-import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import ViewEncountersCard from "./ViewEncountersCard";
+import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
+import {CampaignPath} from "../../../services/RootPath";
 
 const ScenePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [scene, setScene] = useState<Scene | null>(null);
     const [value, setValue] = useState('1');
+    let navigate = useNavigate();
 
     useEffect(() => {
         if (!id) {
@@ -37,7 +39,7 @@ const ScenePage: React.FC = () => {
 
     return (
         <Card>
-            <CenteredCardHeader title={scene.name} />
+            <CenteredCardHeaderWithButton title={scene.name} onClick={() => navigate(CampaignPath.Scene + scene.id)} buttonText={'Return to Scene'}/>
             <CardContent>
                 <Grid sx={{ width: 1 }}>
                     <TabContext value={value}>

@@ -14,7 +14,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import PartyCard from "../party/PartyCard";
 import ViewCampaignScenes from "../scene/ViewCampaignScenes";
 
-export default function SessionPage() {
+const SessionPage = () => {
     const {name} = useParams<{ name: string }>();
     const campaign = useFetchCurrentCampaign();
     const [value, setValue] = useState('1');
@@ -26,7 +26,7 @@ export default function SessionPage() {
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
-    }
+    };
 
     const startSession = async () => {
         const currentPartyState: Party = campaign.party;
@@ -65,7 +65,8 @@ export default function SessionPage() {
                         </Grid>
                         <TabPanel value="1">
                             <Grid container justifyContent={"center"}>
-                                <Button variant="contained" color="primary" onClick={startSession}>Start Session</Button>
+                                <Button variant="contained" color="primary" onClick={startSession}>Start
+                                    Session</Button>
                                 <Button variant="contained" color="primary" onClick={endSession}>End Session</Button>
                             </Grid>
                         </TabPanel>
@@ -73,11 +74,13 @@ export default function SessionPage() {
                             <PartyCard party={session.party}/>
                         </TabPanel>
                         <TabPanel value="3">
-                            <ViewCampaignScenes/>
+                            <ViewCampaignScenes session={session}/>
                         </TabPanel>
                     </TabContext>
                 </Grid>
             </CardContent>
         </Card>
     );
-}
+};
+
+export default SessionPage;

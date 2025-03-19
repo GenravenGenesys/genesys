@@ -11,9 +11,14 @@ import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell"
 import CampaignService from "../../../services/CampaignService";
 import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
 import CampaignSceneSelectionDialog from "./CampaignSceneSelectionDialog";
+import CampaignSession from "../../../models/campaign/CampaignSession";
 
-export default function ViewCampaignScenes() {
-    const [scenes, setScenes] = useState<Scene[]>([]);
+interface Props {
+    session: CampaignSession;
+}
+
+const ViewCampaignScenes: React.FC<Props> = ({session}) => {
+    const [scenes, setScenes] = useState<Scene[]>(session.scenes);
     const [openSceneDialog, setOpenSceneDialog] = useState(false);
     const headers = ['Name', 'View'];
 
@@ -45,5 +50,7 @@ export default function ViewCampaignScenes() {
                 </TableContainer>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default ViewCampaignScenes;

@@ -54,10 +54,6 @@ const EncounterPage: React.FC = () => {
     //     setValue(newValue);
     // };
 
-    const onReturnToScene = () => {
-            navigate(CampaignPath.Scene + scene.id);
-    };
-
     const moveToClaimSlotsTab = (initiativeSlots: InitiativeSlot[]) => {
         setSlots(initiativeSlots);
         setValue("1");
@@ -70,12 +66,13 @@ const EncounterPage: React.FC = () => {
 
     return (
         <Card>
-            <CenteredCardHeaderWithButton title={encounter.type + ' Encounter'} onClick={onReturnToScene} buttonText={'Return to Scene'}/>
+            <CenteredCardHeaderWithButton title={encounter.type + ' Encounter'} onClick={() => navigate(CampaignPath.Scene + scene.id)}
+                                          buttonText={'Return to Scene'}/>
             <CardContent>
                 <TabContext value={value}>
                     <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
                         <TabList centered>
-                            <Tab label={'Roll Initiative'} value={"0"} disabled={value !== "0"} />
+                            <Tab label={'Roll Initiative'} value={"0"} disabled={value !== "0"}/>
                             <Tab label={'Claim Slots'} value={"1"} disabled={value !== "1"}/>
                             <Tab label={'Execute Active Turn'} value={"2"} disabled={value !== "2"}/>
                             <Tab label={'Resolve Active Turn'} value={"3"} disabled={value !== "3"}/>
@@ -87,7 +84,8 @@ const EncounterPage: React.FC = () => {
                                              updateSlots={moveToClaimSlotsTab}/>
                     </TabPanel>
                     <TabPanel value={"1"}>
-                        <ClaimInitiativeSlotTrack npcs={combinedEnemies} initialSlots={slots} updateInitiativeSlots={moveToActiveTurnTab}/>
+                        <ClaimInitiativeSlotTrack npcs={combinedEnemies} initialSlots={slots}
+                                                  updateInitiativeSlots={moveToActiveTurnTab}/>
                     </TabPanel>
                     <TabPanel value={"2"}>
 

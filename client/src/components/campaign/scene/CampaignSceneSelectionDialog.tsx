@@ -1,17 +1,17 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent} from "@mui/material";
 import CampaignSceneSelectionTable from "./CampaignSceneSelectionTable";
+import React from "react";
+import CenteredDialogTitle from "../../common/dialog/CenteredDialogTitle";
 
 interface Props {
-    open: boolean
-    onClose: () => void
+    open: boolean;
+    onClose: () => void;
 }
 
-export default function CampaignSceneSelectionDialog(props: Props) {
-    const {open, onClose} = props;
-
+const CampaignSceneSelectionDialog: React.FC<Props> = ({open, onClose}) => {
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle title={'Add Scene'}/>
+            <CenteredDialogTitle title={'Add Scene'}/>
             <DialogContent>
                 <CampaignSceneSelectionTable/>
             </DialogContent>
@@ -19,5 +19,7 @@ export default function CampaignSceneSelectionDialog(props: Props) {
                 <Button color='secondary' variant='contained' onClick={onClose}>CANCEL</Button>
             </DialogActions>
         </Dialog>
-    )
-}
+    );
+};
+
+export default CampaignSceneSelectionDialog;
