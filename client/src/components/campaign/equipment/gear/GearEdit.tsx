@@ -12,8 +12,8 @@ import InputSelectFieldCard from "../../../common/InlineSelectFieldCard";
 import {Gear} from "../../../../models/equipment/Gear";
 import SkillSelectCard from "../../../common/skill/SkillSelectCard";
 import {useFetchAllSkills} from "../../../skills/SkillWorkflow";
-import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
-import {BooleanTextFieldCard} from "../../../common/card/BooleanTextFieldCard";
+import NumberTextFieldCard from "../../../common/card/NumberTextField";
+import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 
 interface Props {

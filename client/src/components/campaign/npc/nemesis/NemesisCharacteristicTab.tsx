@@ -6,20 +6,19 @@ import {Grid} from "@mui/material";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
 import CharacteristicRow from "../../actor/common/CharacteristicRow";
-import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
+import NumberTextFieldCard from "../../../common/card/NumberTextField";
 import {StatsType} from "../../../../models/actor/Stats";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 import * as React from "react";
 import {DefenseType} from "../../../../models/actor/Defense";
 import {useLocation} from "react-router-dom";
 
 interface Props {
-    nemesis: Nemesis
-    updateNemesis: (nemesis: Nemesis) => void
+    nemesis: Nemesis;
+    updateNemesis: (nemesis: Nemesis) => void;
 }
 
-export default function NemesisCharacteristicTab(props: Props) {
-    const {nemesis, updateNemesis} = props;
+const NemesisCharacteristicTab: React.FC<Props> = ({nemesis, updateNemesis})=> {
     let pathname = useLocation().pathname;
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {
@@ -135,4 +134,6 @@ export default function NemesisCharacteristicTab(props: Props) {
             {renderRatingRow()}
         </Grid>
     );
-}
+};
+
+export default NemesisCharacteristicTab;

@@ -1,17 +1,16 @@
 import Player from "../../../../../models/actor/player/Player";
 import {Card, CardContent, Grid} from "@mui/material";
-import {ViewFieldCard} from "../../../../common/ViewFieldCard";
+import ViewFieldCard from "../../../../common/ViewFieldCard";
 import * as React from "react";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import SpendExperienceMenuButton from "./SpendExperienceMenuButton";
 import {useLocation} from "react-router-dom";
 
 interface Props {
-    player: Player
+    player: Player;
 }
 
-export default function ExperienceCard(props: Props) {
-    const {player} = props;
+const ExperienceCard: React.FC<Props> = ({player}) => {
     const pathname = useLocation().pathname;
 
     const renderSpendExperience = () => {
@@ -40,5 +39,7 @@ export default function ExperienceCard(props: Props) {
                 <ViewFieldCard name={'Total'} value={String(player.experience.total)}/>
             </Grid>
         </Grid>
-    )
-}
+    );
+};
+
+export default ExperienceCard;

@@ -1,5 +1,5 @@
 import {Divider, Grid} from "@mui/material";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 import {DefenseType} from "../../../../models/actor/Defense";
 import * as React from "react";
 import Rival from "../../../../models/actor/npc/Rival";
@@ -7,19 +7,18 @@ import RatingCard from "../RatingCard";
 import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import {Fragment} from "react";
 import CharacteristicRow from "../../actor/common/CharacteristicRow";
-import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
+import NumberTextFieldCard from "../../../common/card/NumberTextField";
 import {StatsType} from "../../../../models/actor/Stats";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import RivalService from "../../../../services/actor/RivalService";
 import {useLocation} from "react-router-dom";
 
 interface Props {
-    rival: Rival
-    updateRival: (rival: Rival) => void
+    rival: Rival;
+    updateRival: (rival: Rival) => void;
 }
 
-export default function RivalCharacteristicTab(props: Props) {
-    const {rival, updateRival} = props;
+const RivalCharacteristicTab: React.FC<Props> = ({rival, updateRival})=> {
     let pathname = useLocation().pathname;
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {
@@ -106,25 +105,21 @@ export default function RivalCharacteristicTab(props: Props) {
         return <Fragment/>
     };
 
-    const renderWoundsCard = () => {
-        return pathname.endsWith(rival.id + '/edit') ?
-            <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={rival.wounds.threshold}
-                                 onChange={handleWoundsChange} min={1} max={20}
-                                 disabled={false}/> :
-            <ViewFieldCard name={StatsType.Wounds + ' Threshold'} value={String(rival.wounds.threshold)}/>
-    };
-
     return (
         <Grid container justifyContent={'center'}>
             <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange}/>
             <Divider/>
             <Grid container spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(rival.soak)}/>
-                {renderWoundsCard()}
+                <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={rival.wounds.threshold}
+                                     onChange={handleWoundsChange} min={1} max={20}
+                                     disabled={pathname.endsWith(rival.id + '/edit')}/>
                 <ViewFieldCard name={DefenseType.Melee} value={String(rival.melee)}/>
                 <ViewFieldCard name={DefenseType.Ranged} value={String(rival.ranged)}/>
             </Grid>
             {renderRatingRow()}
         </Grid>
-    )
-}
+    );
+};
+
+export default RivalCharacteristicTab;

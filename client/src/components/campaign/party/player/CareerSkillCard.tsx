@@ -9,11 +9,13 @@ import CareerBackdrop from "../../career/CareerBackdrop";
 import EditIcon from "@mui/icons-material/Edit";
 import Player, {PlayerSkill} from "../../../../models/actor/player/Player";
 import CareerSkillSelectDialog from "./skill/CareerSkillSelectDialog";
+import {useLocation} from "react-router-dom";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 
 interface Props {
-    player: Player
-    onCommit: (value: Career) => void
-    onSkillSelect: (skills: PlayerSkill[]) => void
+    player: Player;
+    onCommit: (value: Career) => void;
+    onSkillSelect: (skills: PlayerSkill[]) => void;
 }
 
 export default function CareerSelectCard(props: Props) {
@@ -26,9 +28,10 @@ export default function CareerSelectCard(props: Props) {
         (async (): Promise<void> => {
             setCareers(await CareerService.getCareers());
         })()
-    }, [])
+    }, []);
 
-    return (
+    return useLocation().pathname.endsWith("/view") ?
+        <ViewFieldCard name={"Career"} value={player.career.name}/> :
         <Grid item xs>
             <Card>
                 <CenteredCardHeader title={'Career'}/>
@@ -67,5 +70,4 @@ export default function CareerSelectCard(props: Props) {
                 </CardContent>
             </Card>
         </Grid>
-    )
-}
+};

@@ -4,7 +4,7 @@ import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import * as React from "react";
 import {useLocation} from "react-router-dom";
 import CharacteristicCard from "../../../common/card/CharacteristicCard";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 
 interface Props {
     actor: Actor;
@@ -12,17 +12,12 @@ interface Props {
 }
 
 const CharacteristicRow: React.FC<Props> = ({actor, handleCharacteristicChange}) => {
-    let pathname = useLocation().pathname;
-
-    const isViewMode = pathname.endsWith('/view');
+    const isViewMode = useLocation().pathname.endsWith('/view');
 
     const renderField = (type: CharacteristicType, value: number) => {
-        return isViewMode ? (
-            <ViewFieldCard name={type} value={String(value)}/>
-        ) : (
+        return isViewMode ? <ViewFieldCard name={type} value={String(value)}/> :
             <CharacteristicCard type={type} value={value} handleCharacteristicChange={handleCharacteristicChange!}
-                                disabled={isViewMode}/>
-        );
+                                disabled={isViewMode}/>;
     };
 
     return (

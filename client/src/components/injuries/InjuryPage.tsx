@@ -7,13 +7,12 @@ import CriticalInjuryModifierCard from "./modifiers/CriticalInjuryModifierCard";
 import {Fragment, useEffect, useState} from "react";
 import InjuryService from "../../services/InjuryService";
 import {Difficulty} from "../../models/common/Difficulty";
-import {ViewFieldCard} from "../common/ViewFieldCard";
 import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHeaderWithAction";
 import DifficultyCard from "../common/card/select/DifficultyCard";
-import {NumberTextFieldCard} from "../common/card/NumberTextField";
-import {TextFieldCard} from "../common/card/TextFieldCard";
+import NumberTextFieldCard from "../common/card/NumberTextField";
+import TextFieldCard from "../common/card/TextFieldCard";
 
-export default function InjuryPage() {
+const InjuryPage = () => {
     const {id} = useParams<{ id: string }>();
     const [injury, setInjury] = useState<Injury | null>(null);
     let pathname = useLocation().pathname;
@@ -55,12 +54,6 @@ export default function InjuryPage() {
         }
     };
 
-    const renderDescriptionCard = () => {
-        return pathname.endsWith('/view') ? <ViewFieldCard name={"Description"} value={injury.description}/> :
-            <TextFieldCard title={"Description"} value={injury.description}
-                           disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>;
-    };
-
     return (
         <Card>
             <CenteredCardHeaderWithAction title={injury.name} path={RootPath.Injury + injury.id}/>
@@ -76,11 +69,14 @@ export default function InjuryPage() {
                     </Grid>
                     <Divider/>
                     <Grid container spacing={2}>
-                        {renderDescriptionCard()}
+                        <TextFieldCard title={"Description"} value={injury.description}
+                                       disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
                     </Grid>
                     <CriticalInjuryModifierCard crit={injury}/>
                 </Grid>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default InjuryPage;

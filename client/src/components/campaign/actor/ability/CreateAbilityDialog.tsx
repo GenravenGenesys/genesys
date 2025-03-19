@@ -8,17 +8,15 @@ import {LimitType} from "../../../../models/common/Limit";
 import {CostType} from "../../../../models/common/Cost";
 import {useLocation} from "react-router-dom";
 import ActivationCard from "../../../common/card/select/ActivationCard";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
-import {TextFieldCard} from "../../../common/card/TextFieldCard";
+import TextFieldCard from "../../../common/card/TextFieldCard";
 
 interface Props {
-    open: boolean
-    onCreateAbility: (ability: Ability) => void
-    onClose: () => void
+    open: boolean;
+    onCreateAbility: (ability: Ability) => void;
+    onClose: () => void;
 }
 
-export default function CreateAbilityDialog(props: Props) {
-    const {open, onCreateAbility, onClose} = props
+const CreateAbilityDialog: React.FC<Props> = ({open, onCreateAbility, onClose})=> {
     const [ability, setAbility] = useState<Ability>({
         name: '',
         activation: Activation.Passive,
@@ -43,13 +41,7 @@ export default function CreateAbilityDialog(props: Props) {
     };
 
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAbility({...ability, description: event.target.value})
-    }
-
-    const renderDescriptionCard = () => {
-        return pathname.endsWith('/view') ? <ViewFieldCard name={"Description"} value={ability.description}/> :
-            <TextFieldCard title={"Description"} value={ability.description}
-                           disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>;
+        setAbility({...ability, description: event.target.value});
     }
 
     return (
@@ -66,7 +58,8 @@ export default function CreateAbilityDialog(props: Props) {
                     />
                 </Grid>
                 <Grid container>
-                    {renderDescriptionCard()}
+                    <TextFieldCard title={"Description"} value={ability.description}
+                                   disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
                 </Grid>
                 <Grid container>
                     <ActivationCard value={ability.activation} onChange={handleActivationChange} disabled={pathname.endsWith('/view')}/>
@@ -74,5 +67,7 @@ export default function CreateAbilityDialog(props: Props) {
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose}/>
         </Dialog>
-    )
-}
+    );
+};
+
+export default CreateAbilityDialog;

@@ -3,13 +3,12 @@ import GenesysDescriptionTypography from "./typography/GenesysDescriptionTypogra
 import * as React from "react";
 import CenteredCardHeader from "./card/header/CenteredCardHeader";
 
-interface ViewProps {
-    name: string
-    value: string
+interface Props {
+    name: string;
+    value: string;
 }
 
-export function ViewFieldCard(props: ViewProps) {
-    const {name, value} = props
+const ViewFieldCard: React.FC<Props> = ({name, value})=> {
     return (
         <Grid item xs>
             <Card>
@@ -19,5 +18,7 @@ export function ViewFieldCard(props: ViewProps) {
                 </CardContent>
             </Card>
         </Grid>
-    )
-}
+    );
+};
+
+export default ViewFieldCard;

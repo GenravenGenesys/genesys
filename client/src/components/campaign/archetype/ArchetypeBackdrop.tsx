@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import {ViewFieldCard} from "../../common/ViewFieldCard";
+import ViewFieldCard from "../../common/ViewFieldCard";
 import Archetype from "../../../models/actor/player/Archetype";
 import {CharacteristicType} from "../../../models/actor/Characteristic";
 import {Card, CardContent, Grid} from "@mui/material";
@@ -8,14 +8,12 @@ import {StatsType} from "../../../models/actor/Stats";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 
 interface Props {
-    archetype: Archetype
-    open: boolean
-    onClose: () => void
+    archetype: Archetype;
+    open: boolean;
+    onClose: () => void;
 }
 
-export default function ArchetypeBackdrop(props: Props) {
-    const {archetype, open, onClose} = props
-
+const ArchetypeBackdrop: React.FC<Props> = ({archetype, open, onClose})=> {
     return (
         <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={open} onClick={onClose}>
             <Card>
@@ -37,5 +35,7 @@ export default function ArchetypeBackdrop(props: Props) {
                 </CardContent>
             </Card>
         </Backdrop>
-    )
-}
+    );
+};
+
+export default ArchetypeBackdrop;

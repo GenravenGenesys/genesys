@@ -9,9 +9,9 @@ import {CharacteristicType} from "../../models/actor/Characteristic";
 import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHeaderWithAction";
 import SkillTypeCard from "../common/card/select/SkillTypeCard";
 import CharacteristicTypeCard from "../common/card/select/CharacteristicTypeCard";
-import {BooleanTextFieldCard} from "../common/card/BooleanTextFieldCard";
+import BooleanTextFieldCard from "../common/card/BooleanTextFieldCard";
 
-export default function SkillPage() {
+const SkillPage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [skill, setSkill] = useState<Skill | null>(null);
     let pathname = useLocation().pathname;
@@ -62,4 +62,6 @@ export default function SkillPage() {
             </CardContent>
         </Card>
     );
-}
+};
+
+export default SkillPage;

@@ -1,21 +1,19 @@
 import {Grid} from "@mui/material";
-import {BooleanTextFieldCard} from "../common/card/BooleanTextFieldCard";
+import BooleanTextFieldCard from "../common/card/BooleanTextFieldCard";
 import ActivationCard from "../common/card/select/ActivationCard";
 import TierCard from "../common/card/select/TierCard";
 import * as React from "react";
 import Talent, {Activation, Tier} from "../../models/Talent";
 import TalentService from "../../services/TalentService";
-import {ViewFieldCard} from "../common/ViewFieldCard";
-import {TextFieldCard} from "../common/card/TextFieldCard";
+import TextFieldCard from "../common/card/TextFieldCard";
 
 interface Props {
-    talent: Talent
-    updateTalent: (talent: Talent) => void
-    disabled: boolean
+    talent: Talent;
+    updateTalent: (talent: Talent) => void;
+    disabled: boolean;
 }
 
-export default function TalentBaseTab(props: Props) {
-    const {talent, updateTalent, disabled} = props;
+const TalentBaseTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
 
     const handleRankedChange = async (value: boolean) => {
         if (talent) {
@@ -47,18 +45,6 @@ export default function TalentBaseTab(props: Props) {
         }
     };
 
-    const renderDescriptionCard = () => {
-        return disabled ? <ViewFieldCard name={"Description"} value={talent.description}/> :
-            <TextFieldCard title={"Description"} value={talent.description}
-                           disabled={disabled} onChange={handleDescriptionChange}/>;
-    };
-
-    const renderSummaryCard = () => {
-        return disabled ? <ViewFieldCard name={"Summary"} value={talent.summary}/> :
-            <TextFieldCard title={"Summary"} value={talent.summary}
-                           disabled={disabled} onChange={handleSummaryChange}/>;
-    };
-
     return (
         <Grid container justifyContent={'center'}>
             <Grid container spacing={2}>
@@ -70,11 +56,15 @@ export default function TalentBaseTab(props: Props) {
                           disabled={disabled}/>
             </Grid>
             <Grid container spacing={2}>
-                {renderSummaryCard()}
+                <TextFieldCard title={"Summary"} value={talent.summary}
+                               disabled={disabled} onChange={handleSummaryChange}/>
             </Grid>
             <Grid container spacing={2}>
-                {renderDescriptionCard()}
+                <TextFieldCard title={"Description"} value={talent.description}
+                               disabled={disabled} onChange={handleDescriptionChange}/>
             </Grid>
         </Grid>
     );
-}
+};
+
+export default TalentBaseTab;

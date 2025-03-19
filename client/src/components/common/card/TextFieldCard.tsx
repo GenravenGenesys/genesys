@@ -2,17 +2,17 @@ import * as React from "react";
 import {Card, CardContent, Grid} from "@mui/material";
 import CenteredCardHeader from "./header/CenteredCardHeader";
 import GenesysTextField from "../GenesysTextField";
+import ViewFieldCard from "../ViewFieldCard";
 
 interface Props {
     title: string;
     value: string;
     disabled: boolean;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function TextFieldCard(props: Props) {
-    const {title, value, disabled, onChange} = props
-    return (
+const TextFieldCard: React.FC<Props> = ({title, value, disabled, onChange})=> {
+    return disabled ? <ViewFieldCard name={"Description"} value={value}/> :
         <Grid item xs>
             <Card>
                 <CenteredCardHeader title={title}/>
@@ -21,5 +21,6 @@ export function TextFieldCard(props: Props) {
                 </CardContent>
             </Card>
         </Grid>
-    )
-}
+};
+
+export default TextFieldCard;

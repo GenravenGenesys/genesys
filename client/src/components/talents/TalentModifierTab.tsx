@@ -7,7 +7,7 @@ import {useState} from "react";
 import TalentModifierCard from "./modifier/TalentModifierCard";
 import TalentCareerSkillsCard from "./skill/TalentCareerSkillsCard";
 import TalentSkillCheckCard from "./skill/TalentSkillCheckCard";
-import {NumberTextFieldCard} from "../common/card/NumberTextField";
+import NumberTextFieldCard from "../common/card/NumberTextField";
 import {StatsType} from "../../models/actor/Stats";
 import Cost, {CostType} from "../../models/common/Cost";
 import Limit, {LimitType} from "../../models/common/Limit";

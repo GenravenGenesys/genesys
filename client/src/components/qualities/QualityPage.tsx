@@ -6,16 +6,15 @@ import {Fragment, useEffect, useState} from "react";
 import Quality from "../../models/Quality";
 import QualityModifierCard from "./modifiers/QualityModifierCard";
 import QualityService from "../../services/QualityService";
-import {ViewFieldCard} from "../common/ViewFieldCard";
 import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHeaderWithAction";
-import {NumberTextFieldCard} from "../common/card/NumberTextField";
-import {TextFieldCard} from "../common/card/TextFieldCard";
-import {BooleanTextFieldCard} from "../common/card/BooleanTextFieldCard";
+import NumberTextFieldCard from "../common/card/NumberTextField";
+import TextFieldCard from "../common/card/TextFieldCard";
+import BooleanTextFieldCard from "../common/card/BooleanTextFieldCard";
 
-export default function QualityPage() {
-    const {id} = useParams<{ id: string }>()
-    const [quality, setQuality] = useState<Quality | null>(null)
-    let pathname = useLocation().pathname
+const QualityPage = ()=> {
+    const {id} = useParams<{ id: string }>();
+    const [quality, setQuality] = useState<Quality | null>(null);
+    let pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {
@@ -60,19 +59,14 @@ export default function QualityPage() {
         }
     };
 
-    const renderDescriptionCard = () => {
-        return pathname.endsWith('/view') ? <ViewFieldCard name={"Description"} value={quality.description}/> :
-            <TextFieldCard title={"Description"} value={quality.description}
-                           disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>;
-    };
-
     return (
         <Card>
             <CenteredCardHeaderWithAction title={quality.name} path={RootPath.Qualities + quality.id}/>
             <CardContent>
                 <Grid container justifyContent={'center'}>
                     <Grid container justifyContent={'center'}>
-                        {renderDescriptionCard()}
+                        <TextFieldCard title={"Description"} value={quality.description}
+                                       disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
                     </Grid>
                     <Grid container spacing={2}>
                         <BooleanTextFieldCard title={"Armor Quality"} value={quality.armor}
@@ -88,5 +82,7 @@ export default function QualityPage() {
                 </Grid>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default QualityPage;

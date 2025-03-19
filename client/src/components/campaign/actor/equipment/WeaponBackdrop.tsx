@@ -3,7 +3,7 @@ import Backdrop from '@mui/material/Backdrop';
 import {Weapon} from "../../../../models/equipment/Weapon";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import {Card, CardContent, Grid} from "@mui/material";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -14,13 +14,12 @@ import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCe
 import {renderDamage, renderPrice, renderQualities} from "../../../../models/equipment/EquipmentHelper";
 
 interface Props {
-    weapon: Weapon
-    open: boolean
-    onClose: () => void
+    weapon: Weapon;
+    open: boolean;
+    onClose: () => void;
 }
 
-export default function WeaponBackdrop(props: Props) {
-    const {weapon, open, onClose} = props;
+const WeaponBackdrop: React.FC<Props> = ({weapon, open, onClose})=> {
     const headers = ['Name', 'Skill', 'Damage', 'Critical', 'Range', 'Price', 'Special Qualities'];
 
     return (
@@ -52,5 +51,7 @@ export default function WeaponBackdrop(props: Props) {
                 </CardContent>
             </Card>
         </Backdrop>
-    )
-}
+    );
+};
+
+export default WeaponBackdrop;
