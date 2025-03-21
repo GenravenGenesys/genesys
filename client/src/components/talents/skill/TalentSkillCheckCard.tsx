@@ -11,19 +11,18 @@ import {Difficulty} from "../../../models/common/Difficulty";
 import {useState} from "react";
 
 interface Props {
-    talent: Talent
-    updateTalent: (talent: Talent) => void
-    disabled: boolean
+    talent: Talent;
+    updateTalent: (talent: Talent) => void;
+    disabled: boolean;
 }
 
-export default function TalentSkillCheckCard(props: Props) {
-    const {talent, updateTalent, disabled} = props;
+const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled})=> {
     const [opposed, setOpposed] = useState<boolean>(!talent.talentSkillCheck.difficulty);
     const skills = useFetchAllSkills();
 
     const handleChange = () => {
         setOpposed(!opposed);
-    }
+    };
 
     const handleSkillChange = (value: Skill) => {
         updateTalent({...talent, talentSkillCheck: {...talent.talentSkillCheck, skill: value as ActorSkill}});
@@ -63,4 +62,6 @@ export default function TalentSkillCheckCard(props: Props) {
             </Card>
         </Grid>
     );
-}
+};
+
+export default TalentSkillCheckCard;

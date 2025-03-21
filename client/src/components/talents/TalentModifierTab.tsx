@@ -13,13 +13,12 @@ import Cost, {CostType} from "../../models/common/Cost";
 import Limit, {LimitType} from "../../models/common/Limit";
 
 interface Props {
-    talent: Talent
-    updateTalent: (talent: Talent) => void
-    disabled: boolean
+    talent: Talent;
+    updateTalent: (talent: Talent) => void;
+    disabled: boolean;
 }
 
-export default function TalentModifierTab(props: Props) {
-    const {talent, updateTalent, disabled} = props;
+const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
     const [state, setState] = useState({
         cost: !(talent.cost.type === CostType.None && talent.limit.type === LimitType.None),
         careerSkill: talent.talentSkills.potentialCareerSkills.length > 0,
@@ -173,4 +172,6 @@ export default function TalentModifierTab(props: Props) {
             <TalentModifierCard tal={talent}/>
         </Grid>
     );
-}
+};
+
+export default TalentModifierTab;
