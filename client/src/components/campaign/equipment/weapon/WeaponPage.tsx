@@ -116,7 +116,7 @@ const WeaponPage = ()=> {
                     <Grid container justifyContent={'center'}>
                         <SkillAutocompleteCard disabled={pathname.endsWith('/view')}
                                                handleSkillChange={handleSkillChange} skills={skills}
-                                               startingSkill={weapon.skill}/>
+                                               startingSkill={weapon.skill} title={'Required Skill'}/>
                         <RangeBandCard value={weapon.range} onChange={handleRangeBandChange}
                                        disabled={pathname.endsWith('/view')}/>
                     </Grid>

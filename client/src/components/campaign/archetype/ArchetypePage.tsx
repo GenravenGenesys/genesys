@@ -139,7 +139,7 @@ const ArchetypePage = ()=> {
                     <Grid container>
                         <SkillAutocompleteCard disabled={!pathname.endsWith(archetype.id + '/edit')}
                                                handleSkillChange={handleSkillChange} skills={skills}
-                                               startingSkill={archetype.skill}/>
+                                               startingSkill={archetype.skill} title={'Starting Skill'}/>
                     </Grid>
                 </Grid>
                 <ArchetypeAbilityCard archetype={archetype}/>

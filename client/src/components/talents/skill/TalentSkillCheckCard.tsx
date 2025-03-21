@@ -50,14 +50,14 @@ export default function TalentSkillCheckCard(props: Props) {
                     <Grid container justifyContent={'center'}>
                         <SkillAutocompleteCard disabled={disabled} handleSkillChange={handleSkillChange}
                                                skills={skills}
-                                               startingSkill={talent.talentSkillCheck.skill}/>
+                                               startingSkill={talent.talentSkillCheck.skill} title={'User Skill'}/>
                         {!opposed &&
                             <DifficultyCard value={talent.talentSkillCheck.difficulty} onChange={handleDifficultyChange}
                                             disabled={disabled}/>}
                         {opposed &&
                             <SkillAutocompleteCard disabled={disabled} handleSkillChange={handleOpposedSkillChange}
                                                    skills={skills}
-                                                   startingSkill={talent.talentSkillCheck.opposedSkill}/>}
+                                                   startingSkill={talent.talentSkillCheck.opposedSkill} title={'Target Skill'}/>}
                     </Grid>
                 </CardContent>
             </Card>

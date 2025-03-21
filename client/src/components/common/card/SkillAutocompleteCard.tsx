@@ -6,17 +6,18 @@ import * as React from "react";
 import ViewFieldCard from "../ViewFieldCard";
 
 interface Props {
+    title: string;
     disabled: boolean;
     handleSkillChange: (newValue: Skill) => void;
     skills: Skill[];
     startingSkill: Skill;
 }
 
-const SkillAutocompleteCard: React.FC<Props> = ({handleSkillChange, disabled, startingSkill, skills}) => {
-    return disabled ? <ViewFieldCard name={'Skill'} value={startingSkill ? startingSkill.name : ''}/> :
+const SkillAutocompleteCard: React.FC<Props> = ({handleSkillChange, disabled, startingSkill, skills, title}) => {
+    return disabled ? <ViewFieldCard name={title} value={startingSkill ? startingSkill.name : ''}/> :
         <Grid item xs>
             <Card>
-                <CenteredCardHeader title={'Skill'}/>
+                <CenteredCardHeader title={title}/>
                 <CardContent>
                     <Autocomplete
                         options={skills}
