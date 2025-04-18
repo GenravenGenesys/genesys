@@ -9,9 +9,7 @@ interface Props {
     disabled: boolean
 }
 
-export default function SkillTypeCard(props: Props) {
-    const {value, onChange, disabled} = props;
-
+const SkillTypeCard: React.FC<Props> = ({value, onChange, disabled})=>  {
     return (
         <Grid item xs>
             <Card>
@@ -33,5 +31,7 @@ export default function SkillTypeCard(props: Props) {
                 </CardContent>
             </Card>
         </Grid>
-    )
-}
+    );
+};
+
+export default SkillTypeCard;

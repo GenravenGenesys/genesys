@@ -4,17 +4,17 @@ import Player from "../../../../models/actor/player/Player";
 import PlayerView from "./PlayerView";
 
 interface Props {
-    player: Player
-    open: boolean
-    onClose: () => void
+    player: Player;
+    open: boolean;
+    onClose: () => void;
 }
 
-export default function PlayerBackdrop(props: Props) {
-    const {player, open, onClose} = props
-
+const PlayerBackdrop: React.FC<Props> = ({player, open, onClose})=> {
     return (
         <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open} onClick={onClose}>
             <PlayerView player={player}/>
         </Backdrop>
-    )
-}
+    );
+};
+
+export default PlayerBackdrop;

@@ -9,6 +9,7 @@ import com.github.genraven.genesys.domain.actor.npc.Rival;
 import com.github.genraven.genesys.domain.actor.player.Player;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -136,9 +137,7 @@ public class Character {
     private List<ActorTalent> talents;
     private List<CriticalInjury> injuries;
     private List<ActorSkill> skills;
-    private StatusEffect disoriented = new StatusEffect(StatusEffect.Type.DISORIENTED);
-    private StatusEffect immobilized = new StatusEffect(StatusEffect.Type.IMMOBILIZED);
-    private StatusEffect staggered = new StatusEffect(StatusEffect.Type.STAGGERED);
+    private List<StatusEffect> effects = new ArrayList<>();
 
     private int size;
 }

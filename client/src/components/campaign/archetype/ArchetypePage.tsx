@@ -8,19 +8,18 @@ import {Fragment, useEffect, useState} from "react";
 import SkillService from "../../../services/SkillService";
 import ArchetypeService from "../../../services/ArchetypeService";
 import Skill from "../../../models/actor/Skill";
-import {ViewFieldCard} from "../../common/ViewFieldCard";
-import {NumberTextFieldCard} from "../../common/card/NumberTextField";
-import {TextFieldCard} from "../../common/card/TextFieldCard";
+import NumberTextFieldCard from "../../common/card/NumberTextField";
+import TextFieldCard from "../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardHeaderWithAction";
 import SkillAutocompleteCard from "../../common/card/SkillAutocompleteCard";
 import CharacteristicCard from "../../common/card/CharacteristicCard";
 import ArchetypeAbilityCard from "./ability/ArchetypeAbilityCard";
 
-export default function ArchetypePage() {
-    const {id} = useParams<{ id: string }>()
-    const [archetype, setArchetype] = useState<Archetype | null>(null)
-    const [skills, setSkills] = useState<Skill[]>([])
-    let pathname = useLocation().pathname
+const ArchetypePage = ()=> {
+    const {id} = useParams<{ id: string }>();
+    const [archetype, setArchetype] = useState<Archetype | null>(null);
+    const [skills, setSkills] = useState<Skill[]>([]);
+    let pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {
@@ -96,19 +95,15 @@ export default function ArchetypePage() {
         }
     };
 
-    const renderDescriptionCard = () => {
-        return pathname.endsWith('/view') ? <ViewFieldCard name={"Description"} value={archetype.description}/> :
-            <TextFieldCard title={"Description"} value={archetype.description}
-                           disabled={!pathname.endsWith(archetype.id + '/edit')} onChange={handleDescriptionChange}/>;
-    }
-
     return (
         <Card>
             <CenteredCardHeaderWithAction title={archetype.name} path={RootPath.Archetype + archetype.id}/>
             <CardContent>
                 <Grid container justifyContent={'center'}>
                     <Grid container justifyContent={'center'}>
-                        {renderDescriptionCard()}
+                        <TextFieldCard title={"Description"} value={archetype.description}
+                                       disabled={!pathname.endsWith(archetype.id + '/edit')}
+                                       onChange={handleDescriptionChange}/>
                     </Grid>
                     <Grid container spacing={2}>
                         <CharacteristicCard type={CharacteristicType.Brawn} value={archetype.brawn}
@@ -144,11 +139,13 @@ export default function ArchetypePage() {
                     <Grid container>
                         <SkillAutocompleteCard disabled={!pathname.endsWith(archetype.id + '/edit')}
                                                handleSkillChange={handleSkillChange} skills={skills}
-                                               startingSkill={archetype.skill}/>
+                                               startingSkill={archetype.skill} title={'Starting Skill'}/>
                     </Grid>
                 </Grid>
                 <ArchetypeAbilityCard archetype={archetype}/>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default ArchetypePage;

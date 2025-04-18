@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 
 import {Card, CardContent, CardHeader, Divider, Grid, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import {ViewFieldCard} from "../common/ViewFieldCard";
+import ViewFieldCard from "../common/ViewFieldCard";
 import * as React from "react";
 import Spell from "../../models/spell/Spell";
 import {ViewSpellSkillCard} from "./SpellSkillCard";

@@ -9,14 +9,15 @@ import {basicSkillDicePool} from "../../../../models/roll/dice/DicePool";
 import handleDicePoolRoll from "../../../../models/roll/DicePoolRoll";
 import {GenesysSymbols} from "../../../../models/roll/GenesysSymbols";
 import InitiativeSlot, {Type} from "../../../../models/campaign/encounter/InitiativeSlot";
-import InitiativeSlotCard from "./InitiativeSlotCard";
+import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
+import {convertResultsToString} from "../../../../models/roll/DiceRoll";
 
 interface Props {
-    npcs: SingleNonPlayerCharacter[]
+    npcs: SingleNonPlayerCharacter[];
+    updateSlots: (updatedSlots: InitiativeSlot[]) => void;
 }
 
-export default function InitiativeTrackCard(props: Props) {
-    const {npcs} = props;
+const InitiativeTrackCard: React.FC<Props> = ({npcs, updateSlots}) => {
     const [nonPlayerCharacterSkills, setNonPlayerCharacterSkills] = useState<ActorSkill[]>([]);
     const [slots, setSlots] = useState<InitiativeSlot[]>([]);
 
@@ -37,7 +38,7 @@ export default function InitiativeTrackCard(props: Props) {
                 [GenesysSymbols.Blank]: 0,
             };
             let results = handleDicePoolRoll({dice: basicSkillDicePool(npc, skill), symbols});
-            const newSlot = {type: Type.NPC, results: results} as InitiativeSlot;
+            const newSlot = {type: Type.NPC, results: results, character: {name: npc.name, id: npc.id}} as InitiativeSlot;
             setSlots(prevSlots => {
                 const updatedSlots = [...prevSlots, newSlot];
                 return updatedSlots.sort((a, b) => {
@@ -52,12 +53,32 @@ export default function InitiativeTrackCard(props: Props) {
         })
     };
 
+    const updateInitiativeSlots = () => {
+        updateSlots(slots);
+    };
+
+    const areAllSkillsSelected = () => {
+        if (nonPlayerCharacterSkills.length <= 0) {
+            return true;
+        }
+        for (let skill in nonPlayerCharacterSkills) {
+            if (skill === null || skill === undefined) {
+                return true;
+            }
+        }
+    };
+
     const renderInitiativeTrack = () => {
         if (slots.length !== 0) {
             return (
                 <Fragment>
                     {slots.map((slot) => (
-                        <InitiativeSlotCard slot={slot}/>
+                        <Card>
+                            <CenteredCardHeader title={slot.character.name}/>
+                            <CardContent>
+                                <GenesysDescriptionTypography text={convertResultsToString(slot.results)}/>
+                            </CardContent>
+                        </Card>
                     ))}
                 </Fragment>
             )
@@ -68,10 +89,15 @@ export default function InitiativeTrackCard(props: Props) {
                         <NonPlayerCharacterInitiativeCard npc={npc} onChange={handleSkillChange} index={index}/>
                     ))}
                 </Fragment>
-
             )
         }
-    }
+    };
+
+    const renderButtons = () => {
+        return slots.length === 0 ? <Button color='primary' variant='contained' onClick={rollInitiative}
+                                            disabled={areAllSkillsSelected()}>Roll Initiative</Button> :
+            <Button color='primary' variant='contained' onClick={updateInitiativeSlots}>Claim Initiative Slots</Button>
+    };
 
     return (
         <Card>
@@ -81,9 +107,11 @@ export default function InitiativeTrackCard(props: Props) {
                     {renderInitiativeTrack()}
                 </Grid>
                 <Grid container justifyContent={'center'}>
-                    {slots.length === 0 && <Button color='primary' variant='contained' onClick={rollInitiative}>Roll Initiative</Button>}
+                    {renderButtons()}
                 </Grid>
             </CardContent>
         </Card>
     );
 }
+
+export default InitiativeTrackCard;

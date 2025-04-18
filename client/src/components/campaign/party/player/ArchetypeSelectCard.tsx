@@ -6,10 +6,12 @@ import ArchetypeService from "../../../../services/ArchetypeService";
 import InfoIcon from "@mui/icons-material/Info";
 import * as React from "react";
 import ArchetypeBackdrop from "../../archetype/ArchetypeBackdrop";
+import {useLocation} from "react-router-dom";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 
 interface Props {
-    archetype: Archetype
-    onCommit: (value: Archetype) => void
+    archetype: Archetype;
+    onCommit: (value: Archetype) => void;
 }
 
 export default function ArchetypeSelectCard(props: Props) {
@@ -23,7 +25,7 @@ export default function ArchetypeSelectCard(props: Props) {
         })()
     }, [setArchetypes])
 
-    return (
+    return useLocation().pathname.endsWith("/view") ? <ViewFieldCard name={"Archetype"} value={archetype.name}/> :
         <Grid item xs>
             <Card>
                 <CenteredCardHeader title={'Archetype'}/>
@@ -53,5 +55,4 @@ export default function ArchetypeSelectCard(props: Props) {
                 </CardContent>
             </Card>
         </Grid>
-    )
-}
+};

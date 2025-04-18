@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import {Gear} from "../../../../models/equipment/Gear";
 import {EquipmentPath} from "../../../../services/RootPath";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 import {ViewNumberCheckBoxCard} from "../../../common/NumberCheckBox";
 
 interface Props {

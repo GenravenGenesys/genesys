@@ -3,7 +3,7 @@ import Backdrop from '@mui/material/Backdrop';
 import {Armor} from "../../../../models/equipment/Armor";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import {Card, CardContent, Divider, Grid} from "@mui/material";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";

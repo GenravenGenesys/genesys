@@ -30,7 +30,5 @@ export default interface Character {
     talents: ActorTalent[],
     skills: ActorSkill[],
     injuries: Injury[],
-    disoriented: StatusEffect
-    immobilized: StatusEffect
-    staggered: StatusEffect
+    effects: StatusEffect[],
 }

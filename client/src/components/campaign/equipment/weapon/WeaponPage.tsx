@@ -9,18 +9,17 @@ import {useFetchSkillsByType} from "../../../skills/SkillWorkflow";
 import Skill, {SkillType} from "../../../../models/actor/Skill";
 import EquipmentService from "../../../../services/EquipmentService";
 import {RangeBand} from "../../../../models/common/RangeBand";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
-import {TextFieldCard} from "../../../common/card/TextFieldCard";
+import TextFieldCard from "../../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
 import {EquipmentPath} from "../../../../services/RootPath";
 import SkillAutocompleteCard from "../../../common/card/SkillAutocompleteCard";
 import RangeBandCard from "../../../common/card/select/RangeBandCard";
-import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
-import {BooleanTextFieldCard} from "../../../common/card/BooleanTextFieldCard";
+import NumberTextFieldCard from "../../../common/card/NumberTextField";
+import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import WeaponDamageTextFieldCard from "../../../common/card/WeaponDamageTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 
-export default function WeaponPage() {
+const WeaponPage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [weapon, setWeapon] = useState<Weapon | null>(null);
     const skills = useFetchSkillsByType(SkillType.Combat);
@@ -105,12 +104,6 @@ export default function WeaponPage() {
         }
     };
 
-    const renderDescriptionCard = () => {
-        return pathname.endsWith('/view') ? <ViewFieldCard name={"Description"} value={weapon.description}/> :
-            <TextFieldCard title={"Description"} value={weapon.description}
-                           disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>;
-    };
-
     const updateWeapon = async (updatedWeapon: Weapon) => {
         setWeapon(await EquipmentService.updateWeapon(updatedWeapon));
     };
@@ -123,7 +116,7 @@ export default function WeaponPage() {
                     <Grid container justifyContent={'center'}>
                         <SkillAutocompleteCard disabled={pathname.endsWith('/view')}
                                                handleSkillChange={handleSkillChange} skills={skills}
-                                               startingSkill={weapon.skill}/>
+                                               startingSkill={weapon.skill} title={'Required Skill'}/>
                         <RangeBandCard value={weapon.range} onChange={handleRangeBandChange}
                                        disabled={pathname.endsWith('/view')}/>
                     </Grid>
@@ -153,12 +146,15 @@ export default function WeaponPage() {
                                              max={10} disabled={pathname.endsWith('/view')}/>
                     </Grid>
                     <Grid container justifyContent={'center'}>
-                        {renderDescriptionCard()}
+                        <TextFieldCard title={"Description"} value={weapon.description}
+                                       disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
                     </Grid>
                     <WeaponQualityCard weapon={weapon} updateWeapon={updateWeapon} disabled={pathname.endsWith('/view')}/>
                     <WeaponModifierCard weapon={weapon} updateWeapon={updateWeapon} disabled={pathname.endsWith('/view')}/>
                 </Grid>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default WeaponPage;

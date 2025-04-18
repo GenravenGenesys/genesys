@@ -4,20 +4,18 @@ import * as React from 'react';
 import {Armor} from "../../../../models/equipment/Armor";
 import {Fragment, useEffect, useState} from "react";
 import EquipmentService from "../../../../services/EquipmentService";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
-import {TextFieldCard} from "../../../common/card/TextFieldCard";
+import TextFieldCard from "../../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
 import {EquipmentPath} from "../../../../services/RootPath";
 import SoakCard from "../../../common/card/SoakCard";
 import DefenseCard from "../../../common/card/DefenseCard";
-import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
-import {BooleanTextFieldCard} from "../../../common/card/BooleanTextFieldCard";
+import NumberTextFieldCard from "../../../common/card/NumberTextField";
+import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 import ArmorQualityCard from "./quality/ArmorQualityCard";
 import ArmorModifierCard from "./modifier/ArmorModifierCard";
 
-
-export default function ArmorPage() {
+const ArmorPage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [armor, setArmor] = useState<Armor | null>(null);
     let pathname = useLocation().pathname;
@@ -77,12 +75,6 @@ export default function ArmorPage() {
         }
     };
 
-    const renderDescriptionCard = () => {
-        return pathname.endsWith('/view') ? <ViewFieldCard name={"Description"} value={armor.description}/> :
-            <TextFieldCard title={"Description"} value={armor.description}
-                           disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>;
-    };
-
     const updateArmor = async (updatedArmor: Armor) => {
         setArmor(await EquipmentService.updateArmor(updatedArmor));
     };
@@ -92,7 +84,8 @@ export default function ArmorPage() {
             <CenteredCardHeaderWithAction title={armor.name} path={EquipmentPath.Armor + armor.id}/>
             <CardContent>
                 <Grid container justifyContent={'center'}>
-                    {renderDescriptionCard()}
+                    <TextFieldCard title={"Description"} value={armor.description}
+                                   disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
                 </Grid>
                 <Grid container justifyContent={'center'}>
                     <SoakCard armor={armor} updateSoak={handleSoakChange}/>
@@ -115,5 +108,7 @@ export default function ArmorPage() {
                 <ArmorModifierCard armor={armor} updateArmor={updateArmor} disabled={pathname.endsWith('/view')}/>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default ArmorPage;

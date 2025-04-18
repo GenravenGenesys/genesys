@@ -11,7 +11,7 @@ import {Button} from "@mui/material";
 import Scene from "../../../models/campaign/Scene";
 import SceneBackdrop from "./SceneBackdrop";
 
-export default function CampaignSceneSelectionTable() {
+const CampaignSceneSelectionTable = () => {
     const [scenes, setScenes] = useState<Scene[]>([]);
     const [openSceneBackDrop, setOpenSceneBackDrop] = useState(false);
     const headers = ['Name', 'Add'];
@@ -24,7 +24,7 @@ export default function CampaignSceneSelectionTable() {
 
     const addScene = async (scene: Scene) => {
         await CampaignService.addCampaignScene(scene);
-    }
+    };
 
     return (
         <TableContainer component={Paper}>
@@ -49,4 +49,6 @@ export default function CampaignSceneSelectionTable() {
             </Table>
         </TableContainer>
     );
-}
+};
+
+export default CampaignSceneSelectionTable;

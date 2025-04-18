@@ -1,29 +1,29 @@
-import {Dialog, DialogContent, DialogTitle, Divider, Grid, TextField} from "@mui/material";
+import {Dialog, DialogContent, Divider, Grid, TextField} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 import {ActorWeapon, Weapon, WeaponSlot} from "../../../../../models/equipment/Weapon";
 import Skill, {SkillType} from "../../../../../models/actor/Skill";
 import {RangeBand} from "../../../../../models/common/RangeBand";
-import {GenesysDialogActions} from "../../../../common/dialog/GenesysDialogActions";
+import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
 import {useFetchSkillsByType} from "../../../../skills/SkillWorkflow";
 import {ActorSkill} from "../../../../../models/actor/Actor";
 import {useLocation} from "react-router-dom";
 import SkillAutocompleteCard from "../../../../common/card/SkillAutocompleteCard";
 import RangeBandCard from "../../../../common/card/select/RangeBandCard";
-import {NumberTextFieldCard} from "../../../../common/card/NumberTextField";
-import {BooleanTextFieldCard} from "../../../../common/card/BooleanTextFieldCard";
+import NumberTextFieldCard from "../../../../common/card/NumberTextField";
+import BooleanTextFieldCard from "../../../../common/card/BooleanTextFieldCard";
 import WeaponDamageTextFieldCard from "../../../../common/card/WeaponDamageTextFieldCard";
 import WeaponQualityCard from "../../../equipment/weapon/quality/WeaponQualityCard";
 import WeaponModifierCard from "../../../equipment/weapon/modifier/WeaponModifierCard";
+import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
 
 interface Props {
-    open: boolean
-    onCreateWeapon: (weapon: ActorWeapon) => void
-    onClose: () => void
+    open: boolean;
+    onCreateWeapon: (weapon: ActorWeapon) => void;
+    onClose: () => void;
 }
 
-export default function CreateWeaponDialog(props: Props) {
-    const {open, onCreateWeapon, onClose} = props
+const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> {
     const [weapon, setWeapon] = useState<ActorWeapon>({
         slot: WeaponSlot.None,
         id: 'custom',
@@ -83,7 +83,7 @@ export default function CreateWeaponDialog(props: Props) {
 
     return (
         <Dialog open={open} onClose={onClose} fullScreen>
-            <DialogTitle>Add Custom Weapon</DialogTitle>
+            <CenteredDialogTitle title={'Add Custom Weapon'}/>
             <DialogContent>
                 <Grid container>
                     <TextField
@@ -98,7 +98,7 @@ export default function CreateWeaponDialog(props: Props) {
                 <Grid container spacing={2}>
                     <SkillAutocompleteCard disabled={pathname.endsWith('/view')} handleSkillChange={handleSkillChange}
                                            skills={useFetchSkillsByType(SkillType.Combat)}
-                                           startingSkill={weapon.skill}/>
+                                           startingSkill={weapon.skill} title={'Required Skill'}/>
                     <NumberTextFieldCard title={'Hands'} value={weapon.hands} onChange={handleHandsChange} min={1}
                                          max={2} disabled={pathname.endsWith('/view')}/>
                     <BooleanTextFieldCard title={'Brawn Powered'} value={weapon.brawn}
@@ -121,5 +121,7 @@ export default function CreateWeaponDialog(props: Props) {
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose}/>
         </Dialog>
-    )
-}
+    );
+};
+
+export default CreateWeaponDialog;

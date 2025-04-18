@@ -6,20 +6,19 @@ import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import {Grid} from "@mui/material";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
-import CharacteristicRow, {ActorCharacteristicRow} from "../../actor/common/CharacteristicRow";
-import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
+import CharacteristicRow from "../../actor/common/CharacteristicRow";
+import NumberTextFieldCard from "../../../common/card/NumberTextField";
 import {StatsType} from "../../../../models/actor/Stats";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 import * as React from "react";
 import {DefenseType} from "../../../../models/actor/Defense";
 
 interface Props {
-    minion: Minion
-    updateMinion: (minion: Minion) => void
+    minion: Minion;
+    updateMinion: (minion: Minion) => void;
 }
 
-export default function MinionCharacteristicTab(props: Props) {
-    const {minion, updateMinion} = props;
+const MinionCharacteristicTab: React.FC<Props> = ({minion, updateMinion}) => {
     let pathname = useLocation().pathname;
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {
@@ -109,30 +108,20 @@ export default function MinionCharacteristicTab(props: Props) {
         return <Fragment/>
     };
 
-    const renderCharacteristicRow = () => {
-        return pathname.endsWith(minion.id + '/edit') ?
-            <ActorCharacteristicRow actor={minion} handleCharacteristicChange={handleCharacteristicChange}/> :
-            <CharacteristicRow actor={minion}/>;
-    };
-
-    const renderWoundsCard = () => {
-        return pathname.endsWith(minion.id + '/edit') ?
-            <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={minion.wounds.threshold}
-                                 onChange={handleWoundsChange} min={1} max={20}
-                                 disabled={false}/> :
-            <ViewFieldCard name={StatsType.Wounds + ' Threshold'} value={String(minion.wounds.threshold)}/>
-    };
-
     return (
         <Grid container justifyContent={'center'}>
-            {renderCharacteristicRow()}
+            <CharacteristicRow actor={minion} handleCharacteristicChange={handleCharacteristicChange}/>
             <Grid container spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(minion.soak)}/>
-                {renderWoundsCard()}
+                <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={minion.wounds.threshold}
+                                     onChange={handleWoundsChange} min={1} max={20}
+                                     disabled={pathname.endsWith(minion.id + '/view')}/>
                 <ViewFieldCard name={DefenseType.Melee} value={String(minion.melee)}/>
                 <ViewFieldCard name={DefenseType.Ranged} value={String(minion.ranged)}/>
             </Grid>
             {renderRatingRow()}
         </Grid>
-    )
-}
+    );
+};
+
+export default MinionCharacteristicTab;

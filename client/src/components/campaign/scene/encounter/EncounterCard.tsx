@@ -1,45 +1,54 @@
 import {Card, CardContent} from "@mui/material";
-import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import * as React from "react";
-import {useEffect, useState} from "react";
+import Encounter from "../../../../models/campaign/encounter/Encounter";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
+import TableBody from "@mui/material/TableBody";
 import {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor";
-import SceneService from "../../../../services/SceneService";
-import Scene from "../../../../models/campaign/Scene";
-import InitiativeTrackCard from "./InitiativeTrackCard";
+import TableContainer from "@mui/material/TableContainer";
+import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
+import TableRow from "@mui/material/TableRow";
+import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
+import {useNavigate} from "react-router-dom";
+import {CampaignPath} from "../../../../services/RootPath";
 
 interface Props {
-    scene: Scene
+    sceneId: string;
+    encounter: Encounter;
 }
 
-export default function EncounterCard(props: Props) {
-    const {scene} = props;
-    const [singleNonPlayerCharacters, setSingleNonPlayerCharacters] = useState<SingleNonPlayerCharacter[]>([]);
-    // const [value, setValue] = useState('1');
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            const minions = await SceneService.getEnemyMinionsForScene(scene.id);
-            const rivals = await SceneService.getEnemyRivalsForScene(scene.id);
-            const nemeses = await SceneService.getEnemyNemesesForScene(scene.id);
-            const combinedEnemies = [
-                ...minions.map(minion => ({...minion})),
-                ...rivals.map(rival => ({...rival})),
-                ...nemeses.map(nemesis => ({...nemesis}))
-            ];
-            setSingleNonPlayerCharacters(combinedEnemies);
-        })();
-    }, [scene]);
-
-    // const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    //     setValue(newValue);
-    // };
+const EncounterCard = ({sceneId, encounter}: Props) => {
+    const combinedEnemies = [
+        ...(encounter.enemyMinionGroups ? encounter.enemyMinionGroups.map(minion => ({...minion})) : []),
+        ...(encounter.enemyRivals ? encounter.enemyRivals.map(rival => ({...rival})) : []),
+        ...(encounter.enemyNemeses ? encounter.enemyNemeses.map(nemesis => ({...nemesis})) : [])
+    ];
+    let headers = ['Name', 'Type'];
+    let navigate = useNavigate();
 
     return (
         <Card>
-            <CenteredCardHeader title={'Encounters'}/>
+            <CenteredCardHeaderWithButton title={'Encounter'}
+                                          onClick={(): void => navigate(CampaignPath.Scene + sceneId + '/encounter/' + encounter.type)}
+                                          buttonText={'Start Encounter'}/>
             <CardContent>
-                <InitiativeTrackCard npcs={singleNonPlayerCharacters}/>
+                <TableContainer component={Paper}>
+                    <Table>
+                        {renderSingleRowTableHeader(headers)}
+                        <TableBody>
+                            {combinedEnemies.map((npc: SingleNonPlayerCharacter) => (
+                                <TableRow key={npc.id}>
+                                    <TypographyCenterTableCell value={npc.name}/>
+                                    <TypographyCenterTableCell value={npc.type}/>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </CardContent>
         </Card>
     );
-}
+};
+
+export default EncounterCard;

@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import MinionService from "../../../../services/actor/MinionService";
 import {ActorPath} from "../../../../services/RootPath";
 import {ActorType} from "../../../../models/actor/Actor";
-import {GenesysDialogActions} from "../../../common/dialog/GenesysDialogActions";
+import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
 import {useFetchCurrentCampaign} from "../../CampaignWorkflow";
 import RivalService from "../../../../services/actor/RivalService";
 import NemesisService from "../../../../services/actor/NemesisService";

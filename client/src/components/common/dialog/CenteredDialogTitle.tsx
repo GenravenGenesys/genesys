@@ -1,10 +1,12 @@
-import {DialogTitle} from "@mui/material";
+import { DialogTitle } from "@mui/material";
+import * as React from "react";
 
 interface Props {
-    title: string
+    title: string;
 }
 
-export default function CenteredDialogTitle(props: Props) {
-    const {title} = props;
-    return <DialogTitle style={{textAlign: "center"}}>{title}</DialogTitle>;
+const CenteredDialogTitle: React.FC<Props> = ({ title }) => {
+    return <DialogTitle style={{ textAlign: "center" }}>{title}</DialogTitle>;
 }
+
+export default CenteredDialogTitle;

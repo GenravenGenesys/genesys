@@ -59,6 +59,7 @@ public class ActorRouter {
                 .path("/campaigns/{name}", builder -> builder
                         .GET("/minions/", actorHandler::getAllMinions)
                         .POST("/minions/{minionName}", actorHandler::createMinion)
-                ).build();
+                )
+                .build();
     }
 }

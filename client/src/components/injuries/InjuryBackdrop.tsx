@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import {Card, CardContent, CardHeader, Divider, Grid} from "@mui/material";
-import {ViewFieldCard} from "../common/ViewFieldCard";
+import ViewFieldCard from "../common/ViewFieldCard";
 import Injury from "../../models/Injury";
 import CriticalInjuryModifierCard from "./modifiers/CriticalInjuryModifierCard";
 

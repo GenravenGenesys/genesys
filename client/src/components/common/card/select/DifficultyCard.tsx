@@ -5,13 +5,12 @@ import CenteredCardHeader from "../header/CenteredCardHeader";
 import GenesysDifficultyDiceTypography from "../../typography/GenesysDifficultyDiceTypography";
 
 interface Props {
-    value: Difficulty
-    onChange: (value: Difficulty) => void
-    disabled: boolean
+    value: Difficulty;
+    onChange: (value: Difficulty) => void;
+    disabled: boolean;
 }
 
-export default function DifficultyCard(props: Props) {
-    const {value, onChange, disabled} = props;
+const DifficultyCard: React.FC<Props> = ({value, onChange, disabled}) => {
 
     const renderViewCard = () => {
         return (
@@ -24,7 +23,7 @@ export default function DifficultyCard(props: Props) {
                 </Card>
             </Grid>
         )
-    }
+    };
 
     const renderCard = () => {
         return (
@@ -52,4 +51,6 @@ export default function DifficultyCard(props: Props) {
     };
 
     return disabled ? renderViewCard() : renderCard();
-}
+};
+
+export default DifficultyCard;

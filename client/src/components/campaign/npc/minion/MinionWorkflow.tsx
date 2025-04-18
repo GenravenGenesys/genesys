@@ -1,13 +1,11 @@
-import {Fragment} from "react";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import CampaignMinion from "./CampaignMinion";
-import {ActorPath} from "../../../../services/RootPath";
+import { ActorPath } from "../../../../services/RootPath";
 import MinionPage from "./MinionPage";
+import * as React from "react";
 
-export default function MinionWorkflow() {
-    return (
-        <Fragment>
-            {useLocation().pathname.endsWith(ActorPath.Minion) ? <CampaignMinion/> : <MinionPage/>}
-        </Fragment>
-    )
-}
+const MinionWorkflow: React.FC = () => {
+    return useLocation().pathname.endsWith(ActorPath.Minion) ? <CampaignMinion /> : <MinionPage />;
+};
+
+export default MinionWorkflow;

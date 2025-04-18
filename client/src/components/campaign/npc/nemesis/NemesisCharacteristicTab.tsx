@@ -5,21 +5,20 @@ import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import {Grid} from "@mui/material";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
-import CharacteristicRow, {ActorCharacteristicRow} from "../../actor/common/CharacteristicRow";
-import {NumberTextFieldCard} from "../../../common/card/NumberTextField";
+import CharacteristicRow from "../../actor/common/CharacteristicRow";
+import NumberTextFieldCard from "../../../common/card/NumberTextField";
 import {StatsType} from "../../../../models/actor/Stats";
-import {ViewFieldCard} from "../../../common/ViewFieldCard";
+import ViewFieldCard from "../../../common/ViewFieldCard";
 import * as React from "react";
 import {DefenseType} from "../../../../models/actor/Defense";
 import {useLocation} from "react-router-dom";
 
 interface Props {
-    nemesis: Nemesis
-    updateNemesis: (nemesis: Nemesis) => void
+    nemesis: Nemesis;
+    updateNemesis: (nemesis: Nemesis) => void;
 }
 
-export default function NemesisCharacteristicTab(props: Props) {
-    const {nemesis, updateNemesis} = props;
+const NemesisCharacteristicTab: React.FC<Props> = ({nemesis, updateNemesis})=> {
     let pathname = useLocation().pathname;
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {
@@ -118,15 +117,9 @@ export default function NemesisCharacteristicTab(props: Props) {
         return <Fragment/>
     };
 
-    const renderCharacteristicRow = () => {
-        return pathname.endsWith(nemesis.id + '/edit') ?
-            <ActorCharacteristicRow actor={nemesis} handleCharacteristicChange={handleCharacteristicChange}/> :
-            <CharacteristicRow actor={nemesis}/>;
-    };
-
     return (
         <Grid container justifyContent={'center'}>
-            {renderCharacteristicRow()}
+            <CharacteristicRow actor={nemesis} handleCharacteristicChange={handleCharacteristicChange}/>
             <Grid container spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(nemesis.soak)}/>
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={nemesis.wounds.threshold}
@@ -141,4 +134,6 @@ export default function NemesisCharacteristicTab(props: Props) {
             {renderRatingRow()}
         </Grid>
     );
-}
+};
+
+export default NemesisCharacteristicTab;
