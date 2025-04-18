@@ -32,10 +32,10 @@ export default function OrganizationView(props: Props) {
             <CardContent>
                 <Grid container justifyContent={'center'}>
                     <Grid container spacing={10}>
-                        <Grid item xs={8}>
+                        <Grid xs={8}>
 
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid xs={4}>
                             <OrganizationSidebar organization={organization} />
                         </Grid>
                     </Grid>

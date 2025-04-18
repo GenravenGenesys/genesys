@@ -45,7 +45,7 @@ export default function SpendCharacteristicDialog(props: Props) {
             <DialogContent>
                 <Grid container spacing={2}>
                     {characteristics.map((characteristic, index) => (
-                        <Grid item xs={12} key={index}>
+                        <Grid xs={12} key={index}>
                             <Typography variant="h6">{characteristic.type} (Value {characteristic.current})</Typography>
                             <IconButton
                                 onClick={() => handleIncreaseLevel(characteristic)}

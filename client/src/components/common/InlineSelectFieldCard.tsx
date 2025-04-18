@@ -12,7 +12,7 @@ interface TextProps {
 export default function InputSelectFieldCard(props: TextProps): JSX.Element {
     const {defaultValue, onCommit, title, options} = props;
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>

@@ -14,7 +14,7 @@ export default function RatingCard(props: Props) {
     const {type, value, onChange, disabled} = props;
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={type}/>
                 <CardContent>

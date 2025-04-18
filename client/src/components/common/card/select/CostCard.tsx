@@ -33,12 +33,12 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
     return disabled ?
         <ViewFieldCard name={'Cost'}
                        value={cost.type === CostType.None ? CostType.None : cost.amount + ' ' + cost.type}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={'Cost'}/>
                 <CardContent>
                     <Grid container justifyContent={'center'}>
-                        <Grid item xs>
+                        <Grid xs>
                             <TextField
                                 type="number"
                                 value={cost.amount}
@@ -51,7 +51,7 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
                                 inputProps={{min: 0, max: setMaxValue()}}
                             />
                         </Grid>
-                        <Grid item xs>
+                        <Grid xs>
                             <Select
                                 value={cost.type}
                                 onChange={(e) => onChange({

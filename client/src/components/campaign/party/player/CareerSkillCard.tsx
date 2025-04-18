@@ -32,12 +32,12 @@ export default function CareerSelectCard(props: Props) {
 
     return useLocation().pathname.endsWith("/view") ?
         <ViewFieldCard name={"Career"} value={player.career.name}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={'Career'}/>
                 <CardContent>
                     <Grid container>
-                        <Grid item sx={{"width": .8}}>
+                        <Grid sx={{"width": .8}}>
                             <Autocomplete
                                 options={careers}
                                 getOptionLabel={(option) => option.name}
@@ -48,7 +48,7 @@ export default function CareerSelectCard(props: Props) {
                                                                     variant="outlined"/>}
                             />
                         </Grid>
-                        <Grid item sx={{"width": .1}}>
+                        <Grid sx={{"width": .1}}>
                             <IconButton onClick={(): void => setOpenCareerSkillDialog(true)}>
                                 <EditIcon/>
                             </IconButton>
@@ -57,7 +57,7 @@ export default function CareerSelectCard(props: Props) {
                                                          onClose={(): void => setOpenCareerSkillDialog(false)}
                                                          player={player} onSelect={onSkillSelect}/>}
                         </Grid>
-                        <Grid item sx={{"width": .1}}>
+                        <Grid sx={{"width": .1}}>
                             <IconButton onClick={(): void => setOpenCareerBackDrop(true)}>
                                 <InfoIcon/>
                             </IconButton>

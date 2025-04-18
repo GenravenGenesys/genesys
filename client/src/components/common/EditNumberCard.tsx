@@ -12,7 +12,7 @@ export default function EditNumberCard(props: Props): JSX.Element {
     const {onChange, value, title} = props
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>

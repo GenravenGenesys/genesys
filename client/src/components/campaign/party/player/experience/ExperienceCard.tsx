@@ -18,7 +18,7 @@ const ExperienceCard: React.FC<Props> = ({player}) => {
             return <ViewFieldCard name={'Available'} value={String(player.experience.available)}/>
         } else {
             return (
-                <Grid item xs>
+                <Grid xs>
                     <Card>
                         <CenteredCardHeader title={'Available'}/>
                         <CardContent>
@@ -33,7 +33,7 @@ const ExperienceCard: React.FC<Props> = ({player}) => {
     };
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Grid container spacing={2}>
                 {renderSpendExperience()}
                 <ViewFieldCard name={'Total'} value={String(player.experience.total)}/>

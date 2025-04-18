@@ -17,7 +17,7 @@ export default function PriceTextFieldCard(props: Props) {
     let pathname = useLocation().pathname;
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={"Price"}/>
                 <CardContent>

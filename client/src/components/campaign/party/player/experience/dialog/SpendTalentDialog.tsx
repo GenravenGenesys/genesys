@@ -35,19 +35,19 @@ export default function SpendTalentDialog(props: Props) {
             <CenteredDialogTitle title={'Spend Experience on Talent'}/>
             <DialogContent>
                 <Grid container spacing={2} columns={5}>
-                    <Grid item xs={1}>
+                    <Grid xs={1}>
                         <TalentDialogCard player={player} size={0} tier={Tier.First} updatePlayer={updatePlayer}/>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid xs={1}>
                         <TalentDialogCard player={player} size={1} tier={Tier.Second} updatePlayer={updatePlayer}/>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid xs={1}>
                         <TalentDialogCard player={player} size={2} tier={Tier.Third} updatePlayer={updatePlayer}/>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid xs={1}>
                         <TalentDialogCard player={player} size={3} tier={Tier.Fourth} updatePlayer={updatePlayer}/>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid xs={1}>
                         <TalentDialogCard player={player} size={4} tier={Tier.Fifth} updatePlayer={updatePlayer}/>
                     </Grid>
                 </Grid>

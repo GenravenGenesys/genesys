@@ -23,12 +23,12 @@ const LimitCard: React.FC<Props> = (props: Props) => {
         <ViewFieldCard name={'Limit'}
                        value={limit.type === LimitType.None ? LimitType.None : limit.limit + ' ' + limit.type}/>
         :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={'Limit'}/>
                 <CardContent>
                     <Grid container justifyContent={'center'}>
-                        <Grid item xs>
+                        <Grid xs>
                             <TextField
                                 type="number"
                                 value={limit.limit}
@@ -41,7 +41,7 @@ const LimitCard: React.FC<Props> = (props: Props) => {
                                 inputProps={{min: 0, max: 1}}
                             />
                         </Grid>
-                        <Grid item xs>
+                        <Grid xs>
                             <Select
                                 value={limit.type}
                                 onChange={(e) => onChange({

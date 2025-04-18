@@ -10,7 +10,7 @@ interface Props {
 
 const EncounterTypeCard: React.FC<Props> = ({ value, onChange }) => {
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title="Encounter Type" />
                 <CardContent>

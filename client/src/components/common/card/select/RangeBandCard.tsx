@@ -13,7 +13,7 @@ export default function RangeBandCard(props: Props) {
     const {value, onChange, disabled} = props;
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={'Range Band'}/>
                 <CardContent>

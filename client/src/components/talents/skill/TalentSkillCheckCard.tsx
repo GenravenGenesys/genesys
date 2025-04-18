@@ -37,7 +37,7 @@ const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled})
     };
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card sx={{width: 1}}>
                 <CenteredCardHeader title={'Skill Check'}/>
                 <Grid container justifyContent={'center'}>

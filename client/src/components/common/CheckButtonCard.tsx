@@ -28,7 +28,7 @@ export default function CheckButtonCard(props: Props): JSX.Element {
     )
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CardHeader title={title} style={{textAlign: 'center'}} />
                 <Divider />

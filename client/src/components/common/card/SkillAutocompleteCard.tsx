@@ -15,7 +15,7 @@ interface Props {
 
 const SkillAutocompleteCard: React.FC<Props> = ({handleSkillChange, disabled, startingSkill, skills, title}) => {
     return disabled ? <ViewFieldCard name={title} value={startingSkill ? startingSkill.name : ''}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>

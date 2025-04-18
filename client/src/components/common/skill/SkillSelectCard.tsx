@@ -23,7 +23,7 @@ export default function SkillSelectCard(props: Props) {
     const {defaultValue, onCommit, skills, title} = props
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>
