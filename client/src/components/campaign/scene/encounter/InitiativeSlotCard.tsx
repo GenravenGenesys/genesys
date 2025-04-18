@@ -16,6 +16,7 @@ interface Props {
 const InitiativeSlotCard: React.FC<Props> = ({slot, characters, updateSlot, index}) => {
 
     const handleCharacterChange = (character: Character) => {
+        console.log(character)
         updateSlot({...slot, character: character}, index);
     };
 
