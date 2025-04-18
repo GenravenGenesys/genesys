@@ -65,39 +65,39 @@ export default function DiceRollerDialog(props: Props) {
             <DialogTitle style={{textAlign: 'center'}}>Genesys Dice Roller</DialogTitle>
             <DialogContent>
                 <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TextField margin="dense" label="Boost" type="number" fullWidth variant="outlined"
                                    value={boostDiceCount}
                                    onChange={(e) => setBoostDiceCount(parseInt(e.target.value))}/>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TextField margin="dense" label="Setback" type="number" fullWidth variant="outlined"
                                    value={setbackDiceCount}
                                    onChange={(e) => setSetbackDiceCount(parseInt(e.target.value))}/>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TextField margin="dense" label="Ability" type="number" fullWidth variant="outlined"
                                    value={abilityDiceCount}
                                    onChange={(e) => setAbilityDiceCount(parseInt(e.target.value))}/>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TextField margin="dense" label="Difficulty" type="number" fullWidth variant="outlined"
                                    value={difficultyDiceCount}
                                    onChange={(e) => setDifficultyDiceCount(parseInt(e.target.value))}/>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TextField margin="dense" label="Proficiency" type="number" fullWidth
                                    variant="outlined" value={proficiencyDiceCount}
                                    onChange={(e) => setProficiencyDiceCount(parseInt(e.target.value))}/>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TextField margin="dense" label="Challenge" type="number" fullWidth
                                    variant="outlined" value={challengeDieCount}
                                    onChange={(e) => setChallengeDieCount(parseInt(e.target.value))}/>
                     </Grid>
                 </Grid> <Grid container spacing={2}>
                 {Object.entries(GenesysSymbols).map(([key, value]) => (typeof value === 'number' && value !== GenesysSymbols.Blank && (
-                    <Grid item xs={6} key={value}>
+                    <Grid xs={6} key={value}>
                         <TextField margin="dense" label={key} type="number" fullWidth
                                    variant="outlined" value={symbolCounts[value as GenesysSymbols]}
                                    onChange={handleSymbolChange(value as GenesysSymbols)}/>

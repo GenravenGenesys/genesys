@@ -15,7 +15,7 @@ interface Props {
 
 const NumberTextFieldCard: React.FC<Props> = ({title, value, onChange, min, max, disabled, steps}) => {
     return disabled ? <ViewFieldCard name={title} value={String(value)}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>

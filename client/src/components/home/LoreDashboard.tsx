@@ -17,7 +17,7 @@ export default function LoreDashboard() {
             </CardHeader>
             <CardContent>
                 <Grid container justifyContent={'center'}>
-                    <Grid item xs>
+                    <Grid xs>
                         <DashboardButton path={LorePath.Organization} title={LoreType.ORGANIZATION}
                                          navigate={navigate}/>
                     </Grid>

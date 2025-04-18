@@ -12,7 +12,7 @@ interface Props {
 
 const ActivationCard: React.FC<Props> = ({value, onChange, disabled}) => {
     return disabled ? <ViewFieldCard name={'Activation'} value={value}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={'Activation'}/>
                 <CardContent>

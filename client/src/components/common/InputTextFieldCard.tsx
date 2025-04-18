@@ -13,7 +13,7 @@ interface TextProps {
 export function InputTextFieldCard(props: TextProps) {
     const {defaultValue, onCommit, title, helperText, placeholder, errorText} = props;
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CardHeader title={title} style={{textAlign: 'center'}}/>
                 <Divider/>

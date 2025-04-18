@@ -11,7 +11,7 @@ interface Props {
 
 const SkillTypeCard: React.FC<Props> = ({value, onChange, disabled})=>  {
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={'Skill Type'}/>
                 <CardContent>

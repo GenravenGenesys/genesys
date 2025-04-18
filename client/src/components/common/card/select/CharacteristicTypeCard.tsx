@@ -13,7 +13,7 @@ export default function CharacteristicTypeCard(props: Props) {
     const {value, onChange, disabled} = props;
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={'Characteristic Type'}/>
                 <CardContent>

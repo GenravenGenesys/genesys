@@ -13,7 +13,7 @@ interface Props {
 
 const TextFieldCard: React.FC<Props> = ({title, value, disabled, onChange})=> {
     return disabled ? <ViewFieldCard name={"Description"} value={value}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>

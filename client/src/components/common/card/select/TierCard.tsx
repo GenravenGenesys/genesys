@@ -12,7 +12,7 @@ interface Props {
 
 const TierCard: React.FC<Props> = ({value, onChange, disabled}) => {
     return disabled ? <ViewFieldCard name={'Tier'} value={value}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={'Tier'}/>
                 <CardContent>

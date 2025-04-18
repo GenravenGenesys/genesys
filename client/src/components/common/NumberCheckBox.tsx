@@ -13,15 +13,15 @@ export function ViewNumberCheckBoxCard(props: ViewProps) {
     const {title, value, check, checkTitle} = props
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <Grid container spacing={0}>
-                    <Grid item xs>
+                    <Grid xs>
                         <Typography style={{textAlign: 'center'}}>{title}</Typography>
                         <Divider/>
                         <Typography style={{textAlign: 'center'}}>{value || 0}</Typography>
                     </Grid>
-                    <Grid item xs>
+                    <Grid xs>
                         <Typography style={{textAlign: 'center'}}>{checkTitle}</Typography>
                         <Divider/>
                         <Typography style={{textAlign: 'center'}}>

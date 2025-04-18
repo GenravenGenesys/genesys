@@ -37,7 +37,7 @@ export default function EditField(props: Props): JSX.Element {
 
     if (!isEditable) {
         return (
-            <Grid item>
+            <Grid>
                 {viewElement}
             </Grid>
         )
@@ -45,10 +45,10 @@ export default function EditField(props: Props): JSX.Element {
 
     return (
         <Grid container spacing={1}>
-            <Grid item>
+            <Grid>
                 {edit ? editElement : viewElement}
             </Grid>
-            <Grid item>
+            <Grid>
                 {edit ? commitButton : editButton}
             </Grid>
         </Grid>

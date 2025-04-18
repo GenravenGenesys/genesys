@@ -14,7 +14,7 @@ const DifficultyCard: React.FC<Props> = ({value, onChange, disabled}) => {
 
     const renderViewCard = () => {
         return (
-            <Grid item xs>
+            <Grid xs>
                 <Card>
                     <CenteredCardHeader title={'Difficulty'}/>
                     <CardContent>
@@ -27,7 +27,7 @@ const DifficultyCard: React.FC<Props> = ({value, onChange, disabled}) => {
 
     const renderCard = () => {
         return (
-            <Grid item xs>
+            <Grid xs>
                 <Card>
                     <CenteredCardHeader title={'Difficulty'}/>
                     <CardContent>

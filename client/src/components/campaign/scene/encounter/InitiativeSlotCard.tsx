@@ -21,7 +21,7 @@ const InitiativeSlotCard: React.FC<Props> = ({slot, characters, updateSlot, inde
     };
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={slot.type}/>
                 <CardContent>

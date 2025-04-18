@@ -30,7 +30,7 @@ export default function TalentDialogCard(props: Props) {
                                                    currentPlayer={player} tier={tier} updatePlayer={updatePlayer}/>}
             <Grid container direction="column" spacing={2}>
                 {new Array(size).map((talent) => (
-                    <Grid item key={talent.id}>
+                    <Grid key={talent.id}>
                         <Card>
                             <CenteredCardHeader title={talent.name}/>
                             <CardContent>
@@ -40,7 +40,7 @@ export default function TalentDialogCard(props: Props) {
                     </Grid>
                 ))}
                 {talents.map((talent) => (
-                    <Grid item key={talent.id}>
+                    <Grid key={talent.id}>
                         <Card>
                             <CenteredCardHeader title={talent.name}/>
                             <CardContent>

@@ -52,7 +52,7 @@ export default function MinionSkillCard(props: TableProps) {
             <CenteredCardHeader title={'Skills'}/>
             <CardContent>
                 <Grid container>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>
@@ -62,7 +62,7 @@ export default function MinionSkillCard(props: TableProps) {
                             </Table>
                         </TableContainer>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>

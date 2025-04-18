@@ -10,7 +10,7 @@ interface Props {
 
 const ViewFieldCard: React.FC<Props> = ({name, value})=> {
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={name}/>
                 <CardContent>

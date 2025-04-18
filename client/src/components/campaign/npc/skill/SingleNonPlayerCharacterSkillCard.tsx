@@ -51,7 +51,7 @@ export default function SingleNonPlayerCharacterSkillCard(props: Props) {
             <CenteredCardHeader title={'Skills'}/>
             <CardContent>
                 <Grid container>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>
@@ -61,7 +61,7 @@ export default function SingleNonPlayerCharacterSkillCard(props: Props) {
                             </Table>
                         </TableContainer>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid xs={6}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>

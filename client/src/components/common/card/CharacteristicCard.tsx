@@ -13,7 +13,7 @@ interface Props {
 
 const CharacteristicCard: React.FC<Props> = ({type, value, handleCharacteristicChange, disabled}) => {
     return disabled ? <ViewFieldCard name={type} value={String(value)}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={type}/>
                 <CardContent>

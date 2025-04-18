@@ -12,7 +12,7 @@ interface Props {
 
 const BooleanTextFieldCard: React.FC<Props> = ({title, value, disabled, onChange}) => {
     return disabled ? <ViewFieldCard name={title} value={value ? 'Yes' : 'No'}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>

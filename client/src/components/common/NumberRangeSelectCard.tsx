@@ -14,7 +14,7 @@ export default function NumberRangeSelectCard(props: Props) {
     const {defaultValue, title, onChange, min, max} = props
 
     return (
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardActions>

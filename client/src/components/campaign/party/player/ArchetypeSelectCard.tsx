@@ -26,12 +26,12 @@ export default function ArchetypeSelectCard(props: Props) {
     }, [setArchetypes])
 
     return useLocation().pathname.endsWith("/view") ? <ViewFieldCard name={"Archetype"} value={archetype.name}/> :
-        <Grid item xs>
+        <Grid xs>
             <Card>
                 <CenteredCardHeader title={'Archetype'}/>
                 <CardContent>
                     <Grid container>
-                        <Grid item sx={{"width": .9}}>
+                        <Grid sx={{"width": .9}}>
                             <Autocomplete
                                 options={archetypes}
                                 getOptionLabel={(option) => option.name}
@@ -42,7 +42,7 @@ export default function ArchetypeSelectCard(props: Props) {
                                                                     variant="outlined"/>}
                             />
                         </Grid>
-                        <Grid item sx={{"width": .1}}>
+                        <Grid sx={{"width": .1}}>
                             <IconButton onClick={(): void => setOpenArchetypeBackDrop(true)}>
                                 <InfoIcon/>
                             </IconButton>
