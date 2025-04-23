@@ -1,4 +1,4 @@
-import {Autocomplete, Card, CardContent, Grid, IconButton, TextField} from "@mui/material";
+import {Autocomplete, Card, CardContent, IconButton, TextField} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import {useEffect, useState} from "react";
 import Archetype from "../../../../models/actor/player/Archetype";
@@ -8,6 +8,8 @@ import * as React from "react";
 import ArchetypeBackdrop from "../../archetype/ArchetypeBackdrop";
 import {useLocation} from "react-router-dom";
 import ViewFieldCard from "../../../common/ViewFieldCard";
+import GridContainer from "../../../common/grid/GridContainer";
+import GridItem from "../../../common/grid/GridItem";
 
 interface Props {
     archetype: Archetype;
@@ -26,12 +28,12 @@ export default function ArchetypeSelectCard(props: Props) {
     }, [setArchetypes])
 
     return useLocation().pathname.endsWith("/view") ? <ViewFieldCard name={"Archetype"} value={archetype.name}/> :
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={'Archetype'}/>
                 <CardContent>
-                    <Grid container>
-                        <Grid sx={{"width": .9}}>
+                    <GridContainer>
+                        <GridItem width={.9}>
                             <Autocomplete
                                 options={archetypes}
                                 getOptionLabel={(option) => option.name}
@@ -41,8 +43,8 @@ export default function ArchetypeSelectCard(props: Props) {
                                 renderInput={(params) => <TextField {...params} label='Archetype'
                                                                     variant="outlined"/>}
                             />
-                        </Grid>
-                        <Grid sx={{"width": .1}}>
+                        </GridItem>
+                        <GridItem width={.1}>
                             <IconButton onClick={(): void => setOpenArchetypeBackDrop(true)}>
                                 <InfoIcon/>
                             </IconButton>
@@ -50,9 +52,9 @@ export default function ArchetypeSelectCard(props: Props) {
                                 <ArchetypeBackdrop open={openArchetypeBackDrop}
                                                    onClose={(): void => setOpenArchetypeBackDrop(false)}
                                                    archetype={archetype}/>}
-                        </Grid>
-                    </Grid>
+                        </GridItem>
+                    </GridContainer>
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
 };

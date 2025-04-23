@@ -3,9 +3,10 @@ import Backdrop from '@mui/material/Backdrop';
 import ViewFieldCard from "../../common/ViewFieldCard";
 import Archetype from "../../../models/actor/player/Archetype";
 import {CharacteristicType} from "../../../models/actor/Characteristic";
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import {StatsType} from "../../../models/actor/Stats";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
+import GridContainer from "../../common/grid/GridContainer";
 
 interface Props {
     archetype: Archetype;
@@ -22,19 +23,19 @@ const ArchetypeBackdrop: React.FC<Props> = ({archetype, open, onClose})=> {
             <Card>
                 <CenteredCardHeader title={archetype.name}/>
                 <CardContent>
-                    <Grid container>
+                    <GridContainer>
                         <ViewFieldCard name={CharacteristicType.Brawn} value={String(archetype.brawn)}/>
                         <ViewFieldCard name={CharacteristicType.Agility} value={String(archetype.agility)}/>
                         <ViewFieldCard name={CharacteristicType.Intellect} value={String(archetype.intellect)}/>
                         <ViewFieldCard name={CharacteristicType.Cunning} value={String(archetype.cunning)}/>
                         <ViewFieldCard name={CharacteristicType.Willpower} value={String(archetype.willpower)}/>
                         <ViewFieldCard name={CharacteristicType.Presence} value={String(archetype.presence)}/>
-                    </Grid>
-                    <Grid container>
+                    </GridContainer>
+                    <GridContainer>
                         <ViewFieldCard name={StatsType.Wounds + ' Threshold'} value={String(archetype.wounds)}/>
                         <ViewFieldCard name={StatsType.Strain + ' Threshold'} value={String(archetype.strain)}/>
                         <ViewFieldCard name={'Base Experience'} value={String(archetype.experience)}/>
-                    </Grid>
+                    </GridContainer>
                 </CardContent>
             </Card>
         </Backdrop>

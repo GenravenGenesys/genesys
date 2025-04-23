@@ -1,5 +1,6 @@
-import {Card, CardHeader, Divider, Grid} from "@mui/material"
+import {Card, CardHeader, Divider} from "@mui/material"
 import InlineTextField from "./InlineTextField"
+import GridItem from "./grid/GridItem";
 
 interface TextProps {
     defaultValue: string
@@ -13,13 +14,13 @@ interface TextProps {
 export function InputTextFieldCard(props: TextProps) {
     const {defaultValue, onCommit, title, helperText, placeholder, errorText} = props;
     return (
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CardHeader title={title} style={{textAlign: 'center'}}/>
                 <Divider/>
                 <InlineTextField defaultValue={defaultValue} editable={true} onCommit={onCommit} helperText={helperText}
                                  placeholder={placeholder} errorText={errorText}/>
             </Card>
-        </Grid>
+        </GridItem>
     )
 }

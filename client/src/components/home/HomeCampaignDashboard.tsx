@@ -1,4 +1,4 @@
-import {Button, Card, CardActions, CardContent, CardHeader, Grid} from "@mui/material";
+import {Button, Card, CardActions, CardContent, CardHeader} from "@mui/material";
 import * as React from "react";
 import {useFetchCurrentCampaign} from "../campaign/CampaignWorkflow";
 import {useState} from "react";
@@ -14,6 +14,7 @@ import CampaignService from "../../services/CampaignService";
 import ViewAllPlayers from "../campaign/party/player/ViewAllPlayers";
 import Tab from "@mui/material/Tab";
 import ViewScenes from "../campaign/scene/ViewScenes";
+import GridContainer from "../common/grid/GridContainer";
 
 export default function HomeCampaignDashboard() {
     const campaign = useFetchCurrentCampaign();
@@ -47,9 +48,9 @@ export default function HomeCampaignDashboard() {
                 subheader={campaign ? campaign?.name! : 'No Campaign Selected'}>
             </CardHeader>
             <CardContent>
-                <Grid sx={{width: 1}}>
+                <GridContainer centered>
                     <TabContext value={value}>
-                        <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <GridContainer centered>
                             <TabList onChange={handleChange} centered>
                                 <Tab label="Genesys System Defaults" value="1"/>
                                 <Tab label="Campaign Information" value="2"/>
@@ -57,7 +58,7 @@ export default function HomeCampaignDashboard() {
                                 <Tab label="Session Management" value="4"/>
                                 <Tab label="Scene Management" value="5"/>
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         <TabPanel value="1">
                             <GenesysSystemDashboard/>
                         </TabPanel>
@@ -74,15 +75,13 @@ export default function HomeCampaignDashboard() {
                             <ViewScenes/>
                         </TabPanel>
                     </TabContext>
-                </Grid>
+                </GridContainer>
             </CardContent>
             <CardActions>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                <GridContainer centered>
                     {renderButton()}
                     {campaign && <Button color='primary' variant='contained' onClick={startCampaign}>Start Campaign</Button>}
-                </Grid>
+                </GridContainer>
             </CardActions>
             {openCampaignSelectionDialog && <CampaignSelectionDialog open={openCampaignSelectionDialog}
                                                                      onClose={(): void => setOpenCampaignSelectionDialog(false)}
