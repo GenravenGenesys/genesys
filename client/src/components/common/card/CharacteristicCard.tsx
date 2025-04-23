@@ -1,19 +1,20 @@
 import {CharacteristicType} from "../../../models/actor/Characteristic";
-import {Card, CardContent, Grid, TextField} from "@mui/material";
+import {Card, CardContent, TextField} from "@mui/material";
 import CenteredCardHeader from "./header/CenteredCardHeader";
 import * as React from "react";
 import ViewFieldCard from "../ViewFieldCard";
+import GridItem from "../grid/GridItem";
 
-interface Props {
+type Props = {
     type: CharacteristicType;
     value: number;
     handleCharacteristicChange: (type: CharacteristicType, value: number) => void;
     disabled: boolean;
-}
+};
 
 const CharacteristicCard: React.FC<Props> = ({type, value, handleCharacteristicChange, disabled}) => {
     return disabled ? <ViewFieldCard name={type} value={String(value)}/> :
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={type}/>
                 <CardContent>
@@ -28,7 +29,7 @@ const CharacteristicCard: React.FC<Props> = ({type, value, handleCharacteristicC
                     />
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
 };
 
 export default CharacteristicCard;

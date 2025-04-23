@@ -1,23 +1,23 @@
-import {Card, CardContent, Grid, TextField} from "@mui/material";
+import {Card, CardContent, TextField} from "@mui/material";
 import CenteredCardHeader from "./header/CenteredCardHeader";
 import * as React from "react";
 import {useLocation} from "react-router-dom";
+import GridItem from "../grid/GridItem";
 
-interface Props {
-    price: number
-    restricted: boolean
-    onChange: (value: number) => void
-    min: number
-    max: number
-    disabled: boolean
-}
+type Props = {
+    price: number;
+    restricted: boolean;
+    onChange: (value: number) => void;
+    min: number;
+    max: number;
+    disabled: boolean;
+};
 
-export default function PriceTextFieldCard(props: Props) {
-    const {price, restricted, onChange, min, max, disabled} = props;
+const PriceTextFieldCard: React.FC<Props> = ({price, restricted, onChange, min, max, disabled})=> {
     let pathname = useLocation().pathname;
 
     return (
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={"Price"}/>
                 <CardContent>
@@ -32,6 +32,8 @@ export default function PriceTextFieldCard(props: Props) {
                     />
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
     );
-}
+};
+
+export default PriceTextFieldCard;

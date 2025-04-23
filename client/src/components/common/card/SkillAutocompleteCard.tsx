@@ -1,21 +1,22 @@
 import Skill from "../../../models/actor/Skill";
-import {Autocomplete, Card, CardContent, Grid, TextField} from "@mui/material";
+import {Autocomplete, Card, CardContent, TextField} from "@mui/material";
 import CenteredCardHeader from "./header/CenteredCardHeader";
 import {renderSkillName} from "../skill/SkillRenders";
 import * as React from "react";
 import ViewFieldCard from "../ViewFieldCard";
+import GridItem from "../grid/GridItem";
 
-interface Props {
+type Props = {
     title: string;
     disabled: boolean;
     handleSkillChange: (newValue: Skill) => void;
     skills: Skill[];
     startingSkill: Skill;
-}
+};
 
 const SkillAutocompleteCard: React.FC<Props> = ({handleSkillChange, disabled, startingSkill, skills, title}) => {
     return disabled ? <ViewFieldCard name={title} value={startingSkill ? startingSkill.name : ''}/> :
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>
@@ -31,7 +32,7 @@ const SkillAutocompleteCard: React.FC<Props> = ({handleSkillChange, disabled, st
                     />
                 </CardContent>
             </Card>
-        </Grid>;
+        </GridItem>;
 };
 
 export default SkillAutocompleteCard;
