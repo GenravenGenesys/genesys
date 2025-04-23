@@ -1,17 +1,18 @@
-import {Card, CardContent, Grid, MenuItem, Select} from "@mui/material";
+import {Card, CardContent, MenuItem, Select} from "@mui/material";
 import * as React from "react";
 import {SkillType} from "../../../../models/actor/Skill";
 import CenteredCardHeader from "../header/CenteredCardHeader";
+import GridItem from "../../grid/GridItem";
 
-interface Props {
-    value: SkillType
-    onChange: (value: SkillType) => void
-    disabled: boolean
-}
+type Props = {
+    value: SkillType;
+    onChange: (value: SkillType) => void;
+    disabled: boolean;
+};
 
 const SkillTypeCard: React.FC<Props> = ({value, onChange, disabled})=>  {
     return (
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={'Skill Type'}/>
                 <CardContent>
@@ -30,7 +31,7 @@ const SkillTypeCard: React.FC<Props> = ({value, onChange, disabled})=>  {
                     </Select>
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
     );
 };
 

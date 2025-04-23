@@ -1,19 +1,18 @@
-import {Card, CardContent, Grid, MenuItem, Select} from "@mui/material";
+import {Card, CardContent, MenuItem, Select} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
+import GridItem from "../../grid/GridItem";
 
-interface Props {
-    value: CharacteristicType
-    onChange: (value: CharacteristicType) => void
-    disabled: boolean
-}
+type Props = {
+    value: CharacteristicType;
+    onChange: (value: CharacteristicType) => void;
+    disabled: boolean;
+};
 
-export default function CharacteristicTypeCard(props: Props) {
-    const {value, onChange, disabled} = props;
-
+const CharacteristicTypeCard: React.FC<Props> = ({value, onChange, disabled})=> {
     return (
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={'Characteristic Type'}/>
                 <CardContent>
@@ -33,6 +32,8 @@ export default function CharacteristicTypeCard(props: Props) {
                     </Select>
                 </CardContent>
             </Card>
-        </Grid>
-    )
-}
+        </GridItem>
+    );
+};
+
+export default CharacteristicTypeCard;

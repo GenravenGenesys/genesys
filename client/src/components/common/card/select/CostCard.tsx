@@ -7,11 +7,11 @@ import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
 import GridContainer from "../../grid/GridContainer";
 
-interface Props {
+type Props = {
     initialCost: Cost;
     onChange: (value: Cost) => void;
     disabled: boolean;
-}
+};
 
 const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
     const [cost, setCost] = useState<Cost>(initialCost);

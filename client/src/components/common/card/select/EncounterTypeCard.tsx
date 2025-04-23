@@ -1,16 +1,17 @@
-import { Card, CardContent, Grid, MenuItem, Select } from "@mui/material";
+import { Card, CardContent, MenuItem, Select } from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import { Type } from "../../../../models/campaign/encounter/Encounter";
+import GridItem from "../../grid/GridItem";
 
 interface Props {
     value: Type;
     onChange: (field: string, value: Type) => void;
-}
+};
 
 const EncounterTypeCard: React.FC<Props> = ({ value, onChange }) => {
     return (
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title="Encounter Type" />
                 <CardContent>
@@ -28,7 +29,7 @@ const EncounterTypeCard: React.FC<Props> = ({ value, onChange }) => {
                     </Select>
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
     );
 };
 

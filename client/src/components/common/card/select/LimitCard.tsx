@@ -1,17 +1,18 @@
-import {Card, CardContent, Grid, MenuItem, Select, TextField} from "@mui/material";
+import {Card, CardContent, MenuItem, Select, TextField} from "@mui/material";
 import Limit, {LimitType} from "../../../../models/common/Limit";
 import React, {useState} from "react";
 import ViewFieldCard from "../../ViewFieldCard";
 import CenteredCardHeader from "../header/CenteredCardHeader";
+import GridItem from "../../grid/GridItem";
+import GridContainer from "../../grid/GridContainer";
 
-interface Props {
+type Props = {
     initialLimit: Limit;
     onChange: (limit: Limit) => void;
     disabled: boolean;
-}
+};
 
-const LimitCard: React.FC<Props> = (props: Props) => {
-    const {initialLimit, onChange, disabled} = props;
+const LimitCard: React.FC<Props> = ({initialLimit, onChange, disabled}) => {
     const [limit, setLimit] = useState(initialLimit);
 
     const handleLimitChange = (updatedLimit: Limit) => {
@@ -23,14 +24,12 @@ const LimitCard: React.FC<Props> = (props: Props) => {
         <ViewFieldCard name={'Limit'}
                        value={limit.type === LimitType.None ? LimitType.None : limit.limit + ' ' + limit.type}/>
         :
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={'Limit'}/>
                 <CardContent>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
-                        <Grid xs>
+                    <GridContainer centered>
+                        <GridItem>
                             <TextField
                                 type="number"
                                 value={limit.limit}
@@ -42,8 +41,8 @@ const LimitCard: React.FC<Props> = (props: Props) => {
                                 })}
                                 inputProps={{min: 0, max: 1}}
                             />
-                        </Grid>
-                        <Grid xs>
+                        </GridItem>
+                        <GridItem>
                             <Select
                                 value={limit.type}
                                 onChange={(e) => onChange({
@@ -60,11 +59,11 @@ const LimitCard: React.FC<Props> = (props: Props) => {
                                     </MenuItem>
                                 ))}
                             </Select>
-                        </Grid>
-                    </Grid>
+                        </GridItem>
+                    </GridContainer>
                 </CardContent>
             </Card>
-        </Grid>;
+        </GridItem>;
 };
 
 export default LimitCard;
