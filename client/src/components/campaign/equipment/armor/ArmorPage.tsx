@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid,} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import {useLocation, useParams} from 'react-router-dom';
 import * as React from 'react';
 import {Armor} from "../../../../models/equipment/Armor";
@@ -14,6 +14,7 @@ import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 import ArmorQualityCard from "./quality/ArmorQualityCard";
 import ArmorModifierCard from "./modifier/ArmorModifierCard";
+import GridContainer from "../../../common/grid/GridContainer";
 
 const ArmorPage = ()=> {
     const {id} = useParams<{ id: string }>();
@@ -83,21 +84,15 @@ const ArmorPage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={armor.name} path={EquipmentPath.Armor + armor.id}/>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                <GridContainer centered>
                     <TextFieldCard title={"Description"} value={armor.description}
                                    disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
-                </Grid>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                </GridContainer>
+                <GridContainer centered>
                     <SoakCard armor={armor} updateSoak={handleSoakChange}/>
                     <DefenseCard armor={armor} updateDefense={handleDefenseChange}/>
-                </Grid>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                </GridContainer>
+                <GridContainer centered>
                     <NumberTextFieldCard title={'Encumbrance'} value={armor.encumbrance}
                                          onChange={handleEncumbranceChange} min={1}
                                          max={10} disabled={pathname.endsWith('/view')}/>
@@ -109,7 +104,7 @@ const ArmorPage = ()=> {
                     <NumberTextFieldCard title={'Rarity'} value={armor.rarity} onChange={handleRarityChange}
                                          min={0}
                                          max={10} disabled={pathname.endsWith('/view')}/>
-                </Grid>
+                </GridContainer>
                 <ArmorQualityCard armor={armor} updateArmor={updateArmor} disabled={pathname.endsWith('/view')}/>
                 <ArmorModifierCard armor={armor} updateArmor={updateArmor} disabled={pathname.endsWith('/view')}/>
             </CardContent>
