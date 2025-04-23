@@ -49,10 +49,6 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@types/lodash": "^4.14.179",
-    "react-app-rewired": "^2.2.1"
-  },
   "description": "Created to be used with the GenesysRPG TTRPG, this is a project designed to allow users the ability to create/DM/play Genesys within the system.",
   "main": "index.js",
   "author": "",
