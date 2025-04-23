@@ -2,7 +2,7 @@ import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import {Weapon} from "../../../../models/equipment/Weapon";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -12,6 +12,7 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import {renderDamage, renderPrice, renderQualities} from "../../../../models/equipment/EquipmentHelper";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     weapon: Weapon;
@@ -30,12 +31,10 @@ const WeaponBackdrop: React.FC<Props> = ({weapon, open, onClose})=> {
             <Card>
                 <CenteredCardHeader title={weapon.name}/>
                 <CardContent>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
-                        <Grid container spacing={10}>
+                    <GridContainer centered>
+                        <GridContainer>
                             <ViewFieldCard name={'Description'} value={weapon.description}/>
-                        </Grid>
+                        </GridContainer>
                         <TableContainer component={Paper}>
                             <Table>
                                 {renderSingleRowTableHeader(headers)}
@@ -52,7 +51,7 @@ const WeaponBackdrop: React.FC<Props> = ({weapon, open, onClose})=> {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
+                    </GridContainer>
                 </CardContent>
             </Card>
         </Backdrop>
