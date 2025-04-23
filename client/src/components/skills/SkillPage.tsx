@@ -51,7 +51,9 @@ const SkillPage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={skill.name} path={RootPath.Skills + skill.id}/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <SkillTypeCard value={skill.type} onChange={handleSkillTypeChange}
                                    disabled={pathname.endsWith('/view')}/>
                     <CharacteristicTypeCard value={skill.characteristic} onChange={handleCharacteristicTypeChange}

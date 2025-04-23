@@ -31,7 +31,9 @@ export default function ArmorBackdrop(props: Props) {
             <Card>
                 <CenteredCardHeader title={armor?.name!!}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <Grid container spacing={10}>
                             <ViewFieldCard name={'Description'} value={armor?.description!!}/>
                         </Grid>
@@ -56,4 +58,4 @@ export default function ArmorBackdrop(props: Props) {
             </Card>
         </Backdrop>
     );
-}
+}

@@ -99,8 +99,12 @@ const ArchetypePage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={archetype.name} path={RootPath.Archetype + archetype.id}/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
-                    <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <TextFieldCard title={"Description"} value={archetype.description}
                                        disabled={!pathname.endsWith(archetype.id + '/edit')}
                                        onChange={handleDescriptionChange}/>
@@ -125,7 +129,9 @@ const ArchetypePage = ()=> {
                                             handleCharacteristicChange={handleCharacteristicChange}
                                             disabled={!pathname.endsWith(archetype.id + '/edit')}/>
                     </Grid>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <NumberTextFieldCard title={"Wound Threshold"} value={archetype.wounds}
                                              onChange={handleWoundsChange} min={7} max={13}
                                              disabled={!pathname.endsWith(archetype.id + '/edit')}/>

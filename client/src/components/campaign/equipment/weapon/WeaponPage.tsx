@@ -112,15 +112,21 @@ const WeaponPage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={weapon.name} path={EquipmentPath.Weapon + weapon.id}/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
-                    <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <SkillAutocompleteCard disabled={pathname.endsWith('/view')}
                                                handleSkillChange={handleSkillChange} skills={skills}
                                                startingSkill={weapon.skill} title={'Required Skill'}/>
                         <RangeBandCard value={weapon.range} onChange={handleRangeBandChange}
                                        disabled={pathname.endsWith('/view')}/>
                     </Grid>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <NumberTextFieldCard title={'Hands'} value={weapon.hands} onChange={handleHandsChange} min={1}
                                              max={2} disabled={pathname.endsWith('/view')}/>
                         <BooleanTextFieldCard title={'Brawn Powered'} value={weapon.brawn}
@@ -132,7 +138,9 @@ const WeaponPage = ()=> {
                                              min={1}
                                              max={6} disabled={pathname.endsWith('/view')}/>
                     </Grid>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <NumberTextFieldCard title={'Encumbrance'} value={weapon.encumbrance}
                                              onChange={handleEncumbranceChange} min={1}
                                              max={10} disabled={pathname.endsWith('/view')}/>
@@ -145,7 +153,9 @@ const WeaponPage = ()=> {
                                              min={0}
                                              max={10} disabled={pathname.endsWith('/view')}/>
                     </Grid>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <TextFieldCard title={"Description"} value={weapon.description}
                                        disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
                     </Grid>

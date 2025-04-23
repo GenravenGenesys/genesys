@@ -84,7 +84,9 @@ export default function GearEdit(props: Props) {
                         </IconButton>}/>
             <Divider/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Grid container spacing={10}>
                         <InputTextFieldCard defaultValue={gear.description} onCommit={(value: string): void => {
                             onChange('description', value)
@@ -124,5 +126,5 @@ export default function GearEdit(props: Props) {
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 }

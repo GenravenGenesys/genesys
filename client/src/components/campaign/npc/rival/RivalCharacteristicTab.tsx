@@ -106,7 +106,9 @@ const RivalCharacteristicTab: React.FC<Props> = ({rival, updateRival})=> {
     };
 
     return (
-        <Grid container justifyContent={'center'}>
+        <Grid container sx={{
+            justifyContent: 'center'
+        }}>
             <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange}/>
             <Divider/>
             <Grid container spacing={2}>

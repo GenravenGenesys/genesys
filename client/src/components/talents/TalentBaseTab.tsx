@@ -46,7 +46,9 @@ const TalentBaseTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
     };
 
     return (
-        <Grid container justifyContent={'center'}>
+        <Grid container sx={{
+            justifyContent: 'center'
+        }}>
             <Grid container spacing={2}>
                 <BooleanTextFieldCard title={'Ranked Talent'} value={talent.ranked}
                                       onChange={handleRankedChange} disabled={disabled}/>

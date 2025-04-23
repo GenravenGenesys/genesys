@@ -64,7 +64,9 @@ const SessionPage = () => {
                             </TabList>
                         </Grid>
                         <TabPanel value="1">
-                            <Grid container justifyContent={"center"}>
+                            <Grid container sx={{
+                                justifyContent: "center"
+                            }}>
                                 <Button variant="contained" color="primary" onClick={startSession}>Start
                                     Session</Button>
                                 <Button variant="contained" color="primary" onClick={endSession}>End Session</Button>

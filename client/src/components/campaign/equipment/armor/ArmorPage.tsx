@@ -83,15 +83,21 @@ const ArmorPage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={armor.name} path={EquipmentPath.Armor + armor.id}/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <TextFieldCard title={"Description"} value={armor.description}
                                    disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
                 </Grid>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <SoakCard armor={armor} updateSoak={handleSoakChange}/>
                     <DefenseCard armor={armor} updateDefense={handleDefenseChange}/>
                 </Grid>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <NumberTextFieldCard title={'Encumbrance'} value={armor.encumbrance}
                                          onChange={handleEncumbranceChange} min={1}
                                          max={10} disabled={pathname.endsWith('/view')}/>

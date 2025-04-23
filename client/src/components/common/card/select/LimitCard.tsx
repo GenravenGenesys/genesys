@@ -27,7 +27,9 @@ const LimitCard: React.FC<Props> = (props: Props) => {
             <Card>
                 <CenteredCardHeader title={'Limit'}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <Grid xs>
                             <TextField
                                 type="number"

@@ -37,7 +37,9 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
             <Card>
                 <CenteredCardHeader title={'Cost'}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <Grid xs>
                             <TextField
                                 type="number"
@@ -72,7 +74,7 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
                     </Grid>
                 </CardContent>
             </Card>
-        </Grid>
+        </Grid>;
 };
 
 export default CostCard;

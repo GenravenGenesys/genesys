@@ -118,7 +118,9 @@ const NemesisCharacteristicTab: React.FC<Props> = ({nemesis, updateNemesis})=> {
     };
 
     return (
-        <Grid container justifyContent={'center'}>
+        <Grid container sx={{
+            justifyContent: 'center'
+        }}>
             <CharacteristicRow actor={nemesis} handleCharacteristicChange={handleCharacteristicChange}/>
             <Grid container spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(nemesis.soak)}/>

@@ -25,7 +25,9 @@ export default function TalentCareerSkillsCard(props: Props) {
         <Card sx={{width: 1}}>
             <CenteredCardHeader title={'Potential Career Skills'}/>
             <CardContent>
-                <Typography textAlign={'center'}>{renderSkillNames(talentSkills.potentialCareerSkills)}</Typography>
+                <Typography sx={{
+                    textAlign: 'center'
+                }}>{renderSkillNames(talentSkills.potentialCareerSkills)}</Typography>
                 <Button onClick={() => setOpenCareerSkillDialog(true)} color='primary'
                         variant='contained' disabled={disabled}>Add</Button>
                 {openCareerSkillDialog &&

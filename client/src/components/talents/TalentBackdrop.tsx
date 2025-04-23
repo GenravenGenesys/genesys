@@ -20,7 +20,9 @@ const TalentBackdrop: React.FC<Props> = ({talent, open, onClose}) => {
             <Card>
                 <CardHeader style={{textAlign: 'center'}} title={talent.name}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <Grid container spacing={2}>
                             <ViewFieldCard name={'Description'} value={talent.description}/>
                         </Grid>
@@ -37,4 +39,4 @@ const TalentBackdrop: React.FC<Props> = ({talent, open, onClose}) => {
     );
 };
 
-export default TalentBackdrop;
+export default TalentBackdrop;

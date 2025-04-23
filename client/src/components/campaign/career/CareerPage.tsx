@@ -53,7 +53,9 @@ export default function CareerPage() {
         <Card>
             <CenteredCardHeaderWithAction title={career.name} path={RootPath.Career + career.id}/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <TableContainer component={Paper}>
                         <Table>
                             {renderSingleRowTableHeaderWithColumns(headers, 2)}
@@ -80,5 +82,5 @@ export default function CareerPage() {
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 }

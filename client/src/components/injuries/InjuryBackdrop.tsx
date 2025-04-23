@@ -22,7 +22,9 @@ export default function InjuryBackdrop(props: Props) {
             <Card>
                 <CardHeader style={{textAlign: 'center'}} title={injury.name}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <Grid container spacing={2}>
                             <ViewFieldCard name={'Description'} value={injury.description}/>
                         </Grid>
@@ -38,4 +40,4 @@ export default function InjuryBackdrop(props: Props) {
             </Card>
         </Backdrop>
     );
-}
+}

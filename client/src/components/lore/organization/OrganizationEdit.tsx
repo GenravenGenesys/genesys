@@ -78,7 +78,9 @@ export default function OrganizationEdit(props: Props) {
                         </IconButton>}>
             </CardHeader>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Grid container spacing={10}>
                         <InputSelectFieldCard defaultValue={organization.type} onCommit={(value: string): void => {
                             onChange(OrgKey.orgType, value)
@@ -110,5 +112,5 @@ export default function OrganizationEdit(props: Props) {
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 }

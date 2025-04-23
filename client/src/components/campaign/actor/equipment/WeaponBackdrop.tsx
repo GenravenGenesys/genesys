@@ -30,7 +30,9 @@ const WeaponBackdrop: React.FC<Props> = ({weapon, open, onClose})=> {
             <Card>
                 <CenteredCardHeader title={weapon.name}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <Grid container spacing={10}>
                             <ViewFieldCard name={'Description'} value={weapon.description}/>
                         </Grid>

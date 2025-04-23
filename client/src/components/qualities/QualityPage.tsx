@@ -63,8 +63,12 @@ const QualityPage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={quality.name} path={RootPath.Qualities + quality.id}/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
-                    <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <TextFieldCard title={"Description"} value={quality.description}
                                        disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
                     </Grid>

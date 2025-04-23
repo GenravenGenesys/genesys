@@ -40,13 +40,17 @@ const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled})
         <Grid xs>
             <Card sx={{width: 1}}>
                 <CenteredCardHeader title={'Skill Check'}/>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <FormControlLabel control={<Switch checked={opposed} onChange={handleChange}/>}
                                       label="Opposed Check" disabled={disabled}
                                       sx={{textAlign: 'center'}}/>
                 </Grid>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <SkillAutocompleteCard disabled={disabled} handleSkillChange={handleSkillChange}
                                                skills={skills}
                                                startingSkill={talent.talentSkillCheck.skill} title={'User Skill'}/>

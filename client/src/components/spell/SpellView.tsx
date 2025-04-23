@@ -31,7 +31,9 @@ export default function SpellView(props: Props):JSX.Element {
                 </IconButton>}>
             </CardHeader>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Grid container spacing={2}>
                         <ViewFieldCard name={'Description'} value={spell.description}/>
                     </Grid>
@@ -48,5 +50,5 @@ export default function SpellView(props: Props):JSX.Element {
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 }

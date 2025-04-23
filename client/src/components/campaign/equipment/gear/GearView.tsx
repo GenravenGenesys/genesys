@@ -30,7 +30,9 @@ export default function GearView(props: Props) {
                 </IconButton>}>
             </CardHeader>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Grid container spacing={10}>
                         <ViewFieldCard name={'Description'} value={gear.description}/>
                     </Grid>
@@ -49,5 +51,5 @@ export default function GearView(props: Props) {
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 }

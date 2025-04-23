@@ -77,7 +77,9 @@ export default function HomeCampaignDashboard() {
                 </Grid>
             </CardContent>
             <CardActions>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     {renderButton()}
                     {campaign && <Button color='primary' variant='contained' onClick={startCampaign}>Start Campaign</Button>}
                 </Grid>

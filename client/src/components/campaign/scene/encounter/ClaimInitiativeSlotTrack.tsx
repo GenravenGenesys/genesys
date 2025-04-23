@@ -39,13 +39,15 @@ const ClaimInitiativeSlotTrack: React.FC<Props> = ({npcs, initialSlots, updateIn
                                             updateSlot={updateSlots} index={index}/>
                     ))}
                 </Grid>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Button color='primary' variant='contained' onClick={resolveClaimOfAllSlots}
                             disabled={slots.every(slot => slot.character === null)}>Start Turn</Button>
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 };
 
 export default ClaimInitiativeSlotTrack;

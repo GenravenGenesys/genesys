@@ -16,7 +16,9 @@ export default function LoreDashboard() {
                 action={<Button color='primary' variant='contained' onClick={() => navigate(CampaignPath.Lore)}>Lore</Button>}>
             </CardHeader>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Grid xs>
                         <DashboardButton path={LorePath.Organization} title={LoreType.ORGANIZATION}
                                          navigate={navigate}/>
@@ -24,7 +26,7 @@ export default function LoreDashboard() {
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 }
 
 interface DashboardProps {

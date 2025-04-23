@@ -109,7 +109,9 @@ const MinionCharacteristicTab: React.FC<Props> = ({minion, updateMinion}) => {
     };
 
     return (
-        <Grid container justifyContent={'center'}>
+        <Grid container sx={{
+            justifyContent: 'center'
+        }}>
             <CharacteristicRow actor={minion} handleCharacteristicChange={handleCharacteristicChange}/>
             <Grid container spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(minion.soak)}/>

@@ -30,7 +30,9 @@ export default function PlayerView(props: Props) {
             </CardHeader>
             <Divider/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Grid container spacing={2}>
                         <ViewFieldCard name={'Archetype'} value={player?.archetype?.name!}/>
                         <ViewFieldCard name={'Career'} value={player?.career?.name!}/>
@@ -49,5 +51,5 @@ export default function PlayerView(props: Props) {
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 }

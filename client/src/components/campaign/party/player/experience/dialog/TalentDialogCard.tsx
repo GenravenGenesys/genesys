@@ -21,7 +21,9 @@ export default function TalentDialogCard(props: Props) {
     const talents = player.talents.filter(talent => talent.tier === tier);
 
     return (
-        <Grid container justifyContent={"center"}>
+        <Grid container sx={{
+            justifyContent: "center"
+        }}>
             <Button variant='contained' color='primary' startIcon={<AddIcon/>}
                     onClick={() => setOpenTalentDialog(true)}>
                 Add Talent

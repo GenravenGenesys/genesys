@@ -30,7 +30,9 @@ export default function OrganizationView(props: Props) {
             </CardHeader>
             <Divider />
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Grid container spacing={10}>
                         <Grid xs={8}>
 
@@ -42,5 +44,5 @@ export default function OrganizationView(props: Props) {
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 }

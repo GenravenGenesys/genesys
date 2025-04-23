@@ -27,4 +27,4 @@ export default function CareerBackdrop(props: Props) {
             </Card>
         </Backdrop>
     );
-}
+}

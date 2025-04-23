@@ -60,7 +60,9 @@ export default function NonPlayerCharacterScene(props: Props) {
                         ))}
                     </TabContext>
                 </Grid>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Button color='primary' variant='contained' onClick={(): void => setAddNpcDialog(true)}>Add
                         NPC</Button>
                     {addNpcDialog && <AddNonPlayerCharacterToSceneDialog open={addNpcDialog}

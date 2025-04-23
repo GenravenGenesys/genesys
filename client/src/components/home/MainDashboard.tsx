@@ -20,11 +20,15 @@ export default function MainDashboard() {
     return (
         <Card>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Card>
                         <CenteredCardHeader title={'Campaign Information'}/>
                         <CardContent>
-                            <Grid container justifyContent={'center'}>
+                            <Grid container sx={{
+                                justifyContent: 'center'
+                            }}>
                                 <ExpansionList header={'Talents'} viewTitle={'View All Talents'} to={RootPath.Talent}
                                                dialogTitle={'Create Talent'}
                                                onClick={(): void => setOpenTalentCreationDialog(true)}/>
@@ -35,11 +39,15 @@ export default function MainDashboard() {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Card>
                         <CenteredCardHeader title={'System Information'}/>
                         <CardContent>
-                            <Grid container justifyContent={'center'}>
+                            <Grid container sx={{
+                                justifyContent: 'center'
+                            }}>
                                 <ExpansionList header={'Critical Injuries'} viewTitle={'View All Critical Injuries'} to={RootPath.Injury}
                                                dialogTitle={'Create Critical Injury'}
                                                onClick={(): void => setOpenInjuryCreationDialog(true)}/>
@@ -65,5 +73,5 @@ export default function MainDashboard() {
             {openSpellCreationDialog && <CreateSpellDialog open={openSpellCreationDialog}
                                                             onClose={(): void => setOpenSpellCreationDialog(false)}/>}
         </Card>
-    )
+    );
 }

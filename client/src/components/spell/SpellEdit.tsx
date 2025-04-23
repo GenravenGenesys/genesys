@@ -83,7 +83,9 @@ export default function SpellEdit(props: Props): JSX.Element {
                         </IconButton>}>
             </CardHeader>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Grid container spacing={2}>
                         <InputTextFieldCard defaultValue={spell?.description!!} onCommit={(value: string): void => {
                             onChange('description', value)
@@ -109,5 +111,5 @@ export default function SpellEdit(props: Props): JSX.Element {
                 </Grid>
             </CardContent>
         </Card>
-    )
+    );
 }

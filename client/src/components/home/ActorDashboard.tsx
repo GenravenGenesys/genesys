@@ -14,7 +14,9 @@ export default function ActorDashboard() {
         <Card>
             <CenteredCardHeader title={'Actor MainDashboard'}/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <ExpansionList header={'View Players'} viewTitle={'View Players'} to={ActorPath.Player}
                                    dialogTitle={'Create Player'}
                                    onClick={(): void => setOpenPlayerCreationDialog(true)}/>
@@ -24,5 +26,5 @@ export default function ActorDashboard() {
                                                             onClose={(): void => setOpenPlayerCreationDialog(false)}
                                                             actorType={ActorType.Player}/>}
         </Card>
-    )
+    );
 }

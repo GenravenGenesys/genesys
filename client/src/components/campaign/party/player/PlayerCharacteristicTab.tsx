@@ -38,7 +38,9 @@ export default function PlayerCharacteristicTab(props: Props) {
     };
 
     return (
-        <Grid container justifyContent={'center'}>
+        <Grid container sx={{
+            justifyContent: 'center'
+        }}>
             <Grid container spacing={2}>
                 <ArchetypeSelectCard archetype={player.archetype} onCommit={handleArchetypeChange}/>
                 <CareerSelectCard player={player} onCommit={handleCareerChange} onSkillSelect={handleCareerSkillChange}/>
@@ -48,5 +50,5 @@ export default function PlayerCharacteristicTab(props: Props) {
             <CharacteristicRow actor={player}/>
             <DerivedPlayerStatsRow player={player}/>
         </Grid>
-    )
+    );
 }

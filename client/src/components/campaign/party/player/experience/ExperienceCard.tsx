@@ -22,13 +22,15 @@ const ExperienceCard: React.FC<Props> = ({player}) => {
                     <Card>
                         <CenteredCardHeader title={'Available'}/>
                         <CardContent>
-                            <Grid container justifyContent={"center"}>
+                            <Grid container sx={{
+                                justifyContent: "center"
+                            }}>
                                 <SpendExperienceMenuButton player={player}/>
                             </Grid>
                         </CardContent>
                     </Card>
                 </Grid>
-            )
+            );
         }
     };
 

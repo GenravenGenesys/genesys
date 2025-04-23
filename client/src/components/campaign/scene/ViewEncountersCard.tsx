@@ -57,7 +57,9 @@ const ViewEncountersCard: React.FC<Props> = ({initialScene})=> {
                         ))}
                     </TabContext>
                 </Grid>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Button color='primary' variant='contained' onClick={(): void => setAddEncounterDialog(true)}>Add
                         Encounter</Button>
                     {addEncounterDialog && <AddEncounterDialog open={addEncounterDialog}

@@ -108,8 +108,12 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
     };
 
     return (
-        <Grid container justifyContent={'center'}>
-            <Grid container justifyContent={'center'}>
+        <Grid container sx={{
+            justifyContent: 'center'
+        }}>
+            <Grid container sx={{
+                justifyContent: 'center'
+            }}>
                 <FormControl sx={{m: 3}} component="fieldset" variant="standard" disabled={disabled}>
                     <FormLabel component="legend" sx={{textAlign: 'center'}}>Talent Modifiers</FormLabel>
                     <FormGroup row>

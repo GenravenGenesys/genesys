@@ -58,7 +58,9 @@ const InjuryPage = () => {
         <Card>
             <CenteredCardHeaderWithAction title={injury.name} path={RootPath.Injury + injury.id}/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     <Grid container spacing={2}>
                         <DifficultyCard value={injury.severity} onChange={handleSeverityChange}
                                         disabled={pathname.endsWith('/view')}/>

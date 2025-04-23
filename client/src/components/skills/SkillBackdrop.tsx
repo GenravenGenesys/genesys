@@ -19,7 +19,9 @@ const SkillBackdrop: React.FC<Props> = ({skill, open, onClose})=> {
             <Card>
                 <CardHeader style={{textAlign: 'center'}} title={skill.name}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
+                    <Grid container sx={{
+                        justifyContent: 'center'
+                    }}>
                         <ViewFieldCard name={'Skill Type'} value={skill.type} />
                         <ViewFieldCard name={'Characteristic'} value={skill.characteristic} />
                     </Grid>
@@ -29,4 +31,4 @@ const SkillBackdrop: React.FC<Props> = ({skill, open, onClose})=> {
     );
 };
 
-export default SkillBackdrop;
+export default SkillBackdrop;

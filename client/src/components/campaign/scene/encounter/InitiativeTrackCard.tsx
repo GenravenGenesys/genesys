@@ -103,10 +103,14 @@ const InitiativeTrackCard: React.FC<Props> = ({npcs, updateSlots}) => {
         <Card>
             <CenteredCardHeader title={'Initiative'}/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     {renderInitiativeTrack()}
                 </Grid>
-                <Grid container justifyContent={'center'}>
+                <Grid container sx={{
+                    justifyContent: 'center'
+                }}>
                     {renderButtons()}
                 </Grid>
             </CardContent>
