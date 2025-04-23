@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
-import {SingleActionTableCell} from "../../common/table/ActionsTableCell";
+import SingleActionTableCell from "../../common/table/actions/ActionsTableCell";
 import {CampaignPath} from "../../../services/RootPath";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import CampaignService from "../../../services/CampaignService";

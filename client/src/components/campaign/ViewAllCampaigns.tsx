@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import * as React from "react";
 import {TypographyCenterTableCell} from "../common/table/TypographyTableCell";
-import {SingleActionTableCell} from "../common/table/ActionsTableCell";
+import SingleActionTableCell from "../common/table/actions/ActionsTableCell";
 import {CampaignPath} from "../../services/RootPath";
 import Campaign from "../../models/campaign/Campaign";
 import {renderSingleRowTableHeader} from "../common/table/TableRenders";

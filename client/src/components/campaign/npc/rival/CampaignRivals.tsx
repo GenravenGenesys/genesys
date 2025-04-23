@@ -10,7 +10,7 @@ import {Fragment, useEffect, useState} from 'react';
 import * as React from 'react';
 import RivalService from '../../../../services/actor/RivalService'
 import Rival from "../../../../models/actor/npc/Rival";
-import ActionsTableCell from "../../../common/table/ActionsTableCell";
+import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import {Card, CardContent} from "@mui/material";

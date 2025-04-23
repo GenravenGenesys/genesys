@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import AddIcon from "@mui/icons-material/Add";
 import CampaignSession from "../../../models/campaign/CampaignSession";
-import {SingleActionTableCell} from "../../common/table/ActionsTableCell";
+import SingleActionTableCell from "../../common/table/actions/ActionsTableCell";
 import {CampaignPath} from "../../../services/RootPath";
 import TextFieldTableCell from "../../common/table/TextFieldTableCell";
 import CampaignService from "../../../services/CampaignService";

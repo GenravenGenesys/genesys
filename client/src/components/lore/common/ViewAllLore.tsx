@@ -7,7 +7,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import LoreService from "../../../services/lore/LoreService";
 import Lore, {LoreType} from "../../../models/lore/Lore";
-import ActionsTableCell from "../../common/table/ActionsTableCell";
+import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
 import {LorePath} from "../../../services/RootPath";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";

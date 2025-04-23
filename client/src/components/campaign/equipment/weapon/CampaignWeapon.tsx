@@ -12,7 +12,7 @@ import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCe
 import {renderDamage, renderPrice} from '../../../../models/equipment/EquipmentHelper';
 import {Weapon} from "../../../../models/equipment/Weapon";
 import {renderSkillName} from "../../../common/skill/SkillRenders";
-import ActionsTableCell from "../../../common/table/ActionsTableCell";
+import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {EquipmentPath} from "../../../../services/RootPath";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
 import EquipmentService from "../../../../services/EquipmentService";

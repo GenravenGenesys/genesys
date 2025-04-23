@@ -7,7 +7,7 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
-import ActionsTableCell from "../../common/table/ActionsTableCell";
+import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
 import Archetype from "../../../models/actor/player/Archetype";
 import {RootPath} from "../../../services/RootPath";
 import ArchetypeService from "../../../services/ArchetypeService";

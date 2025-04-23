@@ -24,19 +24,3 @@ export default function ActionsTableCell(props: Props) {
         </TableCell>
     )
 }
-
-export function SingleActionTableCell(props: Props) {
-    const {name, path} = props
-
-    const handleView = useMemo(() => forwardRef<any, Omit<LinkProps, 'to'>>((itemProps, ref): React.ReactElement => (
-        <Link to={`${path}${name}`} ref={ref} {...itemProps} />
-    )), [path, name])
-
-    return (
-        <TableCell style={{textAlign: 'center'}}>
-            <IconButton title='View' size='small' component={handleView} style={{textAlign: 'center'}}>
-                <PreviewIcon color='primary' fontSize='small'/>
-            </IconButton>
-        </TableCell>
-    )
-}

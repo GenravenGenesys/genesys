@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import {Fragment, useEffect, useState} from 'react';
 import * as React from 'react';
 import Nemesis from "../../../../models/actor/npc/Nemesis";
-import ActionsTableCell from "../../../common/table/ActionsTableCell";
+import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";

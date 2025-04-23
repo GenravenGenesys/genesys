@@ -7,7 +7,7 @@ import {useEffect, useState} from 'react';
 import * as React from 'react';
 import Skill from "../../models/actor/Skill";
 import SkillService from "../../services/SkillService";
-import ActionsTableCell from "../common/table/ActionsTableCell";
+import ActionsTableCell from "../common/table/actions/ActionsTableCell";
 import {renderSingleRowTableHeader} from "../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../common/table/TypographyTableCell";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";

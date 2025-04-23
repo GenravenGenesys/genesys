@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 import {Fragment, useEffect, useState} from 'react';
 import * as React from 'react';
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
-import ActionsTableCell from "../common/table/ActionsTableCell";
+import ActionsTableCell from "../common/table/actions/ActionsTableCell";
 import {RootPath} from "../../services/RootPath";
 import Quality from "../../models/Quality";
 import GenesysQualityTypography from "../common/typography/GenesysQualityTypography";

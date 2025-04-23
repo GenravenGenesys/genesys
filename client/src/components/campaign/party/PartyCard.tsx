@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import Player from "../../../models/actor/player/Player";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
-import ActionsTableCell from "../../common/table/ActionsTableCell";
+import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
 import {ActorPath} from "../../../services/RootPath";
 import Party from "../../../models/campaign/Party";
 import GenesysDescriptionTypography from "../../common/typography/GenesysDescriptionTypography";

@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { Fragment, useEffect, useState } from 'react';
 import * as React from 'react';
 import MinionService from '../../../../services/actor/MinionService'
-import ActionsTableCell from "../../../common/table/ActionsTableCell";
+import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import Minion from "../../../../models/actor/npc/Minion";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
