@@ -15,6 +15,7 @@ import ViewAllPlayers from "../campaign/party/player/ViewAllPlayers";
 import Tab from "@mui/material/Tab";
 import ViewScenes from "../campaign/scene/ViewScenes";
 import GridContainer from "../common/grid/GridContainer";
+import FullGrid from "../common/grid/FullGrid";
 
 export default function HomeCampaignDashboard() {
     const campaign = useFetchCurrentCampaign();
@@ -48,7 +49,7 @@ export default function HomeCampaignDashboard() {
                 subheader={campaign ? campaign?.name! : 'No Campaign Selected'}>
             </CardHeader>
             <CardContent>
-                <GridContainer centered>
+                <FullGrid>
                     <TabContext value={value}>
                         <GridContainer centered>
                             <TabList onChange={handleChange} centered>
@@ -75,7 +76,7 @@ export default function HomeCampaignDashboard() {
                             <ViewScenes/>
                         </TabPanel>
                     </TabContext>
-                </GridContainer>
+                </FullGrid>
             </CardContent>
             <CardActions>
                 <GridContainer centered>
