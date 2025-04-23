@@ -1,20 +1,19 @@
 import {Autocomplete} from "@mui/lab";
 import {TextField} from "@mui/material";
-import TableCell from "@mui/material/TableCell";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import Quality, {EquipmentQuality} from "../../../models/Quality";
 import QualityService from "../../../services/QualityService";
+import CustomTableCell from "./common/CustomTableCell";
 
-interface Props {
-    disabled: boolean
-    onChange: (index: number, newValue: EquipmentQuality) => void
-    quality: EquipmentQuality
-    index: number
-}
+type Props = {
+    disabled: boolean;
+    onChange: (index: number, newValue: EquipmentQuality) => void;
+    quality: EquipmentQuality;
+    index: number;
+};
 
-export default function QualityAutocompleteTableCell(props: Props) {
-    const {disabled, onChange, quality, index} = props;
+const QualityAutocompleteTableCell: React.FC<Props> = ({disabled, onChange, quality, index})=> {
     const [equipmentQualities, setEquipmentQualities] = useState<Quality[]>([]);
 
     useEffect(() => {
@@ -28,8 +27,7 @@ export default function QualityAutocompleteTableCell(props: Props) {
         })()
     }, [])
 
-    return (
-        <TableCell sx={{"width": .75}}>
+    return <CustomTableCell width={.75}>
             <Autocomplete
                 options={equipmentQualities}
                 getOptionLabel={(option) => option.name}
@@ -39,6 +37,7 @@ export default function QualityAutocompleteTableCell(props: Props) {
                                                     variant="outlined"/>}
                 disabled={disabled}
             />
-        </TableCell>
-    )
-}
+        </CustomTableCell>;
+};
+
+export default QualityAutocompleteTableCell;
