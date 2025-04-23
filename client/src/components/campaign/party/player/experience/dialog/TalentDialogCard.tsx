@@ -1,4 +1,4 @@
-import {Button, Card, CardContent, Grid} from "@mui/material";
+import {Button, Card, CardContent, Stack} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import TierTalentDialog from "./TierTalentDialog";
 import {Tier} from "../../../../../../models/Talent";
@@ -7,6 +7,8 @@ import GenesysDescriptionTypography from "../../../../../common/typography/Genes
 import * as React from "react";
 import {useState} from "react";
 import Player from "../../../../../../models/actor/player/Player";
+import GridContainer from "../../../../../common/grid/GridContainer";
+import GridItem from "../../../../../common/grid/GridItem";
 
 interface Props {
     player: Player
@@ -21,37 +23,36 @@ export default function TalentDialogCard(props: Props) {
     const talents = player.talents.filter(talent => talent.tier === tier);
 
     return (
-        <Grid container sx={{
-            justifyContent: "center"
-        }}>
+        <GridContainer centered>
             <Button variant='contained' color='primary' startIcon={<AddIcon/>}
                     onClick={() => setOpenTalentDialog(true)}>
                 Add Talent
             </Button>
             {openTalentDialog && <TierTalentDialog open={openTalentDialog} onClose={() => setOpenTalentDialog(false)}
                                                    currentPlayer={player} tier={tier} updatePlayer={updatePlayer}/>}
-            <Grid container direction="column" spacing={2}>
+            <Stack spacing={2}>
+            {/*<Stack container direction="column" spacing={2}>*/}
                 {new Array(size).map((talent) => (
-                    <Grid key={talent.id}>
+                    <GridItem>
                         <Card>
                             <CenteredCardHeader title={talent.name}/>
                             <CardContent>
                                 <GenesysDescriptionTypography text={talent.summary}/>
                             </CardContent>
                         </Card>
-                    </Grid>
+                    </GridItem>
                 ))}
                 {talents.map((talent) => (
-                    <Grid key={talent.id}>
+                    <GridItem>
                         <Card>
                             <CenteredCardHeader title={talent.name}/>
                             <CardContent>
                                 <GenesysDescriptionTypography text={talent.summary}/>
                             </CardContent>
                         </Card>
-                    </Grid>
+                    </GridItem>
                 ))}
-            </Grid>
-        </Grid>
+            </Stack>
+        </GridContainer>
     );
 }

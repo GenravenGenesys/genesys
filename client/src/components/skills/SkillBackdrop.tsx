@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Skill from "../../models/actor/Skill";
-import {Card, CardContent, CardHeader, Grid} from "@mui/material";
+import {Card, CardContent, CardHeader} from "@mui/material";
 import ViewFieldCard from "../common/ViewFieldCard";
+import GridContainer from "../common/grid/GridContainer";
 
 interface Props {
     skill: Skill;
@@ -19,12 +20,10 @@ const SkillBackdrop: React.FC<Props> = ({skill, open, onClose})=> {
             <Card>
                 <CardHeader style={{textAlign: 'center'}} title={skill.name}/>
                 <CardContent>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                    <GridContainer centered>
                         <ViewFieldCard name={'Skill Type'} value={skill.type} />
                         <ViewFieldCard name={'Characteristic'} value={skill.characteristic} />
-                    </Grid>
+                    </GridContainer>
                 </CardContent>
             </Card>
         </Backdrop>
