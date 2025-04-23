@@ -1,4 +1,4 @@
-import {Dialog, DialogContent, Divider, Grid, TextField} from "@mui/material";
+import {Dialog, DialogContent, Divider, TextField} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 import {ActorWeapon, Weapon, WeaponSlot} from "../../../../../models/equipment/Weapon";
@@ -16,6 +16,7 @@ import WeaponDamageTextFieldCard from "../../../../common/card/WeaponDamageTextF
 import WeaponQualityCard from "../../../equipment/weapon/quality/WeaponQualityCard";
 import WeaponModifierCard from "../../../equipment/weapon/modifier/WeaponModifierCard";
 import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
+import GridContainer from "../../../../common/grid/GridContainer";
 
 interface Props {
     open: boolean;
@@ -85,7 +86,7 @@ const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> 
         <Dialog open={open} onClose={onClose} fullScreen>
             <CenteredDialogTitle title={'Add Custom Weapon'}/>
             <DialogContent>
-                <Grid container>
+                <GridContainer>
                     <TextField
                         value={weapon.name}
                         variant="outlined"
@@ -93,9 +94,9 @@ const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> 
                         label={'Name'}
                         onChange={e => handleNameChange(e.target.value)}
                     />
-                </Grid>
+                </GridContainer>
                 <Divider/>
-                <Grid container spacing={2}>
+                <GridContainer spacing={2}>
                     <SkillAutocompleteCard disabled={pathname.endsWith('/view')} handleSkillChange={handleSkillChange}
                                            skills={useFetchSkillsByType(SkillType.Combat)}
                                            startingSkill={weapon.skill} title={'Required Skill'}/>
@@ -111,13 +112,13 @@ const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> 
                                          max={6} disabled={pathname.endsWith('/view')}/>
                     <RangeBandCard value={weapon.range} onChange={handleRangeBandChange}
                                    disabled={pathname.endsWith('/view')}/>
-                </Grid>
-                <Grid container>
+                </GridContainer>
+                <GridContainer>
                     <WeaponQualityCard weapon={weapon} updateWeapon={updateWeapon}
                                        disabled={pathname.endsWith('/view')}/>
                     <WeaponModifierCard weapon={weapon} updateWeapon={updateWeapon}
                                         disabled={pathname.endsWith('/view')}/>
-                </Grid>
+                </GridContainer>
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose}/>
         </Dialog>
