@@ -1,11 +1,11 @@
 import {Button, CardHeader} from "@mui/material";
 import * as React from "react";
 
-interface Props {
-    title: string
-    onClick: () => void
-    buttonText: string
-}
+type Props = {
+    title: string;
+    onClick: () => void;
+    buttonText: string;
+};
 
 const CenteredCardHeaderWithButton: React.FC<Props> = ({title, onClick, buttonText}) => {
     return <CardHeader style={{textAlign: 'center'}} title={title}
