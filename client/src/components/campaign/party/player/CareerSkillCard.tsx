@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Autocomplete, Card, CardContent, Grid, IconButton, TextField,} from "@mui/material";
+import {Autocomplete, Card, CardContent, IconButton, TextField,} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import CareerService from "../../../../services/CareerService";
 import Career from "../../../../models/actor/player/Career";
@@ -12,6 +12,7 @@ import CareerSkillSelectDialog from "./skill/CareerSkillSelectDialog";
 import {useLocation} from "react-router-dom";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import GridItem from "../../../common/grid/GridItem";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     player: Player;
@@ -37,8 +38,8 @@ export default function CareerSelectCard(props: Props) {
             <Card>
                 <CenteredCardHeader title={'Career'}/>
                 <CardContent>
-                    <Grid container>
-                        <Grid sx={{"width": .8}}>
+                    <GridContainer>
+                        <GridItem width={.8}>
                             <Autocomplete
                                 options={careers}
                                 getOptionLabel={(option) => option.name}
@@ -48,8 +49,8 @@ export default function CareerSelectCard(props: Props) {
                                 renderInput={(params) => <TextField {...params} label='Career'
                                                                     variant="outlined"/>}
                             />
-                        </Grid>
-                        <Grid sx={{"width": .1}}>
+                        </GridItem>
+                        <GridItem width={.1}>
                             <IconButton onClick={(): void => setOpenCareerSkillDialog(true)}>
                                 <EditIcon/>
                             </IconButton>
@@ -57,8 +58,8 @@ export default function CareerSelectCard(props: Props) {
                                 <CareerSkillSelectDialog open={openCareerSkillDialog}
                                                          onClose={(): void => setOpenCareerSkillDialog(false)}
                                                          player={player} onSelect={onSkillSelect}/>}
-                        </Grid>
-                        <Grid sx={{"width": .1}}>
+                        </GridItem>
+                        <GridItem width={.1}>
                             <IconButton onClick={(): void => setOpenCareerBackDrop(true)}>
                                 <InfoIcon/>
                             </IconButton>
@@ -66,8 +67,8 @@ export default function CareerSelectCard(props: Props) {
                                 <CareerBackdrop open={openCareerBackDrop}
                                                 onClose={(): void => setOpenCareerBackDrop(false)}
                                                 career={player.career}/>}
-                        </Grid>
-                    </Grid>
+                        </GridItem>
+                    </GridContainer>
                 </CardContent>
             </Card>
         </GridItem>
