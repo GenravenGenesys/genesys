@@ -1,5 +1,4 @@
 import Player, {PlayerSkill} from "../../../../models/actor/player/Player";
-import {Grid} from "@mui/material";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import ExperienceCard from "./experience/ExperienceCard";
 import * as React from "react";
@@ -10,6 +9,7 @@ import PlayerService from "../../../../services/actor/PlayerService";
 import Career from "../../../../models/actor/player/Career";
 import CharacteristicRow from "../../actor/common/CharacteristicRow";
 import DerivedPlayerStatsRow from "./DerivedPlayerStatsRow";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     player: Player;
@@ -38,17 +38,15 @@ export default function PlayerCharacteristicTab(props: Props) {
     };
 
     return (
-        <Grid container sx={{
-            justifyContent: 'center'
-        }}>
-            <Grid container spacing={2}>
+        <GridContainer centered>
+            <GridContainer spacing={2}>
                 <ArchetypeSelectCard archetype={player.archetype} onCommit={handleArchetypeChange}/>
                 <CareerSelectCard player={player} onCommit={handleCareerChange} onSkillSelect={handleCareerSkillChange}/>
                 <ViewFieldCard name={'Encumbrance'} value={String(player.encumbrance)}/>
                 <ExperienceCard player={player}/>
-            </Grid>
+            </GridContainer>
             <CharacteristicRow actor={player}/>
             <DerivedPlayerStatsRow player={player}/>
-        </Grid>
+        </GridContainer>
     );
 }

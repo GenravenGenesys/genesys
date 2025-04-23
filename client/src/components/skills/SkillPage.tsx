@@ -1,5 +1,5 @@
 import Skill, {SkillType} from "../../models/actor/Skill";
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import {RootPath} from "../../services/RootPath";
 import * as React from "react";
 import {useLocation, useParams} from "react-router-dom";
@@ -10,6 +10,7 @@ import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHead
 import SkillTypeCard from "../common/card/select/SkillTypeCard";
 import CharacteristicTypeCard from "../common/card/select/CharacteristicTypeCard";
 import BooleanTextFieldCard from "../common/card/BooleanTextFieldCard";
+import GridContainer from "../common/grid/GridContainer";
 
 const SkillPage = ()=> {
     const {id} = useParams<{ id: string }>();
@@ -51,16 +52,14 @@ const SkillPage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={skill.name} path={RootPath.Skills + skill.id}/>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                <GridContainer centered>
                     <SkillTypeCard value={skill.type} onChange={handleSkillTypeChange}
                                    disabled={pathname.endsWith('/view')}/>
                     <CharacteristicTypeCard value={skill.characteristic} onChange={handleCharacteristicTypeChange}
                                             disabled={pathname.endsWith('/view')}/>
                     <BooleanTextFieldCard title={'Initiative Skill'} value={skill.initiative}
                                           disabled={pathname.endsWith('/view')} onChange={handleInitiativeSkillChange}/>
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     );
