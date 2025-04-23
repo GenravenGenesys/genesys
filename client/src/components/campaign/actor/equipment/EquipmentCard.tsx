@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -11,6 +11,8 @@ import {ActorArmor} from "../../../../models/equipment/Armor";
 import Actor from "../../../../models/actor/Actor";
 import WeaponTable from "./weapon/WeaponTable";
 import {ActorWeapon} from "../../../../models/equipment/Weapon";
+import GridContainer from "../../../common/grid/GridContainer";
+import FullGrid from "../../../common/grid/FullGrid";
 
 interface Props {
     actor: Actor
@@ -30,15 +32,15 @@ export default function EquipmentCard(props: Props) {
         <Card sx={{width: 1}}>
             <CenteredCardHeader title={'Equipment'}/>
             <CardContent>
-                <Grid sx={{width: 1}}>
+                <FullGrid>
                     <TabContext value={value}>
-                        <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <GridContainer centered>
                             <TabList onChange={handleChange} centered>
                                 <Tab label="Weapons" value="1"/>
                                 <Tab label="Armor" value="2"/>
                                 <Tab label="Gear" value="3"/>
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         <TabPanel value="1">
                             <WeaponTable actor={actor} updateWeapons={updateWeapons}/>
                         </TabPanel>
@@ -47,7 +49,7 @@ export default function EquipmentCard(props: Props) {
                         </TabPanel>
                         {/*<TabPanel value="3">{renderGearTab()}</TabPanel>*/}
                     </TabContext>
-                </Grid>
+                </FullGrid>
             </CardContent>
         </Card>
     );

@@ -1,6 +1,7 @@
-import {Card, CardActions, Grid} from "@mui/material";
+import {Card, CardActions} from "@mui/material";
 import InputNumberRangeSelectField from "./InputNumberRangeSelect";
 import CenteredCardHeader from "./card/header/CenteredCardHeader";
+import GridItem from "./grid/GridItem";
 
 interface Props {
     defaultValue: number
@@ -14,13 +15,13 @@ export default function NumberRangeSelectCard(props: Props) {
     const {defaultValue, title, onChange, min, max} = props
 
     return (
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardActions>
                     <InputNumberRangeSelectField defaultValue={defaultValue} min={min} max={max} onCommit={onChange}/>
                 </CardActions>
             </Card>
-        </Grid>
+        </GridItem>
     )
 }

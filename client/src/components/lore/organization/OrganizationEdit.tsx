@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {LorePath} from "../../../services/RootPath";
-import {Card, CardContent, CardHeader, Grid, IconButton} from "@mui/material";
+import {Card, CardContent, CardHeader, IconButton} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import * as React from "react";
 import {Organization, OrgKey, OrgType} from "../../../models/lore/Organization";
@@ -11,6 +11,7 @@ import {InputTextFieldCard} from "../../common/InputTextFieldCard";
 import {LoreType} from "../../../models/lore/Lore";
 import InputSelectFieldCard from "../../common/InlineSelectFieldCard";
 import OrganizationService from "../../../services/lore/OrganizationService";
+import GridContainer from "../../common/grid/GridContainer";
 
 const getOrgTypes = (): Option[] => {
     return Object.values(OrgType).map((value) => ({value}))
@@ -78,15 +79,13 @@ export default function OrganizationEdit(props: Props) {
                         </IconButton>}>
             </CardHeader>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
-                    <Grid container spacing={10}>
+                <GridContainer centered>
+                    <GridContainer spacing={10}>
                         <InputSelectFieldCard defaultValue={organization.type} onCommit={(value: string): void => {
                             onChange(OrgKey.orgType, value)
                         }} options={getOrgTypes()} title={'Type of Organization'}/>
-                    </Grid>
-                    <Grid container spacing={10}>
+                    </GridContainer>
+                    <GridContainer spacing={10}>
                         <EditNumberCard title={'Founding Year'} value={organization.founded}
                                         onChange={(value: number): void => {
                                             onChange(OrgKey.founded, String(value))
@@ -95,8 +94,8 @@ export default function OrganizationEdit(props: Props) {
                                         onChange={(value: number): void => {
                                             onChange(OrgKey.disbanded, String(value))
                                         }}/>
-                    </Grid>
-                    <Grid container spacing={10}>
+                    </GridContainer>
+                    <GridContainer spacing={10}>
                         <InputTextFieldCard defaultValue={organization.nickname}
                                             onCommit={(value: string): void => {
                                                 onChange(OrgKey.nickname, value)
@@ -108,8 +107,8 @@ export default function OrganizationEdit(props: Props) {
                                                 onChange(OrgKey.membersName, value)
                                             }} title={'Name of Members'} helperText={'How members are referred to'}
                                             placeholder={'Pirates'}/>
-                    </Grid>
-                </Grid>
+                    </GridContainer>
+                </GridContainer>
             </CardContent>
         </Card>
     );
