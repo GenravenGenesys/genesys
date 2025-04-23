@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid,} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import * as React from "react";
 import {Fragment, useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
@@ -18,6 +18,7 @@ import NumberTextFieldCard from "../../../common/card/NumberTextField";
 import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import WeaponDamageTextFieldCard from "../../../common/card/WeaponDamageTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
+import GridContainer from '../../../common/grid/GridContainer';
 
 const WeaponPage = ()=> {
     const {id} = useParams<{ id: string }>();
@@ -112,21 +113,15 @@ const WeaponPage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={weapon.name} path={EquipmentPath.Weapon + weapon.id}/>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                <GridContainer centered>
+                    <GridContainer centered>
                         <SkillAutocompleteCard disabled={pathname.endsWith('/view')}
                                                handleSkillChange={handleSkillChange} skills={skills}
                                                startingSkill={weapon.skill} title={'Required Skill'}/>
                         <RangeBandCard value={weapon.range} onChange={handleRangeBandChange}
                                        disabled={pathname.endsWith('/view')}/>
-                    </Grid>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                    </GridContainer>
+                    <GridContainer centered>
                         <NumberTextFieldCard title={'Hands'} value={weapon.hands} onChange={handleHandsChange} min={1}
                                              max={2} disabled={pathname.endsWith('/view')}/>
                         <BooleanTextFieldCard title={'Brawn Powered'} value={weapon.brawn}
@@ -137,10 +132,8 @@ const WeaponPage = ()=> {
                         <NumberTextFieldCard title={'Critical'} value={weapon.critical} onChange={handleCriticalChange}
                                              min={1}
                                              max={6} disabled={pathname.endsWith('/view')}/>
-                    </Grid>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                    </GridContainer>
+                    <GridContainer centered>
                         <NumberTextFieldCard title={'Encumbrance'} value={weapon.encumbrance}
                                              onChange={handleEncumbranceChange} min={1}
                                              max={10} disabled={pathname.endsWith('/view')}/>
@@ -152,16 +145,14 @@ const WeaponPage = ()=> {
                         <NumberTextFieldCard title={'Rarity'} value={weapon.rarity} onChange={handleRarityChange}
                                              min={0}
                                              max={10} disabled={pathname.endsWith('/view')}/>
-                    </Grid>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                    </GridContainer>
+                    <GridContainer centered>
                         <TextFieldCard title={"Description"} value={weapon.description}
                                        disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
-                    </Grid>
+                    </GridContainer>
                     <WeaponQualityCard weapon={weapon} updateWeapon={updateWeapon} disabled={pathname.endsWith('/view')}/>
                     <WeaponModifierCard weapon={weapon} updateWeapon={updateWeapon} disabled={pathname.endsWith('/view')}/>
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     );
