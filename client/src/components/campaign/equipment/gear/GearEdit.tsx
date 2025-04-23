@@ -10,11 +10,11 @@ import Skill from "../../../../models/actor/Skill";
 import {RangeBand, getRangeOptions} from "../../../../models/common/RangeBand";
 import InputSelectFieldCard from "../../../common/InlineSelectFieldCard";
 import {Gear} from "../../../../models/equipment/Gear";
-import SkillSelectCard from "../../../common/skill/SkillSelectCard";
 import {useFetchAllSkills} from "../../../skills/SkillWorkflow";
 import NumberTextFieldCard from "../../../common/card/NumberTextField";
 import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
+import SkillAutocompleteCard from "../../../common/card/SkillAutocompleteCard";
 
 interface Props {
     gea: Gear
@@ -94,9 +94,9 @@ export default function GearEdit(props: Props) {
                     </Grid>
                     <Divider/>
                     <Grid container spacing={10}>
-                        <SkillSelectCard defaultValue={gear?.skill!!} onCommit={(value: Skill): void => {
+                        <SkillAutocompleteCard title={"Required Skill"} disabled={pathname.endsWith('/view')} handleSkillChange={(value: Skill): void => {
                             onSkillChange(value)
-                        }} skills={useFetchAllSkills()} title={'Required Skill'}/>
+                        }} skills={useFetchAllSkills()} startingSkill={gear?.skill!!}/>
                         <InputSelectFieldCard defaultValue={gear.range} onCommit={(value: string): void => {
                             onChange('range', value)
                         }} title={'Range'} options={getRangeOptions()}/>
