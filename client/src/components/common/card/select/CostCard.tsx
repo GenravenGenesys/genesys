@@ -4,6 +4,7 @@ import CenteredCardHeader from "../header/CenteredCardHeader";
 import * as React from "react";
 import {useState} from "react";
 import ViewFieldCard from "../../ViewFieldCard";
+import GridItem from "../../GridItem";
 
 interface Props {
     initialCost: Cost;
@@ -33,14 +34,14 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
     return disabled ?
         <ViewFieldCard name={'Cost'}
                        value={cost.type === CostType.None ? CostType.None : cost.amount + ' ' + cost.type}/> :
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={'Cost'}/>
                 <CardContent>
                     <Grid container sx={{
                         justifyContent: 'center'
                     }}>
-                        <Grid xs>
+                        <GridItem>
                             <TextField
                                 type="number"
                                 value={cost.amount}
@@ -52,8 +53,8 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
                                 })}
                                 inputProps={{min: 0, max: setMaxValue()}}
                             />
-                        </Grid>
-                        <Grid xs>
+                        </GridItem>
+                        <GridItem>
                             <Select
                                 value={cost.type}
                                 onChange={(e) => onChange({
@@ -70,11 +71,11 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
                                     </MenuItem>
                                 ))}
                             </Select>
-                        </Grid>
+                        </GridItem>
                     </Grid>
                 </CardContent>
             </Card>
-        </Grid>;
+        </GridItem>;
 };
 
 export default CostCard;
