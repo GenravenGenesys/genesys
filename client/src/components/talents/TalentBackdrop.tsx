@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Talent from "../../models/Talent";
-import {Card, CardContent, CardHeader, Grid} from "@mui/material";
+import {Card, CardContent, CardHeader} from "@mui/material";
 import ViewFieldCard from "../common/ViewFieldCard";
 import TalentModifierCard from "./modifier/TalentModifierCard";
+import GridContainer from "../common/grid/GridContainer";
 
 interface Props {
     talent: Talent;
@@ -20,18 +21,16 @@ const TalentBackdrop: React.FC<Props> = ({talent, open, onClose}) => {
             <Card>
                 <CardHeader style={{textAlign: 'center'}} title={talent.name}/>
                 <CardContent>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
-                        <Grid container spacing={2}>
+                    <GridContainer centered>
+                        <GridContainer spacing={2}>
                             <ViewFieldCard name={'Description'} value={talent.description}/>
-                        </Grid>
-                        <Grid container spacing={2}>
+                        </GridContainer>
+                        <GridContainer spacing={2}>
                             <ViewFieldCard name={'Ranked'} value={talent.ranked ? 'Yes' : 'No'}/>
                             <ViewFieldCard name={'Activation'} value={talent.activation}/>
                             <ViewFieldCard name={'Tier'} value={talent.tier}/>
-                        </Grid>
-                    </Grid>
+                        </GridContainer>
+                    </GridContainer>
                     <TalentModifierCard tal={talent}/>
                 </CardContent>
             </Card>

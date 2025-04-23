@@ -1,4 +1,4 @@
-import {Card, CardContent, FormControlLabel, Grid, Switch} from "@mui/material";
+import {Card, CardContent, FormControlLabel, Switch} from "@mui/material";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import * as React from "react";
 import SkillAutocompleteCard from "../../common/card/SkillAutocompleteCard";
@@ -9,14 +9,16 @@ import {ActorSkill} from "../../../models/actor/Actor";
 import DifficultyCard from "../../common/card/select/DifficultyCard";
 import {Difficulty} from "../../../models/common/Difficulty";
 import {useState} from "react";
+import GridItem from "../../common/grid/GridItem";
+import GridContainer from "../../common/grid/GridContainer";
 
-interface Props {
+type Props = {
     talent: Talent;
     updateTalent: (talent: Talent) => void;
     disabled: boolean;
-}
+};
 
-const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled})=> {
+const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled}) => {
     const [opposed, setOpposed] = useState<boolean>(!talent.talentSkillCheck.difficulty);
     const skills = useFetchAllSkills();
 
@@ -37,20 +39,16 @@ const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled})
     };
 
     return (
-        <Grid xs>
+        <GridItem>
             <Card sx={{width: 1}}>
                 <CenteredCardHeader title={'Skill Check'}/>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                <GridContainer centered>
                     <FormControlLabel control={<Switch checked={opposed} onChange={handleChange}/>}
                                       label="Opposed Check" disabled={disabled}
                                       sx={{textAlign: 'center'}}/>
-                </Grid>
+                </GridContainer>
                 <CardContent>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                    <GridContainer centered>
                         <SkillAutocompleteCard disabled={disabled} handleSkillChange={handleSkillChange}
                                                skills={skills}
                                                startingSkill={talent.talentSkillCheck.skill} title={'User Skill'}/>
@@ -60,11 +58,12 @@ const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled})
                         {opposed &&
                             <SkillAutocompleteCard disabled={disabled} handleSkillChange={handleOpposedSkillChange}
                                                    skills={skills}
-                                                   startingSkill={talent.talentSkillCheck.opposedSkill} title={'Target Skill'}/>}
-                    </Grid>
+                                                   startingSkill={talent.talentSkillCheck.opposedSkill}
+                                                   title={'Target Skill'}/>}
+                    </GridContainer>
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
     );
 };
 

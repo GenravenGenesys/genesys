@@ -6,7 +6,7 @@ type GridItemProps = {
 };
 
 const GridItem: React.FC<GridItemProps> = ({ children }) => {
-    return <Grid2 size="grow">{children}</Grid2>;
+    return <Grid2 sx={{ flexGrow: 1 }}>{children}</Grid2>;
 };
 
 export default GridItem;
