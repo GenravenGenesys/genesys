@@ -15,7 +15,10 @@ interface Props {
 
 const ArchetypeBackdrop: React.FC<Props> = ({archetype, open, onClose})=> {
     return (
-        <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={open} onClick={onClose}>
+        <Backdrop sx={theme => ({
+            color: '#fff',
+            zIndex: theme.zIndex.drawer + 1
+        })} open={open} onClick={onClose}>
             <Card>
                 <CenteredCardHeader title={archetype.name}/>
                 <CardContent>

@@ -12,7 +12,10 @@ interface Props {
 
 const SkillBackdrop: React.FC<Props> = ({skill, open, onClose})=> {
     return (
-        <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open} onClick={onClose}>
+        <Backdrop sx={theme => ({
+            color: '#fff',
+            zIndex: theme.zIndex.drawer + 1
+        })} open={open} onClick={onClose}>
             <Card>
                 <CardHeader style={{textAlign: 'center'}} title={skill.name}/>
                 <CardContent>
@@ -26,4 +29,4 @@ const SkillBackdrop: React.FC<Props> = ({skill, open, onClose})=> {
     );
 };
 
-export default SkillBackdrop;
+export default SkillBackdrop;

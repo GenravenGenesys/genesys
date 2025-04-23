@@ -24,7 +24,10 @@ export default function ArmorBackdrop(props: Props) {
     const headers = ['Name', 'Defense', 'Soak', 'Encumbrance', 'Price', 'Rarity'];
 
     return (
-        <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={open} onClick={onClose}>
+        <Backdrop sx={theme => ({
+            color: '#fff',
+            zIndex: theme.zIndex.drawer + 1
+        })} open={open} onClick={onClose}>
             <Card>
                 <CenteredCardHeader title={armor?.name!!}/>
                 <CardContent>
@@ -52,5 +55,5 @@ export default function ArmorBackdrop(props: Props) {
                 </CardContent>
             </Card>
         </Backdrop>
-    )
-}
+    );
+}

@@ -23,7 +23,10 @@ const WeaponBackdrop: React.FC<Props> = ({weapon, open, onClose})=> {
     const headers = ['Name', 'Skill', 'Damage', 'Critical', 'Range', 'Price', 'Special Qualities'];
 
     return (
-        <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={open} onClick={onClose}>
+        <Backdrop sx={theme => ({
+            color: '#fff',
+            zIndex: theme.zIndex.drawer + 1
+        })} open={open} onClick={onClose}>
             <Card>
                 <CenteredCardHeader title={weapon.name}/>
                 <CardContent>

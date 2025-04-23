@@ -43,7 +43,7 @@ export default function TalentActivationTableCell(props: Props) {
                     //
                     // </Button>
                     <Fragment/>
-                )
+                );
             case Activation.ActiveIncidentalOutOfTurn:
                 break;
         }

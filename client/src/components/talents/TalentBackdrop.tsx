@@ -13,7 +13,10 @@ interface Props {
 
 const TalentBackdrop: React.FC<Props> = ({talent, open, onClose}) => {
     return (
-        <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={open} onClick={onClose}>
+        <Backdrop sx={theme => ({
+            color: '#fff',
+            zIndex: theme.zIndex.drawer + 1
+        })} open={open} onClick={onClose}>
             <Card>
                 <CardHeader style={{textAlign: 'center'}} title={talent.name}/>
                 <CardContent>
@@ -34,4 +37,4 @@ const TalentBackdrop: React.FC<Props> = ({talent, open, onClose}) => {
     );
 };
 
-export default TalentBackdrop;
+export default TalentBackdrop;
