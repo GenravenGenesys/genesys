@@ -11,6 +11,7 @@ import Player, {PlayerSkill} from "../../../../models/actor/player/Player";
 import CareerSkillSelectDialog from "./skill/CareerSkillSelectDialog";
 import {useLocation} from "react-router-dom";
 import ViewFieldCard from "../../../common/ViewFieldCard";
+import GridItem from "../../../common/grid/GridItem";
 
 interface Props {
     player: Player;
@@ -32,7 +33,7 @@ export default function CareerSelectCard(props: Props) {
 
     return useLocation().pathname.endsWith("/view") ?
         <ViewFieldCard name={"Career"} value={player.career.name}/> :
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={'Career'}/>
                 <CardContent>
@@ -69,5 +70,5 @@ export default function CareerSelectCard(props: Props) {
                     </Grid>
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
 };

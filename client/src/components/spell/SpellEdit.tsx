@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Difficulty, getDifficultyOptions} from "../../models/common/Difficulty";
-import {Card, CardContent, CardHeader, Divider, Grid, IconButton} from "@mui/material";
+import {Card, CardContent, CardHeader, Divider, IconButton} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import {InputTextFieldCard} from "../common/InputTextFieldCard";
 import InputSelectFieldCard from "../common/InlineSelectFieldCard";
@@ -13,6 +13,7 @@ import SkillService from "../../services/SkillService";
 import SpellEffectCard from "./effect/SpellEffectCard";
 import SpellSkillCard from "./SpellSkillCard";
 import {RootPath} from "../../services/RootPath";
+import GridContainer from "../common/grid/GridContainer";
 
 interface Props {
     sp: Spell
@@ -83,16 +84,14 @@ export default function SpellEdit(props: Props): JSX.Element {
                         </IconButton>}>
             </CardHeader>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
-                    <Grid container spacing={2}>
+                <GridContainer centered>
+                    <GridContainer spacing={2}>
                         <InputTextFieldCard defaultValue={spell?.description!!} onCommit={(value: string): void => {
                             onChange('description', value)
                         }} title={'Description'} helperText={'Description'} placeholder={'Description'}/>
-                    </Grid>
+                    </GridContainer>
                     <Divider/>
-                    <Grid container spacing={2}>
+                    <GridContainer spacing={2}>
                         <InputSelectFieldCard defaultValue={spell.difficulty} onCommit={(value: string): void => {
                             onChange('difficulty', value)
                         }} title={'Base Difficulty'} options={getDifficultyOptions()}/>
@@ -100,15 +99,15 @@ export default function SpellEdit(props: Props): JSX.Element {
                                          onChange={(value: boolean): void => {
                                              onChange('concentration', String(value))
                                          }}/>
-                    </Grid>
-                    <Grid container spacing={2}>
+                    </GridContainer>
+                    <GridContainer spacing={2}>
                         <SpellSkillCard spell={spell} onSkillAddition={onSkillAddition}
                                         onSkillRemoval={onSkillRemoval}/>
-                    </Grid>
-                    <Grid container spacing={2}>
+                    </GridContainer>
+                    <GridContainer spacing={2}>
                         <SpellEffectCard spell={spell}/>
-                    </Grid>
-                </Grid>
+                    </GridContainer>
+                </GridContainer>
             </CardContent>
         </Card>
     );

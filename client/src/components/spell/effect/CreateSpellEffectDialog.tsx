@@ -1,11 +1,12 @@
 import {useState} from "react";
-import {Dialog, DialogContent, DialogTitle, Grid} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle} from "@mui/material";
 import {InputTextFieldCard} from "../../common/InputTextFieldCard";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
 import * as React from "react";
 import Spell, {Effect} from "../../../models/spell/Spell";
 import SpellService from "../../../services/SpellService";
 import NumberRangeSelectCard from "../../common/NumberRangeSelectCard";
+import GridContainer from "../../common/grid/GridContainer";
 
 interface Props {
     spell: Spell
@@ -52,22 +53,22 @@ export default function CreateSpellEffectDialog(props: Props) {
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>Add Spell Effect</DialogTitle>
             <DialogContent>
-                <Grid container spacing={10}>
+                <GridContainer spacing={10}>
                     <InputTextFieldCard defaultValue={effect?.name!!} onCommit={(value: string): void => {
                         onChange('name', value)
                     }} title={'Name'} helperText={'Name'} placeholder={'Name'}/>
-                </Grid>
-                <Grid container spacing={10}>
+                </GridContainer>
+                <GridContainer spacing={10}>
                     <InputTextFieldCard defaultValue={effect?.description!} onCommit={(value: string): void => {
                         onChange('description', value)
                     }} title={'Description'} helperText={'Description'} placeholder={'Description'}/>
-                </Grid>
-                <Grid container spacing={10}>
+                </GridContainer>
+                <GridContainer spacing={10}>
                     <NumberRangeSelectCard defaultValue={effect?.increase!} title={'Difficulty Modifier'}
                                            onChange={(value: number): void => {
                                                onChange('increase', String(value))
                                            }} min={0} max={4}/>
-                </Grid>
+                </GridContainer>
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose}/>
         </Dialog>
