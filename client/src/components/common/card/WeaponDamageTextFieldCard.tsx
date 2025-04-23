@@ -1,8 +1,6 @@
-import {Card, CardContent, TextField} from "@mui/material";
-import CenteredCardHeader from "./header/CenteredCardHeader";
 import * as React from "react";
-import {useLocation} from "react-router-dom";
-import GridItem from "../grid/GridItem";
+import ViewFieldCard from "../ViewFieldCard";
+import NumberTextFieldCard from "./NumberTextField";
 
 type Props = {
     damage: number;
@@ -14,26 +12,9 @@ type Props = {
 };
 
 const WeaponDamageTextFieldCard: React.FC<Props> = ({damage, brawn, onChange, min, max, disabled})=> {
-    let pathname = useLocation().pathname;
-
-    return (
-        <GridItem>
-            <Card>
-                <CenteredCardHeader title={"Damage"}/>
-                <CardContent>
-                    <TextField
-                        type="number"
-                        value={brawn && pathname.endsWith('/view') ? `Brawn + ${damage}` : damage}
-                        label={"Damage"}
-                        fullWidth
-                        onChange={(e) => onChange(Number(e.target.value))}
-                        inputProps={{min: min, max: max}}
-                        disabled={disabled}
-                    />
-                </CardContent>
-            </Card>
-        </GridItem>
-    );
+    return disabled ? <ViewFieldCard name={"Damage"} value={brawn ? `Brawn + ${damage}` : String(damage)}/> :
+        <NumberTextFieldCard title={"Damage"} value={damage} onChange={onChange} min={min} max={max}
+                             disabled={disabled}/>;
 };
 
 export default WeaponDamageTextFieldCard;
