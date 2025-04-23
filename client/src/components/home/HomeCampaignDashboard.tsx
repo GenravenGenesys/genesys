@@ -41,7 +41,7 @@ export default function HomeCampaignDashboard() {
     }
 
     return (
-        <Card  sx={{width: 1}}>
+        <Card sx={{width: 1}}>
             <CardHeader
                 style={{textAlign: 'center'}}
                 title={'Campaign Dashboard'}

@@ -19,7 +19,7 @@ export default function MainDashboard() {
     const [openSpellCreationDialog, setOpenSpellCreationDialog] = useState(false)
 
     return (
-        <Card>
+        <Card sx={{width: 1}}>
             <CardContent>
                 <GridContainer centered>
                     <Card>
