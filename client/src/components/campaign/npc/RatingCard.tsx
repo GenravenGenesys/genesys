@@ -1,7 +1,8 @@
-import {Card, CardContent, Grid, TextField} from "@mui/material";
+import {Card, CardContent, TextField} from "@mui/material";
 import * as React from "react";
 import {RatingType} from "../../../models/actor/npc/NonPlayerActor";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
+import GridItem from "../../common/grid/GridItem";
 
 interface Props {
     type: RatingType
@@ -14,7 +15,7 @@ export default function RatingCard(props: Props) {
     const {type, value, onChange, disabled} = props;
 
     return (
-        <Grid xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={type}/>
                 <CardContent>
@@ -29,6 +30,6 @@ export default function RatingCard(props: Props) {
                     />
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
     )
 }
