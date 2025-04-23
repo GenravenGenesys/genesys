@@ -1,10 +1,11 @@
 import Cost, {CostType} from "../../../../models/common/Cost";
-import {Card, CardContent, Grid, MenuItem, Select, TextField} from "@mui/material";
+import {Card, CardContent, MenuItem, Select, TextField} from "@mui/material";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import * as React from "react";
 import {useState} from "react";
 import ViewFieldCard from "../../ViewFieldCard";
-import GridItem from "../../GridItem";
+import GridItem from "../../grid/GridItem";
+import GridContainer from "../../grid/GridContainer";
 
 interface Props {
     initialCost: Cost;
@@ -38,9 +39,7 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
             <Card>
                 <CenteredCardHeader title={'Cost'}/>
                 <CardContent>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                    <GridContainer centered>
                         <GridItem>
                             <TextField
                                 type="number"
@@ -72,7 +71,7 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
                                 ))}
                             </Select>
                         </GridItem>
-                    </Grid>
+                    </GridContainer>
                 </CardContent>
             </Card>
         </GridItem>;
