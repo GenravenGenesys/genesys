@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import {useLocation, useParams} from 'react-router-dom';
 import * as React from "react";
 import Archetype from "../../../models/actor/player/Archetype";
@@ -14,6 +14,7 @@ import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardH
 import SkillAutocompleteCard from "../../common/card/SkillAutocompleteCard";
 import CharacteristicCard from "../../common/card/CharacteristicCard";
 import ArchetypeAbilityCard from "./ability/ArchetypeAbilityCard";
+import GridContainer from "../../common/grid/GridContainer";
 
 const ArchetypePage = ()=> {
     const {id} = useParams<{ id: string }>();
@@ -99,17 +100,13 @@ const ArchetypePage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={archetype.name} path={RootPath.Archetype + archetype.id}/>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                <GridContainer centered>
+                    <GridContainer centered>
                         <TextFieldCard title={"Description"} value={archetype.description}
                                        disabled={!pathname.endsWith(archetype.id + '/edit')}
                                        onChange={handleDescriptionChange}/>
-                    </Grid>
-                    <Grid container spacing={2}>
+                    </GridContainer>
+                    <GridContainer spacing={2}>
                         <CharacteristicCard type={CharacteristicType.Brawn} value={archetype.brawn}
                                             handleCharacteristicChange={handleCharacteristicChange}
                                             disabled={!pathname.endsWith(archetype.id + '/edit')}/>
@@ -128,10 +125,8 @@ const ArchetypePage = ()=> {
                         <CharacteristicCard type={CharacteristicType.Presence} value={archetype.presence}
                                             handleCharacteristicChange={handleCharacteristicChange}
                                             disabled={!pathname.endsWith(archetype.id + '/edit')}/>
-                    </Grid>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                    </GridContainer>
+                    <GridContainer centered>
                         <NumberTextFieldCard title={"Wound Threshold"} value={archetype.wounds}
                                              onChange={handleWoundsChange} min={7} max={13}
                                              disabled={!pathname.endsWith(archetype.id + '/edit')}/>
@@ -141,13 +136,13 @@ const ArchetypePage = ()=> {
                         <NumberTextFieldCard title={"Base Experience"} value={archetype.experience}
                                              onChange={handleExperienceChange} min={70} max={170}
                                              disabled={!pathname.endsWith(archetype.id + '/edit')} steps={5}/>
-                    </Grid>
-                    <Grid container>
+                    </GridContainer>
+                    <GridContainer>
                         <SkillAutocompleteCard disabled={!pathname.endsWith(archetype.id + '/edit')}
                                                handleSkillChange={handleSkillChange} skills={skills}
                                                startingSkill={archetype.skill} title={'Starting Skill'}/>
-                    </Grid>
-                </Grid>
+                    </GridContainer>
+                </GridContainer>
                 <ArchetypeAbilityCard archetype={archetype}/>
             </CardContent>
         </Card>

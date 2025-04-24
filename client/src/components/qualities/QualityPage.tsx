@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid,} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import * as React from "react";
 import {useLocation, useParams} from "react-router-dom";
 import {RootPath} from "../../services/RootPath";
@@ -10,6 +10,7 @@ import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHead
 import NumberTextFieldCard from "../common/card/NumberTextField";
 import TextFieldCard from "../common/card/TextFieldCard";
 import BooleanTextFieldCard from "../common/card/BooleanTextFieldCard";
+import GridContainer from "../common/grid/GridContainer";
 
 const QualityPage = ()=> {
     const {id} = useParams<{ id: string }>();
@@ -63,16 +64,12 @@ const QualityPage = ()=> {
         <Card>
             <CenteredCardHeaderWithAction title={quality.name} path={RootPath.Qualities + quality.id}/>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
-                    <Grid container sx={{
-                        justifyContent: 'center'
-                    }}>
+                <GridContainer centered>
+                    <GridContainer centered>
                         <TextFieldCard title={"Description"} value={quality.description}
                                        disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
-                    </Grid>
-                    <Grid container spacing={2}>
+                    </GridContainer>
+                    <GridContainer spacing={2}>
                         <BooleanTextFieldCard title={"Armor Quality"} value={quality.armor}
                                               disabled={pathname.endsWith('/view')}
                                               onChange={handleArmorQualityChange}/>
@@ -81,9 +78,9 @@ const QualityPage = ()=> {
                                               onChange={handleWeaponQualityChange}/>
                         <NumberTextFieldCard title={"Advantage Cost"} value={quality.cost} onChange={handleCostChange}
                                              min={0} max={3} disabled={pathname.endsWith('/view')}/>
-                    </Grid>
+                    </GridContainer>
                     <QualityModifierCard quality={quality} updateQuality={updateQuality}/>
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     );
