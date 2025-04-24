@@ -9,7 +9,7 @@ import InjuryService from "../../services/InjuryService";
 import {Difficulty} from "../../models/common/Difficulty";
 import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHeaderWithAction";
 import DifficultyCard from "../common/card/select/DifficultyCard";
-import NumberTextFieldCard from "../common/card/NumberTextField";
+import NumberTextFieldCard from "../common/card/NumberTextFieldCard";
 import TextFieldCard from "../common/card/TextFieldCard";
 import GridContainer from "../common/grid/GridContainer";
 

@@ -1,4 +1,4 @@
-import NumberTextFieldCard from "./NumberTextField";
+import NumberTextFieldCard from "./NumberTextFieldCard";
 import * as React from "react";
 import {Armor} from "../../../models/equipment/Armor";
 import {useLocation} from "react-router-dom";

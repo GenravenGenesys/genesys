@@ -1,6 +1,6 @@
 import {CharacteristicType} from "../../../models/actor/Characteristic";
 import * as React from "react";
-import NumberTextFieldCard from "./NumberTextField";
+import NumberTextFieldCard from "./NumberTextFieldCard";
 
 type Props = {
     type: CharacteristicType;

@@ -1,6 +1,6 @@
 import {Armor} from "../../../models/equipment/Armor";
 import {useLocation} from "react-router-dom";
-import NumberTextFieldCard from "./NumberTextField";
+import NumberTextFieldCard from "./NumberTextFieldCard";
 import React from "react";
 
 type Props = {

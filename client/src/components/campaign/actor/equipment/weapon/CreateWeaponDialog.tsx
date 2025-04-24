@@ -10,7 +10,7 @@ import {ActorSkill} from "../../../../../models/actor/Actor";
 import {useLocation} from "react-router-dom";
 import SkillAutocompleteCard from "../../../../common/card/SkillAutocompleteCard";
 import RangeBandCard from "../../../../common/card/select/RangeBandCard";
-import NumberTextFieldCard from "../../../../common/card/NumberTextField";
+import NumberTextFieldCard from "../../../../common/card/NumberTextFieldCard";
 import BooleanTextFieldCard from "../../../../common/card/BooleanTextFieldCard";
 import WeaponDamageTextFieldCard from "../../../../common/card/WeaponDamageTextFieldCard";
 import WeaponQualityCard from "../../../equipment/weapon/quality/WeaponQualityCard";

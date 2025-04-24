@@ -11,7 +11,7 @@ import {RangeBand, getRangeOptions} from "../../../../models/common/RangeBand";
 import InputSelectFieldCard from "../../../common/InlineSelectFieldCard";
 import {Gear} from "../../../../models/equipment/Gear";
 import {useFetchAllSkills} from "../../../skills/SkillWorkflow";
-import NumberTextFieldCard from "../../../common/card/NumberTextField";
+import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 import SkillAutocompleteCard from "../../../common/card/SkillAutocompleteCard";

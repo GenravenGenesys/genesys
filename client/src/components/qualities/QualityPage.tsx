@@ -7,7 +7,7 @@ import Quality from "../../models/Quality";
 import QualityModifierCard from "./modifiers/QualityModifierCard";
 import QualityService from "../../services/QualityService";
 import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHeaderWithAction";
-import NumberTextFieldCard from "../common/card/NumberTextField";
+import NumberTextFieldCard from "../common/card/NumberTextFieldCard";
 import TextFieldCard from "../common/card/TextFieldCard";
 import BooleanTextFieldCard from "../common/card/BooleanTextFieldCard";
 import GridContainer from "../common/grid/GridContainer";

@@ -6,7 +6,7 @@ import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
 import CharacteristicRow from "../../actor/common/CharacteristicRow";
-import NumberTextFieldCard from "../../../common/card/NumberTextField";
+import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import {StatsType} from "../../../../models/actor/Stats";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import * as React from "react";

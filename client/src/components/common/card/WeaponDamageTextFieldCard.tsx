@@ -1,6 +1,6 @@
 import * as React from "react";
 import ViewFieldCard from "../ViewFieldCard";
-import NumberTextFieldCard from "./NumberTextField";
+import NumberTextFieldCard from "./NumberTextFieldCard";
 
 type Props = {
     damage: number;

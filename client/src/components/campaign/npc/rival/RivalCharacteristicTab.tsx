@@ -7,7 +7,7 @@ import RatingCard from "../RatingCard";
 import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import {Fragment} from "react";
 import CharacteristicRow from "../../actor/common/CharacteristicRow";
-import NumberTextFieldCard from "../../../common/card/NumberTextField";
+import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import {StatsType} from "../../../../models/actor/Stats";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import RivalService from "../../../../services/actor/RivalService";

@@ -14,7 +14,7 @@ import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCa
 import {EquipmentPath} from "../../../../services/RootPath";
 import SkillAutocompleteCard from "../../../common/card/SkillAutocompleteCard";
 import RangeBandCard from "../../../common/card/select/RangeBandCard";
-import NumberTextFieldCard from "../../../common/card/NumberTextField";
+import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import WeaponDamageTextFieldCard from "../../../common/card/WeaponDamageTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";

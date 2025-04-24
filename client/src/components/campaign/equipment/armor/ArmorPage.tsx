@@ -9,7 +9,7 @@ import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCa
 import {EquipmentPath} from "../../../../services/RootPath";
 import SoakCard from "../../../common/card/SoakCard";
 import DefenseCard from "../../../common/card/DefenseCard";
-import NumberTextFieldCard from "../../../common/card/NumberTextField";
+import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 import ArmorQualityCard from "./quality/ArmorQualityCard";
