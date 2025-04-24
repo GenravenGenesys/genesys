@@ -1,4 +1,4 @@
-import {Button, Card, CardContent, Grid} from "@mui/material";
+import {Button, Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor";
 import * as React from "react";
@@ -11,6 +11,7 @@ import {GenesysSymbols} from "../../../../models/roll/GenesysSymbols";
 import InitiativeSlot, {Type} from "../../../../models/campaign/encounter/InitiativeSlot";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
 import {convertResultsToString} from "../../../../models/roll/DiceRoll";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     npcs: SingleNonPlayerCharacter[];
@@ -103,16 +104,12 @@ const InitiativeTrackCard: React.FC<Props> = ({npcs, updateSlots}) => {
         <Card>
             <CenteredCardHeader title={'Initiative'}/>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                <GridContainer centered>
                     {renderInitiativeTrack()}
-                </Grid>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                </GridContainer>
+                <GridContainer centered>
                     {renderButtons()}
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     );

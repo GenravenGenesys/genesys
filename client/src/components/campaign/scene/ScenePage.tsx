@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import * as React from "react";
@@ -13,6 +13,8 @@ import NonPlayerCharacterScene from "./npc/NonPlayerCharacterScene";
 import ViewEncountersCard from "./ViewEncountersCard";
 import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
 import {CampaignPath} from "../../../services/RootPath";
+import FullGrid from "../../common/grid/FullGrid";
+import GridContainer from "../../common/grid/GridContainer";
 
 const ScenePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -41,15 +43,15 @@ const ScenePage: React.FC = () => {
         <Card>
             <CenteredCardHeaderWithButton title={scene.name} onClick={() => navigate(CampaignPath.Scene + scene.id)} buttonText={'Return to Scene'}/>
             <CardContent>
-                <Grid sx={{ width: 1 }}>
+                <FullGrid>
                     <TabContext value={value}>
-                        <Grid sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <GridContainer>
                             <TabList onChange={handleChange} centered>
                                 <Tab label="Party" value="1" />
                                 <Tab label="NPC" value="2" />
                                 <Tab label="Encounters" value="3" />
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         <TabPanel value="1">
                             <PartyCard party={scene.party} />
                         </TabPanel>
@@ -60,7 +62,7 @@ const ScenePage: React.FC = () => {
                             <ViewEncountersCard initialScene={scene} />
                         </TabPanel>
                     </TabContext>
-                </Grid>
+                </FullGrid>
             </CardContent>
         </Card>
     );
