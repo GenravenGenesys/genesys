@@ -14,10 +14,12 @@ type Props = {
 };
 
 const NumberTextFieldIndexTableCell: React.FC<Props> = ({title, value, onChange, min, max, disabled, index, steps}) => {
-    return <CustomTableCell centered>
-        <NumberTextField title={title} value={value} onChange={(e) => onChange(index, e)} min={min} max={max}
-                         disabled={disabled} steps={steps}/>
-    </CustomTableCell>;
+    return (
+        <CustomTableCell centered>
+            <NumberTextField title={title} value={value} onChange={(e) => onChange(index, e)} min={min} max={max}
+                             disabled={disabled} steps={steps}/>
+        </CustomTableCell>
+    );
 };
 
 export default NumberTextFieldIndexTableCell;
