@@ -1,4 +1,4 @@
-import {Dialog, DialogContent, Grid} from "@mui/material";
+import {Dialog, DialogContent} from "@mui/material";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
 import EncounterTypeCard from "../../../common/card/select/EncounterTypeCard";
 import Encounter, {Type} from "../../../../models/campaign/encounter/Encounter";
@@ -15,6 +15,7 @@ import {ActorType} from "../../../../models/actor/Actor";
 import NonPlayerCharacterEncounterTable from "./NonPlayerCharacterEncounterTable";
 import {MinionGroup} from "../../../../models/actor/npc/Minion";
 import Rival from "../../../../models/actor/npc/Rival";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     open: boolean;
@@ -68,13 +69,13 @@ const AddEncounterDialog: React.FC<Props> = ({open, onClose, createEncounter, pa
             <DialogContent>
                 <EncounterTypeCard value={encounter.type} onChange={updateEncounter<Type>}/>
                 <TabContext value={value}>
-                    <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <GridContainer>
                         <TabList onChange={handleChange} centered>
                             <Tab label={ActorType.Minion} value={"1"}/>
                             <Tab label={ActorType.Rival} value={"2"}/>
                             <Tab label={ActorType.Nemesis} value={"3"}/>
                         </TabList>
-                    </Grid>
+                    </GridContainer>
                     <TabPanel value={"1"}>
                         <NonPlayerCharacterEncounterTable npcs={encounter.enemyMinionGroups} onChange={updateEncounter<MinionGroup[]>}/>
                     </TabPanel>

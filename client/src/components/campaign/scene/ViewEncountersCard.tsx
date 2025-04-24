@@ -1,5 +1,5 @@
 import Scene from "../../../models/campaign/Scene";
-import {Button, Card, CardContent, Grid} from "@mui/material";
+import {Button, Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -11,6 +11,8 @@ import TabPanel from "@mui/lab/TabPanel";
 import EncounterCard from "./encounter/EncounterCard";
 import SceneService from "../../../services/SceneService";
 import Encounter from "../../../models/campaign/encounter/Encounter";
+import FullGrid from "../../common/grid/FullGrid";
+import GridContainer from "../../common/grid/GridContainer";
 
 interface Props {
     initialScene: Scene;
@@ -41,25 +43,23 @@ const ViewEncountersCard: React.FC<Props> = ({initialScene})=> {
         <Card>
             <CenteredCardHeader title={'Encounters'}/>
             <CardContent>
-                <Grid sx={{width: 1}}>
+                <FullGrid>
                     <TabContext value={value}>
-                        <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <GridContainer>
                             <TabList onChange={handleChange} centered>
                                 {initialScene.encounters.map((encounter, index) => (
                                     <Tab label={encounter.type} value={String(index)}/>
                                 ))}
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         {initialScene.encounters.map((encounter, index) => (
                             <TabPanel value={String(index)}>
                                 <EncounterCard sceneId={scene.id} encounter={encounter}/>
                             </TabPanel>
                         ))}
                     </TabContext>
-                </Grid>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                </FullGrid>
+                <GridContainer centered>
                     <Button color='primary' variant='contained' onClick={(): void => setAddEncounterDialog(true)}>Add
                         Encounter</Button>
                     {addEncounterDialog && <AddEncounterDialog open={addEncounterDialog}
@@ -67,7 +67,7 @@ const ViewEncountersCard: React.FC<Props> = ({initialScene})=> {
                                                                createEncounter={addEncounter}
                                                                party={initialScene.party}
                                                                scene={initialScene}/>}
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     );

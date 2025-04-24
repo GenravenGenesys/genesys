@@ -1,7 +1,7 @@
 import Player, {PlayerSkill} from "../../../../../../models/actor/player/Player";
 import {useEffect, useState} from "react";
 import PlayerService from "../../../../../../services/actor/PlayerService";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import {Add} from "@mui/icons-material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -13,6 +13,7 @@ import TableRow from "@mui/material/TableRow";
 import {GenesysDescriptionTypographyCenterTableCell} from "../../../../../common/table/TypographyTableCell";
 import TableCell from "@mui/material/TableCell";
 import BooleanTableCell from "../../../../../common/table/BooleanTableCell";
+import GridContainer from "../../../../../common/grid/GridContainer";
 
 interface Props {
     open: boolean
@@ -42,7 +43,7 @@ export default function SpendSkillDialog(props: Props) {
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>Spend Experience on Skill</DialogTitle>
             <DialogContent>
-                <Grid container spacing={2}>
+                <GridContainer spacing={2}>
                     <TableContainer component={Paper}>
                         <Table>
                             {renderSingleRowTableHeader(headers)}
@@ -64,7 +65,7 @@ export default function SpendSkillDialog(props: Props) {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </Grid>
+                </GridContainer>
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => onClose} color="primary">Confirm</Button>
