@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import Encounter, {Type} from "../../../../models/campaign/encounter/Encounter";
 import Scene from "../../../../models/campaign/Scene";
 import * as React from "react";
@@ -14,6 +14,7 @@ import {CampaignPath} from "../../../../services/RootPath";
 import InitiativeSlot from "../../../../models/campaign/encounter/InitiativeSlot";
 import ClaimInitiativeSlotTrack from "./ClaimInitiativeSlotTrack";
 import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
+import GridContainer from "../../../common/grid/GridContainer";
 
 const EncounterPage: React.FC = () => {
     const {id, type} = useParams<{ id: string, type: Type }>();
@@ -70,7 +71,7 @@ const EncounterPage: React.FC = () => {
                                           buttonText={'Return to Scene'}/>
             <CardContent>
                 <TabContext value={value}>
-                    <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <GridContainer>
                         <TabList centered>
                             <Tab label={'Roll Initiative'} value={"0"} disabled={value !== "0"}/>
                             <Tab label={'Claim Slots'} value={"1"} disabled={value !== "1"}/>
@@ -78,7 +79,7 @@ const EncounterPage: React.FC = () => {
                             <Tab label={'Resolve Active Turn'} value={"3"} disabled={value !== "3"}/>
                             <Tab label={'Resolve Encounter'} value={"4"} disabled={value !== "4"}/>
                         </TabList>
-                    </Grid>
+                    </GridContainer>
                     <TabPanel value={"0"}>
                         <InitiativeTrackCard npcs={combinedEnemies}
                                              updateSlots={moveToClaimSlotsTab}/>

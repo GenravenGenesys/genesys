@@ -2,7 +2,7 @@ import * as React from "react";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import {SkillType} from "../../../../../models/actor/Skill";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
@@ -12,6 +12,8 @@ import Minion, {GroupSkill} from "../../../../../models/actor/npc/Minion";
 import EditableBooleanTableCell from "../../../../common/table/EditableBooleanTableCell";
 import {useLocation} from "react-router-dom";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
+import GridContainer from "../../../../common/grid/GridContainer";
+import GridItem from "../../../../common/grid/GridItem";
 
 interface TableProps {
     minion: Minion
@@ -51,8 +53,8 @@ export default function MinionSkillCard(props: TableProps) {
         <Card sx={{"width": 1}}>
             <CenteredCardHeader title={'Skills'}/>
             <CardContent>
-                <Grid container>
-                    <Grid xs={6}>
+                <GridContainer>
+                    <GridItem width={.5}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>
@@ -61,8 +63,8 @@ export default function MinionSkillCard(props: TableProps) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
-                    <Grid xs={6}>
+                    </GridItem>
+                    <GridItem width={.5}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>
@@ -72,8 +74,8 @@ export default function MinionSkillCard(props: TableProps) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
-                </Grid>
+                    </GridItem>
+                </GridContainer>
             </CardContent>
         </Card>
     )
