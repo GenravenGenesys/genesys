@@ -1,4 +1,4 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import EnemySceneRivals from "./EnemySceneRivals";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -8,6 +8,8 @@ import * as React from "react";
 import {useState} from "react";
 import EnemySceneNemeses from "./EnemySceneNemeses";
 import EnemySceneMinions from "./EnemySceneMinions";
+import FullGrid from "../../../common/grid/FullGrid";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     id: string
@@ -27,15 +29,15 @@ export default function AddNonPlayerCharacterToSceneDialog(props: Props) {
         <Dialog open={open} onClose={onClose} fullScreen>
             <DialogTitle title={'Add NPC'}/>
             <DialogContent>
-                <Grid sx={{width: 1}}>
+                <FullGrid>
                     <TabContext value={value}>
-                        <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <GridContainer>
                             <TabList onChange={handleChange} centered>
                                 <Tab label={'Minion'} value={'0'}/>
                                 <Tab label={'Rival'} value={'1'}/>
                                 <Tab label={'Nemesis'} value={'2'}/>
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         <TabPanel value={'0'}>
                             <EnemySceneMinions id={id}/>
                         </TabPanel>
@@ -46,7 +48,7 @@ export default function AddNonPlayerCharacterToSceneDialog(props: Props) {
                             <EnemySceneNemeses id={id}/>
                         </TabPanel>
                     </TabContext>
-                </Grid>
+                </FullGrid>
             </DialogContent>
             <DialogActions>
                 <Button color='secondary' variant='contained' onClick={onClose}>CLOSE</Button>
