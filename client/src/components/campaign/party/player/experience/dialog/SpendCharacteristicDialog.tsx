@@ -1,4 +1,4 @@
-import {Button, Dialog, DialogActions, DialogContent, Grid, IconButton} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, IconButton} from "@mui/material";
 import {Characteristic} from "../../../../../../models/actor/Characteristic";
 import Typography from "@mui/material/Typography";
 import {Add} from "@mui/icons-material";
@@ -6,6 +6,8 @@ import {useEffect, useState} from "react";
 import Player from "../../../../../../models/actor/player/Player";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
+import GridContainer from "../../../../../common/grid/GridContainer";
+import GridItem from "../../../../../common/grid/GridItem";
 
 interface Props {
     open: boolean
@@ -43,18 +45,18 @@ export default function SpendCharacteristicDialog(props: Props) {
         <Dialog open={open} onClose={onClose}>
             <CenteredDialogTitle title={'Spend Experience on Characteristic'}/>
             <DialogContent>
-                <Grid container spacing={2}>
+                <GridContainer>
                     {characteristics.map((characteristic, index) => (
-                        <Grid xs={12} key={index}>
+                        <GridItem width={1} key={index}>
                             <Typography variant="h6">{characteristic.type} (Value {characteristic.current})</Typography>
                             <IconButton
                                 onClick={() => handleIncreaseLevel(characteristic)}
                                 color="primary">
                                 <Add/>
                             </IconButton>
-                        </Grid>
+                        </GridItem>
                     ))}
-                </Grid>
+                </GridContainer>
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => onClose} color="primary">Confirm</Button>

@@ -1,5 +1,5 @@
 import Injury from "../../models/Injury";
-import {Card, CardContent, Divider, Grid} from "@mui/material";
+import {Card, CardContent, Divider} from "@mui/material";
 import * as React from "react";
 import {useLocation, useParams} from "react-router-dom";
 import {RootPath} from "../../services/RootPath";
@@ -11,6 +11,7 @@ import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHead
 import DifficultyCard from "../common/card/select/DifficultyCard";
 import NumberTextFieldCard from "../common/card/NumberTextField";
 import TextFieldCard from "../common/card/TextFieldCard";
+import GridContainer from "../common/grid/GridContainer";
 
 const InjuryPage = () => {
     const {id} = useParams<{ id: string }>();
@@ -58,24 +59,22 @@ const InjuryPage = () => {
         <Card>
             <CenteredCardHeaderWithAction title={injury.name} path={RootPath.Injury + injury.id}/>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
-                    <Grid container spacing={2}>
+                <GridContainer centered>
+                    <GridContainer spacing={2}>
                         <DifficultyCard value={injury.severity} onChange={handleSeverityChange}
                                         disabled={pathname.endsWith('/view')}/>
                         <NumberTextFieldCard title={"Min"} value={injury.min} onChange={handleMinChange} min={0}
                                              max={150} disabled={pathname.endsWith('/view')}/>
                         <NumberTextFieldCard title={"Max"} value={injury.max} onChange={handleMaxChange} min={0}
                                              max={150} disabled={pathname.endsWith('/view')}/>
-                    </Grid>
+                    </GridContainer>
                     <Divider/>
-                    <Grid container spacing={2}>
+                    <GridContainer spacing={2}>
                         <TextFieldCard title={"Description"} value={injury.description}
                                        disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
-                    </Grid>
+                    </GridContainer>
                     <CriticalInjuryModifierCard crit={injury}/>
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     );
