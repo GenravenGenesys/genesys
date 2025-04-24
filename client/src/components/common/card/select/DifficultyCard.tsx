@@ -1,10 +1,11 @@
 import {Difficulty} from "../../../../models/common/Difficulty";
-import {Card, CardContent, Grid, MenuItem, Select} from "@mui/material";
+import {Card, CardContent, MenuItem, Select} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import GenesysDifficultyDiceTypography from "../../typography/GenesysDifficultyDiceTypography";
+import GridItem from "../../grid/GridItem";
 
-interface Props {
+type Props = {
     value: Difficulty;
     onChange: (value: Difficulty) => void;
     disabled: boolean;
@@ -14,20 +15,20 @@ const DifficultyCard: React.FC<Props> = ({value, onChange, disabled}) => {
 
     const renderViewCard = () => {
         return (
-            <Grid item xs>
+            <GridItem>
                 <Card>
                     <CenteredCardHeader title={'Difficulty'}/>
                     <CardContent>
                         <GenesysDifficultyDiceTypography difficulty={value}/>
                     </CardContent>
                 </Card>
-            </Grid>
+            </GridItem>
         )
     };
 
     const renderCard = () => {
         return (
-            <Grid item xs>
+            <GridItem>
                 <Card>
                     <CenteredCardHeader title={'Difficulty'}/>
                     <CardContent>
@@ -46,7 +47,7 @@ const DifficultyCard: React.FC<Props> = ({value, onChange, disabled}) => {
                         </Select>
                     </CardContent>
                 </Card>
-            </Grid>
+            </GridItem>
         )
     };
 

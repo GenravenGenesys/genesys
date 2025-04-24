@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import {useParams} from 'react-router-dom';
 import Player from '../../../../models/actor/player/Player';
 import {Fragment, useEffect, useState} from "react";
@@ -16,6 +16,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import PlayerCharacteristicTab from "./PlayerCharacteristicTab";
 import PlayerTalentCard from "./talent/PlayerTalentCard";
+import GridContainer from "../../../common/grid/GridContainer";
 
 export default function PlayerPage() {
     const {id} = useParams<{ id: string }>();
@@ -56,14 +57,14 @@ export default function PlayerPage() {
             <CenteredCardHeaderWithAction title={player.name} path={ActorPath.Player + player.id}/>
             <CardContent>
                 <TabContext value={tab}>
-                    <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <GridContainer>
                         <TabList onChange={handleChange} centered>
                             <Tab label="Characteristics" value="1"/>
                             <Tab label="Skills" value="2"/>
                             <Tab label="Equipment" value="3"/>
                             <Tab label="Talents" value="4"/>
                         </TabList>
-                    </Grid>
+                    </GridContainer>
                     <TabPanel value="1">
                         <PlayerCharacteristicTab player={player} updatePlayer={setPlayer}/>
                     </TabPanel>

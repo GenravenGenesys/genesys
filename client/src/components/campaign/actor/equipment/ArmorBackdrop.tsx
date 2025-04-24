@@ -2,7 +2,7 @@ import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import {Armor} from "../../../../models/equipment/Armor";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
-import {Card, CardContent, Divider, Grid} from "@mui/material";
+import {Card, CardContent, Divider} from "@mui/material";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -12,6 +12,7 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import {renderPrice, renderSoak} from "../../../../models/equipment/EquipmentHelper";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     armor: Armor
@@ -24,14 +25,17 @@ export default function ArmorBackdrop(props: Props) {
     const headers = ['Name', 'Defense', 'Soak', 'Encumbrance', 'Price', 'Rarity'];
 
     return (
-        <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={open} onClick={onClose}>
+        <Backdrop sx={theme => ({
+            color: '#fff',
+            zIndex: theme.zIndex.drawer + 1
+        })} open={open} onClick={onClose}>
             <Card>
                 <CenteredCardHeader title={armor?.name!!}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
-                        <Grid container spacing={10}>
+                    <GridContainer centered>
+                        <GridContainer spacing={10}>
                             <ViewFieldCard name={'Description'} value={armor?.description!!}/>
-                        </Grid>
+                        </GridContainer>
                         <Divider/>
                         <TableContainer component={Paper}>
                             <Table>
@@ -48,9 +52,9 @@ export default function ArmorBackdrop(props: Props) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
+                    </GridContainer>
                 </CardContent>
             </Card>
         </Backdrop>
-    )
+    );
 }

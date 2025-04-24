@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import {useLocation} from "react-router-dom";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
@@ -13,6 +13,8 @@ import {GenesysDicePoolCenterTableCellButton} from "../../../common/table/Typogr
 import {ActorSkill} from "../../../../models/actor/Actor";
 import SkillRanksTextFieldTableCell from "../../../common/table/SkillRanksTextFieldTableCell";
 import {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor";
+import GridContainer from "../../../common/grid/GridContainer";
+import GridItem from "../../../common/grid/GridItem";
 
 interface Props {
     actor: SingleNonPlayerCharacter
@@ -50,8 +52,8 @@ export default function SingleNonPlayerCharacterSkillCard(props: Props) {
         <Card sx={{"width": 1}}>
             <CenteredCardHeader title={'Skills'}/>
             <CardContent>
-                <Grid container>
-                    <Grid item xs={6}>
+                <GridContainer centered>
+                    <GridItem width={.5}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>
@@ -60,8 +62,8 @@ export default function SingleNonPlayerCharacterSkillCard(props: Props) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
-                    <Grid item xs={6}>
+                    </GridItem>
+                    <GridItem width={.5}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>
@@ -71,8 +73,8 @@ export default function SingleNonPlayerCharacterSkillCard(props: Props) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
-                </Grid>
+                    </GridItem>
+                </GridContainer>
             </CardContent>
         </Card>
     );

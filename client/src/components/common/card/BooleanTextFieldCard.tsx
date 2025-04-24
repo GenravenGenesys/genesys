@@ -1,18 +1,19 @@
-import {Card, CardContent, FormControl, Grid, MenuItem, Select} from "@mui/material";
+import {Card, CardContent, FormControl, MenuItem, Select} from "@mui/material";
 import CenteredCardHeader from "./header/CenteredCardHeader";
 import * as React from "react";
 import ViewFieldCard from "../ViewFieldCard";
+import GridItem from "../grid/GridItem";
 
-interface Props {
+type Props = {
     title: string;
     value: boolean;
     disabled: boolean;
     onChange: (value: boolean) => void;
-}
+};
 
 const BooleanTextFieldCard: React.FC<Props> = ({title, value, disabled, onChange}) => {
     return disabled ? <ViewFieldCard name={title} value={value ? 'Yes' : 'No'}/> :
-        <Grid item xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>
@@ -29,7 +30,7 @@ const BooleanTextFieldCard: React.FC<Props> = ({title, value, disabled, onChange
                     </FormControl>
                 </CardContent>
             </Card>
-        </Grid>;
+        </GridItem>;
 };
 
 export default BooleanTextFieldCard;

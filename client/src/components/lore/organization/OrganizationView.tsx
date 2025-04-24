@@ -1,10 +1,12 @@
 import {useNavigate} from "react-router-dom";
 import {Organization} from "../../../models/lore/Organization";
 import {LorePath} from "../../../services/RootPath";
-import {Card, CardContent, CardHeader, Divider, Grid, IconButton} from "@mui/material";
+import {Card, CardContent, CardHeader, Divider, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import * as React from "react";
 import OrganizationSidebar from "./OrganizationSidebar";
+import GridContainer from "../../common/grid/GridContainer";
+import GridItem from "../../common/grid/GridItem";
 
 interface Props {
     organization: Organization
@@ -25,22 +27,20 @@ export default function OrganizationView(props: Props) {
                 style={{textAlign: 'center'}}
                 title={organization.name}
                 action={<IconButton title='Edit' size='small' onClick={(): void => onEdit()}>
-                    <EditIcon color='primary' fontSize='small' />
+                    <EditIcon color='primary' fontSize='small'/>
                 </IconButton>}>
             </CardHeader>
-            <Divider />
+            <Divider/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
-                    <Grid container spacing={10}>
-                        <Grid item xs={8}>
+                <GridContainer centered>
+                    <GridItem width={.75}>
 
-                        </Grid>
-                        <Grid item xs={4}>
-                            <OrganizationSidebar organization={organization} />
-                        </Grid>
-                    </Grid>
-                </Grid>
+                    </GridItem>
+                    <GridItem width={.25}>
+                        <OrganizationSidebar organization={organization}/>
+                    </GridItem>
+                </GridContainer>
             </CardContent>
         </Card>
-    )
+    );
 }

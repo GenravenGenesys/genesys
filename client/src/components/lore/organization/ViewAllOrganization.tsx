@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import ActionsTableCell from "../../common/table/ActionsTableCell";
+import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
 import {GenesysDescriptionTypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";

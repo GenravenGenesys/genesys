@@ -1,8 +1,10 @@
-import { Box, Grid, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckIcon from '@mui/icons-material/Check';
 import { ReactNode } from "react";
+import GridContainer from "./grid/GridContainer";
+import GridItem from "./grid/GridItem";
 
 interface Props {
     edit: boolean
@@ -37,20 +39,20 @@ export default function EditField(props: Props): JSX.Element {
 
     if (!isEditable) {
         return (
-            <Grid item>
+            <GridItem>
                 {viewElement}
-            </Grid>
+            </GridItem>
         )
     }
 
     return (
-        <Grid container spacing={1}>
-            <Grid item>
+        <GridContainer spacing={1}>
+            <GridItem>
                 {edit ? editElement : viewElement}
-            </Grid>
-            <Grid item>
+            </GridItem>
+            <GridItem>
                 {edit ? commitButton : editButton}
-            </Grid>
-        </Grid>
+            </GridItem>
+        </GridContainer>
     )
 }

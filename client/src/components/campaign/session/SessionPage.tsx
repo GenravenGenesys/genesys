@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {Button, Card, CardContent, Grid} from "@mui/material";
+import {Button, Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import {useFetchCurrentCampaign} from "../CampaignWorkflow";
 import {Fragment, useState} from "react";
@@ -13,6 +13,7 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import PartyCard from "../party/PartyCard";
 import ViewCampaignScenes from "../scene/ViewCampaignScenes";
+import GridContainer from "../../common/grid/GridContainer";
 
 const SessionPage = () => {
     const {name} = useParams<{ name: string }>();
@@ -54,21 +55,21 @@ const SessionPage = () => {
         <Card>
             <CenteredCardHeader title={session.name}/>
             <CardContent>
-                <Grid sx={{width: 1}}>
+                <GridContainer>
                     <TabContext value={value}>
-                        <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <GridContainer centered>
                             <TabList onChange={handleChange} centered>
                                 <Tab label="Settings" value="1"/>
                                 <Tab label="Party" value="2"/>
                                 <Tab label="Scenes" value="3"/>
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         <TabPanel value="1">
-                            <Grid container justifyContent={"center"}>
+                            <GridContainer centered>
                                 <Button variant="contained" color="primary" onClick={startSession}>Start
                                     Session</Button>
                                 <Button variant="contained" color="primary" onClick={endSession}>End Session</Button>
-                            </Grid>
+                            </GridContainer>
                         </TabPanel>
                         <TabPanel value="2">
                             <PartyCard party={session.party}/>
@@ -77,7 +78,7 @@ const SessionPage = () => {
                             <ViewCampaignScenes session={session}/>
                         </TabPanel>
                     </TabContext>
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     );

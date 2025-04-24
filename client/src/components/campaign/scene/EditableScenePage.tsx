@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardHeaderWithAction";
 import {useParams} from "react-router-dom";
 import {Fragment, useEffect, useState} from "react";
@@ -12,6 +12,8 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import PartyCard from "../party/PartyCard";
 import NonPlayerCharacterScene from "./npc/NonPlayerCharacterScene";
+import FullGrid from "../../common/grid/FullGrid";
+import GridContainer from "../../common/grid/GridContainer";
 
 export default function EditableScenePage() {
     const {id} = useParams<{ id: string }>();
@@ -39,14 +41,14 @@ export default function EditableScenePage() {
         <Card>
             <CenteredCardHeaderWithAction title={scene.name} path={RootPath.Scenes + scene.id}/>
             <CardContent>
-                <Grid sx={{width: 1}}>
+                <FullGrid>
                     <TabContext value={value}>
-                        <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <GridContainer>
                             <TabList onChange={handleChange} centered>
                                 <Tab label="Party" value="1"/>
                                 <Tab label="NPC" value="2"/>
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         <TabPanel value="1">
                             <PartyCard party={scene.party}/>
                         </TabPanel>
@@ -54,7 +56,7 @@ export default function EditableScenePage() {
                             <NonPlayerCharacterScene scene={scene}/>
                         </TabPanel>
                     </TabContext>
-                </Grid>
+                </FullGrid>
             </CardContent>
         </Card>
     )

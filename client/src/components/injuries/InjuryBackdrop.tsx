@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import {Card, CardContent, CardHeader, Divider, Grid} from "@mui/material";
+import {Card, CardContent, CardHeader, Divider} from "@mui/material";
 import ViewFieldCard from "../common/ViewFieldCard";
 import Injury from "../../models/Injury";
 import CriticalInjuryModifierCard from "./modifiers/CriticalInjuryModifierCard";
+import GridContainer from "../common/grid/GridContainer";
 
 interface Props {
     injury: Injury
@@ -15,24 +16,27 @@ export default function InjuryBackdrop(props: Props) {
     const {injury, open, onClose} = props;
 
     return (
-        <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open} onClick={onClose}>
+        <Backdrop sx={theme => ({
+            color: '#fff',
+            zIndex: theme.zIndex.drawer + 1
+        })} open={open} onClick={onClose}>
             <Card>
                 <CardHeader style={{textAlign: 'center'}} title={injury.name}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
-                        <Grid container spacing={2}>
+                    <GridContainer centered>
+                        <GridContainer spacing={2}>
                             <ViewFieldCard name={'Description'} value={injury.description}/>
-                        </Grid>
+                        </GridContainer>
                         <Divider/>
-                        <Grid container spacing={2}>
+                        <GridContainer spacing={2}>
                             <ViewFieldCard name={'Severity'} value={injury.severity}/>
                             <ViewFieldCard name={'Min'} value={String(injury.min)}/>
                             <ViewFieldCard name={'Max'} value={String(injury.max)}/>
-                        </Grid>
+                        </GridContainer>
                         <CriticalInjuryModifierCard crit={injury}/>
-                    </Grid>
+                    </GridContainer>
                 </CardContent>
             </Card>
         </Backdrop>
-    )
+    );
 }

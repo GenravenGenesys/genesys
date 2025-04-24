@@ -1,6 +1,5 @@
 import {useNavigate} from "react-router-dom";
-
-import {Card, CardContent, CardHeader, Divider, Grid, IconButton} from "@mui/material";
+import {Card, CardContent, CardHeader, Divider, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ViewFieldCard from "../common/ViewFieldCard";
 import * as React from "react";
@@ -8,6 +7,7 @@ import Spell from "../../models/spell/Spell";
 import {ViewSpellSkillCard} from "./SpellSkillCard";
 import SpellEffectCard from "./effect/SpellEffectCard";
 import {RootPath} from "../../services/RootPath";
+import GridContainer from "../common/grid/GridContainer";
 
 interface Props {
     spell: Spell
@@ -31,22 +31,22 @@ export default function SpellView(props: Props):JSX.Element {
                 </IconButton>}>
             </CardHeader>
             <CardContent>
-                <Grid container justifyContent={'center'}>
-                    <Grid container spacing={2}>
+                <GridContainer centered>
+                    <GridContainer spacing={2}>
                         <ViewFieldCard name={'Description'} value={spell.description}/>
-                    </Grid>
+                    </GridContainer>
                     <Divider/>
-                    <Grid container spacing={2}>
+                    <GridContainer spacing={2}>
 
-                    </Grid>
-                    <Grid container spacing={2}>
+                    </GridContainer>
+                    <GridContainer spacing={2}>
                         <ViewSpellSkillCard spell={spell}/>
-                    </Grid>
-                    <Grid container spacing={2}>
+                    </GridContainer>
+                    <GridContainer spacing={2}>
                         <SpellEffectCard spell={spell}/>
-                    </Grid>
-                </Grid>
+                    </GridContainer>
+                </GridContainer>
             </CardContent>
         </Card>
-    )
+    );
 }

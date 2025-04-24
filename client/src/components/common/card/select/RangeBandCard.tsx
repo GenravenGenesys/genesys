@@ -1,19 +1,18 @@
-import {Card, CardContent, Grid, MenuItem, Select} from "@mui/material";
+import {Card, CardContent, MenuItem, Select} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import {RangeBand} from "../../../../models/common/RangeBand";
+import GridItem from "../../grid/GridItem";
 
-interface Props {
-    value: RangeBand
-    onChange: (value: RangeBand) => void
-    disabled: boolean
-}
+type Props = {
+    value: RangeBand;
+    onChange: (value: RangeBand) => void;
+    disabled: boolean;
+};
 
-export default function RangeBandCard(props: Props) {
-    const {value, onChange, disabled} = props;
-
+const RangeBandCard: React.FC<Props> = ({value, onChange, disabled})=> {
     return (
-        <Grid item xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={'Range Band'}/>
                 <CardContent>
@@ -32,6 +31,8 @@ export default function RangeBandCard(props: Props) {
                     </Select>
                 </CardContent>
             </Card>
-        </Grid>
-    )
-}
+        </GridItem>
+    );
+};
+
+export default RangeBandCard;

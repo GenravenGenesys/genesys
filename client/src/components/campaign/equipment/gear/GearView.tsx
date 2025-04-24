@@ -1,4 +1,4 @@
-import {Card, CardContent, CardHeader, Divider, Grid, IconButton} from '@mui/material';
+import {Card, CardContent, CardHeader, Divider, IconButton} from '@mui/material';
 import * as React from "react";
 import {useNavigate} from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
@@ -6,6 +6,7 @@ import {Gear} from "../../../../models/equipment/Gear";
 import {EquipmentPath} from "../../../../services/RootPath";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import {ViewNumberCheckBoxCard} from "../../../common/NumberCheckBox";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     gear: Gear
@@ -30,24 +31,24 @@ export default function GearView(props: Props) {
                 </IconButton>}>
             </CardHeader>
             <CardContent>
-                <Grid container justifyContent={'center'}>
-                    <Grid container spacing={10}>
+                <GridContainer centered>
+                    <GridContainer spacing={10}>
                         <ViewFieldCard name={'Description'} value={gear.description}/>
-                    </Grid>
+                    </GridContainer>
                     <Divider/>
-                    <Grid container spacing={10}>
+                    <GridContainer spacing={10}>
                         <ViewFieldCard name={'Required Skill'} value={String(gear.skill.name)}/>
                         <ViewFieldCard name={'Range'} value={String(gear.range)}/>
-                    </Grid>
+                    </GridContainer>
                     <Divider/>
-                    <Grid container spacing={10}>
+                    <GridContainer spacing={10}>
                         <ViewFieldCard name={'Encumbrance'} value={String(gear.encumbrance)}/>
                         <ViewNumberCheckBoxCard title={'Price'} check={gear.restricted} value={gear.price}
                                                 checkTitle={'Restricted'}/>
                         <ViewFieldCard name={'Rarity'} value={String(gear.rarity)}/>
-                    </Grid>
-                </Grid>
+                    </GridContainer>
+                </GridContainer>
             </CardContent>
         </Card>
-    )
+    );
 }

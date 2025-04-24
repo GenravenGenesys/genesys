@@ -1,10 +1,11 @@
 import InitiativeSlot from "../../../../models/campaign/encounter/InitiativeSlot";
-import {Autocomplete, Card, CardContent, Grid, TextField} from "@mui/material";
+import {Autocomplete, Card, CardContent, TextField} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
 import {convertResultsToString} from "../../../../models/roll/DiceRoll";
 import Character from "../../../../models/campaign/encounter/Character";
 import React from "react";
+import GridItem from "../../../common/grid/GridItem";
 
 interface Props {
     slot: InitiativeSlot;
@@ -21,7 +22,7 @@ const InitiativeSlotCard: React.FC<Props> = ({slot, characters, updateSlot, inde
     };
 
     return (
-        <Grid item xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={slot.type}/>
                 <CardContent>
@@ -37,7 +38,7 @@ const InitiativeSlotCard: React.FC<Props> = ({slot, characters, updateSlot, inde
                     />
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
     );
 };
 

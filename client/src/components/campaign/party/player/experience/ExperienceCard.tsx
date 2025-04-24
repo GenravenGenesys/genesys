@@ -1,10 +1,12 @@
 import Player from "../../../../../models/actor/player/Player";
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import ViewFieldCard from "../../../../common/ViewFieldCard";
 import * as React from "react";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import SpendExperienceMenuButton from "./SpendExperienceMenuButton";
 import {useLocation} from "react-router-dom";
+import GridItem from "../../../../common/grid/GridItem";
+import GridContainer from "../../../../common/grid/GridContainer";
 
 interface Props {
     player: Player;
@@ -18,27 +20,27 @@ const ExperienceCard: React.FC<Props> = ({player}) => {
             return <ViewFieldCard name={'Available'} value={String(player.experience.available)}/>
         } else {
             return (
-                <Grid item xs>
+                <GridItem>
                     <Card>
                         <CenteredCardHeader title={'Available'}/>
                         <CardContent>
-                            <Grid container justifyContent={"center"}>
+                            <GridContainer centered>
                                 <SpendExperienceMenuButton player={player}/>
-                            </Grid>
+                            </GridContainer>
                         </CardContent>
                     </Card>
-                </Grid>
-            )
+                </GridItem>
+            );
         }
     };
 
     return (
-        <Grid item xs>
-            <Grid container spacing={2}>
+        <GridItem>
+            <GridContainer spacing={2}>
                 {renderSpendExperience()}
                 <ViewFieldCard name={'Total'} value={String(player.experience.total)}/>
-            </Grid>
-        </Grid>
+            </GridContainer>
+        </GridItem>
     );
 };
 

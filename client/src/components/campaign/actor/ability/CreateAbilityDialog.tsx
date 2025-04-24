@@ -1,4 +1,4 @@
-import {Dialog, DialogContent, DialogTitle, Grid, TextField} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle, TextField} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 import Ability from "../../../../models/Ability";
@@ -9,6 +9,7 @@ import {CostType} from "../../../../models/common/Cost";
 import {useLocation} from "react-router-dom";
 import ActivationCard from "../../../common/card/select/ActivationCard";
 import TextFieldCard from "../../../common/card/TextFieldCard";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     open: boolean;
@@ -48,7 +49,7 @@ const CreateAbilityDialog: React.FC<Props> = ({open, onCreateAbility, onClose})=
         <Dialog open={open} onClose={onClose} fullScreen>
             <DialogTitle>Add Custom Ability</DialogTitle>
             <DialogContent>
-                <Grid container>
+                <GridContainer>
                     <TextField
                         value={ability.name}
                         variant="outlined"
@@ -56,14 +57,14 @@ const CreateAbilityDialog: React.FC<Props> = ({open, onCreateAbility, onClose})=
                         label={'Name'}
                         onChange={e => handleNameChange(e.target.value)}
                     />
-                </Grid>
-                <Grid container>
+                </GridContainer>
+                <GridContainer>
                     <TextFieldCard title={"Description"} value={ability.description}
                                    disabled={pathname.endsWith('/view')} onChange={handleDescriptionChange}/>
-                </Grid>
-                <Grid container>
+                </GridContainer>
+                <GridContainer>
                     <ActivationCard value={ability.activation} onChange={handleActivationChange} disabled={pathname.endsWith('/view')}/>
-                </Grid>
+                </GridContainer>
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose}/>
         </Dialog>

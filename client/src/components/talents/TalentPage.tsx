@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import Talent from "../../models/Talent";
 import * as React from "react";
 import {useLocation, useParams} from "react-router-dom";
@@ -12,6 +12,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import TalentBaseTab from "./TalentBaseTab";
 import TalentModifierTab from "./TalentModifierTab";
+import GridContainer from "../common/grid/GridContainer";
 
 export default function TalentPage() {
     const {id} = useParams<{ id: string }>();
@@ -47,12 +48,12 @@ export default function TalentPage() {
             <CenteredCardHeaderWithAction title={talent.name} path={RootPath.Talent + talent.id}/>
             <CardContent>
                 <TabContext value={tab}>
-                    <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <GridContainer centered>
                         <TabList onChange={handleChange} centered>
                             <Tab label="Base" value="1"/>
                             <Tab label="Modifiers" value="2"/>
                         </TabList>
-                    </Grid>
+                    </GridContainer>
                     <TabPanel value="1">
                         <TalentBaseTab talent={talent} updateTalent={updateTalent} disabled={!pathname.endsWith(talent.id + '/edit')}/>
                     </TabPanel>

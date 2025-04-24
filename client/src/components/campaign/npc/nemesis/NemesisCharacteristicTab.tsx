@@ -2,7 +2,6 @@ import Nemesis from "../../../../models/actor/npc/Nemesis";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import NemesisService from "../../../../services/actor/NemesisService";
 import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
-import {Grid} from "@mui/material";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
 import CharacteristicRow from "../../actor/common/CharacteristicRow";
@@ -12,6 +11,7 @@ import ViewFieldCard from "../../../common/ViewFieldCard";
 import * as React from "react";
 import {DefenseType} from "../../../../models/actor/Defense";
 import {useLocation} from "react-router-dom";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     nemesis: Nemesis;
@@ -101,7 +101,7 @@ const NemesisCharacteristicTab: React.FC<Props> = ({nemesis, updateNemesis})=> {
     const renderRatingRow = () => {
         if (pathname.endsWith(nemesis.id + '/edit')) {
             return (
-                <Grid container spacing={2}>
+                <GridContainer spacing={2}>
                     <RatingCard type={RatingType.Combat} value={nemesis.combat}
                                 onChange={handleRatingsChange}
                                 disabled={!pathname.endsWith(nemesis.id + '/edit')}/>
@@ -111,16 +111,16 @@ const NemesisCharacteristicTab: React.FC<Props> = ({nemesis, updateNemesis})=> {
                     <RatingCard type={RatingType.General} value={nemesis.general}
                                 onChange={handleRatingsChange}
                                 disabled={!pathname.endsWith(nemesis.id + '/edit')}/>
-                </Grid>
+                </GridContainer>
             )
         }
         return <Fragment/>
     };
 
     return (
-        <Grid container justifyContent={'center'}>
+        <GridContainer centered>
             <CharacteristicRow actor={nemesis} handleCharacteristicChange={handleCharacteristicChange}/>
-            <Grid container spacing={2}>
+            <GridContainer spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(nemesis.soak)}/>
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={nemesis.wounds.threshold}
                                      onChange={handleWoundsChange} min={1} max={35}
@@ -130,9 +130,9 @@ const NemesisCharacteristicTab: React.FC<Props> = ({nemesis, updateNemesis})=> {
                                      disabled={pathname.endsWith(nemesis.id + '/edit')}/>
                 <ViewFieldCard name={DefenseType.Melee} value={String(nemesis.melee)}/>
                 <ViewFieldCard name={DefenseType.Ranged} value={String(nemesis.ranged)}/>
-            </Grid>
+            </GridContainer>
             {renderRatingRow()}
-        </Grid>
+        </GridContainer>
     );
 };
 

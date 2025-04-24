@@ -1,6 +1,7 @@
-import {Card, CardContent, CardHeader, Divider, Grid, IconButton, Typography} from "@mui/material";
+import {Card, CardContent, CardHeader, Divider, IconButton, Typography} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
+import GridItem from "./grid/GridItem";
 
 interface Props {
     title: string
@@ -28,7 +29,7 @@ export default function CheckButtonCard(props: Props): JSX.Element {
     )
 
     return (
-        <Grid item xs>
+        <GridItem>
             <Card>
                 <CardHeader title={title} style={{textAlign: 'center'}} />
                 <Divider />
@@ -36,6 +37,6 @@ export default function CheckButtonCard(props: Props): JSX.Element {
                     <Typography style={{ textAlign: 'center' }}>{value ? checkIsTrue : checkIsFalse}</Typography>
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>
     )
 }

@@ -1,9 +1,10 @@
-import {Card, CardContent, Grid, TextField} from "@mui/material";
+import {Card, CardContent, TextField} from "@mui/material";
 import CenteredCardHeader from "./header/CenteredCardHeader";
 import * as React from "react";
 import ViewFieldCard from "../ViewFieldCard";
+import GridItem from "../grid/GridItem";
 
-interface Props {
+type Props = {
     title: string;
     value: number;
     onChange: (value: number) => void;
@@ -15,7 +16,7 @@ interface Props {
 
 const NumberTextFieldCard: React.FC<Props> = ({title, value, onChange, min, max, disabled, steps}) => {
     return disabled ? <ViewFieldCard name={title} value={String(value)}/> :
-        <Grid item xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>
@@ -30,7 +31,7 @@ const NumberTextFieldCard: React.FC<Props> = ({title, value, onChange, min, max,
                     />
                 </CardContent>
             </Card>
-        </Grid>;
+        </GridItem>;
 };
 
 export default NumberTextFieldCard;

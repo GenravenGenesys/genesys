@@ -1,5 +1,5 @@
 import Talent, {TalentSkills} from "../../models/Talent";
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid} from "@mui/material";
+import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel} from "@mui/material";
 import CostCard from "../common/card/select/CostCard";
 import LimitCard from "../common/card/select/LimitCard";
 import * as React from "react";
@@ -11,6 +11,7 @@ import NumberTextFieldCard from "../common/card/NumberTextField";
 import {StatsType} from "../../models/actor/Stats";
 import Cost, {CostType} from "../../models/common/Cost";
 import Limit, {LimitType} from "../../models/common/Limit";
+import GridContainer from "../common/grid/GridContainer";
 
 interface Props {
     talent: Talent;
@@ -108,8 +109,8 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
     };
 
     return (
-        <Grid container justifyContent={'center'}>
-            <Grid container justifyContent={'center'}>
+        <GridContainer centered>
+            <GridContainer centered>
                 <FormControl sx={{m: 3}} component="fieldset" variant="standard" disabled={disabled}>
                     <FormLabel component="legend" sx={{textAlign: 'center'}}>Talent Modifiers</FormLabel>
                     <FormGroup row>
@@ -139,23 +140,23 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
                         />
                     </FormGroup>
                 </FormControl>
-            </Grid>
-            {state.cost && <Grid container spacing={2}>
+            </GridContainer>
+            {state.cost && <GridContainer spacing={2}>
                 <CostCard initialCost={talent.cost} onChange={handleCostChange}
                           disabled={disabled}/>
                 <LimitCard initialLimit={talent.limit} onChange={handleLimitChange}
                            disabled={disabled}/>
-            </Grid>}
-            {state.careerSkill && <Grid container spacing={2}>
+            </GridContainer>}
+            {state.careerSkill && <GridContainer spacing={2}>
                 <TalentCareerSkillsCard talentSkills={talent.talentSkills}
                                         updateTalentSkills={handleTalentSkillsChange}
                                         disabled={disabled}/>
-            </Grid>}
-            {state.skillCheck && <Grid container spacing={2}>
+            </GridContainer>}
+            {state.skillCheck && <GridContainer spacing={2}>
                 <TalentSkillCheckCard talent={talent} updateTalent={updateTalent}
                                       disabled={disabled}/>
-            </Grid>}
-            {state.stats && <Grid container spacing={2}>
+            </GridContainer>}
+            {state.stats && <GridContainer spacing={2}>
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={talent.talentStats.wounds}
                                      onChange={handleWoundsChange} min={0} max={5}
                                      disabled={disabled}/>
@@ -168,9 +169,9 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
                 <NumberTextFieldCard title={'Defense'} value={talent.talentStats.defense}
                                      onChange={handleDefenseChange} min={0} max={5}
                                      disabled={disabled}/>
-            </Grid>}
+            </GridContainer>}
             <TalentModifierCard tal={talent}/>
-        </Grid>
+        </GridContainer>
     );
 };
 

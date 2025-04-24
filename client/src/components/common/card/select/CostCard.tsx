@@ -1,15 +1,17 @@
 import Cost, {CostType} from "../../../../models/common/Cost";
-import {Card, CardContent, Grid, MenuItem, Select, TextField} from "@mui/material";
+import {Card, CardContent, MenuItem, Select, TextField} from "@mui/material";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import * as React from "react";
 import {useState} from "react";
 import ViewFieldCard from "../../ViewFieldCard";
+import GridItem from "../../grid/GridItem";
+import GridContainer from "../../grid/GridContainer";
 
-interface Props {
+type Props = {
     initialCost: Cost;
     onChange: (value: Cost) => void;
     disabled: boolean;
-}
+};
 
 const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
     const [cost, setCost] = useState<Cost>(initialCost);
@@ -33,12 +35,12 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
     return disabled ?
         <ViewFieldCard name={'Cost'}
                        value={cost.type === CostType.None ? CostType.None : cost.amount + ' ' + cost.type}/> :
-        <Grid item xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={'Cost'}/>
                 <CardContent>
-                    <Grid container justifyContent={'center'}>
-                        <Grid item xs>
+                    <GridContainer centered>
+                        <GridItem>
                             <TextField
                                 type="number"
                                 value={cost.amount}
@@ -50,8 +52,8 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
                                 })}
                                 inputProps={{min: 0, max: setMaxValue()}}
                             />
-                        </Grid>
-                        <Grid item xs>
+                        </GridItem>
+                        <GridItem>
                             <Select
                                 value={cost.type}
                                 onChange={(e) => onChange({
@@ -68,11 +70,11 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
                                     </MenuItem>
                                 ))}
                             </Select>
-                        </Grid>
-                    </Grid>
+                        </GridItem>
+                    </GridContainer>
                 </CardContent>
             </Card>
-        </Grid>
+        </GridItem>;
 };
 
 export default CostCard;

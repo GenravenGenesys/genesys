@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {Fragment, useEffect, useState} from "react";
 import * as React from "react";
 import Nemesis from "../../../../models/actor/npc/Nemesis";
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
 import {ActorPath} from "../../../../services/RootPath";
 import {getRatings} from "../../../../models/actor/npc/NonPlayerActor";
@@ -21,6 +21,7 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import NemesisCharacteristicTab from "./NemesisCharacteristicTab";
+import GridContainer from "../../../common/grid/GridContainer";
 
 export default function NemesisPage() {
     const {id} = useParams<{ id: string }>();
@@ -80,7 +81,7 @@ export default function NemesisPage() {
                                           subheader={getRatings(nemesis)}/>
             <CardContent>
                 <TabContext value={tab}>
-                    <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <GridContainer centered>
                         <TabList onChange={handleChange} centered>
                             <Tab label="Characteristics" value="1"/>
                             <Tab label="Skills" value="2"/>
@@ -88,7 +89,7 @@ export default function NemesisPage() {
                             <Tab label="Abilities" value="4"/>
                             <Tab label="Talents" value="5"/>
                         </TabList>
-                    </Grid>
+                    </GridContainer>
                     <TabPanel value="1">
                         <NemesisCharacteristicTab nemesis={nemesis} updateNemesis={setNemesis}/>
                     </TabPanel>

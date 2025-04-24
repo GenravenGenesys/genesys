@@ -1,11 +1,13 @@
 import Player from "../../../../../../models/actor/player/Player";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, Grid} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent} from "@mui/material";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
 import TalentDialogCard from "./TalentDialogCard";
 import {Tier} from "../../../../../../models/Talent";
+import GridContainer from "../../../../../common/grid/GridContainer";
+import GridItem from "../../../../../common/grid/GridItem";
 
 interface Props {
     open: boolean
@@ -34,23 +36,23 @@ export default function SpendTalentDialog(props: Props) {
         <Dialog open={open} onClose={onClose} fullScreen>
             <CenteredDialogTitle title={'Spend Experience on Talent'}/>
             <DialogContent>
-                <Grid container spacing={2} columns={5}>
-                    <Grid item xs={1}>
+                <GridContainer spacing={2} columns={5}>
+                    <GridItem>
                         <TalentDialogCard player={player} size={0} tier={Tier.First} updatePlayer={updatePlayer}/>
-                    </Grid>
-                    <Grid item xs={1}>
+                    </GridItem>
+                    <GridItem>
                         <TalentDialogCard player={player} size={1} tier={Tier.Second} updatePlayer={updatePlayer}/>
-                    </Grid>
-                    <Grid item xs={1}>
+                    </GridItem>
+                    <GridItem>
                         <TalentDialogCard player={player} size={2} tier={Tier.Third} updatePlayer={updatePlayer}/>
-                    </Grid>
-                    <Grid item xs={1}>
+                    </GridItem>
+                    <GridItem>
                         <TalentDialogCard player={player} size={3} tier={Tier.Fourth} updatePlayer={updatePlayer}/>
-                    </Grid>
-                    <Grid item xs={1}>
+                    </GridItem>
+                    <GridItem>
                         <TalentDialogCard player={player} size={4} tier={Tier.Fifth} updatePlayer={updatePlayer}/>
-                    </Grid>
-                </Grid>
+                    </GridItem>
+                </GridContainer>
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => onClose()} color="primary">Confirm</Button>

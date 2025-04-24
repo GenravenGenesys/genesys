@@ -1,4 +1,4 @@
-import {Card, CardContent, CardHeader, Divider, Grid, IconButton} from '@mui/material';
+import {Card, CardContent, CardHeader, Divider, IconButton} from '@mui/material';
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
@@ -10,11 +10,12 @@ import Skill from "../../../../models/actor/Skill";
 import {RangeBand, getRangeOptions} from "../../../../models/common/RangeBand";
 import InputSelectFieldCard from "../../../common/InlineSelectFieldCard";
 import {Gear} from "../../../../models/equipment/Gear";
-import SkillSelectCard from "../../../common/skill/SkillSelectCard";
 import {useFetchAllSkills} from "../../../skills/SkillWorkflow";
 import NumberTextFieldCard from "../../../common/card/NumberTextField";
 import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
+import SkillAutocompleteCard from "../../../common/card/SkillAutocompleteCard";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     gea: Gear
@@ -84,23 +85,23 @@ export default function GearEdit(props: Props) {
                         </IconButton>}/>
             <Divider/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
-                    <Grid container spacing={10}>
+                <GridContainer centered>
+                    <GridContainer spacing={10}>
                         <InputTextFieldCard defaultValue={gear.description} onCommit={(value: string): void => {
                             onChange('description', value)
                         }} title={'Description'} helperText={'Description'} placeholder={'Description'}/>
-                    </Grid>
+                    </GridContainer>
                     <Divider/>
-                    <Grid container spacing={10}>
-                        <SkillSelectCard defaultValue={gear?.skill!!} onCommit={(value: Skill): void => {
+                    <GridContainer spacing={10}>
+                        <SkillAutocompleteCard title={"Required Skill"} disabled={pathname.endsWith('/view')} handleSkillChange={(value: Skill): void => {
                             onSkillChange(value)
-                        }} skills={useFetchAllSkills()} title={'Required Skill'}/>
+                        }} skills={useFetchAllSkills()} startingSkill={gear?.skill!!}/>
                         <InputSelectFieldCard defaultValue={gear.range} onCommit={(value: string): void => {
                             onChange('range', value)
                         }} title={'Range'} options={getRangeOptions()}/>
-                    </Grid>
+                    </GridContainer>
                     <Divider/>
-                    <Grid container spacing={10}>
+                    <GridContainer spacing={10}>
                         <NumberTextFieldCard title={'Encumbrance'} value={gear.encumbrance}
                                              onChange={(value: number): void => {
                                                  onChange('encumbrance', String(value))
@@ -120,9 +121,9 @@ export default function GearEdit(props: Props) {
                         }}
                                              min={0}
                                              max={10} disabled={pathname.endsWith('/view')}/>
-                    </Grid>
-                </Grid>
+                    </GridContainer>
+                </GridContainer>
             </CardContent>
         </Card>
-    )
+    );
 }

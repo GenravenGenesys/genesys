@@ -10,7 +10,7 @@ import {Fragment, useEffect, useState} from 'react';
 import * as React from 'react';
 import {Gear} from "../../../../models/equipment/Gear";
 import {renderPrice} from "../../../../models/equipment/EquipmentHelper";
-import ActionsTableCell from "../../../common/table/ActionsTableCell";
+import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {EquipmentPath} from "../../../../services/RootPath";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
 import EquipmentService from "../../../../services/EquipmentService";

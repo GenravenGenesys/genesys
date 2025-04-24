@@ -1,4 +1,4 @@
-import {Dialog, DialogContent, DialogTitle, Grid, TextField} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle, TextField} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
@@ -8,6 +8,7 @@ import DefenseCard from "../../../../common/card/DefenseCard";
 import {useLocation} from "react-router-dom";
 import ArmorQualityCard from "../../../equipment/armor/quality/ArmorQualityCard";
 import ArmorModifierCard from "../../../equipment/armor/modifier/ArmorModifierCard";
+import GridContainer from "../../../../common/grid/GridContainer";
 
 interface Props {
     open: boolean
@@ -58,7 +59,7 @@ export default function CreateArmorDialog(props: Props) {
         <Dialog open={open} onClose={onClose} fullScreen>
             <DialogTitle>Add Custom Armor</DialogTitle>
             <DialogContent>
-                <Grid container>
+                <GridContainer>
                     <TextField
                         value={armor.name}
                         variant="outlined"
@@ -66,15 +67,15 @@ export default function CreateArmorDialog(props: Props) {
                         label={'Name'}
                         onChange={e => handleNameChange(e.target.value)}
                     />
-                </Grid>
-                <Grid container>
+                </GridContainer>
+                <GridContainer>
                     <SoakCard armor={armor} updateSoak={handleSoakChange}/>
                     <DefenseCard armor={armor} updateDefense={handleDefenseChange}/>
-                </Grid>
-                <Grid container>
+                </GridContainer>
+                <GridContainer>
                     <ArmorQualityCard armor={armor} updateArmor={updateArmor} disabled={pathname.endsWith('/view')}/>
                     <ArmorModifierCard armor={armor} updateArmor={updateArmor} disabled={pathname.endsWith('/view')}/>
-                </Grid>
+                </GridContainer>
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose}/>
         </Dialog>

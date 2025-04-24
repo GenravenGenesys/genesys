@@ -1,4 +1,4 @@
-import {Card, CardContent, CardHeader, Divider, Grid, IconButton} from '@mui/material';
+import {Card, CardContent, CardHeader, Divider, IconButton} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import Player from '../../../../models/actor/player/Player';
 import EditIcon from "@mui/icons-material/Edit";
@@ -7,6 +7,7 @@ import ViewFieldCard from "../../../common/ViewFieldCard";
 import { ActorPath } from '../../../../services/RootPath';
 import CharacteristicRow from "../../actor/common/CharacteristicRow";
 import DerivedPlayerStatsRow from "./DerivedPlayerStatsRow";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     player: Player
@@ -30,12 +31,12 @@ export default function PlayerView(props: Props) {
             </CardHeader>
             <Divider/>
             <CardContent>
-                <Grid container justifyContent={'center'}>
-                    <Grid container spacing={2}>
+                <GridContainer centered>
+                    <GridContainer spacing={2}>
                         <ViewFieldCard name={'Archetype'} value={player?.archetype?.name!}/>
                         <ViewFieldCard name={'Career'} value={player?.career?.name!}/>
                         <ViewFieldCard name={'Encumbrance'} value={String(player.encumbrance)}/>
-                    </Grid>
+                    </GridContainer>
                     <Divider/>
                     <CharacteristicRow actor={player}/>
                     <Divider/>
@@ -46,8 +47,8 @@ export default function PlayerView(props: Props) {
                     <PlayerEquipmentCard player={player}/>
                     <Divider/>
                     {/*<PlayerTalentCard player={player}/>*/}
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
-    )
+    );
 }

@@ -1,4 +1,4 @@
-import {Divider, Grid} from "@mui/material";
+import {Divider} from "@mui/material";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import {DefenseType} from "../../../../models/actor/Defense";
 import * as React from "react";
@@ -12,6 +12,7 @@ import {StatsType} from "../../../../models/actor/Stats";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import RivalService from "../../../../services/actor/RivalService";
 import {useLocation} from "react-router-dom";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     rival: Rival;
@@ -89,7 +90,7 @@ const RivalCharacteristicTab: React.FC<Props> = ({rival, updateRival})=> {
     const renderRatingRow = () => {
         if (pathname.endsWith(rival.id + '/edit')) {
             return (
-                <Grid container spacing={2}>
+                <GridContainer spacing={2}>
                     <RatingCard type={RatingType.Combat} value={rival.combat}
                                 onChange={handleRatingsChange}
                                 disabled={!pathname.endsWith(rival.id + '/edit')}/>
@@ -99,26 +100,26 @@ const RivalCharacteristicTab: React.FC<Props> = ({rival, updateRival})=> {
                     <RatingCard type={RatingType.General} value={rival.general}
                                 onChange={handleRatingsChange}
                                 disabled={!pathname.endsWith(rival.id + '/edit')}/>
-                </Grid>
+                </GridContainer>
             )
         }
         return <Fragment/>
     };
 
     return (
-        <Grid container justifyContent={'center'}>
+        <GridContainer centered>
             <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange}/>
             <Divider/>
-            <Grid container spacing={2}>
+            <GridContainer spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(rival.soak)}/>
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={rival.wounds.threshold}
                                      onChange={handleWoundsChange} min={1} max={20}
                                      disabled={pathname.endsWith(rival.id + '/edit')}/>
                 <ViewFieldCard name={DefenseType.Melee} value={String(rival.melee)}/>
                 <ViewFieldCard name={DefenseType.Ranged} value={String(rival.ranged)}/>
-            </Grid>
+            </GridContainer>
             {renderRatingRow()}
-        </Grid>
+        </GridContainer>
     );
 };
 

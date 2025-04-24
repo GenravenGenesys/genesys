@@ -10,7 +10,7 @@ import Injury from "../../models/Injury";
 import InjuryService from "../../services/InjuryService";
 import TableRow from "@mui/material/TableRow";
 import {GenesysDifficultyCenterTableCell, TypographyCenterTableCell} from "../common/table/TypographyTableCell";
-import ActionsTableCell from "../common/table/ActionsTableCell";
+import ActionsTableCell from "../common/table/actions/ActionsTableCell";
 import TableCell from "@mui/material/TableCell";
 import Collapse from "@mui/material/Collapse";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";

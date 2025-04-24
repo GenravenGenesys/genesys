@@ -10,7 +10,7 @@ import TalentService from '../../services/TalentService';
 import {Fragment, useEffect, useState} from 'react';
 import * as React from 'react';
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
-import ActionsTableCell from "../common/table/ActionsTableCell";
+import ActionsTableCell from "../common/table/actions/ActionsTableCell";
 
 import {renderSingleRowTableHeader} from "../common/table/TableRenders";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";

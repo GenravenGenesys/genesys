@@ -15,7 +15,10 @@ export default function CareerBackdrop(props: Props) {
     const {career, open, onClose} = props
 
     return (
-        <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={open} onClick={onClose}>
+        <Backdrop sx={theme => ({
+            color: '#fff',
+            zIndex: theme.zIndex.drawer + 1
+        })} open={open} onClick={onClose}>
             <Card>
                 <CenteredCardHeader title={career.name}/>
                 <CardContent>
@@ -23,5 +26,5 @@ export default function CareerBackdrop(props: Props) {
                 </CardContent>
             </Card>
         </Backdrop>
-    )
+    );
 }

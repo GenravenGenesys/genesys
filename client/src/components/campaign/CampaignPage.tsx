@@ -1,5 +1,5 @@
 import Campaign from "../../models/campaign/Campaign";
-import {Card, CardContent, CardHeader, Grid} from "@mui/material";
+import {Card, CardContent, CardHeader} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 import TabContext from "@mui/lab/TabContext";
@@ -17,6 +17,7 @@ import CampaignMinion from "./npc/minion/CampaignMinion";
 import CampaignRivals from "./npc/rival/CampaignRivals";
 import CampaignNemeses from "./npc/nemesis/CampaignNemeses";
 import LoreDashboard from "../home/LoreDashboard";
+import GridContainer from "../common/grid/GridContainer";
 
 interface Props {
     campaign: Campaign
@@ -37,9 +38,9 @@ export default function CampaignPage(props: Props) {
                 title={campaign.name}>
             </CardHeader>
             <CardContent>
-                <Grid sx={{width: 1}}>
+                <GridContainer centered>
                     <TabContext value={value}>
-                        <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <GridContainer centered>
                             <TabList onChange={handleChange} centered>
                                 <Tab label="Lore" value="1"/>
                                 <Tab label="Talents" value="2"/>
@@ -53,7 +54,7 @@ export default function CampaignPage(props: Props) {
                                 <Tab label='Rival' value='10'/>
                                 <Tab label='Minion' value='11'/>
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         <TabPanel value="1">
                             <LoreDashboard/>
                         </TabPanel>
@@ -88,7 +89,7 @@ export default function CampaignPage(props: Props) {
                             <CampaignMinion/>
                         </TabPanel>
                     </TabContext>
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     )

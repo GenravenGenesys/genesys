@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import {useParams} from "react-router-dom";
 import * as React from "react";
 import {getRatings} from "../../../../models/actor/npc/NonPlayerActor";
@@ -20,6 +20,7 @@ import TabList from "@mui/lab/TabList/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
+import GridContainer from "../../../common/grid/GridContainer";
 
 export default function MinionPage() {
     const {id} = useParams<{ id: string }>();
@@ -79,7 +80,7 @@ export default function MinionPage() {
                                           subheader={getRatings(minion)}/>
             <CardContent>
                 <TabContext value={tab}>
-                    <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <GridContainer>
                         <TabList onChange={handleChange} centered>
                             <Tab label="Characteristics" value="1"/>
                             <Tab label="Skills" value="2"/>
@@ -87,7 +88,7 @@ export default function MinionPage() {
                             <Tab label="Abilities" value="4"/>
                             <Tab label="Talents" value="5"/>
                         </TabList>
-                    </Grid>
+                    </GridContainer>
                     <TabPanel value="1">
                         <MinionCharacteristicTab minion={minion} updateMinion={setMinion}/>
                     </TabPanel>

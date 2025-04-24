@@ -1,18 +1,19 @@
 import {Activation} from "../../../../models/Talent";
-import {Card, CardContent, Grid, MenuItem, Select} from "@mui/material";
+import {Card, CardContent, MenuItem, Select} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import ViewFieldCard from "../../ViewFieldCard";
+import GridItem from "../../grid/GridItem";
 
-interface Props {
+type Props = {
     value: Activation;
     onChange: (value: Activation) => void;
     disabled: boolean;
-}
+};
 
 const ActivationCard: React.FC<Props> = ({value, onChange, disabled}) => {
     return disabled ? <ViewFieldCard name={'Activation'} value={value}/> :
-        <Grid item xs>
+        <GridItem>
             <Card>
                 <CenteredCardHeader title={'Activation'}/>
                 <CardContent>
@@ -32,7 +33,7 @@ const ActivationCard: React.FC<Props> = ({value, onChange, disabled}) => {
                     </Select>
                 </CardContent>
             </Card>
-        </Grid>;
+        </GridItem>;
 };
 
 export default ActivationCard;

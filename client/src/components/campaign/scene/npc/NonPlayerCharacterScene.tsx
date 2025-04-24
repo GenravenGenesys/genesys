@@ -1,4 +1,4 @@
-import {Button, Card, CardContent, Grid} from "@mui/material";
+import {Button, Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import {useEffect, useState} from "react";
 import TabContext from "@mui/lab/TabContext";
@@ -11,6 +11,8 @@ import AddNonPlayerCharacterToSceneDialog from "./AddNonPlayerCharacterToSceneDi
 import Scene from "../../../../models/campaign/Scene";
 import SceneService from "../../../../services/SceneService";
 import {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor";
+import FullGrid from "../../../common/grid/FullGrid";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     scene: Scene
@@ -44,29 +46,29 @@ export default function NonPlayerCharacterScene(props: Props) {
         <Card>
             <CenteredCardHeader title={'Non Player Characters'}/>
             <CardContent>
-                <Grid sx={{width: 1}}>
+                <FullGrid>
                     <TabContext value={value}>
-                        <Grid sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <GridContainer>
                             <TabList onChange={handleChange} centered>
                                 {singleNonPlayerCharacters.map((npc, index) => (
                                     <Tab label={npc.name + ' (' + npc.type + ')'} value={String(index)}/>
                                 ))}
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         {singleNonPlayerCharacters.map((npc, index) => (
                             <TabPanel value={String(index)}>
                                 <SingleNonPlayerCharacterSkillCard actor={npc}/>
                             </TabPanel>
                         ))}
                     </TabContext>
-                </Grid>
-                <Grid container justifyContent={'center'}>
+                </FullGrid>
+                <GridContainer centered>
                     <Button color='primary' variant='contained' onClick={(): void => setAddNpcDialog(true)}>Add
                         NPC</Button>
                     {addNpcDialog && <AddNonPlayerCharacterToSceneDialog open={addNpcDialog}
                                                                          onClose={(): void => setAddNpcDialog(false)}
                                                                          id={scene.id}/>}
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     );

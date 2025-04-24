@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Button, Card, CardContent, Typography } from "@mui/material";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -13,6 +13,8 @@ import PlayerArmorSelectionDialog from "./armor/PlayerArmorSelectionDialog";
 import PlayerArmorEquipDialog from "./armor/PlayerArmorEquipDialog";
 import PlayerWeaponEquipDialog from "./weapon/PlayerWeaponEquipDialog";
 import React, {Fragment, useState} from "react";
+import FullGrid from "../../../../common/grid/FullGrid";
+import GridContainer from "../../../../common/grid/GridContainer";
 
 interface Props {
     player: Player;
@@ -89,20 +91,20 @@ const PlayerEquipmentCard: React.FC<Props> = ({ player }) => {
         <Card sx={{ "width": 1 }}>
             <CenteredCardHeader title={'Equipment'} />
             <CardContent>
-                <Grid sx={{ width: 1 }}>
+                <FullGrid>
                     <TabContext value={value}>
-                        <Grid sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <GridContainer>
                             <TabList onChange={handleChange}>
                                 <Tab label="Weapons" value="1" />
                                 <Tab label="Armor" value="2" />
                                 <Tab label="Gear" value="3" />
                             </TabList>
-                        </Grid>
+                        </GridContainer>
                         <TabPanel value="1">{renderWeaponsTab()}</TabPanel>
                         <TabPanel value="2">{renderArmorTab()}</TabPanel>
                         <TabPanel value="3">{renderGearTab()}</TabPanel>
                     </TabContext>
-                </Grid>
+                </FullGrid>
             </CardContent>
         </Card>
     )
