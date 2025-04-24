@@ -1,4 +1,4 @@
-import {Dialog, DialogContent, DialogTitle, Divider, Grid} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle, Divider} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 import Archetype from "../../../../models/actor/player/Archetype";
@@ -11,6 +11,7 @@ import ArchetypeService from "../../../../services/ArchetypeService";
 import Cost, {CostType, DefaultCost, getCostOptions} from "../../../../models/common/Cost";
 import Limit, {DefaultLimit, getLimitOptions, LimitType} from "../../../../models/common/Limit";
 import NumberRangeSelectCard from "../../../common/NumberRangeSelectCard";
+import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     archetype: Archetype
@@ -99,38 +100,38 @@ export default function CreateArchetypeAbilityDialog(props: Props) {
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>Add Custom Ability</DialogTitle>
             <DialogContent>
-                <Grid container spacing={10}>
+                <GridContainer spacing={10}>
                     <InputTextFieldCard defaultValue={ability?.name!!} onCommit={(value: string): void => {
                         onChange('name', value)
                     }} title={'Name'} helperText={'Name'} placeholder={'Name'}/>
-                </Grid>
+                </GridContainer>
                 <Divider/>
-                <Grid container spacing={10}>
+                <GridContainer spacing={10}>
                     <InputTextFieldCard defaultValue={ability?.description!!} onCommit={(value: string): void => {
                         onChange('description', value)
                     }} title={'Description'} helperText={'Description'} placeholder={'Description'}/>
-                </Grid>
-                <Grid container spacing={10}>
+                </GridContainer>
+                <GridContainer spacing={10}>
                     <InputSelectFieldCard defaultValue={ability?.activation!!} onCommit={(value: string): void => {
                         onChange('activation', value)
                     }} title={'Activation'} options={getActivationOptions()}/>
-                </Grid>
-                <Grid container spacing={10}>
+                </GridContainer>
+                <GridContainer spacing={10}>
                     <InputSelectFieldCard defaultValue={ability?.cost?.type!} onCommit={(value: string): void => {
                         onCostChange('type', value)
                     }} title={'Cost Type'} options={getCostOptions()}/>
                     <NumberRangeSelectCard defaultValue={ability?.cost?.amount!} title={'Amount'} onChange={(value: number): void => {
                         onCostChange('amount', String(value))
                     }} min={1} max={6}/>
-                </Grid>
-                <Grid container spacing={10}>
+                </GridContainer>
+                <GridContainer spacing={10}>
                     <InputSelectFieldCard defaultValue={ability?.limiter?.type!} onCommit={(value: string): void => {
                         onLimitChange('type', value)
                     }} title={'Limit Type'} options={getLimitOptions()}/>
                     <NumberRangeSelectCard defaultValue={ability?.limiter?.limit!} title={'Limit'} onChange={(value: number): void => {
                         onLimitChange('limit', String(value))
                     }} min={1} max={6}/>
-                </Grid>
+                </GridContainer>
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose}/>
         </Dialog>

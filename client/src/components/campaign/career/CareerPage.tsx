@@ -1,4 +1,4 @@
-import {Card, CardContent, Grid} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import * as React from "react";
 import {useLocation, useParams} from "react-router-dom";
 import {RootPath} from "../../../services/RootPath";
@@ -15,6 +15,7 @@ import SkillService from "../../../services/SkillService";
 import Skill from "../../../models/actor/Skill";
 import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardHeaderWithAction";
 import SkillAutocompleteTableCell from "../../common/table/SkillAutocompleteTableCell";
+import GridContainer from "../../common/grid/GridContainer";
 
 export default function CareerPage() {
     const {id} = useParams<{ id: string }>();
@@ -53,9 +54,7 @@ export default function CareerPage() {
         <Card>
             <CenteredCardHeaderWithAction title={career.name} path={RootPath.Career + career.id}/>
             <CardContent>
-                <Grid container sx={{
-                    justifyContent: 'center'
-                }}>
+                <GridContainer centered>
                     <TableContainer component={Paper}>
                         <Table>
                             {renderSingleRowTableHeaderWithColumns(headers, 2)}
@@ -79,7 +78,7 @@ export default function CareerPage() {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </Grid>
+                </GridContainer>
             </CardContent>
         </Card>
     );

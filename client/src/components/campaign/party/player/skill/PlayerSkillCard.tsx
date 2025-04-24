@@ -1,5 +1,5 @@
 import Player, {PlayerSkill} from "../../../../../models/actor/player/Player";
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -14,6 +14,8 @@ import {
     TypographyCenterTableCell
 } from "../../../../common/table/TypographyTableCell";
 import BooleanTableCell from "../../../../common/table/BooleanTableCell";
+import GridItem from "../../../../common/grid/GridItem";
+import GridContainer from "../../../../common/grid/GridContainer";
 
 interface Props {
     player: Player
@@ -45,8 +47,8 @@ export default function PlayerSkillCard(props: Props) {
         <Card sx={{"width": 1}}>
             <CenteredCardHeader title={'Skills'}/>
             <CardContent>
-                <Grid container>
-                    <Grid xs={6}>
+                <GridContainer>
+                    <GridItem width={.5}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>
@@ -55,8 +57,8 @@ export default function PlayerSkillCard(props: Props) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
-                    <Grid xs={6}>
+                    </GridItem>
+                    <GridItem width={.5}>
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableBody>
@@ -66,8 +68,8 @@ export default function PlayerSkillCard(props: Props) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
-                </Grid>
+                    </GridItem>
+                </GridContainer>
             </CardContent>
         </Card>
     );
