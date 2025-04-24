@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField} from '@mui/material';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
 import {GenesysSymbols} from "../../models/roll/GenesysSymbols";
 import handleDiceRoll from "../../models/roll/DiceRoll";
+import GridContainer from "../common/grid/GridContainer";
+import GridItem from "../common/grid/GridItem";
 
 interface Props {
     open: boolean
@@ -64,46 +66,47 @@ export default function DiceRollerDialog(props: Props) {
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle style={{textAlign: 'center'}}>Genesys Dice Roller</DialogTitle>
             <DialogContent>
-                <Grid container spacing={2}>
-                    <Grid xs={6}>
+                <GridContainer spacing={2}>
+                    <GridItem>
                         <TextField margin="dense" label="Boost" type="number" fullWidth variant="outlined"
                                    value={boostDiceCount}
                                    onChange={(e) => setBoostDiceCount(parseInt(e.target.value))}/>
-                    </Grid>
-                    <Grid xs={6}>
+                    </GridItem>
+                    <GridItem>
                         <TextField margin="dense" label="Setback" type="number" fullWidth variant="outlined"
                                    value={setbackDiceCount}
                                    onChange={(e) => setSetbackDiceCount(parseInt(e.target.value))}/>
-                    </Grid>
-                    <Grid xs={6}>
+                    </GridItem>
+                    <GridItem>
                         <TextField margin="dense" label="Ability" type="number" fullWidth variant="outlined"
                                    value={abilityDiceCount}
                                    onChange={(e) => setAbilityDiceCount(parseInt(e.target.value))}/>
-                    </Grid>
-                    <Grid xs={6}>
+                    </GridItem>
+                    <GridItem>
                         <TextField margin="dense" label="Difficulty" type="number" fullWidth variant="outlined"
                                    value={difficultyDiceCount}
                                    onChange={(e) => setDifficultyDiceCount(parseInt(e.target.value))}/>
-                    </Grid>
-                    <Grid xs={6}>
+                    </GridItem>
+                    <GridItem>
                         <TextField margin="dense" label="Proficiency" type="number" fullWidth
                                    variant="outlined" value={proficiencyDiceCount}
                                    onChange={(e) => setProficiencyDiceCount(parseInt(e.target.value))}/>
-                    </Grid>
-                    <Grid xs={6}>
+                    </GridItem>
+                    <GridItem>
                         <TextField margin="dense" label="Challenge" type="number" fullWidth
                                    variant="outlined" value={challengeDieCount}
                                    onChange={(e) => setChallengeDieCount(parseInt(e.target.value))}/>
-                    </Grid>
-                </Grid> <Grid container spacing={2}>
+                    </GridItem>
+                </GridContainer>
+                <GridContainer spacing={2}>
                 {Object.entries(GenesysSymbols).map(([key, value]) => (typeof value === 'number' && value !== GenesysSymbols.Blank && (
-                    <Grid xs={6} key={value}>
+                    <GridItem key={value}>
                         <TextField margin="dense" label={key} type="number" fullWidth
                                    variant="outlined" value={symbolCounts[value as GenesysSymbols]}
                                    onChange={handleSymbolChange(value as GenesysSymbols)}/>
-                    </Grid>
+                    </GridItem>
                 )))}
-            </Grid>
+            </GridContainer>
                 {results && (
                     <GenesysDescriptionTypography text={results}/>
                 )}
