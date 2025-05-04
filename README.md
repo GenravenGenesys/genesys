@@ -13,7 +13,7 @@ Use npm run start to run the program locally.
 
 GRADLE JAVA SERVER
 
-Repository is using Java 17, and Springboot 3.x.
+Repository is using Java 21, and Springboot 3.4.x
 
 Backend Server is run with ./gradlew clean build bootRun
 
@@ -23,5 +23,5 @@ Create an .env file in the server root directory.
 File only needs to define the connection string as MONGODB_URI.
 
 MongoDB
-Currently using Atlas provided by MongoDB, which will hold 256MB of data. The application can also be used by a local or docker version using a different connection string.
+Currently using Atlas provided by MongoDB, which will hold 512MB of data for free. The application can also be used by a local or docker version using a different connection string.
 Guide for creating an Atlas Cluster: https://www.mongodb.com/docs/atlas/getting-started/
