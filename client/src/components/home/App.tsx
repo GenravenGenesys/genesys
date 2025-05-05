@@ -31,7 +31,11 @@ export default function App() {
 
     return (
         <ThemeProvider theme={createTheme({palette: {mode: 'light'}})}>
-            <BrowserRouter>
+            <BrowserRouter
+                future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true
+                }}>
                 <NavBar/>
                 <Routes>
                     <Route path="/" element={<Navigate replace to="/home"/>}/>
