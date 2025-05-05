@@ -6,7 +6,7 @@ import {Activation} from "../../../../models/Talent";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
 import {LimitType} from "../../../../models/common/Limit";
 import {CostType} from "../../../../models/common/Cost";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import ActivationCard from "../../../common/card/select/ActivationCard";
 import TextFieldCard from "../../../common/card/TextFieldCard";
 import GridContainer from "../../../common/grid/GridContainer";

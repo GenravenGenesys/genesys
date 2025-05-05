@@ -1,6 +1,6 @@
 import {Button, Card, CardContent, TableFooter} from "@mui/material";
 import {Fragment, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";

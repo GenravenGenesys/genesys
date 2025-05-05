@@ -1,4 +1,4 @@
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import {Fragment} from "react";
 import CampaignCareers from "./CampaignCareers";
 import {RootPath} from "../../../services/RootPath";

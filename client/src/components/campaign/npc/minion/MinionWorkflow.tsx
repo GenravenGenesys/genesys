@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import CampaignMinion from "./CampaignMinion";
 import { ActorPath } from "../../../../services/RootPath";
 import MinionPage from "./MinionPage";

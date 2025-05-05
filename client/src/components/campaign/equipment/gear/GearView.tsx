@@ -1,6 +1,6 @@
 import {Card, CardContent, CardHeader, Divider, IconButton} from '@mui/material';
 import * as React from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import EditIcon from "@mui/icons-material/Edit";
 import {Gear} from "../../../../models/equipment/Gear";
 import {EquipmentPath} from "../../../../services/RootPath";

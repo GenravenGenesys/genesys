@@ -8,7 +8,7 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import InitiativeTrackCard from "./InitiativeTrackCard";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router";
 import SceneService from "../../../../services/SceneService";
 import {CampaignPath} from "../../../../services/RootPath";
 import InitiativeSlot from "../../../../models/campaign/encounter/InitiativeSlot";

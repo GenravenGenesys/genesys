@@ -1,5 +1,5 @@
 import {Fragment, useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router";
 import SpellService from "../../services/SpellService";
 import Spell from "../../models/spell/Spell";
 import SpellEdit from "./SpellEdit";

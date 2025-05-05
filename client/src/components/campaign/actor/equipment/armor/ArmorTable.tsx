@@ -10,7 +10,7 @@ import {renderQualities, renderSoak} from "../../../../../models/equipment/Equip
 import {ActorArmor, Armor, ArmorSlot} from "../../../../../models/equipment/Armor";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import {Button, TableFooter} from "@mui/material";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import ArmorSelectionDialog from "./ArmorSelectionDialog";
 import ArmorEquipDialog from "./ArmorEquipDialog";
 import BooleanTableCell from "../../../../common/table/BooleanTableCell";

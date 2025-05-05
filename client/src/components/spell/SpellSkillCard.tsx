@@ -1,7 +1,7 @@
 import Spell from "../../models/spell/Spell";
 import * as React from "react";
 import {Fragment, useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import {TypographyCenterTableCell} from "../common/table/TypographyTableCell";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";

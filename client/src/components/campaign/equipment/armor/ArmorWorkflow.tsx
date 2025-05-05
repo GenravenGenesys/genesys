@@ -1,5 +1,5 @@
 import {Fragment} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import CampaignArmor from "./CampaignArmor";
 import ArmorPage from "./ArmorPage";
 import {EquipmentPath} from "../../../../services/RootPath";

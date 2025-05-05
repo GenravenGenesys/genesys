@@ -1,5 +1,5 @@
 import Minion from "../../../../models/actor/npc/Minion";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import MinionService from "../../../../services/actor/MinionService";
 import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";

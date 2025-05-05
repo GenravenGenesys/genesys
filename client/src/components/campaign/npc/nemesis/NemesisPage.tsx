@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
 import * as React from "react";
 import Nemesis from "../../../../models/actor/npc/Nemesis";

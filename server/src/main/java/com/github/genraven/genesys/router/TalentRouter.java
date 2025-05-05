@@ -11,16 +11,18 @@ public class TalentRouter {
     @Bean
     public RouterFunction<ServerResponse> talentRouterMethod(final TalentHandler talentHandler) {
         return RouterFunctions.route()
-                .path("/talents", builder -> builder
-                        .GET("/", talentHandler::getAllTalents)
-                        .POST("/{name}", talentHandler::createTalent)
-                        .GET("/{name}", talentHandler::getTalent)
-                        .PUT("/{name}", talentHandler::updateTalent)
-                )
-                .path("campaigns/talents", builder -> builder
-                        .GET("/", talentHandler::getTalentsForCurrentCampaign)
-                        .POST("/", talentHandler::addTalentToCurrentCampaign)
-                        .GET("/tiers/{tier}", talentHandler::getTalentsForCurrentCampaignByTier)
+                .nest(RequestPredicates.path("/api"), builder -> builder
+                        .path("/talents", talentBuilder -> talentBuilder
+                                .GET("/", talentHandler::getAllTalents)
+                                .POST("/{name}", talentHandler::createTalent)
+                                .GET("/{name}", talentHandler::getTalent)
+                                .PUT("/{name}", talentHandler::updateTalent)
+                        )
+                        .path("campaigns/talents", campaignTalentBuilder -> campaignTalentBuilder
+                                .GET("/", talentHandler::getTalentsForCurrentCampaign)
+                                .POST("/", talentHandler::addTalentToCurrentCampaign)
+                                .GET("/tiers/{tier}", talentHandler::getTalentsForCurrentCampaignByTier)
+                        )
                 )
                 .build();
     }

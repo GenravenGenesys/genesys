@@ -1,6 +1,6 @@
 import {Dialog, DialogContentText, DialogTitle, Divider, MenuItem, Select, TextField} from "@mui/material";
 import {ChangeEvent, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import MinionService from "../../../../services/actor/MinionService";
 import {ActorPath} from "../../../../services/RootPath";
 import {ActorType} from "../../../../models/actor/Actor";

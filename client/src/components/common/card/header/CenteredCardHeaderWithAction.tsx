@@ -2,7 +2,7 @@ import {CardHeader, IconButton} from "@mui/material";
 import * as React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router";
 import GenesysDescriptionTypography from "../../typography/GenesysDescriptionTypography";
 
 type Props = {
@@ -19,14 +19,14 @@ const CenteredCardHeaderWithAction: React.FC<Props> = ({title, path, subheader})
         if (pathname.endsWith('/view')) {
             return (
                 <IconButton title='Edit' size='small'
-                            onClick={(): void => navigate(path + '/edit')}>
+                            onClick={() => navigate(path + '/edit')}>
                     <EditIcon color='primary' fontSize='small'/>
                 </IconButton>
             );
         } else {
             return (
                 <IconButton title='View' size='small'
-                            onClick={(): void => navigate(path + '/view')}>
+                            onClick={() => navigate(path + '/view')}>
                     <CheckIcon color='primary' fontSize='small'/>
                 </IconButton>
             );

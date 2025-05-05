@@ -1,7 +1,7 @@
 import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material"
 import GenesysDialogActions from "../common/dialog/GenesysDialogActions";
 import {ChangeEvent, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {RootPath} from "../../services/RootPath";
 import InjuryService from "../../services/InjuryService";
 

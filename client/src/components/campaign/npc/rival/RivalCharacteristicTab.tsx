@@ -11,7 +11,7 @@ import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import {StatsType} from "../../../../models/actor/Stats";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import RivalService from "../../../../services/actor/RivalService";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {

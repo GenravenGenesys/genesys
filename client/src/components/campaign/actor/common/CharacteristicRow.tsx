@@ -1,7 +1,7 @@
 import Actor from "../../../../models/actor/Actor";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import * as React from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import CharacteristicCard from "../../../common/card/CharacteristicCard";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import GridContainer from "../../../common/grid/GridContainer";

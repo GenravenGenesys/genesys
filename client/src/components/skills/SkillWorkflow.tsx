@@ -1,7 +1,7 @@
 import {Fragment, useEffect, useState} from "react";
 import Skill, {SkillType} from "../../models/actor/Skill";
 import SkillService from "../../services/SkillService";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import ViewAllSkills from "./ViewAllSkills";
 import {RootPath} from "../../services/RootPath";
 import SkillPage from "./SkillPage";

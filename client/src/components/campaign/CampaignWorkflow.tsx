@@ -1,4 +1,4 @@
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
 import Campaign from "../../models/campaign/Campaign";
 import CampaignService from "../../services/CampaignService";

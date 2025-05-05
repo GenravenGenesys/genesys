@@ -1,5 +1,5 @@
 import {Fragment} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import ViewAllQualities from "./ViewAllQualities";
 import {RootPath} from "../../services/RootPath";
 import QualityPage from "./QualityPage";

@@ -1,5 +1,5 @@
 import {ChangeEvent, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {RootPath} from "../../../services/RootPath";
 import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import CareerService from "../../../services/CareerService";

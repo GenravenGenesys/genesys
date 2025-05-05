@@ -10,7 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import TableRow from "@mui/material/TableRow";
 import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {CampaignPath} from "../../../../services/RootPath";
 
 interface Props {
@@ -30,7 +30,7 @@ const EncounterCard = ({sceneId, encounter}: Props) => {
     return (
         <Card>
             <CenteredCardHeaderWithButton title={'Encounter'}
-                                          onClick={(): void => navigate(CampaignPath.Scene + sceneId + '/encounter/' + encounter.type)}
+                                          onClick={() => navigate(CampaignPath.Scene + sceneId + '/encounter/' + encounter.type)}
                                           buttonText={'Start Encounter'}/>
             <CardContent>
                 <TableContainer component={Paper}>

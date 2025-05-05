@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {Card, CardContent, CardHeader, Divider, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ViewFieldCard from "../common/ViewFieldCard";

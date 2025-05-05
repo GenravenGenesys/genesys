@@ -2,7 +2,7 @@ import {Card, CardContent} from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {useState} from "react";

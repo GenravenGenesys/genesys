@@ -2,7 +2,7 @@ import Skill, {SkillType} from "../../models/actor/Skill";
 import {Card, CardContent} from "@mui/material";
 import {RootPath} from "../../services/RootPath";
 import * as React from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
 import SkillService from "../../services/SkillService";
 import {CharacteristicType} from "../../models/actor/Characteristic";

@@ -11,7 +11,7 @@ import * as React from "react";
 import Spell, {Effect} from "../../../models/spell/Spell";
 import {Difficulty} from "../../../models/common/Difficulty";
 import {Fragment, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import CreateSpellEffectDialog from "./CreateSpellEffectDialog";
 
 interface Props {

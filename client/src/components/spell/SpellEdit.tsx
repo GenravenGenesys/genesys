@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {Difficulty, getDifficultyOptions} from "../../models/common/Difficulty";
 import {Card, CardContent, CardHeader, Divider, IconButton} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";

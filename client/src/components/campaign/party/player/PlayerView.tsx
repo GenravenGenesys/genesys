@@ -1,5 +1,5 @@
 import {Card, CardContent, CardHeader, Divider, IconButton} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import Player from '../../../../models/actor/player/Player';
 import EditIcon from "@mui/icons-material/Edit";
 import PlayerEquipmentCard from "./equipment/PlayerEquipmentCard";

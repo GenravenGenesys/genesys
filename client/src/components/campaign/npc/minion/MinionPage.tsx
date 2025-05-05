@@ -1,5 +1,5 @@
 import {Card, CardContent} from "@mui/material";
-import {useParams} from "react-router-dom";
+import {useParams} from "react-router";
 import * as React from "react";
 import {getRatings} from "../../../../models/actor/npc/NonPlayerActor";
 import EquipmentCard from "../../actor/equipment/EquipmentCard";

@@ -1,5 +1,5 @@
 import {Fragment, useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router";
 import {Gear} from "../../../../models/equipment/Gear";
 import EquipmentService from "../../../../services/EquipmentService";
 import GearView from "./GearView";

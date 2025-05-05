@@ -1,6 +1,6 @@
 import {EquipmentType} from "../../../models/equipment/Equipment";
 import {ChangeEvent, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {EquipmentPath} from "../../../services/RootPath";
 import {Dialog, DialogContentText, DialogTitle, TextField,} from "@mui/material";
 import EquipmentService from "../../../services/EquipmentService";
