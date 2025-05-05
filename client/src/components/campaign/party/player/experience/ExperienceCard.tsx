@@ -4,7 +4,7 @@ import ViewFieldCard from "../../../../common/ViewFieldCard";
 import * as React from "react";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import SpendExperienceMenuButton from "./SpendExperienceMenuButton";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import GridItem from "../../../../common/grid/GridItem";
 import GridContainer from "../../../../common/grid/GridContainer";
 

@@ -1,6 +1,6 @@
 import {Dialog, DialogContent, DialogTitle, TextField} from "@mui/material";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {ChangeEvent, useState} from "react";
 import SceneService from "../../../services/SceneService";
 import {RootPath} from "../../../services/RootPath";

@@ -1,6 +1,6 @@
 import {Card, CardContent} from '@mui/material';
 import * as React from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router";
 import {RootPath} from "../../services/RootPath";
 import {Fragment, useEffect, useState} from "react";
 import Quality from "../../models/Quality";

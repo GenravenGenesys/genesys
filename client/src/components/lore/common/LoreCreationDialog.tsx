@@ -1,6 +1,6 @@
 import {LoreType} from "../../../models/lore/Lore";
 import {ChangeEvent, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {LorePath} from "../../../services/RootPath";
 import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";

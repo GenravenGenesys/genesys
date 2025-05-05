@@ -6,7 +6,7 @@ import ArchetypeService from "../../../../services/ArchetypeService";
 import InfoIcon from "@mui/icons-material/Info";
 import * as React from "react";
 import ArchetypeBackdrop from "../../archetype/ArchetypeBackdrop";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import GridContainer from "../../../common/grid/GridContainer";
 import GridItem from "../../../common/grid/GridItem";

@@ -7,7 +7,7 @@ import Player from "../../../../../models/actor/player/Player";
 import PlayerArmorTable from "./armor/PlayerArmorTable";
 import PlayerWeaponTable from "./weapon/PlayerWeaponTable";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import PlayerWeaponSelectionDialog from "./weapon/PlayerWeaponSelectionDialog";
 import PlayerArmorSelectionDialog from "./armor/PlayerArmorSelectionDialog";
 import PlayerArmorEquipDialog from "./armor/PlayerArmorEquipDialog";

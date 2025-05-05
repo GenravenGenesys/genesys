@@ -7,7 +7,7 @@ import * as React from "react";
 import {useState} from "react";
 import HomeIcon from '@mui/icons-material/Home';
 import {RootPath} from "../../services/RootPath";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import DiceRollerDialog from "../roll/DiceRollerDialog";
 
 export default function NavBar() {

@@ -3,7 +3,7 @@ import TableRow from "@mui/material/TableRow";
 import AddIcon from "@mui/icons-material/Add";
 import {Fragment} from "react";
 import * as React from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 
 interface Props {
     id: string

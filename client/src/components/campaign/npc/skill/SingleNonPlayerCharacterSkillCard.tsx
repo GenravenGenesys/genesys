@@ -1,5 +1,5 @@
 import {Card, CardContent} from "@mui/material";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";

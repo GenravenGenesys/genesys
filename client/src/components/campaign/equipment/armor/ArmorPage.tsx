@@ -1,5 +1,5 @@
 import {Card, CardContent} from '@mui/material';
-import {useLocation, useParams} from 'react-router-dom';
+import {useLocation, useParams} from 'react-router';
 import * as React from 'react';
 import {Armor} from "../../../../models/equipment/Armor";
 import {Fragment, useEffect, useState} from "react";

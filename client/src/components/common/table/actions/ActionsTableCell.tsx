@@ -1,6 +1,6 @@
 import PreviewIcon from '@mui/icons-material/Preview'
 import {IconButton} from "@mui/material";
-import {Link, LinkProps} from "react-router-dom";
+import {Link, LinkProps} from "react-router";
 import {forwardRef, useMemo} from "react";
 import * as React from "react";
 import CustomTableCell from "../common/CustomTableCell";

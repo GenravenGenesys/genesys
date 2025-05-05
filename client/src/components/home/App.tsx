@@ -1,4 +1,4 @@
-import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router';
 import NavBar from '../navigation/NavBar';
 import {createTheme, ThemeProvider} from '@mui/material';
 import {ActorPath, CampaignPath, EquipmentPath, LorePath, RootPath} from '../../services/RootPath';
@@ -31,11 +31,7 @@ export default function App() {
 
     return (
         <ThemeProvider theme={createTheme({palette: {mode: 'light'}})}>
-            <BrowserRouter
-                future={{
-                    v7_startTransition: true,
-                    v7_relativeSplatPath: true
-                }}>
+            <BrowserRouter>
                 <NavBar/>
                 <Routes>
                     <Route path="/" element={<Navigate replace to="/home"/>}/>

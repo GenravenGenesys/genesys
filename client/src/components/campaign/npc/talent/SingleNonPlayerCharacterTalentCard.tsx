@@ -1,6 +1,6 @@
 import {Button, Card, CardContent, TableFooter} from "@mui/material";
 import {Fragment, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import TableRow from "@mui/material/TableRow";
 import Talent, {ActorTalent} from "../../../../models/Talent";

@@ -1,7 +1,7 @@
 import {MenuItem, Select, TableCell} from "@mui/material";
 import React from "react";
 import {ActorArmor, ArmorSlot} from "../../../models/equipment/Armor";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import {ActorWeapon, WeaponSlot} from "../../../models/equipment/Weapon";
 
 interface ArmorProps {

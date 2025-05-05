@@ -9,7 +9,7 @@ import CareerBackdrop from "../../career/CareerBackdrop";
 import EditIcon from "@mui/icons-material/Edit";
 import Player, {PlayerSkill} from "../../../../models/actor/player/Player";
 import CareerSkillSelectDialog from "./skill/CareerSkillSelectDialog";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import GridItem from "../../../common/grid/GridItem";
 import GridContainer from "../../../common/grid/GridContainer";

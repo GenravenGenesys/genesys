@@ -10,7 +10,7 @@ import {renderDoubleRowTableHeader,} from "../../../../common/table/TableRenders
 import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
 import Minion, {GroupSkill} from "../../../../../models/actor/npc/Minion";
 import EditableBooleanTableCell from "../../../../common/table/EditableBooleanTableCell";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import GridContainer from "../../../../common/grid/GridContainer";
 import GridItem from "../../../../common/grid/GridItem";

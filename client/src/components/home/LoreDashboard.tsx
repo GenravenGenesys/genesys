@@ -1,5 +1,5 @@
 import {CampaignPath, LorePath} from "../../services/RootPath";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import * as React from "react";
 import {LoreType} from "../../models/lore/Lore";

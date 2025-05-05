@@ -5,7 +5,7 @@ import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions
 import {ActorArmor, Armor, ArmorSlot} from "../../../../../models/equipment/Armor";
 import SoakCard from "../../../../common/card/SoakCard";
 import DefenseCard from "../../../../common/card/DefenseCard";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import ArmorQualityCard from "../../../equipment/armor/quality/ArmorQualityCard";
 import ArmorModifierCard from "../../../equipment/armor/modifier/ArmorModifierCard";
 import GridContainer from "../../../../common/grid/GridContainer";

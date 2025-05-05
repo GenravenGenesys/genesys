@@ -13,7 +13,7 @@ import {
 import {renderQualities} from "../../../../../models/equipment/EquipmentHelper";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import {Button, TableFooter} from "@mui/material";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import {ActorWeapon, Weapon, WeaponSlot} from "../../../../../models/equipment/Weapon";
 import Actor from "../../../../../models/actor/Actor";
 import CreateWeaponDialog from "./CreateWeaponDialog";

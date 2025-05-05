@@ -1,7 +1,7 @@
 import {Card, CardContent} from '@mui/material';
 import Talent from "../../models/Talent";
 import * as React from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
 import TalentService from "../../services/TalentService";
 import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHeaderWithAction";

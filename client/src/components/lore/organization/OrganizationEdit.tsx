@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {useEffect, useState} from "react";
 import {LorePath} from "../../../services/RootPath";
 import {Card, CardContent, CardHeader, IconButton} from "@mui/material";

@@ -10,7 +10,7 @@ import {StatsType} from "../../../../models/actor/Stats";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import * as React from "react";
 import {DefenseType} from "../../../../models/actor/Defense";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {

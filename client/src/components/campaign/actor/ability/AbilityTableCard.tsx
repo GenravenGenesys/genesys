@@ -6,7 +6,7 @@ import * as React from "react";
 import {Button, Card, CardContent, TableFooter} from "@mui/material";
 import TableRow from "@mui/material/TableRow";
 import {Fragment, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import CreateAbilityDialog from "./CreateAbilityDialog";
 import Ability from "../../../../models/Ability";
 import TableBody from "@mui/material/TableBody";

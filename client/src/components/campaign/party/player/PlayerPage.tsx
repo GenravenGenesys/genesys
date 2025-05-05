@@ -1,5 +1,5 @@
 import {Card, CardContent} from '@mui/material';
-import {useParams} from 'react-router-dom';
+import {useParams} from 'react-router';
 import Player from '../../../../models/actor/player/Player';
 import {Fragment, useEffect, useState} from "react";
 import * as React from "react";

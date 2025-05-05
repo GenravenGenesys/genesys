@@ -1,5 +1,5 @@
 import {Fragment} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import CampaignNemeses from "./CampaignNemeses";
 import {ActorPath} from "../../../../services/RootPath";
 import NemesisPage from "./NemesisPage";

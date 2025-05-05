@@ -1,6 +1,6 @@
 import {Card, CardContent} from "@mui/material";
 import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardHeaderWithAction";
-import {useParams} from "react-router-dom";
+import {useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
 import * as React from "react";
 import Scene from "../../../models/campaign/Scene";

@@ -1,7 +1,7 @@
 import {Card, CardContent} from '@mui/material';
 import * as React from "react";
 import {Fragment, useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router";
 import WeaponQualityCard from "./quality/WeaponQualityCard";
 import WeaponModifierCard from "./modifier/WeaponModifierCard";
 import { Weapon } from '../../../../models/equipment/Weapon';

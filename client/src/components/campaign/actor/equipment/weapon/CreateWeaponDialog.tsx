@@ -7,7 +7,7 @@ import {RangeBand} from "../../../../../models/common/RangeBand";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
 import {useFetchSkillsByType} from "../../../../skills/SkillWorkflow";
 import {ActorSkill} from "../../../../../models/actor/Actor";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 import SkillAutocompleteCard from "../../../../common/card/SkillAutocompleteCard";
 import RangeBandCard from "../../../../common/card/select/RangeBandCard";
 import NumberTextFieldCard from "../../../../common/card/NumberTextFieldCard";
