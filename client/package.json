@@ -9,6 +9,7 @@
     "@mui/icons-material": "6.4.11",
     "@mui/lab": "6.0.1-beta.34",
     "@mui/material": "6.4.11",
+    "@react-router/node": "^7.5.3",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^14.1.0",
     "@testing-library/user-event": "^13.5.0",
@@ -24,9 +25,7 @@
     "typescript": "5.1.6",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
-
-  },
+  "scripts": {},
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -48,5 +47,8 @@
   "description": "Created to be used with the GenesysRPG TTRPG, this is a project designed to allow users the ability to create/DM/play Genesys within the system.",
   "main": "index.js",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@react-router/dev": "^7.5.3"
+  }
 }
