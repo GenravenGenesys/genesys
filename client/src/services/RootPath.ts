@@ -55,4 +55,5 @@ export enum ScenePath {
     Rival = '/api/rivals/enemies/',
     Minion = '/api/minions/enemies/',
     Encounter = '/api/encounters/',
+    Players = '/api/players/'
 }
