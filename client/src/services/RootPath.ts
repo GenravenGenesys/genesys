@@ -1,6 +1,6 @@
 export enum RootPath {
     Home = 'home',
-    Talent = '/api/talents/',
+    Talent = '/talents/',
     Skills = '/api/skills/',
     Qualities = '/api/qualities/',
     Injury = '/api/injuries/',
@@ -43,7 +43,7 @@ export enum CampaignPath {
     Party = '/api/party/',
     Session = '/api/sessions/',
     Scene = '/api/campaigns/scenes/',
-    Current = '/api/current',
+    Current = '/current',
     Lore = '/api/lore',
     Talents = '/api/campaigns/talents/',
     TalentTiers = '/api/campaigns/talents/tiers/',

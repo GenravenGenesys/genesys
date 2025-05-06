@@ -4,7 +4,7 @@ import {Organization} from "../../../models/lore/Organization";
 import {Fragment, useEffect, useState} from "react";
 import OrganizationView from "./OrganizationView";
 import OrganizationEdit from "./OrganizationEdit";
-import {ViewAllOrganizations} from "./ViewAllOrganization";
+import ViewAllOrganizations from "./ViewAllOrganization";
 import OrganizationService from "../../../services/lore/OrganizationService";
 
 function useFetchOrganization(name: string, path: LorePath): Organization {

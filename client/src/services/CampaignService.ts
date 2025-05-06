@@ -3,6 +3,7 @@ import {CampaignPath} from "./RootPath";
 import Talent, {Tier} from "../models/Talent";
 import Skill from "../models/actor/Skill";
 import Scene from "../models/campaign/Scene";
+import {apiRequest} from "./ApiRequest";
 
 export default class CampaignService {
     static async createCampaign(campaign: Campaign): Promise<Campaign> {
@@ -146,22 +147,10 @@ export default class CampaignService {
     }
 
     static async getCurrentCampaign(): Promise<Campaign> {
-        return await fetch(CampaignPath.Current)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequest(CampaignPath.Current);
+    };
 
     static async setCurrentCampaign(campaign_id: string): Promise<Campaign> {
-        return await fetch(CampaignPath.Current + `${campaign_id}`, {method: "PUT"})
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequest(CampaignPath.Current + `${campaign_id}`, "PUT");
+    };
 }

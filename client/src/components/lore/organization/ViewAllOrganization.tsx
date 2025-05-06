@@ -15,23 +15,21 @@ import {LoreType} from "../../../models/lore/Lore";
 import {LorePath} from "../../../services/RootPath";
 import {useFetchCurrentCampaign} from "../../campaign/CampaignWorkflow";
 import OrganizationService from "../../../services/lore/OrganizationService";
+import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
 
-interface RowProps {
-    organization: Organization
-}
+// interface RowProps {
+//     organization: Organization
+// }
+//
+// function OrganizationRow(props: RowProps) {
+//     const {organization} = props
+//
+//     return (
+//
+//     )
+// }
 
-function OrganizationRow(props: RowProps) {
-    const {organization} = props
-
-    return (
-        <TableRow>
-            <GenesysDescriptionTypographyCenterTableCell value={organization.name}/>
-            <ActionsTableCell name={organization.name} path={LorePath.Organization}/>
-        </TableRow>
-    )
-}
-
-export function ViewAllOrganizations() {
+const ViewAllOrganizations: React.FC = () => {
     const [organizations, setOrganizations] = useState<Organization[]>([]);
     const [openLoreCreationDialog, setOpenLoreCreationDialog] = useState(false);
     const headers = ['Name', 'View'];
@@ -46,9 +44,7 @@ export function ViewAllOrganizations() {
 
     return (
         <Card>
-            <CardHeader style={{textAlign: 'center'}} title={'View All Organizations'}
-                        action={<Button color='primary' variant='contained'
-                                        onClick={(): void => setOpenLoreCreationDialog(true)}>CREATE</Button>}/>
+            <CenteredCardHeaderWithButton title={'View All Organizations'} onClick={() => setOpenLoreCreationDialog(true)} buttonText={'Create Organization'}/>
             {openLoreCreationDialog &&
                 <LoreCreationDialog open={openLoreCreationDialog} onClose={(): void => setOpenLoreCreationDialog(false)}
                                     lore={LoreType.ORGANIZATION} path={LorePath.Organization}/>}
@@ -58,12 +54,18 @@ export function ViewAllOrganizations() {
                         {renderSingleRowTableHeader(headers)}
                         <TableBody>
                             {organizations.map((organization: Organization) => (
-                                <OrganizationRow key={organization.name} organization={organization}/>
+                                // <OrganizationRow key={organization.name} organization={organization}/>
+                                <TableRow key={organization.id}>
+                                    <GenesysDescriptionTypographyCenterTableCell value={organization.name}/>
+                                    <ActionsTableCell name={organization.name} path={LorePath.Organization}/>
+                                </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default ViewAllOrganizations;
