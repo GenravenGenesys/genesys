@@ -28,11 +28,11 @@ public class TalentService {
                 .doOnNext(talent -> logger.debug("Fetched talent: {}", talent.getName()));
     }
 
-    public Mono<Talent> getTalent(final String name) {
-        logger.info("Fetching talent with name: {}", name);
-        return talentRepository.findById(name)
+    public Mono<Talent> getTalent(final String id) {
+        logger.info("Fetching talent with id: {}", id);
+        return talentRepository.findById(id)
                 .doOnNext(talent -> logger.debug("Fetched talent: {}", talent))
-                .doOnError(error -> logger.error("Error fetching talent with name: {}", name, error));
+                .doOnError(error -> logger.error("Error fetching talent with id: {}", id, error));
     }
 
     public Mono<Talent> createTalent(final String name) {
@@ -42,9 +42,9 @@ public class TalentService {
                 .doOnError(error -> logger.error("Error creating talent with name: {}", name, error));
     }
 
-    public Mono<Talent> updateTalent(final String name, final Talent talent) {
-        logger.info("Updating talent with name: {}", name);
-        return getTalent(name).map(tal -> {
+    public Mono<Talent> updateTalent(final String id, final Talent talent) {
+        logger.info("Updating talent with id: {}", id);
+        return getTalent(id).map(tal -> {
                     tal.setActivation(talent.getActivation());
                     tal.setRanked(talent.isRanked());
                     tal.setTier(talent.getTier());
@@ -60,7 +60,7 @@ public class TalentService {
                     return tal;
                 }).flatMap(talentRepository::save)
                 .doOnNext(updatedTalent -> logger.debug("Updated talent: {}", updatedTalent))
-                .doOnError(error -> logger.error("Error updating talent with name: {}", name, error));
+                .doOnError(error -> logger.error("Error updating talent with id: {}", id, error));
     }
 
     public Mono<List<Talent>> getTalentsForCurrentCampaign() {

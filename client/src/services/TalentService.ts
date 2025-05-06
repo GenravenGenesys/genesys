@@ -18,6 +18,6 @@ export default class TalentService {
     }
 
     static async updateTalent(talent: Talent): Promise<Talent> {
-        return apiRequest(RootPath.Talent + `${talent.id}`, "PUT", JSON.stringify(talent));
+        return apiRequest(RootPath.Talent + `${talent.id}`, "PUT", talent);
     }
 }
