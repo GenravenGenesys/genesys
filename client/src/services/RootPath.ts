@@ -1,13 +1,13 @@
 export enum RootPath {
     Home = 'home',
     Talent = '/talents/',
-    Skills = '/api/skills/',
+    Skills = '/skills/',
     Qualities = '/api/qualities/',
     Injury = '/api/injuries/',
-    Spell = '/api/spells/',
+    Spell = '/spells/',
     Career = '/api/careers/',
     Archetype = '/api/archetypes/',
-    Scenes = '/api/scenes/'
+    Scenes = '/scenes/'
 }
 
 export enum EquipmentPath {
@@ -51,9 +51,9 @@ export enum CampaignPath {
 }
 
 export enum ScenePath {
-    Nemesis = '/api/nemeses/enemies/',
-    Rival = '/api/rivals/enemies/',
-    Minion = '/api/minions/enemies/',
-    Encounter = '/api/encounters/',
-    Players = '/api/players/'
+    Nemesis = '/nemeses/enemies/',
+    Rival = '/rivals/enemies/',
+    Minion = '/minions/enemies/',
+    Encounter = '/encounters/',
+    Players = '/players/'
 }
