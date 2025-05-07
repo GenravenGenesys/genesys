@@ -17,7 +17,7 @@ export enum EquipmentPath {
 }
 
 export enum LorePath {
-    Organization = '/api/lore/organizations/',
+    Organization = '/lore/organizations/',
 }
 
 export enum ActorPath {
@@ -44,7 +44,7 @@ export enum CampaignPath {
     Session = '/api/sessions/',
     Scene = '/api/campaigns/scenes/',
     Current = '/current',
-    Lore = '/api/lore',
+    Lore = '/lore',
     Talents = '/api/campaigns/talents/',
     TalentTiers = '/api/campaigns/talents/tiers/',
     Skills = '/api/campaigns/skills/'
