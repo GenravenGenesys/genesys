@@ -32,15 +32,15 @@ const TalentBaseTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
         }
     };
 
-    const handleSummaryChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSummaryChange = async (value: string) => {
         if (talent) {
-            updateTalent({...talent, summary: event.target.value});
+            updateTalent({...talent, summary: value});
         }
     };
 
-    const handleDescriptionChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDescriptionChange = async (value: string) => {
         if (talent) {
-            updateTalent({...talent, description: event.target.value});
+            updateTalent({...talent, description: value});
         }
     };
 

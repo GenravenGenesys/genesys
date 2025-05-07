@@ -34,9 +34,9 @@ const ArmorPage = ()=> {
         return <Fragment/>;
     }
 
-    const handleDescriptionChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDescriptionChange = async (value: string) => {
         if (armor) {
-            await updateArmor({...armor, description: event.target.value});
+            await updateArmor({...armor, description: value});
         }
     };
 

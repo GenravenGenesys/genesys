@@ -2,7 +2,7 @@ import {Organization, OrgType} from "../../../models/lore/Organization";
 import React, {Fragment} from "react";
 import Typography from "@mui/material/Typography";
 import {Card, CardContent} from "@mui/material";
-import OrganizationTypeField from "./OrganizationTypeField";
+import LoreSelectField from "../common/LoreSelectField";
 
 type Props = {
     organization: Organization;
@@ -10,7 +10,7 @@ type Props = {
     disabled: boolean;
 };
 
-const OrganizationSidebar: React.FC<Props> = ({organization, updateOrganization, disabled})=> {
+const OrganizationSidebar: React.FC<Props> = ({organization, updateOrganization, disabled}) => {
 
     const handleOrgTypeChange = async (value: OrgType) => {
         if (organization) {
@@ -30,14 +30,16 @@ const OrganizationSidebar: React.FC<Props> = ({organization, updateOrganization,
     return (
         <Card>
             <CardContent>
-                <OrganizationTypeField value={organization.orgType} onChange={handleOrgTypeChange} disabled={disabled}/>
+                <LoreSelectField value={organization.orgType} label={'Organization Type'} onChange={handleOrgTypeChange}
+                                 disabled={disabled} options={OrgType}/>
                 {/*{organization.founded && renderFragment('Founding Date', organization.founded)}*/}
                 {/*{organization.disbanded && renderFragment('Disbanded', organization.disbanded)}*/}
+
             </CardContent>
             {organization.nickname && renderFragment('Alternative Name', organization.nickname)}
             <Typography>{'Members are referred to as ' + organization.membersName}</Typography>
         </Card>
-    )
-}
+    );
+};
 
 export default OrganizationSidebar;

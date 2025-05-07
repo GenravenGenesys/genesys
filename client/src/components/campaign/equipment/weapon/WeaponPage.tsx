@@ -39,9 +39,9 @@ const WeaponPage = ()=> {
         return <Fragment/>;
     }
 
-    const handleDescriptionChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDescriptionChange = async (value: string) => {
         if (weapon) {
-            await updateWeapon({...weapon, description: event.target.value});
+            await updateWeapon({...weapon, description: value});
         }
     };
 

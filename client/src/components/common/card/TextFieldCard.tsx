@@ -9,7 +9,7 @@ type Props = {
     title: string;
     value: string;
     disabled: boolean;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange: (value: string) => void;
 };
 
 const TextFieldCard: React.FC<Props> = ({title, value, disabled, onChange})=> {
