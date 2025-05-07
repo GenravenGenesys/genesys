@@ -31,9 +31,9 @@ const OrganizationSidebar: React.FC<Props> = ({organization, updateOrganization,
         <Card>
             <CardContent>
                 <OrganizationTypeField value={organization.orgType} onChange={handleOrgTypeChange} disabled={disabled}/>
+                {/*{organization.founded && renderFragment('Founding Date', organization.founded)}*/}
+                {/*{organization.disbanded && renderFragment('Disbanded', organization.disbanded)}*/}
             </CardContent>
-            {/*{organization.founded && renderFragment('Founding Date', organization.founded)}*/}
-            {/*{organization.disbanded && renderFragment('Disbanded', organization.disbanded)}*/}
             {organization.nickname && renderFragment('Alternative Name', organization.nickname)}
             <Typography>{'Members are referred to as ' + organization.membersName}</Typography>
         </Card>

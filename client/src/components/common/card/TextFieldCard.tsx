@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "./header/CenteredCardHeader";
-import GenesysTextField from "../GenesysTextField";
+import GenesysTextField from "../field/GenesysTextField";
 import ViewFieldCard from "../ViewFieldCard";
 import GridItem from "../grid/GridItem";
 
