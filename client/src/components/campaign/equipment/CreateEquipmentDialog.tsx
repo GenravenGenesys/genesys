@@ -3,8 +3,9 @@ import {ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router";
 import {EquipmentPath} from "../../../services/RootPath";
 import {Dialog, DialogContentText, DialogTitle, TextField,} from "@mui/material";
-import EquipmentService from "../../../services/EquipmentService";
+import EquipmentService from "../../../services/equipment/EquipmentService";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
+import ArmorService from "../../../services/equipment/ArmorService";
 
 interface Props {
     open: boolean;
@@ -20,7 +21,7 @@ export default function CreateEquipmentDialog(props: Props) {
     const handleCreate = async (): Promise<void> => {
         switch (type) {
             case EquipmentType.Armor:
-                let armor = await EquipmentService.createArmor(name);
+                let armor = await ArmorService.createArmor(name);
                 navigate(EquipmentPath.Armor + armor.id + '/view');
                 break;
             case EquipmentType.Weapon:

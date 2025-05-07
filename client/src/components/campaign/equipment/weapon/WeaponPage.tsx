@@ -7,7 +7,7 @@ import WeaponModifierCard from "./modifier/WeaponModifierCard";
 import { Weapon } from '../../../../models/equipment/Weapon';
 import {useFetchSkillsByType} from "../../../skills/SkillWorkflow";
 import Skill, {SkillType} from "../../../../models/actor/Skill";
-import EquipmentService from "../../../../services/EquipmentService";
+import EquipmentService from "../../../../services/equipment/EquipmentService";
 import {RangeBand} from "../../../../models/common/RangeBand";
 import TextFieldCard from "../../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";

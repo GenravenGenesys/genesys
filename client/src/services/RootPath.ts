@@ -11,9 +11,9 @@ export enum RootPath {
 }
 
 export enum EquipmentPath {
-    Armor = '/api/equipment/armors/',
-    Weapon = '/api/equipment/weapons/',
-    Gear = '/api/equipment/gears/',
+    Armor = '/equipment/armors/',
+    Weapon = '/equipment/weapons/',
+    Gear = '/equipment/gears/',
 }
 
 export enum LorePath {

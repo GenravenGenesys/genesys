@@ -13,7 +13,7 @@ import {renderPrice} from "../../../../models/equipment/EquipmentHelper";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {EquipmentPath} from "../../../../services/RootPath";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
-import EquipmentService from "../../../../services/EquipmentService";
+import EquipmentService from "../../../../services/equipment/EquipmentService";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import CreateEquipmentDialog from "../CreateEquipmentDialog";

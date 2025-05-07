@@ -7,7 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {Button} from "@mui/material";
 import {Weapon, WeaponSlot} from "../../../../../../models/equipment/Weapon";
-import EquipmentService from "../../../../../../services/EquipmentService";
+import EquipmentService from "../../../../../../services/equipment/EquipmentService";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
 import Player from "../../../../../../models/actor/player/Player";
 import ActorService from "../../../../../../services/actor/ActorService";

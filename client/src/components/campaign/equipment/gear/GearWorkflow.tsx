@@ -1,7 +1,7 @@
 import {Fragment, useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router";
 import {Gear} from "../../../../models/equipment/Gear";
-import EquipmentService from "../../../../services/EquipmentService";
+import EquipmentService from "../../../../services/equipment/EquipmentService";
 import GearView from "./GearView";
 import GearEdit from "./GearEdit";
 import CampaignGear from "./CampaignGear";

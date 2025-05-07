@@ -3,7 +3,7 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router';
 import CheckIcon from '@mui/icons-material/Check';
-import EquipmentService from '../../../../services/EquipmentService';
+import EquipmentService from '../../../../services/equipment/EquipmentService';
 import {EquipmentPath} from "../../../../services/RootPath";
 import {InputTextFieldCard} from "../../../common/InputTextFieldCard";
 import Skill from "../../../../models/actor/Skill";

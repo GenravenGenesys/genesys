@@ -12,7 +12,7 @@ import TableCell from "@mui/material/TableCell";
 import * as React from "react";
 import {Weapon} from "../../../../../models/equipment/Weapon";
 import {useEffect, useState} from "react";
-import EquipmentService from "../../../../../services/EquipmentService";
+import EquipmentService from "../../../../../services/equipment/EquipmentService";
 
 interface Props {
     open: boolean

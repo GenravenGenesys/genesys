@@ -3,7 +3,6 @@ import {useLocation, useParams} from 'react-router';
 import * as React from 'react';
 import {Armor} from "../../../../models/equipment/Armor";
 import {Fragment, useEffect, useState} from "react";
-import EquipmentService from "../../../../services/EquipmentService";
 import TextFieldCard from "../../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
 import {EquipmentPath} from "../../../../services/RootPath";
@@ -15,6 +14,7 @@ import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 import ArmorQualityCard from "./quality/ArmorQualityCard";
 import ArmorModifierCard from "./modifier/ArmorModifierCard";
 import GridContainer from "../../../common/grid/GridContainer";
+import ArmorService from "../../../../services/equipment/ArmorService";
 
 const ArmorPage = ()=> {
     const {id} = useParams<{ id: string }>();
@@ -26,7 +26,7 @@ const ArmorPage = ()=> {
             return
         }
         (async (): Promise<void> => {
-            setArmor(await EquipmentService.getArmor(id));
+            setArmor(await ArmorService.getArmor(id));
         })()
     }, [id, setArmor])
 
@@ -36,37 +36,37 @@ const ArmorPage = ()=> {
 
     const handleDescriptionChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (armor) {
-            setArmor(await EquipmentService.updateArmor({...armor, description: event.target.value}));
+            await updateArmor({...armor, description: event.target.value});
         }
     };
 
     const handleSoakChange = async (value: number) => {
         if (armor) {
-            setArmor(await EquipmentService.updateArmor({...armor, soak: value}));
+            await updateArmor({...armor, soak: value});
         }
     };
 
     const handleDefenseChange = async (value: number) => {
         if (armor) {
-            setArmor(await EquipmentService.updateArmor({...armor, defense: value}));
+            await updateArmor({...armor, defense: value});
         }
     };
 
     const handleEncumbranceChange = async (value: number) => {
         if (armor) {
-            setArmor(await EquipmentService.updateArmor({...armor, encumbrance: value}));
+            await updateArmor({...armor, encumbrance: value});
         }
     };
 
     const handleRestrictedChange = async (value: boolean) => {
         if (armor) {
-            setArmor(await EquipmentService.updateArmor({...armor, restricted: value}));
+            await updateArmor({...armor, restricted: value});
         }
     };
 
     const handlePriceChange = async (value: number) => {
         if (armor) {
-            setArmor(await EquipmentService.updateArmor({...armor, price: value}));
+            await updateArmor({...armor, price: value});
         }
     };
 
@@ -77,7 +77,7 @@ const ArmorPage = ()=> {
     };
 
     const updateArmor = async (updatedArmor: Armor) => {
-        setArmor(await EquipmentService.updateArmor(updatedArmor));
+        setArmor(await ArmorService.updateArmor(updatedArmor));
     };
 
     return (

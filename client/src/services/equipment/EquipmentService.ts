@@ -1,59 +1,9 @@
-import {EquipmentPath} from "./RootPath";
-import {Armor} from "../models/equipment/Armor";
-import {Gear} from "../models/equipment/Gear";
-import {Weapon} from "../models/equipment/Weapon";
+import {EquipmentPath} from "../RootPath";
+import {Armor} from "../../models/equipment/Armor";
+import {Gear} from "../../models/equipment/Gear";
+import {Weapon} from "../../models/equipment/Weapon";
 
 export default class EquipmentService {
-
-    static async createArmor(name: string): Promise<Armor> {
-        return await fetch(EquipmentPath.Armor + `${name}`, {method: "POST"})
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
-
-    static async getArmors(): Promise<Armor[]> {
-        return await fetch(EquipmentPath.Armor)
-            .then((res) => {
-                switch (res.status) {
-                    case 204:
-                        return []
-                    case 200:
-                        return res.json()
-                    default:
-                        throw new Error(res.statusText)
-                }
-            })
-    }
-
-    static async getArmor(id: string): Promise<Armor> {
-        return await fetch(EquipmentPath.Armor + `${id}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
-
-    static async updateArmor(armor: Armor): Promise<Armor> {
-        return await fetch(EquipmentPath.Armor + `${armor.id}`, {
-            method: "PUT",
-            body: JSON.stringify(armor),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
 
     static async createWeapon(name: string): Promise<Weapon> {
         return await fetch(EquipmentPath.Weapon + `${name}`, {method: "POST"})
