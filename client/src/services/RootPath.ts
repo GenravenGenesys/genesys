@@ -21,33 +21,33 @@ export enum LorePath {
 }
 
 export enum ActorPath {
-    Actor = '/api/actors/',
-    Player = '/api/players/',
-    Nemesis = '/api/nemeses/',
-    Rival = '/api/rivals/',
-    Minion = '/api/minions/',
-    Npc = '/api/npcs/'
+    Actor = '/actors/',
+    Player = '/players/',
+    Nemesis = '/nemeses/',
+    Rival = '/rivals/',
+    Minion = '/minions/',
+    Npc = '/npcs/'
 }
 
 export enum PlayerPath {
-    Player = '/api/players/',
-    Creation = '/api/players/creation/',
-    Active = '/api/players/active/',
-    Characteristic = '/api/characteristics/',
-    Skills = '/api/skills/',
-    Talents = '/api/talents/'
+    Player = '/players/',
+    Creation = '/players/creation/',
+    Active = '/players/active/',
+    Characteristic = '/characteristics/',
+    Skills = '/skills/',
+    Talents = '/talents/'
 }
 
 export enum CampaignPath {
-    Campaign = '/api/campaigns/',
-    Party = '/api/party/',
-    Session = '/api/sessions/',
-    Scene = '/api/campaigns/scenes/',
+    Campaign = '/campaigns/',
+    Party = '/party/',
+    Session = '/sessions/',
+    Scene = '/campaigns/scenes/',
     Current = '/current',
-    Lore = '/lore',
-    Talents = '/api/campaigns/talents/',
-    TalentTiers = '/api/campaigns/talents/tiers/',
-    Skills = '/api/campaigns/skills/'
+    Lore = '/lore/',
+    Talents = '/campaigns/talents/',
+    TalentTiers = '/campaigns/talents/tiers/',
+    Skills = '/campaigns/skills/'
 }
 
 export enum ScenePath {
