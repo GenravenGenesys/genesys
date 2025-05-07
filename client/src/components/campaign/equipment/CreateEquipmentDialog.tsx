@@ -6,6 +6,7 @@ import {Dialog, DialogContentText, DialogTitle, TextField,} from "@mui/material"
 import EquipmentService from "../../../services/equipment/EquipmentService";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
 import ArmorService from "../../../services/equipment/ArmorService";
+import WeaponService from "../../../services/equipment/WeaponService";
 
 interface Props {
     open: boolean;
@@ -25,7 +26,7 @@ export default function CreateEquipmentDialog(props: Props) {
                 navigate(EquipmentPath.Armor + armor.id + '/view');
                 break;
             case EquipmentType.Weapon:
-                let weapon = await EquipmentService.createWeapon(name)
+                let weapon = await WeaponService.createWeapon(name)
                 navigate(EquipmentPath.Weapon + weapon.id + '/view');
                 break;
             case EquipmentType.Gear:

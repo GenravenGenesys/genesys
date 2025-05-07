@@ -1,12 +1,10 @@
-import {EquipmentPath} from "../RootPath";
-import {Armor} from "../../models/equipment/Armor";
-import {Gear} from "../../models/equipment/Gear";
 import {Weapon} from "../../models/equipment/Weapon";
+import {EquipmentPath} from "../RootPath";
 
-export default class EquipmentService {
+export default class WeaponService {
 
-    static async createGear(name: string): Promise<Gear> {
-        return await fetch(EquipmentPath.Gear + `${name}`, {method: "POST"})
+    static async createWeapon(name: string): Promise<Weapon> {
+        return await fetch(EquipmentPath.Weapon + `${name}`, {method: "POST"})
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(res.statusText)
@@ -15,8 +13,8 @@ export default class EquipmentService {
             })
     }
 
-    static async getGears(): Promise<Gear[]> {
-        return await fetch(EquipmentPath.Gear)
+    static async getWeapons(): Promise<Weapon[]> {
+        return await fetch(EquipmentPath.Weapon)
             .then((res) => {
                 switch (res.status) {
                     case 204:
@@ -29,8 +27,8 @@ export default class EquipmentService {
             })
     }
 
-    static async getGear(id: string): Promise<Gear> {
-        return await fetch(EquipmentPath.Gear + `${id}`)
+    static async getWeapon(id: string): Promise<Weapon> {
+        return await fetch(EquipmentPath.Weapon + `${id}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(res.statusText)
@@ -39,10 +37,10 @@ export default class EquipmentService {
             })
     }
 
-    static async updateGear(gear: Gear): Promise<Gear> {
-        return await fetch(EquipmentPath.Gear + `${gear.id}`, {
+    static async updateWeapon(weapon: Weapon): Promise<Weapon> {
+        return await fetch(EquipmentPath.Weapon + `${weapon.id}`, {
             method: "PUT",
-            body: JSON.stringify(gear),
+            body: JSON.stringify(weapon),
             headers: {
                 'Content-Type': 'application/json'
             }

@@ -7,10 +7,9 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {Button} from "@mui/material";
 import {Weapon, WeaponSlot} from "../../../../../../models/equipment/Weapon";
-import EquipmentService from "../../../../../../services/equipment/EquipmentService";
+import WeaponService from "../../../../../../services/equipment/WeaponService";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
 import Player from "../../../../../../models/actor/player/Player";
-import ActorService from "../../../../../../services/actor/ActorService";
 import WeaponBackdrop from "../../../../actor/equipment/WeaponBackdrop";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 
@@ -52,7 +51,7 @@ export default function PlayerWeaponSelectionTable(props: TableProps) {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            const weaponList = await EquipmentService.getWeapons()
+            const weaponList = await WeaponService.getWeapons()
             if (!weaponList) { return }
             setWeapons(weaponList)
         })()
