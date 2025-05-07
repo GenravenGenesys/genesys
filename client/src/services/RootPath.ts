@@ -6,7 +6,7 @@ export enum RootPath {
     Injury = '/injuries/',
     Spell = '/spells/',
     Career = '/careers/',
-    Archetype = '/api/archetypes/',
+    Archetype = '/archetypes/',
     Scenes = '/scenes/'
 }
 
