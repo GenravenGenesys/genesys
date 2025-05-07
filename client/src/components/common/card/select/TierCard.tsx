@@ -1,9 +1,10 @@
 import {Tier} from "../../../../models/Talent";
-import {Card, CardContent, MenuItem, Select} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
+import GenesysSelectField from "../../field/GenesysSelectField";
 
 interface Props {
     value: Tier;
@@ -17,20 +18,8 @@ const TierCard: React.FC<Props> = ({value, onChange, disabled}) => {
             <Card>
                 <CenteredCardHeader title={'Tier'}/>
                 <CardContent>
-                    <Select
-                        value={value}
-                        onChange={(e) => onChange(e.target.value as Tier)}
-                        disabled={disabled}
-                        fullWidth
-                        label={'Tier'}
-                        variant={"standard"}
-                    >
-                        {Object.values(Tier).map(option => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    <GenesysSelectField value={value} label={'Tier'} onChange={onChange} options={Tier}
+                                        disabled={disabled}/>
                 </CardContent>
             </Card>
         </GridItem>;

@@ -1,8 +1,9 @@
-import {Card, CardContent, MenuItem, Select} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import GridItem from "../../grid/GridItem";
+import GenesysSelectField from "../../field/GenesysSelectField";
 
 type Props = {
     value: CharacteristicType;
@@ -10,26 +11,14 @@ type Props = {
     disabled: boolean;
 };
 
-const CharacteristicTypeCard: React.FC<Props> = ({value, onChange, disabled})=> {
+const CharacteristicTypeCard: React.FC<Props> = ({value, onChange, disabled}) => {
     return (
         <GridItem>
             <Card>
                 <CenteredCardHeader title={'Characteristic Type'}/>
                 <CardContent>
-                    <Select
-                        value={value}
-                        onChange={(e) => onChange(e.target.value as CharacteristicType)}
-                        disabled={disabled}
-                        fullWidth
-                        label={'Characteristic Type'}
-                        variant={"standard"}
-                    >
-                        {Object.values(CharacteristicType).map(option => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    <GenesysSelectField value={value} label={'Characteristic Type'} onChange={onChange}
+                                        options={CharacteristicType} disabled={disabled}/>
                 </CardContent>
             </Card>
         </GridItem>
