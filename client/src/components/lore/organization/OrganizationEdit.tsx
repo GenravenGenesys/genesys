@@ -5,17 +5,11 @@ import {Card, CardContent, CardHeader, IconButton} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import * as React from "react";
 import {Organization, OrgKey, OrgType} from "../../../models/lore/Organization";
-import {Option} from "../../common/InputSelectField";
 import EditNumberCard from "../../common/EditNumberCard";
 import {InputTextFieldCard} from "../../common/InputTextFieldCard";
 import {LoreType} from "../../../models/lore/Lore";
-import InputSelectFieldCard from "../../common/InlineSelectFieldCard";
 import OrganizationService from "../../../services/lore/OrganizationService";
 import GridContainer from "../../common/grid/GridContainer";
-
-const getOrgTypes = (): Option[] => {
-    return Object.values(OrgType).map((value) => ({value}))
-}
 
 interface Props {
     org: Organization
