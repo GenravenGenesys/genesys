@@ -9,6 +9,7 @@ import {LorePath} from "../../../services/RootPath";
 import GridContainer from "../../common/grid/GridContainer";
 import GridItem from "../../common/grid/GridItem";
 import OrganizationSidebar from "./OrganizationSidebar";
+import OrganizationMainPage from "./OrganizationMainSection";
 
 const OrganizationPage = () => {
     const {id} = useParams<{ id: string }>();
@@ -38,7 +39,8 @@ const OrganizationPage = () => {
             <CardContent>
                 <GridContainer centered>
                     <GridItem width={.75}>
-
+                        <OrganizationMainPage organization={organization} updateOrganization={updateOrganization}
+                                              disabled={disabled}/>
                     </GridItem>
                     <GridItem width={.25}>
                         <OrganizationSidebar organization={organization} updateOrganization={updateOrganization}
