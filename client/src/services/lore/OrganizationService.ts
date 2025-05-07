@@ -3,11 +3,11 @@ import {Organization} from "../../models/lore/Organization";
 import {apiRequest, apiRequestList} from "../ApiRequest";
 
 export default class OrganizationService {
-    static async createOrganization(name: string) {
+    static async createOrganization(name: string): Promise<Organization> {
         return apiRequest(LorePath.Organization + `${name}`, "POST");
     }
 
-    static async getOrganization(id: string) {
+    static async getOrganization(id: string): Promise<Organization> {
         return apiRequest(LorePath.Organization + `${id}`);
     }
 

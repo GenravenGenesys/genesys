@@ -2,9 +2,10 @@ import {LoreType} from "../../../models/lore/Lore";
 import {ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router";
 import {LorePath} from "../../../services/RootPath";
-import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import {Dialog, DialogContentText, TextField} from "@mui/material";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
 import OrganizationService from "../../../services/lore/OrganizationService";
+import CenteredDialogTitle from "../../common/dialog/CenteredDialogTitle";
 
 
 interface Props {
@@ -23,7 +24,7 @@ export default function LoreCreationDialog(props: Props) {
         switch (lore) {
             case LoreType.ORGANIZATION:
                 let organization = await OrganizationService.createOrganization(name);
-                navigate(path + organization.name + '/view');
+                navigate(path + organization.id + '/view');
         }
         onClose();
     };
@@ -33,13 +34,9 @@ export default function LoreCreationDialog(props: Props) {
         setName(value);
     };
 
-    const getTitle = (): string => {
-        return 'Create ' + lore;
-    };
-
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>{getTitle()}</DialogTitle>
+            <CenteredDialogTitle title={'Create ' + lore}/>
             <DialogContentText>
                 <TextField onChange={onNameChange} value={name} required/>
             </DialogContentText>

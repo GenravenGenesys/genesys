@@ -15,10 +15,10 @@ public class LoreRouter {
     public RouterFunction<ServerResponse> loreRouterMethod(final LoreHandler loreHandler) {
         return RouterFunctions.route()
                 .nest(RequestPredicates.path("/api"), builder -> builder
-                        .path("/campaigns/{id}/lore", loreBuilder -> loreBuilder
+                        .path("/lore", loreBuilder -> loreBuilder
                                 .GET("/", loreHandler::getAllLore)
                         )
-                        .path("/campaigns/{id}/lore/organizations", organizationBuilder -> organizationBuilder
+                        .path("/lore/organizations", organizationBuilder -> organizationBuilder
                                 .GET("/", loreHandler::getAllOrganizations)
                                 .POST("/{name}", loreHandler::createOrganization)
                                 .PUT("/{name}", loreHandler::updateOrganization)

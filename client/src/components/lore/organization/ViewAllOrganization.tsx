@@ -9,25 +9,13 @@ import TableBody from "@mui/material/TableBody";
 import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
 import {GenesysDescriptionTypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
-import {Button, Card, CardContent, CardHeader} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import LoreCreationDialog from "../common/LoreCreationDialog";
 import {LoreType} from "../../../models/lore/Lore";
 import {LorePath} from "../../../services/RootPath";
 import {useFetchCurrentCampaign} from "../../campaign/CampaignWorkflow";
 import OrganizationService from "../../../services/lore/OrganizationService";
 import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
-
-// interface RowProps {
-//     organization: Organization
-// }
-//
-// function OrganizationRow(props: RowProps) {
-//     const {organization} = props
-//
-//     return (
-//
-//     )
-// }
 
 const ViewAllOrganizations: React.FC = () => {
     const [organizations, setOrganizations] = useState<Organization[]>([]);
@@ -44,7 +32,9 @@ const ViewAllOrganizations: React.FC = () => {
 
     return (
         <Card>
-            <CenteredCardHeaderWithButton title={'View All Organizations'} onClick={() => setOpenLoreCreationDialog(true)} buttonText={'Create Organization'}/>
+            <CenteredCardHeaderWithButton title={'View All Organizations'}
+                                          onClick={() => setOpenLoreCreationDialog(true)}
+                                          buttonText={'Create Organization'}/>
             {openLoreCreationDialog &&
                 <LoreCreationDialog open={openLoreCreationDialog} onClose={(): void => setOpenLoreCreationDialog(false)}
                                     lore={LoreType.ORGANIZATION} path={LorePath.Organization}/>}
@@ -54,10 +44,9 @@ const ViewAllOrganizations: React.FC = () => {
                         {renderSingleRowTableHeader(headers)}
                         <TableBody>
                             {organizations.map((organization: Organization) => (
-                                // <OrganizationRow key={organization.name} organization={organization}/>
                                 <TableRow key={organization.id}>
                                     <GenesysDescriptionTypographyCenterTableCell value={organization.name}/>
-                                    <ActionsTableCell name={organization.name} path={LorePath.Organization}/>
+                                    <ActionsTableCell name={organization.id} path={LorePath.Organization}/>
                                 </TableRow>
                             ))}
                         </TableBody>

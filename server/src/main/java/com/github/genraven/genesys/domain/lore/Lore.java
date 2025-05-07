@@ -17,6 +17,7 @@ public class Lore {
     }
 
     @Id
+    private String id;
     private String name;
     private Type type;
 
