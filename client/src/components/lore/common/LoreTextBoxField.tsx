@@ -9,7 +9,7 @@ type Props = {
 };
 
 const LoreTextBoxField: React.FC<Props> = ({value, label, onChange, disabled}) => {
-    return <GenesysTextField text={value} label={label} disabled={disabled} onChange={onChange} fullwidth={true}/>
+    return <GenesysTextField text={value} label={label} disabled={disabled} onChange={onChange} fullwidth/>
 };
 
 export default LoreTextBoxField;

@@ -12,11 +12,11 @@ type Props = {
 
 const GenesysTextField: React.FC<Props> = ({text, label, disabled, onChange, fullwidth, rows}) => {
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(event.target.value)
+        onChange(event.target.value);
     };
 
-    return <TextField value={text} variant="outlined" fullWidth={fullwidth} multiline={rows !== 1}
-                      rows={rows ? rows : 4} disabled={disabled} label={label} onChange={handleChange}/>;
+    return <TextField value={text} fullWidth={fullwidth} multiline={rows !== 1} rows={rows ? rows : 4}
+                      disabled={disabled} label={label} onChange={handleChange}/>;
 };
 
 export default GenesysTextField;

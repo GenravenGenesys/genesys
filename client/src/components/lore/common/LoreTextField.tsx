@@ -1,5 +1,6 @@
 import React from "react";
 import GenesysTextField from "../../common/field/GenesysTextField";
+import Typography from "@mui/material/Typography";
 
 type Props = {
     value: string;
@@ -9,7 +10,8 @@ type Props = {
 };
 
 const LoreTextField: React.FC<Props> = ({value, label, onChange, disabled}) => {
-    return <GenesysTextField text={value} label={label} disabled={disabled} onChange={onChange} rows={1}/>
+    return disabled ? (<Typography>{label}: {value}</Typography>) : (
+        <GenesysTextField text={value} label={label} disabled={disabled} onChange={onChange} rows={1} fullwidth/>);
 };
 
 export default LoreTextField;
