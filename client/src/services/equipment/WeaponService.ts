@@ -1,55 +1,22 @@
 import {Weapon} from "../../models/equipment/Weapon";
 import {EquipmentPath} from "../RootPath";
+import {apiRequest, apiRequestList} from "../ApiRequest";
 
 export default class WeaponService {
 
     static async createWeapon(name: string): Promise<Weapon> {
-        return await fetch(EquipmentPath.Weapon + `${name}`, {method: "POST"})
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest(EquipmentPath.Weapon + `${name}`, "POST");
     }
 
     static async getWeapons(): Promise<Weapon[]> {
-        return await fetch(EquipmentPath.Weapon)
-            .then((res) => {
-                switch (res.status) {
-                    case 204:
-                        return []
-                    case 200:
-                        return res.json()
-                    default:
-                        throw new Error(res.statusText)
-                }
-            })
+        return apiRequestList(EquipmentPath.Weapon);
     }
 
     static async getWeapon(id: string): Promise<Weapon> {
-        return await fetch(EquipmentPath.Weapon + `${id}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest(EquipmentPath.Weapon + `${id}`);
     }
 
     static async updateWeapon(weapon: Weapon): Promise<Weapon> {
-        return await fetch(EquipmentPath.Weapon + `${weapon.id}`, {
-            method: "PUT",
-            body: JSON.stringify(weapon),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest(EquipmentPath.Weapon + `${weapon.id}`, "PUT", weapon);
     }
 }

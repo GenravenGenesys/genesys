@@ -13,7 +13,7 @@ import {renderPrice} from "../../../../models/equipment/EquipmentHelper";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {EquipmentPath} from "../../../../services/RootPath";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
-import EquipmentService from "../../../../services/equipment/EquipmentService";
+import GearService from "../../../../services/equipment/GearService";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import CreateEquipmentDialog from "../CreateEquipmentDialog";
@@ -61,7 +61,7 @@ export default function CampaignGear() {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            setGears(await EquipmentService.getGears())
+            setGears(await GearService.getGears())
         })()
     }, [])
 

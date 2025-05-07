@@ -1,7 +1,7 @@
 import {Button, Card, CardContent, Dialog, DialogActions, DialogContent} from "@mui/material";
 import {useEffect, useState} from "react";
 import {Armor} from "../../../../../models/equipment/Armor";
-import EquipmentService from "../../../../../services/equipment/EquipmentService";
+import GearService from "../../../../../services/equipment/GearService";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
