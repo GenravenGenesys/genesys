@@ -1,26 +1,18 @@
 import {TextField} from "@mui/material";
 import * as React from "react";
 
-interface GenesysTextFieldProps {
+type Props = {
     text: string;
     label: string;
     disabled: boolean;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-}
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    fullwidth?: boolean;
+    rows?: number;
+};
 
-export default function GenesysTextField(props: GenesysTextFieldProps) {
-    const {text, label, disabled, onChange} = props;
+const GenesysTextField: React.FC<Props> = ({text, label, disabled, onChange, fullwidth, rows}) => {
+    return <TextField value={text} variant="outlined" fullWidth={fullwidth} multiline={rows !== 1}
+                      rows={rows ? rows : 4} disabled={disabled} label={label} onChange={onChange}/>;
+};
 
-    return (
-        <TextField
-            value={text}
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={4}
-            disabled={disabled}
-            label={label}
-            onChange={onChange}
-        />
-    );
-}
+export default GenesysTextField;

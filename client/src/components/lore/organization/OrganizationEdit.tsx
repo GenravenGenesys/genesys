@@ -81,11 +81,6 @@ export default function OrganizationEdit(props: Props) {
             <CardContent>
                 <GridContainer centered>
                     <GridContainer spacing={10}>
-                        <InputSelectFieldCard defaultValue={organization.type} onCommit={(value: string): void => {
-                            onChange(OrgKey.orgType, value)
-                        }} options={getOrgTypes()} title={'Type of Organization'}/>
-                    </GridContainer>
-                    <GridContainer spacing={10}>
                         <EditNumberCard title={'Founding Year'} value={organization.founded}
                                         onChange={(value: number): void => {
                                             onChange(OrgKey.founded, String(value))
