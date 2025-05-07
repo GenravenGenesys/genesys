@@ -37,6 +37,7 @@ public class OrganizationService {
             org.setNickname(organization.getNickname());
             org.setMembersName(organization.getMembersName());
             org.setOrgType(organization.getOrgType());
+            org.setDescription(organization.getDescription());
             return org;
         }).flatMap(organizationRepository::save);
     }

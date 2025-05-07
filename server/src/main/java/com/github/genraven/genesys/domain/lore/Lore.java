@@ -20,6 +20,7 @@ public class Lore {
     private String id;
     private String name;
     private Type type;
+    private String description;
 
     @Getter
     @AllArgsConstructor
