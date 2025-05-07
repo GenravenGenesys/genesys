@@ -4,7 +4,7 @@ import CenteredCardHeader from "../header/CenteredCardHeader";
 import { Type } from "../../../../models/campaign/encounter/Encounter";
 import GridItem from "../../grid/GridItem";
 
-interface Props {
+type Props = {
     value: Type;
     onChange: (field: string, value: Type) => void;
 };

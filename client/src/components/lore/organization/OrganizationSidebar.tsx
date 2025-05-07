@@ -1,15 +1,24 @@
-import {Organization} from "../../../models/lore/Organization";
-import {Fragment} from "react";
+import {Organization, OrgType} from "../../../models/lore/Organization";
+import React, {Fragment} from "react";
 import Typography from "@mui/material/Typography";
+import {Card, CardContent} from "@mui/material";
+import OrganizationTypeField from "./OrganizationTypeField";
 
-interface Props {
-    organization: Organization
-}
+type Props = {
+    organization: Organization;
+    updateOrganization: (organization: Organization) => void;
+    disabled: boolean;
+};
 
-export default function OrganizationSidebar(props: Props): JSX.Element {
-    const {organization} = props
+const OrganizationSidebar: React.FC<Props> = ({organization, updateOrganization, disabled})=> {
 
-    const renderFragment = (name: string, value: any): JSX.Element => {
+    const handleOrgTypeChange = async (value: OrgType) => {
+        if (organization) {
+            updateOrganization({...organization, orgType: value});
+        }
+    };
+
+    const renderFragment = (name: string, value: any) => {
         return (
             <Fragment>
                 <Typography>{name}</Typography>
@@ -19,12 +28,16 @@ export default function OrganizationSidebar(props: Props): JSX.Element {
     }
 
     return (
-        <Fragment>
-            {organization.orgType && renderFragment('Organization Type', organization.orgType)}
-            {organization.founded && renderFragment('Founding Date', organization.founded)}
-            {organization.disbanded && renderFragment('Disbanded', organization.disbanded)}
+        <Card>
+            <CardContent>
+                <OrganizationTypeField value={organization.orgType} onChange={handleOrgTypeChange} disabled={disabled}/>
+            </CardContent>
+            {/*{organization.founded && renderFragment('Founding Date', organization.founded)}*/}
+            {/*{organization.disbanded && renderFragment('Disbanded', organization.disbanded)}*/}
             {organization.nickname && renderFragment('Alternative Name', organization.nickname)}
             <Typography>{'Members are referred to as ' + organization.membersName}</Typography>
-        </Fragment>
+        </Card>
     )
 }
+
+export default OrganizationSidebar;
