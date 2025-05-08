@@ -41,8 +41,8 @@ const CreateAbilityDialog: React.FC<Props> = ({open, onCreateAbility, onClose})=
         setAbility({...ability, activation: value});
     };
 
-    const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAbility({...ability, description: event.target.value});
+    const handleDescriptionChange = (value: string) => {
+        setAbility({...ability, description: value});
     }
 
     return (

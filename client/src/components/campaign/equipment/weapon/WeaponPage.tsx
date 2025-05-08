@@ -7,7 +7,6 @@ import WeaponModifierCard from "./modifier/WeaponModifierCard";
 import { Weapon } from '../../../../models/equipment/Weapon';
 import {useFetchSkillsByType} from "../../../skills/SkillWorkflow";
 import Skill, {SkillType} from "../../../../models/actor/Skill";
-import EquipmentService from "../../../../services/EquipmentService";
 import {RangeBand} from "../../../../models/common/RangeBand";
 import TextFieldCard from "../../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
@@ -19,6 +18,7 @@ import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import WeaponDamageTextFieldCard from "../../../common/card/WeaponDamageTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 import GridContainer from '../../../common/grid/GridContainer';
+import WeaponService from "../../../../services/equipment/WeaponService";
 
 const WeaponPage = ()=> {
     const {id} = useParams<{ id: string }>();
@@ -31,7 +31,7 @@ const WeaponPage = ()=> {
             return
         }
         (async (): Promise<void> => {
-            setWeapon(await EquipmentService.getWeapon(id));
+            setWeapon(await WeaponService.getWeapon(id));
         })()
     }, [id, setWeapon])
 
@@ -39,74 +39,74 @@ const WeaponPage = ()=> {
         return <Fragment/>;
     }
 
-    const handleDescriptionChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDescriptionChange = async (value: string) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, description: event.target.value}));
+            await updateWeapon({...weapon, description: value});
         }
     };
 
     const handleSkillChange = async (value: Skill) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, skill: value}));
+            await updateWeapon({...weapon, skill: value});
         }
     };
 
     const handleHandsChange = async (value: number) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, hands: value}));
+            await updateWeapon({...weapon, hands: value});
         }
     };
 
     const handleDamageChange = async (value: number) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, damage: value}));
+            await updateWeapon({...weapon, damage: value});
         }
     };
 
     const handleBrawnChange = async (value: boolean) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, brawn: value}));
+            await updateWeapon({...weapon, brawn: value});
         }
     };
 
     const handleCriticalChange = async (value: number) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, critical: value}));
+            await updateWeapon({...weapon, critical: value});
         }
     };
 
     const handleRangeBandChange = async (value: RangeBand) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, range: value}));
+            await updateWeapon({...weapon, range: value});
         }
     };
 
     const handleEncumbranceChange = async (value: number) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, encumbrance: value}));
+            await updateWeapon({...weapon, encumbrance: value});
         }
     };
 
     const handleRestrictedChange = async (value: boolean) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, restricted: value}));
+            await updateWeapon({...weapon, restricted: value});
         }
     };
 
     const handlePriceChange = async (value: number) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, price: value}));
+            await updateWeapon({...weapon, price: value});
         }
     };
 
     const handleRarityChange = async (value: number) => {
         if (weapon) {
-            setWeapon(await EquipmentService.updateWeapon({...weapon, rarity: value}));
+            await updateWeapon({...weapon, rarity: value});
         }
     };
 
     const updateWeapon = async (updatedWeapon: Weapon) => {
-        setWeapon(await EquipmentService.updateWeapon(updatedWeapon));
+        setWeapon(await WeaponService.updateWeapon(updatedWeapon));
     };
 
     return (

@@ -3,7 +3,7 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router';
 import CheckIcon from '@mui/icons-material/Check';
-import EquipmentService from '../../../../services/EquipmentService';
+import GearService from '../../../../services/equipment/GearService';
 import {EquipmentPath} from "../../../../services/RootPath";
 import {InputTextFieldCard} from "../../../common/InputTextFieldCard";
 import Skill from "../../../../models/actor/Skill";
@@ -35,7 +35,7 @@ export default function GearEdit(props: Props) {
         const copyGear = {...gear} as Gear
         copyGear.skill = value
         setGear(copyGear)
-        await EquipmentService.updateGear(copyGear)
+        await GearService.updateGear(copyGear)
     }
 
     const onChange = async (key: keyof Gear, value: string) => {
@@ -70,7 +70,7 @@ export default function GearEdit(props: Props) {
 
     const updateGear = async (copyGear: Gear) => {
         setGear(copyGear)
-        await EquipmentService.updateGear(copyGear)
+        await GearService.updateGear(copyGear)
     }
 
     const onView = () => {

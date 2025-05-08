@@ -1,58 +1,59 @@
 export enum RootPath {
     Home = 'home',
-    Talent = '/api/talents/',
-    Skills = '/api/skills/',
-    Qualities = '/api/qualities/',
-    Injury = '/api/injuries/',
-    Spell = '/api/spells/',
-    Career = '/api/careers/',
-    Archetype = '/api/archetypes/',
-    Scenes = '/api/scenes/'
+    Talent = '/talents/',
+    Skills = '/skills/',
+    Qualities = '/qualities/',
+    Injury = '/injuries/',
+    Spell = '/spells/',
+    Career = '/careers/',
+    Archetype = '/archetypes/',
+    Scenes = '/scenes/'
 }
 
 export enum EquipmentPath {
-    Armor = '/api/equipment/armors/',
-    Weapon = '/api/equipment/weapons/',
-    Gear = '/api/equipment/gears/',
+    Armor = '/equipment/armors/',
+    Weapon = '/equipment/weapons/',
+    Gear = '/equipment/gears/',
 }
 
 export enum LorePath {
-    Organization = '/api/lore/organizations/',
+    Organization = '/lore/organizations/',
 }
 
 export enum ActorPath {
-    Actor = '/api/actors/',
-    Player = '/api/players/',
-    Nemesis = '/api/nemeses/',
-    Rival = '/api/rivals/',
-    Minion = '/api/minions/',
-    Npc = '/api/npcs/'
+    Actor = '/actors/',
+    Player = '/players/',
+    Nemesis = '/nemeses/',
+    Rival = '/rivals/',
+    Minion = '/minions/',
+    Npc = '/npcs/'
 }
 
 export enum PlayerPath {
-    Player = '/api/players/',
-    Creation = '/api/players/creation/',
-    Active = '/api/players/active/',
-    Characteristic = '/api/characteristics/',
-    Skills = '/api/skills/',
-    Talents = '/api/talents/'
+    Player = '/players/',
+    Creation = '/players/creation/',
+    Active = '/players/active/',
+    Characteristic = '/characteristics/',
+    Skills = '/skills/',
+    Talents = '/talents/'
 }
 
 export enum CampaignPath {
-    Campaign = '/api/campaigns/',
-    Party = '/api/party/',
-    Session = '/api/sessions/',
-    Scene = '/api/campaigns/scenes/',
-    Current = '/api/current',
-    Lore = '/api/lore',
-    Talents = '/api/campaigns/talents/',
-    TalentTiers = '/api/campaigns/talents/tiers/',
-    Skills = '/api/campaigns/skills/'
+    Campaign = '/campaigns/',
+    Party = '/party/',
+    Session = '/sessions/',
+    Scene = '/campaigns/scenes/',
+    Current = '/current',
+    Lore = '/lore/',
+    Talents = '/campaigns/talents/',
+    TalentTiers = '/campaigns/talents/tiers/',
+    Skills = '/campaigns/skills/'
 }
 
 export enum ScenePath {
-    Nemesis = '/api/nemeses/enemies/',
-    Rival = '/api/rivals/enemies/',
-    Minion = '/api/minions/enemies/',
-    Encounter = '/api/encounters/',
+    Nemesis = '/nemeses/enemies/',
+    Rival = '/rivals/enemies/',
+    Minion = '/minions/enemies/',
+    Encounter = '/encounters/',
+    Players = '/players/'
 }

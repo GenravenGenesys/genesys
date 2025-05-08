@@ -1,11 +1,13 @@
 import Cost, {CostType} from "../../../../models/common/Cost";
-import {Card, CardContent, MenuItem, Select, TextField} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import * as React from "react";
 import {useState} from "react";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
 import GridContainer from "../../grid/GridContainer";
+import GenesysSelectField from "../../field/GenesysSelectField";
+import NumberTextField from "../../text/NumberTextField";
 
 type Props = {
     initialCost: Cost;
@@ -13,7 +15,7 @@ type Props = {
     disabled: boolean;
 };
 
-const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
+const CostCard: React.FC<Props> = ({initialCost, onChange, disabled}) => {
     const [cost, setCost] = useState<Cost>(initialCost);
 
     const handleCostChange = (updatedCost: Cost) => {
@@ -41,35 +43,17 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled})=> {
                 <CardContent>
                     <GridContainer centered>
                         <GridItem>
-                            <TextField
-                                type="number"
-                                value={cost.amount}
-                                fullWidth
-                                variant={"standard"}
-                                onChange={(e) => handleCostChange({
-                                    type: cost.type,
-                                    amount: Number(e.target.value)
-                                })}
-                                inputProps={{min: 0, max: setMaxValue()}}
-                            />
+                            <NumberTextField title={'Amount'} value={cost.amount}
+                                             onChange={(amount) => handleCostChange({
+                                                 type: cost.type,
+                                                 amount: amount
+                                             })} min={0} max={setMaxValue()}/>
                         </GridItem>
                         <GridItem>
-                            <Select
-                                value={cost.type}
-                                onChange={(e) => onChange({
-                                    amount: cost.amount,
-                                    type: e.target.value as CostType
-                                })}
-                                fullWidth
-                                label={'Type'}
-                                variant={"standard"}
-                            >
-                                {Object.values(CostType).map(option => (
-                                    <MenuItem key={option} value={option}>
-                                        {option}
-                                    </MenuItem>
-                                ))}
-                            </Select>
+                            <GenesysSelectField value={cost.type} label={'Type'} onChange={(costType) => onChange({
+                                amount: cost.amount,
+                                type: costType
+                            })} options={CostType}/>
                         </GridItem>
                     </GridContainer>
                 </CardContent>

@@ -1,4 +1,5 @@
 import {Grid2} from "@mui/material";
+import React from "react";
 
 type Props = {
     children: React.ReactNode;

@@ -1,54 +1,21 @@
 import {RootPath} from "./RootPath";
 import Career from "../models/actor/player/Career";
+import {apiRequest, apiRequestList} from "./ApiRequest";
 
 export default class careerService {
     static async getCareers(): Promise<Career[]> {
-        return await fetch(RootPath.Career)
-            .then((res) => {
-                switch (res.status) {
-                    case 204:
-                        return []
-                    case 200:
-                        return res.json()
-                    default:
-                        throw new Error(res.statusText)
-                }
-            })
+        return apiRequestList(RootPath.Career);
     }
 
     static async getCareer(id: string): Promise<Career> {
-        return await fetch(RootPath.Career + `${id}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest(RootPath.Career + `${id}`);
     }
 
     static async createCareer(name: string): Promise<Career> {
-        return await fetch(RootPath.Career + `${name}`, {method: "POST"})
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest(RootPath.Career + `${name}`, "POST");
     }
 
     static async updateCareer(career: Career): Promise<Career> {
-        return await fetch(RootPath.Career + `${career.id}`, {
-            method: "PUT",
-            body: JSON.stringify(career),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest(RootPath.Career + `${career.id}`, "PUT", career);
     }
 }

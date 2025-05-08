@@ -1,8 +1,9 @@
-import {Card, CardContent, MenuItem, Select} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import {SkillType} from "../../../../models/actor/Skill";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import GridItem from "../../grid/GridItem";
+import GenesysSelectField from "../../field/GenesysSelectField";
 
 type Props = {
     value: SkillType;
@@ -10,25 +11,14 @@ type Props = {
     disabled: boolean;
 };
 
-const SkillTypeCard: React.FC<Props> = ({value, onChange, disabled})=>  {
+const SkillTypeCard: React.FC<Props> = ({value, onChange, disabled}) => {
     return (
         <GridItem>
             <Card>
                 <CenteredCardHeader title={'Skill Type'}/>
                 <CardContent>
-                    <Select
-                        value={value}
-                        onChange={(e) => onChange(e.target.value as SkillType)}
-                        disabled={disabled}
-                        fullWidth
-                        label={'Skill Type'}
-                        variant={'standard'}>
-                        {Object.values(SkillType).map(option => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    <GenesysSelectField value={value} label={'Skill Type'} onChange={onChange} options={SkillType}
+                                        disabled={disabled}/>
                 </CardContent>
             </Card>
         </GridItem>

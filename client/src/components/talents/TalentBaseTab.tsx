@@ -3,7 +3,6 @@ import ActivationCard from "../common/card/select/ActivationCard";
 import TierCard from "../common/card/select/TierCard";
 import * as React from "react";
 import Talent, {Activation, Tier} from "../../models/Talent";
-import TalentService from "../../services/TalentService";
 import TextFieldCard from "../common/card/TextFieldCard";
 import GridContainer from "../common/grid/GridContainer";
 
@@ -17,31 +16,31 @@ const TalentBaseTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
 
     const handleRankedChange = async (value: boolean) => {
         if (talent) {
-            updateTalent(await TalentService.updateTalent({...talent, ranked: value}));
+            updateTalent({...talent, ranked: value});
         }
     };
 
     const handleActivationChange = async (value: Activation) => {
         if (talent) {
-            updateTalent(await TalentService.updateTalent({...talent, activation: value}));
+            updateTalent({...talent, activation: value});
         }
     };
 
     const handleTierChange = async (value: Tier) => {
         if (talent) {
-            updateTalent(await TalentService.updateTalent({...talent, tier: value}));
+            updateTalent({...talent, tier: value});
         }
     };
 
-    const handleSummaryChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSummaryChange = async (value: string) => {
         if (talent) {
-            updateTalent(await TalentService.updateTalent({...talent, summary: event.target.value}));
+            updateTalent({...talent, summary: value});
         }
     };
 
-    const handleDescriptionChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDescriptionChange = async (value: string) => {
         if (talent) {
-            updateTalent(await TalentService.updateTalent({...talent, description: event.target.value}));
+            updateTalent({...talent, description: value});
         }
     };
 

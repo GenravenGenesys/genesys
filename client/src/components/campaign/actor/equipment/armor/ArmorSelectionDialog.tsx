@@ -1,7 +1,7 @@
 import {Button, Card, CardContent, Dialog, DialogActions, DialogContent} from "@mui/material";
 import {useEffect, useState} from "react";
 import {Armor} from "../../../../../models/equipment/Armor";
-import EquipmentService from "../../../../../services/EquipmentService";
+import GearService from "../../../../../services/equipment/GearService";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -13,6 +13,7 @@ import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
 import {renderPrice, renderQualities, renderSoak} from "../../../../../models/equipment/EquipmentHelper";
 import TableCell from "@mui/material/TableCell";
+import ArmorService from "../../../../../services/equipment/ArmorService";
 
 interface Props {
     open: boolean
@@ -27,7 +28,7 @@ export default function ArmorSelectionDialog(props: Props) {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            setArmors(await EquipmentService.getArmors());
+            setArmors(await ArmorService.getArmors());
         })()
     }, [setArmors])
 

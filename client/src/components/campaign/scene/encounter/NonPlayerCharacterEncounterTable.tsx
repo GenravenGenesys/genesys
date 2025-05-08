@@ -10,12 +10,12 @@ import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCe
 import EditableBooleanTableCell from "../../../common/table/EditableBooleanTableCell";
 import {ActorType} from "../../../../models/actor/Actor";
 
-interface RowProps<T extends SingleNonPlayerCharacter> {
+type RowProps<T extends SingleNonPlayerCharacter> = {
     npcs: SingleNonPlayerCharacter[];
     npc: SingleNonPlayerCharacter;
     onChange: (field: string, value: T[]) => void;
     value: boolean;
-}
+};
 
 const NonPlayerCharacterEncounterTableRow = <T extends SingleNonPlayerCharacter, >({npcs, npc, onChange, value}: RowProps<T>) => {
     const updateNonPlayerCharacters = (value: boolean) => {
@@ -44,10 +44,10 @@ const NonPlayerCharacterEncounterTableRow = <T extends SingleNonPlayerCharacter,
 };
 
 
-interface Props<T extends SingleNonPlayerCharacter> {
+type Props<T extends SingleNonPlayerCharacter> = {
     npcs: SingleNonPlayerCharacter[];
     onChange: (field: string, value: T[]) => void;
-}
+};
 
 const NonPlayerCharacterEncounterTable = <T extends SingleNonPlayerCharacter, >({npcs, onChange}: Props<T>) => {
     let headers = ['Name', 'Active'];

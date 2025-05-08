@@ -7,7 +7,7 @@ type Props = {
     onChange: (value: number) => void;
     min: number;
     max: number;
-    disabled: boolean;
+    disabled?: boolean;
     steps?: number;
 };
 

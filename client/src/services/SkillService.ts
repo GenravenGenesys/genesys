@@ -1,55 +1,22 @@
 import {RootPath} from './RootPath';
 import Skill from '../models/actor/Skill';
+import {apiRequest, apiRequestList} from "./ApiRequest";
 
 export default class SkillService {
 
     static async createSkill(name: string): Promise<Skill> {
-        return await fetch(RootPath.Skills + `${name}`, {method: "POST"})
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest(RootPath.Skills + `${name}`, "POST");
     }
 
-    static async getSkill(name: string): Promise<Skill> {
-        return await fetch(RootPath.Skills + `${name}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+    static async getSkill(id: string): Promise<Skill> {
+        return apiRequest(RootPath.Skills + `${id}`);
     }
 
     static async getSkills(): Promise<Skill[]> {
-        return await fetch(RootPath.Skills)
-            .then((res) => {
-                switch (res.status) {
-                    case 204:
-                        return []
-                    case 200:
-                        return res.json()
-                    default:
-                        throw new Error(res.statusText)
-                }
-            })
+        return apiRequestList(RootPath.Skills);
     }
 
     static async updateSkill(skill: Skill): Promise<Skill> {
-        return await fetch(RootPath.Skills + `${skill.id}`, {
-            method: "PUT",
-            body: JSON.stringify(skill),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest(RootPath.Skills + `${skill.id}`, "PUT", skill);
     }
 }

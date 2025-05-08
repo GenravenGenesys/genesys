@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
+import static com.github.genraven.genesys.constants.CommonConstants.ID;
 import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
@@ -33,8 +34,8 @@ public class TalentHandler {
     }
 
     public Mono<ServerResponse> getTalent(final ServerRequest serverRequest) {
-        final String name = serverRequest.pathVariable(NAME);
-        return talentService.getTalent(name)
+        final String id = serverRequest.pathVariable(ID);
+        return talentService.getTalent(id)
                 .flatMap(talent -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(talent))
@@ -47,10 +48,10 @@ public class TalentHandler {
     }
 
     public Mono<ServerResponse> updateTalent(final ServerRequest serverRequest) {
-        final String name = serverRequest.pathVariable(NAME);
+        final String id = serverRequest.pathVariable(ID);
         final Mono<Talent> talentMono = serverRequest.bodyToMono(Talent.class);
         return talentMono
-                .flatMap(talent -> talentService.updateTalent(name, talent))
+                .flatMap(talent -> talentService.updateTalent(id, talent))
                 .flatMap(talent -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(talent))

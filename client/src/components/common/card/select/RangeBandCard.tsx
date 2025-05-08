@@ -1,8 +1,9 @@
-import {Card, CardContent, MenuItem, Select} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import {RangeBand} from "../../../../models/common/RangeBand";
 import GridItem from "../../grid/GridItem";
+import GenesysSelectField from "../../field/GenesysSelectField";
 
 type Props = {
     value: RangeBand;
@@ -10,25 +11,14 @@ type Props = {
     disabled: boolean;
 };
 
-const RangeBandCard: React.FC<Props> = ({value, onChange, disabled})=> {
+const RangeBandCard: React.FC<Props> = ({value, onChange, disabled}) => {
     return (
         <GridItem>
             <Card>
                 <CenteredCardHeader title={'Range Band'}/>
                 <CardContent>
-                    <Select
-                        value={value}
-                        onChange={(e) => onChange(e.target.value as RangeBand)}
-                        disabled={disabled}
-                        fullWidth
-                        label={'Range Band'}
-                    >
-                        {Object.values(RangeBand).map(option => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    <GenesysSelectField value={value} label={'Range Band'} onChange={onChange} options={RangeBand}
+                                        disabled={disabled}/>
                 </CardContent>
             </Card>
         </GridItem>

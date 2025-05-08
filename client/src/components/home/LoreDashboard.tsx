@@ -6,17 +6,15 @@ import {LoreType} from "../../models/lore/Lore";
 import {NavigateFunction} from "react-router";
 import GridContainer from "../common/grid/GridContainer";
 import GridItem from "../common/grid/GridItem";
+import CenteredCardHeaderWithButton from "../common/card/header/CenteredCardHeaderWithButton";
 
 export default function LoreDashboard() {
     let navigate = useNavigate()
 
     return (
-        <Card>
-            <CardHeader
-                style={{textAlign: 'center'}}
-                title={'Lore MainDashboard'}
-                action={<Button color='primary' variant='contained' onClick={() => navigate(CampaignPath.Lore)}>Lore</Button>}>
-            </CardHeader>
+        <Card sx={{width: 1}}>
+            <CenteredCardHeaderWithButton title={'Campaign Lore'} onClick={() => navigate(CampaignPath.Lore)}
+                                          buttonText={'Create Lore'}/>
             <CardContent>
                 <GridContainer centered>
                     <GridItem>
