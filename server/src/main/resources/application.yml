@@ -1,4 +1,7 @@
 spring:
+  web:
+    resources:
+      static-locations: classpath:/static/
   data:
     mongodb:
       uri: ${MONGODB_URI}
