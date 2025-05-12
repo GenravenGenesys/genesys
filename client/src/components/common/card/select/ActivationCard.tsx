@@ -1,9 +1,10 @@
 import {Activation} from "../../../../models/Talent";
-import {Card, CardContent, MenuItem, Select} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
+import GenesysSelectField from "../../field/GenesysSelectField";
 
 type Props = {
     value: Activation;
@@ -17,20 +18,8 @@ const ActivationCard: React.FC<Props> = ({value, onChange, disabled}) => {
             <Card>
                 <CenteredCardHeader title={'Activation'}/>
                 <CardContent>
-                    <Select
-                        value={value}
-                        onChange={(e) => onChange(e.target.value as Activation)}
-                        disabled={disabled}
-                        fullWidth
-                        label={'Activation'}
-                        variant={"standard"}
-                    >
-                        {Object.values(Activation).map(option => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    <GenesysSelectField value={value} label={'Activation'} onChange={onChange} options={Activation}
+                                        disabled={disabled}/>
                 </CardContent>
             </Card>
         </GridItem>;

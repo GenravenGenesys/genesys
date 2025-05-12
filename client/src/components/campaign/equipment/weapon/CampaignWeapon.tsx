@@ -15,7 +15,7 @@ import {renderSkillName} from "../../../common/skill/SkillRenders";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {EquipmentPath} from "../../../../services/RootPath";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
-import EquipmentService from "../../../../services/EquipmentService";
+import WeaponService from "../../../../services/equipment/WeaponService";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import CreateEquipmentDialog from "../CreateEquipmentDialog";
@@ -67,7 +67,7 @@ export default function CampaignWeapon() {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            setWeapons(await EquipmentService.getWeapons())
+            setWeapons(await WeaponService.getWeapons())
         })()
     }, [setWeapons])
 

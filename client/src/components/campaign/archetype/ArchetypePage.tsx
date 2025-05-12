@@ -41,9 +41,9 @@ const ArchetypePage = ()=> {
         return <Fragment/>;
     }
 
-    const handleDescriptionChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDescriptionChange = async (value: string) => {
         if (archetype) {
-            setArchetype(await ArchetypeService.updateArchetype({...archetype, description: event.target.value}));
+            setArchetype(await ArchetypeService.updateArchetype({...archetype, description: value}));
         }
     };
 

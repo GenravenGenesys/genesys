@@ -30,9 +30,9 @@ const QualityPage = ()=> {
         return <Fragment/>;
     }
 
-    const handleDescriptionChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDescriptionChange = async (value: string) => {
         if (quality) {
-            await updateQuality({...quality, description: event.target.value});
+            await updateQuality({...quality, description: value});
         }
     };
 

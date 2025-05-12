@@ -31,9 +31,9 @@ const InjuryPage = () => {
         return <Fragment/>;
     }
 
-    const handleDescriptionChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDescriptionChange = async (value: string) => {
         if (injury) {
-            setInjury(await InjuryService.updateInjury({...injury, description: event.target.value}));
+            setInjury(await InjuryService.updateInjury({...injury, description: value}));
         }
     };
 

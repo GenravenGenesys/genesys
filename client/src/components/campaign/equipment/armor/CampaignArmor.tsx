@@ -9,7 +9,6 @@ import Paper from '@mui/material/Paper';
 import * as React from 'react';
 import {Fragment, useEffect, useState} from 'react';
 import {Armor} from "../../../../models/equipment/Armor";
-import EquipmentService from "../../../../services/EquipmentService";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {EquipmentPath} from "../../../../services/RootPath";
@@ -19,6 +18,7 @@ import {renderPrice, renderSoak} from '../../../../models/equipment/EquipmentHel
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import CreateEquipmentDialog from "../CreateEquipmentDialog";
 import {EquipmentType} from "../../../../models/equipment/Equipment";
+import ArmorService from "../../../../services/equipment/ArmorService";
 
 interface Props {
     armor: Armor
@@ -64,7 +64,7 @@ export default function CampaignArmor() {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            setArmors(await EquipmentService.getArmors())
+            setArmors(await ArmorService.getArmors())
         })()
     }, [])
 

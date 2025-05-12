@@ -12,7 +12,7 @@ import TableCell from "@mui/material/TableCell";
 import * as React from "react";
 import {Weapon} from "../../../../../models/equipment/Weapon";
 import {useEffect, useState} from "react";
-import EquipmentService from "../../../../../services/EquipmentService";
+import WeaponService from "../../../../../services/equipment/WeaponService";
 
 interface Props {
     open: boolean
@@ -27,7 +27,7 @@ export default function WeaponSelectionDialog(props: Props) {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            setWeapons(await EquipmentService.getWeapons());
+            setWeapons(await WeaponService.getWeapons());
         })()
     }, [setWeapons])
 

@@ -1,5 +1,5 @@
 import Campaign from "../../models/campaign/Campaign";
-import {Card, CardContent, CardHeader} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 import TabContext from "@mui/lab/TabContext";
@@ -18,6 +18,8 @@ import CampaignRivals from "./npc/rival/CampaignRivals";
 import CampaignNemeses from "./npc/nemesis/CampaignNemeses";
 import LoreDashboard from "../home/LoreDashboard";
 import GridContainer from "../common/grid/GridContainer";
+import CenteredCardHeader from "../common/card/header/CenteredCardHeader";
+import FullGrid from "../common/grid/FullGrid";
 
 interface Props {
     campaign: Campaign
@@ -33,12 +35,9 @@ export default function CampaignPage(props: Props) {
 
     return (
         <Card>
-            <CardHeader
-                style={{textAlign: 'center'}}
-                title={campaign.name}>
-            </CardHeader>
+            <CenteredCardHeader title={campaign.name}/>
             <CardContent>
-                <GridContainer centered>
+                <FullGrid>
                     <TabContext value={value}>
                         <GridContainer centered>
                             <TabList onChange={handleChange} centered>
@@ -89,7 +88,7 @@ export default function CampaignPage(props: Props) {
                             <CampaignMinion/>
                         </TabPanel>
                     </TabContext>
-                </GridContainer>
+                </FullGrid>
             </CardContent>
         </Card>
     )

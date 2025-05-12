@@ -1,10 +1,12 @@
-import {Card, CardContent, MenuItem, Select, TextField} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import Limit, {LimitType} from "../../../../models/common/Limit";
 import React, {useState} from "react";
 import ViewFieldCard from "../../ViewFieldCard";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import GridItem from "../../grid/GridItem";
 import GridContainer from "../../grid/GridContainer";
+import NumberTextField from "../../text/NumberTextField";
+import GenesysSelectField from "../../field/GenesysSelectField";
 
 type Props = {
     initialLimit: Limit;
@@ -30,35 +32,17 @@ const LimitCard: React.FC<Props> = ({initialLimit, onChange, disabled}) => {
                 <CardContent>
                     <GridContainer centered>
                         <GridItem>
-                            <TextField
-                                type="number"
-                                value={limit.limit}
-                                fullWidth
-                                variant={"standard"}
-                                onChange={(e) => handleLimitChange({
-                                    type: limit.type,
-                                    limit: Number(e.target.value)
-                                })}
-                                inputProps={{min: 0, max: 1}}
-                            />
+                            <NumberTextField title={'Amount'} value={limit.limit}
+                                             onChange={(amount) => handleLimitChange({
+                                                 type: limit.type,
+                                                 limit: amount
+                                             })} min={0} max={1}/>
                         </GridItem>
                         <GridItem>
-                            <Select
-                                value={limit.type}
-                                onChange={(e) => onChange({
-                                    limit: limit.limit,
-                                    type: e.target.value as LimitType
-                                })}
-                                fullWidth
-                                label={'Type'}
-                                variant={"standard"}
-                            >
-                                {Object.values(LimitType).map(option => (
-                                    <MenuItem key={option} value={option}>
-                                        {option}
-                                    </MenuItem>
-                                ))}
-                            </Select>
+                            <GenesysSelectField value={limit.type} label={'Type'} onChange={(limitType) => onChange({
+                                limit: limit.limit,
+                                type: limitType
+                            })} options={LimitType}/>
                         </GridItem>
                     </GridContainer>
                 </CardContent>
