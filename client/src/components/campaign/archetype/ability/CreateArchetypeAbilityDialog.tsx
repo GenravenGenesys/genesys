@@ -4,7 +4,7 @@ import {useState} from "react";
 import Archetype from "../../../../models/actor/player/Archetype";
 import Ability from "../../../../models/Ability";
 import {Activation, getActivationOptions} from "../../../../models/Talent";
-import {InputTextFieldCard} from "../../../common/InputTextFieldCard";
+import InputTextFieldCard from "../../../common/InputTextFieldCard";
 import InputSelectFieldCard from "../../../common/InlineSelectFieldCard";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
 import ArchetypeService from "../../../../services/ArchetypeService";

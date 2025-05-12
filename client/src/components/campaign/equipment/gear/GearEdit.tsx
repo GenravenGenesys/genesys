@@ -5,7 +5,7 @@ import {useLocation, useNavigate} from 'react-router';
 import CheckIcon from '@mui/icons-material/Check';
 import GearService from '../../../../services/equipment/GearService';
 import {EquipmentPath} from "../../../../services/RootPath";
-import {InputTextFieldCard} from "../../../common/InputTextFieldCard";
+import InputTextFieldCard from "../../../common/InputTextFieldCard";
 import Skill from "../../../../models/actor/Skill";
 import {RangeBand, getRangeOptions} from "../../../../models/common/RangeBand";
 import InputSelectFieldCard from "../../../common/InlineSelectFieldCard";

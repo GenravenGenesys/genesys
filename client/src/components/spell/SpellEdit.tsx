@@ -3,7 +3,7 @@ import {useNavigate} from "react-router";
 import {Difficulty, getDifficultyOptions} from "../../models/common/Difficulty";
 import {Card, CardContent, CardHeader, Divider, IconButton} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
-import {InputTextFieldCard} from "../common/InputTextFieldCard";
+import InputTextFieldCard from "../common/InputTextFieldCard";
 import InputSelectFieldCard from "../common/InlineSelectFieldCard";
 import * as React from "react";
 import Spell from "../../models/spell/Spell";

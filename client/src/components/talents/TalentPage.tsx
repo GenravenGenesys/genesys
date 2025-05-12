@@ -1,8 +1,8 @@
 import {Card, CardContent} from '@mui/material';
-import Talent from "../../models/Talent";
+import Talent, {Activation} from "../../models/Talent";
 import * as React from "react";
-import {useLocation, useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
+import {useLocation, useParams} from "react-router";
 import TalentService from "../../services/TalentService";
 import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHeaderWithAction";
 import {RootPath} from "../../services/RootPath";
@@ -53,7 +53,7 @@ const TalentPage = () => {
                         <TabList onChange={handleChange} centered>
                             <Tab label="Base" value="1"/>
                             <Tab label="Modifiers" value="2"/>
-                            <Tab label="Maneuvers" value="3"/>
+                            <Tab label="Maneuver" value="3" disabled={talent.activation !== Activation.ActiveManeuver}/>
                         </TabList>
                     </GridContainer>
                     <TabPanel value="1">

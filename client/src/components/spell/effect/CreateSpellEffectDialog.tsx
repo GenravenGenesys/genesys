@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Dialog, DialogContent, DialogTitle} from "@mui/material";
-import {InputTextFieldCard} from "../../common/InputTextFieldCard";
+import InputTextFieldCard from "../../common/InputTextFieldCard";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
 import * as React from "react";
 import Spell, {Effect} from "../../../models/spell/Spell";
