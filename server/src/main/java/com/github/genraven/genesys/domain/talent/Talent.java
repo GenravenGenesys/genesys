@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.Activation;
 import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
+import com.github.genraven.genesys.domain.campaign.Maneuver;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,7 @@ public class Talent {
     private TalentStats talentStats = new TalentStats();
     private TalentSkillCheck talentSkillCheck = new TalentSkillCheck();
     private List<TalentRollModifiers> talentRollModifiers = new ArrayList<>();
+    private Maneuver maneuver = new Maneuver(this.name);
     private List<Modifier> modifiers = new ArrayList<>();
 
     @AllArgsConstructor

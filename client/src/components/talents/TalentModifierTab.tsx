@@ -1,6 +1,6 @@
 import Talent, {TalentSkills} from "../../models/Talent";
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel} from "@mui/material";
-import CostCard from "../common/card/select/CostCard";
+import TalentCostCard from "../common/card/select/TalentCostCard";
 import LimitCard from "../common/card/select/LimitCard";
 import * as React from "react";
 import {useState} from "react";
@@ -153,8 +153,8 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
                            disabled={disabled}/>
             </GridContainer>}
             {state.cost && <GridContainer spacing={2}>
-                <CostCard initialCost={talent.cost} onChange={handleCostChange}
-                          disabled={disabled}/>
+                <TalentCostCard talent={talent} onChange={handleCostChange}
+                                disabled={disabled}/>
             </GridContainer>}
             {state.careerSkill && <GridContainer spacing={2}>
                 <TalentCareerSkillsCard talentSkills={talent.talentSkills}
