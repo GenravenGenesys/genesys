@@ -1,38 +1,35 @@
-import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import {ChangeEvent, useState} from "react";
+import {Dialog, DialogContentText, TextField} from "@mui/material";
+import React, {useState} from "react";
 import {useNavigate} from "react-router";
 import TalentService from "../../services/TalentService";
 import GenesysDialogActions from "../common/dialog/GenesysDialogActions";
 import {RootPath} from "../../services/RootPath";
+import CenteredDialogTitle from "../common/dialog/CenteredDialogTitle";
 
-interface Props {
-    open: boolean
-    onClose: () => void
-}
+type Props = {
+    open: boolean;
+    onClose: () => void;
+};
 
-export default function TalentDialog(props: Props) {
-    const {open, onClose} = props
-    const [name, setName] = useState('')
-    let navigate = useNavigate()
+const TalentDialog: React.FC<Props> = ({open, onClose}) => {
+    const [name, setName] = useState('');
+    let navigate = useNavigate();
 
-    const handleCreate = async (): Promise<void> => {
-        let talent = await TalentService.createTalent(name)
-        navigate(RootPath.Talent + talent.id + '/edit')
-        onClose()
-    }
-
-    const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const {value} = event.target
-        setName(value)
-    }
+    const handleCreate = async () => {
+        let talent = await TalentService.createTalent(name);
+        navigate(RootPath.Talent + talent.id + '/edit');
+        onClose();
+    };
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Name New Talent</DialogTitle>
+            <CenteredDialogTitle title={'Name New Talent'}/>
             <DialogContentText>
-                <TextField onChange={onChange} value={name} required/>
+                <TextField onChange={(event) => setName(event.target.value)} value={name} required/>
             </DialogContentText>
             <GenesysDialogActions handleCreate={handleCreate} onClose={onClose}/>
         </Dialog>
-    )
-}
+    );
+};
+
+export default TalentDialog;

@@ -13,15 +13,16 @@ import Cost, {CostType} from "../../models/common/Cost";
 import Limit, {LimitType} from "../../models/common/Limit";
 import GridContainer from "../common/grid/GridContainer";
 
-interface Props {
+type Props = {
     talent: Talent;
     updateTalent: (talent: Talent) => void;
     disabled: boolean;
-}
+};
 
 const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
     const [state, setState] = useState({
-        cost: !(talent.cost.type === CostType.None && talent.limit.type === LimitType.None),
+        limit: !(talent.limit.type === LimitType.None),
+        cost: !(talent.cost.type === CostType.None),
         careerSkill: talent.talentSkills.potentialCareerSkills.length > 0,
         skillCheck: !!talent.talentSkillCheck.skill,
         stats: talent.talentStats.wounds > 0 || talent.talentStats.strain > 0 || talent.talentStats.soak > 0 || talent.talentStats.defense > 0
@@ -116,6 +117,12 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
                     <FormGroup row>
                         <FormControlLabel
                             control={
+                                <Checkbox checked={state.limit} onChange={handleChange} name="limit"/>
+                            }
+                            label="Limit"
+                        />
+                        <FormControlLabel
+                            control={
                                 <Checkbox checked={state.cost} onChange={handleChange} name="cost"/>
                             }
                             label="Cost"
@@ -141,11 +148,13 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
                     </FormGroup>
                 </FormControl>
             </GridContainer>
+            {state.limit && <GridContainer spacing={2}>
+                <LimitCard initialLimit={talent.limit} onChange={handleLimitChange}
+                           disabled={disabled}/>
+            </GridContainer>}
             {state.cost && <GridContainer spacing={2}>
                 <CostCard initialCost={talent.cost} onChange={handleCostChange}
                           disabled={disabled}/>
-                <LimitCard initialLimit={talent.limit} onChange={handleLimitChange}
-                           disabled={disabled}/>
             </GridContainer>}
             {state.careerSkill && <GridContainer spacing={2}>
                 <TalentCareerSkillsCard talentSkills={talent.talentSkills}

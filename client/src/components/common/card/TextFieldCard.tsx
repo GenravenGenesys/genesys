@@ -13,12 +13,12 @@ type Props = {
 };
 
 const TextFieldCard: React.FC<Props> = ({title, value, disabled, onChange})=> {
-    return disabled ? <ViewFieldCard name={"Description"} value={value}/> :
+    return disabled ? <ViewFieldCard name={title} value={value}/> :
         <GridItem>
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>
-                    <GenesysTextField text={value} label={title} disabled={disabled} onChange={onChange}/>
+                    <GenesysTextField text={value} label={title} disabled={disabled} onChange={onChange} fullwidth/>
                 </CardContent>
             </Card>
         </GridItem>

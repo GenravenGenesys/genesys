@@ -13,8 +13,9 @@ import TabContext from "@mui/lab/TabContext";
 import TalentBaseTab from "./TalentBaseTab";
 import TalentModifierTab from "./TalentModifierTab";
 import GridContainer from "../common/grid/GridContainer";
+import TalentManeuverTab from "./TalentManeuverTab";
 
-export default function TalentPage() {
+const TalentPage = () => {
     const {id} = useParams<{ id: string }>();
     const [talent, setTalent] = useState<Talent | null>(null);
     const [tab, setTab] = useState('1');
@@ -52,16 +53,25 @@ export default function TalentPage() {
                         <TabList onChange={handleChange} centered>
                             <Tab label="Base" value="1"/>
                             <Tab label="Modifiers" value="2"/>
+                            <Tab label="Maneuvers" value="3"/>
                         </TabList>
                     </GridContainer>
                     <TabPanel value="1">
-                        <TalentBaseTab talent={talent} updateTalent={updateTalent} disabled={!pathname.endsWith(talent.id + '/edit')}/>
+                        <TalentBaseTab talent={talent} updateTalent={updateTalent}
+                                       disabled={!pathname.endsWith(talent.id + '/edit')}/>
                     </TabPanel>
                     <TabPanel value="2">
-                        <TalentModifierTab talent={talent} updateTalent={updateTalent} disabled={!pathname.endsWith(talent.id + '/edit')}/>
+                        <TalentModifierTab talent={talent} updateTalent={updateTalent}
+                                           disabled={!pathname.endsWith(talent.id + '/edit')}/>
+                    </TabPanel>
+                    <TabPanel value="3">
+                        <TalentManeuverTab talent={talent} updateTalent={updateTalent}
+                                           disabled={!pathname.endsWith(talent.id + '/edit')}/>
                     </TabPanel>
                 </TabContext>
             </CardContent>
         </Card>
     );
-}
+};
+
+export default TalentPage;

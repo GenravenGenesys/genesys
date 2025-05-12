@@ -3,6 +3,7 @@ import {Option} from "../../components/common/InputSelectField";
 export default interface Cost {
     type: CostType
     amount: number
+    ranked: boolean
 }
 
 export enum CostType {
@@ -20,6 +21,7 @@ export class DefaultCost {
         return {
             type: CostType.None,
             amount: 0,
+            ranked: false,
         }
     }
 }
