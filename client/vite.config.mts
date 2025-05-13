@@ -15,7 +15,6 @@ export default defineConfig({
     plugins: [react()],
     build: {
         outDir: '../server/src/main/resources/static/',
-        // outDir: '../resources/static/',
         emptyOutDir: true,
     }
 })
