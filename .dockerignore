@@ -15,3 +15,4 @@ Dockerfile
 README.md
 server/.env
 LICENSE.txt
+.vscode
