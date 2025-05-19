@@ -8,6 +8,7 @@ RUN npm install && npm run build
 FROM openjdk:21-slim AS backend-build
 WORKDIR /app
 COPY server .
+RUN chmod +x ./gradlew
 RUN ./gradlew bootJar
 
 # Step 3: Create Final Container (Merge FE + BE)
