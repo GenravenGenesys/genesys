@@ -1,10 +1,6 @@
 {
   "name": "React-Springboot Dev Container",
-  "image": "mcr.microsoft.com/devcontainers/java:latest",
-  "features": {
-    "node": "latest"
-  },
-  "postCreateCommand": "./gradlew build",
-  "forwardPorts": [8080],
-  "remoteUser": "vscode"
+  "build": {
+        "dockerfile": "Dockerfile"
+    }
 }
