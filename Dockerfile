@@ -16,4 +16,4 @@ FROM openjdk:21-jdk
 WORKDIR /app
 COPY --from=backend-build /app/build/libs/*.jar app.jar
 COPY --from=frontend-build /app/build /static
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+CMD ["java", "-jar", "/app/app.jar"]
