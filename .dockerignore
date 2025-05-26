@@ -1,5 +1,4 @@
 client/node_modules
-client/dist
 server/build
 server/.gradle
 server/target
