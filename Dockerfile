@@ -15,5 +15,5 @@ RUN ./gradlew bootJar
 FROM openjdk:21-slim
 WORKDIR /app
 COPY --from=backend-build /app/build/libs/*.jar app.jar
-COPY --from=frontend-build /app/build /static
+COPY --from=frontend-build /app/server/src/main/resources/static /static
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
