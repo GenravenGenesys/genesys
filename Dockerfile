@@ -11,7 +11,7 @@ COPY server .
 RUN ./gradlew bootJar
 
 # Step 3: Create Final Container (Merge FE + BE)
-FROM openjdk:21-slim
+FROM openjdk:21-jdk
 WORKDIR /app
 COPY --from=backend-build /app/build/libs/*.jar app.jar
 COPY --from=frontend-build /app/build /static
