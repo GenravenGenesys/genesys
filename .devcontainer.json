@@ -1,4 +1,6 @@
 {
   "name": "React-Springboot Dev Container",
-  "image": "generalraven1/fullstack-app:latest"
+  "build": {
+    "dockerfile": "Dockerfile"
+  }
 }

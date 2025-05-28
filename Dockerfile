@@ -5,15 +5,16 @@ COPY client .
 RUN npm install && npm run build
 
 # Step 2: Build Backend (Spring Boot with Gradle) on a Slim JDK
-FROM openjdk:21-slim AS backend-build
+FROM eclipse-temurin:21-alpine AS backend-build
 WORKDIR /app
 COPY server .
 RUN chmod +x ./gradlew
 RUN ./gradlew bootJar
 
 # Step 3: Create Final Container (Merge FE + BE)
-FROM openjdk:21-jdk
+FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=backend-build /app/build/libs/*.jar app.jar
 COPY --from=frontend-build /app/build /static
+EXPOSE 8080
 CMD ["java", "-jar", "/app/app.jar"]
