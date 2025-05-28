@@ -2,5 +2,6 @@
   "name": "React-Springboot Dev Container",
   "build": {
     "dockerfile": "Dockerfile"
-  }
+  },
+  "forwardPorts": [8080]
 }

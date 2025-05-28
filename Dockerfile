@@ -8,13 +8,12 @@ RUN npm install && npm run build
 FROM eclipse-temurin:21-alpine AS backend-build
 WORKDIR /app
 COPY server .
-RUN chmod +x ./gradlew
-RUN ./gradlew bootJar
+RUN chmod +x gradlew && ./gradlew bootJar
 
 # Step 3: Create Final Container (Merge FE + BE)
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=backend-build /app/build/libs/*.jar app.jar
-COPY --from=frontend-build /app/build /static
+
 EXPOSE 8080
 CMD ["java", "-jar", "/app/app.jar"]
