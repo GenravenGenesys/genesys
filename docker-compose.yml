@@ -41,9 +41,7 @@ services:
       - keycloak-db-data:/var/lib/postgresql/data
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: generalraven1/fullstack-app:latest
     ports:
       - "8080:8080"
     environment:
