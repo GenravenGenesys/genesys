@@ -4,4 +4,4 @@ spring:
       static-locations: classpath:/static/
   data:
     mongodb:
-      uri: ${ATLAS_MONGODB_URI}
+      uri: mongodb://admin:strongpassword@mongodb:27017/localdb

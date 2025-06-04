@@ -4,11 +4,5 @@
   "service": "app",
   "workspaceFolder": "/workspace",
   "forwardPorts": [8080, 8081, 27017],
-  "env": {
-    "LOCAL_MONGODB_URI": "${codespacesSecret:LOCAL_MONGODB_URI}",
-    "ATLAS_MONGODB_URI": "${codespacesSecret:ATLAS_MONGODB_URI}",
-    "KEYCLOAK_URL": "${codespacesSecret:KEYCLOAK_URL}",
-    "KEYCLOAK_ADMIN": "${codespacesSecret:KEYCLOAK_ADMIN}",
-    "KEYCLOAK_ADMIN_PASSWORD": "${codespacesSecret:KEYCLOAK_ADMIN_PASSWORD}"
-  }
+  "postCreateCommand": "java -jar /app/app.jar"
 }
