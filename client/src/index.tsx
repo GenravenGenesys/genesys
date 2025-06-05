@@ -1,7 +1,6 @@
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from '../src/components/home/App';
-import React from 'react';
 import { version } from 'react';
 import {createRoot} from "react-dom/client";
 
