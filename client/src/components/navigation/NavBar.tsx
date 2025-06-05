@@ -68,7 +68,7 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>GENESYS</Typography>
           {openCustomRollBackDrop && <DiceRollerDialog open={openCustomRollBackDrop} onClose={() => setOpenCustomRollBackDrop(false)} />}
           { keycloak.authenticated && <AccountMenu />}
-          <Button onClick={() => keycloak.login()}>Login</Button>
+          <Button color='secondary' variant='contained' onClick={() => keycloak.login()}>Login</Button>
         </Toolbar>
       </AppBar>
     </Box>
