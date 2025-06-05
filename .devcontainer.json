@@ -4,6 +4,5 @@
   "service": "app",
   "workspaceFolder": "/workspace",
   "forwardPorts": [8080, 8081, 27017],
-  "postCreateCommand": "java -jar /app/app.jar --verbose"
-
+  "postCreateCommand": "java -jar /app/app.jar"
 }
