@@ -11,11 +11,9 @@ import { RootPath } from "../../services/RootPath";
 import { useNavigate } from "react-router";
 import DiceRollerDialog from "../roll/DiceRollerDialog";
 import { AccountBox, Logout, Home, Person } from '@mui/icons-material';
-import { useKeycloak } from '@react-keycloak/web';
 
 export default function NavBar() {
   let navigate = useNavigate();
-  const { keycloak } = useKeycloak();
   const [openCustomRollBackDrop, setOpenCustomRollBackDrop] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -67,8 +65,8 @@ export default function NavBar() {
           </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>GENESYS</Typography>
           {openCustomRollBackDrop && <DiceRollerDialog open={openCustomRollBackDrop} onClose={() => setOpenCustomRollBackDrop(false)} />}
-          { keycloak.authenticated && <AccountMenu />}
-          <Button color='secondary' variant='contained' onClick={() => keycloak.login()}>Login</Button>
+          { <AccountMenu />}
+          <Button color='secondary' variant='contained' onClick={handleClose}>Login</Button>
         </Toolbar>
       </AppBar>
     </Box>
@@ -76,7 +74,6 @@ export default function NavBar() {
 }
 
 export function AccountMenu() {
-  const { keycloak } = useKeycloak();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -121,7 +118,7 @@ export function AccountMenu() {
               </ListItemIcon>
               My Account
             </MenuItem>
-            <MenuItem onClick={() => keycloak.logout()}>
+            <MenuItem onClick={handleClose}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>

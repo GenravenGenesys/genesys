@@ -26,13 +26,10 @@ import SessionPage from "../campaign/session/SessionPage";
 import EditableScenePage from "../campaign/scene/EditableScenePage";
 import ScenePage from "../campaign/scene/ScenePage";
 import EncounterPage from "../campaign/scene/encounter/EncounterPage";
-import { ReactKeycloakProvider } from "@react-keycloak/web";
-import keycloak from '../../keycloak';
 
 export default function App() {
 
     return (
-        <ReactKeycloakProvider authClient={keycloak}>
             <ThemeProvider theme={createTheme({ palette: { mode: 'light' } })}>
                 <BrowserRouter>
                     <NavBar />
@@ -120,6 +117,5 @@ export default function App() {
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>
-        </ReactKeycloakProvider>
     )
 }
