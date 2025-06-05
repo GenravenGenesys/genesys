@@ -25,7 +25,7 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: adminpassword
     ports:
       - "8081:8080"
-    command: ["start-dev"]
+    command: [ "start-dev" ]
     depends_on:
       - keycloak-db
 
@@ -52,6 +52,16 @@ services:
     depends_on:
       - mongodb
       - keycloak
+
+  reverse-proxy:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
 
 volumes:
   mongo-data:
