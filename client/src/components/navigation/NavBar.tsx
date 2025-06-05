@@ -2,7 +2,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
+import { Button, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -11,9 +11,11 @@ import { RootPath } from "../../services/RootPath";
 import { useNavigate } from "react-router";
 import DiceRollerDialog from "../roll/DiceRollerDialog";
 import { AccountBox, Logout, Home, Person } from '@mui/icons-material';
+import { useKeycloak } from '@react-keycloak/web';
 
 export default function NavBar() {
   let navigate = useNavigate();
+  const { keycloak } = useKeycloak();
   const [openCustomRollBackDrop, setOpenCustomRollBackDrop] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -26,14 +28,14 @@ export default function NavBar() {
   };
 
   const onClick = () => {
-    navigate(RootPath.Home)
-  }
+    navigate(RootPath.Home);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" enableColorOnDark>
         <Toolbar>
-          <IconButton title='Home' size='medium' onClick={handleClick}>
+          <IconButton title='Menu' size='medium' onClick={handleClick}>
             <MenuIcon fontSize='medium' />
           </IconButton>
           <Menu
@@ -50,13 +52,13 @@ export default function NavBar() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={onClick}>
               <ListItemIcon>
                 <Home fontSize="small" />
               </ListItemIcon>
               Home
             </MenuItem>
-            <MenuItem onClick={(): void => setOpenCustomRollBackDrop(true)}>
+            <MenuItem onClick={() => setOpenCustomRollBackDrop(true)}>
               <ListItemIcon>
                 <CasinoIcon fontSize="small" />
               </ListItemIcon>
@@ -64,8 +66,9 @@ export default function NavBar() {
             </MenuItem>
           </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>GENESYS</Typography>
-          {openCustomRollBackDrop && <DiceRollerDialog open={openCustomRollBackDrop} onClose={(): void => setOpenCustomRollBackDrop(false)} />}
-          <AccountMenu />
+          {openCustomRollBackDrop && <DiceRollerDialog open={openCustomRollBackDrop} onClose={() => setOpenCustomRollBackDrop(false)} />}
+          { keycloak.authenticated && <AccountMenu />}
+          <Button onClick={() => keycloak.login()}>Login</Button>
         </Toolbar>
       </AppBar>
     </Box>
@@ -73,6 +76,7 @@ export default function NavBar() {
 }
 
 export function AccountMenu() {
+  const { keycloak } = useKeycloak();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -117,7 +121,7 @@ export function AccountMenu() {
               </ListItemIcon>
               My Account
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={() => keycloak.logout()}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>
