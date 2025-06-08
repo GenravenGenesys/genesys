@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import NavBar from '../navigation/NavBar';
-import { createTheme, ThemeProvider } from '@mui/material';
 import { ActorPath, CampaignPath, EquipmentPath, LorePath, RootPath } from '../../services/RootPath';
 import AllNemesesView from '../campaign/npc/nemesis/CampaignNemeses';
 import * as React from 'react';
@@ -26,6 +25,7 @@ import SessionPage from "../campaign/session/SessionPage";
 import EditableScenePage from "../campaign/scene/EditableScenePage";
 import ScenePage from "../campaign/scene/ScenePage";
 import EncounterPage from "../campaign/scene/encounter/EncounterPage";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function App() {
 
