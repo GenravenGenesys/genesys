@@ -22,7 +22,7 @@ const TalentActionTab: React.FC<Props> = ({ talent, updateTalent, disabled }) =>
 
     return (
         <Card>
-            <CenteredCardHeader title={'Skill Check'} />
+            <CenteredCardHeader title={'Action Information'} />
             <CardContent>
                 <GridContainer spacing={2}>
                     <TalentSkillCheckCard talent={talent} updateTalent={updateTalent}

@@ -6,5 +6,5 @@ export default interface Action {
     skill: ActorSkill
     difficulty: Difficulty
     opposedSkill: ActorSkill
-    range: RangeBand
+    rangeBand: RangeBand
 }
