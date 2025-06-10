@@ -16,7 +16,7 @@ const TalentActionTab: React.FC<Props> = ({ talent, updateTalent, disabled }) =>
 
     const handleRangeBandUpdate = (value: RangeBand) => {
         if (talent) {
-            updateTalent({ ...talent, action: { ...talent.action, range: value } });
+            updateTalent({ ...talent, action: { ...talent.action, rangeBand: value } });
         }
     };
 
