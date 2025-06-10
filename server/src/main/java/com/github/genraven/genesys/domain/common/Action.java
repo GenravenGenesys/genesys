@@ -11,5 +11,5 @@ public class Action {
     private ActorSkill skill;
     private Difficulty difficulty;
     private ActorSkill opposedSkill;
-    private RangeBand rangeBand;
+    private RangeBand rangeBand = RangeBand.ENGAGED;
 }
