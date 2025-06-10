@@ -1,5 +1,8 @@
 package com.github.genraven.genesys.domain.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.genraven.genesys.domain.Difficulty;
 import com.github.genraven.genesys.domain.RangeBand;
 import com.github.genraven.genesys.domain.actor.ActorSkill;
@@ -12,4 +15,5 @@ public class Action {
     private Difficulty difficulty;
     private ActorSkill opposedSkill;
     private RangeBand rangeBand = RangeBand.ENGAGED;
+    private List<Advantage> advantages = new ArrayList();
 }
