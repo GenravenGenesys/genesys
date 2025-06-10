@@ -55,6 +55,7 @@ public class TalentService {
                     tal.setTalentSkills(talent.getTalentSkills());
                     tal.setTalentStats(talent.getTalentStats());
                     tal.setTalentSkillCheck(talent.getTalentSkillCheck());
+                    tal.setAction(talent.getAction());
                     tal.setTalentRollModifiers(talent.getTalentRollModifiers());
                     tal.setModifiers(talent.getModifiers());
                     return tal;

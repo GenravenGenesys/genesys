@@ -19,7 +19,7 @@ type Props = {
 };
 
 const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled}) => {
-    const [opposed, setOpposed] = useState<boolean>(!talent.talentSkillCheck.difficulty);
+    const [opposed, setOpposed] = useState<boolean>(!talent.action.difficulty);
     const skills = useFetchAllSkills();
 
     const handleChange = () => {
@@ -27,15 +27,15 @@ const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled})
     };
 
     const handleSkillChange = (value: Skill) => {
-        updateTalent({...talent, talentSkillCheck: {...talent.talentSkillCheck, skill: value as ActorSkill}});
+        updateTalent({...talent, action: {...talent.action, skill: value as ActorSkill}});
     };
 
     const handleDifficultyChange = (value: Difficulty) => {
-        updateTalent({...talent, talentSkillCheck: {...talent.talentSkillCheck, difficulty: value}});
+        updateTalent({...talent, action: {...talent.action, difficulty: value}});
     };
 
     const handleOpposedSkillChange = (value: Skill) => {
-        updateTalent({...talent, talentSkillCheck: {...talent.talentSkillCheck, opposedSkill: value as ActorSkill}});
+        updateTalent({...talent, action: {...talent.action, opposedSkill: value as ActorSkill}});
     };
 
     return (
@@ -51,14 +51,14 @@ const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled})
                     <GridContainer centered>
                         <SkillAutocompleteCard disabled={disabled} handleSkillChange={handleSkillChange}
                                                skills={skills}
-                                               startingSkill={talent.talentSkillCheck.skill} title={'User Skill'}/>
+                                               startingSkill={talent.action.skill} title={'User Skill'}/>
                         {!opposed &&
-                            <DifficultyCard value={talent.talentSkillCheck.difficulty} onChange={handleDifficultyChange}
+                            <DifficultyCard value={talent.action.difficulty} onChange={handleDifficultyChange}
                                             disabled={disabled}/>}
                         {opposed &&
                             <SkillAutocompleteCard disabled={disabled} handleSkillChange={handleOpposedSkillChange}
                                                    skills={skills}
-                                                   startingSkill={talent.talentSkillCheck.opposedSkill}
+                                                   startingSkill={talent.action.opposedSkill}
                                                    title={'Target Skill'}/>}
                     </GridContainer>
                 </CardContent>
