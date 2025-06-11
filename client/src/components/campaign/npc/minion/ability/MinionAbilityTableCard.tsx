@@ -3,10 +3,10 @@ import Ability from "../../../../../models/Ability";
 import { useLocation } from "react-router";
 import { Button, Card, CardContent, Paper, Table, TableBody, TableContainer, TableFooter, TableRow } from "@mui/material";
 import { GenesysDescriptionTypographyCenterTableCell, TypographyCenterTableCell, TypographyLeftTableCell } from "../../../../common/table/TypographyTableCell";
-import CreateAbilityDialog from "../../../actor/ability/CreateAbilityDialog";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import { renderSingleRowTableHeader } from "../../../../common/table/TableRenders";
 import Minion from "../../../../../models/actor/npc/Minion";
+import CreateMinionAbilityDialog from "./CreateMinionAbilityDialog";
 
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
     updateAbilities: (abilities: Ability[]) => void;
 };
 
-const MinionAbilityTableCard: FC<Props> = ({ abilities, updateAbilities }) => {
+const MinionAbilityTableCard: FC<Props> = ({ minion, abilities, updateAbilities }) => {
     const [openCreateAbilityDialog, setOpenCreateAbilityDialog] = useState(false);
     const pathname = useLocation().pathname;
     const headers = ['Name', 'Activation', 'Summary'];
@@ -47,9 +47,9 @@ const MinionAbilityTableCard: FC<Props> = ({ abilities, updateAbilities }) => {
                             onClick={(): void => setOpenCreateAbilityDialog(true)}>Create
                             Ability</Button>
                         {openCreateAbilityDialog &&
-                            <CreateAbilityDialog open={openCreateAbilityDialog}
+                            <CreateMinionAbilityDialog open={openCreateAbilityDialog}
                                 onClose={(): void => setOpenCreateAbilityDialog(false)}
-                                onCreateAbility={createAbility} />}
+                                onCreateAbility={createAbility} minion={minion} />}
                     </TableRow>
                 </TableFooter>
             )
