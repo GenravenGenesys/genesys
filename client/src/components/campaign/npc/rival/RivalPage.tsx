@@ -13,7 +13,7 @@ import RivalService from "../../../../services/actor/RivalService";
 import {ActorSkill} from "../../../../models/actor/Actor";
 import {ActorWeapon} from "../../../../models/equipment/Weapon";
 import {ActorArmor} from "../../../../models/equipment/Armor";
-import AbilityTableCard from "../../actor/ability/AbilityTableCard";
+import AbilityTableCard from "../ability/AbilityTableCard";
 import Ability from "../../../../models/Ability";
 import {ActorTalent} from "../../../../models/Talent";
 import RivalCharacteristicTab from "./RivalCharacteristicTab";

@@ -16,7 +16,7 @@ import TextFieldCard from "../../../../common/card/TextFieldCard";
 import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
 import GridContainer from "../../../../common/grid/GridContainer";
-import AbilityActionCard from "../../../actor/ability/AbilityActionCard";
+import AbilityActionCard from "../../ability/AbilityActionCard";
 
 
 interface Props {
