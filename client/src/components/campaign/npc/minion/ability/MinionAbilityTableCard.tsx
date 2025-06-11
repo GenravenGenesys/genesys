@@ -1,27 +1,21 @@
-import TableContainer from "@mui/material/TableContainer";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import { renderSingleRowTableHeader } from "../../../common/table/TableRenders";
-import * as React from "react";
-import { Button, Card, CardContent, TableFooter } from "@mui/material";
-import TableRow from "@mui/material/TableRow";
 import { FC, Fragment, useState } from "react";
+import Ability from "../../../../../models/Ability";
 import { useLocation } from "react-router";
-import CreateAbilityDialog from "./CreateAbilityDialog";
-import Ability from "../../../../models/Ability";
-import TableBody from "@mui/material/TableBody";
-import {
-    GenesysDescriptionTypographyCenterTableCell, TypographyCenterTableCell,
-    TypographyLeftTableCell
-} from "../../../common/table/TypographyTableCell";
-import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
+import { Button, Card, CardContent, Paper, Table, TableBody, TableContainer, TableFooter, TableRow } from "@mui/material";
+import { GenesysDescriptionTypographyCenterTableCell, TypographyCenterTableCell, TypographyLeftTableCell } from "../../../../common/table/TypographyTableCell";
+import CreateAbilityDialog from "../../../actor/ability/CreateAbilityDialog";
+import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
+import { renderSingleRowTableHeader } from "../../../../common/table/TableRenders";
+import Minion from "../../../../../models/actor/npc/Minion";
+
 
 type Props = {
+    minion: Minion;
     abilities: Ability[];
     updateAbilities: (abilities: Ability[]) => void;
 };
 
-const AbilityTableCard: FC<Props> = ({ abilities, updateAbilities }) => {
+const MinionAbilityTableCard: FC<Props> = ({ abilities, updateAbilities }) => {
     const [openCreateAbilityDialog, setOpenCreateAbilityDialog] = useState(false);
     const pathname = useLocation().pathname;
     const headers = ['Name', 'Activation', 'Summary'];
@@ -80,4 +74,4 @@ const AbilityTableCard: FC<Props> = ({ abilities, updateAbilities }) => {
     )
 };
 
-export default AbilityTableCard;
+export default MinionAbilityTableCard;
