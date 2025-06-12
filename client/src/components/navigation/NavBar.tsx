@@ -11,8 +11,10 @@ import { RootPath } from "../../services/RootPath";
 import { useNavigate } from "react-router";
 import DiceRollerDialog from "../roll/DiceRollerDialog";
 import { AccountBox, Logout, Home, Person } from '@mui/icons-material';
+import { useAuth } from 'react-oidc-context';
 
 export default function NavBar() {
+  const auth = useAuth();
   let navigate = useNavigate();
   const [openCustomRollBackDrop, setOpenCustomRollBackDrop] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -76,12 +78,15 @@ export default function NavBar() {
 export function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>

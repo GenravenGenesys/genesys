@@ -2,7 +2,7 @@
   "name": "React-Springboot Dev Container",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspace",
+  "workspaceFolder": "/app",
   "forwardPorts": [8080, 8081, 27017],
   "postCreateCommand": "java -jar /app/app.jar"
 }

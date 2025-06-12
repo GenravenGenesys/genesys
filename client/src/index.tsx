@@ -1,10 +1,12 @@
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from '../src/components/home/App';
-import { version } from 'react';
 import { createRoot } from "react-dom/client";
 import { AuthProvider } from 'react-oidc-context';
 import { UserManager, WebStorageStateStore } from 'oidc-client-ts';
+import React from 'react';
+import { BrowserRouter } from 'react-router';
+import NavBar from './components/navigation/NavBar';
 
 const oidcConfig = {
     authority: "http://localhost:8081/realms/genesys",
@@ -13,29 +15,34 @@ const oidcConfig = {
 };
 
 const userManager = new UserManager({
-  authority: "http://localhost:8081/realms/genesys",
-  // biome-ignore lint/style/useNamingConvention: Expected
-  client_id: "genesys-react-app",
-  // biome-ignore lint/style/useNamingConvention: Expected
-  redirect_uri: `${window.location.origin}${window.location.pathname}`,
-  // biome-ignore lint/style/useNamingConvention: Expected
-  post_logout_redirect_uri: window.location.origin,
-  userStore: new WebStorageStateStore({ store: window.sessionStorage }),
-  monitorSession: true, // this allows cross tab login/logout detection
+    authority: "http://localhost:8081/realms/genesys",
+    // biome-ignore lint/style/useNamingConvention: Expected
+    client_id: "genesys-react-app",
+    // biome-ignore lint/style/useNamingConvention: Expected
+    redirect_uri: `${window.location.origin}${window.location.pathname}`,
+    // biome-ignore lint/style/useNamingConvention: Expected
+    post_logout_redirect_uri: window.location.origin,
+    userStore: new WebStorageStateStore({ store: window.sessionStorage }),
+    monitorSession: true, // this allows cross tab login/logout detection
 });
 
 const onSigninCallback = () => {
-  window.history.replaceState({}, document.title, window.location.pathname);
+    window.history.replaceState({}, document.title, window.location.pathname);
 };
 
 const rootElement = document.getElementById("root");
 
 if (rootElement) {
-    const root = createRoot(rootElement!);
-    root.render(
-        <AuthProvider userManager={userManager} onSigninCallback={onSigninCallback}>
-            <App />
-        </AuthProvider>
+    createRoot(rootElement!).render(
+        <React.StrictMode>
+            <BrowserRouter>
+                <AuthProvider userManager={userManager} onSigninCallback={onSigninCallback}>
+                    <NavBar />
+                    <App />
+                </AuthProvider>
+            </BrowserRouter>
+
+        </React.StrictMode>
     );
 } else {
     console.error("Error: Root element not found!");
