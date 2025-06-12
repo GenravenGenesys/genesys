@@ -16,14 +16,16 @@ import { RangeBand } from "../../../../models/common/RangeBand";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
 import AbilityActionCard from "./AbilityActionCard";
 import Action from "../../../../models/campaign/encounter/Action";
+import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
 
 interface Props {
     open: boolean;
+    npc: SingleNonPlayerCharacter;
     onCreateAbility: (ability: Ability) => void;
     onClose: () => void;
 }
 
-const CreateAbilityDialog: React.FC<Props> = ({ open, onCreateAbility, onClose }) => {
+const CreateAbilityDialog: React.FC<Props> = ({ open, npc, onCreateAbility, onClose }) => {
     const [ability, setAbility] = useState<Ability>({
         name: '',
         activation: Activation.Passive,
@@ -82,7 +84,7 @@ const CreateAbilityDialog: React.FC<Props> = ({ open, onCreateAbility, onClose }
                     <ActivationCard value={ability.activation} onChange={handleActivationChange} disabled={pathname.endsWith('/view')} />
                 </GridContainer>
                 <GridContainer>
-                    <AbilityActionCard action={ability.action} onChange={handleActionChange} disabled={pathname.endsWith('/view')} />
+                    <AbilityActionCard action={ability.action} onChange={handleActionChange} disabled={pathname.endsWith('/view')} npc={npc} />
                 </GridContainer>
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose} />

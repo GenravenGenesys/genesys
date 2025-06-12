@@ -2,7 +2,6 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { renderSingleRowTableHeader } from "../../../common/table/TableRenders";
-import * as React from "react";
 import { Button, Card, CardContent, TableFooter } from "@mui/material";
 import TableRow from "@mui/material/TableRow";
 import { FC, Fragment, useState } from "react";
@@ -15,13 +14,15 @@ import {
     TypographyLeftTableCell
 } from "../../../common/table/TypographyTableCell";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
+import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
 
 type Props = {
     abilities: Ability[];
+    npc: SingleNonPlayerCharacter;
     updateAbilities: (abilities: Ability[]) => void;
 };
 
-const AbilityTableCard: FC<Props> = ({ abilities, updateAbilities }) => {
+const AbilityTableCard: FC<Props> = ({ abilities, npc, updateAbilities }) => {
     const [openCreateAbilityDialog, setOpenCreateAbilityDialog] = useState(false);
     const pathname = useLocation().pathname;
     const headers = ['Name', 'Activation', 'Summary'];
@@ -55,7 +56,7 @@ const AbilityTableCard: FC<Props> = ({ abilities, updateAbilities }) => {
                         {openCreateAbilityDialog &&
                             <CreateAbilityDialog open={openCreateAbilityDialog}
                                 onClose={(): void => setOpenCreateAbilityDialog(false)}
-                                onCreateAbility={createAbility} />}
+                                onCreateAbility={createAbility} npc={npc} />}
                     </TableRow>
                 </TableFooter>
             )

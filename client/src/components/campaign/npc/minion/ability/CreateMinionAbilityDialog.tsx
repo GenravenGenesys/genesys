@@ -16,7 +16,7 @@ import TextFieldCard from "../../../../common/card/TextFieldCard";
 import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
 import GridContainer from "../../../../common/grid/GridContainer";
-import AbilityActionCard from "../../ability/AbilityActionCard";
+import MinionAbilityActionCard from "./MinionAbilityActionCard";
 
 
 interface Props {
@@ -26,7 +26,7 @@ interface Props {
     onClose: () => void;
 }
 
-const CreateMinionAbilityDialog: React.FC<Props> = ({ open, onCreateAbility, onClose }) => {
+const CreateMinionAbilityDialog: React.FC<Props> = ({ open, minion, onCreateAbility, onClose }) => {
     const [ability, setAbility] = useState<Ability>({
         name: '',
         activation: Activation.Passive,
@@ -85,7 +85,7 @@ const CreateMinionAbilityDialog: React.FC<Props> = ({ open, onCreateAbility, onC
                     <ActivationCard value={ability.activation} onChange={handleActivationChange} disabled={pathname.endsWith('/view')} />
                 </GridContainer>
                 <GridContainer>
-                    <AbilityActionCard action={ability.action} onChange={handleActionChange} disabled={pathname.endsWith('/view')} />
+                    <MinionAbilityActionCard action={ability.action} onChange={handleActionChange} disabled={pathname.endsWith('/view')} minion={minion} />
                 </GridContainer>
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose} />

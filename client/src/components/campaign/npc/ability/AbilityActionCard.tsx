@@ -12,14 +12,16 @@ import Skill from "../../../../models/actor/Skill";
 import { Difficulty } from "../../../../models/common/Difficulty";
 import SkillAutocompleteCard from "../../../common/card/SkillAutocompleteCard";
 import DifficultyCard from "../../../common/card/select/DifficultyCard";
+import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
 
 type Props = {
     action: Action;
+    npc: SingleNonPlayerCharacter;
     onChange: (action: Action) => void;
     disabled: boolean;
 };
 
-const AbilityActionCard: FC<Props> = ({ action, onChange, disabled }) => {
+const AbilityActionCard: FC<Props> = ({ action, npc, onChange, disabled }) => {
     const [opposed, setOpposed] = useState<boolean>(!action.difficulty);
     const skills = useFetchAllSkills();
 
