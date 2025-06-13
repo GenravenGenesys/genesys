@@ -37,18 +37,38 @@ public class RivalService {
         logger.info("Fetching Rival with id: {}", id);
         return rivalRepository.findById(id).map(rival -> {
             logger.info("Found Rival: {}", rival);
+            System.out.println(rival.toString());
             rival.getTotalRivalStats();
             return rival;
         }).doOnNext(rival -> logger.debug("Fetched Rival: {}", rival))
                 .doOnError(error -> logger.error("Error fetching Rival with id: {}", id, error));
     }
 
+    // public Mono<Rival> createRival(final String rivalName) {
+    //     logger.info("Starting createRival method with rivalName: {}", rivalName);
+    //     return skillService.getSkillsForCurrentCampaign()
+    //             .flatMap(skills -> {
+    //                 final Rival rival = new Rival(new SingleNonPlayerActor(new NonPlayerActor(new Actor(rivalName))));
+    //                 rival.setSkills(skills.stream().map(ActorSkill::new).toList());
+    //                 return rivalRepository.save(rival);
+    //             });
+    // }
+
     public Mono<Rival> createRival(final String rivalName) {
+        logger.info("Starting createRival method with rivalName: {}", rivalName);
+
         return skillService.getSkillsForCurrentCampaign()
+                .doOnNext(skills -> logger.info("Retrieved {} skills for current campaign", skills.size()))
                 .flatMap(skills -> {
                     final Rival rival = new Rival(new SingleNonPlayerActor(new NonPlayerActor(new Actor(rivalName))));
                     rival.setSkills(skills.stream().map(ActorSkill::new).toList());
-                    return rivalRepository.save(rival);
+                    logger.info("Created Rival entity: {}", rival);
+
+                return Mono.just(rival)
+                        .doOnNext(r -> logger.info("Rival before saving: {}", r)) // Debug logging before persistence
+                        .flatMap(rivalRepository::save)
+                        .doOnSuccess(savedRival -> logger.info("Successfully saved Rival: {}", savedRival))
+                        .doOnError(error -> logger.error("Failed to save Rival", error));
                 });
     }
 
