@@ -2,7 +2,6 @@ package com.github.genraven.genesys.handler;
 
 import com.github.genraven.genesys.domain.actor.Actor;
 import com.github.genraven.genesys.domain.actor.ActorSkill;
-import com.github.genraven.genesys.domain.actor.ActorTalent;
 import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.actor.npc.GroupSkill;
 import com.github.genraven.genesys.domain.actor.npc.Minion;
