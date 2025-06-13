@@ -38,7 +38,6 @@ const RivalPage = () => {
     }, [id, setRival])
 
     if (!rival) {
-        console.log("HERE")
         return <Fragment />;
     }
 
