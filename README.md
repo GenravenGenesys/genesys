@@ -20,7 +20,7 @@ Backend Server is run with ./gradlew clean build bootRun
 Adding a connection string:
 Create an .env file in the server root directory.
 
-File only needs to define the connection string as MONGODB_URI.
+File only needs to define the connection string as ATLAS_MONGODB_URI.
 
 MongoDB
 Currently using Atlas provided by MongoDB, which will hold 512MB of data for free. The application can also be used by a local or docker version using a different connection string.
