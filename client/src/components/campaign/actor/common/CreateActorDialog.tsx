@@ -1,24 +1,24 @@
-import {Dialog, DialogContentText, DialogTitle, Divider, MenuItem, Select, TextField} from "@mui/material";
-import {ChangeEvent, useState} from "react";
-import {useNavigate} from "react-router";
+import { Dialog, DialogContentText, DialogTitle, Divider, MenuItem, Select, TextField } from "@mui/material";
+import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router";
 import MinionService from "../../../../services/actor/MinionService";
-import {ActorPath} from "../../../../services/RootPath";
-import {ActorType} from "../../../../models/actor/Actor";
+import { ActorPath } from "../../../../services/RootPath";
+import { ActorType } from "../../../../models/actor/Actor";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
-import {useFetchCurrentCampaign} from "../../CampaignWorkflow";
+import { useFetchCurrentCampaign } from "../../CampaignWorkflow";
 import RivalService from "../../../../services/actor/RivalService";
 import NemesisService from "../../../../services/actor/NemesisService";
 import PlayerService from "../../../../services/actor/PlayerService";
-import * as React from "react";
+import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
 
-interface Props {
-    open: boolean
-    actorType: ActorType
-    onClose: () => void
-}
+type Props = {
+    open: boolean;
+    actorType: ActorType;
+    onClose: () => void;
+};
 
-export default function CreateActorDialog(props: Props) {
-    const {open, actorType, onClose} = props;
+const CreateActorDialog = (props: Props) => {
+    const { open, actorType, onClose } = props;
     const [name, setName] = useState('');
     const [type, setType] = useState<ActorType>(actorType);
     let navigate = useNavigate();
@@ -44,27 +44,23 @@ export default function CreateActorDialog(props: Props) {
                 break
         }
         onClose();
-    }
+    };
 
     const onTypeChange = (value: ActorType): void => {
         setType(value);
-    }
+    };
 
     const onNameChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const {value} = event.target;
+        const { value } = event.target;
         setName(value);
-    }
-
-    const getTitle = (): string => {
-        return 'Create ' + type;
-    }
+    };
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>{getTitle()}</DialogTitle>
+            <CenteredDialogTitle title={'Create ' + type} />
             <DialogContentText>
-                <TextField onChange={onNameChange} value={name} required/>
-                <Divider/>
+                <TextField onChange={onNameChange} value={name} required />
+                <Divider />
                 <Select
                     value={type}
                     onChange={(e) => onTypeChange(e.target.value as ActorType)}
@@ -78,7 +74,9 @@ export default function CreateActorDialog(props: Props) {
                     ))}
                 </Select>
             </DialogContentText>
-            <GenesysDialogActions handleCreate={handleCreate} onClose={onClose}/>
+            <GenesysDialogActions handleCreate={handleCreate} onClose={onClose} />
         </Dialog>
     );
-}
+};
+
+export default CreateActorDialog;

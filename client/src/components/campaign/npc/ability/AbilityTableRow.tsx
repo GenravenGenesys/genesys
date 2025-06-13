@@ -30,7 +30,6 @@ const AbilityTableRow: FC<Props> = ({ ability, npc, columns }) => {
                     </Table>
                 </Collapse>
             </CardContent>
-
         </Fragment>
     );
 };

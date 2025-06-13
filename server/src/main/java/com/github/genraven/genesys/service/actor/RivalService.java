@@ -8,7 +8,11 @@ import com.github.genraven.genesys.domain.actor.npc.SingleNonPlayerActor;
 
 import com.github.genraven.genesys.repository.actor.RivalRepository;
 import com.github.genraven.genesys.service.SkillService;
+
 import lombok.RequiredArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,21 +21,25 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class RivalService {
 
+    private static final Logger logger = LoggerFactory.getLogger(RivalService.class);
     private final RivalRepository rivalRepository;
     private final SkillService skillService;
 
     public Flux<Rival> getAllRivals() {
+        logger.info("Fetching all Rivals");
         return rivalRepository.findAll().map(rival -> {
             rival.getTotalRivalStats();
             return rival;
-        });
+        }).doOnNext(rival -> logger.debug("Fetched Rival: {}", rival.getName()));
     }
 
     public Mono<Rival> getRival(final String id) {
+        logger.info("Fetching Rival with id: {}", id);
         return rivalRepository.findById(id).map(rival -> {
             rival.getTotalRivalStats();
             return rival;
-        });
+        }).doOnNext(rival -> logger.debug("Fetched Rival: {}", rival))
+                .doOnError(error -> logger.error("Error fetching Rival with id: {}", id, error));
     }
 
     public Mono<Rival> createRival(final String rivalName) {
