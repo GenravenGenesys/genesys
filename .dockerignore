@@ -1,0 +1,17 @@
+client/node_modules
+server/build
+server/.gradle
+server/target
+server/.idea
+.idea
+.github
+.dockerignore
+.git
+.gitignore
+client/.gitignore
+server/.gitignore
+Dockerfile
+README.md
+server/.env
+LICENSE.txt
+.vscode

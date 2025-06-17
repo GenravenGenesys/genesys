@@ -1,4 +1,12 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/genesys
+  web:
+    resources:
+      static-locations: classpath:/static/
   data:
     mongodb:
-      uri: ${MONGODB_URI}
+      uri: mongodb://admin:strongpassword@mongodb:27017/localdb
