@@ -4,12 +4,17 @@ import App from '../src/components/home/App';
 import React from 'react';
 import { version } from 'react';
 import {createRoot} from "react-dom/client";
+import { OidcProvider } from "./auth/OidcProvider";
 
 const rootElement = document.getElementById("root");
 
 if (rootElement) {
     const root = createRoot(rootElement!);
-    root.render(<App />);
+    root.render(
+        <OidcProvider>
+            <App />
+        </OidcProvider>
+    );
 } else {
     console.error("Error: Root element not found!");
 }
