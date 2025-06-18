@@ -4,6 +4,15 @@ spring:
       uri: ${MONGODB_URI}
   security:
     oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://keycloak:8080/realms/genesys
+      client:
+        registration:
+          keycloak:
+            client-id: genesys-client
+            client-secret: HE8ot9YvTCKtluYNx3Qw3xBT3UE6mWBc
+            scope: openid,profile,email
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
+        provider:
+          keycloak:
+            issuer-uri: http://keycloak:9090/realms/genesys
+            user-name-attribute: preferred_username

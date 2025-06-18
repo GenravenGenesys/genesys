@@ -20,9 +20,7 @@ public class SecurityConfig {
                 .pathMatchers("/player/**").hasRole("PLAYER")
                 .anyExchange().authenticated()
             )
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt()
-            );
+            .oauth2Login();
         return http.build();
     }
 } 
