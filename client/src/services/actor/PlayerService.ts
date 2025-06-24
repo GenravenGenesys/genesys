@@ -4,154 +4,46 @@ import Career from "../../models/actor/player/Career";
 import Archetype from "../../models/actor/player/Archetype";
 import {Characteristic} from "../../models/actor/Characteristic";
 import Talent from "../../models/Talent";
+import {apiRequest, apiRequestList} from "../ApiRequest";
 
 export default class PlayerService {
     static async createPlayer(id: string, playerName: string): Promise<Player> {
-        return await fetch(CampaignPath.Campaign + `${id}` + PlayerPath.Player + `${playerName}`, {
-            method: "POST"
-        })
-            .then((res) => {
-                console.log(res)
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest<Player>(CampaignPath.Campaign + `${id}` + PlayerPath.Player + `${playerName}`, "POST");
     }
 
     static async getPlayer(id: string): Promise<Player> {
-        return await fetch(PlayerPath.Player + `${id}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest<Player>(PlayerPath.Player + `${id}`);
     }
 
     static async getPlayers(campaignName: string): Promise<Player[]> {
-        return await fetch(CampaignPath.Campaign + `${campaignName}` + PlayerPath.Player)
-            .then((res) => {
-                switch (res.status) {
-                    case 204:
-                        return []
-                    case 200:
-                        return res.json()
-                    default:
-                        throw new Error(res.statusText)
-                }
-            })
+        return apiRequestList<Player>(CampaignPath.Campaign + `${campaignName}` + PlayerPath.Player);
     }
 
     static async updatePlayer(player: Player): Promise<Player> {
-        return await fetch(PlayerPath.Player + `${player.id}`, {
-            method: "PUT",
-            body: JSON.stringify(player),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest<Player>(PlayerPath.Player + `${player.id}`, "PUT", player);
     }
 
     static async updatePlayerCareer(playerId: string, career: Career): Promise<Player> {
-        return await fetch(PlayerPath.Creation + `${playerId}` + RootPath.Career, {
-            method: "PATCH",
-            body: JSON.stringify(career),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest<Player>(PlayerPath.Creation + `${playerId}` + RootPath.Career, "PATCH", career);
     }
 
     static async updatePlayerCareerSkills(playerId: string, skills: PlayerSkill[]): Promise<Player> {
-        return await fetch(PlayerPath.Creation + `${playerId}` + RootPath.Career + 'skills/', {
-            method: "PATCH",
-            body: JSON.stringify(skills),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest<Player>(PlayerPath.Creation + `${playerId}` + RootPath.Career + 'skills/', "PATCH", skills);
     }
 
     static async updatePlayerArchetype(playerId: string, archetype: Archetype): Promise<Player> {
-        return await fetch(PlayerPath.Creation + `${playerId}` + RootPath.Archetype, {
-            method: "PATCH",
-            body: JSON.stringify(archetype),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest<Player>(PlayerPath.Creation + `${playerId}` + RootPath.Archetype, "PATCH", archetype);
     }
 
     static async purchaseCharacteristicUpgrade(playerId: string, characteristic: Characteristic): Promise<Player> {
-        return await fetch(PlayerPath.Creation + `${playerId}` + PlayerPath.Characteristic, {
-            method: "PATCH",
-            body: JSON.stringify(characteristic),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest<Player>(PlayerPath.Creation + `${playerId}` + PlayerPath.Characteristic, "PATCH", characteristic);
     }
 
     static async purchaseSkillUpgrade(playerId: string, skill: PlayerSkill): Promise<Player> {
-        return await fetch(PlayerPath.Creation + `${playerId}` + PlayerPath.Skills, {
-            method: "PATCH",
-            body: JSON.stringify(skill),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest<Player>(PlayerPath.Creation + `${playerId}` + PlayerPath.Skills, "PATCH", skill);
     }
 
     static async purchaseTalentUpgrade(playerId: string, talent: Talent): Promise<Player> {
-        return await fetch(PlayerPath.Creation + `${playerId}` + PlayerPath.Talents, {
-            method: "PATCH",
-            body: JSON.stringify(talent),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
+        return apiRequest<Player>(PlayerPath.Creation + `${playerId}` + PlayerPath.Talents, "PATCH", talent);
     }
 }
