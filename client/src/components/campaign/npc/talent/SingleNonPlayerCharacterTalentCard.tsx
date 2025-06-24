@@ -16,10 +16,10 @@ import * as React from "react";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import CharacterTalentSelectionDialog from "./CharacterTalentSelectionDialog";
 
-interface Props {
-    talents: ActorTalent[]
-    updateTalents: (talents: ActorTalent[]) => void
-}
+type Props = {
+    talents: ActorTalent[];
+    updateTalents: (talents: ActorTalent[]) => void;
+};
 
 export default function SingleNonPlayerCharacterTalentCard(props: Props) {
     const {talents, updateTalents} = props;
