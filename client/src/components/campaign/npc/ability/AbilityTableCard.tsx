@@ -9,10 +9,6 @@ import { useLocation } from "react-router";
 import CreateAbilityDialog from "./CreateAbilityDialog";
 import Ability from "../../../../models/Ability";
 import TableBody from "@mui/material/TableBody";
-import {
-    GenesysDescriptionTypographyCenterTableCell, TypographyCenterTableCell,
-    TypographyLeftTableCell
-} from "../../../common/table/TypographyTableCell";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
 import AbilityTableRow from "./AbilityTableRow";
@@ -37,11 +33,6 @@ const AbilityTableCard: FC<Props> = ({ abilities, npc, updateAbilities }) => {
             <TableBody>
                 {(abilities).map((ability: Ability) => (
                     <AbilityTableRow ability={ability} npc={npc} columns={headers.length}/>
-                    // <TableRow key={ability.name}>
-                    //     <TypographyLeftTableCell value={ability.name} />
-                    //     <TypographyCenterTableCell value={ability.activation} />
-                    //     <GenesysDescriptionTypographyCenterTableCell value={ability.description} />
-                    // </TableRow>
                 ))}
             </TableBody>
         )

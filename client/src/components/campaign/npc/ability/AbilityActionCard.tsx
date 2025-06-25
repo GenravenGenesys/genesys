@@ -13,6 +13,7 @@ import { Difficulty } from "../../../../models/common/Difficulty";
 import SkillAutocompleteCard from "../../../common/card/SkillAutocompleteCard";
 import DifficultyCard from "../../../common/card/select/DifficultyCard";
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
+import SingleNonPlayerCharacterSkillSelectCard from "../../../common/card/select/SingleNonPlayerCharacterSkillSelectCard;";
 
 type Props = {
     action: Action;
@@ -58,9 +59,7 @@ const AbilityActionCard: FC<Props> = ({ action, npc, onChange, disabled }) => {
                                 sx={{ textAlign: 'center' }} />
                         </GridContainer>
                         <GridContainer centered>
-                            <SkillAutocompleteCard disabled={disabled} handleSkillChange={handleSkillChange}
-                                skills={skills}
-                                startingSkill={action.skill} title={'User Skill'} />
+                            <SingleNonPlayerCharacterSkillSelectCard npc={npc} skills={npc.skills} handleSkillChange={handleSkillChange} startingSkill={action.skill} disabled={disabled} />
                             {!opposed &&
                                 <DifficultyCard value={action.difficulty} onChange={handleDifficultyChange}
                                     disabled={disabled} />}
