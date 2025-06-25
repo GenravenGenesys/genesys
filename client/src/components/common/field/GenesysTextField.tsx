@@ -15,7 +15,7 @@ const GenesysTextField: React.FC<Props> = ({text, label, disabled, onChange, ful
         onChange(event.target.value);
     };
 
-    return <TextField value={text} fullWidth={fullwidth} multiline={rows !== 1} rows={rows ? rows : 4}
+    return <TextField value={text} fullWidth={fullwidth} multiline={rows !== 1} rows={rows ? rows : 1}
                       disabled={disabled} label={label} onChange={handleChange}/>;
 };
 
