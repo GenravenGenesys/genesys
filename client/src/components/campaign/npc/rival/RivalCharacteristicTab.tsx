@@ -23,6 +23,8 @@ const RivalCharacteristicTab: React.FC<Props> = React.memo(({rival, updateRival}
     const location = useLocation();
     const pathname = location.pathname;
 
+    console.log(rival)
+
     // Memoize the pathname check to prevent unnecessary re-renders
     const isEditMode = useMemo(() => pathname.endsWith(rival.id + '/edit'), [pathname, rival.id]);
 
@@ -142,15 +144,14 @@ const RivalCharacteristicTab: React.FC<Props> = React.memo(({rival, updateRival}
     return (
         <GridContainer centered>
             <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange}/>
-            <Divider/>
-            <GridContainer spacing={2}>
+            {/* <GridContainer spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(rival.soak)}/>
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={rival.wounds.threshold}
                                      onChange={handleWoundsChange} min={1} max={20}
                                      disabled={!isEditMode}/>
                 <ViewFieldCard name={DefenseType.Melee} value={String(rival.melee)}/>
                 <ViewFieldCard name={DefenseType.Ranged} value={String(rival.ranged)}/>
-            </GridContainer>
+            </GridContainer> */}
             {ratingRow}
         </GridContainer>
     );

@@ -1,6 +1,5 @@
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell, TypographyLeftTableCell} from "./TypographyTableCell";
-import * as React from "react";
 import Skill from "../../../models/actor/Skill";
 import TableHead from "@mui/material/TableHead";
 import TableCell from "@mui/material/TableCell";
@@ -12,7 +11,7 @@ const renderHeaders = (headers: string[], columns: number) => {
     return (
         <TableRow key={'Header'}>
             {headers.map((header: string) => (
-                <TypographyCenterTableCell value={header} span={columns}/>
+                <TypographyCenterTableCell key={header} value={header} span={columns}/>
             ))}
         </TableRow>
     )

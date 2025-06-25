@@ -2,7 +2,7 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { renderSingleRowTableHeader } from "../../../common/table/TableRenders";
-import { Button, Card, CardContent, TableFooter } from "@mui/material";
+import { Button, Card, CardContent, TableCell, TableFooter } from "@mui/material";
 import TableRow from "@mui/material/TableRow";
 import { FC, Fragment, useState } from "react";
 import { useLocation } from "react-router";
@@ -21,6 +21,7 @@ type Props = {
 
 const AbilityTableCard: FC<Props> = ({ abilities, npc, updateAbilities }) => {
     const [openCreateAbilityDialog, setOpenCreateAbilityDialog] = useState(false);
+    const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
     const pathname = useLocation().pathname;
     const headers = ['Name', 'Activation', 'Summary'];
 
@@ -28,13 +29,28 @@ const AbilityTableCard: FC<Props> = ({ abilities, npc, updateAbilities }) => {
         updateAbilities([...abilities, ability]);
     };
 
+    const handleToggle = (id: string) => {
+        setOpenRows((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+    };
+
+
     const renderTableBody = () => {
         return (
             <TableBody>
-                {(abilities).map((ability: Ability) => (
-                    <AbilityTableRow ability={ability} npc={npc} columns={headers.length}/>
+                {abilities.map((ability) => (
+                    <AbilityTableRow
+                        key={ability.name}
+                        ability={ability}
+                        columns={headers.length}
+                        isOpen={openRows[ability.name] || false}
+                        onToggle={() => handleToggle(ability.name)}
+                    />
                 ))}
             </TableBody>
+
         )
     };
 
@@ -42,16 +58,28 @@ const AbilityTableCard: FC<Props> = ({ abilities, npc, updateAbilities }) => {
         if (pathname.endsWith('/edit')) {
             return (
                 <TableFooter>
-                    <TableRow key={'Footer'}>
-                        <Button color='primary' variant='contained'
-                            onClick={(): void => setOpenCreateAbilityDialog(true)}>Create
-                            Ability</Button>
-                        {openCreateAbilityDialog &&
-                            <CreateAbilityDialog open={openCreateAbilityDialog}
-                                onClose={(): void => setOpenCreateAbilityDialog(false)}
-                                onCreateAbility={createAbility} npc={npc} />}
+                    <TableRow key="Footer">
+                        <TableCell>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={() => setOpenCreateAbilityDialog(true)}
+                            >
+                                Create Ability
+                            </Button>
+
+                            {openCreateAbilityDialog && (
+                                <CreateAbilityDialog
+                                    open={openCreateAbilityDialog}
+                                    onClose={() => setOpenCreateAbilityDialog(false)}
+                                    onCreateAbility={createAbility}
+                                    npc={npc}
+                                />
+                            )}
+                        </TableCell>
                     </TableRow>
                 </TableFooter>
+
             )
         } else {
             return <Fragment />

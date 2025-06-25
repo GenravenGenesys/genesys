@@ -33,9 +33,9 @@ const CreateAbilityDialog: React.FC<Props> = ({ open, npc, onCreateAbility, onCl
         limiter: { type: LimitType.None, limit: 0 },
         cost: { type: CostType.None, amount: 0 },
         action: {
-            skill: {} as ActorSkill,
+            skill: { name: '', ranks: 0 } as ActorSkill,
             difficulty: Difficulty.Easy,
-            opposedSkill: {} as ActorSkill,
+            opposedSkill: { name: '', ranks: 0 } as ActorSkill,
             rangeBand: RangeBand.Engaged
         },
         modifiers: []

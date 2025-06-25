@@ -1,46 +1,48 @@
-import { FC, Fragment, useState } from "react";
-import Ability from "../../../../models/Ability"
-import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
-import { Collapse, Table, TableBody, TableCell, TableRow } from "@mui/material";
+import React, { Fragment } from "react";
+import {
+    TableRow,
+    TableCell,
+    Collapse,
+    Table,
+    TableBody,
+    Box,
+} from "@mui/material";
+import Ability from "../../../../models/Ability";
 import { TypographyLeftTableCell, TypographyCenterTableCell, GenesysDescriptionTypographyCenterTableCell } from "../../../common/table/TypographyTableCell";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
 
 type Props = {
     ability: Ability;
-    npc: SingleNonPlayerCharacter;
     columns: number;
+    isOpen: boolean;
+    onToggle: () => void;
 };
 
-const AbilityTableRow: FC<Props> = ({ ability, npc, columns }) => {
-    const [open, setOpen] = useState(false);
-
+const AbilityTableRow: React.FC<Props> = ({ ability, columns, isOpen, onToggle, }) => {
     return (
         <Fragment>
-            <TableRow key={ability.name} onClick={() => setOpen(!open)}>
+            <TableRow onClick={onToggle}>
                 <TypographyLeftTableCell value={ability.name} />
                 <TypographyCenterTableCell value={ability.activation} />
                 <GenesysDescriptionTypographyCenterTableCell value={ability.description} />
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Table sx={{ margin: 1 }}>
-                            <TableBody>
-                                <GenesysDescriptionTypography text={ability.description} />
-                            </TableBody>
-                        </Table>
+                <TableCell colSpan={columns} style={{ paddingBottom: 0, paddingTop: 0 }}>
+                    <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                        <Box margin={1}>
+                            <Table size="small">
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell colSpan={columns}>
+                                            <GenesysDescriptionTypography text={ability.description} />
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Box>
                     </Collapse>
                 </TableCell>
             </TableRow>
-            {/* <CardContent>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                    <Table sx={{ margin: 1 }}>
-                        <TableBody>
-                            <GenesysDescriptionTypography text={ability.description} />
-                        </TableBody>
-                    </Table>
-                </Collapse>
-            </CardContent> */}
         </Fragment>
     );
 };

@@ -156,32 +156,34 @@ const RivalPage = React.memo(() => {
             <CenteredCardHeaderWithAction title={memoizedRival.name} path={ActorPath.Rival + memoizedRival.id}
                 subheader={getRatings(memoizedRival)} />
             <CardContent>
-                <TabContext value={tab}>
-                    <GridContainer centered>
-                        <TabList onChange={handleChange} centered>
-                            <Tab label="Characteristics" value="1" />
-                            <Tab label="Skills" value="2" />
-                            <Tab label="Equipment" value="3" />
-                            <Tab label="Abilities" value="4" />
-                            <Tab label="Talents" value="5" />
-                        </TabList>
-                    </GridContainer>
-                    <TabPanel value="1">
-                        <RivalCharacteristicTab rival={memoizedRival} updateRival={handleRivalUpdate} />
-                    </TabPanel>
-                    <TabPanel value="2">
-                        <SingleNonPlayerCharacterSkillCard actor={memoizedRival} onSkillChange={handleSkillChange} />
-                    </TabPanel>
-                    <TabPanel value="3">
-                        <EquipmentCard actor={memoizedRival} updateArmors={handleArmorChange} updateWeapons={handleWeaponChange} />
-                    </TabPanel>
-                    <TabPanel value="4">
-                        <AbilityTableCard abilities={memoizedRival.abilities} updateAbilities={handleAbilityChange} npc={memoizedRival} />
-                    </TabPanel>
-                    <TabPanel value="5">
-                        <SingleNonPlayerCharacterTalentCard talents={memoizedRival.talents} updateTalents={handleTalentChange} />
-                    </TabPanel>
-                </TabContext>
+                {memoizedRival && (
+                    <TabContext value={tab}>
+                        <GridContainer centered>
+                            <TabList onChange={handleChange} centered>
+                                <Tab label="Characteristics" value="1" />
+                                <Tab label="Skills" value="2" />
+                                <Tab label="Equipment" value="3" />
+                                <Tab label="Abilities" value="4" />
+                                <Tab label="Talents" value="5" />
+                            </TabList>
+                        </GridContainer>
+                        <TabPanel value="1">
+                            <RivalCharacteristicTab rival={memoizedRival} updateRival={handleRivalUpdate} />
+                        </TabPanel>
+                        <TabPanel value="2">
+                            <SingleNonPlayerCharacterSkillCard actor={memoizedRival} onSkillChange={handleSkillChange} />
+                        </TabPanel>
+                        <TabPanel value="3">
+                            <EquipmentCard actor={memoizedRival} updateArmors={handleArmorChange} updateWeapons={handleWeaponChange} />
+                        </TabPanel>
+                        <TabPanel value="4">
+                            <AbilityTableCard abilities={memoizedRival.abilities} updateAbilities={handleAbilityChange} npc={memoizedRival} />
+                        </TabPanel>
+                        <TabPanel value="5">
+                            <SingleNonPlayerCharacterTalentCard talents={memoizedRival.talents} updateTalents={handleTalentChange} />
+                        </TabPanel>
+                    </TabContext>
+                )}
             </CardContent>
         </Card>
     )
