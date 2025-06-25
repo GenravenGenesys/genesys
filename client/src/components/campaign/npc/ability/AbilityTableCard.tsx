@@ -15,6 +15,7 @@ import {
 } from "../../../common/table/TypographyTableCell";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
+import AbilityTableRow from "./AbilityTableRow";
 
 type Props = {
     abilities: Ability[];
@@ -35,11 +36,12 @@ const AbilityTableCard: FC<Props> = ({ abilities, npc, updateAbilities }) => {
         return (
             <TableBody>
                 {(abilities).map((ability: Ability) => (
-                    <TableRow key={ability.name}>
-                        <TypographyLeftTableCell value={ability.name} />
-                        <TypographyCenterTableCell value={ability.activation} />
-                        <GenesysDescriptionTypographyCenterTableCell value={ability.description} />
-                    </TableRow>
+                    <AbilityTableRow ability={ability} npc={npc} columns={headers.length}/>
+                    // <TableRow key={ability.name}>
+                    //     <TypographyLeftTableCell value={ability.name} />
+                    //     <TypographyCenterTableCell value={ability.activation} />
+                    //     <GenesysDescriptionTypographyCenterTableCell value={ability.description} />
+                    // </TableRow>
                 ))}
             </TableBody>
         )

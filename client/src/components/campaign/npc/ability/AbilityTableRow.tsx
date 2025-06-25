@@ -1,7 +1,7 @@
 import { FC, Fragment, useState } from "react";
 import Ability from "../../../../models/Ability"
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
-import { CardContent, Collapse, Table, TableBody, TableCell, TableRow } from "@mui/material";
+import { Collapse, Table, TableBody, TableCell, TableRow } from "@mui/material";
 import { TypographyLeftTableCell, TypographyCenterTableCell, GenesysDescriptionTypographyCenterTableCell } from "../../../common/table/TypographyTableCell";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
 
@@ -46,4 +46,3 @@ const AbilityTableRow: FC<Props> = ({ ability, npc, columns }) => {
 };
 
 export default AbilityTableRow;
-
