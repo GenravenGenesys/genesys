@@ -16,12 +16,23 @@ const AbilityTableRow: FC<Props> = ({ ability, npc, columns }) => {
 
     return (
         <Fragment>
-            <TableRow key={ability.name}>
+            <TableRow key={ability.name} onClick={() => setOpen(!open)}>
                 <TypographyLeftTableCell value={ability.name} />
                 <TypographyCenterTableCell value={ability.activation} />
                 <GenesysDescriptionTypographyCenterTableCell value={ability.description} />
             </TableRow>
-            <CardContent>
+            <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns}>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Table sx={{ margin: 1 }}>
+                            <TableBody>
+                                <GenesysDescriptionTypography text={ability.description} />
+                            </TableBody>
+                        </Table>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+            {/* <CardContent>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <Table sx={{ margin: 1 }}>
                         <TableBody>
@@ -29,7 +40,7 @@ const AbilityTableRow: FC<Props> = ({ ability, npc, columns }) => {
                         </TableBody>
                     </Table>
                 </Collapse>
-            </CardContent>
+            </CardContent> */}
         </Fragment>
     );
 };
