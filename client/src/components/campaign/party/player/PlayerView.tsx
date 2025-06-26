@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PlayerEquipmentCard from "./equipment/PlayerEquipmentCard";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import { ActorPath } from '../../../../services/RootPath';
-import CharacteristicRow from "../../actor/common/CharacteristicRow";
+import CharacteristicRow from "../../actor/common/PlayerCharacteristicRow";
 import DerivedPlayerStatsRow from "./DerivedPlayerStatsRow";
 import GridContainer from "../../../common/grid/GridContainer";
 

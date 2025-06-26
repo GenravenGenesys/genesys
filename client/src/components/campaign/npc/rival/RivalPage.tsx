@@ -1,192 +1,112 @@
-import { Card, CardContent } from "@mui/material";
-import { useParams } from "react-router";
+import {Card, CardContent} from "@mui/material";
+import {useParams} from "react-router";
 import * as React from "react";
 import Rival from "../../../../models/actor/npc/Rival";
-import { getRatings } from "../../../../models/actor/npc/NonPlayerActor";
+import {getRatings} from "../../../../models/actor/npc/NonPlayerActor";
 import SingleNonPlayerCharacterSkillCard from "../skill/SingleNonPlayerCharacterSkillCard";
 import SingleNonPlayerCharacterTalentCard from "../talent/SingleNonPlayerCharacterTalentCard";
 import EquipmentCard from "../../actor/equipment/EquipmentCard";
-import { ActorPath } from "../../../../services/RootPath";
+import {ActorPath} from "../../../../services/RootPath";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
-import { Fragment, useEffect, useState, useCallback, useMemo } from "react";
+import {Fragment, useEffect, useState} from "react";
 import RivalService from "../../../../services/actor/RivalService";
-import { ActorSkill } from "../../../../models/actor/Actor";
-import { ActorWeapon } from "../../../../models/equipment/Weapon";
-import { ActorArmor } from "../../../../models/equipment/Armor";
-import AbilityTableCard from "../ability/AbilityTableCard";
+import {ActorSkill} from "../../../../models/actor/Actor";
+import {ActorWeapon} from "../../../../models/equipment/Weapon";
+import {ActorArmor} from "../../../../models/equipment/Armor";
 import Ability from "../../../../models/Ability";
-import { ActorTalent } from "../../../../models/Talent";
+import {ActorTalent} from "../../../../models/Talent";
 import RivalCharacteristicTab from "./RivalCharacteristicTab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import GridContainer from "../../../common/grid/GridContainer";
+import AbilityTableCard from "../ability/AbilityTableCard";
 
-const RivalPage = React.memo(() => {
-    const { id } = useParams<{ id: string }>();
+export default function RivalPage() {
+    const {id} = useParams<{ id: string }>();
     const [rival, setRival] = useState<Rival | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
     const [tab, setTab] = useState('1');
 
-    // Memoize the rival to prevent unnecessary re-renders
-    const memoizedRival = useMemo(() => rival, [rival]);
-
-    // Load rival data with proper cleanup
     useEffect(() => {
         if (!id) {
-            setRival(null);
-            setError(null);
-            return;
+            return
         }
+        (async (): Promise<void> => {
+            setRival(await RivalService.getRival(id));
+        })()
+    }, [id, setRival])
 
-        let isMounted = true;
-        setLoading(true);
-        setError(null);
+    if (!rival) {
+        return <Fragment/>;
+    }
 
-        const loadRival = async (): Promise<void> => {
-            try {
-                const rivalData = await RivalService.getRival(id);
-                if (isMounted) {
-                    setRival(rivalData);
-                    setError(null);
-                }
-            } catch (err) {
-                if (isMounted) {
-                    setError(err instanceof Error ? err.message : 'Failed to load rival');
-                    setRival(null);
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        };
-
-        loadRival();
-
-        // Cleanup function to prevent memory leaks
-        return () => {
-            isMounted = false;
-        };
-    }, [id]);
-
-    // Memoize handlers to prevent unnecessary re-renders
-    const handleChange = useCallback((event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setTab(newValue);
-    }, []);
+    };
 
-    const handleSkillChange = useCallback(async (value: ActorSkill) => {
-        if (memoizedRival) {
-            try {
-                const updatedRival = await RivalService.updateRivalSkill(memoizedRival.id, value);
-                setRival(updatedRival);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to update skill');
-            }
+    const handleSkillChange = async (value: ActorSkill) => {
+        if (rival) {
+            setRival(await RivalService.updateRivalSkill(rival.id, value));
         }
-    }, [memoizedRival]);
+    };
 
-    const handleArmorChange = useCallback(async (value: ActorArmor[]) => {
-        if (memoizedRival) {
-            try {
-                const updatedRival = await RivalService.updateRival({ ...memoizedRival, armors: value });
-                setRival(updatedRival);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to update armor');
-            }
+    const handleArmorChange = async (value: ActorArmor[]) => {
+        if (rival) {
+            setRival(await RivalService.updateRival({...rival, armors: value}));
         }
-    }, [memoizedRival]);
+    };
 
-    const handleWeaponChange = useCallback(async (value: ActorWeapon[]) => {
-        if (memoizedRival) {
-            try {
-                const updatedRival = await RivalService.updateRival({ ...memoizedRival, weapons: value });
-                setRival(updatedRival);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to update weapon');
-            }
+    const handleWeaponChange = async (value: ActorWeapon[]) => {
+        if (rival) {
+            setRival(await RivalService.updateRival({...rival, weapons: value}));
         }
-    }, [memoizedRival]);
+    };
 
-    const handleAbilityChange = useCallback(async (values: Ability[]) => {
-        if (memoizedRival) {
-            try {
-                const updatedRival = await RivalService.updateRival({ ...memoizedRival, abilities: values });
-                setRival(updatedRival);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to update abilities');
-            }
+    const handleAbilityChange = async (values: Ability[]) => {
+        if (rival) {
+            setRival(await RivalService.updateRival({...rival, abilities: values}));
         }
-    }, [memoizedRival]);
+    };
 
-    const handleTalentChange = useCallback(async (values: ActorTalent[]) => {
-        if (memoizedRival) {
-            try {
-                const updatedRival = await RivalService.updateRival({ ...memoizedRival, talents: values });
-                setRival(updatedRival);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to update talents');
-            }
+    const handleTalentChange = async (values: ActorTalent[]) => {
+        if (rival) {
+            setRival(await RivalService.updateRival({...rival, talents: values}));
         }
-    }, [memoizedRival]);
-
-    const handleRivalUpdate = useCallback((updatedRival: Rival) => {
-        setRival(updatedRival);
-    }, []);
-
-    // Show loading state
-    if (loading) {
-        return <div>Loading rival...</div>;
-    }
-
-    // Show error state
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
-    // Show empty state
-    if (!memoizedRival) {
-        return <Fragment />;
-    }
+    };
 
     return (
         <Card>
-            <CenteredCardHeaderWithAction title={memoizedRival.name} path={ActorPath.Rival + memoizedRival.id}
-                subheader={getRatings(memoizedRival)} />
+            <CenteredCardHeaderWithAction title={rival.name} path={ActorPath.Rival + rival.id}
+                                          subheader={getRatings(rival)}/>
             <CardContent>
-                {memoizedRival && (
-                    <TabContext value={tab}>
-                        <GridContainer centered>
-                            <TabList onChange={handleChange} centered>
-                                <Tab label="Characteristics" value="1" />
-                                <Tab label="Skills" value="2" />
-                                <Tab label="Equipment" value="3" />
-                                <Tab label="Abilities" value="4" />
-                                <Tab label="Talents" value="5" />
-                            </TabList>
-                        </GridContainer>
-                        <TabPanel value="1">
-                            <RivalCharacteristicTab rival={memoizedRival} updateRival={handleRivalUpdate} />
-                        </TabPanel>
+                <TabContext value={tab}>
+                    <GridContainer centered>
+                        <TabList onChange={handleChange} centered>
+                            <Tab label="Characteristics" value="1"/>
+                                        <Tab label="Skills" value="2"/>
+                                        <Tab label="Equipment" value="3"/>
+                                        <Tab label="Abilities" value="4"/>
+                                        <Tab label="Talents" value="5"/>
+                        </TabList>
+                    </GridContainer>
+                    <TabPanel value="1">
+                        <RivalCharacteristicTab rival={rival} updateRival={setRival}/>
+                    </TabPanel>
                         <TabPanel value="2">
-                            <SingleNonPlayerCharacterSkillCard actor={memoizedRival} onSkillChange={handleSkillChange} />
+                            <SingleNonPlayerCharacterSkillCard actor={rival} onSkillChange={handleSkillChange}/>
                         </TabPanel>
                         <TabPanel value="3">
-                            <EquipmentCard actor={memoizedRival} updateArmors={handleArmorChange} updateWeapons={handleWeaponChange} />
+                            <EquipmentCard actor={rival} updateArmors={handleArmorChange} updateWeapons={handleWeaponChange}/>
                         </TabPanel>
                         <TabPanel value="4">
-                            <AbilityTableCard abilities={memoizedRival.abilities} updateAbilities={handleAbilityChange} npc={memoizedRival} />
+                            <AbilityTableCard abilities={rival.abilities} updateAbilities={handleAbilityChange} npc={rival}/>
                         </TabPanel>
                         <TabPanel value="5">
-                            <SingleNonPlayerCharacterTalentCard talents={memoizedRival.talents} updateTalents={handleTalentChange} />
+                            <SingleNonPlayerCharacterTalentCard talents={rival.talents} updateTalents={handleTalentChange}/>
                         </TabPanel>
-                    </TabContext>
-                )}
+                </TabContext>
             </CardContent>
         </Card>
     )
-});
-
-export default RivalPage;
+}

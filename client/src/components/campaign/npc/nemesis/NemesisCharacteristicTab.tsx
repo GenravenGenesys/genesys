@@ -4,7 +4,7 @@ import NemesisService from "../../../../services/actor/NemesisService";
 import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
-import CharacteristicRow from "../../actor/common/CharacteristicRow";
+import CharacteristicRow from "../../actor/common/PlayerCharacteristicRow";
 import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import {StatsType} from "../../../../models/actor/Stats";
 import ViewFieldCard from "../../../common/ViewFieldCard";
