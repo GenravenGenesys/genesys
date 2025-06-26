@@ -3,7 +3,7 @@ import {CampaignPath} from "./RootPath";
 import Talent, {Tier} from "../models/Talent";
 import Skill from "../models/actor/Skill";
 import Scene from "../models/campaign/Scene";
-import {apiRequest} from "./ApiRequest";
+import {apiRequest, apiRequestList} from "./ApiRequest";
 
 export default class CampaignService {
     static async createCampaign(campaign: Campaign): Promise<Campaign> {
@@ -59,30 +59,12 @@ export default class CampaignService {
     }
 
     static async getCampaignTalents(): Promise<Talent[]> {
-        return await fetch(CampaignPath.Talents)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequestList(CampaignPath.Talents);
+    };
 
     static async addCampaignTalent(talent: Talent): Promise<Campaign> {
-        return await fetch(CampaignPath.Talents, {
-            method: "POST",
-            body: JSON.stringify(talent),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequest(CampaignPath.Talents, "POST", talent);
+    };
 
     static async getCampaignTierTalents(tier: Tier): Promise<Talent[]> {
         return await fetch(CampaignPath.TalentTiers + `${tier}`)
