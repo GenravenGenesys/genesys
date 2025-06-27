@@ -43,6 +43,7 @@ const AbilityTableCard: FC<Props> = ({ abilities, npc, updateAbilities }) => {
                 {abilities.map((ability) => (
                     <AbilityTableRow
                         key={ability.name}
+                        npc={npc}
                         ability={ability}
                         columns={headers.length}
                         isOpen={openRows[ability.name] || false}

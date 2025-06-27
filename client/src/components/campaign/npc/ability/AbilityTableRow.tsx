@@ -8,17 +8,19 @@ import {
     Box,
 } from "@mui/material";
 import Ability from "../../../../models/Ability";
-import { TypographyLeftTableCell, TypographyCenterTableCell, GenesysDescriptionTypographyCenterTableCell } from "../../../common/table/TypographyTableCell";
-import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
+import { TypographyLeftTableCell, TypographyCenterTableCell, GenesysDescriptionTypographyCenterTableCell, GenesysDicePoolCenterTableCellButton, GenesysDifficultyCenterTableCell } from "../../../common/table/TypographyTableCell";
+import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
+import { getActorSkill } from "../../../common/skill/SkillRenders";
 
 type Props = {
+    npc: SingleNonPlayerCharacter;
     ability: Ability;
     columns: number;
     isOpen: boolean;
     onToggle: () => void;
 };
 
-const AbilityTableRow: React.FC<Props> = ({ ability, columns, isOpen, onToggle, }) => {
+const AbilityTableRow: React.FC<Props> = ({ npc, ability, columns, isOpen, onToggle, }) => {
     return (
         <Fragment>
             <TableRow onClick={onToggle}>
@@ -33,9 +35,11 @@ const AbilityTableRow: React.FC<Props> = ({ ability, columns, isOpen, onToggle, 
                             <Table size="small">
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell colSpan={columns}>
-                                            <GenesysDescriptionTypography text={ability.description} />
-                                        </TableCell>
+                                        <TypographyLeftTableCell value={ability.action.difficulty ? "Skill Check" : "Opposed Skill Check"} />
+                                        <TypographyCenterTableCell value={ability.action.rangeBand} />
+                                        {ability.action.difficulty && <GenesysDifficultyCenterTableCell difficulty={ability.action.difficulty} />}
+                                        {ability.action.opposedSkill && <TypographyCenterTableCell value={ability.action.opposedSkill.name} />}
+                                        <GenesysDicePoolCenterTableCellButton actor={npc} skill={getActorSkill(npc, ability.action.skill)} difficulty={ability.action.difficulty}/>
                                     </TableRow>
                                 </TableBody>
                             </Table>

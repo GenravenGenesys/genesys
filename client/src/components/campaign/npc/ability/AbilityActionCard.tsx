@@ -35,7 +35,7 @@ const AbilityActionCard: FC<Props> = ({ action, npc, onChange, disabled }) => {
     };
 
     const handleDifficultyChange = (value: Difficulty) => {
-        onChange({ ...action, difficulty: value });
+        onChange({ ...action, difficulty: value, opposedSkill: {} as ActorSkill });
     };
 
     const handleOpposedSkillChange = (value: Skill) => {
