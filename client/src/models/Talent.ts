@@ -5,6 +5,7 @@ import Limit from "./common/Limit";
 import Skill from "./actor/Skill";
 import {ActorSkill} from "./actor/Actor";
 import {Difficulty} from "./common/Difficulty";
+import Action from "./campaign/encounter/Action";
 
 export default interface Talent {
     id: string
@@ -19,6 +20,7 @@ export default interface Talent {
     talentSkills: TalentSkills
     talentStats: TalentStats
     talentSkillCheck: TalentSkillCheck
+    action: Action
     talentRollModifiers: TalentRollModifiers[]
     modifiers: Modifier[]
 }

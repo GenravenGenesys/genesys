@@ -1,4 +1,4 @@
-import {Card, CardContent} from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import GenesysDescriptionTypography from "./typography/GenesysDescriptionTypography";
 import * as React from "react";
 import CenteredCardHeader from "./card/header/CenteredCardHeader";
@@ -9,13 +9,13 @@ type Props = {
     value: string;
 }
 
-const ViewFieldCard: React.FC<Props> = ({name, value})=> {
+const ViewFieldCard: React.FC<Props> = ({ name, value }) => {
     return (
         <GridItem>
             <Card>
-                <CenteredCardHeader title={name}/>
+                <CenteredCardHeader title={name} />
                 <CardContent>
-                    <GenesysDescriptionTypography text={value}/>
+                    <GenesysDescriptionTypography text={value} />
                 </CardContent>
             </Card>
         </GridItem>

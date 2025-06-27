@@ -8,6 +8,7 @@ import com.github.genraven.genesys.domain.actor.npc.SingleNonPlayerActor;
 
 import com.github.genraven.genesys.repository.actor.RivalRepository;
 import com.github.genraven.genesys.service.SkillService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

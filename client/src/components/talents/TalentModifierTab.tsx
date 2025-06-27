@@ -6,7 +6,6 @@ import * as React from "react";
 import {useState} from "react";
 import TalentModifierCard from "./modifier/TalentModifierCard";
 import TalentCareerSkillsCard from "./skill/TalentCareerSkillsCard";
-import TalentSkillCheckCard from "./skill/TalentSkillCheckCard";
 import NumberTextFieldCard from "../common/card/NumberTextFieldCard";
 import {StatsType} from "../../models/actor/Stats";
 import Cost, {CostType} from "../../models/common/Cost";
@@ -23,7 +22,6 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
     const [state, setState] = useState({
         cost: !(talent.cost.type === CostType.None && talent.limit.type === LimitType.None),
         careerSkill: talent.talentSkills.potentialCareerSkills.length > 0,
-        skillCheck: !!talent.talentSkillCheck.skill,
         stats: talent.talentStats.wounds > 0 || talent.talentStats.strain > 0 || talent.talentStats.soak > 0 || talent.talentStats.defense > 0
     });
 
@@ -128,12 +126,6 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
                         />
                         <FormControlLabel
                             control={
-                                <Checkbox checked={state.skillCheck} onChange={handleChange} name="skillCheck"/>
-                            }
-                            label="Skill Check"
-                        />
-                        <FormControlLabel
-                            control={
                                 <Checkbox checked={state.stats} onChange={handleChange} name="stats"/>
                             }
                             label="Stats"
@@ -151,10 +143,6 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalent, disabled})=> 
                 <TalentCareerSkillsCard talentSkills={talent.talentSkills}
                                         updateTalentSkills={handleTalentSkillsChange}
                                         disabled={disabled}/>
-            </GridContainer>}
-            {state.skillCheck && <GridContainer spacing={2}>
-                <TalentSkillCheckCard talent={talent} updateTalent={updateTalent}
-                                      disabled={disabled}/>
             </GridContainer>}
             {state.stats && <GridContainer spacing={2}>
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={talent.talentStats.wounds}

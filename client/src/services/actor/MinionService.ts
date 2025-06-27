@@ -20,6 +20,6 @@ export default class MinionService {
     };
 
     static async updateMinionSkill(id: string, skill: GroupSkill): Promise<Minion> {
-        return apiRequest(ActorPath.Minion + `${id}` + RootPath.Skills, "PUT", skill);
+        return apiRequest(ActorPath.Minion + `${id}` + RootPath.Skills, "PATCH", skill);
     };
 }

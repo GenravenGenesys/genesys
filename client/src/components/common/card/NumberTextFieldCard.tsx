@@ -21,7 +21,7 @@ const NumberTextFieldCard: React.FC<Props> = ({ title, value, onChange, min, max
             <Card>
                 <CenteredCardHeader title={title} />
                 <CardContent>
-                    <InlineNumberField defaultValue={0} onCommit={onChange} min={min} max={max} step={steps}/>
+                    <InlineNumberField defaultValue={value} onCommit={onChange} min={min} max={max} step={steps}/>
                 </CardContent>
             </Card>
         </GridItem>;

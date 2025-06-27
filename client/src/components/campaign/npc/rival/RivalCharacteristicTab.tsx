@@ -5,14 +5,13 @@ import * as React from "react";
 import Rival from "../../../../models/actor/npc/Rival";
 import RatingCard from "../RatingCard";
 import { RatingType } from "../../../../models/actor/npc/NonPlayerActor";
-import { Fragment, useEffect } from "react";
-import CharacteristicRow from "../../actor/common/CharacteristicRow";
 import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import { StatsType } from "../../../../models/actor/Stats";
 import { CharacteristicType } from "../../../../models/actor/Characteristic";
 import RivalService from "../../../../services/actor/RivalService";
 import { useLocation } from "react-router";
 import GridContainer from "../../../common/grid/GridContainer";
+import NonPlayerCharacterCharacteristicRow from "../NonPlayerCharacterCharacteristicRow";
 
 interface Props {
     rival: Rival;
@@ -22,10 +21,6 @@ interface Props {
 const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
     let pathname = useLocation().pathname;
     const isEdit = pathname.endsWith(`${rival.id}/edit`);
-
-    useEffect(() => {
-        console.log("RivalCharacteristicTab mounted with rival:", rival);
-    }, [rival]);
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {
         if (!rival) return;
@@ -92,7 +87,7 @@ const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
 
     return (
         <GridContainer centered>
-            <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange} />
+            <NonPlayerCharacterCharacteristicRow npc={rival} handleCharacteristicChange={handleCharacteristicChange} />
             <Divider />
             <GridContainer spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(rival.soak)} />

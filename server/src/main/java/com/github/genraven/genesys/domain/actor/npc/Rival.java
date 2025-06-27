@@ -54,7 +54,8 @@ public class Rival extends SingleNonPlayerActor {
                 .sum();
         soak += getTalents().stream()
                 .filter(talent -> talent.getTalentStats().getSoak() > 0)
-                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getSoak() * talent.getRanks() : talent.getTalentStats().getSoak())
+                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getSoak() * talent.getRanks()
+                        : talent.getTalentStats().getSoak())
                 .sum();
         this.setSoak(soak);
     }
@@ -63,7 +64,8 @@ public class Rival extends SingleNonPlayerActor {
         int melee = 0;
         melee += getTalents().stream()
                 .filter(talent -> talent.getTalentStats().getDefense() > 0)
-                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks() : talent.getTalentStats().getDefense())
+                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks()
+                        : talent.getTalentStats().getDefense())
                 .sum();
         melee += getArmors().stream()
                 .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
@@ -76,7 +78,8 @@ public class Rival extends SingleNonPlayerActor {
         int ranged = 0;
         ranged += getTalents().stream()
                 .filter(talent -> talent.getTalentStats().getDefense() > 0)
-                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks() : talent.getTalentStats().getDefense())
+                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks()
+                        : talent.getTalentStats().getDefense())
                 .sum();
         ranged += getArmors().stream()
                 .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
@@ -84,4 +87,17 @@ public class Rival extends SingleNonPlayerActor {
                 .sum();
         this.setRanged(ranged);
     }
+
+    @Override
+    public String toString() {
+        return "Rival{" +
+                "id='" + getId() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", brawn=" + getBrawn() +
+                ", agility=" + getAgility() +
+                ", intellect=" + getIntellect() +
+                ", injuries=" + injuries +
+                '}';
+    }
+
 }

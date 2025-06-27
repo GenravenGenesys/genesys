@@ -21,6 +21,6 @@ export default class RivalService {
     };
 
     static async updateRivalSkill(id: string, skill: ActorSkill): Promise<Rival> {
-        return apiRequest(ActorPath.Rival + `${id}` + RootPath.Skills, "PUT", skill);
+        return apiRequest(ActorPath.Rival + `${id}` + RootPath.Skills, "PATCH", skill);
     };
 }

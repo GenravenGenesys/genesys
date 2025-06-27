@@ -1,5 +1,4 @@
-import {Autocomplete} from "@mui/lab";
-import {TextField} from "@mui/material";
+import {Autocomplete, TextField} from "@mui/material";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import Quality, {EquipmentQuality} from "../../../models/Quality";

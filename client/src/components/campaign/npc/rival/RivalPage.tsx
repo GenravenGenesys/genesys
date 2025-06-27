@@ -12,7 +12,6 @@ import RivalService from "../../../../services/actor/RivalService";
 import { ActorSkill } from "../../../../models/actor/Actor";
 import { ActorWeapon } from "../../../../models/equipment/Weapon";
 import { ActorArmor } from "../../../../models/equipment/Armor";
-import AbilityTableCard from "../../actor/ability/AbilityTableCard";
 import Ability from "../../../../models/Ability";
 import { ActorTalent } from "../../../../models/Talent";
 import RivalCharacteristicTab from "./RivalCharacteristicTab";
@@ -21,7 +20,7 @@ import TabList from "@mui/lab/TabList/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import GridContainer from "../../../common/grid/GridContainer";
-import { useMemo } from "react";
+import AbilityTableCard from "../ability/AbilityTableCard";
 
 const RivalPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -113,7 +112,7 @@ const RivalPage = () => {
                         {tab === "3" && <EquipmentCard actor={rival} updateArmors={handleArmorChange} updateWeapons={handleWeaponChange} />}
                     </TabPanel>
                     <TabPanel value="4">
-                        {tab === "4" && <AbilityTableCard abilities={rival.abilities} updateAbilities={handleAbilityChange} />}
+                        {tab === "4" && <AbilityTableCard abilities={rival.abilities} updateAbilities={handleAbilityChange} npc={rival}/>}
                     </TabPanel>
                     <TabPanel value="5">
                         {tab === "5" && <SingleNonPlayerCharacterTalentCard talents={rival.talents} updateTalents={handleTalentChange} refetch={refetch} />}

@@ -5,13 +5,13 @@ import MinionService from "../../../../services/actor/MinionService";
 import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
-import CharacteristicRow from "../../actor/common/CharacteristicRow";
 import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import {StatsType} from "../../../../models/actor/Stats";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import * as React from "react";
 import {DefenseType} from "../../../../models/actor/Defense";
 import GridContainer from "../../../common/grid/GridContainer";
+import NonPlayerCharacterCharacteristicRow from "../NonPlayerCharacterCharacteristicRow";
 
 interface Props {
     minion: Minion;
@@ -110,7 +110,7 @@ const MinionCharacteristicTab: React.FC<Props> = ({minion, updateMinion}) => {
 
     return (
         <GridContainer centered>
-            <CharacteristicRow actor={minion} handleCharacteristicChange={handleCharacteristicChange}/>
+            <NonPlayerCharacterCharacteristicRow npc={minion} handleCharacteristicChange={handleCharacteristicChange}/>
             <GridContainer spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(minion.soak)}/>
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={minion.wounds.threshold}

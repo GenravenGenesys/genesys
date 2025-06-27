@@ -2,7 +2,7 @@ import {Fragment} from 'react';
 import {Typography} from '@mui/material';
 
 interface Props {
-    text: string
+    text: string;
 }
 
 export default function GenesysDescriptionTypography(props: Props): JSX.Element {
@@ -76,7 +76,7 @@ export default function GenesysDescriptionTypography(props: Props): JSX.Element 
 
     return (
         <Fragment>
-            <Typography style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: checkText()}}/>
+            <Typography component="div" style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: checkText()}}/>
         </Fragment>
     )
 }

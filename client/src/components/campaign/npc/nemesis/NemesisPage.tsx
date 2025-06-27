@@ -7,7 +7,7 @@ import { ActorPath } from "../../../../services/RootPath";
 import { getRatings } from "../../../../models/actor/npc/NonPlayerActor";
 import SingleNonPlayerCharacterSkillCard from "../skill/SingleNonPlayerCharacterSkillCard";
 import EquipmentCard from "../../actor/equipment/EquipmentCard";
-import AbilityTableCard from "../../actor/ability/AbilityTableCard";
+import AbilityTableCard from "../ability/AbilityTableCard";
 import SingleNonPlayerCharacterTalentCard from "../talent/SingleNonPlayerCharacterTalentCard";
 import { ActorSkill } from "../../../../models/actor/Actor";
 import { ActorArmor } from "../../../../models/equipment/Armor";
@@ -110,7 +110,7 @@ const NemesisPage = () => {
                         <EquipmentCard actor={nemesis} updateArmors={handleArmorChange} updateWeapons={handleWeaponChange} />
                     </TabPanel>
                     <TabPanel value="4">
-                        <AbilityTableCard abilities={nemesis.abilities} updateAbilities={handleAbilityChange} />
+                        <AbilityTableCard abilities={nemesis.abilities} updateAbilities={handleAbilityChange} npc={nemesis} />
                     </TabPanel>
                     <TabPanel value="5">
                         <SingleNonPlayerCharacterTalentCard talents={nemesis.talents} updateTalents={handleTalentChange} refetch={refetch} />

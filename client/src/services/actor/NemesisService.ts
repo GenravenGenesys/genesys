@@ -21,6 +21,6 @@ export default class NemesisService {
     };
 
     static async updateNemesisSkill(id: string, skill: ActorSkill): Promise<Nemesis> {
-        return apiRequest(ActorPath.Nemesis + `${id}` + RootPath.Skills, "PUT", skill);
+        return apiRequest(ActorPath.Nemesis + `${id}` + RootPath.Skills, "PATCH", skill);
     };
 }

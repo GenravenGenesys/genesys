@@ -53,7 +53,7 @@ export default function WeaponTable(props: Props) {
                             <TypographyCenterTableCell value={weapon.range}/>
                             <TypographyCenterTableCell value={renderQualities(weapon)}/>
                             <GenesysDicePoolCenterTableCellButton actor={actor}
-                                                                  skill={getActorSkill(actor as NonPlayerActor, weapon)}/>
+                                                                  skill={getActorSkill(actor as NonPlayerActor, weapon.skill)}/>
                         </TableRow>
                     ))}
                 </TableBody>

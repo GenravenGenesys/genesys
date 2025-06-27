@@ -1,7 +1,5 @@
-import {Autocomplete} from "@mui/lab";
-import {TextField} from "@mui/material";
+import {Autocomplete, TextField} from "@mui/material";
 import TableCell from "@mui/material/TableCell";
-import * as React from "react";
 import {useEffect, useState} from "react";
 import ModifierService from "../../../services/ModifierService";
 

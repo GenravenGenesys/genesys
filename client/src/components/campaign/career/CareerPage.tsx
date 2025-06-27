@@ -1,5 +1,4 @@
 import {Card, CardContent} from '@mui/material';
-import * as React from "react";
 import {useLocation, useParams} from "react-router";
 import {RootPath} from "../../../services/RootPath";
 import Career from '../../../models/actor/player/Career';

@@ -1,5 +1,6 @@
 package com.github.genraven.genesys.domain;
 
+import com.github.genraven.genesys.domain.common.Action;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import lombok.Data;
 
@@ -13,5 +14,6 @@ public class Ability {
     private Activation activation;
     private Cost cost = new Cost();
     private Limit limit = new Limit();
+    private Action action = new Action();
     private List<Modifier> modifiers = new ArrayList<>();
 }

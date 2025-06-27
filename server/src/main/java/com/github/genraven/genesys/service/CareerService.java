@@ -4,7 +4,6 @@ import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.skill.Skill;
 import com.github.genraven.genesys.repository.CareerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

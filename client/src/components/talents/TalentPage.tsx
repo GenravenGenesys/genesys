@@ -1,5 +1,5 @@
 import {Card, CardContent} from '@mui/material';
-import Talent from "../../models/Talent";
+import Talent, { Activation } from "../../models/Talent";
 import * as React from "react";
 import {useLocation, useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
@@ -13,6 +13,7 @@ import TabContext from "@mui/lab/TabContext";
 import TalentBaseTab from "./TalentBaseTab";
 import TalentModifierTab from "./TalentModifierTab";
 import GridContainer from "../common/grid/GridContainer";
+import TalentActionTab from './action/TalentActionTab';
 
 export default function TalentPage() {
     const {id} = useParams<{ id: string }>();
@@ -52,6 +53,7 @@ export default function TalentPage() {
                         <TabList onChange={handleChange} centered>
                             <Tab label="Base" value="1"/>
                             <Tab label="Modifiers" value="2"/>
+                            <Tab label="Action" value="3" disabled={talent.activation !== Activation.ActiveAction}/>
                         </TabList>
                     </GridContainer>
                     <TabPanel value="1">
@@ -59,6 +61,9 @@ export default function TalentPage() {
                     </TabPanel>
                     <TabPanel value="2">
                         <TalentModifierTab talent={talent} updateTalent={updateTalent} disabled={!pathname.endsWith(talent.id + '/edit')}/>
+                    </TabPanel>
+                    <TabPanel value="3">
+                        <TalentActionTab talent={talent} updateTalent={updateTalent} disabled={!pathname.endsWith(talent.id + '/edit')}/>
                     </TabPanel>
                 </TabContext>
             </CardContent>

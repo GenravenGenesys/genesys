@@ -5,9 +5,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import PlayerEquipmentCard from "./equipment/PlayerEquipmentCard";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import { ActorPath } from '../../../../services/RootPath';
-import CharacteristicRow from "../../actor/common/CharacteristicRow";
 import DerivedPlayerStatsRow from "./DerivedPlayerStatsRow";
 import GridContainer from "../../../common/grid/GridContainer";
+import PlayerCharacteristicRow from './PlayerCharacteristicRow';
 
 interface Props {
     player: Player
@@ -38,7 +38,7 @@ export default function PlayerView(props: Props) {
                         <ViewFieldCard name={'Encumbrance'} value={String(player.encumbrance)}/>
                     </GridContainer>
                     <Divider/>
-                    <CharacteristicRow actor={player}/>
+                    <PlayerCharacteristicRow player={player}/>
                     <Divider/>
                     <DerivedPlayerStatsRow player={player}/>
                     <Divider/>

@@ -1,9 +1,7 @@
-import {Autocomplete} from "@mui/lab";
 import {renderSkillName} from "../skill/SkillRenders";
 import Skill from "../../../models/actor/Skill";
-import {TextField} from "@mui/material";
+import {Autocomplete, TextField} from "@mui/material";
 import TableCell from "@mui/material/TableCell";
-import * as React from "react";
 
 interface Props {
     skill: Skill

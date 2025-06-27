@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 public class Encounter {
 
-    private Type type = Type.COMBAT;
+    private EncounterType type = EncounterType.COMBAT;
     private Party party = new Party();
     private List<Rival> enemyRivals = new ArrayList<>();
     private List<Nemesis> enemyNemeses = new ArrayList<>();
@@ -24,9 +24,10 @@ public class Encounter {
 
     @Getter
     @AllArgsConstructor
-    public enum Type {
+    public enum EncounterType {
         COMBAT("Combat"),
-        SOCIAL("Social");
+        SOCIAL("Social"),
+        GENERAL("General");
 
         @JsonValue
         private final String label;

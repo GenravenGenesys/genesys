@@ -18,7 +18,7 @@ const TextFieldCard: React.FC<Props> = ({title, value, disabled, onChange})=> {
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>
-                    <GenesysTextField text={value} label={title} disabled={disabled} onChange={onChange}/>
+                    <GenesysTextField text={value} label={title} disabled={disabled} onChange={onChange} fullwidth/>
                 </CardContent>
             </Card>
         </GridItem>
