@@ -21,6 +21,7 @@ import TabList from "@mui/lab/TabList/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import GridContainer from "../../../common/grid/GridContainer";
+import { useMemo } from "react";
 
 const RivalPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -45,38 +46,40 @@ const RivalPage = () => {
     );
 
     const handleSkillChange = async (value: ActorSkill) => {
-        if (rival) {
-            await RivalService.updateRivalSkill(rival.id, value);
-            refetch();
-        }
+        if (!rival) return;
+
+        await RivalService.updateRivalSkill(rival.id, value);
+        refetch();
     };
 
     const handleArmorChange = async (value: ActorArmor[]) => {
-        if (rival) {
-            await RivalService.updateRival({ ...rival, armors: value });
-            refetch();
-        }
+        if (!rival) return;
+
+        await RivalService.updateRival({ ...rival, armors: value });
+        refetch();
     };
+
 
     const handleWeaponChange = async (value: ActorWeapon[]) => {
-        if (rival) {
-            await RivalService.updateRival({ ...rival, weapons: value });
-            refetch();
-        }
+        if (!rival) return;
+
+        await RivalService.updateRival({ ...rival, weapons: value });
+        refetch();
     };
 
+
     const handleAbilityChange = async (values: Ability[]) => {
-        if (rival) {
-            await RivalService.updateRival({ ...rival, abilities: values });
-            refetch();
-        }
+        if (!rival) return;
+
+        await RivalService.updateRival({ ...rival, abilities: values });
+        refetch();
     };
 
     const handleTalentChange = async (values: ActorTalent[]) => {
-        if (rival) {
-            await RivalService.updateRival({ ...rival, talents: values });
-            refetch();
-        }
+        if (!rival) return;
+
+        await RivalService.updateRival({ ...rival, talents: values });
+        refetch();
     };
 
     if (isLoading || !rival) return <React.Fragment />;
@@ -101,26 +104,19 @@ const RivalPage = () => {
                         </TabList>
                     </GridContainer>
                     <TabPanel value="1">
-                        <RivalCharacteristicTab rival={rival} updateRival={() => refetch()} />
+                        {tab === "1" && <RivalCharacteristicTab rival={rival} refetch={refetch} />}
                     </TabPanel>
                     <TabPanel value="2">
-                        <SingleNonPlayerCharacterSkillCard actor={rival} onSkillChange={handleSkillChange} />
+                        {tab === "2" && <SingleNonPlayerCharacterSkillCard actor={rival} onSkillChange={handleSkillChange} />}
                     </TabPanel>
                     <TabPanel value="3">
-                        <EquipmentCard
-                            actor={rival}
-                            updateArmors={handleArmorChange}
-                            updateWeapons={handleWeaponChange}
-                        />
+                        {tab === "3" && <EquipmentCard actor={rival} updateArmors={handleArmorChange} updateWeapons={handleWeaponChange} />}
                     </TabPanel>
                     <TabPanel value="4">
-                        <AbilityTableCard abilities={rival.abilities} updateAbilities={handleAbilityChange} />
+                        {tab === "4" && <AbilityTableCard abilities={rival.abilities} updateAbilities={handleAbilityChange} />}
                     </TabPanel>
                     <TabPanel value="5">
-                        <SingleNonPlayerCharacterTalentCard
-                            talents={rival.talents}
-                            updateTalents={handleTalentChange}
-                        />
+                        {tab === "5" && <SingleNonPlayerCharacterTalentCard talents={rival.talents} updateTalents={handleTalentChange} refetch={refetch} />}
                     </TabPanel>
                 </TabContext>
             </CardContent>

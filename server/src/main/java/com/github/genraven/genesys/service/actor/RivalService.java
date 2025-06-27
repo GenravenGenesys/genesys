@@ -36,7 +36,7 @@ public class RivalService {
     public Mono<Rival> getRival(final String id) {
         log.info("Fetching rival with ID: {}", id);
         return rivalRepository.findById(id)
-                .doOnNext(rival -> log.debug("Found rival: {}", rival.getName()))
+                .doOnNext(rival -> log.info("Found rival: {}", rival.getName()))
                 .map(rival -> {
                     rival.getTotalRivalStats();
                     return rival;

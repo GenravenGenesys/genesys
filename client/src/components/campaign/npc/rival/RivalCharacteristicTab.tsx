@@ -5,7 +5,7 @@ import * as React from "react";
 import Rival from "../../../../models/actor/npc/Rival";
 import RatingCard from "../RatingCard";
 import { RatingType } from "../../../../models/actor/npc/NonPlayerActor";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import CharacteristicRow from "../../actor/common/CharacteristicRow";
 import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import { StatsType } from "../../../../models/actor/Stats";
@@ -16,79 +16,81 @@ import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {
     rival: Rival;
-    updateRival: (rival: Rival) => void;
+    refetch: () => void;
 }
 
-const RivalCharacteristicTab: React.FC<Props> = ({ rival, updateRival }) => {
+const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
     let pathname = useLocation().pathname;
+    const isEdit = pathname.endsWith(`${rival.id}/edit`);
+
+    useEffect(() => {
+  console.log("RivalCharacteristicTab mounted with rival:", rival);
+}, [rival]);
+
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {
-        if (rival) {
-            switch (characteristic) {
-                case CharacteristicType.Brawn:
-                    updateRival(await RivalService.updateRival({
-                        ...rival,
-                        brawn: { ...rival.brawn, current: value }
-                    }));
-                    break;
-                case CharacteristicType.Agility:
-                    updateRival(await RivalService.updateRival({
-                        ...rival,
-                        agility: { ...rival.agility, current: value }
-                    }));
-                    break;
-                case CharacteristicType.Intellect:
-                    updateRival(await RivalService.updateRival({
-                        ...rival,
-                        intellect: { ...rival.intellect, current: value }
-                    }));
-                    break;
-                case CharacteristicType.Cunning:
-                    updateRival(await RivalService.updateRival({
-                        ...rival,
-                        cunning: { ...rival.cunning, current: value }
-                    }));
-                    break;
-                case CharacteristicType.Willpower:
-                    updateRival(await RivalService.updateRival({
-                        ...rival,
-                        willpower: { ...rival.willpower, current: value }
-                    }));
-                    break;
-                case CharacteristicType.Presence:
-                    updateRival(await RivalService.updateRival({
-                        ...rival,
-                        presence: { ...rival.presence, current: value }
-                    }));
-                    break;
-            }
+        if (!rival) return;
+
+        const updated = { ...rival };
+
+        switch (characteristic) {
+            case CharacteristicType.Brawn:
+                updated.brawn.current = value;
+                break;
+            case CharacteristicType.Agility:
+                updated.agility.current = value;
+                break;
+            case CharacteristicType.Intellect:
+                updated.intellect.current = value;
+                break;
+            case CharacteristicType.Cunning:
+                updated.cunning.current = value;
+                break;
+            case CharacteristicType.Willpower:
+                updated.willpower.current = value;
+                break;
+            case CharacteristicType.Presence:
+                updated.presence.current = value;
+                break;
         }
+
+        await RivalService.updateRival(updated);
+        refetch();
     };
 
     const handleWoundsChange = async (value: number) => {
-        if (rival) {
-            updateRival(await RivalService.updateRival({
-                ...rival,
-                wounds: { current: rival.wounds.current, threshold: value, type: rival.wounds.type }
-            }));
-        }
+        if (!rival) return;
+
+        const updated = {
+            ...rival,
+            wounds: { ...rival.wounds, threshold: value }
+        };
+
+        await RivalService.updateRival(updated);
+        refetch();
     };
 
     const handleRatingsChange = async (value: number, type: RatingType) => {
-        if (rival) {
-            switch (type) {
-                case RatingType.Combat:
-                    updateRival(await RivalService.updateRival({ ...rival, combat: value }));
-                    break;
-                case RatingType.Social:
-                    updateRival(await RivalService.updateRival({ ...rival, social: value }));
-                    break;
-                case RatingType.General:
-                    updateRival(await RivalService.updateRival({ ...rival, general: value }));
-                    break;
-            }
+        if (!rival) return;
+
+        const updated = { ...rival };
+
+        switch (type) {
+            case RatingType.Combat:
+                updated.combat = value;
+                break;
+            case RatingType.Social:
+                updated.social = value;
+                break;
+            case RatingType.General:
+                updated.general = value;
+                break;
         }
+
+        await RivalService.updateRival(updated);
+        refetch();
     };
+
 
     // const renderRatingRow = () => {
     //     if (pathname.endsWith(rival.id + '/edit')) {
@@ -117,20 +119,20 @@ const RivalCharacteristicTab: React.FC<Props> = ({ rival, updateRival }) => {
                 <ViewFieldCard name={'Soak'} value={String(rival.soak)} />
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={rival.wounds.threshold}
                     onChange={handleWoundsChange} min={1} max={20}
-                    disabled={pathname.endsWith(rival.id + '/edit')} />
+                    disabled={!isEdit} />
                 <ViewFieldCard name={DefenseType.Melee} value={String(rival.melee)} />
                 <ViewFieldCard name={DefenseType.Ranged} value={String(rival.ranged)} />
             </GridContainer>
-            {pathname.endsWith(rival.id + '/edit') && <GridContainer spacing={2}>
+            {isEdit && <GridContainer spacing={2}>
                 <RatingCard type={RatingType.Combat} value={rival.combat}
                     onChange={handleRatingsChange}
-                    disabled={!pathname.endsWith(rival.id + '/edit')} />
+                    disabled={!isEdit} />
                 <RatingCard type={RatingType.Social} value={rival.social}
                     onChange={handleRatingsChange}
-                    disabled={!pathname.endsWith(rival.id + '/edit')} />
+                    disabled={!isEdit} />
                 <RatingCard type={RatingType.General} value={rival.general}
                     onChange={handleRatingsChange}
-                    disabled={!pathname.endsWith(rival.id + '/edit')} />
+                    disabled={!isEdit} />
             </GridContainer>}
         </GridContainer>
     );
