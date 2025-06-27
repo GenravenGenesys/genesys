@@ -8,6 +8,7 @@ type Props = {
     defaultEdit?: boolean;
     editable?: boolean;
     onCommit: (value: number) => void;
+    label?: string,
     helperText?: string;
     disabled?: boolean;
     placeholder?: string;
@@ -23,6 +24,7 @@ const InlineNumberField: FC<Props> = ({
     defaultEdit,
     editable,
     onCommit,
+    label,
     helperText,
     disabled,
     placeholder,
@@ -63,9 +65,9 @@ const InlineNumberField: FC<Props> = ({
             <TextField
                 type="number"
                 fullWidth
-                variant="outlined"
                 value={numberValue}
                 onChange={inputOnChange}
+                label={label}
                 helperText={error ? errorText : helperText}
                 error={error}
                 disabled={disabled}

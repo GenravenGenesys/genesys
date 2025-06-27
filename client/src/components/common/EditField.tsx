@@ -46,7 +46,7 @@ export default function EditField(props: Props): JSX.Element {
     }
 
     return (
-        <GridContainer spacing={1}>
+        <GridContainer centered>
             <GridItem>
                 {edit ? editElement : viewElement}
             </GridItem>

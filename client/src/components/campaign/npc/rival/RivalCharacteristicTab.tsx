@@ -92,7 +92,7 @@ const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
 
     return (
         <GridContainer centered>
-            {/* <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange} /> */}
+            <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange} />
             <Divider />
             <GridContainer spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(rival.soak)} />
@@ -102,7 +102,7 @@ const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
                 <ViewFieldCard name={DefenseType.Melee} value={String(rival.melee)} />
                 <ViewFieldCard name={DefenseType.Ranged} value={String(rival.ranged)} />
             </GridContainer>
-            {/* {isEdit && <GridContainer spacing={2}>
+            {isEdit && <GridContainer spacing={2}>
                 <RatingCard type={RatingType.Combat} value={rival.combat}
                     onChange={handleRatingsChange}
                     disabled={!isEdit} />
@@ -112,7 +112,7 @@ const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
                 <RatingCard type={RatingType.General} value={rival.general}
                     onChange={handleRatingsChange}
                     disabled={!isEdit} />
-            </GridContainer>} */}
+            </GridContainer>}
         </GridContainer>
     );
 };
