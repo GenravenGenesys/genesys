@@ -41,9 +41,9 @@ public class Rival extends SingleNonPlayerActor {
     private List<CriticalInjury> injuries = new ArrayList<>();
 
     public void getTotalRivalStats() {
-        // this.getTotalSoak();
-        // this.getTotalMeleeDefense();
-        // this.getTotalRangedDefense();
+        this.getTotalSoak();
+        this.getTotalMeleeDefense();
+        this.getTotalRangedDefense();
     }
 
     private void getTotalSoak() {

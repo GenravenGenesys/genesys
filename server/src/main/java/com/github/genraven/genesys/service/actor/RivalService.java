@@ -36,7 +36,7 @@ public class RivalService {
     public Mono<Rival> getRival(final String id) {
         log.info("Fetching rival with ID: {}", id);
         return rivalRepository.findById(id)
-                .doOnNext(rival -> log.info("Found rival: {}", rival.getName()))
+                .doOnNext(rival -> log.debug("Found rival: {}", rival.getName()))
                 .map(rival -> {
                     rival.getTotalRivalStats();
                     return rival;
@@ -61,7 +61,21 @@ public class RivalService {
                 .map(existing -> {
                     log.debug("Existing rival before update: {}", existing);
                     existing.setBrawn(rival.getBrawn());
-                    // ... other setters
+                    existing.setBrawn(rival.getBrawn());
+                    existing.setAgility(rival.getAgility());
+                    existing.setIntellect(rival.getIntellect());
+                    existing.setCunning(rival.getCunning());
+                    existing.setWillpower(rival.getWillpower());
+                    existing.setPresence(rival.getPresence());
+                    existing.setWounds(rival.getWounds());
+                    existing.setCombat(rival.getCombat());
+                    existing.setSocial(rival.getSocial());
+                    existing.setGeneral(rival.getGeneral());
+                    existing.setAbilities(rival.getAbilities());
+                    existing.setSkills(rival.getSkills());
+                    existing.setTalents(rival.getTalents());
+                    existing.setWeapons(rival.getWeapons());
+                    existing.setArmors(rival.getArmors());
                     return existing;
                 })
                 .flatMap(rivalRepository::save)
