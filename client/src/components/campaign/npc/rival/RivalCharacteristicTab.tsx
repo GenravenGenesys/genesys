@@ -24,9 +24,8 @@ const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
     const isEdit = pathname.endsWith(`${rival.id}/edit`);
 
     useEffect(() => {
-  console.log("RivalCharacteristicTab mounted with rival:", rival);
-}, [rival]);
-
+        console.log("RivalCharacteristicTab mounted with rival:", rival);
+    }, [rival]);
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {
         if (!rival) return;
@@ -91,29 +90,9 @@ const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
         refetch();
     };
 
-
-    // const renderRatingRow = () => {
-    //     if (pathname.endsWith(rival.id + '/edit')) {
-    //         return (
-    //             <GridContainer spacing={2}>
-    //                 <RatingCard type={RatingType.Combat} value={rival.combat}
-    //                     onChange={handleRatingsChange}
-    //                     disabled={!pathname.endsWith(rival.id + '/edit')} />
-    //                 <RatingCard type={RatingType.Social} value={rival.social}
-    //                     onChange={handleRatingsChange}
-    //                     disabled={!pathname.endsWith(rival.id + '/edit')} />
-    //                 <RatingCard type={RatingType.General} value={rival.general}
-    //                     onChange={handleRatingsChange}
-    //                     disabled={!pathname.endsWith(rival.id + '/edit')} />
-    //             </GridContainer>
-    //         )
-    //     }
-    //     return <Fragment />
-    // };
-
     return (
         <GridContainer centered>
-            <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange} />
+            {/* <CharacteristicRow actor={rival} handleCharacteristicChange={handleCharacteristicChange} /> */}
             <Divider />
             <GridContainer spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(rival.soak)} />
@@ -123,7 +102,7 @@ const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
                 <ViewFieldCard name={DefenseType.Melee} value={String(rival.melee)} />
                 <ViewFieldCard name={DefenseType.Ranged} value={String(rival.ranged)} />
             </GridContainer>
-            {isEdit && <GridContainer spacing={2}>
+            {/* {isEdit && <GridContainer spacing={2}>
                 <RatingCard type={RatingType.Combat} value={rival.combat}
                     onChange={handleRatingsChange}
                     disabled={!isEdit} />
@@ -133,7 +112,7 @@ const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
                 <RatingCard type={RatingType.General} value={rival.general}
                     onChange={handleRatingsChange}
                     disabled={!isEdit} />
-            </GridContainer>}
+            </GridContainer>} */}
         </GridContainer>
     );
 };
