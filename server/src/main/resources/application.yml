@@ -1,4 +1,4 @@
 spring:
   data:
     mongodb:
-      uri: ${MONGODB_URI}
+      uri: ${ATLAS_MONGODB_URI}
