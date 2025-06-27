@@ -1,7 +1,7 @@
+import { ActorSkill } from "../../models/actor/Actor";
 import Rival from "../../models/actor/npc/Rival";
-import {ActorPath, CampaignPath, RootPath} from "../RootPath";
-import {ActorSkill} from "../../models/actor/Actor";
 import { apiRequest, apiRequestList } from "../ApiRequest";
+import { ActorPath, CampaignPath, RootPath } from "../RootPath";
 
 export default class RivalService {
     static async getRival(id: string): Promise<Rival> {
