@@ -35,9 +35,9 @@ const AbilityTableRow: React.FC<Props> = ({ npc, ability, columns, isOpen, onTog
                             <Table size="small">
                                 <TableBody>
                                     <TableRow>
-                                        <TypographyLeftTableCell value={ability.action.difficulty ? "Skill Check" : "Opposed Skill Check"} />
+                                        <TypographyLeftTableCell value={ability.action.opposedSkill ? "Opposed Skill Check" : "Skill Check"} />
                                         <TypographyCenterTableCell value={ability.action.rangeBand} />
-                                        {ability.action.difficulty && <GenesysDifficultyCenterTableCell difficulty={ability.action.difficulty} />}
+                                        {!ability.action.opposedSkill && <GenesysDifficultyCenterTableCell difficulty={ability.action.difficulty} />}
                                         {ability.action.opposedSkill && <TypographyCenterTableCell value={ability.action.opposedSkill.name} />}
                                         <GenesysDicePoolCenterTableCellButton actor={npc} skill={getActorSkill(npc, ability.action.skill)} difficulty={ability.action.difficulty}/>
                                     </TableRow>

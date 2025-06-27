@@ -7,7 +7,7 @@ import CareerSelectCard from "./CareerSkillCard";
 import Archetype from "../../../../models/actor/player/Archetype";
 import PlayerService from "../../../../services/actor/PlayerService";
 import Career from "../../../../models/actor/player/Career";
-import CharacteristicRow from "../../actor/common/PlayerCharacteristicRow";
+import PlayerCharacteristicRow from "./PlayerCharacteristicRow";
 import DerivedPlayerStatsRow from "./DerivedPlayerStatsRow";
 import GridContainer from "../../../common/grid/GridContainer";
 
@@ -45,7 +45,7 @@ export default function PlayerCharacteristicTab(props: Props) {
                 <ViewFieldCard name={'Encumbrance'} value={String(player.encumbrance)}/>
                 <ExperienceCard player={player}/>
             </GridContainer>
-            <CharacteristicRow actor={player}/>
+            <PlayerCharacteristicRow player={player}/>
             <DerivedPlayerStatsRow player={player}/>
         </GridContainer>
     );

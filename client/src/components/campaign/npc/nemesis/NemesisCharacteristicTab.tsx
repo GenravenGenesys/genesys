@@ -4,7 +4,6 @@ import NemesisService from "../../../../services/actor/NemesisService";
 import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
-import CharacteristicRow from "../../actor/common/PlayerCharacteristicRow";
 import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import {StatsType} from "../../../../models/actor/Stats";
 import ViewFieldCard from "../../../common/ViewFieldCard";
@@ -12,6 +11,7 @@ import * as React from "react";
 import {DefenseType} from "../../../../models/actor/Defense";
 import {useLocation} from "react-router";
 import GridContainer from "../../../common/grid/GridContainer";
+import NonPlayerCharacterCharacteristicRow from "../NonPlayerCharacterCharacteristicRow";
 
 interface Props {
     nemesis: Nemesis;
@@ -119,7 +119,7 @@ const NemesisCharacteristicTab: React.FC<Props> = ({nemesis, updateNemesis})=> {
 
     return (
         <GridContainer centered>
-            <CharacteristicRow actor={nemesis} handleCharacteristicChange={handleCharacteristicChange}/>
+            <NonPlayerCharacterCharacteristicRow npc={nemesis} handleCharacteristicChange={handleCharacteristicChange}/>
             <GridContainer spacing={2}>
                 <ViewFieldCard name={'Soak'} value={String(nemesis.soak)}/>
                 <NumberTextFieldCard title={StatsType.Wounds + ' Threshold'} value={nemesis.wounds.threshold}

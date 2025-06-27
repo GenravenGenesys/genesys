@@ -110,7 +110,7 @@ const NemesisPage = () => {
                         <EquipmentCard actor={nemesis} updateArmors={handleArmorChange} updateWeapons={handleWeaponChange} />
                     </TabPanel>
                     <TabPanel value="4">
-                        <AbilityTableCard abilities={nemesis.abilities} updateAbilities={handleAbilityChange} />
+                        <AbilityTableCard abilities={nemesis.abilities} updateAbilities={handleAbilityChange} npc={nemesis} />
                     </TabPanel>
                     <TabPanel value="5">
                         <SingleNonPlayerCharacterTalentCard talents={nemesis.talents} updateTalents={handleTalentChange} refetch={refetch} />
