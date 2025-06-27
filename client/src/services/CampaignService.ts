@@ -7,56 +7,20 @@ import {apiRequest, apiRequestList} from "./ApiRequest";
 
 export default class CampaignService {
     static async createCampaign(campaign: Campaign): Promise<Campaign> {
-        return await fetch(CampaignPath.Campaign, {
-            method: "POST",
-            body: JSON.stringify(campaign),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequest(CampaignPath.Campaign, "POST", campaign);
+    };
 
     static async getAllCampaigns(): Promise<Campaign[]> {
-        return await fetch(CampaignPath.Campaign)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequestList(CampaignPath.Campaign);
+    };
 
     static async getCampaign(name: string): Promise<Campaign> {
-        return await fetch(CampaignPath.Campaign + `${name}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequest(CampaignPath.Campaign + `${name}`);
+    };
 
     static async updateCampaign(campaign: Campaign): Promise<Campaign> {
-        return await fetch(CampaignPath.Campaign + `${campaign.id}`, {
-            method: "PUT",
-            body: JSON.stringify(campaign),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequest(CampaignPath.Campaign + `${campaign.id}`, "PUT", campaign);
+    };
 
     static async getCampaignTalents(): Promise<Talent[]> {
         return apiRequestList(CampaignPath.Talents);
@@ -67,66 +31,24 @@ export default class CampaignService {
     };
 
     static async getCampaignTierTalents(tier: Tier): Promise<Talent[]> {
-        return await fetch(CampaignPath.TalentTiers + `${tier}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequestList(CampaignPath.TalentTiers + `${tier}`);
+    };
 
     static async getCampaignSkills(): Promise<Skill[]> {
-        return await fetch(CampaignPath.Skills)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequestList(CampaignPath.Skills);
+    };
 
     static async addCampaignSkill(skill: Skill): Promise<Campaign> {
-        return await fetch(CampaignPath.Skills, {
-            method: "POST",
-            body: JSON.stringify(skill),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequest(CampaignPath.Skills, "POST", skill);
+    };
 
     static async getCampaignScenes(): Promise<Scene[]> {
-        return await fetch(CampaignPath.Scene)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequestList(CampaignPath.Scene);
+    };
 
     static async addCampaignScene(scene: Scene): Promise<Campaign> {
-        return await fetch(CampaignPath.Scene, {
-            method: "POST",
-            body: JSON.stringify(scene),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(res.statusText)
-                }
-                return res.json()
-            })
-    }
+        return apiRequest(CampaignPath.Scene, "POST", scene);
+    };
 
     static async getCurrentCampaign(): Promise<Campaign> {
         return apiRequest(CampaignPath.Current);
