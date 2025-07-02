@@ -1,6 +1,8 @@
 package com.github.genraven.genesys.domain.actor;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.genraven.genesys.validator.EnumValidator;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -9,6 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Characteristic {
     protected Characteristic() {}
+
+    @EnumValidator(enumClass = Type.class)
     private Type type;
     private int current;
 

@@ -24,7 +24,7 @@ export default function SpendCharacteristicDialog(props: Props) {
     }, [currentPlayer]);
 
     const handleIncreaseLevel = async (characteristic: Characteristic) => {
-        setPlayer(await PlayerService.purchaseCharacteristicUpgrade(player.id, characteristic))
+        setPlayer(await PlayerService.purchaseCharacteristicUpgrade(player.id, characteristic.type))
     };
 
     const characteristics: Characteristic[] = [

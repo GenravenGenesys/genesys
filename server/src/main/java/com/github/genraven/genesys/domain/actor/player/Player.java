@@ -81,6 +81,27 @@ public class Player extends Actor {
         this.experience = oldExperience;
     }
 
+    private Characteristic updateCharacteristic(final Characteristic.Type type) {
+        final Characteristic characteristic = new Characteristic(type, 1);
+        switch (type) {
+            case BRAWN:
+                
+                
+        }
+    }
+
+    public void updatePlayerCharacteristic(final Characteristic.Type characteristic) {
+        switch (characteristic) {
+                case BRAWN -> this.setBrawn(updateCharacteristic(characteristic));
+                case AGILITY -> this.setAgility(updateCharacteristic(characteristic));
+                case INTELLECT -> this.setIntellect(updateCharacteristic(characteristic));
+                case CUNNING -> this.setCunning(updateCharacteristic(characteristic));
+                case WILLPOWER -> this.setWillpower(updateCharacteristic(characteristic));
+                case PRESENCE -> this.setPresence(updateCharacteristic(characteristic));
+                default -> throw new IllegalStateException("Unexpected value: " + characteristic);
+            }
+    }
+
     private void getTotalMeleeDefense() {
         int melee = 0;
         melee += getTalents().stream()
