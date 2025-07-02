@@ -7,6 +7,7 @@ import com.github.genraven.genesys.domain.actor.player.*;
 import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.repository.actor.PlayerRepository;
+import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SkillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class PlayerService {
 
     private final PlayerRepository playerRepository;
     private final SkillService skillService;
+    private final CampaignService campaignService;
 
     public Flux<Player> getAllPlayers() {
         return playerRepository.findAll().map(player -> {
@@ -43,6 +45,11 @@ public class PlayerService {
             final Player player = new Player(new Actor(name));
             player.setSkills(skills.stream().map(PlayerSkill::new).collect(Collectors.toList()));
             return playerRepository.save(player);
+        }).flatMap(savedPlayer -> {
+            return campaignService.getCurrentCampaign().flatMap(campaign -> {
+                campaign.getParty().getPlayers().add(savedPlayer);
+                return campaignService.updateCampaign(campaign.getName(), campaign).thenReturn(savedPlayer);
+            });
         });
     }
 

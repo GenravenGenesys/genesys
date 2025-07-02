@@ -46,7 +46,7 @@ export default function PartyCard(props: Props) {
     }
 
     return (
-        <Card sx={{"width": 1}}>
+        <Card sx={{ width: 1 }}>
             <CenteredCardHeader title={'Party'}/>
             <CardContent>
                 {renderTable()}

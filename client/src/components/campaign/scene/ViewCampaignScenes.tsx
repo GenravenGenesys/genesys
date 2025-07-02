@@ -1,13 +1,13 @@
-import {Card, CardContent, Table, TableContainer} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import { Card, CardContent, Table, TableContainer } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Scene from "../../../models/campaign/Scene";
 import Paper from "@mui/material/Paper";
-import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
+import { renderSingleRowTableHeader } from "../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
-import SingleActionTableCell from "../../common/table/actions/ActionsTableCell";
-import {CampaignPath} from "../../../services/RootPath";
-import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
+import SingleActionTableCell from "../../common/table/actions/SingleActionTableCell";
+import { CampaignPath } from "../../../services/RootPath";
+import { TypographyCenterTableCell } from "../../common/table/TypographyTableCell";
 import CampaignService from "../../../services/CampaignService";
 import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
 import CampaignSceneSelectionDialog from "./CampaignSceneSelectionDialog";
@@ -17,7 +17,7 @@ interface Props {
     session: CampaignSession;
 }
 
-const ViewCampaignScenes: React.FC<Props> = ({session}) => {
+const ViewCampaignScenes: React.FC<Props> = ({ session }) => {
     const [scenes, setScenes] = useState<Scene[]>(session.scenes);
     const [openSceneDialog, setOpenSceneDialog] = useState(false);
     const headers = ['Name', 'View'];
@@ -29,20 +29,20 @@ const ViewCampaignScenes: React.FC<Props> = ({session}) => {
     }, [setScenes])
 
     return (
-        <Card>
+        <Card sx={{ width: 1 }}>
             <CenteredCardHeaderWithButton title={'Scenes'} onClick={() => setOpenSceneDialog(true)}
-                                          buttonText={'Add Scene'}/>
+                buttonText={'Add Scene'} />
             {openSceneDialog && <CampaignSceneSelectionDialog open={openSceneDialog}
-                                                     onClose={(): void => setOpenSceneDialog(false)}/>}
+                onClose={(): void => setOpenSceneDialog(false)} />}
             <CardContent>
                 <TableContainer component={Paper}>
                     <Table>
                         {renderSingleRowTableHeader(headers)}
                         <TableBody>
-                            {scenes.map((scene, index) => (
+                            {(scenes || []).map((scene, index) => (
                                 <TableRow key={index}>
-                                    <TypographyCenterTableCell value={scene.name}/>
-                                    <SingleActionTableCell name={scene.id} path={CampaignPath.Scene}/>
+                                    <TypographyCenterTableCell value={scene.name} />
+                                    <SingleActionTableCell name={scene.id} path={CampaignPath.Scene} />
                                 </TableRow>
                             ))}
                         </TableBody>
