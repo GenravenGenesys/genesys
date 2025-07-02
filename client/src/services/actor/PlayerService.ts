@@ -2,7 +2,7 @@ import Player, {PlayerSkill} from "../../models/actor/player/Player";
 import {PlayerPath, CampaignPath, RootPath} from "../RootPath";
 import Career from "../../models/actor/player/Career";
 import Archetype from "../../models/actor/player/Archetype";
-import {Characteristic, CharacteristicType} from "../../models/actor/Characteristic";
+import {Characteristic} from "../../models/actor/Characteristic";
 import Talent from "../../models/Talent";
 import { apiRequest, apiRequestList } from "../ApiRequest";
 
@@ -35,8 +35,8 @@ export default class PlayerService {
         return apiRequest(PlayerPath.Creation + `${playerId}` + RootPath.Archetype, "PATCH", archetype);
     };
 
-    static async purchaseCharacteristicUpgrade(playerId: string, characteristic: CharacteristicType): Promise<Player> {
-        return apiRequest(PlayerPath.Creation + `${playerId}` + PlayerPath.Characteristic + characteristic, "PATCH");
+    static async purchaseCharacteristicUpgrade(playerId: string, characteristic: Characteristic): Promise<Player> {
+        return apiRequest(PlayerPath.Creation + `${playerId}` + PlayerPath.Characteristic, "PATCH", characteristic);
     };
 
     static async purchaseSkillUpgrade(playerId: string, skill: PlayerSkill): Promise<Player> {

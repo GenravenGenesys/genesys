@@ -106,9 +106,9 @@ public class PlayerService {
         });
     }
 
-    public Mono<Player> updatePlayerCharacteristic(final String id, final Characteristic.Type characteristic) {
+    public Mono<Player> updatePlayerCharacteristic(final String id, final Characteristic characteristic) {
         return getPlayer(id).flatMap(player -> {
-            switch (characteristic) {
+            switch (characteristic.getType()) {
                 case BRAWN -> player.setBrawn(characteristic);
                 case AGILITY -> player.setAgility(characteristic);
                 case INTELLECT -> player.setIntellect(characteristic);
