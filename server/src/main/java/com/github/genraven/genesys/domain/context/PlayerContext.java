@@ -11,6 +11,6 @@ public interface PlayerContext {
     List<Object> getValidatableParts();
 
     default List<Class<?>> getValidationGroups() {
-        return List.of(ValidationGroups.DefaultValidation.class);
+        return List.of(ValidationGroups.PlayerValidation.class);
     }
 }
