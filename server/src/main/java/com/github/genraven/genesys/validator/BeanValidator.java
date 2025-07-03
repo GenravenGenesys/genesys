@@ -13,9 +13,9 @@ public class BeanValidator {
 
     private final Validator validator;
 
-    public <T> List<String> validate(T object) {
-        return validator.validate(object).stream()
-            .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
+    public <T> List<String> validate(T object, Class<?>... groups) {
+        return validator.validate(object, groups).stream()
+            .map(v -> v.getPropertyPath() + ": " + v.getMessage())
             .toList();
     }
 }

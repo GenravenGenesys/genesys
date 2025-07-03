@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.handler.actor;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -13,9 +14,12 @@ import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
+import com.github.genraven.genesys.domain.context.PlayerCharacteristicUpdateContext;
 import com.github.genraven.genesys.domain.talent.Talent;
+import com.github.genraven.genesys.exceptions.PlayerValidationException;
 import com.github.genraven.genesys.handler.BaseHandler;
 import com.github.genraven.genesys.service.actor.PlayerService;
+import com.github.genraven.genesys.validator.PlayerContextValidator;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -29,6 +33,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 public class PlayerHandler extends BaseHandler {
 
 	private final PlayerService playerService;
+	private final PlayerContextValidator contextValidator;
 
 	public Mono<ServerResponse> getAllPlayers(final ServerRequest serverRequest) {
 		return playerService.getAllPlayers().collectList().flatMap(players -> {
@@ -100,14 +105,23 @@ public class PlayerHandler extends BaseHandler {
 				.switchIfEmpty(ServerResponse.notFound().build());
 	}
 
-	public Mono<ServerResponse> updatePlayerCharacteristic(final ServerRequest serverRequest) {
-		final String id = serverRequest.pathVariable(ID);
-		final Mono<Characteristic> characteristicMono = serverRequest.bodyToMono(Characteristic.class);
-		return characteristicMono
-				.flatMap(characteristic -> playerService.updatePlayerCharacteristic(id, characteristic))
-				.flatMap(player -> ServerResponse.ok()
+	public Mono<ServerResponse> updatePlayerCharacteristic(ServerRequest request) {
+		final String playerId = request.pathVariable("id");
+		final Mono<Characteristic> characteristicMono = request.bodyToMono(Characteristic.class);
+
+		return characteristicMono.zipWith(playerService.getPlayer(playerId))
+				.map(tuple -> new PlayerCharacteristicUpdateContext(
+						tuple.getT2(),
+						tuple.getT1()))
+				.flatMap(context -> contextValidator.validateUpdate(
+						context,
+						ctx -> playerService.updatePlayerCharacteristic(playerId, ctx.getCharacteristic())))
+				.flatMap(updatedPlayer -> ServerResponse.ok()
 						.contentType(MediaType.APPLICATION_JSON)
-						.body(fromValue(player)))
+						.body(fromValue(updatedPlayer)))
+				.onErrorResume(PlayerValidationException.class, ex -> ServerResponse.badRequest()
+						.contentType(MediaType.APPLICATION_JSON)
+						.body(fromValue(Map.of("errors", ex.getErrors()))))
 				.switchIfEmpty(ServerResponse.notFound().build());
 	}
 
