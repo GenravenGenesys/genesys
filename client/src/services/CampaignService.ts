@@ -14,8 +14,8 @@ export default class CampaignService {
         return apiRequestList(CampaignPath.Campaign);
     };
 
-    static async getCampaign(name: string): Promise<Campaign> {
-        return apiRequest(CampaignPath.Campaign + `${name}`);
+    static async getCampaign(id: string): Promise<Campaign> {
+        return apiRequest(CampaignPath.Campaign + `${id}`);
     };
 
     static async updateCampaign(campaign: Campaign): Promise<Campaign> {

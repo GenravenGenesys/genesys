@@ -3,20 +3,18 @@ package com.github.genraven.genesys.service.equipment;
 import com.github.genraven.genesys.domain.equipment.Equipment;
 import com.github.genraven.genesys.domain.equipment.Weapon;
 import com.github.genraven.genesys.repository.equipment.WeaponRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class WeaponService {
 
     private final WeaponRepository weaponRepository;
-
-    @Autowired
-    public WeaponService(final WeaponRepository weaponRepository) {
-        this.weaponRepository = weaponRepository;
-    }
 
     public Flux<Weapon> getAllWeapons() {
         return weaponRepository.findAll();

@@ -2,7 +2,9 @@ package com.github.genraven.genesys.handler;
 
 import com.github.genraven.genesys.domain.CriticalInjury;
 import com.github.genraven.genesys.service.InjuryService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -16,14 +18,10 @@ import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
+@RequiredArgsConstructor
 public class InjuryHandler {
 
     private final InjuryService injuryService;
-
-    @Autowired
-    public InjuryHandler(final InjuryService injuryService) {
-        this.injuryService = injuryService;
-    }
 
     public Mono<ServerResponse> getAllInjuries(final ServerRequest serverRequest) {
         return injuryService.getAllInjuries().collectList().flatMap(injuries -> {

@@ -45,7 +45,7 @@ const ScenePage: React.FC = () => {
             <CardContent>
                 <FullGrid>
                     <TabContext value={value}>
-                        <GridContainer>
+                        <GridContainer centered>
                             <TabList onChange={handleChange} centered>
                                 <Tab label="Party" value="1" />
                                 <Tab label="NPC" value="2" />

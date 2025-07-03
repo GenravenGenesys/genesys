@@ -2,7 +2,9 @@ package com.github.genraven.genesys.handler;
 
 import com.github.genraven.genesys.domain.spell.Spell;
 import com.github.genraven.genesys.service.SpellService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -16,13 +18,9 @@ import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
+@RequiredArgsConstructor
 public class SpellHandler {
     private final SpellService spellService;
-
-    @Autowired
-    public SpellHandler(final SpellService spellService) {
-        this.spellService = spellService;
-    }
 
     public Mono<ServerResponse> getAllSpells(final ServerRequest serverRequest) {
         return spellService.getAllSpells().collectList().flatMap(spells -> {

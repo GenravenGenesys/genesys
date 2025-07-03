@@ -3,20 +3,18 @@ package com.github.genraven.genesys.service.equipment;
 import com.github.genraven.genesys.domain.equipment.Armor;
 import com.github.genraven.genesys.domain.equipment.Equipment;
 import com.github.genraven.genesys.repository.equipment.ArmorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class ArmorService {
 
     private final ArmorRepository armorRepository;
-
-    @Autowired
-    public ArmorService(final ArmorRepository armorRepository) {
-        this.armorRepository = armorRepository;
-    }
 
     public Flux<Armor> getAllArmors() {
         return armorRepository.findAll();

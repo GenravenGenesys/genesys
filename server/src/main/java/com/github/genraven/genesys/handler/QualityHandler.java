@@ -2,7 +2,9 @@ package com.github.genraven.genesys.handler;
 
 import com.github.genraven.genesys.domain.equipment.Quality;
 import com.github.genraven.genesys.service.QualityService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -16,14 +18,10 @@ import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
+@RequiredArgsConstructor
 public class QualityHandler {
 
     private final QualityService qualityService;
-
-    @Autowired
-    public QualityHandler(final QualityService qualityService) {
-        this.qualityService = qualityService;
-    }
 
     public Mono<ServerResponse> getAllQualities(final ServerRequest serverRequest) {
         return qualityService.getAllQualities().collectList().flatMap(qualities -> {

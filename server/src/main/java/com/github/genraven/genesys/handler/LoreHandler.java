@@ -4,7 +4,9 @@ import com.github.genraven.genesys.domain.lore.Lore;
 import com.github.genraven.genesys.domain.lore.Organization;
 import com.github.genraven.genesys.service.lore.LoreService;
 import com.github.genraven.genesys.service.lore.OrganizationService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -18,16 +20,11 @@ import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
+@RequiredArgsConstructor
 public class LoreHandler {
 
     private final LoreService loreService;
     private final OrganizationService organizationService;
-
-    @Autowired
-    public LoreHandler(final LoreService loreService, final OrganizationService organizationService) {
-        this.loreService = loreService;
-        this.organizationService = organizationService;
-    }
 
     public Mono<ServerResponse> getAllLore(final ServerRequest serverRequest) {
         return loreService.getAllLore().collectList().flatMap(lores -> {

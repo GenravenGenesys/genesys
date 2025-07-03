@@ -2,7 +2,9 @@ package com.github.genraven.genesys.handler;
 
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.service.CareerService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -16,13 +18,9 @@ import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
+@RequiredArgsConstructor
 public class CareerHandler {
     private final CareerService careerService;
-
-    @Autowired
-    public CareerHandler(final CareerService careerService) {
-        this.careerService = careerService;
-    }
 
     public Mono<ServerResponse> getAllCareers(final ServerRequest serverRequest) {
         return careerService.getAllCareers().collectList().flatMap(careers -> {

@@ -15,26 +15,6 @@ public class ActorRouter {
     public RouterFunction<ServerResponse> actorRouterMethod(final ActorHandler actorHandler) {
         return RouterFunctions.route()
                 .nest(RequestPredicates.path("/api"), builder -> builder
-                        .path("/players", playerBuilder -> playerBuilder
-                                .GET("/{name}", actorHandler::getPlayer)
-                                .PUT("/{name}", actorHandler::updatePlayer)
-                        )
-                        .path("players/creation", playerCreationBuilder -> playerCreationBuilder
-                                .PATCH("/{id}/careers/", actorHandler::updatePlayerCareer)
-                                .PATCH("/{id}/careers/skills/", actorHandler::updatePlayerCareerSkills)
-                                .PATCH("/{id}/archetypes/", actorHandler::updatePlayerArchetype)
-                                .PATCH("/{id}/characteristics/", actorHandler::updatePlayerCharacteristic)
-                                .PATCH("/{id}/skills/", actorHandler::updatePlayerSkill)
-                                .PATCH("/{id}/talents/", actorHandler::updatePlayerTalent)
-                        )
-                        //                .path("players/active", builder -> builder
-                        //                        .PATCH("/{id}/skills/")
-                        //                        .PATCH("/{id}/talents")
-                        //                )
-                        .path("/campaigns/{name}", campaignPlayerBuilder -> campaignPlayerBuilder
-                                .GET("/players/", actorHandler::getAllPlayers)
-                                .POST("/players/{playerName}", actorHandler::createPlayer)
-                        )
                         .path("/nemeses", nemesisBuilder -> nemesisBuilder
                                 .GET("/{name}", actorHandler::getNemesis)
                                 .PUT("/{name}", actorHandler::updateNemesis)

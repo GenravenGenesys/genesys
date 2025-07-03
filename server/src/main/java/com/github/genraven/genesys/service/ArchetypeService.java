@@ -2,19 +2,17 @@ package com.github.genraven.genesys.service;
 
 import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.repository.ArchetypeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class ArchetypeService {
     private final ArchetypeRepository archetypeRepository;
-
-    @Autowired
-    public ArchetypeService(final ArchetypeRepository archetypeRepository) {
-        this.archetypeRepository = archetypeRepository;
-    }
 
     public Flux<Archetype> getAllArchetypes() {
         return archetypeRepository.findAll();

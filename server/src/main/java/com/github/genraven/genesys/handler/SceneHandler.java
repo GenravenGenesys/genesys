@@ -72,6 +72,13 @@ public class SceneHandler extends BaseHandler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
+    public Mono<ServerResponse> addSceneToSessionInCurrentCampaign(final ServerRequest request) {
+        return request.bodyToMono(Scene.class)
+                .flatMap(scene -> sceneService.addSceneToSessionInCurrentCampaign(scene.getId()))
+                .flatMap(updatedCampaign -> ServerResponse.ok().bodyValue(updatedCampaign))
+                .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
     public Mono<ServerResponse> getEnemyMinions(final ServerRequest serverRequest) {
         return sceneService.getEnemyMinions(serverRequest.pathVariable(ID))
                 .flatMap(minions -> ServerResponse.ok().bodyValue(minions))

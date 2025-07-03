@@ -18,8 +18,8 @@ public class CampaignRouter {
                         .path("/campaigns", campaignBuilder -> campaignBuilder
                                 .GET("/", campaignHandler::getAllCampaigns)
                                 .POST("/", campaignHandler::createCampaign)
-                                .GET("/{name}", campaignHandler::getCampaign)
-                                .PUT("/{name}", campaignHandler::updateCampaign)
+                                .GET("/{id}", campaignHandler::getCampaign)
+                                .PUT("/{id}", campaignHandler::updateCampaign)
                         )
                         .path("/current", currentBuilder -> currentBuilder
                                 .PUT(campaignHandler::setCurrentCampaign)
