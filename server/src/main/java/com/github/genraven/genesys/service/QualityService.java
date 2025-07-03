@@ -2,20 +2,18 @@ package com.github.genraven.genesys.service;
 
 import com.github.genraven.genesys.domain.equipment.Quality;
 import com.github.genraven.genesys.repository.QualityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class QualityService {
 
     private final QualityRepository qualityRepository;
-
-    @Autowired
-    public QualityService(final QualityRepository qualityRepository) {
-        this.qualityRepository = qualityRepository;
-    }
 
     public Flux<Quality> getAllQualities() {
         return qualityRepository.findAll();

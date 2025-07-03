@@ -48,7 +48,7 @@ public class PlayerService {
         }).flatMap(savedPlayer -> {
             return campaignService.getCurrentCampaign().flatMap(campaign -> {
                 campaign.getParty().getPlayers().add(savedPlayer);
-                return campaignService.updateCampaign(campaign.getName(), campaign).thenReturn(savedPlayer);
+                return campaignService.updateCampaign(campaign.getId(), campaign).thenReturn(savedPlayer);
             });
         });
     }

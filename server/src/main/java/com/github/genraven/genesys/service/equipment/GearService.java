@@ -3,20 +3,18 @@ package com.github.genraven.genesys.service.equipment;
 import com.github.genraven.genesys.domain.equipment.Equipment;
 import com.github.genraven.genesys.domain.equipment.Gear;
 import com.github.genraven.genesys.repository.equipment.GearRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class GearService {
 
     private final GearRepository gearRepository;
-
-    @Autowired
-    public GearService(final GearRepository gearRepository) {
-        this.gearRepository = gearRepository;
-    }
 
     public Flux<Gear> getAllGears() {
         return gearRepository.findAll();

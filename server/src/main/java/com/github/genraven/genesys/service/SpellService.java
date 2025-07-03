@@ -2,19 +2,17 @@ package com.github.genraven.genesys.service;
 
 import com.github.genraven.genesys.domain.spell.Spell;
 import com.github.genraven.genesys.repository.SpellRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class SpellService {
     private final SpellRepository spellRepository;
-
-    @Autowired
-    public SpellService(final SpellRepository spellRepository) {
-        this.spellRepository = spellRepository;
-    }
 
     public Flux<Spell> getAllSpells() {
         return spellRepository.findAll();

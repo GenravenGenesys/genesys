@@ -1,7 +1,9 @@
 package com.github.genraven.genesys.handler;
 
 import com.github.genraven.genesys.service.ModifierService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -11,14 +13,10 @@ import reactor.core.publisher.Mono;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
+@RequiredArgsConstructor
 public class ModifierHandler {
 
     private final ModifierService modifierService;
-
-    @Autowired
-    public ModifierHandler(final ModifierService modifierService) {
-        this.modifierService = modifierService;
-    }
 
     public Mono<ServerResponse> getModifiers(final ServerRequest serverRequest) {
         return modifierService.getModifiers().collectList().flatMap(modifierTypes -> {

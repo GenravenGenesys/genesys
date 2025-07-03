@@ -3,10 +3,13 @@ package com.github.genraven.genesys.service;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.repository.CampaignRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CampaignService {
@@ -25,14 +28,17 @@ public class CampaignService {
         return campaignRepository.save(campaign);
     }
 
-    public Mono<Campaign> updateCampaign(final String name, final Campaign campaign) {
-        return getCampaign(name).map(camp -> {
+    public Mono<Campaign> updateCampaign(final String id, final Campaign campaign) {
+        log.info("Updating campaign with id: {}", id);
+        return getCampaign(id).map(camp -> {
             camp.setName(campaign.getName());
             camp.setParty(campaign.getParty());
             camp.setSessions(campaign.getSessions());
             camp.setActive(campaign.isActive());
             return camp;
-        }).flatMap(campaignRepository::save);
+        }).flatMap(campaignRepository::save)
+                .doOnNext(updatedCampaign -> log.debug("Updated campaign: {}", updatedCampaign))
+                .doOnError(error -> log.error("Error updating campaign with id: {}", id, error));
     }
 
     public Mono<Campaign> getCurrentCampaign() {

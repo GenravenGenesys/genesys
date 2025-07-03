@@ -7,7 +7,9 @@ import com.github.genraven.genesys.domain.equipment.Weapon;
 import com.github.genraven.genesys.service.equipment.ArmorService;
 import com.github.genraven.genesys.service.equipment.GearService;
 import com.github.genraven.genesys.service.equipment.WeaponService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -21,18 +23,12 @@ import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
+@RequiredArgsConstructor
 public class EquipmentHandler {
 
     private final GearService gearService;
     private final ArmorService armorService;
     private final WeaponService weaponService;
-
-    @Autowired
-    public EquipmentHandler(final ArmorService armorService, final WeaponService weaponService, final GearService gearService) {
-        this.armorService = armorService;
-        this.weaponService = weaponService;
-        this.gearService = gearService;
-    }
 
     public Mono<ServerResponse> getAllArmors(final ServerRequest serverRequest) {
         return armorService.getAllArmors().collectList().flatMap(armors -> {
