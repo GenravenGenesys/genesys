@@ -108,7 +108,6 @@ public class PlayerHandler extends BaseHandler {
 	public Mono<ServerResponse> updatePlayerCharacteristic(ServerRequest request) {
 		final String playerId = request.pathVariable("id");
 		final Mono<Characteristic> characteristicMono = request.bodyToMono(Characteristic.class);
-
 		return characteristicMono.zipWith(playerService.getPlayer(playerId))
 				.map(tuple -> new PlayerCharacteristicUpdateContext(
 						tuple.getT2(),

@@ -13,7 +13,7 @@ import com.github.genraven.genesys.handler.actor.PlayerHandler;
 public class PlayerRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> actorRouterMethod(final PlayerHandler handler) {
+    public RouterFunction<ServerResponse> playerRouterMethod(final PlayerHandler handler) {
         return RouterFunctions.route()
                 .nest(RequestPredicates.path("/api"), builder -> builder
                         .path("/players", playerBuilder -> playerBuilder
@@ -21,12 +21,17 @@ public class PlayerRouter {
                                 .PUT("/{name}", handler::updatePlayer))
                         .path("players/creation", playerCreationBuilder -> playerCreationBuilder
                                 .PATCH("/{id}/careers/", handler::updatePlayerCareer)
-                                .PATCH("/{id}/careers/skills/", handler::updatePlayerCareerSkills)
-                                .PATCH("/{id}/archetypes/", handler::updatePlayerArchetype)
-                                .PATCH("/{id}/characteristics/", handler::updatePlayerCharacteristic)
+                                .PATCH("/{id}/careers/skills/",
+                                        handler::updatePlayerCareerSkills)
+                                .PATCH("/{id}/archetypes/",
+                                        handler::updatePlayerArchetype)
+                                .PATCH("/{id}/characteristics/",
+                                        handler::updatePlayerCharacteristic)
                                 .PATCH("/{id}/skills/", handler::updatePlayerSkill)
                                 .PATCH("/{id}/talents/", handler::updatePlayerTalent))
-                        )
+                        .path("/campaigns/{name}", campaignPlayerBuilder -> campaignPlayerBuilder
+                                .GET("/players/", handler::getAllPlayers)
+                                .POST("/players/{playerName}", handler::createPlayer)))
                 .build();
     }
 }
