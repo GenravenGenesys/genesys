@@ -6,6 +6,7 @@ import com.github.genraven.genesys.domain.actor.npc.Nemesis;
 import com.github.genraven.genesys.domain.actor.npc.Rival;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.domain.campaign.Scene;
+import com.github.genraven.genesys.domain.campaign.Session;
 import com.github.genraven.genesys.domain.campaign.encounter.Character;
 import com.github.genraven.genesys.repository.CampaignRepository;
 import com.github.genraven.genesys.repository.SceneRepository;
@@ -24,7 +25,7 @@ public class SceneService {
 
     private static final Logger logger = LoggerFactory.getLogger(SceneService.class);
     private final SceneRepository sceneRepository;
-    private final CampaignRepository campaignRepository;
+    private final CampaignService campaignService;
 
     public Flux<Scene> getAllScenes() {
         return sceneRepository.findAll();
@@ -50,17 +51,21 @@ public class SceneService {
     }
 
     public Mono<List<Scene>> getScenesForCurrentCampaign() {
-        return campaignRepository.findByCurrent(true)
+        return campaignService.getCurrentCampaign()
                 .flatMap(campaign -> Flux.fromIterable(campaign.getSceneIds())
                         .flatMap(sceneRepository::findById)
                         .collectList());
     }
 
     public Mono<Campaign> addSceneToCurrentCampaign(final String sceneId) {
-        return campaignRepository.findByCurrent(true).flatMap(existingCampaign -> {
-            existingCampaign.getSkillIds().add(sceneId);
-            return campaignRepository.save(existingCampaign);
+        return campaignService.getCurrentCampaign().flatMap(existingCampaign -> {
+            existingCampaign.getSceneIds().add(sceneId);
+            return campaignService.updateCampaign(existingCampaign.getId(), existingCampaign);
         });
+    }
+
+    public Mono<Session> addSceneToSessionInCurrentCampaign(final String name, final String sceneId) {
+        return null;
     }
 
     public Mono<List<MinionGroup>> getEnemyMinions(final String id) {
