@@ -10,8 +10,14 @@ import TableCell from "@mui/material/TableCell";
 import {Button} from "@mui/material";
 import Scene from "../../../models/campaign/Scene";
 import SceneBackdrop from "./SceneBackdrop";
+import CampaignSession from "../../../models/campaign/CampaignSession";
+import SessionService from "../../../services/SessionService";
 
-const CampaignSceneSelectionTable = () => {
+type Props = {
+    session: CampaignSession;
+};
+
+const CampaignSceneSelectionTable: React.FC<Props> = ({session}) => {
     const [scenes, setScenes] = useState<Scene[]>([]);
     const [openSceneBackDrop, setOpenSceneBackDrop] = useState(false);
     const headers = ['Name', 'Add'];
@@ -23,7 +29,7 @@ const CampaignSceneSelectionTable = () => {
     }, [setScenes]);
 
     const addScene = async (scene: Scene) => {
-        await CampaignService.addCampaignScene(scene);
+        await SessionService.addSceneToSession(session.name, scene.id);
     };
 
     return (

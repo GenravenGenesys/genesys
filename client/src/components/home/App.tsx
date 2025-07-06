@@ -30,7 +30,7 @@ import EncounterPage from "../campaign/scene/encounter/EncounterPage";
 export default function App() {
 
     return (
-        <ThemeProvider theme={createTheme({palette: {mode: 'light'}})}>
+        <ThemeProvider theme={createTheme({palette: {mode: 'dark'}})}>
             <BrowserRouter>
                 <NavBar/>
                 <Routes>
