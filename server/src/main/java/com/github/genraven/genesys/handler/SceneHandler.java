@@ -74,8 +74,8 @@ public class SceneHandler extends BaseHandler {
 
     public Mono<ServerResponse> addSceneToSessionInCurrentCampaign(final ServerRequest request) {
         return request.bodyToMono(Scene.class)
-                .flatMap(scene -> sceneService.addSceneToSessionInCurrentCampaign(scene.getId()))
-                .flatMap(updatedCampaign -> ServerResponse.ok().bodyValue(updatedCampaign))
+                .flatMap(scene -> sceneService.addSceneToSessionInCurrentCampaign(request.pathVariable(NAME), scene.getId()))
+                .flatMap(updatedSession -> ServerResponse.ok().bodyValue(updatedSession))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 

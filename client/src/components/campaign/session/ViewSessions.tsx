@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import AddIcon from "@mui/icons-material/Add";
 import CampaignSession from "../../../models/campaign/CampaignSession";
-import {CampaignPath} from "../../../services/RootPath";
+import {RootPath} from "../../../services/RootPath";
 import TextFieldTableCell from "../../common/table/TextFieldTableCell";
 import CampaignService from "../../../services/CampaignService";
 import SingleActionTableCell from "../../common/table/actions/SingleActionTableCell";
@@ -59,7 +59,7 @@ export default function ViewSessions(props: Props) {
                                 <TableRow key={index}>
                                     <TextFieldTableCell onChange={onSessionNameChange} value={session.name}
                                                         index={index} disabled={session.active}/>
-                                    <SingleActionTableCell name={session.name} path={CampaignPath.Session}/>
+                                    <SingleActionTableCell name={session.name} path={RootPath.Session}/>
                                 </TableRow>
                             ))}
                         </TableBody>

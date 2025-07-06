@@ -109,7 +109,7 @@ export default function App() {
                     <Route path={CampaignPath.Campaign} element={<CampaignWorkflow/>}/>
                     <Route path={CampaignPath.Campaign + ':id'} element={<CampaignWorkflow/>}/>
 
-                    <Route path={CampaignPath.Session + ':name'} element={<SessionPage/>}/>
+                    <Route path={RootPath.Session + ':name'} element={<SessionPage/>}/>
 
                     <Route path={CampaignPath.Scene + ':id'} element={<ScenePage/>}/>
                     <Route path={CampaignPath.Scene + ':id/encounter/:type'} element={<EncounterPage/>}/>

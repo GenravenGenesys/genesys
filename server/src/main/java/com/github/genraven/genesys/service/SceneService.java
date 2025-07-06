@@ -8,7 +8,6 @@ import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.domain.campaign.Session;
 import com.github.genraven.genesys.domain.campaign.encounter.Character;
-import com.github.genraven.genesys.repository.CampaignRepository;
 import com.github.genraven.genesys.repository.SceneRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,6 +17,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,11 +42,11 @@ public class SceneService {
     public Mono<Scene> updateScene(final String name, final Scene updatedScene) {
         logger.debug("Updating scene: {}", updatedScene);
         return getScene(name).map(scene -> {
-                    scene.setName(updatedScene.getName());
-                    scene.setParty(updatedScene.getParty());
-                    scene.setEncounters(updatedScene.getEncounters());
-                    return scene;
-                }).flatMap(sceneRepository::save)
+            scene.setName(updatedScene.getName());
+            scene.setParty(updatedScene.getParty());
+            scene.setEncounters(updatedScene.getEncounters());
+            return scene;
+        }).flatMap(sceneRepository::save)
                 .doOnNext(scene -> logger.debug("Updated scene: {}", scene));
     }
 
@@ -65,7 +65,22 @@ public class SceneService {
     }
 
     public Mono<Session> addSceneToSessionInCurrentCampaign(final String name, final String sceneId) {
-        return null;
+        return campaignService.getCurrentCampaign()
+                .flatMap(campaign -> {
+                    List<Session> sessions = campaign.getSessions();
+                    Optional<Session> sessionOpt = sessions.stream()
+                            .filter(session -> name.equalsIgnoreCase(session.getName()))
+                            .findFirst();
+
+                    if (sessionOpt.isEmpty()) {
+                        return Mono.empty();
+                    }
+
+                    Session session = sessionOpt.get();
+                    session.getSceneIds().add(sceneId);
+                    return campaignService.updateCampaign(campaign.getId(), campaign)
+                            .thenReturn(session);
+                });
     }
 
     public Mono<List<MinionGroup>> getEnemyMinions(final String id) {
@@ -102,18 +117,18 @@ public class SceneService {
     }
 
     public Mono<List<Character>> getPlayerCharactersForScene(final String sceneId) {
-        return getScene(sceneId).flatMap(scene -> Flux.fromIterable(scene.getParty().getPlayers()).map(Character::new).collectList());
+        return getScene(sceneId)
+                .flatMap(scene -> Flux.fromIterable(scene.getParty().getPlayers()).map(Character::new).collectList());
     }
 
     public Mono<List<Character>> getNonPlayerCharactersForScene(final String sceneId) {
         return getScene(sceneId).flatMap(scene -> Flux.merge(
-                        Flux.fromIterable(scene.getEnemyNemeses())
-                                .flatMap(nemesis -> Mono.just(new Character(nemesis))),
-                        Flux.fromIterable(scene.getEnemyRivals())
-                                .flatMap(rival -> Mono.just(new Character(rival))),
-                        Flux.fromIterable(scene.getEnemyMinionGroups())
-                                .flatMap(minionGroup -> Mono.just(new Character(minionGroup)))
-                )
+                Flux.fromIterable(scene.getEnemyNemeses())
+                        .flatMap(nemesis -> Mono.just(new Character(nemesis))),
+                Flux.fromIterable(scene.getEnemyRivals())
+                        .flatMap(rival -> Mono.just(new Character(rival))),
+                Flux.fromIterable(scene.getEnemyMinionGroups())
+                        .flatMap(minionGroup -> Mono.just(new Character(minionGroup))))
                 .collectList());
     }
 }
