@@ -6,7 +6,6 @@ import com.github.genraven.genesys.domain.actor.npc.Rival;
 import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.service.SceneService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,6 @@ import static com.github.genraven.genesys.constants.CommonConstants.ID;
 import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SceneHandler extends BaseHandler {
@@ -50,7 +48,6 @@ public class SceneHandler extends BaseHandler {
     }
 
     public Mono<ServerResponse> updateScene(final ServerRequest serverRequest) {
-        log.info("Updating scene {}", serverRequest.bodyToMono(Scene.class));
         return serverRequest.bodyToMono(Scene.class)
                 .flatMap(scene -> sceneService.updateScene(serverRequest.pathVariable(NAME), scene))
                 .flatMap(scene -> ServerResponse.ok()
