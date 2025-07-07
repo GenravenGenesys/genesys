@@ -29,6 +29,8 @@ const CampaignSceneSelectionTable: React.FC<Props> = ({session}) => {
     }, [setScenes]);
 
     const addScene = async (scene: Scene) => {
+        console.log(scene)
+        console.log(scene.id)
         await SessionService.addSceneToSession(session.name, scene.id);
     };
 
