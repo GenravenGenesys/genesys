@@ -19,7 +19,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -78,7 +77,6 @@ public class SceneService {
 
     public Mono<List<Scene>> getScenesInSession(final String name) {
         log.info("Fetching scenes for session");
-
         return campaignService.getCurrentCampaign()
                 .doOnNext(campaign -> log.debug("Found current campaign: {}", campaign))
                 .flatMap(campaign -> {
