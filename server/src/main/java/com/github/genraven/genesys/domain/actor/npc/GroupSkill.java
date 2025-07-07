@@ -1,6 +1,8 @@
 package com.github.genraven.genesys.domain.actor.npc;
 
 import com.github.genraven.genesys.domain.skill.Skill;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,5 +20,6 @@ public class GroupSkill extends Skill {
         this.setInitiative(skill.isInitiative());
     }
 
+    @NotNull
     private boolean group;
 }
