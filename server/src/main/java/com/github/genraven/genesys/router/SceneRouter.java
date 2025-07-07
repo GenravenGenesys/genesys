@@ -37,8 +37,9 @@ public class SceneRouter {
                                 .GET(sceneHandler::getScenesForCurrentCampaign)
                                 .POST(sceneHandler::addSceneToCurrentCampaign)
                         )
-                        .path("campaigns/sessions/{name}/scenes/{id}", sessionSceneBuilder -> sessionSceneBuilder
-                                .POST(sceneHandler::addSceneToSessionInCurrentCampaign)
+                        .path("campaigns/sessions/{name}/scenes", sessionSceneBuilder -> sessionSceneBuilder
+                                .GET("/", sceneHandler::getScenesFromSession)
+                                .POST("/{id}", sceneHandler::addSceneToSessionInCurrentCampaign)
                         )
                         .path("/scenes/{sceneId}/encounters/{encounterId}", sceneEncounterBuilder -> sceneEncounterBuilder
                                 .GET("/player-characters", sceneHandler::getPlayerCharacters)

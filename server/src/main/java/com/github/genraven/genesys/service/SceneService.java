@@ -9,9 +9,11 @@ import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.domain.campaign.Session;
 import com.github.genraven.genesys.domain.campaign.encounter.Character;
 import com.github.genraven.genesys.repository.SceneRepository;
+import com.github.genraven.genesys.util.CampaignUtil;
+
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,11 +21,11 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SceneService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SceneService.class);
     private final SceneRepository sceneRepository;
     private final CampaignService campaignService;
 
@@ -40,14 +42,14 @@ public class SceneService {
     }
 
     public Mono<Scene> updateScene(final String name, final Scene updatedScene) {
-        logger.debug("Updating scene: {}", updatedScene);
+        log.debug("Updating scene: {}", updatedScene);
         return getScene(name).map(scene -> {
             scene.setName(updatedScene.getName());
             scene.setParty(updatedScene.getParty());
             scene.setEncounters(updatedScene.getEncounters());
             return scene;
         }).flatMap(sceneRepository::save)
-                .doOnNext(scene -> logger.debug("Updated scene: {}", scene));
+                .doOnNext(scene -> log.debug("Updated scene: {}", scene));
     }
 
     public Mono<List<Scene>> getScenesForCurrentCampaign() {
@@ -67,20 +69,26 @@ public class SceneService {
     public Mono<Session> addSceneToSessionInCurrentCampaign(final String name, final String sceneId) {
         return campaignService.getCurrentCampaign()
                 .flatMap(campaign -> {
-                    List<Session> sessions = campaign.getSessions();
-                    Optional<Session> sessionOpt = sessions.stream()
-                            .filter(session -> name.equalsIgnoreCase(session.getName()))
-                            .findFirst();
-
-                    if (sessionOpt.isEmpty()) {
-                        return Mono.empty();
-                    }
-
-                    Session session = sessionOpt.get();
+                    final Session session = CampaignUtil.getSessionFromCampaign(name, campaign);
                     session.getSceneIds().add(sceneId);
                     return campaignService.updateCampaign(campaign.getId(), campaign)
                             .thenReturn(session);
                 });
+    }
+
+    public Mono<List<Scene>> getScenesInSession(final String name) {
+        log.info("Fetching scenes for session");
+
+        return campaignService.getCurrentCampaign()
+                .doOnNext(campaign -> log.debug("Found current campaign: {}", campaign))
+                .flatMap(campaign -> {
+                    final Session session = CampaignUtil.getSessionFromCampaign(name, campaign);
+                    return Flux.fromIterable(session.getSceneIds())
+                            .flatMap(sceneRepository::findById)
+                            .collectList();
+                })
+                .doOnNext(scenes -> log.debug("Fetched scenes for session '{}': {}", name, scenes))
+                .doOnError(error -> log.error("Error fetching scenes for session '{}'", name, error));
     }
 
     public Mono<List<MinionGroup>> getEnemyMinions(final String id) {

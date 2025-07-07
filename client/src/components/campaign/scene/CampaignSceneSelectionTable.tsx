@@ -1,13 +1,12 @@
-import {useEffect, useState} from "react";
-import CampaignService from "../../../services/CampaignService";
+import { useEffect, useState } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
+import { renderSingleRowTableHeader } from "../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import Scene from "../../../models/campaign/Scene";
 import SceneBackdrop from "./SceneBackdrop";
 import CampaignSession from "../../../models/campaign/CampaignSession";
@@ -17,20 +16,18 @@ type Props = {
     session: CampaignSession;
 };
 
-const CampaignSceneSelectionTable: React.FC<Props> = ({session}) => {
+const CampaignSceneSelectionTable: React.FC<Props> = ({ session }) => {
     const [scenes, setScenes] = useState<Scene[]>([]);
     const [openSceneBackDrop, setOpenSceneBackDrop] = useState(false);
     const headers = ['Name', 'Add'];
 
     useEffect(() => {
         (async (): Promise<void> => {
-            setScenes(await CampaignService.getCampaignScenes());
+            setScenes(await SessionService.getScenesForSession(session.name));
         })()
     }, [setScenes]);
 
     const addScene = async (scene: Scene) => {
-        console.log(scene)
-        console.log(scene.id)
         await SessionService.addSceneToSession(session.name, scene.id);
     };
 
@@ -45,8 +42,8 @@ const CampaignSceneSelectionTable: React.FC<Props> = ({session}) => {
                                 <Button onClick={(): void => setOpenSceneBackDrop(true)}>{scene.name}</Button>
                                 {openSceneBackDrop &&
                                     <SceneBackdrop open={openSceneBackDrop}
-                                                   onClose={(): void => setOpenSceneBackDrop(false)}
-                                                   scene={scene}/>}
+                                        onClose={(): void => setOpenSceneBackDrop(false)}
+                                        scene={scene} />}
                             </TableCell>
                             <TableCell>
                                 <Button onClick={() => addScene(scene)}>Add</Button>

@@ -78,6 +78,12 @@ public class SceneHandler extends BaseHandler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
+    public Mono<ServerResponse> getScenesFromSession(final ServerRequest request) {
+        return sceneService.getScenesInSession(request.pathVariable(NAME))
+                .flatMap(scenes -> ServerResponse.ok().bodyValue(scenes))
+                .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
     public Mono<ServerResponse> getEnemyMinions(final ServerRequest serverRequest) {
         return sceneService.getEnemyMinions(serverRequest.pathVariable(ID))
                 .flatMap(minions -> ServerResponse.ok().bodyValue(minions))
@@ -86,7 +92,8 @@ public class SceneHandler extends BaseHandler {
 
     public Mono<ServerResponse> addEnemyMinionToScene(final ServerRequest serverRequest) {
         return serverRequest.bodyToMono(Minion.class)
-                .flatMap(minion -> sceneService.addEnemyMinionToScene(serverRequest.pathVariable(ID), minion, Integer.parseInt(serverRequest.pathVariable("size"))))
+                .flatMap(minion -> sceneService.addEnemyMinionToScene(serverRequest.pathVariable(ID), minion,
+                        Integer.parseInt(serverRequest.pathVariable("size"))))
                 .flatMap(updatedScene -> ServerResponse.ok().bodyValue(updatedScene))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
