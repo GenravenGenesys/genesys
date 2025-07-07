@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -51,11 +49,10 @@ public class SceneService {
                 .doOnNext(scene -> log.debug("Updated scene: {}", scene));
     }
 
-    public Mono<List<Scene>> getScenesForCurrentCampaign() {
+    public Flux<Scene> getScenesForCurrentCampaign() {
         return campaignService.getCurrentCampaign()
-                .flatMap(campaign -> Flux.fromIterable(campaign.getSceneIds())
-                        .flatMap(sceneRepository::findById)
-                        .collectList());
+                .flatMapMany(campaign -> Flux.fromIterable(campaign.getSceneIds())
+                        .flatMap(sceneRepository::findById));
     }
 
     public Mono<Campaign> addSceneToCurrentCampaign(final String sceneId) {
@@ -75,22 +72,21 @@ public class SceneService {
                 });
     }
 
-    public Mono<List<Scene>> getScenesInSession(final String name) {
+    public Flux<Scene> getScenesInSession(final String name) {
         log.info("Fetching scenes for session");
         return campaignService.getCurrentCampaign()
                 .doOnNext(campaign -> log.debug("Found current campaign: {}", campaign))
-                .flatMap(campaign -> {
+                .flatMapMany(campaign -> {
                     final Session session = CampaignUtil.getSessionFromCampaign(name, campaign);
                     return Flux.fromIterable(session.getSceneIds())
-                            .flatMap(sceneRepository::findById)
-                            .collectList();
+                            .flatMap(sceneRepository::findById);
                 })
-                .doOnNext(scenes -> log.debug("Fetched scenes for session '{}': {}", name, scenes))
+                .doOnNext(scene -> log.debug("Fetched scene for session '{}': {}", name, scene))
                 .doOnError(error -> log.error("Error fetching scenes for session '{}'", name, error));
     }
 
-    public Mono<List<MinionGroup>> getEnemyMinions(final String id) {
-        return getScene(id).flatMap(scene -> Flux.fromIterable(scene.getEnemyMinionGroups()).collectList());
+    public Flux<MinionGroup> getEnemyMinions(final String id) {
+        return getScene(id).flatMapMany(scene -> Flux.fromIterable(scene.getEnemyMinionGroups()));
     }
 
     public Mono<Scene> addEnemyMinionToScene(final String sceneId, final Minion minion, final int size) {
@@ -100,8 +96,8 @@ public class SceneService {
         });
     }
 
-    public Mono<List<Rival>> getEnemyRivals(final String id) {
-        return getScene(id).flatMap(scene -> Flux.fromIterable(scene.getEnemyRivals()).collectList());
+    public Flux<Rival> getEnemyRivals(final String id) {
+        return getScene(id).flatMapMany(scene -> Flux.fromIterable(scene.getEnemyRivals()));
     }
 
     public Mono<Scene> addEnemyRivalToScene(final String sceneId, final Rival rival) {
@@ -111,8 +107,8 @@ public class SceneService {
         });
     }
 
-    public Mono<List<Nemesis>> getEnemyNemeses(final String id) {
-        return getScene(id).flatMap(scene -> Flux.fromIterable(scene.getEnemyNemeses()).collectList());
+    public Flux<Nemesis> getEnemyNemeses(final String id) {
+        return getScene(id).flatMapMany(scene -> Flux.fromIterable(scene.getEnemyNemeses()));
     }
 
     public Mono<Scene> addEnemyNemesisToScene(final String sceneId, final Nemesis nemesis) {
@@ -122,19 +118,18 @@ public class SceneService {
         });
     }
 
-    public Mono<List<Character>> getPlayerCharactersForScene(final String sceneId) {
+    public Flux<Character> getPlayerCharactersForScene(final String sceneId) {
         return getScene(sceneId)
-                .flatMap(scene -> Flux.fromIterable(scene.getParty().getPlayers()).map(Character::new).collectList());
+                .flatMapMany(scene -> Flux.fromIterable(scene.getParty().getPlayers()).map(Character::new));
     }
 
-    public Mono<List<Character>> getNonPlayerCharactersForScene(final String sceneId) {
-        return getScene(sceneId).flatMap(scene -> Flux.merge(
+    public Flux<Character> getNonPlayerCharactersForScene(final String sceneId) {
+        return getScene(sceneId).flatMapMany(scene -> Flux.merge(
                 Flux.fromIterable(scene.getEnemyNemeses())
                         .flatMap(nemesis -> Mono.just(new Character(nemesis))),
                 Flux.fromIterable(scene.getEnemyRivals())
                         .flatMap(rival -> Mono.just(new Character(rival))),
                 Flux.fromIterable(scene.getEnemyMinionGroups())
-                        .flatMap(minionGroup -> Mono.just(new Character(minionGroup))))
-                .collectList());
+                        .flatMap(minionGroup -> Mono.just(new Character(minionGroup)))));
     }
 }

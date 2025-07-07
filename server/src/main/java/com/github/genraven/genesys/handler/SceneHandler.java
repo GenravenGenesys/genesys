@@ -6,8 +6,8 @@ import com.github.genraven.genesys.domain.actor.npc.Rival;
 import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.service.SceneService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -18,11 +18,11 @@ import static com.github.genraven.genesys.constants.CommonConstants.ID;
 import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SceneHandler extends BaseHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(SceneHandler.class);
     private final SceneService sceneService;
 
     public Mono<ServerResponse> getAllScenes(final ServerRequest serverRequest) {
@@ -50,7 +50,7 @@ public class SceneHandler extends BaseHandler {
     }
 
     public Mono<ServerResponse> updateScene(final ServerRequest serverRequest) {
-        logger.info("Updating scene {}", serverRequest.bodyToMono(Scene.class)); // Rivals vs enemyRivals
+        log.info("Updating scene {}", serverRequest.bodyToMono(Scene.class));
         return serverRequest.bodyToMono(Scene.class)
                 .flatMap(scene -> sceneService.updateScene(serverRequest.pathVariable(NAME), scene))
                 .flatMap(scene -> ServerResponse.ok()
@@ -60,9 +60,14 @@ public class SceneHandler extends BaseHandler {
     }
 
     public Mono<ServerResponse> getScenesForCurrentCampaign(final ServerRequest serverRequest) {
-        return sceneService.getScenesForCurrentCampaign()
-                .flatMap(scenes -> ServerResponse.ok().bodyValue(scenes))
-                .switchIfEmpty(ServerResponse.notFound().build());
+        return sceneService.getScenesForCurrentCampaign().collectList().flatMap(scenes -> {
+            if (scenes.isEmpty()) {
+                return ServerResponse.noContent().build();
+            }
+            return ServerResponse.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(fromValue(scenes));
+        });
     }
 
     public Mono<ServerResponse> addSceneToCurrentCampaign(final ServerRequest request) {
@@ -79,15 +84,25 @@ public class SceneHandler extends BaseHandler {
     }
 
     public Mono<ServerResponse> getScenesFromSession(final ServerRequest request) {
-        return sceneService.getScenesInSession(request.pathVariable(NAME))
-                .flatMap(scenes -> ServerResponse.ok().bodyValue(scenes))
-                .switchIfEmpty(ServerResponse.notFound().build());
+        return sceneService.getScenesInSession(request.pathVariable(NAME)).collectList().flatMap(scenes -> {
+            if (scenes.isEmpty()) {
+                return ServerResponse.noContent().build();
+            }
+            return ServerResponse.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(fromValue(scenes));
+        });
     }
 
     public Mono<ServerResponse> getEnemyMinions(final ServerRequest serverRequest) {
-        return sceneService.getEnemyMinions(serverRequest.pathVariable(ID))
-                .flatMap(minions -> ServerResponse.ok().bodyValue(minions))
-                .switchIfEmpty(ServerResponse.notFound().build());
+        return sceneService.getEnemyMinions(serverRequest.pathVariable(ID)).collectList().flatMap(scenes -> {
+            if (scenes.isEmpty()) {
+                return ServerResponse.noContent().build();
+            }
+            return ServerResponse.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(fromValue(scenes));
+        });
     }
 
     public Mono<ServerResponse> addEnemyMinionToScene(final ServerRequest serverRequest) {
@@ -99,9 +114,14 @@ public class SceneHandler extends BaseHandler {
     }
 
     public Mono<ServerResponse> getEnemyRivals(final ServerRequest serverRequest) {
-        return sceneService.getEnemyRivals(serverRequest.pathVariable(ID))
-                .flatMap(rivals -> ServerResponse.ok().bodyValue(rivals))
-                .switchIfEmpty(ServerResponse.notFound().build());
+        return sceneService.getEnemyRivals(serverRequest.pathVariable(ID)).collectList().flatMap(scenes -> {
+            if (scenes.isEmpty()) {
+                return ServerResponse.noContent().build();
+            }
+            return ServerResponse.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(fromValue(scenes));
+        });
     }
 
     public Mono<ServerResponse> addEnemyRivalToScene(final ServerRequest serverRequest) {
@@ -112,9 +132,14 @@ public class SceneHandler extends BaseHandler {
     }
 
     public Mono<ServerResponse> getEnemyNemeses(final ServerRequest serverRequest) {
-        return sceneService.getEnemyNemeses(serverRequest.pathVariable(ID))
-                .flatMap(nemeses -> ServerResponse.ok().bodyValue(nemeses))
-                .switchIfEmpty(ServerResponse.notFound().build());
+        return sceneService.getEnemyNemeses(serverRequest.pathVariable(ID)).collectList().flatMap(scenes -> {
+            if (scenes.isEmpty()) {
+                return ServerResponse.noContent().build();
+            }
+            return ServerResponse.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(fromValue(scenes));
+        });
     }
 
     public Mono<ServerResponse> addEnemyNemesisToScene(final ServerRequest serverRequest) {
@@ -125,14 +150,26 @@ public class SceneHandler extends BaseHandler {
     }
 
     public Mono<ServerResponse> getPlayerCharacters(final ServerRequest serverRequest) {
-        return sceneService.getPlayerCharactersForScene(serverRequest.pathVariable(ID))
-                .flatMap(players -> ServerResponse.ok().bodyValue(players))
-                .switchIfEmpty(ServerResponse.notFound().build());
+        return sceneService.getPlayerCharactersForScene(serverRequest.pathVariable(ID)).collectList()
+                .flatMap(scenes -> {
+                    if (scenes.isEmpty()) {
+                        return ServerResponse.noContent().build();
+                    }
+                    return ServerResponse.ok()
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .body(fromValue(scenes));
+                });
     }
 
     public Mono<ServerResponse> getNonPlayerCharacters(final ServerRequest serverRequest) {
-        return sceneService.getNonPlayerCharactersForScene(serverRequest.pathVariable(ID))
-                .flatMap(players -> ServerResponse.ok().bodyValue(players))
-                .switchIfEmpty(ServerResponse.notFound().build());
+        return sceneService.getNonPlayerCharactersForScene(serverRequest.pathVariable(ID)).collectList()
+                .flatMap(scenes -> {
+                    if (scenes.isEmpty()) {
+                        return ServerResponse.noContent().build();
+                    }
+                    return ServerResponse.ok()
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .body(fromValue(scenes));
+                });
     }
 }
