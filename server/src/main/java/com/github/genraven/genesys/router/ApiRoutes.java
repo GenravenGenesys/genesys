@@ -1,6 +1,5 @@
 package com.github.genraven.genesys.router;
 
-// com.github.genraven.genesys.router.ApiRoutes
 public final class ApiRoutes {
     private ApiRoutes() {}
 

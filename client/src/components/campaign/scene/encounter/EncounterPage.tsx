@@ -79,7 +79,7 @@ const EncounterPage: React.FC = () => {
                         </TabList>
                     </GridContainer>
                     <TabPanel value={"0"}>
-                        <InitiativeTrackCard npcs={combinedEnemies}
+                        <InitiativeTrackCard enemies={combinedEnemies}
                                              updateSlots={moveToClaimSlotsTab} party={party!!}/>
                     </TabPanel>
                     <TabPanel value={"1"}>
