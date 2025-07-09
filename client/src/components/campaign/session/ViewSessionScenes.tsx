@@ -6,12 +6,12 @@ import Paper from "@mui/material/Paper";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
-import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
-import {RootPath} from "../../../services/RootPath";
+import {CampaignPath} from "../../../services/RootPath";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import CampaignSession from "../../../models/campaign/CampaignSession";
 import SessionService from "../../../services/SessionService";
 import CampaignSceneSelectionDialog from "../scene/CampaignSceneSelectionDialog";
+import SingleActionTableCell from "../../common/table/actions/SingleActionTableCell";
 
 type Props = {
     session: CampaignSession;
@@ -42,7 +42,7 @@ const ViewSessionScenes: React.FC<Props> = ({ session }) => {
                             {scenes.map((scene, index) => (
                                 <TableRow key={index}>
                                     <TypographyCenterTableCell value={scene.name}/>
-                                    <ActionsTableCell name={scene.id} path={RootPath.Scenes}/>
+                                    <SingleActionTableCell name={scene.id} path={CampaignPath.Scene}/>
                                 </TableRow>
                             ))}
                         </TableBody>
