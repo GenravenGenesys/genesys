@@ -9,6 +9,7 @@ import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.service.CharacterService;
 
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
@@ -20,13 +21,13 @@ public class CharacterHandler {
     private final CharacterService characterService;
 
     public Mono<ServerResponse> getPlayer(final ServerRequest request) {
-        final Mono<Player> player = request.bodyToMono(Player.class);
-        return player
-                .flatMap(character -> characterService.mapPlayerToCharacter(character))
-                .flatMap(character -> ServerResponse.ok()
+        final Flux<Player> players = request.bodyToFlux(Player.class);
+        return players
+                .flatMap(characterService::mapPlayerToCharacter)
+                .collectList()
+                .flatMap(characters -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(character))
-                        .switchIfEmpty(ServerResponse.notFound().build()));
+                        .body(fromValue(characters)))
+                .switchIfEmpty(ServerResponse.notFound().build());
     }
-
 }
