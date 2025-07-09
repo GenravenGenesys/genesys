@@ -58,3 +58,7 @@ export enum ScenePath {
     Encounter = '/encounters/',
     Players = '/players/'
 }
+
+export enum EncounterPath {
+    ConvertPlayers = "/characters/players"
+}
