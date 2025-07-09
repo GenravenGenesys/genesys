@@ -73,7 +73,7 @@ const InitiativeTrackCard: React.FC<Props> = ({ party, enemies, updateSlots }) =
         const allSlots: InitiativeSlot[] = [];
 
         partyCharacters.forEach(pc => {
-            const skill = pcSkills[pc.id];
+            const skill = skills[pc.id];
             if (!skill) return;
             const results = handleDicePoolRoll({
                 dice: characterSkillDicePool(pc, skill),
@@ -90,7 +90,7 @@ const InitiativeTrackCard: React.FC<Props> = ({ party, enemies, updateSlots }) =
         });
 
         partyNpcs.forEach(npc => {
-            const skill = npcSkills[npc.id];
+            const skill = skills[npc.id];
             if (!skill) return;
             const results = handleDicePoolRoll({
                 dice: basicSkillDicePool(npc, skill),
@@ -107,7 +107,7 @@ const InitiativeTrackCard: React.FC<Props> = ({ party, enemies, updateSlots }) =
         });
 
         enemies.forEach(enemy => {
-            const skill = enemySkills[enemy.id];
+            const skill = skills[enemy.id];
             if (!skill) return;
             const results = handleDicePoolRoll({
                 dice: basicSkillDicePool(enemy, skill),

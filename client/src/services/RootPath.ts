@@ -60,5 +60,8 @@ export enum ScenePath {
 }
 
 export enum EncounterPath {
-    ConvertPlayers = "/characters/players"
+    ConvertPlayers = "/characters/players",
+    ConvertNemeses = "/characters/nemeses",
+    ConvertRivals = "/characters/rivals",
+    ConvertMinionGroups = "/characters/minions",
 }
