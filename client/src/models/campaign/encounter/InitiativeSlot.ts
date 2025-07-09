@@ -14,6 +14,6 @@ export default interface InitiativeSlot {
 }
 
 export enum Type {
-    Player = 'Player',
+    Party = 'Party',
     NPC = 'NPC'
 }

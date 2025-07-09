@@ -24,6 +24,7 @@ public interface CharacterResponseMapper {
     @Mapping(target = "melee", ignore = true)
     @Mapping(target = "ranged", ignore = true)
     @Mapping(target = "encumbrance", ignore = true)
+    @Mapping(target = "id", expression = "java(java.util.UUID.randomUUID().toString())")
     CharacterResponse mapPlayerToCharacter(final Player player);
 
     @AfterMapping

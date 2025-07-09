@@ -5,6 +5,7 @@ import {ActorArmor} from "../equipment/Armor";
 import {ActorGear} from "../equipment/Gear";
 import {SingleNonPlayerCharacter} from "./npc/NonPlayerActor";
 import Stats from "./Stats";
+import Character from '../campaign/encounter/Character';
 
 export default interface Actor {
     id: string
@@ -46,7 +47,7 @@ export const getActorCharacteristicRanks = (actor: Actor, skill: ActorSkill): nu
     }
 };
 
-export const getCharacteristicRanks = (actor: SingleNonPlayerCharacter, skill: ActorSkill): number => {
+export const getCharacteristicRanks = (actor: Character, skill: ActorSkill): number => {
     switch (skill.characteristic) {
         case CharacteristicType.Agility:
             return actor.agility.current;
