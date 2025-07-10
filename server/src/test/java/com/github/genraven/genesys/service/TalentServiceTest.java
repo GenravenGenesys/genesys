@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 import com.github.genraven.genesys.domain.Activation;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.domain.campaign.Campaign;
-import com.github.genraven.genesys.repository.CampaignRepository;
 import com.github.genraven.genesys.repository.TalentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
