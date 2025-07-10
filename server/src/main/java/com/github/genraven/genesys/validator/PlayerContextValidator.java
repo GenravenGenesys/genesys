@@ -6,7 +6,7 @@ import java.util.function.Function;
 import org.springframework.stereotype.Component;
 
 import com.github.genraven.genesys.domain.actor.player.Player;
-import com.github.genraven.genesys.domain.context.PlayerContext;
+import com.github.genraven.genesys.domain.context.player.PlayerContext;
 import com.github.genraven.genesys.exceptions.PlayerValidationException;
 
 import lombok.RequiredArgsConstructor;

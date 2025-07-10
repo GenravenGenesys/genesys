@@ -6,4 +6,5 @@ public final class ValidationGroups {
 
     public interface DefaultValidation {}
     public interface PlayerValidation {}
+    public interface SceneStartValidation {}
 }

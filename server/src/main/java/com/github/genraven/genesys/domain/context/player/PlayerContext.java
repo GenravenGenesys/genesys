@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain.context;
+package com.github.genraven.genesys.domain.context.player;
 
 import java.util.List;
 

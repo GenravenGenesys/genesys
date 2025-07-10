@@ -30,17 +30,17 @@ public class SceneService {
         return sceneRepository.findAll();
     }
 
-    public Mono<Scene> getScene(final String name) {
-        return sceneRepository.findById(name);
+    public Mono<Scene> getScene(final String id) {
+        return sceneRepository.findById(id);
     }
 
     public Mono<Scene> createScene(final String name) {
         return sceneRepository.save(new Scene(name));
     }
 
-    public Mono<Scene> updateScene(final String name, final Scene updatedScene) {
+    public Mono<Scene> updateScene(final String id, final Scene updatedScene) {
         log.debug("Updating scene: {}", updatedScene);
-        return getScene(name).map(scene -> {
+        return getScene(id).map(scene -> {
             scene.setName(updatedScene.getName());
             scene.setParty(updatedScene.getParty());
             scene.setEncounters(updatedScene.getEncounters());
@@ -60,29 +60,6 @@ public class SceneService {
             existingCampaign.getSceneIds().add(sceneId);
             return campaignService.updateCampaign(existingCampaign.getId(), existingCampaign);
         });
-    }
-
-    public Mono<Session> addSceneToSessionInCurrentCampaign(final String name, final String sceneId) {
-        return campaignService.getCurrentCampaign()
-                .flatMap(campaign -> {
-                    final Session session = CampaignUtil.getSessionFromCampaign(name, campaign);
-                    session.getSceneIds().add(sceneId);
-                    return campaignService.updateCampaign(campaign.getId(), campaign)
-                            .thenReturn(session);
-                });
-    }
-
-    public Flux<Scene> getScenesInSession(final String name) {
-        log.info("Fetching scenes for session");
-        return campaignService.getCurrentCampaign()
-                .doOnNext(campaign -> log.debug("Found current campaign: {}", campaign))
-                .flatMapMany(campaign -> {
-                    final Session session = CampaignUtil.getSessionFromCampaign(name, campaign);
-                    return Flux.fromIterable(session.getSceneIds())
-                            .flatMap(sceneRepository::findById);
-                })
-                .doOnNext(scene -> log.debug("Fetched scene for session '{}': {}", name, scene))
-                .doOnError(error -> log.error("Error fetching scenes for session '{}'", name, error));
     }
 
     public Flux<MinionGroup> getEnemyMinions(final String id) {
