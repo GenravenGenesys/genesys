@@ -7,6 +7,7 @@ import CustomTableCell from "../common/CustomTableCell";
 import CampaignSession from "../../../../models/campaign/CampaignSession";
 import Scene from "../../../../models/campaign/Scene";
 import { CampaignPath } from "../../../../services/RootPath";
+import SessionService from "../../../../services/SessionService";
 
 type Props = {
     session: CampaignSession;
@@ -20,9 +21,10 @@ const SceneStartActionTableRow: React.FC<Props> = ({ session, scene }) => {
         <Link to={`${CampaignPath.Scene}${scene.id}`} ref={ref} {...itemProps} />
     )), [CampaignPath.Scene, scene.id]);
 
-    const startScene = () => {
-        
-    }
+    const startScene = async () => {
+        await SessionService.startScene(session.name, scene.id);
+        navigate(CampaignPath.Scene + scene.id);
+    };
 
     return (
         <TableRow key={scene.id}>
