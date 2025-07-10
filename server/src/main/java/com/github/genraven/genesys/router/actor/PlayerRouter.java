@@ -4,6 +4,7 @@ import org.springdoc.core.annotations.RouterOperation;
 import org.springdoc.core.annotations.RouterOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -73,7 +74,8 @@ public class PlayerRouter {
                     required = true,
                     content = @Content(
                         schema = @Schema(
-                            implementation = Characteristic.class))),
+                            implementation = Characteristic.class),
+                    mediaType = MediaType.APPLICATION_JSON_VALUE)),
                 responses = @ApiResponse(
                     responseCode = "200",
                     description = "Characteristics updated",
