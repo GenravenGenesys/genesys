@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 public class SessionRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> sceneRouterMethod(final SessionHandler sessionHandler) {
+    public RouterFunction<ServerResponse> sessionRouterMethod(final SessionHandler sessionHandler) {
         return RouterFunctions.route()
             .nest(RequestPredicates.path(ApiRoutes.API), builder -> builder
                 .path("campaigns/sessions/{name}/scenes", sessionSceneBuilder -> sessionSceneBuilder
