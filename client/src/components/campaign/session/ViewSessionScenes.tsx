@@ -7,7 +7,7 @@ import { renderSingleRowTableHeader } from "../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
 import CampaignSession from "../../../models/campaign/CampaignSession";
 import SessionService from "../../../services/SessionService";
-import CampaignSceneSelectionDialog from "../scene/CampaignSceneSelectionDialog";
+import SessionSceneSelectionDialog from "./SessionSceneSelectionDialog";
 import SceneStartActionTableRow from "../../common/table/actions/SceneStartActionTableRow";
 
 type Props = {
@@ -29,8 +29,8 @@ const ViewSessionScenes: React.FC<Props> = ({ session }) => {
         <Card>
             <CenteredCardHeaderWithButton title={'Scenes'} onClick={() => setOpenSceneDialog(true)}
                 buttonText={'Add Scene'} />
-            {openSceneDialog && <CampaignSceneSelectionDialog open={openSceneDialog}
-                onClose={(): void => setOpenSceneDialog(false)} session={session} />}
+            {openSceneDialog && <SessionSceneSelectionDialog open={openSceneDialog}
+                                                             onClose={(): void => setOpenSceneDialog(false)} session={session} />}
             <CardContent>
                 <TableContainer component={Paper}>
                     <Table>
