@@ -64,7 +64,7 @@ public class SessionHandler {
             .flatMap(updatedScene -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(updatedScene)))
-            .onErrorResume(SceneValidationException.class, ex -> ServerResponse.badRequest()
+            .onErrorResume(SceneValidationException.class, ex -> ServerResponse.unprocessableEntity()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(Map.of("errors", ex.getErrors()))))
             .switchIfEmpty(ServerResponse.notFound().build());

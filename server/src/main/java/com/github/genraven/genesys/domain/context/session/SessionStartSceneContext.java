@@ -19,8 +19,6 @@ public class SessionStartSceneContext implements SessionContext {
 
     @Override
     public List<Class<?>> getValidationGroups() {
-        final List<Class<?>> validationGroups = SessionContext.super.getValidationGroups();
-        validationGroups.add(ValidationGroups.SceneStartValidation.class);
-        return validationGroups;
+        return SessionContext.super.getValidationGroups();
     }
 }

@@ -11,6 +11,6 @@ public interface SessionContext {
     List<Object> getValidatableParts();
 
     default List<Class<?>> getValidationGroups() {
-        return List.of(ValidationGroups.PlayerValidation.class);
+        return List.of(ValidationGroups.SceneStartValidation.class);
     }
 }
