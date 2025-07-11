@@ -31,8 +31,8 @@ const SceneStartActionTableRow: React.FC<Props> = ({ session, scene }) => {
             <CustomTableCell>
                 <Typography>{scene.name}</Typography>
             </CustomTableCell>
-            <CustomTableCell>
-                <Button variant='contained' color='primary' onClick={startScene}></Button>
+            <CustomTableCell centered>
+                <Button variant='contained' color='primary' onClick={startScene}>Start Scene</Button>
             </CustomTableCell>
             <CustomTableCell centered>
                 <IconButton title='View' size='small' component={handleView} style={{ textAlign: 'center' }}>

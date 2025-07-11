@@ -11,6 +11,7 @@ import Scene from "../../../models/campaign/Scene";
 import SceneBackdrop from "../scene/SceneBackdrop";
 import CampaignSession from "../../../models/campaign/CampaignSession";
 import SessionService from "../../../services/SessionService";
+import CampaignService from "../../../services/CampaignService";
 
 type Props = {
     session: CampaignSession;
@@ -23,7 +24,7 @@ const SessionSceneSelectionTable: React.FC<Props> = ({ session }) => {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            setScenes(await SessionService.getScenesForSession(session.name));
+            setScenes(await CampaignService.getCampaignScenes());
         })()
     }, [setScenes]);
 

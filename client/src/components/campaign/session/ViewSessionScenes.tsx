@@ -17,7 +17,7 @@ type Props = {
 const ViewSessionScenes: React.FC<Props> = ({ session }) => {
     const [scenes, setScenes] = useState<Scene[]>([]);
     const [openSceneDialog, setOpenSceneDialog] = useState(false);
-    const headers = ['Name', 'View'];
+    const headers = ['Name', 'Start', 'View'];
 
     useEffect(() => {
         (async (): Promise<void> => {
