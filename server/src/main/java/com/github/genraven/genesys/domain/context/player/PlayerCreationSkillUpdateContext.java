@@ -15,4 +15,9 @@ public record PlayerCreationSkillUpdateContext(Player player, PlayerSkill player
     public List<Class<?>> getValidationGroups() {
         return List.of();
     }
+
+    @Override
+    public List<String> validateAvailableExperience() {
+        return List.of();
+    }
 }
