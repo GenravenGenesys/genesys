@@ -6,7 +6,7 @@ import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.validator.ValidationGroups;
 
 public interface PlayerContext {
-    Player getPlayer();
+    Player player();
 
     List<Object> getValidatableParts();
 

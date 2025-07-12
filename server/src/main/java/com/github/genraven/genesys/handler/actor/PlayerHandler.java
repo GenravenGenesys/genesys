@@ -114,7 +114,7 @@ public class PlayerHandler extends BaseHandler {
                 tuple.getT1()))
             .flatMap(context -> contextValidator.validateUpdate(
                 context,
-                ctx -> playerService.updatePlayerCharacteristic(ctx.getPlayer(), ctx.getCharacteristic())))
+                ctx -> playerService.updatePlayerCharacteristic(ctx.player(), ctx.characteristic())))
             .flatMap(updatedPlayer -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(updatedPlayer)))

@@ -6,7 +6,7 @@ import com.github.genraven.genesys.validator.ValidationGroups;
 import java.util.List;
 
 public interface SessionContext {
-    Session getSession();
+    Session session();
 
     List<Object> getValidatableParts();
 

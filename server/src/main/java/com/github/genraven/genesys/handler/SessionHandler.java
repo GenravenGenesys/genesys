@@ -4,7 +4,6 @@ import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.domain.campaign.Session;
 import com.github.genraven.genesys.domain.context.session.SessionStartSceneContext;
 import com.github.genraven.genesys.exceptions.BaseException;
-import com.github.genraven.genesys.exceptions.SceneValidationException;
 import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SceneService;
 import com.github.genraven.genesys.service.SessionService;
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -62,7 +60,7 @@ public class SessionHandler {
                 tuple.getT2()))
             .flatMap(context -> contextValidator.validateSession(
                 context,
-                ctx -> sessionService.startScene(ctx.getSession(), ctx.getScene())))
+                ctx -> sessionService.startScene(ctx.session(), ctx.scene())))
             .flatMap(updatedScene -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(updatedScene)))
