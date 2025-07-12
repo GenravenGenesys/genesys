@@ -5,6 +5,7 @@ import com.github.genraven.genesys.domain.actor.*;
 
 import com.github.genraven.genesys.domain.equipment.Armor;
 import com.github.genraven.genesys.domain.equipment.EquipmentSlot;
+import jakarta.validation.constraints.AssertTrue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -45,6 +46,9 @@ public class Player extends Actor {
     private List<ActorTalent> talents = new ArrayList<>();
     private List<PlayerSkill> skills = new ArrayList<>();
     private List<CriticalInjury> injuries = new ArrayList<>();
+
+    @AssertTrue()
+    private Boolean creation = Boolean.TRUE;
 
     public void getTotalPlayerStats() {
         this.getTotalSoak();

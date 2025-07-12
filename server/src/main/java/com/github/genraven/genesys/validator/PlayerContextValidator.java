@@ -21,7 +21,7 @@ public class PlayerContextValidator {
     private final BeanValidator beanValidator;
 
     public <T extends PlayerContext> Mono<Player> validateUpdate(T context, Function<T, Mono<Player>> updateAction) {
-        List<String> errorMessages = context.getValidatableParts().stream()
+        final List<String> errorMessages = context.getValidatableParts().stream()
             .flatMap(part -> beanValidator.validate(part, context.getValidationGroups().toArray(new Class[0])).stream()).toList();
 
         if (!errorMessages.isEmpty()) {
