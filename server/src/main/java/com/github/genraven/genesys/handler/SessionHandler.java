@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -64,7 +65,7 @@ public class SessionHandler {
             .flatMap(updatedScene -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(updatedScene)))
-            .onErrorResume(SceneValidationException.class, ex -> ServerResponse.unprocessableEntity()
+            .onErrorResume(ResponseStatusException.class, ex -> ServerResponse.status(ex.getStatusCode())
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(Map.of("errors", ex.getErrors()))))
             .switchIfEmpty(ServerResponse.notFound().build());
