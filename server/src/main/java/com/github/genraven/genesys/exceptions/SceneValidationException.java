@@ -1,17 +1,13 @@
 package com.github.genraven.genesys.exceptions;
 
-import lombok.Getter;
+import com.github.genraven.genesys.domain.error.Error;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@Getter
-public class SceneValidationException extends ResponseStatusException {
-    private final List<String> errors;
+public class SceneValidationException extends BaseException {
 
-    public SceneValidationException(final List<String> errors) {
-        super(HttpStatus.UNPROCESSABLE_ENTITY, "Scene start context validation failed");
-        this.errors = errors;
+    public SceneValidationException(final List<Error> errors) {
+        super(HttpStatus.UNPROCESSABLE_ENTITY, "Scene start context validation failed", errors);
     }
 }

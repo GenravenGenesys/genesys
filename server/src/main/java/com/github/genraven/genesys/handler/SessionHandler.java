@@ -3,6 +3,7 @@ package com.github.genraven.genesys.handler;
 import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.domain.campaign.Session;
 import com.github.genraven.genesys.domain.context.session.SessionStartSceneContext;
+import com.github.genraven.genesys.exceptions.BaseException;
 import com.github.genraven.genesys.exceptions.SceneValidationException;
 import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SceneService;
@@ -65,9 +66,8 @@ public class SessionHandler {
             .flatMap(updatedScene -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(updatedScene)))
-            .onErrorResume(ResponseStatusException.class, ex -> ServerResponse.status(ex.getStatusCode())
+            .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(fromValue(Map.of("errors", ex.getErrors()))))
-            .switchIfEmpty(ServerResponse.notFound().build());
+                .body(fromValue(Map.of("errors", ex.getErrors()))));
     }
 }
