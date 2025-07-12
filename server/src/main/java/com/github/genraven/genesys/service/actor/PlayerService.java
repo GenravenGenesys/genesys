@@ -121,11 +121,11 @@ public class PlayerService {
         });
     }
 
-    public Mono<Player> updatePlayerSkill(final String id, final PlayerSkill playerSkill) {
-        return getPlayer(id).flatMap(player -> {
+    public Mono<Player> updatePlayerSkill(final Player existingPlayer, final PlayerSkill playerSkill) {
+        return Mono.just(existingPlayer).flatMap(player -> {
             player.getSkills().stream()
-                    .filter(skill -> skill.getId().equals(playerSkill.getId())).findFirst()
-                    .ifPresent(skill -> skill.setRanks(skill.getRanks() + 1));
+                .filter(skill -> skill.getId().equals(playerSkill.getId())).findFirst()
+                .ifPresent(skill -> skill.setRanks(skill.getRanks() + 1));
             player.setExperience(spendInitialExperience(player.getExperience(), isCareerSkill(player.getCareer(), playerSkill) ? playerSkill.getRanks() * 5 : 5 + playerSkill.getRanks() * 5));
             return playerRepository.save(player);
         });
@@ -134,8 +134,8 @@ public class PlayerService {
     public Mono<Player> updatePlayerTalent(final String id, final Talent talent) {
         return getPlayer(id).flatMap(player -> {
             final Optional<ActorTalent> talentOptional = player.getTalents().stream()
-                    .filter(actorTalent -> actorTalent.getId().equals(talent.getId()))
-                    .findFirst();
+                .filter(actorTalent -> actorTalent.getId().equals(talent.getId()))
+                .findFirst();
 
             if (talentOptional.isPresent()) {
                 final ActorTalent actorTalent = talentOptional.get();
