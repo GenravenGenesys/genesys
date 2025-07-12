@@ -10,7 +10,7 @@ public interface PlayerContext {
 
     List<Object> getValidatableParts();
 
-    default List<Class<?>> getValidationGroups() {
-        return List.of(ValidationGroups.PlayerValidation.class);
-    }
+    List<Class<?>> getValidationGroups();
+
+    List<String> validateAvailableExperience();
 }
