@@ -26,7 +26,7 @@ public class Session {
     @Valid
     private Party party;
 
-    @AssertTrue(groups = ValidationGroups.SceneStartValidation.class)
+    @AssertTrue(groups = ValidationGroups.SceneStartValidation.class, message = "Session must be active in order to start the scene.")
     private Boolean active = false;
 
     private Integer player;
