@@ -3,20 +3,18 @@ package com.github.genraven.genesys.service.lore;
 import com.github.genraven.genesys.domain.lore.Lore;
 import com.github.genraven.genesys.domain.lore.Organization;
 import com.github.genraven.genesys.repository.lore.OrganizationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
-
-    @Autowired
-    public OrganizationService(final OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
 
     public Flux<Organization> getAllOrganizations() {
         return organizationRepository.findAll();

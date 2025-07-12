@@ -20,6 +20,7 @@ import LoreDashboard from "../home/LoreDashboard";
 import GridContainer from "../common/grid/GridContainer";
 import CenteredCardHeader from "../common/card/header/CenteredCardHeader";
 import FullGrid from "../common/grid/FullGrid";
+import ViewCampaignScenes from "./scene/ViewCampaignScenes";
 
 interface Props {
     campaign: Campaign
@@ -52,6 +53,7 @@ export default function CampaignPage(props: Props) {
                                 <Tab label='Nemesis' value='9'/>
                                 <Tab label='Rival' value='10'/>
                                 <Tab label='Minion' value='11'/>
+                                <Tab label='Scenes' value='12'/>
                             </TabList>
                         </GridContainer>
                         <TabPanel value="1">
@@ -86,6 +88,9 @@ export default function CampaignPage(props: Props) {
                         </TabPanel>
                         <TabPanel value="11">
                             <CampaignMinion/>
+                        </TabPanel>
+                        <TabPanel value="12">
+                            <ViewCampaignScenes/>
                         </TabPanel>
                     </TabContext>
                 </FullGrid>

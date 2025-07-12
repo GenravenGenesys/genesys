@@ -12,8 +12,9 @@ import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import PartyCard from "../party/PartyCard";
-import ViewCampaignScenes from "../scene/ViewCampaignScenes";
 import GridContainer from "../../common/grid/GridContainer";
+import FullGrid from "../../common/grid/FullGrid";
+import ViewSessionScenes from "./ViewSessionScenes";
 
 const SessionPage = () => {
     const {name} = useParams<{ name: string }>();
@@ -55,7 +56,7 @@ const SessionPage = () => {
         <Card>
             <CenteredCardHeader title={session.name}/>
             <CardContent>
-                <GridContainer>
+                <FullGrid>
                     <TabContext value={value}>
                         <GridContainer centered>
                             <TabList onChange={handleChange} centered>
@@ -75,10 +76,10 @@ const SessionPage = () => {
                             <PartyCard party={session.party}/>
                         </TabPanel>
                         <TabPanel value="3">
-                            <ViewCampaignScenes session={session}/>
+                            <ViewSessionScenes session={session}/>
                         </TabPanel>
                     </TabContext>
-                </GridContainer>
+                </FullGrid>
             </CardContent>
         </Card>
     );

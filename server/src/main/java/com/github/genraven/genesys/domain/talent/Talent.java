@@ -6,6 +6,9 @@ import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
 import com.github.genraven.genesys.domain.common.Action;
 import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.validator.EnumValidator;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -28,10 +31,19 @@ public class Talent {
 
     @Id
     private String id;
+
+    @NotNull
     private String name;
+
+    @EnumValidator(enumClass = Activation.class)
     private Activation activation = Activation.PASSIVE;
+
+    @EnumValidator(enumClass = Tier.class)
     private Tier tier = Tier.FIRST;
+
+    @NotNull
     private boolean ranked = false;
+
     private String summary;
     private String description;
     private Cost cost = new Cost();

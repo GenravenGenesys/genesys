@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import CampaignService from "../../../services/CampaignService";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -10,6 +9,7 @@ import TableCell from "@mui/material/TableCell";
 import {Button} from "@mui/material";
 import Scene from "../../../models/campaign/Scene";
 import SceneBackdrop from "./SceneBackdrop";
+import CampaignService from "../../../services/CampaignService";
 
 const CampaignSceneSelectionTable = () => {
     const [scenes, setScenes] = useState<Scene[]>([]);

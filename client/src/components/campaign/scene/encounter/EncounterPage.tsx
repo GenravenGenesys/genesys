@@ -30,6 +30,8 @@ const EncounterPage: React.FC = () => {
         ...(encounter.enemyNemeses ? encounter.enemyNemeses.map(nemesis => ({...nemesis})) : [])
     ];
 
+    const party = scene?.party;
+
     useEffect(() => {
         if (!id) {
             return;
@@ -50,10 +52,6 @@ const EncounterPage: React.FC = () => {
     if (!scene || !encounter) {
         return <Fragment/>;
     }
-
-    // const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    //     setValue(newValue);
-    // };
 
     const moveToClaimSlotsTab = (initiativeSlots: InitiativeSlot[]) => {
         setSlots(initiativeSlots);
@@ -81,8 +79,8 @@ const EncounterPage: React.FC = () => {
                         </TabList>
                     </GridContainer>
                     <TabPanel value={"0"}>
-                        <InitiativeTrackCard npcs={combinedEnemies}
-                                             updateSlots={moveToClaimSlotsTab}/>
+                        <InitiativeTrackCard enemies={combinedEnemies}
+                                             updateSlots={moveToClaimSlotsTab} party={party!!}/>
                     </TabPanel>
                     <TabPanel value={"1"}>
                         <ClaimInitiativeSlotTrack npcs={combinedEnemies} initialSlots={slots}

@@ -7,7 +7,8 @@ export enum RootPath {
     Spell = '/spells/',
     Career = '/careers/',
     Archetype = '/archetypes/',
-    Scenes = '/scenes/'
+    Scenes = '/scenes/',
+    Session = '/sessions/'
 }
 
 export enum EquipmentPath {
@@ -41,7 +42,7 @@ export enum PlayerPath {
 export enum CampaignPath {
     Campaign = '/campaigns/',
     Party = '/party/',
-    Session = '/sessions/',
+    Session = '/campaigns/sessions/',
     Scene = '/campaigns/scenes/',
     Current = '/current',
     Lore = '/lore/',
@@ -56,4 +57,11 @@ export enum ScenePath {
     Minion = '/minions/enemies/',
     Encounter = '/encounters/',
     Players = '/players/'
+}
+
+export enum EncounterPath {
+    ConvertPlayers = "/characters/players",
+    ConvertNemeses = "/characters/nemeses",
+    ConvertRivals = "/characters/rivals",
+    ConvertMinionGroups = "/characters/minions",
 }

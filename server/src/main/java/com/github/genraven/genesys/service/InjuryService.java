@@ -2,20 +2,18 @@ package com.github.genraven.genesys.service;
 
 import com.github.genraven.genesys.domain.CriticalInjury;
 import com.github.genraven.genesys.repository.InjuryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class InjuryService {
 
     private final InjuryRepository injuryRepository;
-
-    @Autowired
-    public InjuryService(final InjuryRepository injuryRepository) {
-        this.injuryRepository = injuryRepository;
-    }
 
     public Flux<CriticalInjury> getAllInjuries() {
         return injuryRepository.findAll();

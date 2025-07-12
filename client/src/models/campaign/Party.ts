@@ -1,8 +1,9 @@
 import Player from "../actor/player/Player";
-import NonPlayerActor from "../actor/npc/NonPlayerActor";
+import { SingleNonPlayerCharacter } from "../actor/npc/NonPlayerActor";
+import Nemesis from "../actor/npc/Nemesis";
 
 export default interface Party {
-    party_id: number
     players: Player[]
-    npcs: NonPlayerActor[]
+    nemesis: Nemesis[]
+    npcs: SingleNonPlayerCharacter[]
 }

@@ -5,8 +5,9 @@ import {difficultyDie} from "./Difficulty";
 import {proficiencyDie} from "./Proficiency";
 import {challengeDie} from "./Challenge";
 import {Die} from "./Die";
-import {ActorSkill, getCharacteristicRanks} from "../../actor/Actor";
+import {ActorSkill, getActorCharacteristicRanks, getCharacteristicRanks} from "../../actor/Actor";
 import {SingleNonPlayerCharacter} from "../../actor/npc/NonPlayerActor";
+import Character from "../../campaign/encounter/Character";
 
 export const dicePoolToRoll = (dicePool: DicePool): Die[] => [
     ...Array(dicePool.boost).fill(boostDie),
@@ -57,6 +58,13 @@ export const basicDicePool = (dice: Dice) => {
 }
 
 export const basicSkillDicePool = (actor: SingleNonPlayerCharacter, skill: ActorSkill): Die[] => {
+    return dicePoolToRoll(basicDicePool({
+        ability: Math.max(getActorCharacteristicRanks(actor, skill), skill.ranks) - Math.min(getActorCharacteristicRanks(actor, skill), skill.ranks),
+        proficiency: Math.min(getActorCharacteristicRanks(actor, skill), skill.ranks)
+    }));
+};
+
+export const characterSkillDicePool = (actor: Character, skill: ActorSkill): Die[] => {
     return dicePoolToRoll(basicDicePool({
         ability: Math.max(getCharacteristicRanks(actor, skill), skill.ranks) - Math.min(getCharacteristicRanks(actor, skill), skill.ranks),
         proficiency: Math.min(getCharacteristicRanks(actor, skill), skill.ranks)

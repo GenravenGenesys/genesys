@@ -6,65 +6,64 @@ import com.github.genraven.genesys.domain.actor.npc.Nemesis;
 import com.github.genraven.genesys.domain.actor.npc.Rival;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.domain.campaign.Scene;
+import com.github.genraven.genesys.domain.campaign.Session;
 import com.github.genraven.genesys.domain.campaign.encounter.Character;
-import com.github.genraven.genesys.repository.CampaignRepository;
 import com.github.genraven.genesys.repository.SceneRepository;
+import com.github.genraven.genesys.util.CampaignUtil;
+
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SceneService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SceneService.class);
     private final SceneRepository sceneRepository;
-    private final CampaignRepository campaignRepository;
+    private final CampaignService campaignService;
 
     public Flux<Scene> getAllScenes() {
         return sceneRepository.findAll();
     }
 
-    public Mono<Scene> getScene(final String name) {
-        return sceneRepository.findById(name);
+    public Mono<Scene> getScene(final String id) {
+        return sceneRepository.findById(id);
     }
 
     public Mono<Scene> createScene(final String name) {
         return sceneRepository.save(new Scene(name));
     }
 
-    public Mono<Scene> updateScene(final String name, final Scene updatedScene) {
-        logger.debug("Updating scene: {}", updatedScene);
-        return getScene(name).map(scene -> {
-                    scene.setName(updatedScene.getName());
-                    scene.setParty(updatedScene.getParty());
-                    scene.setEncounters(updatedScene.getEncounters());
-                    return scene;
-                }).flatMap(sceneRepository::save)
-                .doOnNext(scene -> logger.debug("Updated scene: {}", scene));
+    public Mono<Scene> updateScene(final String id, final Scene updatedScene) {
+        log.debug("Updating scene: {}", updatedScene);
+        return getScene(id).map(scene -> {
+            scene.setName(updatedScene.getName());
+            scene.setParty(updatedScene.getParty());
+            scene.setEncounters(updatedScene.getEncounters());
+            return scene;
+        }).flatMap(sceneRepository::save)
+                .doOnNext(scene -> log.debug("Updated scene: {}", scene));
     }
 
-    public Mono<List<Scene>> getScenesForCurrentCampaign() {
-        return campaignRepository.findByCurrent(true)
-                .flatMap(campaign -> Flux.fromIterable(campaign.getSceneIds())
-                        .flatMap(sceneRepository::findById)
-                        .collectList());
+    public Flux<Scene> getScenesForCurrentCampaign() {
+        return campaignService.getCurrentCampaign()
+                .flatMapMany(campaign -> Flux.fromIterable(campaign.getSceneIds())
+                        .flatMap(sceneRepository::findById));
     }
 
     public Mono<Campaign> addSceneToCurrentCampaign(final String sceneId) {
-        return campaignRepository.findByCurrent(true).flatMap(existingCampaign -> {
-            existingCampaign.getSkillIds().add(sceneId);
-            return campaignRepository.save(existingCampaign);
+        return campaignService.getCurrentCampaign().flatMap(existingCampaign -> {
+            existingCampaign.getSceneIds().add(sceneId);
+            return campaignService.updateCampaign(existingCampaign.getId(), existingCampaign);
         });
     }
 
-    public Mono<List<MinionGroup>> getEnemyMinions(final String id) {
-        return getScene(id).flatMap(scene -> Flux.fromIterable(scene.getEnemyMinionGroups()).collectList());
+    public Flux<MinionGroup> getEnemyMinions(final String id) {
+        return getScene(id).flatMapMany(scene -> Flux.fromIterable(scene.getEnemyMinionGroups()));
     }
 
     public Mono<Scene> addEnemyMinionToScene(final String sceneId, final Minion minion, final int size) {
@@ -74,8 +73,8 @@ public class SceneService {
         });
     }
 
-    public Mono<List<Rival>> getEnemyRivals(final String id) {
-        return getScene(id).flatMap(scene -> Flux.fromIterable(scene.getEnemyRivals()).collectList());
+    public Flux<Rival> getEnemyRivals(final String id) {
+        return getScene(id).flatMapMany(scene -> Flux.fromIterable(scene.getEnemyRivals()));
     }
 
     public Mono<Scene> addEnemyRivalToScene(final String sceneId, final Rival rival) {
@@ -85,8 +84,8 @@ public class SceneService {
         });
     }
 
-    public Mono<List<Nemesis>> getEnemyNemeses(final String id) {
-        return getScene(id).flatMap(scene -> Flux.fromIterable(scene.getEnemyNemeses()).collectList());
+    public Flux<Nemesis> getEnemyNemeses(final String id) {
+        return getScene(id).flatMapMany(scene -> Flux.fromIterable(scene.getEnemyNemeses()));
     }
 
     public Mono<Scene> addEnemyNemesisToScene(final String sceneId, final Nemesis nemesis) {
@@ -96,19 +95,18 @@ public class SceneService {
         });
     }
 
-    public Mono<List<Character>> getPlayerCharactersForScene(final String sceneId) {
-        return getScene(sceneId).flatMap(scene -> Flux.fromIterable(scene.getParty().getPlayers()).map(Character::new).collectList());
+    public Flux<Character> getPlayerCharactersForScene(final String sceneId) {
+        return getScene(sceneId)
+                .flatMapMany(scene -> Flux.fromIterable(scene.getParty().getPlayers()).map(Character::new));
     }
 
-    public Mono<List<Character>> getNonPlayerCharactersForScene(final String sceneId) {
-        return getScene(sceneId).flatMap(scene -> Flux.merge(
-                        Flux.fromIterable(scene.getEnemyNemeses())
-                                .flatMap(nemesis -> Mono.just(new Character(nemesis))),
-                        Flux.fromIterable(scene.getEnemyRivals())
-                                .flatMap(rival -> Mono.just(new Character(rival))),
-                        Flux.fromIterable(scene.getEnemyMinionGroups())
-                                .flatMap(minionGroup -> Mono.just(new Character(minionGroup)))
-                )
-                .collectList());
+    public Flux<Character> getNonPlayerCharactersForScene(final String sceneId) {
+        return getScene(sceneId).flatMapMany(scene -> Flux.merge(
+                Flux.fromIterable(scene.getEnemyNemeses())
+                        .flatMap(nemesis -> Mono.just(new Character(nemesis))),
+                Flux.fromIterable(scene.getEnemyRivals())
+                        .flatMap(rival -> Mono.just(new Character(rival))),
+                Flux.fromIterable(scene.getEnemyMinionGroups())
+                        .flatMap(minionGroup -> Mono.just(new Character(minionGroup)))));
     }
 }

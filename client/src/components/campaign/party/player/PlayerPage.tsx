@@ -57,7 +57,7 @@ export default function PlayerPage() {
             <CenteredCardHeaderWithAction title={player.name} path={ActorPath.Player + player.id}/>
             <CardContent>
                 <TabContext value={tab}>
-                    <GridContainer>
+                    <GridContainer centered>
                         <TabList onChange={handleChange} centered>
                             <Tab label="Characteristics" value="1"/>
                             <Tab label="Skills" value="2"/>

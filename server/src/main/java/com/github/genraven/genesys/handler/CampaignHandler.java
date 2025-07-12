@@ -2,7 +2,9 @@ package com.github.genraven.genesys.handler;
 
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.service.CampaignService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -10,17 +12,14 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import static com.github.genraven.genesys.constants.CommonConstants.NAME;
+import static com.github.genraven.genesys.constants.CommonConstants.ID;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
+@RequiredArgsConstructor
 public class CampaignHandler {
 
     private final CampaignService campaignService;
-
-    @Autowired
-    public CampaignHandler(final CampaignService campaignService) {
-        this.campaignService = campaignService;
-    }
 
     public Mono<ServerResponse> getAllCampaigns(final ServerRequest serverRequest) {
         return campaignService.getAllCampaigns().collectList().flatMap(campaigns -> {
@@ -34,8 +33,8 @@ public class CampaignHandler {
     }
 
     public Mono<ServerResponse> getCampaign(final ServerRequest serverRequest) {
-        final String name = serverRequest.pathVariable(NAME);
-        return campaignService.getCampaign(name)
+        final String id = serverRequest.pathVariable(ID);
+        return campaignService.getCampaign(id)
                 .flatMap(campaign -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(campaign))
@@ -53,10 +52,10 @@ public class CampaignHandler {
     }
 
     public Mono<ServerResponse> updateCampaign(final ServerRequest serverRequest) {
-        final String name = serverRequest.pathVariable(NAME);
+        final String id = serverRequest.pathVariable(ID);
         final Mono<Campaign> campaignMono = serverRequest.bodyToMono(Campaign.class);
         return campaignMono
-                .flatMap(campaign -> campaignService.updateCampaign(name, campaign))
+                .flatMap(campaign -> campaignService.updateCampaign(id, campaign))
                 .flatMap(campaign -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(campaign))
