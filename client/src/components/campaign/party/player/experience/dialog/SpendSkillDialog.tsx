@@ -31,7 +31,8 @@ export default function SpendSkillDialog(props: Props) {
     }, [currentPlayer]);
 
     const handleIncreaseLevel = async (skill: PlayerSkill) => {
-        setPlayer(await PlayerService.purchaseSkillUpgrade(player.id, skill))
+        const updatedSkill = {...skill, ranks: skill.ranks + 1} as PlayerSkill;
+        setPlayer(await PlayerService.purchaseSkillUpgrade(player.id, updatedSkill))
     };
 
     const handleCancel = async () => {

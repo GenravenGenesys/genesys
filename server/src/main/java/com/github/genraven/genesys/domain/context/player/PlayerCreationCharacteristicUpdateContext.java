@@ -22,7 +22,7 @@ public record PlayerCreationCharacteristicUpdateContext(Player player, Character
     @Override
     public List<String> validateAvailableExperience() {
         final Experience experience = player.getExperience();
-        if (experience.getAvailable() <= 0) {
+        if (experience.getAvailable() <= 0 && experience.getInitial() <= 0) {
 
         }
         return List.of();

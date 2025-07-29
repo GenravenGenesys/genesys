@@ -9,6 +9,7 @@ import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.repository.actor.PlayerRepository;
 import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SkillService;
+import com.github.genraven.genesys.util.PlayerExperienceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -116,7 +117,7 @@ public class PlayerService {
                 case WILLPOWER -> player.setWillpower(characteristic);
                 case PRESENCE -> player.setPresence(characteristic);
             }
-            player.setExperience(spendInitialExperience(player.getExperience(), characteristic.getCurrent() * 10));
+            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromCharacteristicUpgrade(characteristic)));
             return playerRepository.save(player);
         });
     }
@@ -125,8 +126,8 @@ public class PlayerService {
         return Mono.just(existingPlayer).flatMap(player -> {
             player.getSkills().stream()
                 .filter(skill -> skill.getId().equals(playerSkill.getId())).findFirst()
-                .ifPresent(skill -> skill.setRanks(skill.getRanks() + 1));
-            player.setExperience(spendInitialExperience(player.getExperience(), isCareerSkill(player.getCareer(), playerSkill) ? playerSkill.getRanks() * 5 : 5 + playerSkill.getRanks() * 5));
+                .ifPresent(skill -> skill.setRanks(playerSkill.getRanks()));
+            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromSkillUpgrade(playerSkill)));
             return playerRepository.save(player);
         });
     }
@@ -143,57 +144,15 @@ public class PlayerService {
                     return Mono.error(new IllegalArgumentException("Talent is not ranked."));
                 } else {
                     actorTalent.setRanks(actorTalent.getRanks() + 1);
-                    player.setExperience(spendInitialExperience(player.getExperience(), getExperienceFromRankedTalent(actorTalent)));
+                    player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromRankedTalent(actorTalent)));
                 }
             } else {
                 final ActorTalent playerTalent = new ActorTalent(talent);
                 player.getTalents().add(playerTalent);
-                player.setExperience(spendInitialExperience(player.getExperience(), getExperienceFromUnrankedTalent(playerTalent)));
+                player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromUnrankedTalent(playerTalent)));
             }
             return playerRepository.save(player);
         });
-    }
-
-    private int getExperienceFromUnrankedTalent(final ActorTalent talent) {
-        switch (talent.getTier()) {
-            case FIRST -> {
-                return 5;
-            }
-            case SECOND -> {
-                return 10;
-            }
-            case THIRD -> {
-                return 15;
-            }
-            case FOURTH -> {
-                return 20;
-            }
-            case FIFTH -> {
-                return 25;
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + talent.getTier());
-        }
-    }
-
-    private int getExperienceFromRankedTalent(final ActorTalent talent) {
-        switch (talent.getTier()) {
-            case FIRST -> {
-                return talent.getRanks() * 5;
-            }
-            case SECOND -> {
-                return 5 + talent.getRanks() * 5;
-            }
-            case THIRD -> {
-                return 10 + talent.getRanks() * 5;
-            }
-            case FOURTH -> {
-                return 15 + talent.getRanks() * 5;
-            }
-            case FIFTH -> {
-                return 25;
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + talent.getTier());
-        }
     }
 
     private Experience spendInitialExperience(final Experience experience, final int change) {
