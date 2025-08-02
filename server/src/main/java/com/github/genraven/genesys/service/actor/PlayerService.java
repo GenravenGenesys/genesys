@@ -5,6 +5,8 @@ import com.github.genraven.genesys.domain.actor.ActorTalent;
 import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.player.*;
 import com.github.genraven.genesys.domain.actor.Characteristic;
+import com.github.genraven.genesys.domain.context.player.PlayerCreationCharacteristicUpdateContext;
+import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.repository.actor.PlayerRepository;
 import com.github.genraven.genesys.service.CampaignService;
@@ -107,27 +109,27 @@ public class PlayerService {
         });
     }
 
-    public Mono<Player> updatePlayerCharacteristic(final Player existingPlayer, final Characteristic characteristic) {
-        return Mono.just(existingPlayer).flatMap(player -> {
-            switch (characteristic.getType()) {
-                case BRAWN -> player.setBrawn(characteristic);
-                case AGILITY -> player.setAgility(characteristic);
-                case INTELLECT -> player.setIntellect(characteristic);
-                case CUNNING -> player.setCunning(characteristic);
-                case WILLPOWER -> player.setWillpower(characteristic);
-                case PRESENCE -> player.setPresence(characteristic);
+    public Mono<Player> updatePlayerCharacteristic(final PlayerCreationCharacteristicUpdateContext context) {
+        return Mono.just(context.player()).flatMap(player -> {
+            switch (context.characteristic().getType()) {
+                case BRAWN -> player.setBrawn(context.characteristic());
+                case AGILITY -> player.setAgility(context.characteristic());
+                case INTELLECT -> player.setIntellect(context.characteristic());
+                case CUNNING -> player.setCunning(context.characteristic());
+                case WILLPOWER -> player.setWillpower(context.characteristic());
+                case PRESENCE -> player.setPresence(context.characteristic());
             }
-            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromCharacteristicUpgrade(characteristic)));
+            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromCharacteristicUpgrade(context.characteristic())));
             return playerRepository.save(player);
         });
     }
 
-    public Mono<Player> updatePlayerSkill(final Player existingPlayer, final PlayerSkill playerSkill) {
-        return Mono.just(existingPlayer).flatMap(player -> {
+    public Mono<Player> updatePlayerSkill(final PlayerCreationSkillUpdateContext context) {
+        return Mono.just(context.player()).flatMap(player -> {
             player.getSkills().stream()
-                .filter(skill -> skill.getId().equals(playerSkill.getId())).findFirst()
-                .ifPresent(skill -> skill.setRanks(playerSkill.getRanks()));
-            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromSkillUpgrade(playerSkill)));
+                .filter(skill -> skill.getId().equals(context.playerSkill().getId())).findFirst()
+                .ifPresent(skill -> skill.setRanks(context.playerSkill().getRanks()));
+            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromSkillUpgrade(context.playerSkill())));
             return playerRepository.save(player);
         });
     }

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
 import com.github.genraven.genesys.exceptions.BaseException;
+import com.github.genraven.genesys.validator.PlayerCreationCharacteristicUpdateContextValidator;
+import com.github.genraven.genesys.validator.PlayerCreationSkillUpdateContextValidator;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -18,10 +20,8 @@ import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationCharacteristicUpdateContext;
 import com.github.genraven.genesys.domain.talent.Talent;
-import com.github.genraven.genesys.exceptions.PlayerValidationException;
 import com.github.genraven.genesys.handler.BaseHandler;
 import com.github.genraven.genesys.service.actor.PlayerService;
-import com.github.genraven.genesys.validator.PlayerContextValidator;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -35,7 +35,8 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 public class PlayerHandler extends BaseHandler {
 
     private final PlayerService playerService;
-    private final PlayerContextValidator contextValidator;
+    private final PlayerCreationSkillUpdateContextValidator playerCreationSkillUpdateContextValidator;
+    private final PlayerCreationCharacteristicUpdateContextValidator playerCreationCharacteristicUpdateContextValidator;
 
     public Mono<ServerResponse> getAllPlayers(final ServerRequest serverRequest) {
         return playerService.getAllPlayers().collectList().flatMap(players -> {
@@ -114,6 +115,7 @@ public class PlayerHandler extends BaseHandler {
             .map(tuple -> new PlayerCreationCharacteristicUpdateContext(
                 tuple.getT2(),
                 tuple.getT1()))
+            .flatMap(context -> )
             .flatMap(context -> contextValidator.validateUpdate(
                 context,
                 ctx -> playerService.updatePlayerCharacteristic(ctx.player(), ctx.characteristic())))
@@ -132,9 +134,8 @@ public class PlayerHandler extends BaseHandler {
             .map(tuple -> new PlayerCreationSkillUpdateContext(
                 tuple.getT2(),
                 tuple.getT1()))
-            .flatMap(context -> contextValidator.validateUpdate(
-                context,
-                ctx -> playerService.updatePlayerSkill(ctx.player(), ctx.playerSkill())))
+            .flatMap(playerCreationSkillUpdateContextValidator::validatePlayerCreationSkillUpdateContext)
+            .flatMap(playerService::updatePlayerSkill)
             .flatMap(updatedPlayer -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(updatedPlayer)))

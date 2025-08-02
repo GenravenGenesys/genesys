@@ -8,8 +8,4 @@ import lombok.Getter;
 
 public interface PlayerContext {
     Player player();
-
-    List<Object> getValidatableParts();
-
-    List<Class<?>> getValidationGroups();
 }
