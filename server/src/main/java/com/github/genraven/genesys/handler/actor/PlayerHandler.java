@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
 import com.github.genraven.genesys.exceptions.BaseException;
+import com.github.genraven.genesys.mapper.PlayerResponseMapper;
 import com.github.genraven.genesys.validator.PlayerCreationCharacteristicUpdateContextValidator;
 import com.github.genraven.genesys.validator.PlayerCreationSkillUpdateContextValidator;
 import org.springframework.core.ParameterizedTypeReference;
@@ -38,6 +39,8 @@ public class PlayerHandler extends BaseHandler {
     private final PlayerCreationSkillUpdateContextValidator playerCreationSkillUpdateContextValidator;
     private final PlayerCreationCharacteristicUpdateContextValidator playerCreationCharacteristicUpdateContextValidator;
 
+    private final PlayerResponseMapper playerResponseMapper = PlayerResponseMapper.INSTANCE;
+
     public Mono<ServerResponse> getAllPlayers(final ServerRequest serverRequest) {
         return playerService.getAllPlayers().collectList().flatMap(players -> {
             if (players.isEmpty()) {
@@ -52,6 +55,7 @@ public class PlayerHandler extends BaseHandler {
     public Mono<ServerResponse> getPlayer(final ServerRequest serverRequest) {
         final String name = serverRequest.pathVariable(NAME);
         return playerService.getPlayer(name)
+            .flatMap(player -> Mono.just(playerResponseMapper.mapPlayerToPlayerResponse(player)))
             .flatMap(player -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(player)))

@@ -48,12 +48,10 @@ public class PlayerService {
             final Player player = new Player(new Actor(name));
             player.setSkills(skills.stream().map(PlayerSkill::new).collect(Collectors.toList()));
             return playerRepository.save(player);
-        }).flatMap(savedPlayer -> {
-            return campaignService.getCurrentCampaign().flatMap(campaign -> {
-                campaign.getParty().getPlayers().add(savedPlayer);
-                return campaignService.updateCampaign(campaign.getId(), campaign).thenReturn(savedPlayer);
-            });
-        });
+        }).flatMap(savedPlayer -> campaignService.getCurrentCampaign().flatMap(campaign -> {
+            campaign.getParty().getPlayers().add(savedPlayer);
+            return campaignService.updateCampaign(campaign.getId(), campaign).thenReturn(savedPlayer);
+        }));
     }
 
     public Mono<Player> updatePlayer(final String name, final Player player) {
