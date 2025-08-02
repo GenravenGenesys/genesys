@@ -2,6 +2,7 @@ package com.github.genraven.genesys.service;
 
 import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.domain.campaign.Session;
+import com.github.genraven.genesys.domain.context.session.SessionStartSceneContext;
 import com.github.genraven.genesys.util.CampaignUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,12 +41,12 @@ public class SessionService {
             .doOnError(error -> log.error("Error fetching scenes for session '{}'", name, error));
     }
 
-    public Mono<Scene> startScene(final Session session, final Scene scene) {
-        log.info("Starting scene with id: {}", scene.getId());
-        scene.setParty(session.getParty());
-        scene.setActive(Boolean.TRUE);
-        return sceneService.updateScene(scene.getId(), scene)
+    public Mono<Scene> startScene(final SessionStartSceneContext context) {
+        log.info("Starting scene with id: {}", context.scene().getId());
+        context.scene().setParty(context.session().getParty());
+        context.scene().setActive(Boolean.TRUE);
+        return sceneService.updateScene(context.scene().getId(), context.scene())
             .doOnNext(updatedScene -> log.debug("Started scene: {}", updatedScene))
-            .doOnError(error -> log.error("Error starting scene with id: {}", scene.getId(), error));
+            .doOnError(error -> log.error("Error starting scene with id: {}", context.scene().getId(), error));
     }
 }

@@ -8,7 +8,7 @@ import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SceneService;
 import com.github.genraven.genesys.service.SessionService;
 import com.github.genraven.genesys.util.CampaignUtil;
-import com.github.genraven.genesys.validator.SessionContextValidator;
+import com.github.genraven.genesys.validator.SceneStartValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class SessionHandler {
     private final CampaignService campaignService;
     private final SessionService sessionService;
     private final SceneService sceneService;
-    private final SessionContextValidator contextValidator;
+    private final SceneStartValidator sceneStartValidator;
 
     public Mono<ServerResponse> addSceneToSessionInCurrentCampaign(final ServerRequest request) {
         return sessionService.addSceneToSessionInCurrentCampaign(request.pathVariable(NAME), request.pathVariable(ID))
@@ -58,9 +58,8 @@ public class SessionHandler {
             .map(tuple -> new SessionStartSceneContext(
                 tuple.getT1(),
                 tuple.getT2()))
-            .flatMap(context -> contextValidator.validateSession(
-                context,
-                ctx -> sessionService.startScene(ctx.session(), ctx.scene())))
+            .flatMap(sceneStartValidator::validateSessionStartSceneContext)
+            .flatMap(sessionService::startScene)
             .flatMap(updatedScene -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(updatedScene)))
