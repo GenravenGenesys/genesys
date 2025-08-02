@@ -12,6 +12,4 @@ public interface PlayerContext {
     List<Object> getValidatableParts();
 
     List<Class<?>> getValidationGroups();
-
-    List<String> validateAvailableExperience();
 }

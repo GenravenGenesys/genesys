@@ -24,8 +24,6 @@ public class PlayerContextValidator {
         final List<String> errorMessages = new ArrayList<>(context.getValidatableParts().stream()
             .flatMap(part -> beanValidator.validate(part, context.getValidationGroups().toArray(new Class[0])).stream()).toList());
 
-        errorMessages.addAll(context.validateAvailableExperience());
-
         if (!errorMessages.isEmpty()) {
             final List<Error> errors = new ArrayList<>();
             errorMessages.forEach(message -> errors.add(Error.builder().message(message).build()));

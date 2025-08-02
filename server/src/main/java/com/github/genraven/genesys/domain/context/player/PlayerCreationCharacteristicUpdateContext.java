@@ -18,13 +18,4 @@ public record PlayerCreationCharacteristicUpdateContext(Player player, Character
     public List<Class<?>> getValidationGroups() {
         return List.of(ValidationGroups.PlayerValidation.class, ValidationGroups.PlayerCreationValidation.class);
     }
-
-    @Override
-    public List<String> validateAvailableExperience() {
-        final Experience experience = player.getExperience();
-        if (experience.getAvailable() <= 0 && experience.getInitial() <= 0) {
-
-        }
-        return List.of();
-    }
 }

@@ -5,6 +5,7 @@ import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpda
 import com.github.genraven.genesys.domain.error.Error;
 import com.github.genraven.genesys.exceptions.PlayerValidationException;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.validation.Validator;
@@ -25,7 +26,7 @@ public class PlayerCreationSkillUpdateContextValidator implements BaseValidator 
 
     public Mono<PlayerCreationSkillUpdateContext> validatePlayerCreationSkillUpdateContext(final PlayerCreationSkillUpdateContext context) {
         log.info("Validating PlayerCreationSkillUpdate");
-        final Set<ConstraintViolation<PlayerCreationSkillUpdateContext>> constraintViolations = validator.validate(context);
+        final Set<ConstraintViolation<PlayerCreationSkillUpdateContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.PlayerCreationValidation.class);
         final List<String> errorMessages = new ArrayList<>();
         if (!CollectionUtils.isEmpty(constraintViolations)) {
             constraintViolations.forEach(error ->
