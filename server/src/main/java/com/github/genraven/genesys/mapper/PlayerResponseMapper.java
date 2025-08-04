@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.github.genraven.genesys.domain.actor.player.Archetype;
+import com.github.genraven.genesys.domain.equipment.EquipmentQuality;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -31,52 +32,49 @@ public interface PlayerResponseMapper {
 
     @AfterMapping
     default void enrichFields(@MappingTarget PlayerResponse playerResponse, Player player) {
-        getTotalSoak(playerResponse);
-        getTotalEncumbrance(playerResponse);
-        getTotalMeleeDefense(playerResponse);
+        getTotalSoak(playerResponse, player);
+        getTotalEncumbrance(playerResponse, player);
+        getTotalMeleeDefense(playerResponse, player);
         getTotalRangedDefense(playerResponse, player);
         getTotalWounds(playerResponse, player);
         getTotalStrain(playerResponse, player);
     }
 
-    private void getTotalSoak(@MappingTarget PlayerResponse playerResponse) {
-        int soak = playerResponse.getBrawn().getCurrent();
-        soak += playerResponse.getTalents().stream()
-            .filter(talent -> talent.getTalentStats().getSoak() > 0)
-            .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getSoak() * talent.getRanks()
-                : talent.getTalentStats().getSoak())
+    private void getTotalSoak(@MappingTarget PlayerResponse playerResponse, Player player) {
+        int baseSoak = playerResponse.getBrawn().getCurrent();
+
+        int talentBonus = Optional.ofNullable(player.getTalents())
+            .orElse(List.of()).stream()
+            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+                .map(stats -> {
+                    int s = stats.getSoak();
+                    return talent.isRanked() ? s * talent.getRanks() : s;
+                }).orElse(0))
+            .mapToInt(Integer::intValue)
             .sum();
-        soak += playerResponse.getArmors().stream()
-            .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
-            .mapToInt(Armor::getSoak)
-            .sum();
-        playerResponse.setSoak(soak);
+
+        int armorBonus = Optional.ofNullable(player.getArmors())
+            .orElse(List.of()).stream()
+            .filter(actorArmor -> actorArmor.getSlot().equals(EquipmentSlot.BODY))
+            .map(Armor::getSoak).mapToInt(Integer::intValue).sum();
+
+        playerResponse.setSoak(baseSoak + talentBonus + armorBonus);
     }
 
-    private void getTotalEncumbrance(@MappingTarget PlayerResponse playerResponse) {
-        int encumbrance = playerResponse.getBrawn().getCurrent() + 5;
+    private void getTotalEncumbrance(@MappingTarget PlayerResponse playerResponse, Player player) {
+        int encumbrance = player.getBrawn().getCurrent() + 5;
         playerResponse.setEncumbrance(encumbrance);
     }
 
-    private void getTotalMeleeDefense(@MappingTarget PlayerResponse playerResponse) {
-        int melee = 0;
-        melee += playerResponse.getTalents().stream()
-            .filter(talent -> talent.getTalentStats().getDefense() > 0)
-            .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks()
-                : talent.getTalentStats().getDefense())
-            .sum();
-        melee += playerResponse.getArmors().stream()
-            .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
-            .mapToInt(Armor::getDefense).sum();
-        playerResponse.setMelee(melee);
-    }
-
-    private void getTotalRangedDefense(@MappingTarget PlayerResponse playerResponse, Player player) {
-        int ranged = 0;
-        ranged += playerResponse.getTalents().stream()
-            .filter(talent -> talent.getTalentStats().getDefense() > 0)
-            .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks()
-                : talent.getTalentStats().getDefense())
+    private void getTotalMeleeDefense(@MappingTarget PlayerResponse playerResponse, Player player) {
+        int talentBonus = Optional.ofNullable(player.getTalents())
+            .orElse(List.of()).stream()
+            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+                .map(stats -> {
+                    int s = stats.getDefense();
+                    return talent.isRanked() ? s * talent.getRanks() : s;
+                }).orElse(0))
+            .mapToInt(Integer::intValue)
             .sum();
 
         int armorBonus = Optional.ofNullable(player.getArmors())
@@ -84,7 +82,26 @@ public interface PlayerResponseMapper {
             .filter(actorArmor -> actorArmor.getSlot().equals(EquipmentSlot.BODY))
             .map(Armor::getDefense).mapToInt(Integer::intValue).sum();
 
-        playerResponse.setRanged(ranged);
+        playerResponse.setMelee(talentBonus + armorBonus);
+    }
+
+    private void getTotalRangedDefense(@MappingTarget PlayerResponse playerResponse, Player player) {
+        int talentBonus = Optional.ofNullable(player.getTalents())
+            .orElse(List.of()).stream()
+            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+                .map(stats -> {
+                    int s = stats.getDefense();
+                    return talent.isRanked() ? s * talent.getRanks() : s;
+                }).orElse(0))
+            .mapToInt(Integer::intValue)
+            .sum();
+
+        int armorBonus = Optional.ofNullable(player.getArmors())
+            .orElse(List.of()).stream()
+            .filter(actorArmor -> actorArmor.getSlot().equals(EquipmentSlot.BODY))
+            .map(Armor::getDefense).mapToInt(Integer::intValue).sum();
+
+        playerResponse.setRanged(talentBonus + armorBonus);
     }
 
     private void getTotalWounds(@MappingTarget PlayerResponse playerResponse, Player player) {
