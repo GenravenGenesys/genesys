@@ -112,7 +112,7 @@ public class PlayerRouter {
         return RouterFunctions.route()
             .nest(RequestPredicates.path(API), builder -> builder
                 .path(PLAYERS, player -> player
-                    .GET(NAME, handler::getPlayer)
+                    .GET(ID, handler::getPlayer)
                     .PUT(NAME, handler::updatePlayer))
                 .path("/players/creation", creation -> creation
                     .PATCH("/{id}/careers/", handler::updatePlayerCareer)

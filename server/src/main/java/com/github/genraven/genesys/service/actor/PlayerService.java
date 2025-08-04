@@ -5,6 +5,7 @@ import com.github.genraven.genesys.domain.actor.ActorTalent;
 import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.player.*;
 import com.github.genraven.genesys.domain.actor.Characteristic;
+import com.github.genraven.genesys.domain.context.player.PlayerCreationArchetypeUpdateContext;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationCharacteristicUpdateContext;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
 import com.github.genraven.genesys.domain.talent.Talent;
@@ -88,18 +89,18 @@ public class PlayerService {
         return player.getSkills().stream().filter(PlayerSkill::isCareer).toList();
     }
 
-    public Mono<Player> updatePlayerArchetype(final String id, final Archetype archetype) {
-        return getPlayer(id).flatMap(existingPlayer -> {
-            existingPlayer.setArchetype(archetype);
-            existingPlayer.setBrawn(new Characteristic(Characteristic.Type.BRAWN, archetype.getBrawn()));
-            existingPlayer.setAgility(new Characteristic(Characteristic.Type.AGILITY, archetype.getAgility()));
-            existingPlayer.setIntellect(new Characteristic(Characteristic.Type.INTELLECT, archetype.getIntellect()));
-            existingPlayer.setCunning(new Characteristic(Characteristic.Type.CUNNING, archetype.getCunning()));
-            existingPlayer.setWillpower(new Characteristic(Characteristic.Type.WILLPOWER, archetype.getWillpower()));
-            existingPlayer.setPresence(new Characteristic(Characteristic.Type.PRESENCE, archetype.getPresence()));
-            existingPlayer.setWounds(new Stats(0, archetype.getWounds(), Stats.Type.WOUNDS));
-            existingPlayer.setStrain(new Stats(0, archetype.getStrain(), Stats.Type.STRAIN));
-            existingPlayer.updateAvailableExperience(archetype.getExperience());
+    public Mono<Player> updatePlayerArchetype(final PlayerCreationArchetypeUpdateContext context) {
+        return Mono.just(context.player()).flatMap(existingPlayer -> {
+            existingPlayer.setArchetype(context.archetype());
+            existingPlayer.setBrawn(new Characteristic(Characteristic.Type.BRAWN, context.archetype().getBrawn()));
+            existingPlayer.setAgility(new Characteristic(Characteristic.Type.AGILITY, context.archetype().getAgility()));
+            existingPlayer.setIntellect(new Characteristic(Characteristic.Type.INTELLECT, context.archetype().getIntellect()));
+            existingPlayer.setCunning(new Characteristic(Characteristic.Type.CUNNING, context.archetype().getCunning()));
+            existingPlayer.setWillpower(new Characteristic(Characteristic.Type.WILLPOWER, context.archetype().getWillpower()));
+            existingPlayer.setPresence(new Characteristic(Characteristic.Type.PRESENCE, context.archetype().getPresence()));
+            existingPlayer.setWounds(new Stats(0, context.archetype().getWounds(), Stats.Type.WOUNDS));
+            existingPlayer.setStrain(new Stats(0, context.archetype().getStrain(), Stats.Type.STRAIN));
+            existingPlayer.updateAvailableExperience(context.archetype().getExperience());
             return playerRepository.save(existingPlayer);
         });
     }

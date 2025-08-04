@@ -1,9 +1,10 @@
-package com.github.genraven.genesys.validator;
+package com.github.genraven.genesys.validator.player;
 
 import com.github.genraven.genesys.domain.context.player.PlayerCreationCharacteristicUpdateContext;
 import com.github.genraven.genesys.domain.error.Error;
 import com.github.genraven.genesys.exceptions.PlayerValidationException;
 import com.github.genraven.genesys.util.PlayerExperienceUtil;
+import com.github.genraven.genesys.validator.ValidationGroups;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import jakarta.validation.groups.Default;
