@@ -37,10 +37,7 @@ public class PlayerService {
     }
 
     public Mono<Player> getPlayer(final String id) {
-        return playerRepository.findById(id).map(player -> {
-            player.getTotalPlayerStats();
-            return player;
-        });
+        return playerRepository.findById(id);
     }
 
     public Mono<Player> createPlayer(final String name) {
