@@ -138,6 +138,7 @@ public class PlayerHandler extends BaseHandler {
                 tuple.getT1()))
             .flatMap(playerCreationSkillUpdateContextValidator::validatePlayerCreationSkillUpdateContext)
             .flatMap(playerService::updatePlayerSkill)
+            .flatMap(player -> Mono.just(playerResponseMapper.mapPlayerToPlayerResponse(player)))
             .flatMap(updatedPlayer -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(updatedPlayer)))
