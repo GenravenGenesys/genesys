@@ -6,6 +6,7 @@ import com.github.genraven.genesys.domain.actor.*;
 import com.github.genraven.genesys.domain.equipment.Armor;
 import com.github.genraven.genesys.domain.equipment.EquipmentSlot;
 import com.github.genraven.genesys.validator.ValidationGroups;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

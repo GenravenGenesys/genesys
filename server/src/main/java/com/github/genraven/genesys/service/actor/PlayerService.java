@@ -14,6 +14,7 @@ import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SkillService;
 import com.github.genraven.genesys.util.PlayerExperienceUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PlayerService {
@@ -31,11 +33,15 @@ public class PlayerService {
     private final CampaignService campaignService;
 
     public Flux<Player> getAllPlayers() {
-        return playerRepository.findAll();
+        log.info("Fetching all players");
+        return playerRepository.findAll().doOnNext(player -> log.debug("Fetched player: {}", player.getName()));
     }
 
     public Mono<Player> getPlayer(final String id) {
-        return playerRepository.findById(id);
+        log.info("Fetching player with id: {}", id);
+        return playerRepository.findById(id)
+                .doOnNext(player -> log.debug("Fetched player: {}", player))
+                .doOnError(error -> log.error("Error fetching player with id: {}", id, error));
     }
 
     public Mono<Player> createPlayer(final String name) {
