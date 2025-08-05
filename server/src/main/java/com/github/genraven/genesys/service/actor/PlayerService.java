@@ -31,10 +31,7 @@ public class PlayerService {
     private final CampaignService campaignService;
 
     public Flux<Player> getAllPlayers() {
-        return playerRepository.findAll().map(player -> {
-            player.getTotalPlayerStats();
-            return player;
-        });
+        return playerRepository.findAll();
     }
 
     public Mono<Player> getPlayer(final String id) {

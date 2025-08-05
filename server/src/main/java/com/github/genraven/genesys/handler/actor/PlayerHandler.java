@@ -43,14 +43,17 @@ public class PlayerHandler extends BaseHandler {
     private final PlayerCreationCharacteristicUpdateContextValidator playerCreationCharacteristicUpdateContextValidator;
 
     public Mono<ServerResponse> getAllPlayers(final ServerRequest serverRequest) {
-        return playerService.getAllPlayers().collectList().flatMap(players -> {
-            if (players.isEmpty()) {
-                return ServerResponse.noContent().build();
-            }
-            return ServerResponse.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(fromValue(players));
-        });
+        return playerService.getAllPlayers()
+                .flatMap(MapperUtil::mapPlayerToResponse)
+                .collectList()
+                .flatMap(players -> {
+                    if (players.isEmpty()) {
+                        return ServerResponse.noContent().build();
+                    }
+                    return ServerResponse.ok()
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .body(fromValue(players));
+                });
     }
 
     public Mono<ServerResponse> getPlayer(final ServerRequest serverRequest) {

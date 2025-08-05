@@ -63,7 +63,9 @@ public interface PlayerResponseMapper {
     }
 
     private void getTotalEncumbrance(@MappingTarget PlayerResponse playerResponse) {
-        int encumbrance = playerResponse.getBrawn().getCurrent() + 5;
+        int encumbrance = Optional.ofNullable(playerResponse.getBrawn())
+                .map(characteristic -> characteristic.getCurrent() + 5).orElse(5);
+
         playerResponse.setEncumbrance(encumbrance);
     }
 
