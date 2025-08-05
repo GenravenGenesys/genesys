@@ -3,6 +3,7 @@ package com.github.genraven.genesys.mapper;
 import java.util.List;
 import java.util.Optional;
 
+import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.equipment.EquipmentQuality;
 import org.mapstruct.AfterMapping;
@@ -109,6 +110,10 @@ public interface PlayerResponseMapper {
             .map(Archetype::getWounds)
             .orElse(0);
 
+        int brawnWounds = Optional.ofNullable(playerResponse.getBrawn())
+                .map(Characteristic::getCurrent)
+                .orElse(0);
+
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
             .orElse(List.of()).stream()
             .map(talent -> Optional.ofNullable(talent.getTalentStats())
@@ -123,13 +128,17 @@ public interface PlayerResponseMapper {
             .map(Stats::getCurrent)
             .orElse(0);
 
-        playerResponse.setWounds(new Stats(current, archetypeWounds + talentBonus, Stats.Type.WOUNDS));
+        playerResponse.setWounds(new Stats(current, archetypeWounds + brawnWounds + talentBonus, Stats.Type.WOUNDS));
     }
 
     private void getTotalStrain(@MappingTarget PlayerResponse playerResponse, Player player) {
         int archetypeStrain = Optional.ofNullable(playerResponse.getArchetype())
             .map(Archetype::getStrain)
             .orElse(0);
+
+        int willpowerStrain = Optional.ofNullable(playerResponse.getWillpower())
+                .map(Characteristic::getCurrent)
+                .orElse(0);
 
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
             .orElse(List.of()).stream()
@@ -145,6 +154,6 @@ public interface PlayerResponseMapper {
             .map(Stats::getCurrent)
             .orElse(0);
 
-        playerResponse.setStrain(new Stats(current, archetypeStrain + talentBonus, Stats.Type.STRAIN));
+        playerResponse.setStrain(new Stats(current, archetypeStrain + willpowerStrain + talentBonus, Stats.Type.STRAIN));
     }
 }

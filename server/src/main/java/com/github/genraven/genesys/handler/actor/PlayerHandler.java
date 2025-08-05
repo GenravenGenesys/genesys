@@ -6,7 +6,7 @@ import java.util.Map;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationArchetypeUpdateContext;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
 import com.github.genraven.genesys.exceptions.BaseException;
-import com.github.genraven.genesys.mapper.PlayerResponseMapper;
+import com.github.genraven.genesys.util.MapperUtil;
 import com.github.genraven.genesys.validator.player.PlayerCreationArchetypeUpdateContextValidator;
 import com.github.genraven.genesys.validator.player.PlayerCreationCharacteristicUpdateContextValidator;
 import com.github.genraven.genesys.validator.player.PlayerCreationSkillUpdateContextValidator;
@@ -42,8 +42,6 @@ public class PlayerHandler extends BaseHandler {
     private final PlayerCreationSkillUpdateContextValidator playerCreationSkillUpdateContextValidator;
     private final PlayerCreationCharacteristicUpdateContextValidator playerCreationCharacteristicUpdateContextValidator;
 
-    private final PlayerResponseMapper playerResponseMapper = PlayerResponseMapper.INSTANCE;
-
     public Mono<ServerResponse> getAllPlayers(final ServerRequest serverRequest) {
         return playerService.getAllPlayers().collectList().flatMap(players -> {
             if (players.isEmpty()) {
@@ -58,7 +56,7 @@ public class PlayerHandler extends BaseHandler {
     public Mono<ServerResponse> getPlayer(final ServerRequest serverRequest) {
         final String id = serverRequest.pathVariable(ID);
         return playerService.getPlayer(id)
-                .flatMap(player -> Mono.just(playerResponseMapper.mapPlayerToPlayerResponse(player)))
+                .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(player)))
@@ -67,6 +65,7 @@ public class PlayerHandler extends BaseHandler {
 
     public Mono<ServerResponse> createPlayer(final ServerRequest serverRequest) {
         return playerService.createPlayer(serverRequest.pathVariable("playerName"))
+                .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.created(getURI(player.getName())).bodyValue(player));
     }
 
@@ -75,6 +74,7 @@ public class PlayerHandler extends BaseHandler {
         final Mono<Player> playerMono = serverRequest.bodyToMono(Player.class);
         return playerMono
                 .flatMap(player -> playerService.updatePlayer(name, player))
+                .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(player)))
@@ -86,6 +86,7 @@ public class PlayerHandler extends BaseHandler {
         final Mono<Career> careerMono = serverRequest.bodyToMono(Career.class);
         return careerMono
                 .flatMap(career -> playerService.updatePlayerCareer(id, career))
+                .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(player)))
@@ -98,6 +99,7 @@ public class PlayerHandler extends BaseHandler {
         });
         return skillsMono
                 .flatMap(skills -> playerService.updatePlayerCareerSkills(id, skills))
+                .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(player)))
@@ -113,7 +115,7 @@ public class PlayerHandler extends BaseHandler {
                         tuple.getT1()))
                 .flatMap(playerCreationArchetypeUpdateContextValidator::validatePlayerCreationArchetypeUpdateContext)
                 .flatMap(playerService::updatePlayerArchetype)
-                .flatMap(player -> Mono.just(playerResponseMapper.mapPlayerToPlayerResponse(player)))
+                .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(player)))
@@ -131,7 +133,7 @@ public class PlayerHandler extends BaseHandler {
                         tuple.getT1()))
                 .flatMap(playerCreationCharacteristicUpdateContextValidator::validatePlayerCreationCharacteristicUpdateContext)
                 .flatMap(playerService::updatePlayerCharacteristic)
-                .flatMap(player -> Mono.just(playerResponseMapper.mapPlayerToPlayerResponse(player)))
+                .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(updatedPlayer -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(updatedPlayer)))
@@ -149,7 +151,7 @@ public class PlayerHandler extends BaseHandler {
                         tuple.getT1()))
                 .flatMap(playerCreationSkillUpdateContextValidator::validatePlayerCreationSkillUpdateContext)
                 .flatMap(playerService::updatePlayerSkill)
-                .flatMap(player -> Mono.just(playerResponseMapper.mapPlayerToPlayerResponse(player)))
+                .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(updatedPlayer -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(updatedPlayer)))
@@ -163,6 +165,7 @@ public class PlayerHandler extends BaseHandler {
         final Mono<Talent> talentMono = serverRequest.bodyToMono(Talent.class);
         return talentMono
                 .flatMap(talent -> playerService.updatePlayerTalent(id, talent))
+                .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(player)))
