@@ -6,6 +6,7 @@ import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.player.*;
 import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationArchetypeUpdateContext;
+import com.github.genraven.genesys.domain.context.player.PlayerCreationCareerUpdateContext;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationCharacteristicUpdateContext;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
 import com.github.genraven.genesys.domain.talent.Talent;
@@ -65,11 +66,11 @@ public class PlayerService {
         }).flatMap(playerRepository::save);
     }
 
-    public Mono<Player> updatePlayerCareer(final String id, final Career career) {
-        return getPlayer(id).flatMap(existingPlayer -> {
-            existingPlayer.setCareer(career);
+    public Mono<Player> updatePlayerCareer(final PlayerCreationCareerUpdateContext context) {
+        return Mono.just(context.player()).flatMap(existingPlayer -> {
+            existingPlayer.setCareer(context.career());
             existingPlayer.getSkills().forEach(playerSkill -> {
-                playerSkill.setCareer(isCareerSkill(career, playerSkill));
+                playerSkill.setCareer(isCareerSkill(context.career(), playerSkill));
                 playerSkill.setRanks(0);
             });
             return playerRepository.save(existingPlayer);

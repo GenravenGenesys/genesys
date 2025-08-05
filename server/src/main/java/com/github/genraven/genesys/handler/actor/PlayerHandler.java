@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.genraven.genesys.domain.context.player.PlayerCreationArchetypeUpdateContext;
+import com.github.genraven.genesys.domain.context.player.PlayerCreationCareerUpdateContext;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
 import com.github.genraven.genesys.exceptions.BaseException;
 import com.github.genraven.genesys.util.MapperUtil;
 import com.github.genraven.genesys.validator.player.PlayerCreationArchetypeUpdateContextValidator;
+import com.github.genraven.genesys.validator.player.PlayerCreationCareerUpdateContextValidator;
 import com.github.genraven.genesys.validator.player.PlayerCreationCharacteristicUpdateContextValidator;
 import com.github.genraven.genesys.validator.player.PlayerCreationSkillUpdateContextValidator;
 import org.springframework.core.ParameterizedTypeReference;
@@ -38,6 +40,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 public class PlayerHandler extends BaseHandler {
 
     private final PlayerService playerService;
+    private final PlayerCreationCareerUpdateContextValidator playerCreationCareerUpdateContextValidator;
     private final PlayerCreationArchetypeUpdateContextValidator playerCreationArchetypeUpdateContextValidator;
     private final PlayerCreationSkillUpdateContextValidator playerCreationSkillUpdateContextValidator;
     private final PlayerCreationCharacteristicUpdateContextValidator playerCreationCharacteristicUpdateContextValidator;
@@ -87,13 +90,20 @@ public class PlayerHandler extends BaseHandler {
     public Mono<ServerResponse> updatePlayerCareer(final ServerRequest serverRequest) {
         final String id = serverRequest.pathVariable(ID);
         final Mono<Career> careerMono = serverRequest.bodyToMono(Career.class);
-        return careerMono
-                .flatMap(career -> playerService.updatePlayerCareer(id, career))
+        return careerMono.zipWith(playerService.getPlayer(id))
+                .map(tuple -> new PlayerCreationCareerUpdateContext(
+                        tuple.getT2(),
+                        tuple.getT1()
+                ))
+                .flatMap(playerCreationCareerUpdateContextValidator::validatePlayerCreationCareerUpdateContext)
+                .flatMap(playerService::updatePlayerCareer)
                 .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(player)))
-                .switchIfEmpty(ServerResponse.notFound().build());
+                .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(fromValue(Map.of("errors", ex.getErrors()))));
     }
 
     public Mono<ServerResponse> updatePlayerCareerSkills(final ServerRequest serverRequest) {
