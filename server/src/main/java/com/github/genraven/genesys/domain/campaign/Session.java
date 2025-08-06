@@ -4,7 +4,6 @@ import com.github.genraven.genesys.validator.ValidationGroups;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class Session {
         this.name = name;
     }
 
-    @NotNull
+    @NotEmpty
     private String name;
 
     @Valid
@@ -33,6 +32,5 @@ public class Session {
 
     private Integer gm;
 
-    @NotEmpty(groups = ValidationGroups.SceneStartValidation.class)
     private List<String> sceneIds = new ArrayList<>();
 }

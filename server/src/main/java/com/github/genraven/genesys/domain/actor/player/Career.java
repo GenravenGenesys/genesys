@@ -2,6 +2,7 @@ package com.github.genraven.genesys.domain.actor.player;
 
 import com.github.genraven.genesys.domain.skill.Skill;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -26,5 +27,6 @@ public class Career {
     @NotEmpty
     private String name;
 
+    @Size(max = 8)
     private List<Skill> skills = new ArrayList<>();
 }
