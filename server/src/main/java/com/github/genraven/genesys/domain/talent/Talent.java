@@ -8,6 +8,7 @@ import com.github.genraven.genesys.domain.common.Action;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import com.github.genraven.genesys.validator.EnumValidator;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +33,7 @@ public class Talent {
     @Id
     private String id;
 
-    @NotNull
+    @NotEmpty
     private String name;
 
     @EnumValidator(enumClass = Activation.class)
@@ -45,14 +46,23 @@ public class Talent {
     private boolean ranked = false;
 
     private String summary;
+
     private String description;
+
     private Cost cost = new Cost();
+
     private Limit limit = new Limit();
+
     private TalentSkills talentSkills = new TalentSkills();
+
     private TalentStats talentStats = new TalentStats();
+
     private TalentSkillCheck talentSkillCheck = new TalentSkillCheck();
+
     private Action action = new Action();
+
     private List<TalentRollModifiers> talentRollModifiers = new ArrayList<>();
+
     private List<Modifier> modifiers = new ArrayList<>();
 
     @AllArgsConstructor
