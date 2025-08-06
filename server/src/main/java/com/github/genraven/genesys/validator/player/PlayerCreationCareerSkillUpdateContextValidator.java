@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.validator.player;
 
-import com.github.genraven.genesys.domain.context.player.PlayerCreationCareerUpdateContext;
+import com.github.genraven.genesys.domain.context.player.PlayerCreationCareerSkillUpdateContext;
 import com.github.genraven.genesys.domain.error.Error;
 import com.github.genraven.genesys.exceptions.PlayerValidationException;
 import com.github.genraven.genesys.validator.ValidationGroups;
@@ -20,17 +20,17 @@ import java.util.Set;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class PlayerCreationCareerUpdateContextValidator {
+public class PlayerCreationCareerSkillUpdateContextValidator {
 
     private final Validator validator;
 
-    public Mono<PlayerCreationCareerUpdateContext> validatePlayerCreationCareerUpdateContext(final PlayerCreationCareerUpdateContext context) {
-        log.info("Validating PlayerCreationCareerUpdate");
-        final Set<ConstraintViolation<PlayerCreationCareerUpdateContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.PlayerCreationValidation.class);
+    public Mono<PlayerCreationCareerSkillUpdateContext> validatePlayerCreationCareerSkillUpdateContext(final PlayerCreationCareerSkillUpdateContext context) {
+        log.info("Validating PlayerCreationCareerSkillUpdate");
+        final Set<ConstraintViolation<PlayerCreationCareerSkillUpdateContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.PlayerCreationValidation.class);
         final List<String> errorMessages = new ArrayList<>();
         if (!CollectionUtils.isEmpty(constraintViolations)) {
             constraintViolations.forEach(error ->
-                    errorMessages.add(error.getMessage()));
+                errorMessages.add(error.getMessage()));
         }
 
         if (!CollectionUtils.isEmpty(errorMessages)) {

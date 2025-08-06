@@ -5,10 +5,7 @@ import com.github.genraven.genesys.domain.actor.ActorTalent;
 import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.player.*;
 import com.github.genraven.genesys.domain.actor.Characteristic;
-import com.github.genraven.genesys.domain.context.player.PlayerCreationArchetypeUpdateContext;
-import com.github.genraven.genesys.domain.context.player.PlayerCreationCareerUpdateContext;
-import com.github.genraven.genesys.domain.context.player.PlayerCreationCharacteristicUpdateContext;
-import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
+import com.github.genraven.genesys.domain.context.player.*;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.repository.actor.PlayerRepository;
 import com.github.genraven.genesys.service.CampaignService;
@@ -77,9 +74,9 @@ public class PlayerService {
         });
     }
 
-    public Mono<Player> updatePlayerCareerSkills(final String id, final List<PlayerSkill> skills) {
-        final List<String> ids = skills.stream().map(PlayerSkill::getId).toList();
-        return getPlayer(id).flatMap(existingPlayer -> {
+    public Mono<Player> updatePlayerCareerSkills(final PlayerCreationCareerSkillUpdateContext context) {
+        final List<String> ids = context.skills().stream().map(PlayerSkill::getId).toList();
+        return Mono.just(context.player()).flatMap(existingPlayer -> {
             getCareerSkills(existingPlayer).forEach(playerSkill -> playerSkill.setRanks(ids.contains(playerSkill.getId()) ? 1 : 0));
             return playerRepository.save(existingPlayer);
         });
