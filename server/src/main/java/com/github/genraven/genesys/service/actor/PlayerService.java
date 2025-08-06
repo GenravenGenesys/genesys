@@ -5,15 +5,14 @@ import com.github.genraven.genesys.domain.actor.ActorTalent;
 import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.player.*;
 import com.github.genraven.genesys.domain.actor.Characteristic;
-import com.github.genraven.genesys.domain.context.player.PlayerCreationArchetypeUpdateContext;
-import com.github.genraven.genesys.domain.context.player.PlayerCreationCharacteristicUpdateContext;
-import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
+import com.github.genraven.genesys.domain.context.player.*;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.repository.actor.PlayerRepository;
 import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SkillService;
 import com.github.genraven.genesys.util.PlayerExperienceUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PlayerService {
@@ -31,11 +31,15 @@ public class PlayerService {
     private final CampaignService campaignService;
 
     public Flux<Player> getAllPlayers() {
-        return playerRepository.findAll();
+        log.info("Fetching all players");
+        return playerRepository.findAll().doOnNext(player -> log.debug("Fetched player: {}", player.getName()));
     }
 
     public Mono<Player> getPlayer(final String id) {
-        return playerRepository.findById(id);
+        log.info("Fetching player with id: {}", id);
+        return playerRepository.findById(id)
+                .doOnNext(player -> log.debug("Fetched player: {}", player))
+                .doOnError(error -> log.error("Error fetching player with id: {}", id, error));
     }
 
     public Mono<Player> createPlayer(final String name) {
@@ -59,20 +63,20 @@ public class PlayerService {
         }).flatMap(playerRepository::save);
     }
 
-    public Mono<Player> updatePlayerCareer(final String id, final Career career) {
-        return getPlayer(id).flatMap(existingPlayer -> {
-            existingPlayer.setCareer(career);
+    public Mono<Player> updatePlayerCareer(final PlayerCreationCareerUpdateContext context) {
+        return Mono.just(context.player()).flatMap(existingPlayer -> {
+            existingPlayer.setCareer(context.career());
             existingPlayer.getSkills().forEach(playerSkill -> {
-                playerSkill.setCareer(isCareerSkill(career, playerSkill));
+                playerSkill.setCareer(isCareerSkill(context.career(), playerSkill));
                 playerSkill.setRanks(0);
             });
             return playerRepository.save(existingPlayer);
         });
     }
 
-    public Mono<Player> updatePlayerCareerSkills(final String id, final List<PlayerSkill> skills) {
-        final List<String> ids = skills.stream().map(PlayerSkill::getId).toList();
-        return getPlayer(id).flatMap(existingPlayer -> {
+    public Mono<Player> updatePlayerCareerSkills(final PlayerCreationCareerSkillUpdateContext context) {
+        final List<String> ids = context.skills().stream().map(PlayerSkill::getId).toList();
+        return Mono.just(context.player()).flatMap(existingPlayer -> {
             getCareerSkills(existingPlayer).forEach(playerSkill -> playerSkill.setRanks(ids.contains(playerSkill.getId()) ? 1 : 0));
             return playerRepository.save(existingPlayer);
         });

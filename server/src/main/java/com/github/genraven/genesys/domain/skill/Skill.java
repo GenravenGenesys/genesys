@@ -3,6 +3,7 @@ package com.github.genraven.genesys.domain.skill;
 import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.validator.EnumValidator;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -22,7 +23,7 @@ public class Skill {
     @Id
     private String id;
 
-    @NotNull
+    @NotEmpty
     private String name;
 
     @EnumValidator(enumClass = Characteristic.Type.class)

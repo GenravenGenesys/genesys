@@ -8,27 +8,17 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class EnumValidatorImpl implements ConstraintValidator<EnumValidator, Object> {
-    private final List<String> validValues = new ArrayList<>();
+    private Class<? extends Enum<?>> enumClass;
 
     @Override
     public void initialize(EnumValidator validator) {
-        Arrays.stream(validator.enumClass().getEnumConstants())
-                .forEach(value -> validValues.add(value.toString().toLowerCase()));
+        this.enumClass = validator.enumClass();
     }
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        if (value == null) {
-            return false;
-        }
-
-        if (value instanceof String) {
-            return validValues.contains(value.toString().toLowerCase());
-        } else if(value instanceof List) {
-            return ((List<?>) value).stream().noneMatch(object -> object == null || !validValues.contains(object.toString().toLowerCase()));
-        } else {
-            return false;
-        }
+        if (value == null) return true;
+        return enumClass.isInstance(value);
     }
 
 }
