@@ -131,10 +131,10 @@ public class PlayerService {
         });
     }
 
-    public Mono<Player> updatePlayerTalent(final String id, final Talent talent) {
-        return getPlayer(id).flatMap(player -> {
+    public Mono<Player> updatePlayerTalent(final PlayerCreationTalentUpdateContext context) {
+        return Mono.just(context.player()).flatMap(player -> {
             final Optional<ActorTalent> talentOptional = player.getTalents().stream()
-                .filter(actorTalent -> actorTalent.getId().equals(talent.getId()))
+                .filter(actorTalent -> actorTalent.getId().equals(context.talent().getId()))
                 .findFirst();
 
             if (talentOptional.isPresent()) {
@@ -146,7 +146,7 @@ public class PlayerService {
                     player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromRankedTalent(actorTalent)));
                 }
             } else {
-                final ActorTalent playerTalent = new ActorTalent(talent);
+                final ActorTalent playerTalent = new ActorTalent(context.talent());
                 player.getTalents().add(playerTalent);
                 player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromUnrankedTalent(playerTalent)));
             }
