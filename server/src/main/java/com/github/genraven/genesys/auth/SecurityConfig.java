@@ -18,17 +18,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http,
-                                                         JwtReactiveAuthenticationManager authManager) {
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, JwtReactiveAuthenticationManager authManager) {
         return http
-                .authorizeExchange()
-                .pathMatchers("/dm/**").hasRole("DM")
-                .pathMatchers("/player/**").hasRole("PLAYER")
-                .anyExchange().authenticated()
-                .and()
+                .authorizeExchange(exchange -> exchange
+                        .pathMatchers("/dm/**").hasRole("DM")
+                        .pathMatchers("/player/**").hasRole("PLAYER")
+                        .anyExchange().authenticated()
+                )
                 .authenticationManager(authManager)
                 .securityContextRepository(new JwtSecurityContextRepository(authManager))
                 .build();
     }
+
 }
 
