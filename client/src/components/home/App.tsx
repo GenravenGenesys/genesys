@@ -26,15 +26,22 @@ import SessionPage from "../campaign/session/SessionPage";
 import EditableScenePage from "../campaign/scene/EditableScenePage";
 import ScenePage from "../campaign/scene/ScenePage";
 import EncounterPage from "../campaign/scene/encounter/EncounterPage";
+import {AuthProvider} from "../auth/AuthProvider";
+import LoginForm from "../auth/LoginForm";
+import SignupForm from "../auth/SignupForm";
 
 export default function App() {
 
     return (
         <ThemeProvider theme={createTheme({palette: {mode: 'dark'}})}>
+            <AuthProvider>
             <BrowserRouter>
                 <NavBar/>
                 <Routes>
-                    <Route path="/" element={<Navigate replace to="/home"/>}/>
+                    <Route path="/" element={<Navigate replace to="/login"/>}/>
+                    <Route path="/login" element={<LoginForm />} />
+                    <Route path="/signup" element={<SignupForm />} />
+                    <Route path="/unauthorized" element={<div>Access Denied</div>} />
                     <Route path={RootPath.Home} element={<HomeCampaignDashboard/>}/>
 
                     <Route path={RootPath.Injury} element={<InjuryWorkflow/>}/>
@@ -115,6 +122,7 @@ export default function App() {
                     <Route path={CampaignPath.Scene + ':id/encounter/:type'} element={<EncounterPage/>}/>
                 </Routes>
             </BrowserRouter>
+            </AuthProvider>
         </ThemeProvider>
     )
 }
