@@ -1,8 +1,9 @@
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from '../src/components/home/App';
-import { createRoot } from "react-dom/client";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {createRoot} from "react-dom/client";
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {BrowserRouter} from "react-router";
 
 const rootElement = document.getElementById("root");
 const queryClient = new QueryClient();
@@ -10,7 +11,9 @@ const queryClient = new QueryClient();
 if (rootElement) {
     createRoot(rootElement!).render(
         <QueryClientProvider client={queryClient}>
-            <App />
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
         </QueryClientProvider>
     );
 } else {

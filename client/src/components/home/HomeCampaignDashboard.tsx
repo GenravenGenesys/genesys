@@ -1,6 +1,5 @@
 import {Button, Card, CardActions, CardContent, CardHeader} from "@mui/material";
 import * as React from "react";
-import {useFetchCurrentCampaign} from "../campaign/CampaignWorkflow";
 import {useState} from "react";
 import GenesysSystemDashboard from "./MainDashboard";
 import TabContext from "@mui/lab/TabContext";
@@ -16,9 +15,10 @@ import Tab from "@mui/material/Tab";
 import ViewScenes from "../campaign/scene/ViewScenes";
 import GridContainer from "../common/grid/GridContainer";
 import FullGrid from "../common/grid/FullGrid";
+import {useFetchCurrentCampaign} from "../../hooks/UseFetchCurrentCampaign";
 
 export default function HomeCampaignDashboard() {
-    const campaign = useFetchCurrentCampaign();
+    const { data: campaign, isLoading, isError } = useFetchCurrentCampaign();
     const [value, setValue] = useState('1');
     const [openCampaignSelectionDialog, setOpenCampaignSelectionDialog] = useState(false);
     const [openCampaignCreationDialog, setOpenCampaignCreationDialog] = useState(false);
@@ -28,11 +28,9 @@ export default function HomeCampaignDashboard() {
     }
 
     const startCampaign = async () => {
-        await CampaignService.updateCampaign({
-            ...campaign,
-            active: true
-        });
-    }
+        if (!campaign) return;
+        await CampaignService.updateCampaign({ ...campaign, active: true });
+    };
 
     const renderButton = () => {
         return campaign ? <Button color='primary' variant='contained'
@@ -40,6 +38,9 @@ export default function HomeCampaignDashboard() {
             <Button color='primary' variant='contained'
                     onClick={(): void => setOpenCampaignCreationDialog(true)}>Create Campaign</Button>;
     }
+
+    if (isLoading) return <div>Loading campaign...</div>;
+    if (isError) return <div>Error loading campaign</div>;
 
     return (
         <Card sx={{width: 1}}>
@@ -64,13 +65,13 @@ export default function HomeCampaignDashboard() {
                             <GenesysSystemDashboard/>
                         </TabPanel>
                         <TabPanel value="2">
-                            <CampaignPage campaign={campaign}/>
+                            {campaign && <CampaignPage campaign={campaign} />}
                         </TabPanel>
                         <TabPanel value="3">
                             <ViewAllPlayers/>
                         </TabPanel>
                         <TabPanel value="4">
-                            <ViewSessions camp={campaign}/>
+                            {campaign && <ViewSessions camp={campaign} />}
                         </TabPanel>
                         <TabPanel value="5">
                             <ViewScenes/>
@@ -84,9 +85,13 @@ export default function HomeCampaignDashboard() {
                     {campaign && <Button color='primary' variant='contained' onClick={startCampaign}>Start Campaign</Button>}
                 </GridContainer>
             </CardActions>
-            {openCampaignSelectionDialog && <CampaignSelectionDialog open={openCampaignSelectionDialog}
-                                                                     onClose={(): void => setOpenCampaignSelectionDialog(false)}
-                                                                     current={campaign}/>}
+            {campaign && openCampaignSelectionDialog && (
+                <CampaignSelectionDialog
+                    open={openCampaignSelectionDialog}
+                    onClose={() => setOpenCampaignSelectionDialog(false)}
+                    current={campaign}
+                />
+            )}
             {openCampaignCreationDialog && <CampaignDialog open={openCampaignCreationDialog}
                                                            onClose={(): void => setOpenCampaignCreationDialog(false)}/>}
         </Card>

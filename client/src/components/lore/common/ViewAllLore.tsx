@@ -38,7 +38,7 @@ function LoreRow(props: RowProps): JSX.Element {
     )
 }
 
-export function ViewAllLore() {
+export default function ViewAllLore() {
     const [lore, setLore] = useState<Lore[]>([]);
     const headers = ['Name', 'Type', 'View'];
     const campaign = useFetchCurrentCampaign();

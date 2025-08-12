@@ -15,13 +15,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [role, setRole] = useState<JwtPayload['role'] | null>(null);
 
     useEffect(() => {
-        if (token) {
-            const decoded = jwtDecode<JwtPayload>(token);
-            setRole(decoded.role);
-        } else {
-            setRole(null);
+        try {
+            if (token) {
+                const decoded = jwtDecode<JwtPayload>(token);
+                setRole(decoded.role);
+            } else {
+                setRole(null);
+            }
+        } catch (err) {
+            console.error('Error decoding token:', err);
+            setRole(null); // or trigger logout
         }
     }, [token]);
+
 
     const login = (newToken: string) => {
         localStorage.setItem('token', newToken);
