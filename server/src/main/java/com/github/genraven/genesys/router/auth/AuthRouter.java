@@ -12,6 +12,7 @@ public class AuthRouter {
     public RouterFunction<ServerResponse> authRoutes(final AuthHandler handler) {
         return RouterFunctions.route()
                 .POST("/auth/login", handler::login)
+                .POST("/auth/signup", handler::signup)
                 .build();
     }
 }
