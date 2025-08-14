@@ -10,7 +10,7 @@ server:
   error:
     whitelabel:
       enabled: false
-  port: 8080
+  port: ${PORT}
 
 okta:
   oauth2:

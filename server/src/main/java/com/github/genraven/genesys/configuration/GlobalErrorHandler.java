@@ -1,6 +1,5 @@
 package com.github.genraven.genesys.configuration;
 
-import com.github.genraven.genesys.domain.common.ErrorMessage;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

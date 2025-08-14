@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain.common;
+package com.github.genraven.genesys.configuration;
 
 public record ErrorMessage(String message) {
 
