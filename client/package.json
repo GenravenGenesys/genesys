@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^2.4.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "6.4.12",
@@ -14,7 +15,6 @@
     "@testing-library/react": "^14.1.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.0",
-    "@types/node": "20.17.56",
     "@types/react": "18.3.0",
     "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react-swc": "^3.9.0",
@@ -23,6 +23,7 @@
     "react-dom": "18.3.0",
     "react-hook-form": "^7.28.1",
     "react-router": "^7.5.3",
+    "react-router-dom": "^7.8.0",
     "typescript": "5.1.6",
     "vite": "^6.3.5",
     "vite-plugin-svgr": "^4.3.0",
@@ -57,6 +58,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@react-router/dev": "^7.5.3"
+    "@react-router/dev": "^7.5.3",
+    "@types/node": "^24.2.1"
   }
 }
