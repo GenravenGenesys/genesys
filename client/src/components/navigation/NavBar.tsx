@@ -2,7 +2,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import {Button, IconButton, ListItemIcon, Menu, MenuItem} from "@mui/material";
+import {IconButton, ListItemIcon, Menu, MenuItem} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 import {RootPath} from "../../services/RootPath";
@@ -49,29 +49,26 @@ const NavBar: React.FC = () => {
                                 elevation: 0,
                             },
                         }}
-                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                        transformOrigin={{horizontal: 'right', vertical: 'top'}}
+                        anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                     >
                         <MenuItem onClick={onClick}>
                             <ListItemIcon>
-                                <Home fontSize="small" />
+                                <Home fontSize="small"/>
                             </ListItemIcon>
                             Home
                         </MenuItem>
                         <MenuItem onClick={() => setOpenCustomRollBackDrop(true)}>
                             <ListItemIcon>
-                                <Casino fontSize="small" />
+                                <Casino fontSize="small"/>
                             </ListItemIcon>
                             Roll Dialog
                         </MenuItem>
                     </Menu>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>GENESYS</Typography>
-                    {/*<Button color='secondary' variant='contained'*/}
-                    {/*        onClick={(): void => setOpenCustomRollBackDrop(true)}>Roll</Button>*/}
                     {openCustomRollBackDrop && <DiceRollerDialog open={openCustomRollBackDrop}
                                                                  onClose={(): void => setOpenCustomRollBackDrop(false)}/>}
-                    { <AccountMenu />}
-                    <Button color='secondary' variant='contained' onClick={handleMenuClose}>Login</Button>
+                    <AccountMenu/>
                 </Toolbar>
             </AppBar>
         </Box>

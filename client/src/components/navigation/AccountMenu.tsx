@@ -1,19 +1,60 @@
 import {useAuth0} from "@auth0/auth0-react";
 import React, {Fragment} from "react";
 import {Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip} from "@mui/material";
-import {AccountBox, Logout, Person} from "@mui/icons-material";
+import {AccountBox, Login, Logout, Person, PersonAdd} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
 
 const AccountMenu: React.FC = () => {
-    const {isAuthenticated} = useAuth0();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
+    let navigate = useNavigate();
+    const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
+    const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(accountMenuAnchor);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+        setAccountMenuAnchor(event.currentTarget);
     };
 
     const handleClose = () => {
-        setAnchorEl(null);
+        setAccountMenuAnchor(null);
+    };
+
+    const handleLoginClick = async () => {
+        await loginWithRedirect({
+            appState: {
+                returnTo: "/profile",
+            },
+            authorizationParams: {
+                prompt: "login",
+            },
+        });
+        setAccountMenuAnchor(null);
+    };
+
+    const handleSignupClick = async () => {
+        await loginWithRedirect({
+            appState: {
+                returnTo: "/profile",
+            },
+            authorizationParams: {
+                prompt: "login",
+                screen_hint: "signup",
+            },
+        });
+        setAccountMenuAnchor(null);
+    };
+
+    const handleProfileClick = () => {
+        navigate("/profile");
+        setAccountMenuAnchor(null);
+    };
+
+    const handleLogoutClick = () => {
+        logout({
+            logoutParams: {
+                returnTo: window.location.origin,
+            },
+        });
+        setAccountMenuAnchor(null);
     };
 
     return (
@@ -33,7 +74,7 @@ const AccountMenu: React.FC = () => {
                 </Tooltip>
             </Box>
             <Menu
-                anchorEl={anchorEl}
+                anchorEl={accountMenuAnchor}
                 id="account-menu"
                 open={open}
                 onClose={handleClose}
@@ -47,27 +88,27 @@ const AccountMenu: React.FC = () => {
                 anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             >
                 {!isAuthenticated && (<Fragment>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={handleLoginClick}>
                         <ListItemIcon>
-                            <Person fontSize="small"/>
+                            <Login fontSize="small"/>
                         </ListItemIcon>
                         Login
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={handleSignupClick}>
                         <ListItemIcon>
-                            <Person fontSize="small"/>
+                            <PersonAdd fontSize="small"/>
                         </ListItemIcon>
                         Signup
                     </MenuItem>
                 </Fragment>)}
                 {isAuthenticated && (<Fragment>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={handleProfileClick}>
                         <ListItemIcon>
                             <Person fontSize="small"/>
                         </ListItemIcon>
                         Profile
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={handleLogoutClick}>
                         <ListItemIcon>
                             <Logout fontSize="small"/>
                         </ListItemIcon>

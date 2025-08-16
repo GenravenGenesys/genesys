@@ -30,6 +30,8 @@ import {useAuth0} from "@auth0/auth0-react";
 import {PageLoader} from "../../auth/PageLoader";
 import {AuthenticationGuard} from "../../auth/AuthenticationGuard";
 import {AdminPage} from "../../auth/AdminPage";
+import ProfilePage from "../../auth/ProfilePage";
+import CallbackPage from "../../auth/CallBackPage";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -45,10 +47,10 @@ export const App: React.FC = () => {
         <ThemeProvider theme={createTheme({palette: {mode: 'dark'}})}>
             <NavBar/>
             <Routes>
-                {/*<Route*/}
-                {/*    path="/profile"*/}
-                {/*    element={<AuthenticationGuard component={ProfilePage} />}*/}
-                {/*/>*/}
+                <Route
+                    path="/profile"
+                    element={<AuthenticationGuard component={ProfilePage} />}
+                />
                 {/*<Route path="/public" element={<PublicPage />} />*/}
                 {/*<Route*/}
                 {/*    path="/protected"*/}
@@ -58,7 +60,7 @@ export const App: React.FC = () => {
                     path="/admin"
                     element={<AuthenticationGuard component={AdminPage} />}
                 />
-                {/*<Route path="/callback" element={<CallbackPage />} />*/}
+                <Route path="/callback" element={<CallbackPage />} />
                 <Route path="/" element={<Navigate replace to="/home"/>}/>
                 <Route path={RootPath.Home} element={<HomeCampaignDashboard/>}/>
 
