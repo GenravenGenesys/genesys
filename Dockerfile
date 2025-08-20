@@ -8,8 +8,7 @@ FROM eclipse-temurin:21-noble AS backend-build
 WORKDIR /app
 COPY server .
 RUN chmod +x gradlew 
-RUN ls -l
-RUN bash gradlew bootJar
+RUN ./gradlew bootJar
 
 # Step 3: Create Final Container (Merge FE + BE)
 FROM eclipse-temurin:21-jre-noble
