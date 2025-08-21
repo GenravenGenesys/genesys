@@ -1,11 +1,11 @@
-package com.github.genraven.genesys.configuration;
+package com.github.genraven.genesys.constants;
 
 import java.util.Objects;
 
 import org.springframework.lang.Nullable;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-public sealed interface Paths {
+public sealed interface Paths permits Paths.ApiPaths, Paths.ApiPaths.MessagesPaths, Paths.ApiPaths.MessagesPaths.MessagesEndpoint, TalentPaths {
 
     String segment();
 

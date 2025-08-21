@@ -13,13 +13,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.joselion.maybe.Maybe;
 
 import reactor.core.publisher.Mono;
+import reactor.util.annotation.NonNull;
 
 @Order(-2)
 @Component
 public record GlobalErrorHandler(ObjectMapper mapper) implements ErrorWebExceptionHandler {
 
     @Override
-    public Mono<Void> handle(final ServerWebExchange exchange, final Throwable error) {
+    public @NonNull Mono<Void> handle(final ServerWebExchange exchange, final @NonNull Throwable error) {
         final var response = exchange.getResponse();
         final var bufferFactory = response.bufferFactory();
 
@@ -52,10 +53,7 @@ public record GlobalErrorHandler(ObjectMapper mapper) implements ErrorWebExcepti
         return response.writeWith(body);
     }
 
-    public Mono<Void> handleAccessDenied(
-        final ServerWebExchange exchange,
-        final AccessDeniedException error // NOSONAR
-    ) {
+    public Mono<Void> handleAccessDenied(final ServerWebExchange exchange, final AccessDeniedException error) {
         final var response = exchange.getResponse();
         final var body = this.makeBodyBytes("Permission denied")
             .map(response.bufferFactory()::wrap);

@@ -1,7 +1,7 @@
 package com.github.genraven.genesys.configuration.security;
 
 import com.github.genraven.genesys.configuration.GlobalErrorHandler;
-import com.github.genraven.genesys.configuration.Paths;
+import com.github.genraven.genesys.constants.Paths;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;

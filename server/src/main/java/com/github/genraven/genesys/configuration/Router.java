@@ -1,5 +1,6 @@
 package com.github.genraven.genesys.configuration;
 
+import com.github.genraven.genesys.constants.Paths;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
