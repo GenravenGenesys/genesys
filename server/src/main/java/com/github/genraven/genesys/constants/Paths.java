@@ -5,7 +5,7 @@ import java.util.Objects;
 import org.springframework.lang.Nullable;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-public sealed interface Paths permits Paths.ApiPaths, Paths.ApiPaths.MessagesPaths, Paths.ApiPaths.MessagesPaths.MessagesEndpoint, TalentPaths {
+public sealed interface Paths permits BasePath, Paths.ApiPaths, Paths.ApiPaths.MessagesPaths, Paths.ApiPaths.MessagesPaths.MessagesEndpoint, TalentPath {
 
     String segment();
 
