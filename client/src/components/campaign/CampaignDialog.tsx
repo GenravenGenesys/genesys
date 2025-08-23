@@ -14,10 +14,10 @@ interface Props {
 export default function CampaignDialog(props: Props) {
     const {open, onClose} = props
     const [name, setName] = useState('')
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleCreate = async (): Promise<void> => {
-        let campaign = {name: name, current: true} as Campaign
+        const campaign = {name: name, current: true} as Campaign
         await CampaignService.createCampaign(campaign)
         navigate(CampaignPath.Campaign + campaign.name)
         onClose()

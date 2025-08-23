@@ -19,7 +19,7 @@ interface Props {
 }
 
 const RivalCharacteristicTab: React.FC<Props> = ({ rival, refetch }) => {
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
     const isEdit = pathname.endsWith(`${rival.id}/edit`);
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {

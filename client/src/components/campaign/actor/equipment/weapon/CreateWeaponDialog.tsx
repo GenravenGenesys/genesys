@@ -43,7 +43,7 @@ const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> 
         range: RangeBand.Engaged,
         skill: {} as ActorSkill
     })
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     const onCreate = async (): Promise<void> => {
         onCreateWeapon({...weapon, slot: WeaponSlot.None} as ActorWeapon);

@@ -44,7 +44,7 @@ export function useFetchCurrentCampaign() {
 export default function CampaignWorkflow() {
     const {id} = useParams<{ id?: string }>()
     const campaign = useFetchCampaign(id!)
-    let campaigns = useFetchAllCampaigns()
+    const campaigns = useFetchAllCampaigns()
 
     const useWorkflowRender = () => {
         const pathname = useLocation().pathname

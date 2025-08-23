@@ -14,7 +14,7 @@ import OrganizationMainPage from "./OrganizationMainSection";
 const OrganizationPage = () => {
     const {id} = useParams<{ id: string }>();
     const [organization, setOrganization] = useState<Organization | null>(null);
-    let disabled = useLocation().pathname.endsWith('/view');
+    const disabled = useLocation().pathname.endsWith('/view');
 
     useEffect(() => {
         if (!id) {

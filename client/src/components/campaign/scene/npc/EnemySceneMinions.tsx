@@ -20,7 +20,7 @@ interface Props {
 export default function EnemySceneMinions(props: Props) {
     const {id} = props;
     const [minions, setMinions] = useState<Minion[]>([]);
-    let campaign = useFetchCurrentCampaign();
+    const campaign = useFetchCurrentCampaign();
     const headers = ['Name', 'Add'];
 
     useEffect(() => {

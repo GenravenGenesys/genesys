@@ -5,7 +5,7 @@ import {AccountBox, Login, Logout, Person, PersonAdd} from "@mui/icons-material"
 import {useNavigate} from "react-router-dom";
 
 const AccountMenu: React.FC = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
     const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<null | HTMLElement>(null);
     const open = Boolean(accountMenuAnchor);

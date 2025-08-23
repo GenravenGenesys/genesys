@@ -20,8 +20,8 @@ export default function CareerPage() {
     const {id} = useParams<{ id: string }>();
     const [career, setCareer] = useState<Career | null>(null);
     const [skills, setSkills] = useState<Skill[]>([]);
-    let pathname = useLocation().pathname;
-    let headers = ['Career Skills'];
+    const pathname = useLocation().pathname;
+    const headers = ['Career Skills'];
 
     useEffect(() => {
         if (!id) {

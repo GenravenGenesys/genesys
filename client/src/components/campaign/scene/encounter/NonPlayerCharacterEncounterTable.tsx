@@ -50,7 +50,7 @@ type Props<T extends SingleNonPlayerCharacter> = {
 };
 
 const NonPlayerCharacterEncounterTable = <T extends SingleNonPlayerCharacter, >({npcs, onChange}: Props<T>) => {
-    let headers = ['Name', 'Active'];
+    const headers = ['Name', 'Active'];
 
     return (
         <TableContainer component={Paper}>

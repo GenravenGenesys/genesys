@@ -8,7 +8,7 @@ import CenteredCardHeaderWithButton from "../common/card/header/CenteredCardHead
 import type {NavigateFunction} from "react-router-dom";
 
 export default function LoreDashboard() {
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     return (
         <Card sx={{width: 1}}>

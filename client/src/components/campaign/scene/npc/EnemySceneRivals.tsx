@@ -20,7 +20,7 @@ interface Props {
 export default function EnemySceneRivals(props: Props) {
     const {id} = props;
     const [rivals, setRivals] = useState<Rival[]>([]);
-    let campaign = useFetchCurrentCampaign();
+    const campaign = useFetchCurrentCampaign();
     const headers = ['Name', 'Add'];
 
     useEffect(() => {

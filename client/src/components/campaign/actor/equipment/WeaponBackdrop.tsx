@@ -41,10 +41,10 @@ const WeaponBackdrop: React.FC<Props> = ({weapon, open, onClose})=> {
                                 <TableBody>
                                     <TableRow>
                                         <TypographyCenterTableCell value={weapon.name}/>
-                                        <TypographyCenterTableCell value={weapon?.skill?.name!!}/>
+                                        <TypographyCenterTableCell value={weapon?.skill?.name!}/>
                                         <TypographyCenterTableCell value={renderDamage(weapon)}/>
-                                        <TypographyCenterTableCell value={String(weapon?.critical!!)}/>
-                                        <TypographyCenterTableCell value={weapon?.range!!}/>
+                                        <TypographyCenterTableCell value={String(weapon?.critical!)}/>
+                                        <TypographyCenterTableCell value={weapon?.range!}/>
                                         <TypographyCenterTableCell value={renderPrice(weapon)}/>
                                         <TypographyCenterTableCell value={renderQualities(weapon)}/>
                                     </TableRow>

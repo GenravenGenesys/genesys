@@ -1,10 +1,10 @@
 import { ActorType } from "../../models/actor/Actor";
-import { MinionGroup } from "../../models/actor/npc/Minion";
-import Nemesis from "../../models/actor/npc/Nemesis";
-import { SingleNonPlayerCharacter } from "../../models/actor/npc/NonPlayerActor";
-import Rival from "../../models/actor/npc/Rival";
-import Player from "../../models/actor/player/Player";
-import Character from "../../models/campaign/encounter/Character";
+import {type MinionGroup } from "../../models/actor/npc/Minion";
+import type Nemesis from "../../models/actor/npc/Nemesis";
+import { type SingleNonPlayerCharacter } from "../../models/actor/npc/NonPlayerActor";
+import type Rival from "../../models/actor/npc/Rival";
+import type Player from "../../models/actor/player/Player";
+import type Character from "../../models/campaign/encounter/Character";
 import { apiRequestList } from "../ApiRequest";
 import { EncounterPath } from "../RootPath";
 
@@ -41,6 +41,6 @@ export default class CharacterService {
     };
 }
 
-export const convertNonPlayerCharacters = (npcs: SingleNonPlayerCharacter[]): Character[] => {
-    return [] as Character[];
-}
+// export const convertNonPlayerCharacters = (npcs: SingleNonPlayerCharacter[]): Character[] => {
+//     return [] as Character[];
+// }

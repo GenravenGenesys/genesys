@@ -31,7 +31,7 @@ function WeaponNameRow(props: RowProps): JSX.Element {
         <TableRow>
             <TableCell>
                 <Button onClick={(): void => setOpenWeaponBackDrop(true)}>{weapon.name}</Button>
-                {openWeaponBackDrop && <WeaponBackdrop open={openWeaponBackDrop} onClose={(): void => setOpenWeaponBackDrop(false)} weapon={weapon!!}/>}
+                {openWeaponBackDrop && <WeaponBackdrop open={openWeaponBackDrop} onClose={(): void => setOpenWeaponBackDrop(false)} weapon={weapon!}/>}
             </TableCell>
             <TableCell>
                 <Button onClick={addWeapon}>Add</Button>

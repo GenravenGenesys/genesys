@@ -40,7 +40,7 @@ const InlineTextField: FC<Props> = ({ defaultValue, defaultEdit, editable, onCha
 
     const inputOnChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.target;
-        let isValid = value.trim() !== '';
+        const isValid = value.trim() !== '';
 
         setError(!isValid);
         setTextValue(isValid ? value : defaultValue);

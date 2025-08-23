@@ -24,7 +24,7 @@ const WeaponPage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [weapon, setWeapon] = useState<Weapon | null>(null);
     const skills = useFetchSkillsByType(SkillType.Combat);
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {

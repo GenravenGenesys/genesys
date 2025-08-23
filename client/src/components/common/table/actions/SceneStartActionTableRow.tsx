@@ -15,7 +15,7 @@ type Props = {
 };
 
 const SceneStartActionTableRow: React.FC<Props> = ({ session, scene }) => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleView = useMemo(() => forwardRef<any, Omit<LinkProps, 'to'>>((itemProps, ref): React.ReactElement => (
         <Link to={`${CampaignPath.Scene}${scene.id}`} ref={ref} {...itemProps} />

@@ -12,7 +12,7 @@ import {Home, Casino, List} from "@mui/icons-material";
 import AccountMenu from "./AccountMenu";
 
 const NavBar: React.FC = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const [openCustomRollBackDrop, setOpenCustomRollBackDrop] = useState(false);
     const [menuAnchor, setMenuAnchor] = React.useState<null | HTMLElement>(null);
 

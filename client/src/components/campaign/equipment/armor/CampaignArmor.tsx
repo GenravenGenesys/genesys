@@ -46,7 +46,7 @@ function Row(props: Props) {
                         <Box sx={{margin: 1}}>
                             <Table size="small">
                                 <TableBody>
-                                    <GenesysDescriptionTypography text={armor?.description!!}/>
+                                    <GenesysDescriptionTypography text={armor?.description!}/>
                                 </TableBody>
                             </Table>
                         </Box>

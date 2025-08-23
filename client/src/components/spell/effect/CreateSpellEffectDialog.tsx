@@ -54,7 +54,7 @@ export default function CreateSpellEffectDialog(props: Props) {
             <DialogTitle>Add Spell Effect</DialogTitle>
             <DialogContent>
                 <GridContainer spacing={10}>
-                    <InputTextFieldCard defaultValue={effect?.name!!} onCommit={(value: string): void => {
+                    <InputTextFieldCard defaultValue={effect?.name!} onCommit={(value: string): void => {
                         onChange('name', value)
                     }} title={'Name'} helperText={'Name'} placeholder={'Name'}/>
                 </GridContainer>

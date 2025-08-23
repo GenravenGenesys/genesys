@@ -19,7 +19,7 @@ import ArmorService from "../../../../services/equipment/ArmorService";
 const ArmorPage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [armor, setArmor] = useState<Armor | null>(null);
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {

@@ -23,7 +23,7 @@ export interface SingleNonPlayerCharacter extends NonPlayerActor {
 }
 
 export const getRatings = (npc: NonPlayerActor): string => {
-    return '[combat] ' + String(npc?.combat!!) + ' [social] ' + String(npc?.social!!) + ' [general] ' + String(npc?.general!!)
+    return '[combat] ' + String(npc?.combat!) + ' [social] ' + String(npc?.social!) + ' [general] ' + String(npc?.general!)
 }
 
 export const combat = '[combat]'

@@ -15,7 +15,7 @@ import GridContainer from "../common/grid/GridContainer";
 const QualityPage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [quality, setQuality] = useState<Quality | null>(null);
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {

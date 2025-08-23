@@ -12,8 +12,8 @@ type Props = {
 };
 
 const CenteredCardHeaderWithAction: React.FC<Props> = ({title, path, subheader}) => {
-    let pathname = useLocation().pathname;
-    let navigate = useNavigate();
+    const pathname = useLocation().pathname;
+    const navigate = useNavigate();
 
     const onPageChange = () => {
         if (pathname.endsWith('/view')) {
