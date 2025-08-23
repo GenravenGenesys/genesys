@@ -1,11 +1,11 @@
 import { forwardRef, useMemo } from "react";
-import { Link, LinkProps, useNavigate } from "react-router";
+import { Link, type LinkProps, useNavigate } from "react-router";
 import * as React from "react";
 import { Button, IconButton, TableRow, Typography } from "@mui/material";
 import PreviewIcon from "@mui/icons-material/Preview";
 import CustomTableCell from "../common/CustomTableCell";
-import CampaignSession from "../../../../models/campaign/CampaignSession";
-import Scene from "../../../../models/campaign/Scene";
+import type CampaignSession from "../../../../models/campaign/CampaignSession";
+import type Scene from "../../../../models/campaign/Scene";
 import { CampaignPath } from "../../../../services/RootPath";
 import SessionService from "../../../../services/SessionService";
 

@@ -1,10 +1,10 @@
-import {ChangeEvent, useState} from "react";
-import {useNavigate} from "react-router";
+import {type ChangeEvent, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import {CampaignPath} from "../../services/RootPath";
 import GenesysDialogActions from "../common/dialog/GenesysDialogActions";
 import CampaignService from "../../services/CampaignService";
-import Campaign from "../../models/campaign/Campaign";
+import type Campaign from "../../models/campaign/Campaign";
 
 interface Props {
     open: boolean

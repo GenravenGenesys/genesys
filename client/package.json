@@ -39,6 +39,7 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
+    "lint": "eslint .",
     "serve": "vite preview"
   },
   "eslintConfig": {
@@ -60,9 +61,7 @@
     ]
   },
   "description": "Created to be used with the GenesysRPG TTRPG, this is a project designed to allow users the ability to create/DM/play Genesys within the system.",
-  "main": "index.js",
-  "author": "",
-  "license": "ISC",
+  "type": "module",
   "devDependencies": {
     "@react-router/dev": "^7.5.3",
     "@types/node": "^24.2.1"
