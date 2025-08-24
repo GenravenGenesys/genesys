@@ -1,7 +1,8 @@
-import Actor, {ActorSkill} from "../Actor";
-import Ability from "../../Ability";
-import { ActorTalent } from "../../Talent";
-import Injury from "../../Injury";
+import type Actor from "../Actor";
+import { type ActorSkill } from "../Actor";
+import type Ability from "../../Ability";
+import {type ActorTalent } from "../../Talent";
+import type Injury from "../../Injury";
 
 export enum RatingType {
     Combat = 'Combat',
@@ -23,9 +24,12 @@ export interface SingleNonPlayerCharacter extends NonPlayerActor {
 }
 
 export const getRatings = (npc: NonPlayerActor): string => {
-    return '[combat] ' + String(npc?.combat!) + ' [social] ' + String(npc?.social!) + ' [general] ' + String(npc?.general!)
+    if (npc) {
+        return combat + String(npc.combat) + social + String(npc.social) + general + String(npc.general);
+    }
+    return combat + 1 + social + 1 + general + 1;
 }
 
-export const combat = '[combat]'
-export const social = '[social]'
-export const general = '[general]'
+export const combat = '[combat] ';
+export const social = ' [social] ';
+export const general = ' [general] ';
