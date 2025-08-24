@@ -50,16 +50,20 @@ export const renderDamage = (weapon: Weapon): string => {
 }
 
 export const renderUsable = (quality: Quality): string => {
-    if (quality?.weapon! === undefined && quality?.armor! === undefined) {
-        return ''
+    if (quality) {
+        if (quality.weapon === undefined && quality.armor === undefined) {
+            return ''
+        }
+        let usable: string
+        if (quality.weapon && !quality.armor) {
+            usable = 'Weapons'
+        } else if (quality.armor && !quality.weapon) {
+            usable = 'Armor'
+        } else {
+            usable = 'Weapons and Armor'
+        }
+        return usable
     }
-    let usable: string
-    if (quality?.weapon! && !quality?.armor!) {
-        usable = 'Weapons'
-    } else if (quality?.armor! && !quality?.weapon!) {
-        usable = 'Armor'
-    } else {
-        usable = 'Weapons and Armor'
-    }
-    return usable
+    return '';
+
 }
