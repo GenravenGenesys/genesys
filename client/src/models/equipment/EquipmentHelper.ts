@@ -29,15 +29,24 @@ export const renderQualities = (equipment: Equipment): string => {
 }
 
 export const renderSoak = (armor: Armor): string => {
-    return '+' + String(armor?.soak!)
-}
+    if (armor) {
+        return '+' + String(armor.soak);
+    }
+    return '';
+};
 
 export const renderActorDamage = (weapon: Weapon, brawn: number): string => {
-    return weapon?.brawn! ? String(weapon?.damage! + brawn) : String(weapon?.damage!);
+    if (weapon) {
+        return weapon.brawn ? String(weapon.damage + brawn) : String(weapon.damage);
+    }
+    return '';
 }
 
 export const renderDamage = (weapon: Weapon): string => {
-    return weapon?.brawn! ? 'Brawn + ' + weapon?.damage! : String(weapon?.damage!);
+    if (weapon) {
+        return weapon.brawn ? 'Brawn + ' + weapon.damage : String(weapon.damage);
+    }
+    return '';
 }
 
 export const renderUsable = (quality: Quality): string => {
