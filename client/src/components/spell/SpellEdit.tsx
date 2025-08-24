@@ -22,7 +22,7 @@ interface Props {
 export default function SpellEdit(props: Props): JSX.Element {
     const {sp} = props
     const [spell, setSpell] = useState<Spell>(sp)
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         setSpell(sp)
@@ -30,7 +30,7 @@ export default function SpellEdit(props: Props): JSX.Element {
 
     const onSkillAddition = async (name: string) => {
         const copySpell = {...spell} as Spell
-        let skill = await SkillService.getSkill(name)
+        const skill = await SkillService.getSkill(name)
         copySpell.skills = copySpell.skills.concat(skill)
         await updateSpell(copySpell)
     }
@@ -46,13 +46,13 @@ export default function SpellEdit(props: Props): JSX.Element {
     }
 
     const onChange = async (key: keyof Spell, value: string) => {
-        if (value.trim().length === 0 || (spell !== null && spell!![key] === value)) {
+        if (value.trim().length === 0 || (spell !== null && spell![key] === value)) {
             return
         }
         const copySpell = {...spell} as Spell;
         switch (key) {
             case "concentration":
-                copySpell.concentration = !Boolean(copySpell.concentration)
+                copySpell.concentration = !copySpell.concentration
                 break;
             case "difficulty":
                 copySpell.difficulty = value as Difficulty
@@ -86,7 +86,7 @@ export default function SpellEdit(props: Props): JSX.Element {
             <CardContent>
                 <GridContainer centered>
                     <GridContainer spacing={2}>
-                        <InputTextFieldCard defaultValue={spell?.description!!} onCommit={(value: string): void => {
+                        <InputTextFieldCard defaultValue={spell?.description!} onCommit={(value: string): void => {
                             onChange('description', value)
                         }} title={'Description'} helperText={'Description'} placeholder={'Description'}/>
                     </GridContainer>

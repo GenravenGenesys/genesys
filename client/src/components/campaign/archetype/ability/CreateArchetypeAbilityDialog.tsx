@@ -101,18 +101,18 @@ export default function CreateArchetypeAbilityDialog(props: Props) {
             <DialogTitle>Add Custom Ability</DialogTitle>
             <DialogContent>
                 <GridContainer spacing={10}>
-                    <InputTextFieldCard defaultValue={ability?.name!!} onCommit={(value: string): void => {
+                    <InputTextFieldCard defaultValue={ability?.name!} onCommit={(value: string): void => {
                         onChange('name', value)
                     }} title={'Name'} helperText={'Name'} placeholder={'Name'}/>
                 </GridContainer>
                 <Divider/>
                 <GridContainer spacing={10}>
-                    <InputTextFieldCard defaultValue={ability?.description!!} onCommit={(value: string): void => {
+                    <InputTextFieldCard defaultValue={ability?.description!} onCommit={(value: string): void => {
                         onChange('description', value)
                     }} title={'Description'} helperText={'Description'} placeholder={'Description'}/>
                 </GridContainer>
                 <GridContainer spacing={10}>
-                    <InputSelectFieldCard defaultValue={ability?.activation!!} onCommit={(value: string): void => {
+                    <InputSelectFieldCard defaultValue={ability?.activation!} onCommit={(value: string): void => {
                         onChange('activation', value)
                     }} title={'Activation'} options={getActivationOptions()}/>
                 </GridContainer>

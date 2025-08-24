@@ -19,7 +19,7 @@ interface Props {
 }
 
 const MinionCharacteristicTab: React.FC<Props> = ({minion, updateMinion}) => {
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {
         if (minion) {

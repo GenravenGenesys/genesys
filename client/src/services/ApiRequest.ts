@@ -1,4 +1,7 @@
-export async function apiRequest<T>(url: string, method: string = "GET", body?: any): Promise<T> {
+export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+
+export async function apiRequest<T>(url: string, method: HttpMethod = "GET", body?: Record<string, unknown>
+): Promise<T> {
     const options: RequestInit = {
         method,
         headers: {"Content-Type": "application/json"},
@@ -14,7 +17,8 @@ export async function apiRequest<T>(url: string, method: string = "GET", body?: 
     return response.json();
 }
 
-export async function apiRequestList<T>(url: string, method: string = "GET", body?: any): Promise<T[]> {
+export async function apiRequestList<T>(url: string, method: HttpMethod = "GET", body?: Record<string, unknown>
+): Promise<T[]> {
     const options: RequestInit = {
         method,
         headers: {"Content-Type": "application/json"},

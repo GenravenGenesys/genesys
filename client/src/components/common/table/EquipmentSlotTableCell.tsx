@@ -38,7 +38,7 @@ interface WeaponProps {
 
 export function WeaponSlotTableCell(props: WeaponProps) {
     const {weapon, onChange} = props;
-    let pathname = useLocation().pathname
+    const pathname = useLocation().pathname
 
     const renderWeaponSlotSelect = () => {
         if (weapon.hands === 2) {

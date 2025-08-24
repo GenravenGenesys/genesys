@@ -20,7 +20,7 @@ const ScenePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [scene, setScene] = useState<Scene | null>(null);
     const [value, setValue] = useState('1');
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!id) {

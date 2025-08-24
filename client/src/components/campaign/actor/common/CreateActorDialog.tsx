@@ -21,25 +21,25 @@ const CreateActorDialog = (props: Props) => {
     const { open, actorType, onClose } = props;
     const [name, setName] = useState('');
     const [type, setType] = useState<ActorType>(actorType);
-    let navigate = useNavigate();
-    let campaign = useFetchCurrentCampaign();
+    const navigate = useNavigate();
+    const campaign = useFetchCurrentCampaign();
 
     const handleCreate = async (): Promise<void> => {
         switch (type) {
             case ActorType.Minion:
-                let minion = await MinionService.createMinion(campaign.id, name);
+                const minion = await MinionService.createMinion(campaign.id, name);
                 navigate(ActorPath.Minion + minion.id + '/edit');
                 break
             case ActorType.Rival:
-                let rival = await RivalService.createRival(campaign.id, name);
+                const rival = await RivalService.createRival(campaign.id, name);
                 navigate(ActorPath.Rival + rival.id + '/edit');
                 break
             case ActorType.Nemesis:
-                let nemesis = await NemesisService.createNemesis(campaign.id, name);
+                const nemesis = await NemesisService.createNemesis(campaign.id, name);
                 navigate(ActorPath.Nemesis + nemesis.id + '/edit');
                 break
             case ActorType.Player:
-                let player = await PlayerService.createPlayer(campaign.id, name);
+                const player = await PlayerService.createPlayer(campaign.id, name);
                 navigate(ActorPath.Player + player.id + '/edit');
                 break
         }

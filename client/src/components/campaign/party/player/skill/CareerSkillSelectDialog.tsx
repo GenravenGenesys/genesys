@@ -35,7 +35,7 @@ export default function CareerSkillSelectDialog(props: Props) {
 
     const handleSelect = async (): Promise<void> => {
         let playerSkills: PlayerSkill[] = [];
-        for (let skill of selectedSkills) {
+        for (const skill of selectedSkills) {
             playerSkills = playerSkills.concat({ ...skill, career: true, ranks: 1 });
         }
         onSelect(playerSkills);

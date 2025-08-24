@@ -13,7 +13,7 @@ interface Props {
 export default function SceneCreationDialog(props: Props){
     const {open, onClose} = props;
     const [name, setName] = useState('');
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const {value} = event.target;
@@ -21,7 +21,7 @@ export default function SceneCreationDialog(props: Props){
     };
 
     const handleCreate = async (): Promise<void> => {
-        let scene = await SceneService.createScene(name);
+        const scene = await SceneService.createScene(name);
         navigate(RootPath.Scenes + scene.id + '/edit');
         onClose();
     }

@@ -29,7 +29,7 @@ function useFetchSpell(name: string): Spell {
 
 export default function SpellWorkflow(): JSX.Element {
     const {name} = useParams<{ name?: string }>()
-    const spell = useFetchSpell(name!!)
+    const spell = useFetchSpell(name!)
 
     const useWorkflowRender = (): JSX.Element => {
         const pathname = useLocation().pathname

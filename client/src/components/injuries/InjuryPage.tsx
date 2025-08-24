@@ -16,7 +16,7 @@ import GridContainer from "../common/grid/GridContainer";
 const InjuryPage = () => {
     const {id} = useParams<{ id: string }>();
     const [injury, setInjury] = useState<Injury | null>(null);
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {

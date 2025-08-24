@@ -13,10 +13,10 @@ interface Props {
 export default function CreateSpellDialog(props: Props) {
     const {open, onClose} = props
     const [name, setName] = useState('')
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleCreate = async (): Promise<void> => {
-        let spell = await SpellService.createSpell(name)
+        const spell = await SpellService.createSpell(name)
         navigate(RootPath.Spell + spell.id + '/edit')
         onClose()
     }

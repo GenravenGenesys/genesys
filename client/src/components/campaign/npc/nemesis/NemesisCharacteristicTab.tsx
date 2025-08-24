@@ -19,7 +19,7 @@ interface Props {
 }
 
 const NemesisCharacteristicTab: React.FC<Props> = ({nemesis, updateNemesis})=> {
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     const handleCharacteristicChange = async (characteristic: CharacteristicType, value: number) => {
         if (nemesis) {

@@ -20,7 +20,7 @@ const ArchetypePage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [archetype, setArchetype] = useState<Archetype | null>(null);
     const [skills, setSkills] = useState<Skill[]>([]);
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {

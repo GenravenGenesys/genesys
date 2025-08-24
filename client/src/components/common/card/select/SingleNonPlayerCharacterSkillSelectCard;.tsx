@@ -17,7 +17,7 @@ type Props = {
 const SingleNonPlayerCharacterSkillSelectCard: FC<Props> = ({ npc, skills, handleSkillChange, startingSkill, disabled }) => {
 
     const onCommit = (name: string) => {
-        let selectedSkill = npc.skills.find((sk) => sk.name === name) as ActorSkill;
+        const selectedSkill = npc.skills.find((sk) => sk.name === name) as ActorSkill;
         handleSkillChange(selectedSkill);
     };
     useEffect(() => {

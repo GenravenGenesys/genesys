@@ -24,8 +24,8 @@ interface Props {
 export default function GearEdit(props: Props) {
     const {gea} = props;
     const [gear, setGear] = useState<Gear>(gea);
-    let pathname = useLocation().pathname;
-    let navigate = useNavigate()
+    const pathname = useLocation().pathname;
+    const navigate = useNavigate()
 
     useEffect(() => {
         setGear(gea)
@@ -48,7 +48,7 @@ export default function GearEdit(props: Props) {
                 copyGear.description = value
                 break
             case "restricted":
-                copyGear.restricted = !Boolean(copyGear.restricted)
+                copyGear.restricted = !copyGear.restricted
                 break
             case "range":
                 copyGear.range = value as RangeBand
@@ -95,7 +95,7 @@ export default function GearEdit(props: Props) {
                     <GridContainer spacing={10}>
                         <SkillAutocompleteCard title={"Required Skill"} disabled={pathname.endsWith('/view')} handleSkillChange={(value: Skill): void => {
                             onSkillChange(value)
-                        }} skills={useFetchAllSkills()} startingSkill={gear?.skill!!}/>
+                        }} skills={useFetchAllSkills()} startingSkill={gear?.skill!}/>
                         <InputSelectFieldCard defaultValue={gear.range} onCommit={(value: string): void => {
                             onChange('range', value)
                         }} title={'Range'} options={getRangeOptions()}/>

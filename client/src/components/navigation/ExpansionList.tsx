@@ -1,7 +1,7 @@
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import {List, ListItemText, Collapse, ListItemButton} from "@mui/material";
-import React, {forwardRef, ReactElement, useMemo, useState} from "react";
-import {Link, LinkProps} from "react-router";
+import {forwardRef, type ReactElement, useMemo, useState} from "react";
+import {Link, type LinkProps} from "react-router-dom";
 
 interface Props {
     header: string

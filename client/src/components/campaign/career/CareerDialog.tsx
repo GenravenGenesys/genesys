@@ -13,10 +13,10 @@ interface Props {
 export default function CareerDialog(props: Props) {
     const {open,onClose} = props
     const [name,setName] = useState('')
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleCreate = async (): Promise<void> => {
-        let career = await CareerService.createCareer(name)
+        const career = await CareerService.createCareer(name)
         navigate(RootPath.Career + career.id + '/edit')
         onClose()
     }

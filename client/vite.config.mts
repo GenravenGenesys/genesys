@@ -11,6 +11,6 @@ export default defineConfig({
             },
         },
     },
-    base: '/',
-    plugins: [react()]
+    base: './',
+    plugins: [react()],
 })

@@ -15,7 +15,7 @@ interface Props {
 export default function GearView(props: Props) {
     const {gear} = props
     const path = EquipmentPath.Gear
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const onEdit = () => {
         navigate(path + gear.name + '/edit')

@@ -18,12 +18,12 @@ interface Props {
 export default function LoreCreationDialog(props: Props) {
     const {open, onClose, lore, path} = props;
     const [name, setName] = useState('');
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleCreate = async (): Promise<void> => {
         switch (lore) {
             case LoreType.ORGANIZATION:
-                let organization = await OrganizationService.createOrganization(name);
+                const organization = await OrganizationService.createOrganization(name);
                 navigate(path + organization.id + '/view');
         }
         onClose();

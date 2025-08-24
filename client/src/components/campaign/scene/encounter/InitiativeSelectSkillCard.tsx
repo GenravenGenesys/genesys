@@ -12,7 +12,7 @@ type Props = {
 const InitiativeSelectSkillCard: React.FC<Props> = ({ character, onChange }) => {
 
     const onCommit = (name: string) => {
-        let selectedSkill = character.skills.find((sk) => sk.name === name) as ActorSkill;
+        const selectedSkill = character.skills.find((sk) => sk.name === name) as ActorSkill;
         onChange(selectedSkill);
     }
 

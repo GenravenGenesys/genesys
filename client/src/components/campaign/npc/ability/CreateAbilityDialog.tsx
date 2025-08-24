@@ -40,7 +40,7 @@ const CreateAbilityDialog: React.FC<Props> = ({ open, npc, onCreateAbility, onCl
         },
         modifiers: []
     });
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     const onCreate = () => {
         onCreateAbility(ability);

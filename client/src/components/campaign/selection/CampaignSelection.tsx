@@ -29,7 +29,7 @@ export default function CampaignSelection(props: Props) {
         if (campaigns.length === undefined || campaigns.length === 0) {
             return <Fragment></Fragment>
         } else {
-            <Select value={campaign?.name!!} onChange={onChange} variant={'standard'}>
+            <Select value={campaign?.name!} onChange={onChange} variant={'standard'}>
                 {campaigns.map((set) => (<MenuItem key={set.name} value={set.name}>{set.name}</MenuItem>))}
             </Select>
         }

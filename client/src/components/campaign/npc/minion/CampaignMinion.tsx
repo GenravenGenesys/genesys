@@ -52,7 +52,7 @@ function Row(props: Props) {
 export default function CampaignMinion() {
     const [minions, setMinions] = useState<Minion[]>([]);
     const [openActorCreationDialog, setOpenActorCreationDialog] = useState(false);
-    let campaign = useFetchCurrentCampaign();
+    const campaign = useFetchCurrentCampaign();
     const headers = ['Name', 'View'];
 
     useEffect(() => {

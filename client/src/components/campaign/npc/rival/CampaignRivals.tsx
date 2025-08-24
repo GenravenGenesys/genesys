@@ -53,7 +53,7 @@ function Row(props: Props) {
 export default function CampaignRivals() {
     const [rivals, setRivals] = useState<Rival[]>([]);
     const [openActorCreationDialog, setOpenActorCreationDialog] = useState(false);
-    let campaign = useFetchCurrentCampaign();
+    const campaign = useFetchCurrentCampaign();
     const headers = ['Name', 'View'];
 
     useEffect(() => {

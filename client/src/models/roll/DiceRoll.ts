@@ -42,7 +42,7 @@ export function tallyResults(results: GenesysSymbols[]): Record<GenesysSymbols, 
 
 export function convertResultsToString(results: Record<GenesysSymbols, number>) {
     return Object.entries(results)
-        .filter(([_, count]) => count > 0)
+        .filter(([, count]) => count > 0)
         .map(([symbol, count]) => `[${GenesysSymbols[symbol as unknown as GenesysSymbols]}] `.repeat(count))
         .join(' ');
 }
@@ -64,7 +64,7 @@ export default function handleDiceRoll(props: Props) {
             .fill([parseInt(symbol, 10)]) : []);
     const rolledResults = rollDice(diceToRoll(boost, setback, ability, difficulty, proficiency, challenge), customSymbols);
     return Object.entries(tallyResults(rolledResults))
-        .filter(([_, count]) => count > 0)
+        .filter(([, count]) => count > 0)
         .map(([symbol, count]) => `[${GenesysSymbols[symbol as unknown as GenesysSymbols]}] `.repeat(count))
         .join(' ');
 }

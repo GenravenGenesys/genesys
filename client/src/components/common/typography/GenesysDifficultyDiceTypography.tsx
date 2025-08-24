@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function GenesysDifficultyDiceTypography(props: Props): JSX.Element {
-    let {difficulty} = props;
+    const {difficulty} = props;
 
     const generateDifficultyDice = () => {
         let text = ''

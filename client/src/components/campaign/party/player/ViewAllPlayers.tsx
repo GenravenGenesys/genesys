@@ -21,7 +21,7 @@ export default function ViewAllPlayers() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [openActorCreationDialog, setOpenActorCreationDialog] = useState(false);
     const headers = ['Name', 'View'];
-    let campaign = useFetchCurrentCampaign();
+    const campaign = useFetchCurrentCampaign();
 
     useEffect(() => {
         (async (): Promise<void> => {

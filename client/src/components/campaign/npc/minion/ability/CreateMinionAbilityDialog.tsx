@@ -41,7 +41,7 @@ const CreateMinionAbilityDialog: React.FC<Props> = ({ open, minion, onCreateAbil
         },
         modifiers: []
     });
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     const onCreate = () => {
         onCreateAbility(ability);

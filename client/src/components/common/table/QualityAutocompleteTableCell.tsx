@@ -17,8 +17,8 @@ const QualityAutocompleteTableCell: React.FC<Props> = ({disabled, onChange, qual
 
     useEffect(() => {
         (async () => {
-            let qualities = await QualityService.getQualities();
-            let updatedQualities = qualities.filter((quality) => quality.weapon).map((quality) => ({
+            const qualities = await QualityService.getQualities();
+            const updatedQualities = qualities.filter((quality) => quality.weapon).map((quality) => ({
                 ...quality,
                 ranks: 1,
             } as EquipmentQuality));

@@ -13,10 +13,10 @@ interface Props {
 export default function CreateSkillDialog(props: Props) {
     const {open, onClose} = props
     const [name, setName] = useState('')
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleCreate = async (): Promise<void> => {
-        let skill = await SkillService.createSkill(name)
+        const skill = await SkillService.createSkill(name)
         navigate(RootPath.Skills + skill.id + '/edit')
         onClose()
     }

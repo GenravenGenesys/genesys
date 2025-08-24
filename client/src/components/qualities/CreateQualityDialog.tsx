@@ -13,10 +13,10 @@ interface Props {
 export default function QualityDialog(props: Props) {
     const {open, onClose} = props
     const [name, setName] = useState('')
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleCreate = async (): Promise<void> => {
-        let quality = await QualityService.createQuality(name)
+        const quality = await QualityService.createQuality(name)
         navigate(RootPath.Qualities + quality.id + '/view')
         onClose()
     }

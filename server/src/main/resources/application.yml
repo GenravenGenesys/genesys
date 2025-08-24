@@ -2,3 +2,21 @@ spring:
   data:
     mongodb:
       uri: ${ATLAS_MONGODB_URI}
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+application:
+  client-origin-url: ${CLIENT_ORIGIN_URL}
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: ${PORT}
+
+
+okta:
+  oauth2:
+    issuer: ${OKTA_OAUTH2_ISSUER}
+    audience: ${OKTA_OAUTH2_AUDIENCE}

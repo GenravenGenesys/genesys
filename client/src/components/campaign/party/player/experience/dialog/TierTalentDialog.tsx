@@ -29,7 +29,7 @@ export default function TierTalentDialog(props: Props) {
     const {open, onClose, currentPlayer, tier, updatePlayer} = props;
     const [talents, setTalents] = useState<Talent[]>([]);
     const playerTalents = currentPlayer.talents.filter(talent => talent.tier === tier);
-    let headers = ['Name', 'Activation', 'Summary', 'Purchase'];
+    const headers = ['Name', 'Activation', 'Summary', 'Purchase'];
 
     useEffect(() => {
         (async (): Promise<void> => {

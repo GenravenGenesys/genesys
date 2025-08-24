@@ -23,7 +23,7 @@ interface Props {
 
 export default function PlayerSkillCard(props: Props) {
     const {player} = props;
-    let headers = ['Skill', 'Career', 'Ranks', 'Dice Pool'];
+    const headers = ['Skill', 'Career', 'Ranks', 'Dice Pool'];
 
     const renderSkillGroupTable = (type: SkillType) => {
         return (
