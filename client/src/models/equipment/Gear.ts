@@ -1,6 +1,6 @@
-import Skill from "../actor/Skill";
+import type Skill from "../actor/Skill";
 import {RangeBand} from "../common/RangeBand";
-import Equipment from "./Equipment";
+import type Equipment from "./Equipment";
 
 export interface Gear extends Equipment {
     skill: Skill

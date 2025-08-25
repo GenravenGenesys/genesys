@@ -22,7 +22,7 @@ interface Props {
 
 export default function SingleNonPlayerCharacterSkillCard(props: Props) {
     const { actor, onSkillChange } = props;
-    let headers = onSkillChange ? ['Skill', 'Ranks', 'Dice Pool'] : ['Skill', 'Dice Pool'];
+    const headers = onSkillChange ? ['Skill', 'Ranks', 'Dice Pool'] : ['Skill', 'Dice Pool'];
     const pathname = useLocation().pathname;
 
     const renderSkillGroupTable = (type: SkillType) => (

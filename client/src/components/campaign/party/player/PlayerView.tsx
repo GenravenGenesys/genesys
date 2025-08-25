@@ -15,7 +15,7 @@ interface Props {
 
 export default function PlayerView(props: Props) {
     const {player} = props
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const onEdit = () => {
         navigate(ActorPath.Player + player.id + '/edit')

@@ -14,10 +14,10 @@ interface Props {
 export default function CreateInjuryDialog(props: Props) {
     const {open, onClose} = props
     const [name, setName] = useState('')
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleCreate = async (): Promise<void> => {
-        let injury = await InjuryService.createInjury(name)
+        const injury = await InjuryService.createInjury(name)
         navigate(RootPath.Injury + injury.id + '/edit')
         onClose()
     }

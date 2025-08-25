@@ -15,7 +15,7 @@ interface Props {
 
 export default function SpellView(props: Props):JSX.Element {
     const {spell} = props
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const onEdit = () => {
         navigate(RootPath.Spell + spell.name + '/edit')

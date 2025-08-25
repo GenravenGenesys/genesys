@@ -22,7 +22,7 @@ const EncounterPage: React.FC = () => {
     const [encounter, setEncounter] = useState<Encounter | null>();
     const [value, setValue] = useState('0');
     const [slots, setSlots] = useState<InitiativeSlot[]>([]);
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const combinedEnemies = !encounter ? [] : [
         ...(encounter.enemyMinionGroups ? encounter.enemyMinionGroups.map(minion => ({...minion})) : []),
@@ -80,7 +80,7 @@ const EncounterPage: React.FC = () => {
                     </GridContainer>
                     <TabPanel value={"0"}>
                         <InitiativeTrackCard enemies={combinedEnemies}
-                                             updateSlots={moveToClaimSlotsTab} party={party!!}/>
+                                             updateSlots={moveToClaimSlotsTab} party={party!}/>
                     </TabPanel>
                     <TabPanel value={"1"}>
                         <ClaimInitiativeSlotTrack npcs={combinedEnemies} initialSlots={slots}

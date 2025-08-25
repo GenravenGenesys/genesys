@@ -32,7 +32,7 @@ export default function CreateArmorDialog(props: Props) {
         description: '',
         qualities: []
     });
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     const onCreate = () => {
         onCreateArmor({...armor, slot: ArmorSlot.None} as ActorArmor);

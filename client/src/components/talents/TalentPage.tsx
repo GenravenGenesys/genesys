@@ -19,7 +19,7 @@ export default function TalentPage() {
     const {id} = useParams<{ id: string }>();
     const [talent, setTalent] = useState<Talent | null>(null);
     const [tab, setTab] = useState('1');
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {

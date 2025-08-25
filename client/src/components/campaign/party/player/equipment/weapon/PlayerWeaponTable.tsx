@@ -31,7 +31,7 @@ export default function PlayerWeaponTable(props: Props) {
 
     const getActorSkill = (weapon: ActorWeapon): ActorSkill => {
         let actorSkill = {} as ActorSkill
-        for (let skill of player.skills) {
+        for (const skill of player.skills) {
             if (skill.name === weapon.skill.name) {
                 actorSkill = skill as ActorSkill
             }

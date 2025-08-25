@@ -24,7 +24,7 @@ interface Props {
 export default function SpendSkillDialog(props: Props) {
     const {open, onClose, currentPlayer} = props;
     const [player, setPlayer] = useState(currentPlayer);
-    let headers = ['Skill', 'Career', 'Current Ranks', 'Increase'];
+    const headers = ['Skill', 'Career', 'Current Ranks', 'Increase'];
 
     useEffect(() => {
         setPlayer(currentPlayer);

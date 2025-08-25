@@ -11,19 +11,19 @@ public class TalentRouter {
     @Bean
     public RouterFunction<ServerResponse> talentRouterMethod(final TalentHandler talentHandler) {
         return RouterFunctions.route()
-                .nest(RequestPredicates.path("/api"), builder -> builder
-                        .path("/talents", talentBuilder -> talentBuilder
-                                .GET("/", talentHandler::getAllTalents)
-                                .POST("/{name}", talentHandler::createTalent)
-                                .GET("/{id}", talentHandler::getTalent)
-                                .PUT("/{id}", talentHandler::updateTalent)
-                        )
-                        .path("campaigns/talents", campaignTalentBuilder -> campaignTalentBuilder
-                                .GET("/", talentHandler::getTalentsForCurrentCampaign)
-                                .POST("/", talentHandler::addTalentToCurrentCampaign)
-                                .GET("/tiers/{tier}", talentHandler::getTalentsForCurrentCampaignByTier)
-                        )
+            .nest(RequestPredicates.path("/api"), builder -> builder
+                .path("/talents", talentBuilder -> talentBuilder
+                    .GET("/", talentHandler::getAllTalents)
+                    .POST("/{name}", talentHandler::createTalent)
+                    .GET("/{id}", talentHandler::getTalent)
+                    .PUT("/{id}", talentHandler::updateTalent)
                 )
-                .build();
+                .path("campaigns/talents", campaignTalentBuilder -> campaignTalentBuilder
+                    .GET("/", talentHandler::getTalentsForCurrentCampaign)
+                    .POST("/", talentHandler::addTalentToCurrentCampaign)
+                    .GET("/tiers/{tier}", talentHandler::getTalentsForCurrentCampaignByTier)
+                )
+            )
+            .build();
     }
 }

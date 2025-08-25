@@ -13,10 +13,10 @@ interface Props {
 export default function TalentDialog(props: Props) {
     const {open, onClose} = props
     const [name, setName] = useState('')
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleCreate = async (): Promise<void> => {
-        let talent = await TalentService.createTalent(name)
+        const talent = await TalentService.createTalent(name)
         navigate(RootPath.Talent + talent.id + '/edit')
         onClose()
     }

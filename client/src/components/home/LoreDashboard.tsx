@@ -1,15 +1,14 @@
 import {CampaignPath, LorePath} from "../../services/RootPath";
-import {useNavigate} from "react-router";
-import {Button, Card, CardContent, CardHeader} from "@mui/material";
-import * as React from "react";
+import {Button, Card, CardContent} from "@mui/material";
 import {LoreType} from "../../models/lore/Lore";
-import {NavigateFunction} from "react-router";
+import {useNavigate} from "react-router-dom";
 import GridContainer from "../common/grid/GridContainer";
 import GridItem from "../common/grid/GridItem";
 import CenteredCardHeaderWithButton from "../common/card/header/CenteredCardHeaderWithButton";
+import type {NavigateFunction} from "react-router-dom";
 
 export default function LoreDashboard() {
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     return (
         <Card sx={{width: 1}}>

@@ -30,11 +30,11 @@ export default function ArmorBackdrop(props: Props) {
             zIndex: theme.zIndex.drawer + 1
         })} open={open} onClick={onClose}>
             <Card>
-                <CenteredCardHeader title={armor?.name!!}/>
+                <CenteredCardHeader title={armor?.name!}/>
                 <CardContent>
                     <GridContainer centered>
                         <GridContainer spacing={10}>
-                            <ViewFieldCard name={'Description'} value={armor?.description!!}/>
+                            <ViewFieldCard name={'Description'} value={armor?.description!}/>
                         </GridContainer>
                         <Divider/>
                         <TableContainer component={Paper}>
@@ -42,12 +42,12 @@ export default function ArmorBackdrop(props: Props) {
                                 {renderSingleRowTableHeader(headers)}
                                 <TableBody>
                                     <TableRow>
-                                        <TypographyCenterTableCell value={armor?.name!!}/>
-                                        <TypographyCenterTableCell value={String(armor?.defense!!)}/>
+                                        <TypographyCenterTableCell value={armor?.name!}/>
+                                        <TypographyCenterTableCell value={String(armor?.defense!)}/>
                                         <TypographyCenterTableCell value={renderSoak(armor)}/>
-                                        <TypographyCenterTableCell value={String(armor?.encumbrance!!)}/>
+                                        <TypographyCenterTableCell value={String(armor?.encumbrance!)}/>
                                         <TypographyCenterTableCell value={renderPrice(armor)}/>
-                                        <TypographyCenterTableCell value={String(armor?.rarity!!)}/>
+                                        <TypographyCenterTableCell value={String(armor?.rarity!)}/>
                                     </TableRow>
                                 </TableBody>
                             </Table>
