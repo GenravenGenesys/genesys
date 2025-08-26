@@ -154,6 +154,22 @@ public class PlayerService {
         });
     }
 
+    public Mono<Player> resetPlayerExperience(final PlayerCreationResetExperienceContext context) {
+        return Mono.just(context.player()).flatMap(existingPlayer -> {
+            existingPlayer.setArchetype(context.player().getArchetype());
+            existingPlayer.setBrawn(new Characteristic(Characteristic.Type.BRAWN, context.player().getArchetype().getBrawn()));
+            existingPlayer.setAgility(new Characteristic(Characteristic.Type.AGILITY, context.player().getArchetype().getAgility()));
+            existingPlayer.setIntellect(new Characteristic(Characteristic.Type.INTELLECT, context.player().getArchetype().getIntellect()));
+            existingPlayer.setCunning(new Characteristic(Characteristic.Type.CUNNING, context.player().getArchetype().getCunning()));
+            existingPlayer.setWillpower(new Characteristic(Characteristic.Type.WILLPOWER, context.player().getArchetype().getWillpower()));
+            existingPlayer.setPresence(new Characteristic(Characteristic.Type.PRESENCE, context.player().getArchetype().getPresence()));
+            existingPlayer.setWounds(new Stats(0, context.player().getArchetype().getWounds(), Stats.Type.WOUNDS));
+            existingPlayer.setStrain(new Stats(0, context.player().getArchetype().getStrain(), Stats.Type.STRAIN));
+            existingPlayer.updateAvailableExperience(context.player().getArchetype().getExperience());
+            return playerRepository.save(existingPlayer);
+        });
+    }
+
     private Experience spendInitialExperience(final Experience experience, final int change) {
         experience.setInitial(experience.getInitial() - change);
         experience.setAvailable(experience.getAvailable() - change);
