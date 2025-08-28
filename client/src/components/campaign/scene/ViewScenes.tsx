@@ -1,7 +1,7 @@
 import {Card, CardContent, Table, TableContainer} from "@mui/material";
 import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
 import React, {useEffect, useState} from "react";
-import Scene from "../../../models/campaign/Scene";
+import type Scene from "../../../models/campaign/Scene";
 import Paper from "@mui/material/Paper";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
@@ -12,7 +12,7 @@ import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell"
 import SceneCreationDialog from "./SceneCreationDialog";
 import SceneService from "../../../services/SceneService";
 
-export default function ViewScenes() {
+const ViewScenes: React.FC = ()=> {
     const [scenes, setScenes] = useState<Scene[]>([]);
     const [openSceneDialog, setOpenSceneDialog] = useState(false);
     const headers = ['Name', 'View'];
@@ -45,5 +45,7 @@ export default function ViewScenes() {
                 </TableContainer>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
+
+export default ViewScenes;

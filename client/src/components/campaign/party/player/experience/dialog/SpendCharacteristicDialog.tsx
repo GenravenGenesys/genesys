@@ -1,21 +1,21 @@
 import {Button, Dialog, DialogActions, DialogContent, IconButton} from "@mui/material";
-import {Characteristic} from "../../../../../../models/actor/Characteristic";
+import type {Characteristic} from "../../../../../../models/actor/Characteristic";
 import Typography from "@mui/material/Typography";
 import {Add} from "@mui/icons-material";
 import {useEffect, useState} from "react";
-import Player from "../../../../../../models/actor/player/Player";
+import type Player from "../../../../../../models/actor/player/Player";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
 
 interface Props {
-    open: boolean
-    onClose: () => void
-    currentPlayer: Player
+    open: boolean;
+    onClose: () => void;
+    currentPlayer: Player;
 }
 
-export default function SpendCharacteristicDialog(props: Props) {
+const SpendCharacteristicDialog: React.FC<Props> = (props: Props)=> {
     const {open, onClose, currentPlayer} = props;
     const [player, setPlayer] = useState(currentPlayer);
 
@@ -65,4 +65,6 @@ export default function SpendCharacteristicDialog(props: Props) {
             </DialogActions>
         </Dialog>
     );
-}
+};
+
+export default SpendCharacteristicDialog;
