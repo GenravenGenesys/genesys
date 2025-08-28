@@ -6,7 +6,6 @@ import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.player.*;
 import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.context.player.*;
-import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.repository.actor.PlayerRepository;
 import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SkillService;
