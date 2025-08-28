@@ -38,8 +38,8 @@ public class PlayerService {
     public Mono<Player> getPlayer(final String id) {
         log.info("Fetching player with id: {}", id);
         return playerRepository.findById(id)
-                .doOnNext(player -> log.debug("Fetched player: {}", player))
-                .doOnError(error -> log.error("Error fetching player with id: {}", id, error));
+            .doOnNext(player -> log.debug("Fetched player: {}", player))
+            .doOnError(error -> log.error("Error fetching player with id: {}", id, error));
     }
 
     public Mono<Player> createPlayer(final String name) {
@@ -157,6 +157,9 @@ public class PlayerService {
     public Mono<Player> resetPlayerExperience(final PlayerCreationResetExperienceContext context) {
         return Mono.just(context.player()).flatMap(existingPlayer -> {
             existingPlayer.setArchetype(context.player().getArchetype());
+            existingPlayer.setCareer(context.player().getCareer());
+            existingPlayer.setSkills(resetPlayerSkills(context.player().getSkills()));
+            existingPlayer.setTalents(List.of());
             existingPlayer.setBrawn(new Characteristic(Characteristic.Type.BRAWN, context.player().getArchetype().getBrawn()));
             existingPlayer.setAgility(new Characteristic(Characteristic.Type.AGILITY, context.player().getArchetype().getAgility()));
             existingPlayer.setIntellect(new Characteristic(Characteristic.Type.INTELLECT, context.player().getArchetype().getIntellect()));
@@ -168,6 +171,11 @@ public class PlayerService {
             existingPlayer.updateAvailableExperience(context.player().getArchetype().getExperience());
             return playerRepository.save(existingPlayer);
         });
+    }
+
+    private List<PlayerSkill> resetPlayerSkills(final List<PlayerSkill> playerSkills) {
+        playerSkills.forEach(playerSkill -> playerSkill.setRanks(playerSkill.isCareer() ? 1 : 0));
+        return playerSkills;
     }
 
     private Experience spendInitialExperience(final Experience experience, final int change) {
