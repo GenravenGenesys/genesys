@@ -1,7 +1,8 @@
 import {Dialog, DialogContent} from "@mui/material";
-import Player from "../../../../../../models/actor/player/Player";
+import type Player from "../../../../../../models/actor/player/Player";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
-import Talent, {Tier} from "../../../../../../models/Talent";
+import {Tier} from "../../../../../../models/Talent";
+import type Talent from "../../../../../../models/Talent";
 import {useEffect, useState} from "react";
 import CampaignService from "../../../../../../services/CampaignService";
 import Paper from "@mui/material/Paper";
@@ -10,23 +11,22 @@ import {renderSingleRowTableHeader} from "../../../../../common/table/TableRende
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {
-    GenesysDescriptionTypographyCenterTableCell, TableCellButton,
+    GenesysDescriptionTypographyCenterTableCell,
+    TableCellButton,
     TypographyCenterTableCell
 } from "../../../../../common/table/TypographyTableCell";
 import TableContainer from "@mui/material/TableContainer";
-import * as React from "react";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 
 interface Props {
-    open: boolean
-    onClose: () => void
-    currentPlayer: Player
-    tier: Tier
-    updatePlayer: (player: Player) => void
+    open: boolean;
+    onClose: () => void;
+    currentPlayer: Player;
+    tier: Tier;
+    updatePlayer: (player: Player) => void;
 }
 
-export default function TierTalentDialog(props: Props) {
-    const {open, onClose, currentPlayer, tier, updatePlayer} = props;
+const TierTalentDialog: React.FC<Props> = ({open, onClose, currentPlayer, tier, updatePlayer}) => {
     const [talents, setTalents] = useState<Talent[]>([]);
     const playerTalents = currentPlayer.talents.filter(talent => talent.tier === tier);
     const headers = ['Name', 'Activation', 'Summary', 'Purchase'];
@@ -84,4 +84,6 @@ export default function TierTalentDialog(props: Props) {
             </DialogContent>
         </Dialog>
     );
-}
+};
+
+export default TierTalentDialog;

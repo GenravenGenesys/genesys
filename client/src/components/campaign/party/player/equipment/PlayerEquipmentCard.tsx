@@ -3,7 +3,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Player from "../../../../../models/actor/player/Player";
+import type Player from "../../../../../models/actor/player/Player";
 import PlayerArmorTable from "./armor/PlayerArmorTable";
 import PlayerWeaponTable from "./weapon/PlayerWeaponTable";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
@@ -28,7 +28,7 @@ const PlayerEquipmentCard: React.FC<Props> = ({ player }) => {
     const [openEquipWeaponDialog, setOpenEquipWeaponDialog] = useState(false);
     const pathname = useLocation().pathname;
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (_: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
 

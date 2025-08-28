@@ -1,4 +1,4 @@
-import Player from "../../../../../../models/actor/player/Player";
+import type Player from "../../../../../../models/actor/player/Player";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent} from "@mui/material";
@@ -10,13 +10,12 @@ import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
 
 interface Props {
-    open: boolean
-    onClose: () => void
-    currentPlayer: Player
+    open: boolean;
+    onClose: () => void;
+    currentPlayer: Player;
 }
 
-export default function SpendTalentDialog(props: Props) {
-    const {open, onClose, currentPlayer} = props;
+const SpendTalentDialog: React.FC<Props> = ({open, onClose, currentPlayer}) => {
     const [player, setPlayer] = useState(currentPlayer);
 
     useEffect(() => {
@@ -60,4 +59,6 @@ export default function SpendTalentDialog(props: Props) {
             </DialogActions>
         </Dialog>
     );
-}
+};
+
+export default SpendTalentDialog;

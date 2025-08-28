@@ -6,7 +6,6 @@ import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.player.*;
 import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.context.player.*;
-import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.repository.actor.PlayerRepository;
 import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SkillService;
@@ -38,8 +37,8 @@ public class PlayerService {
     public Mono<Player> getPlayer(final String id) {
         log.info("Fetching player with id: {}", id);
         return playerRepository.findById(id)
-                .doOnNext(player -> log.debug("Fetched player: {}", player))
-                .doOnError(error -> log.error("Error fetching player with id: {}", id, error));
+            .doOnNext(player -> log.debug("Fetched player: {}", player))
+            .doOnError(error -> log.error("Error fetching player with id: {}", id, error));
     }
 
     public Mono<Player> createPlayer(final String name) {
@@ -152,6 +151,30 @@ public class PlayerService {
             }
             return playerRepository.save(player);
         });
+    }
+
+    public Mono<Player> resetPlayerExperience(final PlayerCreationResetExperienceContext context) {
+        return Mono.just(context.player()).flatMap(existingPlayer -> {
+            existingPlayer.setArchetype(context.player().getArchetype());
+            existingPlayer.setCareer(context.player().getCareer());
+            existingPlayer.setSkills(resetPlayerSkills(context.player().getSkills()));
+            existingPlayer.setTalents(List.of());
+            existingPlayer.setBrawn(new Characteristic(Characteristic.Type.BRAWN, context.player().getArchetype().getBrawn()));
+            existingPlayer.setAgility(new Characteristic(Characteristic.Type.AGILITY, context.player().getArchetype().getAgility()));
+            existingPlayer.setIntellect(new Characteristic(Characteristic.Type.INTELLECT, context.player().getArchetype().getIntellect()));
+            existingPlayer.setCunning(new Characteristic(Characteristic.Type.CUNNING, context.player().getArchetype().getCunning()));
+            existingPlayer.setWillpower(new Characteristic(Characteristic.Type.WILLPOWER, context.player().getArchetype().getWillpower()));
+            existingPlayer.setPresence(new Characteristic(Characteristic.Type.PRESENCE, context.player().getArchetype().getPresence()));
+            existingPlayer.setWounds(new Stats(0, context.player().getArchetype().getWounds(), Stats.Type.WOUNDS));
+            existingPlayer.setStrain(new Stats(0, context.player().getArchetype().getStrain(), Stats.Type.STRAIN));
+            existingPlayer.updateAvailableExperience(context.player().getArchetype().getExperience());
+            return playerRepository.save(existingPlayer);
+        });
+    }
+
+    private List<PlayerSkill> resetPlayerSkills(final List<PlayerSkill> playerSkills) {
+        playerSkills.forEach(playerSkill -> playerSkill.setRanks(playerSkill.isCareer() ? 1 : 0));
+        return playerSkills;
     }
 
     private Experience spendInitialExperience(final Experience experience, final int change) {

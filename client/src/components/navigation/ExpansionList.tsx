@@ -4,15 +4,14 @@ import {forwardRef, type ReactElement, useMemo, useState} from "react";
 import {Link, type LinkProps} from "react-router-dom";
 
 interface Props {
-    header: string
-    viewTitle: string
-    to: string
-    dialogTitle: string
-    onClick: () => void
+    header: string;
+    viewTitle: string;
+    to: string;
+    dialogTitle: string;
+    onClick: () => void;
 }
 
-export default function ExpansionList(props: Props) {
-    const {header, viewTitle, to, dialogTitle, onClick} = props;
+const ExpansionList: React.FC<Props> = ({header, viewTitle, to, dialogTitle, onClick}) => {
     const [collapse, setCollapse] = useState(false);
 
     const renderLink = useMemo(() => forwardRef<any, Omit<LinkProps, 'to'>>((itemProps, ref): ReactElement => (
@@ -38,3 +37,5 @@ export default function ExpansionList(props: Props) {
         </List>
     );
 };
+
+export default ExpansionList;

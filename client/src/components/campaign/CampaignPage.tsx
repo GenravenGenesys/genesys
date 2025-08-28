@@ -1,4 +1,4 @@
-import Campaign from "../../models/campaign/Campaign";
+import type Campaign from "../../models/campaign/Campaign";
 import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
@@ -23,25 +23,24 @@ import FullGrid from "../common/grid/FullGrid";
 import ViewCampaignScenes from "./scene/ViewCampaignScenes";
 
 interface Props {
-    campaign: Campaign
+    campaign: Campaign;
 }
 
-export default function CampaignPage(props: Props) {
-    const {campaign} = props;
+const CampaignPage: React.FC<Props> = ({campaign}) => {
     const [value, setValue] = useState('1');
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (_: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
-    }
+    };
 
     return (
         <Card>
-            <CenteredCardHeader title={campaign.name}/>
+            <CenteredCardHeader title={campaign.name || 'No Campaign Selected'}/>
             <CardContent>
                 <FullGrid>
                     <TabContext value={value}>
                         <GridContainer centered>
-                            <TabList onChange={handleChange} centered>
+                            <TabList onChange={handleChange} variant="scrollable" scrollButtons="auto">
                                 <Tab label="Lore" value="1"/>
                                 <Tab label="Talents" value="2"/>
                                 <Tab label="Skills" value="3"/>
@@ -97,4 +96,6 @@ export default function CampaignPage(props: Props) {
             </CardContent>
         </Card>
     )
-}
+};
+
+export default CampaignPage;

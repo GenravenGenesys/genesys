@@ -4,24 +4,25 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import * as React from "react";
-import {ActorWeapon, WeaponSlot} from "../../../../../../models/equipment/Weapon";
+import type {ActorWeapon} from "../../../../../../models/equipment/Weapon";
+import {WeaponSlot} from "../../../../../../models/equipment/Weapon";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
 import {
     GenesysDicePoolCenterTableCellButton,
     TypographyCenterTableCell
 } from "../../../../../common/table/TypographyTableCell";
 import {renderActorDamage, renderQualities} from "../../../../../../models/equipment/EquipmentHelper";
-import Player from "../../../../../../models/actor/player/Player";
-import {ActorSkill} from "../../../../../../models/actor/Actor";
+import type Player from "../../../../../../models/actor/player/Player";
+import type {ActorSkill} from "../../../../../../models/actor/Actor";
 import {Fragment} from "react";
 
 
 interface Props {
-    weapons: ActorWeapon[]
-    player: Player
+    weapons: ActorWeapon[];
+    player: Player;
 }
 
-export default function PlayerWeaponTable(props: Props) {
+const PlayerWeaponTable: React.FC<Props> = (props: Props)=> {
     const {weapons, player} = props
     const headers = ['Name', 'Equipped', 'Skill', 'Damage', 'Critical', 'Range', 'Special Qualities', 'Dice Pool']
 
@@ -30,14 +31,14 @@ export default function PlayerWeaponTable(props: Props) {
     }
 
     const getActorSkill = (weapon: ActorWeapon): ActorSkill => {
-        let actorSkill = {} as ActorSkill
+        let actorSkill = {} as ActorSkill;
         for (const skill of player.skills) {
             if (skill.name === weapon.skill.name) {
-                actorSkill = skill as ActorSkill
+                actorSkill = skill as ActorSkill;
             }
         }
-        return actorSkill
-    }
+        return actorSkill;
+    };
 
     const renderTableBody = () => {
         if (!weapons) {
@@ -59,7 +60,7 @@ export default function PlayerWeaponTable(props: Props) {
                 </TableBody>
             )
         }
-    }
+    };
 
     return (
         <TableContainer component={Paper}>
@@ -68,5 +69,7 @@ export default function PlayerWeaponTable(props: Props) {
                 {renderTableBody()}
             </Table>
         </TableContainer>
-    )
-}
+    );
+};
+
+export default PlayerWeaponTable;

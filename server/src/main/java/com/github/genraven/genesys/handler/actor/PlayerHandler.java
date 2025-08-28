@@ -40,6 +40,7 @@ public class PlayerHandler extends BaseHandler {
     private final PlayerCreationSkillUpdateContextValidator playerCreationSkillUpdateContextValidator;
     private final PlayerCreationCharacteristicUpdateContextValidator playerCreationCharacteristicUpdateContextValidator;
     private final PlayerCreationTalentUpdateContextValidator playerCreationTalentUpdateContextValidator;
+    private final PlayerCreationResetExperienceContextValidator playerCreationResetExperienceContextValidator;
 
     public Mono<ServerResponse> getAllPlayers(final ServerRequest serverRequest) {
         return playerService.getAllPlayers()
@@ -183,6 +184,21 @@ public class PlayerHandler extends BaseHandler {
                 ))
                 .flatMap(playerCreationTalentUpdateContextValidator::validatePlayerCreationTalentUpdateContext)
                 .flatMap(playerService::updatePlayerTalent)
+                .flatMap(MapperUtil::mapPlayerToResponse)
+                .flatMap(player -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(fromValue(player)))
+                .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(fromValue(Map.of("errors", ex.getErrors()))));
+    }
+
+    public Mono<ServerResponse> resetExperience(final ServerRequest serverRequest) {
+        final String id = serverRequest.pathVariable(ID);
+        return playerService.getPlayer(id)
+                .map(PlayerCreationResetExperienceContext::new)
+                .flatMap(playerCreationResetExperienceContextValidator::validatePlayerCreationResetExperienceContext)
+                .flatMap(playerService::resetPlayerExperience)
                 .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)

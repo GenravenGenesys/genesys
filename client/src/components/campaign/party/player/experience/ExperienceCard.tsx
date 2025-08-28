@@ -1,4 +1,4 @@
-import Player from "../../../../../models/actor/player/Player";
+import type Player from "../../../../../models/actor/player/Player";
 import {Card, CardContent} from "@mui/material";
 import ViewFieldCard from "../../../../common/ViewFieldCard";
 import * as React from "react";

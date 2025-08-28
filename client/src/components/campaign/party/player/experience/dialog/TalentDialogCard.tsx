@@ -6,19 +6,18 @@ import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHe
 import GenesysDescriptionTypography from "../../../../../common/typography/GenesysDescriptionTypography";
 import * as React from "react";
 import {useState} from "react";
-import Player from "../../../../../../models/actor/player/Player";
+import type Player from "../../../../../../models/actor/player/Player";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
 
 interface Props {
-    player: Player
-    size: number
-    tier: Tier
-    updatePlayer: (player: Player) => void
+    player: Player;
+    size: number;
+    tier: Tier;
+    updatePlayer: (player: Player) => void;
 }
 
-export default function TalentDialogCard(props: Props) {
-    const {player, size, tier, updatePlayer} = props;
+const TalentDialogCard: React.FC<Props> = ({player, size, tier, updatePlayer})=> {
     const [openTalentDialog, setOpenTalentDialog] = useState(false);
     const talents = player.talents.filter(talent => talent.tier === tier);
 
@@ -55,4 +54,6 @@ export default function TalentDialogCard(props: Props) {
             </Stack>
         </GridContainer>
     );
-}
+};
+
+export default TalentDialogCard;

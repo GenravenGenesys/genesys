@@ -108,7 +108,7 @@ public class PlayerRouter {
         // created", content = @Content(schema = @Schema(implementation =
         // CharacterDTO.class)))))
     })
-    public RouterFunction<ServerResponse> playerRouterMethod(PlayerHandler handler) {
+    public RouterFunction<ServerResponse> playerRouterMethod(final PlayerHandler handler) {
         return RouterFunctions.route()
             .nest(RequestPredicates.path(API), builder -> builder
                 .path(PLAYERS, player -> player
@@ -123,7 +123,8 @@ public class PlayerRouter {
                     .PATCH("/{id}/characteristics/",
                         handler::updatePlayerCharacteristic)
                     .PATCH("/{id}/skills/", handler::updatePlayerSkill)
-                    .PATCH("/{id}/talents/", handler::updatePlayerTalent))
+                    .PATCH("/{id}/talents/", handler::updatePlayerTalent)
+                    .POST("/{id}/reset/", handler::resetExperience))
                 .path("/campaigns/{name}", campaign -> campaign
                     .GET("/players/", handler::getAllPlayers)
                     .POST("/players/{playerName}", handler::createPlayer)))
