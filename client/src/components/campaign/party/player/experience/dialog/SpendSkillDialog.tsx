@@ -1,4 +1,5 @@
-import Player, {PlayerSkill} from "../../../../../../models/actor/player/Player";
+import type Player from "../../../../../../models/actor/player/Player";
+import type {PlayerSkill} from "../../../../../../models/actor/player/Player";
 import {useEffect, useState} from "react";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
@@ -16,13 +17,12 @@ import BooleanTableCell from "../../../../../common/table/BooleanTableCell";
 import GridContainer from "../../../../../common/grid/GridContainer";
 
 interface Props {
-    open: boolean
-    onClose: () => void
-    currentPlayer: Player
+    open: boolean;
+    onClose: () => void;
+    currentPlayer: Player;
 }
 
-export default function SpendSkillDialog(props: Props) {
-    const {open, onClose, currentPlayer} = props;
+const SpendSkillDialog: React.FC<Props> = ({open, onClose, currentPlayer}) => {
     const [player, setPlayer] = useState(currentPlayer);
     const headers = ['Skill', 'Career', 'Current Ranks', 'Increase'];
 
@@ -74,4 +74,6 @@ export default function SpendSkillDialog(props: Props) {
             </DialogActions>
         </Dialog>
     );
-}
+};
+
+export default SpendSkillDialog;

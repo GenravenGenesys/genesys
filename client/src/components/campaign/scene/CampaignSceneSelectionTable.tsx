@@ -7,7 +7,7 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import {Button} from "@mui/material";
-import Scene from "../../../models/campaign/Scene";
+import type Scene from "../../../models/campaign/Scene";
 import SceneBackdrop from "./SceneBackdrop";
 import CampaignService from "../../../services/CampaignService";
 
