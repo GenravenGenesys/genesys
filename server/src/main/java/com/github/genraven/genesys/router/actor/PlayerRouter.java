@@ -113,7 +113,8 @@ public class PlayerRouter {
             .nest(RequestPredicates.path(API), builder -> builder
                 .path(PLAYERS, player -> player
                     .GET(ID, handler::getPlayer)
-                    .PUT(NAME, handler::updatePlayer))
+                    .PUT(NAME, handler::updatePlayer)
+                )
                 .path("/players/creation", creation -> creation
                     .PATCH("/{id}/careers/", handler::updatePlayerCareer)
                     .PATCH("/{id}/careers/skills/",
@@ -124,10 +125,14 @@ public class PlayerRouter {
                         handler::updatePlayerCharacteristic)
                     .PATCH("/{id}/skills/", handler::updatePlayerSkill)
                     .PATCH("/{id}/talents/", handler::updatePlayerTalent)
-                    .POST("/{id}/reset/", handler::resetExperience))
+                    .POST("/{id}/reset/", handler::resetExperience)
+                    .POST("/{id}/lock", handler::lockPlayerCreation)
+                )
                 .path("/campaigns/{name}", campaign -> campaign
                     .GET("/players/", handler::getAllPlayers)
-                    .POST("/players/{playerName}", handler::createPlayer)))
+                    .POST("/players/{playerName}", handler::createPlayer)
+                )
+            )
             .build();
     }
 }

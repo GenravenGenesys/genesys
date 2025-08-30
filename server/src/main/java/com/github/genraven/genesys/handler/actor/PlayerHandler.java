@@ -207,4 +207,18 @@ public class PlayerHandler extends BaseHandler {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(Map.of("errors", ex.getErrors()))));
     }
+
+    public Mono<ServerResponse> lockPlayerCreation(final ServerRequest serverRequest) {
+        final String id = serverRequest.pathVariable(ID);
+        return playerService.getPlayer(id)
+            .map(PlayerCreationLockContext::new)
+            .flatMap(playerService::lockPlayerCreation)
+            .flatMap(MapperUtil::mapPlayerToResponse)
+            .flatMap(player -> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(fromValue(player)))
+            .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(fromValue(Map.of("errors", ex.getErrors()))));
+    }
 }
