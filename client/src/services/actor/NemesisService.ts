@@ -1,7 +1,7 @@
-import Nemesis from "../../models/actor/npc/Nemesis";
+import type Nemesis from "../../models/actor/npc/Nemesis";
 import {ActorPath, CampaignPath, RootPath} from "../RootPath";
-import {ActorSkill} from "../../models/actor/Actor";
-import { apiRequest, apiRequestList } from "../ApiRequest";
+import type {ActorSkill} from "../../models/actor/Actor";
+import {apiRequest, apiRequestList} from "../ApiRequest";
 
 export default class NemesisService {
     static async createNemesis(id: string, nemesisName: string): Promise<Nemesis> {

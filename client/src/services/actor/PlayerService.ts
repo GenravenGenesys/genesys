@@ -1,9 +1,10 @@
-import Player, {PlayerSkill} from "../../models/actor/player/Player";
+import type Player from "../../models/actor/player/Player";
+import type { PlayerSkill } from "../../models/actor/player/Player";
 import {PlayerPath, CampaignPath, RootPath} from "../RootPath";
-import Career from "../../models/actor/player/Career";
-import Archetype from "../../models/actor/player/Archetype";
-import {Characteristic} from "../../models/actor/Characteristic";
-import Talent from "../../models/Talent";
+import type Career from "../../models/actor/player/Career";
+import type Archetype from "../../models/actor/player/Archetype";
+import type {Characteristic} from "../../models/actor/Characteristic";
+import type Talent from "../../models/Talent";
 import { apiRequest, apiRequestList } from "../ApiRequest";
 
 export default class PlayerService {
