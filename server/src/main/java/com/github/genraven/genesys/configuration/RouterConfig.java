@@ -10,19 +10,19 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
 public class RouterConfig {
-    @Bean
-    public RouterFunction<ServerResponse> routerFunction() {
-        return RouterFunctions.route()
-            .GET("/{path:^(?!api).*}", request ->
-                ServerResponse.ok().contentType(MediaType.TEXT_HTML)
-                    .bodyValue(new ClassPathResource("/static/index.html"))
-            )
-            .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> staticResources() {
-        return RouterFunctions.resources("/assets/**", new ClassPathResource("static/assets/"));
-    }
+//    @Bean
+//    public RouterFunction<ServerResponse> routerFunction() {
+//        return RouterFunctions.route()
+//            .GET("/{path:^(?!api).*}", request ->
+//                ServerResponse.ok().contentType(MediaType.TEXT_HTML)
+//                    .bodyValue(new ClassPathResource("/static/index.html"))
+//            )
+//            .build();
+//    }
+//
+//    @Bean
+//    public RouterFunction<ServerResponse> staticResources() {
+//        return RouterFunctions.resources("/assets/**", new ClassPathResource("static/assets/"));
+//    }
 
 }

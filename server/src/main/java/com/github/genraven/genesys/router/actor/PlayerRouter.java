@@ -1,5 +1,10 @@
 package com.github.genraven.genesys.router.actor;
 
+import com.github.genraven.genesys.domain.actor.player.Archetype;
+import com.github.genraven.genesys.domain.actor.player.Career;
+import com.github.genraven.genesys.domain.actor.player.Player;
+import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springdoc.core.annotations.RouterOperations;
 import org.springframework.context.annotation.Bean;
@@ -30,37 +35,97 @@ public class PlayerRouter {
 
     @Bean
     @RouterOperations({
-        // @RouterOperation(path = PLAYER_BY_NAME, method = RequestMethod.GET, operation
-        // = @Operation(operationId = "getPlayer", summary = "Fetch a player by name",
-        // parameters = @Parameter(name = "name", in = ParameterIn.PATH, required =
-        // true), responses = @ApiResponse(responseCode = "200", description = "Player
-        // found", content = @Content(schema = @Schema(implementation =
-        // CharacterDTO.class))))),
-        // @RouterOperation(path = PLAYER_BY_NAME, method = RequestMethod.PUT, operation
-        // = @Operation(operationId = "updatePlayer", summary = "Update a player",
-        // parameters = @Parameter(name = "name", in = ParameterIn.PATH, required =
-        // true), requestBody = @RequestBody(content = @Content(schema =
-        // @Schema(implementation = CharacterDTO.class))), responses =
-        // @ApiResponse(responseCode = "200", description = "Player updated", content =
-        // @Content(schema = @Schema(implementation = CharacterDTO.class))))),
-        // @RouterOperation(path = CAREERS, method = RequestMethod.PATCH, operation =
-        // @Operation(operationId = "updatePlayerCareer", parameters = @Parameter(name =
-        // "id", in = ParameterIn.PATH), requestBody = @RequestBody(content =
-        // @Content(schema = @Schema(implementation = CareerUpdateRequest.class))),
-        // responses = @ApiResponse(responseCode = "204", description = "Career
-        // updated"))),
-        // @RouterOperation(path = CAREER_SKILLS, method = RequestMethod.PATCH,
-        // operation = @Operation(operationId = "updatePlayerCareerSkills", parameters =
-        // @Parameter(name = "id", in = ParameterIn.PATH), requestBody =
-        // @RequestBody(content = @Content(schema = @Schema(implementation =
-        // SkillListRequest.class))), responses = @ApiResponse(responseCode = "204",
-        // description = "Career skills updated"))),
-        // @RouterOperation(path = ARCHETYPES, method = RequestMethod.PATCH, operation =
-        // @Operation(operationId = "updatePlayerArchetype", parameters =
-        // @Parameter(name = "id", in = ParameterIn.PATH), requestBody =
-        // @RequestBody(content = @Content(schema = @Schema(implementation =
-        // ArchetypeRequest.class))), responses = @ApiResponse(responseCode = "204",
-        // description = "Archetype updated"))),
+        @RouterOperation(
+            path = PLAYER_BY_NAME,
+            method = RequestMethod.GET,
+            operation = @Operation(
+                operationId = "getPlayer",
+                summary = "Fetch a player by name",
+                parameters = @Parameter(
+                    name = "name",
+                    in = ParameterIn.PATH,
+                    required = true),
+                responses = @ApiResponse(
+                    responseCode = "200",
+                    description = "Player found",
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = PlayerResponse.class))))),
+        @RouterOperation(
+            path = PLAYER_BY_NAME,
+            method = RequestMethod.PUT,
+            operation = @Operation(
+                operationId = "updatePlayer",
+                summary = "Update a player",
+                parameters = @Parameter(
+                    name = "name",
+                    in = ParameterIn.PATH,
+                    required = true),
+                requestBody = @RequestBody(
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = Player.class))),
+                responses = @ApiResponse(
+                    responseCode = "200",
+                    description = "Player updated",
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = PlayerResponse.class))))),
+        @RouterOperation(
+            path = CAREERS,
+            method = RequestMethod.PATCH,
+            operation = @Operation(
+                operationId = "updatePlayerCareer",
+                parameters = @Parameter(
+                    name = "id",
+                    in = ParameterIn.PATH),
+                requestBody = @RequestBody(
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = Career.class))),
+                responses = @ApiResponse(
+                    responseCode = "200",
+                    description = "Career updated",
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = PlayerResponse.class))))),
+        @RouterOperation(
+            path = CAREER_SKILLS,
+            method = RequestMethod.PATCH,
+            operation = @Operation(
+                operationId = "updatePlayerCareerSkills",
+                parameters = @Parameter(
+                    name = "id",
+                    in = ParameterIn.PATH),
+                requestBody = @RequestBody(
+                    content = @Content(
+                        array = @ArraySchema(
+                            schema = @Schema(
+                                implementation = PlayerSkill.class)))),
+                responses = @ApiResponse(
+                    responseCode = "200",
+                    description = "Career skills updated",
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = PlayerResponse.class))))),
+        @RouterOperation(
+            path = CREATION_ARCHETYPES,
+            method = RequestMethod.PATCH,
+            operation = @Operation(
+                operationId = "updatePlayerArchetype",
+                parameters = @Parameter(
+                    name = "id",
+                    in = ParameterIn.PATH),
+                requestBody = @RequestBody(
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = Archetype.class))),
+                responses = @ApiResponse(
+                    responseCode = "204",
+                    description = "Archetype updated",
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = PlayerResponse.class))))),
         @RouterOperation(
             path = CREATION_CHARACTERISTICS,
             method = RequestMethod.PATCH,
@@ -75,7 +140,7 @@ public class PlayerRouter {
                     content = @Content(
                         schema = @Schema(
                             implementation = Characteristic.class),
-                    mediaType = MediaType.APPLICATION_JSON_VALUE)),
+                        mediaType = MediaType.APPLICATION_JSON_VALUE)),
                 responses = @ApiResponse(
                     responseCode = "200",
                     description = "Characteristics updated",

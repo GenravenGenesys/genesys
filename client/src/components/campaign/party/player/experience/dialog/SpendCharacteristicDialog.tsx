@@ -2,7 +2,7 @@ import {Button, Dialog, DialogActions, DialogContent, IconButton} from "@mui/mat
 import type {Characteristic} from "../../../../../../models/actor/Characteristic";
 import Typography from "@mui/material/Typography";
 import {Add} from "@mui/icons-material";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import type Player from "../../../../../../models/actor/player/Player";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
@@ -15,7 +15,7 @@ interface Props {
     currentPlayer: Player;
 }
 
-const SpendCharacteristicDialog: React.FC<Props> = (props: Props)=> {
+const SpendCharacteristicDialog: React.FC<Props> = (props: Props) => {
     const {open, onClose, currentPlayer} = props;
     const [player, setPlayer] = useState(currentPlayer);
 
