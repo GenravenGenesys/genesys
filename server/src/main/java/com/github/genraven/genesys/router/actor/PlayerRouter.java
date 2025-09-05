@@ -4,6 +4,7 @@ import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
+import com.github.genraven.genesys.domain.talent.Talent;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springdoc.core.annotations.RouterOperations;
@@ -147,31 +148,70 @@ public class PlayerRouter {
                     content = @Content(
                         schema = @Schema(
                             implementation = PlayerResponse.class))))),
-        // @RouterOperation(path = SKILLS, method = RequestMethod.PATCH, operation =
-        // @Operation(operationId = "updatePlayerSkill", parameters = @Parameter(name =
-        // "id", in = ParameterIn.PATH), requestBody = @RequestBody(content =
-        // @Content(schema = @Schema(implementation = SkillUpdateRequest.class))),
-        // responses = @ApiResponse(responseCode = "204", description = "Skills
-        // updated"))),
-        // @RouterOperation(path = TALENTS, method = RequestMethod.PATCH, operation =
-        // @Operation(operationId = "updatePlayerTalent", parameters = @Parameter(name =
-        // "id", in = ParameterIn.PATH), requestBody = @RequestBody(content =
-        // @Content(schema = @Schema(implementation = TalentUpdateRequest.class))),
-        // responses = @ApiResponse(responseCode = "204", description = "Talents
-        // updated"))),
-        // @RouterOperation(path = CAMPAIGN_PLAYERS, method = RequestMethod.GET,
-        // operation = @Operation(operationId = "getAllPlayers", summary = "Retrieve all
-        // players in a campaign", parameters = @Parameter(name = "name", in =
-        // ParameterIn.PATH, required = true), responses = @ApiResponse(responseCode =
-        // "200", description = "List of players", content = @Content(array =
-        // @ArraySchema(schema = @Schema(implementation = CharacterDTO.class)))))),
-        // @RouterOperation(path = CREATE_PLAYER, method = RequestMethod.POST, operation
-        // = @Operation(operationId = "createPlayer", parameters = {
-        // @Parameter(name = "name", in = ParameterIn.PATH),
-        // @Parameter(name = "playerName", in = ParameterIn.PATH)
-        // }, responses = @ApiResponse(responseCode = "201", description = "Player
-        // created", content = @Content(schema = @Schema(implementation =
-        // CharacterDTO.class)))))
+        @RouterOperation(
+            path = SKILLS,
+            method = RequestMethod.PATCH,
+            operation = @Operation(
+                operationId = "updatePlayerSkill",
+                parameters = @Parameter(
+                    name = "id",
+                    in = ParameterIn.PATH),
+                requestBody = @RequestBody(
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = PlayerSkill.class))),
+                responses = @ApiResponse(
+                    responseCode = "204",
+                    description = "Skills updated"))),
+        @RouterOperation(
+            path = TALENTS,
+            method = RequestMethod.PATCH,
+            operation = @Operation(
+                operationId = "updatePlayerTalent",
+                parameters = @Parameter(
+                    name = "id",
+                    in = ParameterIn.PATH),
+                requestBody = @RequestBody(
+                    content = @Content(
+                        schema = @Schema(
+                            implementation = Talent.class))),
+                responses = @ApiResponse(
+                    responseCode = "204",
+                    description = "Talents updated"))),
+         @RouterOperation(
+             path = CAMPAIGN_PLAYERS,
+             method = RequestMethod.GET,
+             operation = @Operation(
+                 operationId = "getAllPlayers",
+                 summary = "Retrieve all players in a campaign",
+                 parameters = @Parameter(
+                     name = "name",
+                     in = ParameterIn.PATH,
+                     required = true),
+                 responses = @ApiResponse(
+                     responseCode = "200",
+                     description = "List of players",
+                     content = @Content(
+                         array = @ArraySchema(
+                             schema = @Schema(
+                                 implementation = PlayerResponse.class)))))),
+         @RouterOperation(
+             path = CREATE_PLAYER,
+             method = RequestMethod.POST,
+             operation = @Operation(
+                 operationId = "createPlayer",
+                 parameters = {@Parameter(
+                     name = "name",
+                     in = ParameterIn.PATH),
+                     @Parameter(
+                         name = "playerName",
+                         in = ParameterIn.PATH)},
+                 responses = @ApiResponse(
+                     responseCode = "201",
+                     description = "Player created",
+                     content = @Content(
+                         schema = @Schema(
+                         implementation = PlayerResponse.class)))))
     })
     public RouterFunction<ServerResponse> playerRouterMethod(final PlayerHandler handler) {
         return RouterFunctions.route()
