@@ -1,6 +1,6 @@
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
-export async function apiRequest<T>(url: string, method: HttpMethod = "GET", body?: Record<string, unknown>
+export async function apiRequest<T, B extends object>(url: string, method: HttpMethod = "GET", body?: B
 ): Promise<T> {
     const options: RequestInit = {
         method,

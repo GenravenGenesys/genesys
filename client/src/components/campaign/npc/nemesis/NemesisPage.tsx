@@ -9,11 +9,11 @@ import SingleNonPlayerCharacterSkillCard from "../skill/SingleNonPlayerCharacter
 import EquipmentCard from "../../actor/equipment/EquipmentCard";
 import AbilityTableCard from "../ability/AbilityTableCard";
 import SingleNonPlayerCharacterTalentCard from "../talent/SingleNonPlayerCharacterTalentCard";
-import { ActorSkill } from "../../../../models/actor/Actor";
-import { ActorArmor } from "../../../../models/equipment/Armor";
-import { ActorWeapon } from "../../../../models/equipment/Weapon";
-import Ability from "../../../../models/Ability";
-import { ActorTalent } from "../../../../models/Talent";
+import type { ActorSkill } from "../../../../models/actor/Actor";
+import type { ActorArmor } from "../../../../models/equipment/Armor";
+import type { ActorWeapon } from "../../../../models/equipment/Weapon";
+import type Ability from "../../../../models/Ability";
+import type { ActorTalent } from "../../../../models/Talent";
 import NemesisService from "../../../../services/actor/NemesisService";
 import TabList from "@mui/lab/TabList/TabList";
 import Tab from "@mui/material/Tab";

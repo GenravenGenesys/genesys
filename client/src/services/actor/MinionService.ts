@@ -1,4 +1,5 @@
-import Minion, {GroupSkill} from "../../models/actor/npc/Minion";
+import type Minion from "../../models/actor/npc/Minion";
+import type { GroupSkill } from "../../models/actor/npc/Minion";
 import { apiRequest, apiRequestList } from "../ApiRequest";
 import {ActorPath, CampaignPath, RootPath} from "../RootPath";
 

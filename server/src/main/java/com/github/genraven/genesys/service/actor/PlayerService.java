@@ -172,6 +172,13 @@ public class PlayerService {
         });
     }
 
+    public Mono<Player> lockPlayerCreation(final PlayerCreationLockContext context) {
+        return Mono.just(context.player()).flatMap(existingPlayer -> {
+            existingPlayer.setCreation(Boolean.FALSE);
+            return playerRepository.save(existingPlayer);
+        });
+    }
+
     private List<PlayerSkill> resetPlayerSkills(final List<PlayerSkill> playerSkills) {
         playerSkills.forEach(playerSkill -> playerSkill.setRanks(playerSkill.isCareer() ? 1 : 0));
         return playerSkills;
