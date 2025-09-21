@@ -1,34 +1,32 @@
 package com.github.genraven.genesys.handler;
 
 import com.github.genraven.genesys.domain.equipment.Armor;
-import com.github.genraven.genesys.domain.equipment.Equipment;
 import com.github.genraven.genesys.domain.equipment.Gear;
 import com.github.genraven.genesys.domain.equipment.Weapon;
 import com.github.genraven.genesys.service.equipment.ArmorService;
 import com.github.genraven.genesys.service.equipment.GearService;
 import com.github.genraven.genesys.service.equipment.WeaponService;
 
+import com.github.genraven.genesys.validator.equipment.GearValidator;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
-
-import java.net.URI;
 
 import static com.github.genraven.genesys.constants.CommonConstants.NAME;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
 @RequiredArgsConstructor
-public class EquipmentHandler {
+public class EquipmentHandler extends BaseHandler {
 
-    private final GearService gearService;
     private final ArmorService armorService;
     private final WeaponService weaponService;
+    private final GearService gearService;
+    private final GearValidator gearValidator;
 
     public Mono<ServerResponse> getAllArmors(final ServerRequest serverRequest) {
         return armorService.getAllArmors().collectList().flatMap(armors -> {
@@ -43,7 +41,7 @@ public class EquipmentHandler {
 
     public Mono<ServerResponse> createArmor(final ServerRequest serverRequest) {
         return armorService.createArmor(serverRequest.pathVariable(NAME))
-                .flatMap(armor -> ServerResponse.created(getURI(armor))
+                .flatMap(armor -> ServerResponse.created(getURI(armor.getName()))
                         .bodyValue(armor));
     }
 
@@ -77,7 +75,7 @@ public class EquipmentHandler {
 
     public Mono<ServerResponse> createWeapon(final ServerRequest serverRequest) {
         return weaponService.createWeapon(serverRequest.pathVariable(NAME))
-                .flatMap(weapon -> ServerResponse.created(getURI(weapon))
+                .flatMap(weapon -> ServerResponse.created(getURI(weapon.getName()))
                         .bodyValue(weapon));
     }
 
@@ -111,7 +109,7 @@ public class EquipmentHandler {
 
     public Mono<ServerResponse> createGear(final ServerRequest serverRequest) {
         return gearService.createGear(serverRequest.pathVariable(NAME))
-                .flatMap(gear -> ServerResponse.created(getURI(gear))
+                .flatMap(gear -> ServerResponse.created(getURI(gear.getName()))
                         .bodyValue(gear));
     }
 
@@ -130,9 +128,5 @@ public class EquipmentHandler {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(gear))
                         .switchIfEmpty(ServerResponse.notFound().build()));
-    }
-
-    private URI getURI(final Equipment equipment) {
-        return UriComponentsBuilder.fromPath(("/{id}")).buildAndExpand(equipment.getName()).toUri();
     }
 }

@@ -6,10 +6,12 @@ import com.github.genraven.genesys.repository.equipment.GearRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GearService {
@@ -17,11 +19,15 @@ public class GearService {
     private final GearRepository gearRepository;
 
     public Flux<Gear> getAllGears() {
-        return gearRepository.findAll();
+        log.info("Fetching all gear");
+        return gearRepository.findAll().doOnNext(gear -> log.debug("Fetched gear: {}", gear.getName()));
     }
 
-    public Mono<Gear> getGear(final String name) {
-        return gearRepository.findById(name);
+    public Mono<Gear> getGear(final String id) {
+        log.info("Fetching gear with id: {}", id);
+        return gearRepository.findById(id)
+            .doOnNext(gear -> log.debug("Fetched gear: {}", gear))
+            .doOnError(error -> log.error("Error fetching gear with id: {}", id, error));
     }
 
     public Mono<Gear> createGear(final String name) {
