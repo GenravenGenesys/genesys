@@ -1,6 +1,6 @@
 import {useLocation, useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
-import Campaign from "../../models/campaign/Campaign";
+import type Campaign from "../../models/campaign/Campaign";
 import CampaignService from "../../services/CampaignService";
 import ViewAllCampaigns from "./ViewAllCampaigns";
 import CampaignPage from "./CampaignPage";
