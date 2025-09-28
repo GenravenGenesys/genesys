@@ -18,7 +18,7 @@ const GearPage = () => {
 
     useEffect(() => {
         if (!id) {
-            return
+            return;
         }
         (async (): Promise<void> => {
             setGear(await GearService.getGear(id));
@@ -55,7 +55,7 @@ const GearPage = () => {
 
     const handleRarityChange = async (value: number) => {
         if (gear) {
-            await updateGear({...gear, rarity: value})
+            await updateGear({...gear, rarity: value});
         }
     };
 
