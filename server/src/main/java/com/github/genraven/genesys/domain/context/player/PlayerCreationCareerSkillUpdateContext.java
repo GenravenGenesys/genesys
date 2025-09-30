@@ -7,5 +7,5 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
-public record PlayerCreationCareerSkillUpdateContext(@Valid Player player, @Valid @Size(min = 4, max = 4) List<PlayerSkill> skills) implements PlayerContext {
+public record PlayerCreationCareerSkillUpdateContext(@Valid Player player, @Valid @Size(min = 4, max = 4) List<PlayerSkill> skills) implements BasePlayerContext {
 }

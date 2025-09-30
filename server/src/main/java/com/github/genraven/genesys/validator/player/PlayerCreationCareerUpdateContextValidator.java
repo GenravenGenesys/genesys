@@ -24,7 +24,7 @@ public class PlayerCreationCareerUpdateContextValidator {
 
     private final Validator validator;
 
-    public Mono<PlayerCreationCareerUpdateContext> validatePlayerCreationCareerUpdateContext(final PlayerCreationCareerUpdateContext context) {
+    public Mono<PlayerCreationCareerUpdateContext> validate(final PlayerCreationCareerUpdateContext context) {
         log.info("Validating PlayerCreationCareerUpdate");
         final Set<ConstraintViolation<PlayerCreationCareerUpdateContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.PlayerCreationValidation.class);
         final List<String> errorMessages = new ArrayList<>();

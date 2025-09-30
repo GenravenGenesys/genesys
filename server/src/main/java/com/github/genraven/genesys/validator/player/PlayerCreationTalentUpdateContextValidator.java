@@ -2,7 +2,6 @@ package com.github.genraven.genesys.validator.player;
 
 import com.github.genraven.genesys.domain.actor.ActorTalent;
 import com.github.genraven.genesys.domain.actor.player.Player;
-import com.github.genraven.genesys.domain.context.player.PlayerCreationSkillUpdateContext;
 import com.github.genraven.genesys.domain.context.player.PlayerCreationTalentUpdateContext;
 import com.github.genraven.genesys.domain.error.Error;
 import com.github.genraven.genesys.exceptions.PlayerValidationException;
@@ -29,7 +28,7 @@ public class PlayerCreationTalentUpdateContextValidator {
 
     private final Validator validator;
 
-    public Mono<PlayerCreationTalentUpdateContext> validatePlayerCreationTalentUpdateContext(final PlayerCreationTalentUpdateContext context) {
+    public Mono<PlayerCreationTalentUpdateContext> validate(final PlayerCreationTalentUpdateContext context) {
         log.info("Validating PlayerCreationTalentUpdate");
 
         final List<String> errorMessages = new ArrayList<>();

@@ -1,7 +1,6 @@
 package com.github.genraven.genesys.validator.equipment;
 
-import com.github.genraven.genesys.domain.context.equipment.GearContext;
-import com.github.genraven.genesys.domain.context.player.PlayerCreationArchetypeUpdateContext;
+import com.github.genraven.genesys.domain.context.equipment.BaseGearContext;
 import com.github.genraven.genesys.domain.error.Error;
 import com.github.genraven.genesys.exceptions.PlayerValidationException;
 import com.github.genraven.genesys.validator.ValidationGroups;
@@ -25,9 +24,9 @@ public class GearValidator {
 
     private final Validator validator;
 
-    public Mono<GearContext> validate(final GearContext context) {
+    public Mono<BaseGearContext> validate(final BaseGearContext context) {
         log.info("Validating GearContext");
-        final Set<ConstraintViolation<GearContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.GearValidation.class);
+        final Set<ConstraintViolation<BaseGearContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.GearValidation.class);
         final List<String> errorMessages = new ArrayList<>();
         if (!CollectionUtils.isEmpty(constraintViolations)) {
             constraintViolations.forEach(error ->

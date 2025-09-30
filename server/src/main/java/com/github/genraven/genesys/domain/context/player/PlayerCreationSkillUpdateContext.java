@@ -5,5 +5,5 @@ import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import jakarta.validation.Valid;
 
 public record PlayerCreationSkillUpdateContext(@Valid Player player,
-                                               @Valid PlayerSkill playerSkill) implements PlayerContext {
+                                               @Valid PlayerSkill playerSkill) implements BasePlayerContext {
 }

@@ -4,5 +4,5 @@ import com.github.genraven.genesys.domain.campaign.Scene;
 import com.github.genraven.genesys.domain.campaign.Session;
 import jakarta.validation.Valid;
 
-public record SessionStartSceneContext(@Valid Session session, @Valid Scene scene) implements SessionContext {
+public record SessionStartSceneContext(@Valid Session session, @Valid Scene scene) implements BaseSessionContext {
 }

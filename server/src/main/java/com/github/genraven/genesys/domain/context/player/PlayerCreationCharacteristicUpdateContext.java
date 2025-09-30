@@ -5,5 +5,5 @@ import com.github.genraven.genesys.domain.actor.player.Player;
 import jakarta.validation.Valid;
 
 public record PlayerCreationCharacteristicUpdateContext(@Valid Player player,
-                                                        @Valid Characteristic characteristic) implements PlayerContext {
+                                                        @Valid Characteristic characteristic) implements BasePlayerContext {
 }

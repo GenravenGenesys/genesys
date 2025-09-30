@@ -24,7 +24,7 @@ public class PlayerCreationArchetypeUpdateContextValidator {
 
     private final Validator validator;
 
-    public Mono<PlayerCreationArchetypeUpdateContext> validatePlayerCreationArchetypeUpdateContext(final PlayerCreationArchetypeUpdateContext context) {
+    public Mono<PlayerCreationArchetypeUpdateContext> validate(final PlayerCreationArchetypeUpdateContext context) {
         log.info("Validating PlayerCreationArchetypeUpdate");
         final Set<ConstraintViolation<PlayerCreationArchetypeUpdateContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.PlayerCreationValidation.class);
         final List<String> errorMessages = new ArrayList<>();
