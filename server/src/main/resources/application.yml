@@ -6,6 +6,12 @@ spring:
     resources:
       static-locations: classpath:/static/
 
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+
+
 application:
   client-origin-url: ${CLIENT_ORIGIN_URL}
 
