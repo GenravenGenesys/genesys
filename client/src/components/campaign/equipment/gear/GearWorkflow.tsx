@@ -1,50 +1,11 @@
-import {Fragment, useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router";
-import {Gear} from "../../../../models/equipment/Gear";
-import GearService from "../../../../services/equipment/GearService";
-import GearView from "./GearView";
-import GearEdit from "./GearEdit";
+import {type FC, Fragment} from "react";
+import {useLocation} from "react-router";
 import CampaignGear from "./CampaignGear";
+import {EquipmentPath} from "../../../../services/RootPath.ts";
+import GearPage from "./GearPage.tsx";
 
+const GearWorkflow: FC = () => {
+    return <Fragment>{useLocation().pathname.endsWith(EquipmentPath.Gear) ? <CampaignGear/> : <GearPage/>}</Fragment>;
+};
 
-function useFetchGear(name: string): Gear {
-    const [gear, setGear] = useState<Gear>()
-    useEffect(() => {
-        if (!name) {
-            return
-        }
-        (async (): Promise<void> => {
-            try {
-                const gearData = await GearService.getGear(name)
-                if (gearData) {
-                    setGear(gearData)
-                }
-            } catch (err) {
-                console.log(err)
-            }
-        })()
-    }, [name, setGear])
-    return gear as Gear
-}
-
-export default function GearWorkflow() {
-    const {name} = useParams<{ name?: string }>()
-    const gear = useFetchGear(name as string)
-
-    const useWorkflowRender = () => {
-        const pathname = useLocation().pathname
-        if (pathname.endsWith('/view')) {
-            return gear && <GearView gear={gear}/>
-        } else if (pathname.endsWith('/edit')) {
-            return gear && <GearEdit gea={gear}/>
-        } else {
-            return <CampaignGear/>
-        }
-    }
-
-    return (
-        <Fragment>
-            {useWorkflowRender()}
-        </Fragment>
-    )
-}
+export default GearWorkflow;

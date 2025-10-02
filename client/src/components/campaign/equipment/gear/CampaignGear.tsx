@@ -7,8 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Fragment, useEffect, useState} from 'react';
-import * as React from 'react';
-import {Gear} from "../../../../models/equipment/Gear";
+import {type Gear} from "../../../../models/equipment/Gear";
 import {renderPrice} from "../../../../models/equipment/EquipmentHelper";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {EquipmentPath} from "../../../../services/RootPath";
@@ -25,8 +24,8 @@ interface Props {
 }
 
 function Row(props: Props) {
-    const {gear} = props
-    const [open, setOpen] = useState(false)
+    const {gear} = props;
+    const [open, setOpen] = useState(false);
 
     return (
         <Fragment>
@@ -51,19 +50,19 @@ function Row(props: Props) {
                 </TableCell>
             </TableRow>
         </Fragment>
-    )
+    );
 }
 
 export default function CampaignGear() {
-    const [gears, setGears] = useState<Gear[]>([])
-    const [openEquipmentCreationDialog, setOpenEquipmentCreationDialog] = useState(false)
-    const headers = ['Name', 'Encumbrance', 'Price', 'Rarity', 'View']
+    const [gears, setGears] = useState<Gear[]>([]);
+    const [openEquipmentCreationDialog, setOpenEquipmentCreationDialog] = useState(false);
+    const headers = ['Name', 'Encumbrance', 'Price', 'Rarity', 'View'];
 
     useEffect(() => {
         (async (): Promise<void> => {
-            setGears(await GearService.getGears())
+            setGears(await GearService.getGears());
         })()
-    }, [])
+    }, []);
 
     return (
         <Card>
@@ -89,5 +88,5 @@ export default function CampaignGear() {
                                                                    onClose={(): void => setOpenEquipmentCreationDialog(false)}
                                                                    type={EquipmentType.Gear}/>}
         </Card>
-    )
+    );
 }

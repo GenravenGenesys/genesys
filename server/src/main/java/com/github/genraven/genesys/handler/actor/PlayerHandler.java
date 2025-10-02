@@ -92,7 +92,7 @@ public class PlayerHandler extends BaseHandler {
                         tuple.getT2(),
                         tuple.getT1()
                 ))
-                .flatMap(playerCreationCareerUpdateContextValidator::validatePlayerCreationCareerUpdateContext)
+                .flatMap(playerCreationCareerUpdateContextValidator::validate)
                 .flatMap(playerService::updatePlayerCareer)
                 .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
@@ -111,7 +111,7 @@ public class PlayerHandler extends BaseHandler {
                 .map(tuple -> new PlayerCreationCareerSkillUpdateContext(
                         tuple.getT2(),
                         tuple.getT1()))
-                .flatMap(playerCreationCareerSkillUpdateContextValidator::validatePlayerCreationCareerSkillUpdateContext)
+                .flatMap(playerCreationCareerSkillUpdateContextValidator::validate)
                 .flatMap(playerService::updatePlayerCareerSkills)
                 .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
@@ -127,7 +127,7 @@ public class PlayerHandler extends BaseHandler {
                 .map(tuple -> new PlayerCreationArchetypeUpdateContext(
                         tuple.getT2(),
                         tuple.getT1()))
-                .flatMap(playerCreationArchetypeUpdateContextValidator::validatePlayerCreationArchetypeUpdateContext)
+                .flatMap(playerCreationArchetypeUpdateContextValidator::validate)
                 .flatMap(playerService::updatePlayerArchetype)
                 .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
@@ -145,7 +145,7 @@ public class PlayerHandler extends BaseHandler {
                 .map(tuple -> new PlayerCreationCharacteristicUpdateContext(
                         tuple.getT2(),
                         tuple.getT1()))
-                .flatMap(playerCreationCharacteristicUpdateContextValidator::validatePlayerCreationCharacteristicUpdateContext)
+                .flatMap(playerCreationCharacteristicUpdateContextValidator::validate)
                 .flatMap(playerService::updatePlayerCharacteristic)
                 .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(updatedPlayer -> ServerResponse.ok()
@@ -163,7 +163,7 @@ public class PlayerHandler extends BaseHandler {
                 .map(tuple -> new PlayerCreationSkillUpdateContext(
                         tuple.getT2(),
                         tuple.getT1()))
-                .flatMap(playerCreationSkillUpdateContextValidator::validatePlayerCreationSkillUpdateContext)
+                .flatMap(playerCreationSkillUpdateContextValidator::validate)
                 .flatMap(playerService::updatePlayerSkill)
                 .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(updatedPlayer -> ServerResponse.ok()
@@ -182,7 +182,7 @@ public class PlayerHandler extends BaseHandler {
                         tuple.getT2(),
                         tuple.getT1()
                 ))
-                .flatMap(playerCreationTalentUpdateContextValidator::validatePlayerCreationTalentUpdateContext)
+                .flatMap(playerCreationTalentUpdateContextValidator::validate)
                 .flatMap(playerService::updatePlayerTalent)
                 .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()
@@ -197,7 +197,7 @@ public class PlayerHandler extends BaseHandler {
         final String id = serverRequest.pathVariable(ID);
         return playerService.getPlayer(id)
                 .map(PlayerCreationResetExperienceContext::new)
-                .flatMap(playerCreationResetExperienceContextValidator::validatePlayerCreationResetExperienceContext)
+                .flatMap(playerCreationResetExperienceContextValidator::validate)
                 .flatMap(playerService::resetPlayerExperience)
                 .flatMap(MapperUtil::mapPlayerToResponse)
                 .flatMap(player -> ServerResponse.ok()

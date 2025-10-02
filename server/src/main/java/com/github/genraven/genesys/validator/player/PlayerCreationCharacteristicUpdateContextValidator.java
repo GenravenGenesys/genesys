@@ -25,7 +25,7 @@ public class PlayerCreationCharacteristicUpdateContextValidator {
 
     private final Validator validator;
 
-    public Mono<PlayerCreationCharacteristicUpdateContext> validatePlayerCreationCharacteristicUpdateContext(final PlayerCreationCharacteristicUpdateContext context) {
+    public Mono<PlayerCreationCharacteristicUpdateContext> validate(final PlayerCreationCharacteristicUpdateContext context) {
         log.info("Validating PlayerCreationCharacteristicUpdate");
         final Set<ConstraintViolation<PlayerCreationCharacteristicUpdateContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.PlayerCreationValidation.class);
         final List<String> errorMessages = new ArrayList<>();
