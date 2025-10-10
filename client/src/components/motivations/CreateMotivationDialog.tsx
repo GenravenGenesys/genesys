@@ -1,17 +1,17 @@
-import type {ChangeEvent, FC} from "react";
-import {useState} from "react";
+import {type ChangeEvent, type FC, useState} from "react";
 import {useNavigate} from "react-router";
+import SpellService from "../../services/SpellService.ts";
+import {RootPath} from "../../services/RootPath.ts";
 import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import GenesysDialogActions from "../common/dialog/GenesysDialogActions";
-import SpellService from "../../services/SpellService";
-import { RootPath } from "../../services/RootPath";
+import GenesysDialogActions from "../common/dialog/GenesysDialogActions.tsx";
+
 
 interface Props {
-    open: boolean;
-    onClose: () => void;
+    open: boolean
+    onClose: () => void
 }
 
-const CreateSpellDialog: FC<Props> = ( {open, onClose}) => {
+const CreateMotivationDialog: FC<Props> = ({open, onClose}) => {
     const [name, setName] = useState('');
     const navigate = useNavigate();
 
@@ -35,6 +35,6 @@ const CreateSpellDialog: FC<Props> = ( {open, onClose}) => {
             <GenesysDialogActions handleCreate={handleCreate} onClose={onClose}/>
         </Dialog>
     );
-}
+};
 
-export default CreateSpellDialog;
+export default CreateMotivationDialog;
