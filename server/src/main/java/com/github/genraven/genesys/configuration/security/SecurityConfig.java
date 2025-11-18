@@ -34,10 +34,10 @@ public class SecurityConfig {
                 .matchers(secureMatchers).authenticated()
                 .anyExchange().permitAll())
             .cors(Customizer.withDefaults())
-            .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
-                .accessDeniedHandler(errorHandler::handleAccessDenied)
-                .authenticationEntryPoint(errorHandler::handleAuthenticationError)
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(this.makePermissionsConverter())))
+//            .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
+//                .accessDeniedHandler(errorHandler::handleAccessDenied)
+//                .authenticationEntryPoint(errorHandler::handleAuthenticationError)
+//                .jwt(jwt -> jwt.jwtAuthenticationConverter(this.makePermissionsConverter())))
             .build();
     }
 
