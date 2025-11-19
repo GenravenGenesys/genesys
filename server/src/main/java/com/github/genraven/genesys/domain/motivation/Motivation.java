@@ -11,8 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Motivation {
 
     @Id
-    @Schema
+    @Schema(description = "Id")
     private String id;
 
-
+    @Schema(description = "Type of Motivation")
+    private Type type;
 }
