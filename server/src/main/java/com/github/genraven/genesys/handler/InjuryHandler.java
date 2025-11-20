@@ -19,7 +19,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
 @RequiredArgsConstructor
-public class InjuryHandler {
+public class InjuryHandler extends BaseHandler {
 
     private final InjuryService injuryService;
 
@@ -45,7 +45,7 @@ public class InjuryHandler {
 
     public Mono<ServerResponse> createInjury(final ServerRequest serverRequest) {
         return injuryService.createInjury(serverRequest.pathVariable(NAME))
-                .flatMap(injury -> ServerResponse.created(getURI(injury)).bodyValue(injury));
+                .flatMap(injury -> ServerResponse.created(getURI(injury.getName())).bodyValue(injury));
     }
 
     public Mono<ServerResponse> updateInjury(final ServerRequest serverRequest) {
@@ -57,9 +57,5 @@ public class InjuryHandler {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(injury))
                         .switchIfEmpty(ServerResponse.notFound().build()));
-    }
-
-    private URI getURI(final CriticalInjury injury) {
-        return UriComponentsBuilder.fromPath(("/{id}")).buildAndExpand(injury.getName()).toUri();
     }
 }
