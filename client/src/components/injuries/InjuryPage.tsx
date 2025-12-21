@@ -28,7 +28,7 @@ const InjuryPage = () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await getInjuryController().getInjuryByName(id);
+                const response = await getInjuryController().getInjuryById(id);
                 setInjury(response);
             } catch (err) {
                 setError('Failed to load injury.');

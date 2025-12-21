@@ -1,7 +1,8 @@
 import type Equipment from "./Equipment";
 import {type Armor} from "./Armor";
 import {type Weapon} from "./Weapon";
-import type Quality from "../Quality";
+import type {Quality} from "../../api/model";
+
 
 export const renderPrice = (equipment: Equipment): string => {
     if (equipment) {

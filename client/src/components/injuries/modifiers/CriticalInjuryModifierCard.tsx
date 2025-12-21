@@ -66,5 +66,5 @@ export default function CriticalInjuryModifierCard(props: Props) {
                 </TableContainer>
             </CardContent>
         </Card>
-    )
+    );
 }

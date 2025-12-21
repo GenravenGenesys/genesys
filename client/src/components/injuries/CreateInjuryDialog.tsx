@@ -1,9 +1,10 @@
-import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material"
+import {Dialog, DialogContentText, TextField} from "@mui/material"
 import GenesysDialogActions from "../common/dialog/GenesysDialogActions";
 import {type ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router";
 import {RootPath} from "../../services/RootPath";
 import {getInjuryController} from "../../api/generated/injury-controller/injury-controller.ts";
+import CenteredDialogTitle from "../common/dialog/CenteredDialogTitle.tsx";
 
 
 interface Props {
@@ -18,7 +19,7 @@ export default function CreateInjuryDialog(props: Props) {
 
     const handleCreate = async (): Promise<void> => {
         const injury = await getInjuryController().createInjury(name);
-        navigate(RootPath.Injury + injury.id + '/edit');
+        navigate(RootPath.Injury + injury.id + '/view');
         onClose();
     };
 
@@ -29,7 +30,7 @@ export default function CreateInjuryDialog(props: Props) {
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Create Critical Injury</DialogTitle>
+            <CenteredDialogTitle title={"Create Critical Injury"}/>
             <DialogContentText>
                 <TextField onChange={onChange} value={name} required/>
             </DialogContentText>
