@@ -35,10 +35,10 @@ public class InjuryController extends AbstractController {
             });
     }
 
-    @GetMapping("/{name}")
-    @Operation(summary = "Get injury by name", description = "Retrieve a specific critical injury by its name.")
-    public Mono<ResponseEntity<CriticalInjury>> getInjuryByName(@PathVariable String name) {
-        return injuryService.getInjury(name)
+    @GetMapping("/{id}")
+    @Operation(summary = "Get injury by id", description = "Retrieve a specific critical injury by its name.")
+    public Mono<ResponseEntity<CriticalInjury>> getInjuryById(@PathVariable final String id) {
+        return injuryService.getInjury(id)
             .map(injury -> ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(injury))
@@ -47,15 +47,15 @@ public class InjuryController extends AbstractController {
 
     @PostMapping("/{name}")
     @Operation(summary = "Create a new injury", description = "Create a new critical injury with the specified name.")
-    public Mono<ResponseEntity<CriticalInjury>> createInjury(@PathVariable String name) {
+    public Mono<ResponseEntity<CriticalInjury>> createInjury(@PathVariable final String name) {
         return injuryService.createInjury(name)
             .map(injury -> ResponseEntity.created(getURI(injury.getName())).body(injury));
     }
 
-    @PutMapping("/{name}")
+    @PutMapping("/{id}")
     @Operation(summary = "Update an existing injury", description = "Update the details of an existing critical injury.")
-    public Mono<ResponseEntity<CriticalInjury>> updateInjury(@PathVariable String name, @RequestBody CriticalInjury criticalInjury) {
-        return injuryService.updateInjury(name, criticalInjury)
+    public Mono<ResponseEntity<CriticalInjury>> updateInjury(@PathVariable final String id, @RequestBody final CriticalInjury criticalInjury) {
+        return injuryService.updateInjury(id, criticalInjury)
             .map(injury -> ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(injury))

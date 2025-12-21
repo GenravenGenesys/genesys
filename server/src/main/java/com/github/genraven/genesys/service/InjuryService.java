@@ -19,16 +19,16 @@ public class InjuryService {
         return injuryRepository.findAll();
     }
 
-    public Mono<CriticalInjury> getInjury(final String name) {
-        return injuryRepository.findById(name);
+    public Mono<CriticalInjury> getInjury(final String id) {
+        return injuryRepository.findById(id);
     }
 
     public Mono<CriticalInjury> createInjury(final String name) {
         return injuryRepository.save(new CriticalInjury(name));
     }
 
-    public Mono<CriticalInjury> updateInjury(final String name, final CriticalInjury criticalInjury) {
-        return getInjury(name).map(injury -> {
+    public Mono<CriticalInjury> updateInjury(final String id, final CriticalInjury criticalInjury) {
+        return getInjury(id).map(injury -> {
             injury.setSeverity(criticalInjury.getSeverity());
             injury.setDescription(criticalInjury.getDescription());
             injury.setMin(criticalInjury.getMin());
