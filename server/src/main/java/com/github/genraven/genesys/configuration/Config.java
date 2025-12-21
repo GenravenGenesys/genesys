@@ -37,6 +37,7 @@ public class Config extends AbstractReactiveMongoConfiguration {
     public @NonNull MongoClient reactiveMongoClient() {
         return MongoClients.create(connectionString);
     }
+
     @Override
     protected @NonNull String getDatabaseName() {
         return "genesys";
@@ -48,7 +49,7 @@ public class Config extends AbstractReactiveMongoConfiguration {
         final var config = new CorsConfiguration();
         final var origins = List.of(applicationProps.clientOriginUrl());
         final var headers = List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE);
-        final var methods = List.of(HttpMethod.GET.name());
+        final var methods = List.of(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name());
         final var maxAge = Duration.ofSeconds(86400);
 
         config.setAllowedOrigins(origins);

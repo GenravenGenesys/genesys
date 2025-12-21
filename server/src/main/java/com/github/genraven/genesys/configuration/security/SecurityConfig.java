@@ -30,8 +30,9 @@ public class SecurityConfig {
             messages.adminPath().build());
 
         return http
+            .csrf(ServerHttpSecurity.CsrfSpec::disable)
             .authorizeExchange(authz -> authz
-                .matchers(secureMatchers).authenticated()
+//                .matchers(secureMatchers).authenticated()
                 .anyExchange().permitAll())
             .cors(Customizer.withDefaults())
 //            .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
