@@ -1,8 +1,7 @@
 import {Autocomplete, TextField} from "@mui/material";
 import TableCell from "@mui/material/TableCell";
-import {useEffect, useState} from "react";
-import ModifierService from "../../../services/ModifierService";
 import type {ModifierType} from "../../../api/model";
+import {useFetchAllModifierTypes} from "../../../hooks/useFetchAllModifierTypes.ts";
 
 interface Props {
     disabled: boolean
@@ -13,18 +12,12 @@ interface Props {
 
 export default function ModifierAutocompleteTableCell(props: Props) {
     const {disabled, onChange, type, index} = props;
-    const [typeOptions, setTypeOptions] = useState<string[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            setTypeOptions(await ModifierService.getModifiers());
-        })()
-    }, [])
+    const {modifiers} = useFetchAllModifierTypes();
 
     return (
         <TableCell sx={{"width": .75}}>
             <Autocomplete
-                options={typeOptions}
+                options={modifiers}
                 getOptionLabel={(option) => option}
                 value={type}
                 onChange={(_, newValue) => onChange(index, newValue as ModifierType)}
@@ -33,5 +26,5 @@ export default function ModifierAutocompleteTableCell(props: Props) {
                 disabled={disabled}
             />
         </TableCell>
-    )
+    );
 }
