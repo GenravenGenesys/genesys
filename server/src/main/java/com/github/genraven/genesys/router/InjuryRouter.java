@@ -11,17 +11,17 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class InjuryRouter {
 
-    @Bean
-    public RouterFunction<ServerResponse> injuryRouterMethod(final InjuryHandler injuryHandler) {
-        return RouterFunctions.route()
-                .nest(RequestPredicates.path("/api"), builder -> builder
-                        .path("/injuries", injuryBuilder -> injuryBuilder
-                                .GET("/", injuryHandler::getAllInjuries)
-                                .POST("/{name}", injuryHandler::createInjury)
-                                .GET("/{name}", injuryHandler::getInjury)
-                                .PUT("/{name}", injuryHandler::updateInjury)
-                        )
-                )
-                .build();
-    }
+//    @Bean
+//    public RouterFunction<ServerResponse> injuryRouterMethod(final InjuryHandler injuryHandler) {
+//        return RouterFunctions.route()
+//                .nest(RequestPredicates.path("/api"), builder -> builder
+//                        .path("/injuries", injuryBuilder -> injuryBuilder
+//                                .GET("/", injuryHandler::getAllInjuries)
+//                                .POST("/{name}", injuryHandler::createInjury)
+//                                .GET("/{name}", injuryHandler::getInjury)
+//                                .PUT("/{name}", injuryHandler::updateInjury)
+//                        )
+//                )
+//                .build();
+//    }
 }
