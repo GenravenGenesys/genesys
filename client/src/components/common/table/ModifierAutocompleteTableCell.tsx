@@ -2,10 +2,11 @@ import {Autocomplete, TextField} from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import {useEffect, useState} from "react";
 import ModifierService from "../../../services/ModifierService";
+import type {ModifierType} from "../../../api/model";
 
 interface Props {
     disabled: boolean
-    onChange: (index: number, newValue: string) => void
+    onChange: (index: number, newValue: ModifierType) => void
     type: string
     index: number
 }
@@ -26,7 +27,7 @@ export default function ModifierAutocompleteTableCell(props: Props) {
                 options={typeOptions}
                 getOptionLabel={(option) => option}
                 value={type}
-                onChange={(e, newValue) => onChange(index, newValue as string)}
+                onChange={(_, newValue) => onChange(index, newValue as ModifierType)}
                 renderInput={(params) => <TextField {...params} label="Type"
                                                     variant="outlined"/>}
                 disabled={disabled}

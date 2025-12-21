@@ -1,9 +1,9 @@
 import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material"
 import GenesysDialogActions from "../common/dialog/GenesysDialogActions";
-import {ChangeEvent, useState} from "react";
+import {type ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router";
 import {RootPath} from "../../services/RootPath";
-import InjuryService from "../../services/InjuryService";
+import {getInjuryController} from "../../api/generated/injury-controller/injury-controller.ts";
 
 
 interface Props {
@@ -12,20 +12,20 @@ interface Props {
 }
 
 export default function CreateInjuryDialog(props: Props) {
-    const {open, onClose} = props
-    const [name, setName] = useState('')
-    const navigate = useNavigate()
+    const {open, onClose} = props;
+    const [name, setName] = useState('');
+    const navigate = useNavigate();
 
     const handleCreate = async (): Promise<void> => {
-        const injury = await InjuryService.createInjury(name)
-        navigate(RootPath.Injury + injury.id + '/edit')
-        onClose()
-    }
+        const injury = await getInjuryController().createInjury(name);
+        navigate(RootPath.Injury + injury.id + '/edit');
+        onClose();
+    };
 
     const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const {value} = event.target
-        setName(value)
-    }
+        const {value} = event.target;
+        setName(value);
+    };
 
     return (
         <Dialog open={open} onClose={onClose}>
@@ -35,5 +35,5 @@ export default function CreateInjuryDialog(props: Props) {
             </DialogContentText>
             <GenesysDialogActions handleCreate={handleCreate} onClose={onClose}/>
         </Dialog>
-    )
+    );
 }

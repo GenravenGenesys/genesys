@@ -1,5 +1,5 @@
 import {Fragment, useState} from "react";
-import {Button, Card, CardContent, CardHeader, CircularProgress} from "@mui/material";
+import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -13,11 +13,10 @@ import Collapse from "@mui/material/Collapse";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
 import CreateInjuryDialog from "./CreateInjuryDialog";
 import {RootPath} from "../../services/RootPath";
-import {Alert} from "@mui/lab";
 import type {CriticalInjury} from "../../api/model";
-import {CriticalInjurySeverity} from "../../api/model";
 import {useFetchAllInjuries} from "../../hooks/injuries/useFetchAllInjuries.ts";
-import {Difficulty} from "../../models/common/Difficulty.ts";
+import CenteredCardHeaderWithButton from "../common/card/header/CenteredCardHeaderWithButton.tsx";
+import {convertSeverityToDifficulty} from "../../util/convertSeverityToDifficulty.ts";
 
 interface Props {
     injury: CriticalInjury
@@ -27,21 +26,6 @@ interface Props {
 function Row(props: Props) {
     const {injury, columns} = props;
     const [open, setOpen] = useState(false);
-
-    const convertSeverityToDifficulty = (severity: CriticalInjurySeverity): Difficulty => {
-        switch (severity) {
-            case CriticalInjurySeverity.Easy:
-                return Difficulty.Easy;
-            case CriticalInjurySeverity.Average:
-                return Difficulty.Average;
-            case CriticalInjurySeverity.Hard:
-                return Difficulty.Hard;
-            case CriticalInjurySeverity.Daunting:
-                return Difficulty.Daunting;
-            case CriticalInjurySeverity.Formidable:
-                return Difficulty.Formidable
-        }
-    }
 
     return (
         <Fragment>
@@ -69,11 +53,10 @@ function Row(props: Props) {
 export default function ViewAllInjuries() {
     const [openInjuryCreationDialog, setOpenInjuryCreationDialog] = useState(false);
     const headers = ['Name', 'Min-Max', 'Severity', 'View'];
-
     const {injuries, loading, error} = useFetchAllInjuries();
 
     if (loading) {
-        return <CircularProgress />;
+        return <CircularProgress/>;
     }
 
     if (error) {
@@ -86,13 +69,9 @@ export default function ViewAllInjuries() {
 
     return (
         <Card>
-            <CardHeader
-                style={{textAlign: 'center'}}
-                title={'View All Critical Injuries'}
-                action={<Button color='primary' variant='contained'
-                                onClick={(): void => setOpenInjuryCreationDialog(true)}>Create Critical
-                    Injury</Button>}>
-            </CardHeader>
+            <CenteredCardHeaderWithButton title={'View All Critical Injuries'}
+                                          onClick={(): void => setOpenInjuryCreationDialog(true)}
+                                          buttonText={"Create Critical Injury"}/>
             <CardContent>
                 <TableContainer component={Paper}>
                     <Table>
