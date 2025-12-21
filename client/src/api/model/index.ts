@@ -45,6 +45,7 @@ export * from "./playerSkill";
 export * from "./playerSkillCharacteristic";
 export * from "./playerSkillType";
 export * from "./playerType";
+export * from "./quality";
 export * from "./serverResponse";
 export * from "./skill";
 export * from "./skillCharacteristic";

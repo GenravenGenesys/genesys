@@ -12,11 +12,11 @@ import { customInstance } from "../../axios-instance";
 export const getInjuryController = () => {
   /**
    * Retrieve a specific critical injury by its name.
-   * @summary Get injury by name
+   * @summary Get injury by id
    */
-  const getInjuryByName = (name: string) => {
+  const getInjuryById = (id: string) => {
     return customInstance<CriticalInjury>({
-      url: `/api/injuries/${name}`,
+      url: `/api/injuries/${id}`,
       method: "GET",
     });
   };
@@ -24,9 +24,9 @@ export const getInjuryController = () => {
    * Update the details of an existing critical injury.
    * @summary Update an existing injury
    */
-  const updateInjury = (name: string, criticalInjury: CriticalInjury) => {
+  const updateInjury = (id: string, criticalInjury: CriticalInjury) => {
     return customInstance<CriticalInjury>({
-      url: `/api/injuries/${name}`,
+      url: `/api/injuries/${id}`,
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       data: criticalInjury,
@@ -52,10 +52,10 @@ export const getInjuryController = () => {
       method: "GET",
     });
   };
-  return { getInjuryByName, updateInjury, createInjury, getAllInjuries };
+  return { getInjuryById, updateInjury, createInjury, getAllInjuries };
 };
-export type GetInjuryByNameResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getInjuryController>["getInjuryByName"]>>
+export type GetInjuryByIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getInjuryController>["getInjuryById"]>>
 >;
 export type UpdateInjuryResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getInjuryController>["updateInjury"]>>
