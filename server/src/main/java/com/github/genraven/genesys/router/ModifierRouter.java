@@ -9,8 +9,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
 public class ModifierRouter {
-    @Bean
-    public RouterFunction<ServerResponse> modifierRouterMethod(final ModifierHandler modifierHandler) {
-        return RouterFunctions.route().path("/api/modifiers", builder -> builder.GET(modifierHandler::getModifiers)).build();
-    }
+//    @Bean
+//    public RouterFunction<ServerResponse> modifierRouterMethod(final ModifierHandler modifierHandler) {
+//        return RouterFunctions.route().path("/api/modifiers", builder -> builder.GET(modifierHandler::getModifiers)).build();
+//    }
 }

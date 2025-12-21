@@ -6,10 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ModifierType = (typeof ModifierType)[keyof typeof ModifierType];
+export type GetModifiers200Item =
+  (typeof GetModifiers200Item)[keyof typeof GetModifiers200Item];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ModifierType = {
+export const GetModifiers200Item = {
   Default: "Default",
   Decrease_Critical_Injury: "Decrease Critical Injury",
   Increase_Critical_Injury: "Increase Critical Injury",
