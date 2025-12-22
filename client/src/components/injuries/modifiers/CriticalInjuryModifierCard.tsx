@@ -51,11 +51,11 @@ export default function CriticalInjuryModifierCard(props: Props) {
                     <Table>
                         {renderSingleRowTableHeader(headers)}
                         <TableBody>
-                            {injury.modifiers!.map((modifier, index) => (
+                            {injury.modifiers.map((modifier, index) => (
                                 <TableRow key={index}>
                                     <ModifierAutocompleteTableCell disabled={disabled} onChange={handleTypeChange}
-                                                                   type={modifier.type!} index={index}/>
-                                    <NumberTextFieldIndexTableCell title={'Ranks'} value={modifier.ranks!}
+                                                                   type={modifier.type} index={index}/>
+                                    <NumberTextFieldIndexTableCell title={'Ranks'} value={modifier.ranks}
                                                                    onChange={handleRanksChange} min={1} max={10}
                                                                    disabled={disabled} index={index}/>
                                 </TableRow>

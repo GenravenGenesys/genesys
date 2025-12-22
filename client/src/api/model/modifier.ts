@@ -8,6 +8,6 @@
 import type { ModifierType } from "./modifierType";
 
 export interface Modifier {
-  type?: ModifierType;
-  ranks?: number;
+  type: ModifierType;
+  ranks: number;
 }

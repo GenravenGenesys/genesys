@@ -6,7 +6,7 @@ import {useFetchAllModifierTypes} from "../../../hooks/useFetchAllModifierTypes.
 interface Props {
     disabled: boolean
     onChange: (index: number, newValue: ModifierType) => void
-    type: string
+    type: ModifierType
     index: number
 }
 

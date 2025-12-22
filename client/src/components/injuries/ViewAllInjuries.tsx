@@ -29,17 +29,17 @@ function Row(props: Props) {
     return (
         <Fragment>
             <TableRow onClick={() => setOpen(!open)}>
-                <TypographyCenterTableCell value={injury.name!}/>
+                <TypographyCenterTableCell value={injury.name}/>
                 <TypographyCenterTableCell value={String(injury.min) + '-' + String(injury.max)}/>
-                <GenesysDifficultyCenterTableCell difficulty={injury.severity!}/>
-                <ActionsTableCell name={injury.id!} path={RootPath.Injury}/>
+                <GenesysDifficultyCenterTableCell difficulty={injury.severity}/>
+                <ActionsTableCell name={injury.id} path={RootPath.Injury}/>
             </TableRow>
             <TableRow>
                 <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={columns}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Table sx={{margin: 1}}>
                             <TableBody>
-                                <GenesysDescriptionTypography text={injury.description!}/>
+                                <GenesysDescriptionTypography text={injury.description}/>
                             </TableBody>
                         </Table>
                     </Collapse>
