@@ -7,11 +7,11 @@
  */
 import type { ActorSkill } from "./actorSkill";
 import type { Difficulty } from "./difficulty";
-import type { ActionRangeBand } from "./actionRangeBand";
+import type { RangeBand } from "./rangeBand";
 
 export interface Action {
   skill?: ActorSkill;
   difficulty?: Difficulty;
   opposedSkill?: ActorSkill;
-  rangeBand?: ActionRangeBand;
+  rangeBand?: RangeBand;
 }

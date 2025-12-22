@@ -9,11 +9,11 @@ import type { SkillCharacteristic } from "./skillCharacteristic";
 import type { SkillType } from "./skillType";
 
 export interface Skill {
-  id?: string;
+  id: string;
   /** @minLength 1 */
   name: string;
   /** The type of Characteristic */
-  characteristic?: SkillCharacteristic;
-  type?: SkillType;
+  characteristic: SkillCharacteristic;
+  type: SkillType;
   initiative: boolean;
 }

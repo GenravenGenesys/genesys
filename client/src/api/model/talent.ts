@@ -5,7 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { TalentActivation } from "./talentActivation";
+import type { Activation } from "./activation";
 import type { TalentTier } from "./talentTier";
 import type { Cost } from "./cost";
 import type { Limit } from "./limit";
@@ -20,7 +20,7 @@ export interface Talent {
   id?: string;
   /** @minLength 1 */
   name: string;
-  activation?: TalentActivation;
+  activation?: Activation;
   tier?: TalentTier;
   ranked: boolean;
   summary?: string;

@@ -7,7 +7,9 @@ import lombok.Getter;
 
 @Data
 public class Cost {
+
     private Type type = Type.NONE;
+
     private int amount = 0;
 
     @AllArgsConstructor

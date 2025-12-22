@@ -8,7 +8,7 @@
 import type { Modifier } from "./modifier";
 import type { EquipmentQuality } from "./equipmentQuality";
 import type { Skill } from "./skill";
-import type { ActorWeaponRange } from "./actorWeaponRange";
+import type { RangeBand } from "./rangeBand";
 import type { ActorWeaponSlot } from "./actorWeaponSlot";
 
 export interface ActorWeapon {
@@ -24,7 +24,7 @@ export interface ActorWeapon {
   damage?: number;
   skill?: Skill;
   critical?: number;
-  range?: ActorWeaponRange;
+  range?: RangeBand;
   brawn?: boolean;
   hands?: number;
   slot?: ActorWeaponSlot;

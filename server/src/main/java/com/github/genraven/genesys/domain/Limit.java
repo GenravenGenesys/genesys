@@ -7,7 +7,9 @@ import lombok.Getter;
 
 @Data
 public class Limit {
+
     private Type type = Type.NONE;
+
     private int limit = 0;
 
     @AllArgsConstructor

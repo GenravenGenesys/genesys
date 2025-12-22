@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain;
 
 import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -30,6 +31,7 @@ public class CriticalInjury {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
+    @EnumValidator(enumClass = Difficulty.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Difficulty severity;
 

@@ -6,11 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ActorWeaponRange =
-  (typeof ActorWeaponRange)[keyof typeof ActorWeaponRange];
+export type RangeBand = (typeof RangeBand)[keyof typeof RangeBand];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ActorWeaponRange = {
+export const RangeBand = {
   Engaged: "Engaged",
   Short: "Short",
   Medium: "Medium",

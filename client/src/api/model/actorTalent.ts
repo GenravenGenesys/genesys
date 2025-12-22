@@ -5,7 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { ActorTalentActivation } from "./actorTalentActivation";
+import type { Activation } from "./activation";
 import type { ActorTalentTier } from "./actorTalentTier";
 import type { Cost } from "./cost";
 import type { Limit } from "./limit";
@@ -20,7 +20,7 @@ export interface ActorTalent {
   id?: string;
   /** @minLength 1 */
   name: string;
-  activation?: ActorTalentActivation;
+  activation?: Activation;
   tier?: ActorTalentTier;
   ranked: boolean;
   summary?: string;

@@ -9,12 +9,12 @@ import type { ActorSkillCharacteristic } from "./actorSkillCharacteristic";
 import type { ActorSkillType } from "./actorSkillType";
 
 export interface ActorSkill {
-  id?: string;
+  id: string;
   /** @minLength 1 */
   name: string;
   /** The type of Characteristic */
-  characteristic?: ActorSkillCharacteristic;
-  type?: ActorSkillType;
+  characteristic: ActorSkillCharacteristic;
+  type: ActorSkillType;
   initiative: boolean;
   ranks?: number;
 }

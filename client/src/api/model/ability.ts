@@ -5,7 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { AbilityActivation } from "./abilityActivation";
+import type { Activation } from "./activation";
 import type { Cost } from "./cost";
 import type { Limit } from "./limit";
 import type { Action } from "./action";
@@ -14,7 +14,7 @@ import type { Modifier } from "./modifier";
 export interface Ability {
   name?: string;
   description?: string;
-  activation?: AbilityActivation;
+  activation?: Activation;
   cost?: Cost;
   limit?: Limit;
   action?: Action;

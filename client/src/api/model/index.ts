@@ -7,19 +7,16 @@
  */
 
 export * from "./ability";
-export * from "./abilityActivation";
 export * from "./action";
-export * from "./actionRangeBand";
+export * from "./activation";
 export * from "./actorArmor";
 export * from "./actorArmorSlot";
 export * from "./actorSkill";
 export * from "./actorSkillCharacteristic";
 export * from "./actorSkillType";
 export * from "./actorTalent";
-export * from "./actorTalentActivation";
 export * from "./actorTalentTier";
 export * from "./actorWeapon";
-export * from "./actorWeaponRange";
 export * from "./actorWeaponSlot";
 export * from "./archetype";
 export * from "./career";
@@ -47,6 +44,7 @@ export * from "./playerSkillCharacteristic";
 export * from "./playerSkillType";
 export * from "./playerType";
 export * from "./quality";
+export * from "./rangeBand";
 export * from "./serverResponse";
 export * from "./skill";
 export * from "./skillCharacteristic";
@@ -57,7 +55,6 @@ export * from "./statsType";
 export * from "./statusEffect";
 export * from "./statusEffectType";
 export * from "./talent";
-export * from "./talentActivation";
 export * from "./talentRollModifiers";
 export * from "./talentSkillCheck";
 export * from "./talentSkills";

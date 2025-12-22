@@ -12,12 +12,12 @@ import type { PlayerSkillType } from "./playerSkillType";
  * Player Skill Data
  */
 export interface PlayerSkill {
-  id?: string;
+  id: string;
   /** @minLength 1 */
   name: string;
   /** The type of Characteristic */
-  characteristic?: PlayerSkillCharacteristic;
-  type?: PlayerSkillType;
+  characteristic: PlayerSkillCharacteristic;
+  type: PlayerSkillType;
   initiative: boolean;
   /** @minimum 0 */
   ranks?: number;

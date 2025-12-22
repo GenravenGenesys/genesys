@@ -6,11 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type AbilityActivation =
-  (typeof AbilityActivation)[keyof typeof AbilityActivation];
+export type Activation = (typeof Activation)[keyof typeof Activation];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AbilityActivation = {
+export const Activation = {
   Passive: "Passive",
   "Active_(Action)": "Active (Action)",
   "Active_(Maneuver)": "Active (Maneuver)",
