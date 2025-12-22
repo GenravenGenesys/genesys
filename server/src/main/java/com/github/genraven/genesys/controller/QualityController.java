@@ -55,7 +55,6 @@ public class QualityController extends AbstractController {
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing quality", description = "Update the details of an existing quality.")
     public Mono<ResponseEntity<Quality>> updateQuality(@PathVariable final String id, @RequestBody final Quality quality) {
-        System.out.println(quality);
         return qualityService.updateQuality(id, quality)
             .map(qual -> ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
