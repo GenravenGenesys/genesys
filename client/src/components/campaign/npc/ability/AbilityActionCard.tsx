@@ -9,7 +9,7 @@ import { RangeBand } from "../../../../models/common/RangeBand";
 import { useFetchAllSkills } from "../../../skills/SkillWorkflow";
 import { ActorSkill } from "../../../../models/actor/Actor";
 import Skill from "../../../../models/actor/Skill";
-import { Difficulty } from "../../../../models/common/Difficulty";
+import { DifficultyUI } from "../../../../models/common/DifficultyUI.ts";
 import SkillAutocompleteCard from "../../../common/card/SkillAutocompleteCard";
 import DifficultyCard from "../../../common/card/select/DifficultyCard";
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
@@ -34,7 +34,7 @@ const AbilityActionCard: FC<Props> = ({ action, npc, onChange, disabled }) => {
         onChange({ ...action, skill: value as ActorSkill });
     };
 
-    const handleDifficultyChange = (value: Difficulty) => {
+    const handleDifficultyChange = (value: DifficultyUI) => {
         onChange({ ...action, difficulty: value, opposedSkill: {} as ActorSkill });
     };
 

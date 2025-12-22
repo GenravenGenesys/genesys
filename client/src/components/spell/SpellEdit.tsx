@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router";
-import {Difficulty, getDifficultyOptions} from "../../models/common/Difficulty";
+import {DifficultyUI, getDifficultyOptions} from "../../models/common/DifficultyUI.ts";
 import {Card, CardContent, CardHeader, Divider, IconButton} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import {InputTextFieldCard} from "../common/InputTextFieldCard";
@@ -56,7 +56,7 @@ export default function SpellEdit(props: Props): JSX.Element {
                 copySpell.concentration = !copySpell.concentration
                 break;
             case "difficulty":
-                copySpell.difficulty = value as Difficulty
+                copySpell.difficulty = value as DifficultyUI
                 break;
             case 'description':
                 copySpell.description = value

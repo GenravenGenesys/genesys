@@ -1,6 +1,14 @@
 import {Option} from "../../components/common/InputSelectField";
 import {Difficulty} from "../../api/model";
 
+export enum DifficultyUI {
+    Easy = 'Easy',
+    Average = 'Average',
+    Hard = 'Hard',
+    Daunting = 'Daunting',
+    Formidable = 'Formidable'
+}
+
 export const getDifficultyDice = (difficulty: Difficulty) => {
     switch (difficulty) {
         case Difficulty.Easy:
@@ -18,5 +26,5 @@ export const getDifficultyDice = (difficulty: Difficulty) => {
 }
 
 export const getDifficultyOptions = (): Option[] => {
-    return Object.values(Difficulty).map((value) => ({value}))
+    return Object.values(DifficultyUI).map((value) => ({value}))
 }

@@ -3,7 +3,7 @@ import { Button, TableCell, Typography } from "@mui/material";
 import GenesysDescriptionTypography from "../typography/GenesysDescriptionTypography";
 import Actor, { ActorSkill, getActorCharacteristicRanks } from "../../../models/actor/Actor";
 import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography";
-import { getDifficultyDice } from "../../../models/common/Difficulty";
+import { getDifficultyDice } from "../../../models/common/DifficultyUI.ts";
 import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
 import Cost, { CostType } from "../../../models/common/Cost";
 import Limit, { LimitType } from "../../../models/common/Limit";

@@ -4,7 +4,7 @@ import { Card, CardContent, FormControlLabel, Switch } from "@mui/material";
 import { ActorSkill } from "../../../../../models/actor/Actor";
 import Skill from "../../../../../models/actor/Skill";
 import Action from "../../../../../models/campaign/encounter/Action";
-import { Difficulty } from "../../../../../models/common/Difficulty";
+import { DifficultyUI } from "../../../../../models/common/DifficultyUI.ts";
 import { RangeBand } from "../../../../../models/common/RangeBand";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import DifficultyCard from "../../../../common/card/select/DifficultyCard";
@@ -33,7 +33,7 @@ const MinionAbilityActionCard: FC<Props> = ({ action, minion, onChange, disabled
         onChange({ ...action, skill: value as ActorSkill });
     };
 
-    const handleDifficultyChange = (value: Difficulty) => {
+    const handleDifficultyChange = (value: DifficultyUI) => {
         onChange({ ...action, difficulty: value });
     };
 

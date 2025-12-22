@@ -7,7 +7,7 @@ import { useLocation } from "react-router";
 import { ActorSkill } from "../../../../../models/actor/Actor";
 import Action from "../../../../../models/campaign/encounter/Action";
 import { CostType } from "../../../../../models/common/Cost";
-import { Difficulty } from "../../../../../models/common/Difficulty";
+import { DifficultyUI } from "../../../../../models/common/DifficultyUI.ts";
 import { LimitType } from "../../../../../models/common/Limit";
 import { RangeBand } from "../../../../../models/common/RangeBand";
 import { Activation } from "../../../../../models/Talent";
@@ -35,7 +35,7 @@ const CreateMinionAbilityDialog: React.FC<Props> = ({ open, minion, onCreateAbil
         cost: { type: CostType.None, amount: 0 },
         action: {
             skill: {} as ActorSkill,
-            difficulty: Difficulty.Easy,
+            difficulty: DifficultyUI.Easy,
             opposedSkill: {} as ActorSkill,
             rangeBand: RangeBand.Engaged
         },

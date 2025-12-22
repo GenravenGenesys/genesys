@@ -11,7 +11,7 @@ import ActivationCard from "../../../common/card/select/ActivationCard";
 import TextFieldCard from "../../../common/card/TextFieldCard";
 import GridContainer from "../../../common/grid/GridContainer";
 import { ActorSkill } from "../../../../models/actor/Actor";
-import { Difficulty } from "../../../../models/common/Difficulty";
+import { DifficultyUI } from "../../../../models/common/DifficultyUI.ts";
 import { RangeBand } from "../../../../models/common/RangeBand";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
 import AbilityActionCard from "./AbilityActionCard";
@@ -34,7 +34,7 @@ const CreateAbilityDialog: React.FC<Props> = ({ open, npc, onCreateAbility, onCl
         cost: { type: CostType.None, amount: 0 },
         action: {
             skill: { name: '', ranks: 0 } as ActorSkill,
-            difficulty: Difficulty.Easy,
+            difficulty: DifficultyUI.Easy,
             opposedSkill: { name: '', ranks: 0 } as ActorSkill,
             rangeBand: RangeBand.Engaged
         },

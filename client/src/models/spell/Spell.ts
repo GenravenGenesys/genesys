@@ -1,11 +1,11 @@
-import {Difficulty} from "../common/Difficulty";
+import {DifficultyUI} from "../common/DifficultyUI.ts";
 import Skill from "../actor/Skill";
 
 export default interface Spell {
     id: string
     name: string
     concentration: boolean
-    difficulty: Difficulty
+    difficulty: DifficultyUI
     description: string
     skills: Skill[]
     effects: Effect[]

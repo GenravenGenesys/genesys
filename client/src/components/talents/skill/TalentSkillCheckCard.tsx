@@ -7,7 +7,7 @@ import {useFetchAllSkills} from "../../skills/SkillWorkflow";
 import Skill from "../../../models/actor/Skill";
 import {ActorSkill} from "../../../models/actor/Actor";
 import DifficultyCard from "../../common/card/select/DifficultyCard";
-import {Difficulty} from "../../../models/common/Difficulty";
+import {DifficultyUI} from "../../../models/common/DifficultyUI.ts";
 import {useState} from "react";
 import GridItem from "../../common/grid/GridItem";
 import GridContainer from "../../common/grid/GridContainer";
@@ -30,7 +30,7 @@ const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled})
         updateTalent({...talent, action: {...talent.action, skill: value as ActorSkill}});
     };
 
-    const handleDifficultyChange = (value: Difficulty) => {
+    const handleDifficultyChange = (value: DifficultyUI) => {
         updateTalent({...talent, action: {...talent.action, difficulty: value}});
     };
 

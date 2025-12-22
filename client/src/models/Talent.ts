@@ -4,7 +4,7 @@ import Cost from "./common/Cost";
 import Limit from "./common/Limit";
 import Skill from "./actor/Skill";
 import {ActorSkill} from "./actor/Actor";
-import {Difficulty} from "./common/Difficulty";
+import {DifficultyUI} from "./common/DifficultyUI.ts";
 import Action from "./campaign/encounter/Action";
 
 export default interface Talent {
@@ -38,7 +38,7 @@ export interface TalentStats {
 
 export interface TalentSkillCheck {
     skill: ActorSkill
-    difficulty: Difficulty
+    difficulty: DifficultyUI
     opposedSkill: ActorSkill
 }
 
