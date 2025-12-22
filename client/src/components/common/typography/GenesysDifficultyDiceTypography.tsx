@@ -1,12 +1,12 @@
 import {Fragment} from 'react';
 import {Typography} from '@mui/material';
-import {Difficulty} from "../../../models/common/Difficulty";
+import {Difficulty} from "../../../api/model";
 
 interface Props {
     difficulty: Difficulty
 }
 
-export default function GenesysDifficultyDiceTypography(props: Props): JSX.Element {
+export default function GenesysDifficultyDiceTypography(props: Props) {
     const {difficulty} = props;
 
     const generateDifficultyDice = () => {

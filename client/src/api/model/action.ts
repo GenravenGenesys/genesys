@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 import type { ActorSkill } from "./actorSkill";
-import type { ActionDifficulty } from "./actionDifficulty";
+import type { Difficulty } from "./difficulty";
 import type { ActionRangeBand } from "./actionRangeBand";
 
 export interface Action {
   skill?: ActorSkill;
-  difficulty?: ActionDifficulty;
+  difficulty?: Difficulty;
   opposedSkill?: ActorSkill;
   rangeBand?: ActionRangeBand;
 }

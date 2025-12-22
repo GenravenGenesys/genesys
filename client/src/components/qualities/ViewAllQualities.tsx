@@ -30,7 +30,9 @@ export default function ViewAllQualities() {
 
     return (
         <Card>
-            <CenteredCardHeaderWithButton title={'View All Qualities'} onClick={(): void => setOpenQualityCreationDialog(true)} buttonText={"Create Quality"}/>
+            <CenteredCardHeaderWithButton title={'View All Qualities'}
+                                          onClick={(): void => setOpenQualityCreationDialog(true)}
+                                          buttonText={"Create Quality"}/>
             <CardContent>
                 <TableContainer component={Paper}>
                     <Table>

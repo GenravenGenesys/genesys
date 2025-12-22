@@ -3,15 +3,13 @@ import {useLocation, useParams} from "react-router";
 import {RootPath} from "../../services/RootPath";
 import CriticalInjuryModifierCard from "./modifiers/CriticalInjuryModifierCard";
 import {Fragment, useEffect, useState} from "react";
-import {Difficulty} from "../../models/common/Difficulty";
 import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHeaderWithAction";
 import DifficultyCard from "../common/card/select/DifficultyCard";
 import NumberTextFieldCard from "../common/card/NumberTextFieldCard";
 import TextFieldCard from "../common/card/TextFieldCard";
 import GridContainer from "../common/grid/GridContainer";
 import {getInjuryController} from "../../api/generated/injury-controller/injury-controller.ts";
-import type {CriticalInjury} from "../../api/model";
-import {convertSeverityToDifficulty} from "../../util/convertSeverityToDifficulty.ts";
+import type {CriticalInjury, Difficulty} from "../../api/model";
 
 const InjuryPage = () => {
     const {id} = useParams<{ id: string }>();
@@ -90,7 +88,7 @@ const InjuryPage = () => {
             <CardContent>
                 <GridContainer centered>
                     <GridContainer spacing={2}>
-                        <DifficultyCard value={convertSeverityToDifficulty(injury.severity!)} onChange={handleSeverityChange}
+                        <DifficultyCard value={injury.severity!} onChange={handleSeverityChange}
                                         disabled={pathname.endsWith('/view')}/>
                         <NumberTextFieldCard title={"Min"} value={injury.min!} onChange={handleMinChange} min={0}
                                              max={150} disabled={pathname.endsWith('/view')}/>

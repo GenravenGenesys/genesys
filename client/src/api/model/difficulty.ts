@@ -6,11 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CriticalInjurySeverity =
-  (typeof CriticalInjurySeverity)[keyof typeof CriticalInjurySeverity];
+export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const CriticalInjurySeverity = {
+export const Difficulty = {
   Easy: "Easy",
   Average: "Average",
   Hard: "Hard",

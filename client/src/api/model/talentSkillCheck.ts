@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 import type { ActorSkill } from "./actorSkill";
-import type { TalentSkillCheckDifficulty } from "./talentSkillCheckDifficulty";
+import type { Difficulty } from "./difficulty";
 
 export interface TalentSkillCheck {
   skill?: ActorSkill;
-  difficulty?: TalentSkillCheckDifficulty;
+  difficulty?: Difficulty;
   opposedSkill?: ActorSkill;
 }

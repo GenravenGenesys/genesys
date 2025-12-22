@@ -14,6 +14,7 @@ import SpellEffectCard from "./effect/SpellEffectCard";
 import SpellSkillCard from "./SpellSkillCard";
 import {RootPath} from "../../services/RootPath";
 import GridContainer from "../common/grid/GridContainer";
+import DifficultyCard from "../common/card/select/DifficultyCard.tsx";
 
 interface Props {
     sp: Spell
@@ -92,6 +93,7 @@ export default function SpellEdit(props: Props): JSX.Element {
                     </GridContainer>
                     <Divider/>
                     <GridContainer spacing={2}>
+                        <DifficultyCard value={} onChange={} disabled={}/>
                         <InputSelectFieldCard defaultValue={spell.difficulty} onCommit={(value: string): void => {
                             onChange('difficulty', value)
                         }} title={'Base Difficulty'} options={getDifficultyOptions()}/>

@@ -1,5 +1,3 @@
-import Spell from "../../models/spell/Spell";
-import * as React from "react";
 import {Fragment, useEffect, useState} from "react";
 import {useLocation} from "react-router";
 import {TypographyCenterTableCell} from "../common/table/TypographyTableCell";
@@ -13,17 +11,18 @@ import Table from "@mui/material/Table";
 import CheckboxTableCell from "../common/table/CheckboxTableCell";
 import SkillService from "../../services/SkillService";
 import Skill, {SkillType} from "../../models/actor/Skill";
+import type {Spell} from "../../api/model";
 
 interface Props {
-    spell: Spell
-    onSkillAddition: (name: string) => void
-    onSkillRemoval: (name: string) => void
+    spell: Spell;
+    onSkillAddition: (name: string) => void;
+    onSkillRemoval: (name: string) => void;
 }
 
 export default function SpellSkillCard(props: Props) {
-    const {spell, onSkillAddition, onSkillRemoval} = props
-    const [skills, setSkills] = useState<Skill[]>([])
-    const pathname = useLocation().pathname
+    const {spell, onSkillAddition, onSkillRemoval} = props;
+    const [skills, setSkills] = useState<Skill[]>([]);
+    const pathname = useLocation().pathname;
 
     useEffect(() => {
         (async (): Promise<void> => {

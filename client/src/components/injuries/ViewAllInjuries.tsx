@@ -16,7 +16,6 @@ import {RootPath} from "../../services/RootPath";
 import type {CriticalInjury} from "../../api/model";
 import {useFetchAllInjuries} from "../../hooks/injuries/useFetchAllInjuries.ts";
 import CenteredCardHeaderWithButton from "../common/card/header/CenteredCardHeaderWithButton.tsx";
-import {convertSeverityToDifficulty} from "../../util/convertSeverityToDifficulty.ts";
 
 interface Props {
     injury: CriticalInjury
@@ -32,7 +31,7 @@ function Row(props: Props) {
             <TableRow onClick={() => setOpen(!open)}>
                 <TypographyCenterTableCell value={injury.name!}/>
                 <TypographyCenterTableCell value={String(injury.min) + '-' + String(injury.max)}/>
-                <GenesysDifficultyCenterTableCell difficulty={convertSeverityToDifficulty(injury.severity!)}/>
+                <GenesysDifficultyCenterTableCell difficulty={injury.severity!}/>
                 <ActionsTableCell name={injury.id!} path={RootPath.Injury}/>
             </TableRow>
             <TableRow>

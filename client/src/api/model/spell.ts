@@ -5,7 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { SpellDifficulty } from "./spellDifficulty";
+import type { Difficulty } from "./difficulty";
 import type { Skill } from "./skill";
 import type { Effect } from "./effect";
 
@@ -13,7 +13,7 @@ export interface Spell {
   id?: string;
   name?: string;
   concentration?: boolean;
-  difficulty?: SpellDifficulty;
+  difficulty?: Difficulty;
   description?: string;
   skills?: Skill[];
   effects?: Effect[];

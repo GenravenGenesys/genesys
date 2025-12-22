@@ -1,12 +1,5 @@
 import {Option} from "../../components/common/InputSelectField";
-
-export enum Difficulty {
-    Easy = 'Easy',
-    Average = 'Average',
-    Hard = 'Hard',
-    Daunting = 'Daunting',
-    Formidable = 'Formidable'
-}
+import {Difficulty} from "../../api/model";
 
 export const getDifficultyDice = (difficulty: Difficulty) => {
     switch (difficulty) {

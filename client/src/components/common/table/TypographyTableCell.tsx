@@ -3,12 +3,13 @@ import { Button, TableCell, Typography } from "@mui/material";
 import GenesysDescriptionTypography from "../typography/GenesysDescriptionTypography";
 import Actor, { ActorSkill, getActorCharacteristicRanks } from "../../../models/actor/Actor";
 import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography";
-import { Difficulty, getDifficultyDice } from "../../../models/common/Difficulty";
+import { getDifficultyDice } from "../../../models/common/Difficulty";
 import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
 import Cost, { CostType } from "../../../models/common/Cost";
 import Limit, { LimitType } from "../../../models/common/Limit";
 // import { GenesysSymbols } from "../../../models/roll/GenesysSymbols";
 import DiceRollerDialog from "../../roll/DiceRollerDialog";
+import type {Difficulty} from "../../../api/model";
 
 interface LeftProps {
     value: string;

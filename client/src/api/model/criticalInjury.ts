@@ -5,15 +5,15 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { CriticalInjurySeverity } from "./criticalInjurySeverity";
+import type { Difficulty } from "./difficulty";
 import type { Modifier } from "./modifier";
 
 export interface CriticalInjury {
-  id?: string;
-  name?: string;
-  description?: string;
-  severity?: CriticalInjurySeverity;
-  min?: number;
-  max?: number;
-  modifiers?: Modifier[];
+  id: string;
+  name: string;
+  description: string;
+  severity: Difficulty;
+  min: number;
+  max: number;
+  modifiers: Modifier[];
 }

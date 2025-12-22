@@ -7,21 +7,19 @@ import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import * as React from "react";
-import Spell, {Effect} from "../../../models/spell/Spell";
-import {Difficulty} from "../../../models/common/Difficulty";
 import {Fragment, useState} from "react";
 import {useLocation} from "react-router";
 import CreateSpellEffectDialog from "./CreateSpellEffectDialog";
+import {Difficulty, type Effect, type Spell} from "../../../api/model";
 
 interface Props {
-    spell: Spell
+    spell: Spell;
 }
 
 export default function SpellEffectCard(props: Props) {
-    const {spell} = props
-    const [openCreateSpellEffectDialog, setOpenCreateSpellEffectDialog] = useState(false)
-    const pathname = useLocation().pathname
+    const {spell} = props;
+    const [openCreateSpellEffectDialog, setOpenCreateSpellEffectDialog] = useState(false);
+    const pathname = useLocation().pathname;
 
     const renderDifficulty = (effect: Effect) => {
         if (effect.increase === 0) {
@@ -39,7 +37,7 @@ export default function SpellEffectCard(props: Props) {
             }
         }
         return <Fragment/>
-    }
+    };
 
     const renderTableBody = () => {
         if (!spell.effects) {
@@ -49,15 +47,15 @@ export default function SpellEffectCard(props: Props) {
                 <TableBody>
                     {spell.effects.map((effect: Effect) => (
                         <TableRow key={effect.name}>
-                            <TypographyCenterTableCell value={effect.name}/>
-                            <TypographyCenterTableCell value={effect.description}/>
+                            <TypographyCenterTableCell value={effect.name!}/>
+                            <TypographyCenterTableCell value={effect.description!}/>
                             {renderDifficulty(effect)}
                         </TableRow>
                     ))}
                 </TableBody>
             )
         }
-    }
+    };
 
     const renderCreateSpellEffectButton = () => {
         if (pathname.endsWith('/edit')) {
@@ -75,7 +73,7 @@ export default function SpellEffectCard(props: Props) {
         } else {
             return <Fragment/>
         }
-    }
+    };
 
     return (
         <Card sx={{"width": 1}}>
@@ -91,5 +89,5 @@ export default function SpellEffectCard(props: Props) {
                 {renderCreateSpellEffectButton()}
             </CardActions>
         </Card>
-    )
+    );
 }
