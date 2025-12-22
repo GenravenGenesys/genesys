@@ -53,7 +53,7 @@ public class SpellController extends AbstractController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update an existing quality", description = "Update the details of an existing quality.")
+    @Operation(summary = "Update an existing spell", description = "Update the details of an existing spell.")
     public Mono<ResponseEntity<Spell>> updateSpell(@PathVariable final String id, @RequestBody final Spell spell) {
         return spellService.updateSpell(id, spell)
             .map(sp -> ResponseEntity.ok()

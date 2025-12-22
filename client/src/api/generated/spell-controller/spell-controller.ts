@@ -18,8 +18,8 @@ export const getSpellController = () => {
     return customInstance<Spell>({ url: `/api/spells/${id}`, method: "GET" });
   };
   /**
-   * Update the details of an existing quality.
-   * @summary Update an existing quality
+   * Update the details of an existing spell.
+   * @summary Update an existing spell
    */
   const updateSpell = (id: string, spell: Spell) => {
     return customInstance<Spell>({
