@@ -1,7 +1,6 @@
 import Campaign from "../models/campaign/Campaign";
 import {CampaignPath} from "./RootPath";
 import Talent, {Tier} from "../models/Talent";
-import Skill from "../models/actor/Skill";
 import Scene from "../models/campaign/Scene";
 import {apiRequest, apiRequestList} from "./ApiRequest";
 
@@ -32,14 +31,6 @@ export default class CampaignService {
 
     static async getCampaignTierTalents(tier: Tier): Promise<Talent[]> {
         return apiRequestList(CampaignPath.TalentTiers + `${tier}`);
-    };
-
-    static async getCampaignSkills(): Promise<Skill[]> {
-        return apiRequestList(CampaignPath.Skills);
-    };
-
-    static async addCampaignSkill(skill: Skill): Promise<Campaign> {
-        return apiRequest(CampaignPath.Skills, "POST", skill);
     };
 
     static async getCampaignScenes(): Promise<Scene[]> {

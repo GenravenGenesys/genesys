@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -7,10 +7,12 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {Button} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
-import CampaignService from "../../../services/CampaignService";
 import SkillBackdrop from "../../skills/SkillBackdrop";
 import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.tsx";
 import type {Skill} from "../../../api/model";
+import {
+    getCampaignSkillController
+} from "../../../api/generated/campaign-skill-controller/campaign-skill-controller.ts";
 
 export default function CampaignSkillSelectionTable() {
     const {skills} = useFetchAllSkills();
@@ -18,8 +20,8 @@ export default function CampaignSkillSelectionTable() {
     const headers = ['Name', 'Add'];
 
     const addSkill = async (skill: Skill) => {
-        await CampaignService.addCampaignSkill(skill);
-    }
+        await getCampaignSkillController().addSkillToCurrentCampaign(skill.id);
+    };
 
     return (
         <TableContainer component={Paper}>
