@@ -4,13 +4,11 @@ import {Card, CardContent, FormControlLabel, Switch} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import GridContainer from "../../../common/grid/GridContainer";
 import RangeBandCard from "../../../common/card/select/RangeBandCard";
-import {RangeBand} from "../../../../models/common/RangeBand";
-import {DifficultyUI} from "../../../../models/common/DifficultyUI.ts";
 import SkillAutocompleteCard from "../../../common/card/SkillAutocompleteCard";
 import DifficultyCard from "../../../common/card/select/DifficultyCard";
 import SingleNonPlayerCharacterSkillSelectCard
     from "../../../common/card/select/SingleNonPlayerCharacterSkillSelectCard;";
-import type {Action, ActorSkill, Skill} from "../../../../api/model";
+import type {Action, ActorSkill, Difficulty, RangeBand, Skill} from "../../../../api/model";
 import type {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor.ts";
 import {useFetchAllSkills} from "../../../../hooks/useFetchAllSkills.tsx";
 
@@ -33,7 +31,7 @@ const AbilityActionCard: FC<Props> = ({action, npc, onChange, disabled}) => {
         onChange({...action, skill: value as ActorSkill});
     };
 
-    const handleDifficultyChange = (value: DifficultyUI) => {
+    const handleDifficultyChange = (value: Difficulty) => {
         onChange({...action, difficulty: value, opposedSkill: {} as ActorSkill});
     };
 
@@ -72,7 +70,7 @@ const AbilityActionCard: FC<Props> = ({action, npc, onChange, disabled}) => {
                         </GridContainer>
                     </GridContainer>
                     <GridContainer spacing={2}>
-                        <RangeBandCard value={RangeBand.Engaged} onChange={handleRangeBandUpdate} disabled={disabled}/>
+                        <RangeBandCard value={action.rangeBand} onChange={handleRangeBandUpdate} disabled={disabled}/>
                     </GridContainer>
                 </CardContent>
             </Card>

@@ -1,7 +1,6 @@
-import Skill from "../actor/Skill";
-import {RangeBand} from "../common/RangeBand";
 import Equipment from "./Equipment";
 import {Option} from "../../components/common/InputSelectField";
+import type {RangeBand, Skill} from "../../api/model";
 
 export interface Weapon extends Equipment {
     damage: number

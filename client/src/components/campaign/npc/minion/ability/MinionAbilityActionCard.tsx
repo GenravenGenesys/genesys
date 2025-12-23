@@ -1,6 +1,5 @@
 import {type FC, useState} from "react";
 import {Card, CardContent, FormControlLabel, Switch} from "@mui/material";
-import {RangeBand} from "../../../../../models/common/RangeBand";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import DifficultyCard from "../../../../common/card/select/DifficultyCard";
 import RangeBandCard from "../../../../common/card/select/RangeBandCard";
@@ -8,7 +7,7 @@ import SkillAutocompleteCard from "../../../../common/card/SkillAutocompleteCard
 import GridContainer from "../../../../common/grid/GridContainer";
 import GridItem from "../../../../common/grid/GridItem";
 import {useFetchAllSkills} from "../../../../../hooks/useFetchAllSkills.tsx";
-import type {Action, ActorSkill, Difficulty, Skill} from "../../../../../api/model";
+import type {Action, ActorSkill, Difficulty, RangeBand, Skill} from "../../../../../api/model";
 import type Minion from "../../../../../models/actor/npc/Minion.ts";
 
 
@@ -70,7 +69,7 @@ const MinionAbilityActionCard: FC<Props> = ({action, minion, onChange, disabled}
                         </GridContainer>
                     </GridContainer>
                     <GridContainer spacing={2}>
-                        <RangeBandCard value={RangeBand.Engaged} onChange={handleRangeBandUpdate} disabled={disabled}/>
+                        <RangeBandCard value={action.rangeBand} onChange={handleRangeBandUpdate} disabled={disabled}/>
                     </GridContainer>
                 </CardContent>
             </Card>

@@ -1,4 +1,4 @@
-import Modifier from "./common/Modifier";
+import type {Modifier} from "../api/model";
 
 export default interface Quality {
     id: string

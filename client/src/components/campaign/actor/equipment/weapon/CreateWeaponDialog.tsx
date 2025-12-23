@@ -2,7 +2,6 @@ import {Dialog, DialogContent, Divider, TextField} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 import {ActorWeapon, Weapon, WeaponSlot} from "../../../../../models/equipment/Weapon";
-import {RangeBand} from "../../../../../models/common/RangeBand";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
 import {useLocation} from "react-router";
 import SkillAutocompleteCard from "../../../../common/card/SkillAutocompleteCard";
@@ -15,7 +14,7 @@ import WeaponModifierCard from "../../../equipment/weapon/modifier/WeaponModifie
 import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
 import GridContainer from "../../../../common/grid/GridContainer";
 import {useFetchAllSkills} from "../../../../../hooks/useFetchAllSkills.tsx";
-import {type ActorSkill, type Skill, SkillType} from "../../../../../api/model";
+import {type ActorSkill, RangeBand, type Skill, SkillType} from "../../../../../api/model";
 
 interface Props {
     open: boolean;

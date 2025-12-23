@@ -3,8 +3,7 @@ import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import GridContainer from "../../common/grid/GridContainer";
 import TalentSkillCheckCard from "../skill/TalentSkillCheckCard";
 import RangeBandCard from "../../common/card/select/RangeBandCard";
-import { RangeBand } from "../../../models/common/RangeBand";
-import type {Talent} from "../../../api/model";
+import type {RangeBand, Talent} from "../../../api/model";
 import type {FC} from "react";
 
 interface Props {
@@ -30,7 +29,7 @@ const TalentActionTab: FC<Props> = ({ talent, updateTalent, disabled }) => {
                         disabled={disabled} />
                 </GridContainer>
                 <GridContainer spacing={2}>
-                    <RangeBandCard value={RangeBand.Engaged} onChange={handleRangeBandUpdate} disabled={disabled} />
+                    <RangeBandCard value={talent.action.rangeBand} onChange={handleRangeBandUpdate} disabled={disabled} />
                 </GridContainer>
             </CardContent>
         </Card>

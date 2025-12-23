@@ -1,12 +1,9 @@
 import { ActorSkill } from "../../actor/Actor"
-import { CharacteristicType } from "../../actor/Characteristic"
-import { SkillType } from "../../actor/Skill"
-import { DifficultyUI } from "../../common/DifficultyUI.ts"
-import { RangeBand } from "../../common/RangeBand"
+import {CharacteristicType, Difficulty, RangeBand, SkillType} from "../../../api/model";
 
 export default interface Action {
     skill: ActorSkill
-    difficulty: DifficultyUI
+    difficulty: Difficulty
     opposedSkill: ActorSkill
     rangeBand: RangeBand
 }
@@ -20,7 +17,7 @@ export const getEmptyAction = (): Action => ({
       name: "",
       initiative: false
   },
-  difficulty: DifficultyUI.Average,
+  difficulty: Difficulty.Average,
   opposedSkill: {
       ranks: 0,
       id: "",

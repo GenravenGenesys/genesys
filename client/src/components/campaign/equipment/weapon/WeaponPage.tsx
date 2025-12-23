@@ -3,7 +3,6 @@ import {Fragment, useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router";
 import WeaponQualityCard from "./quality/WeaponQualityCard";
 import WeaponModifierCard from "./modifier/WeaponModifierCard";
-import {RangeBand} from "../../../../models/common/RangeBand";
 import TextFieldCard from "../../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
 import {EquipmentPath} from "../../../../services/RootPath";
@@ -17,7 +16,7 @@ import GridContainer from '../../../common/grid/GridContainer';
 import WeaponService from "../../../../services/equipment/WeaponService";
 import {useFetchAllSkills} from "../../../../hooks/useFetchAllSkills.tsx";
 import type {Weapon} from "../../../../models/equipment/Weapon.ts";
-import {type Skill, SkillType} from "../../../../api/model";
+import {type RangeBand, type Skill, SkillType} from "../../../../api/model";
 
 const WeaponPage = ()=> {
     const {id} = useParams<{ id: string }>();

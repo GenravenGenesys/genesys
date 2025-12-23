@@ -1,5 +1,4 @@
-import {EquipmentQuality} from "../Quality";
-import Modifier from "../common/Modifier";
+import type {EquipmentQuality, Modifier} from "../../api/model";
 
 export default interface Equipment {
     id: string
