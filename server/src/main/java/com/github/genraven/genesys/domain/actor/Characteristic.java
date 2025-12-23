@@ -19,12 +19,12 @@ public class Characteristic {
     }
 
     @EnumValidator(enumClass = Type.class)
-    @Schema(description = "Characteristic type", example = "BRAWN")
+    @Schema(description = "Characteristic type", example = "BRAWN", requiredMode = Schema.RequiredMode.REQUIRED)
     private Type type;
 
     @Min(value = 1)
     @Max(value = 5, groups = PlayerValidation.class)
-    @Schema(description = "Current value of the Characteristic", example = "2")
+    @Schema(description = "Current value of the Characteristic", example = "2", requiredMode = Schema.RequiredMode.REQUIRED)
     private int current;
 
     @AllArgsConstructor

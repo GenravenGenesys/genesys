@@ -1,10 +1,10 @@
-import {Activation} from "../../../../models/Talent";
 import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
 import GenesysSelectField from "../../field/GenesysSelectField";
+import {Activation} from "../../../../api/model";
 
 type Props = {
     value: Activation;

@@ -2,9 +2,9 @@ import BooleanTextFieldCard from "../common/card/BooleanTextFieldCard";
 import ActivationCard from "../common/card/select/ActivationCard";
 import TierCard from "../common/card/select/TierCard";
 import * as React from "react";
-import Talent, {Activation, Tier} from "../../models/Talent";
 import TextFieldCard from "../common/card/TextFieldCard";
 import GridContainer from "../common/grid/GridContainer";
+import type {Activation, Talent, TalentTier} from "../../api/model";
 
 interface Props {
     talent: Talent;
@@ -26,7 +26,7 @@ const TalentBaseTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
         }
     };
 
-    const handleTierChange = async (value: Tier) => {
+    const handleTierChange = async (value: TalentTier) => {
         if (talent) {
             updateTalent({...talent, tier: value});
         }

@@ -14,7 +14,7 @@ export const getCampaignSkillController = () => {
    * Adds a Skill to the current Campaign.
    * @summary Add Skill to Campaign
    */
-  const addSkillToCurrentCampaign1 = (id: string) => {
+  const addSkillToCurrentCampaign = (id: string) => {
     return customInstance<Campaign>({
       url: `/api/campaigns/skills/${id}`,
       method: "POST",
@@ -24,29 +24,27 @@ export const getCampaignSkillController = () => {
    * Retrieve a list of all skills for current campaign.
    * @summary Get all skills for current campaign
    */
-  const getSkillsForCurrentCampaign1 = () => {
+  const getSkillsForCurrentCampaign = () => {
     return customInstance<Skill[]>({
       url: `/api/campaigns/skills/`,
       method: "GET",
     });
   };
-  return { addSkillToCurrentCampaign1, getSkillsForCurrentCampaign1 };
+  return { addSkillToCurrentCampaign, getSkillsForCurrentCampaign };
 };
-export type AddSkillToCurrentCampaign1Result = NonNullable<
+export type AddSkillToCurrentCampaignResult = NonNullable<
   Awaited<
     ReturnType<
-      ReturnType<
-        typeof getCampaignSkillController
-      >["addSkillToCurrentCampaign1"]
+      ReturnType<typeof getCampaignSkillController>["addSkillToCurrentCampaign"]
     >
   >
 >;
-export type GetSkillsForCurrentCampaign1Result = NonNullable<
+export type GetSkillsForCurrentCampaignResult = NonNullable<
   Awaited<
     ReturnType<
       ReturnType<
         typeof getCampaignSkillController
-      >["getSkillsForCurrentCampaign1"]
+      >["getSkillsForCurrentCampaign"]
     >
   >
 >;

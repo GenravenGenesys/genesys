@@ -5,9 +5,9 @@ import {Button, Dialog, DialogActions, DialogContent} from "@mui/material";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
 import TalentDialogCard from "./TalentDialogCard";
-import {Tier} from "../../../../../../models/Talent";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
+import {TalentTier} from "../../../../../../api/model";
 
 interface Props {
     open: boolean;
@@ -37,19 +37,19 @@ const SpendTalentDialog: React.FC<Props> = ({open, onClose, currentPlayer}) => {
             <DialogContent>
                 <GridContainer spacing={2} columns={5}>
                     <GridItem>
-                        <TalentDialogCard player={player} size={0} tier={Tier.First} updatePlayer={updatePlayer}/>
+                        <TalentDialogCard player={player} size={0} tier={TalentTier.First} updatePlayer={updatePlayer}/>
                     </GridItem>
                     <GridItem>
-                        <TalentDialogCard player={player} size={1} tier={Tier.Second} updatePlayer={updatePlayer}/>
+                        <TalentDialogCard player={player} size={1} tier={TalentTier.Second} updatePlayer={updatePlayer}/>
                     </GridItem>
                     <GridItem>
-                        <TalentDialogCard player={player} size={2} tier={Tier.Third} updatePlayer={updatePlayer}/>
+                        <TalentDialogCard player={player} size={2} tier={TalentTier.Third} updatePlayer={updatePlayer}/>
                     </GridItem>
                     <GridItem>
-                        <TalentDialogCard player={player} size={3} tier={Tier.Fourth} updatePlayer={updatePlayer}/>
+                        <TalentDialogCard player={player} size={3} tier={TalentTier.Fourth} updatePlayer={updatePlayer}/>
                     </GridItem>
                     <GridItem>
-                        <TalentDialogCard player={player} size={4} tier={Tier.Fifth} updatePlayer={updatePlayer}/>
+                        <TalentDialogCard player={player} size={4} tier={TalentTier.Fifth} updatePlayer={updatePlayer}/>
                     </GridItem>
                 </GridContainer>
             </DialogContent>

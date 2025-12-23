@@ -13,7 +13,6 @@ import type { ActorSkill } from "../../../../models/actor/Actor";
 import type { ActorArmor } from "../../../../models/equipment/Armor";
 import type { ActorWeapon } from "../../../../models/equipment/Weapon";
 import type Ability from "../../../../models/Ability";
-import type { ActorTalent } from "../../../../models/Talent";
 import NemesisService from "../../../../services/actor/NemesisService";
 import TabList from "@mui/lab/TabList/TabList";
 import Tab from "@mui/material/Tab";
@@ -22,6 +21,7 @@ import TabContext from "@mui/lab/TabContext";
 import NemesisCharacteristicTab from "./NemesisCharacteristicTab";
 import GridContainer from "../../../common/grid/GridContainer";
 import { useQuery } from "@tanstack/react-query";
+import type {ActorTalent} from "../../../../api/model";
 
 const NemesisPage = () => {
     const { id } = useParams<{ id: string }>();

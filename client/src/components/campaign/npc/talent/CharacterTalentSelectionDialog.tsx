@@ -3,17 +3,15 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { renderSingleRowTableHeader } from "../../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
-import Talent from "../../../../models/Talent";
 import TableContainer from "@mui/material/TableContainer";
-import { useEffect, useState } from "react";
-import CampaignService from "../../../../services/CampaignService";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import {
     GenesysDescriptionTypographyCenterTableCell,
     TypographyCenterTableCell
 } from "../../../common/table/TypographyTableCell";
-import * as React from "react";
+import {useFetchCampaignTalents} from "../../../../hooks/useFetchCampaignTalents.ts";
+import type {Talent} from "../../../../api/model";
 
 interface Props {
     open: boolean
@@ -23,24 +21,8 @@ interface Props {
 
 export default function CharacterTalentSelectionDialog(props: Props) {
     const { open, addTalent, onClose } = props;
-    const [talents, setTalents] = useState<Talent[]>([]);
     const headers = ['Name', 'Activation', 'Description', 'Add'];
-
-    useEffect(() => {
-        if (!open) return;
-
-        let isMounted = true;
-        (async () => {
-            const data = await CampaignService.getCampaignTalents();
-            if (isMounted) setTalents(data);
-        })();
-
-        return () => {
-            isMounted = false;
-            setTalents([]);
-        };
-    }, [open]);
-
+    const {talents} = useFetchCampaignTalents();
 
     return (
         <Dialog open={open} onClose={onClose} fullScreen>

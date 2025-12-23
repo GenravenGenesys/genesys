@@ -6,17 +6,13 @@ import Minion from "../../../../../models/actor/npc/Minion";
 import { useLocation } from "react-router";
 import { ActorSkill } from "../../../../../models/actor/Actor";
 import Action from "../../../../../models/campaign/encounter/Action";
-import { CostType } from "../../../../../models/common/Cost";
-import { DifficultyUI } from "../../../../../models/common/DifficultyUI.ts";
-import { LimitType } from "../../../../../models/common/Limit";
-import { RangeBand } from "../../../../../models/common/RangeBand";
-import { Activation } from "../../../../../models/Talent";
 import ActivationCard from "../../../../common/card/select/ActivationCard";
 import TextFieldCard from "../../../../common/card/TextFieldCard";
 import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
 import GridContainer from "../../../../common/grid/GridContainer";
 import MinionAbilityActionCard from "./MinionAbilityActionCard";
+import {Activation, CostType, Difficulty, LimitType, RangeBand} from "../../../../../api/model";
 
 
 interface Props {
@@ -35,7 +31,7 @@ const CreateMinionAbilityDialog: React.FC<Props> = ({ open, minion, onCreateAbil
         cost: { type: CostType.None, amount: 0 },
         action: {
             skill: {} as ActorSkill,
-            difficulty: DifficultyUI.Easy,
+            difficulty: Difficulty.Easy,
             opposedSkill: {} as ActorSkill,
             rangeBand: RangeBand.Engaged
         },

@@ -1,10 +1,6 @@
 import {Dialog, DialogContent} from "@mui/material";
 import type Player from "../../../../../../models/actor/player/Player";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
-import {Tier} from "../../../../../../models/Talent";
-import type Talent from "../../../../../../models/Talent";
-import {useEffect, useState} from "react";
-import CampaignService from "../../../../../../services/CampaignService";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
@@ -17,25 +13,22 @@ import {
 } from "../../../../../common/table/TypographyTableCell";
 import TableContainer from "@mui/material/TableContainer";
 import PlayerService from "../../../../../../services/actor/PlayerService";
+import {useFetchCampaignTalents} from "../../../../../../hooks/useFetchCampaignTalents.ts";
+import {type Talent, TalentTier} from "../../../../../../api/model";
+import type {FC} from "react";
 
 interface Props {
     open: boolean;
     onClose: () => void;
     currentPlayer: Player;
-    tier: Tier;
+    tier: TalentTier;
     updatePlayer: (player: Player) => void;
 }
 
-const TierTalentDialog: React.FC<Props> = ({open, onClose, currentPlayer, tier, updatePlayer}) => {
-    const [talents, setTalents] = useState<Talent[]>([]);
+const TierTalentDialog: FC<Props> = ({open, onClose, currentPlayer, tier, updatePlayer}) => {
+    const {talents} = useFetchCampaignTalents(tier);
     const playerTalents = currentPlayer.talents.filter(talent => talent.tier === tier);
     const headers = ['Name', 'Activation', 'Summary', 'Purchase'];
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setTalents(await CampaignService.getCampaignTierTalents(tier));
-        })();
-    }, [setTalents, tier]);
 
     const addTalent = async (talent: Talent) => {
         updatePlayer(await PlayerService.purchaseTalentUpgrade(currentPlayer.id, talent));
@@ -49,15 +42,15 @@ const TierTalentDialog: React.FC<Props> = ({open, onClose, currentPlayer, tier, 
 
     const renderExperienceCost = () => {
         switch (tier) {
-            case Tier.First:
+            case TalentTier.First:
                 return '5XP';
-            case Tier.Second:
+            case TalentTier.Second:
                 return '10XP';
-            case Tier.Third:
+            case TalentTier.Third:
                 return '15XP';
-            case Tier.Fourth:
+            case TalentTier.Fourth:
                 return '20XP';
-            case Tier.Fifth:
+            case TalentTier.Fifth:
                 return '25XP';
         }
     };

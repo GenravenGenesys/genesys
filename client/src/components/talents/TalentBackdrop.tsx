@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import Talent from "../../models/Talent";
 import {Card, CardContent, CardHeader} from "@mui/material";
 import ViewFieldCard from "../common/ViewFieldCard";
 import TalentModifierCard from "./modifier/TalentModifierCard";
 import GridContainer from "../common/grid/GridContainer";
+import type {Talent} from "../../api/model";
 
 interface Props {
     talent: Talent;

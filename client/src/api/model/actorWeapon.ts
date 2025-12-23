@@ -27,5 +27,5 @@ export interface ActorWeapon {
   range?: RangeBand;
   brawn?: boolean;
   hands?: number;
-  slot?: ActorWeaponSlot;
+  slot: ActorWeaponSlot;
 }

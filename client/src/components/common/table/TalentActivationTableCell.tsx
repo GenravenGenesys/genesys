@@ -1,9 +1,9 @@
 import TableCell from "@mui/material/TableCell";
-import {Activation, ActorTalent} from "../../../models/Talent";
 import Typography from "@mui/material/Typography";
-import React, {Fragment} from "react";
+import {Fragment} from "react";
 import {GenesysDicePoolCenterTableCellButton} from "./TypographyTableCell";
 import Actor from "../../../models/actor/Actor";
+import {Activation, type ActorTalent} from "../../../api/model";
 
 interface Props {
     actor: Actor
@@ -33,18 +33,18 @@ export default function TalentActivationTableCell(props: Props) {
         switch (talent.activation) {
             case Activation.Passive:
                 return <Typography>{talent.activation}</Typography>;
-            case Activation.ActiveAction:
+            case Activation["Active_(Action)"]:
                 return renderActivation();
-            case Activation.ActiveManeuver:
+            case Activation["Active_(Maneuver)"]:
                 break;
-            case Activation.ActiveIncidental:
+            case Activation["Active_(Incidental)"]:
                 return (
                     // <Button onClick={}>
                     //
                     // </Button>
                     <Fragment/>
                 );
-            case Activation.ActiveIncidentalOutOfTurn:
+            case Activation["Active_(Incidental,_Out_of_Turn)"]:
                 break;
         }
     };

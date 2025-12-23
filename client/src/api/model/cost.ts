@@ -8,6 +8,6 @@
 import type { CostType } from "./costType";
 
 export interface Cost {
-  type?: CostType;
-  amount?: number;
+  type: CostType;
+  amount: number;
 }

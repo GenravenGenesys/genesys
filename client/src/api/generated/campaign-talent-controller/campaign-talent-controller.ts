@@ -14,7 +14,7 @@ export const getCampaignTalentController = () => {
    * Adds a Talent to the current Campaign.
    * @summary Add Talent to Campaign
    */
-  const addSkillToCurrentCampaign = (id: string) => {
+  const addTalentToCurrentCampaign = (id: string) => {
     return customInstance<Campaign>({
       url: `/api/campaigns/talents/${id}`,
       method: "POST",
@@ -34,7 +34,7 @@ export const getCampaignTalentController = () => {
    * Retrieve a list of all talent for current campaign of a specific tier.
    * @summary Get all talents for current campaign of tier
    */
-  const getSkillsForCurrentCampaign = (
+  const getTalentsForCurrentCampaignByTier = (
     tier: "First" | "Second" | "Third" | "Fourth" | "Fifth",
   ) => {
     return customInstance<Talent[]>({
@@ -43,17 +43,17 @@ export const getCampaignTalentController = () => {
     });
   };
   return {
-    addSkillToCurrentCampaign,
+    addTalentToCurrentCampaign,
     getTalentsForCurrentCampaign,
-    getSkillsForCurrentCampaign,
+    getTalentsForCurrentCampaignByTier,
   };
 };
-export type AddSkillToCurrentCampaignResult = NonNullable<
+export type AddTalentToCurrentCampaignResult = NonNullable<
   Awaited<
     ReturnType<
       ReturnType<
         typeof getCampaignTalentController
-      >["addSkillToCurrentCampaign"]
+      >["addTalentToCurrentCampaign"]
     >
   >
 >;
@@ -66,12 +66,12 @@ export type GetTalentsForCurrentCampaignResult = NonNullable<
     >
   >
 >;
-export type GetSkillsForCurrentCampaignResult = NonNullable<
+export type GetTalentsForCurrentCampaignByTierResult = NonNullable<
   Awaited<
     ReturnType<
       ReturnType<
         typeof getCampaignTalentController
-      >["getSkillsForCurrentCampaign"]
+      >["getTalentsForCurrentCampaignByTier"]
     >
   >
 >;

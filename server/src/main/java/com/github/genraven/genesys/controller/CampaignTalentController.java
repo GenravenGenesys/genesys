@@ -37,7 +37,7 @@ public class CampaignTalentController {
 
     @PostMapping("/{id}")
     @Operation(summary = "Add Talent to Campaign", description = "Adds a Talent to the current Campaign.")
-    public Mono<ResponseEntity<Campaign>> addSkillToCurrentCampaign(@PathVariable final String id) {
+    public Mono<ResponseEntity<Campaign>> addTalentToCurrentCampaign(@PathVariable final String id) {
         return talentService.addTalentToCurrentCampaign(id)
             .map(campaign -> ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -47,7 +47,7 @@ public class CampaignTalentController {
 
     @GetMapping("/tiers/{tier}")
     @Operation(summary = "Get all talents for current campaign of tier", description = "Retrieve a list of all talent for current campaign of a specific tier.")
-    public Mono<ResponseEntity<List<Talent>>> getSkillsForCurrentCampaign(@PathVariable final Talent.Tier tier) {
+    public Mono<ResponseEntity<List<Talent>>> getTalentsForCurrentCampaignByTier(@PathVariable final Talent.Tier tier) {
         return talentService.getTalentsForCurrentCampaignByTier(tier)
             .map(talents -> {
                 if (CollectionUtils.isEmpty(talents)) {

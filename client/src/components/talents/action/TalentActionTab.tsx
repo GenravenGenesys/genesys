@@ -1,18 +1,19 @@
 import { Card, CardContent } from "@mui/material";
-import Talent from "../../../models/Talent";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import GridContainer from "../../common/grid/GridContainer";
 import TalentSkillCheckCard from "../skill/TalentSkillCheckCard";
 import RangeBandCard from "../../common/card/select/RangeBandCard";
 import { RangeBand } from "../../../models/common/RangeBand";
+import type {Talent} from "../../../api/model";
+import type {FC} from "react";
 
-type Props = {
+interface Props {
     talent: Talent;
     updateTalent: (talent: Talent) => void;
     disabled: boolean;
-};
+}
 
-const TalentActionTab: React.FC<Props> = ({ talent, updateTalent, disabled }) => {
+const TalentActionTab: FC<Props> = ({ talent, updateTalent, disabled }) => {
 
     const handleRangeBandUpdate = (value: RangeBand) => {
         if (talent) {
@@ -34,7 +35,6 @@ const TalentActionTab: React.FC<Props> = ({ talent, updateTalent, disabled }) =>
             </CardContent>
         </Card>
     )
-
 };
 
 export default TalentActionTab;

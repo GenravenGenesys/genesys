@@ -1,4 +1,3 @@
-import Cost, {CostType} from "../../../../models/common/Cost";
 import {Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import * as React from "react";
@@ -8,6 +7,7 @@ import GridItem from "../../grid/GridItem";
 import GridContainer from "../../grid/GridContainer";
 import GenesysSelectField from "../../field/GenesysSelectField";
 import NumberTextField from "../../text/NumberTextField";
+import {type Cost, CostType} from "../../../../api/model";
 
 type Props = {
     initialCost: Cost;
@@ -29,7 +29,7 @@ const CostCard: React.FC<Props> = ({initialCost, onChange, disabled}) => {
                 return 0;
             case CostType.Strain:
                 return 5;
-            case CostType.StoryPoint:
+            case CostType.Story_Point:
                 return 1;
         }
     };

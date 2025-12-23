@@ -12,10 +12,10 @@ import type { CharacteristicType } from "./characteristicType";
  */
 export interface Characteristic {
   /** Characteristic type */
-  type?: CharacteristicType;
+  type: CharacteristicType;
   /**
    * Current value of the Characteristic
    * @minimum 1
    */
-  current?: number;
+  current: number;
 }

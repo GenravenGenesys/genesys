@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { Button, TableCell, Typography } from "@mui/material";
 import GenesysDescriptionTypography from "../typography/GenesysDescriptionTypography";
-import Actor, { ActorSkill, getActorCharacteristicRanks } from "../../../models/actor/Actor";
+import type Actor from "../../../models/actor/Actor";
+import type { getActorCharacteristicRanks } from "../../../models/actor/Actor";
 import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography";
 import { getDifficultyDice } from "../../../models/common/DifficultyUI.ts";
 import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
-import Cost, { CostType } from "../../../models/common/Cost";
-import Limit, { LimitType } from "../../../models/common/Limit";
 // import { GenesysSymbols } from "../../../models/roll/GenesysSymbols";
 import DiceRollerDialog from "../../roll/DiceRollerDialog";
-import type {Difficulty} from "../../../api/model";
+import {type ActorSkill, type Cost, CostType, type Difficulty, type Limit, LimitType} from "../../../api/model";
 
 interface LeftProps {
     value: string;
@@ -57,7 +56,7 @@ const CostTableCell: React.FC<CostProps> = ({ cost, span }) => {
                 return 'None';
             case CostType.Strain:
                 return cost.amount + ' Strain';
-            case CostType.StoryPoint:
+            case CostType.Story_Point:
                 return cost.amount + ' Story Point';
         }
     };
@@ -77,11 +76,11 @@ interface LimitProps {
 const LimitTableCell: React.FC<LimitProps> = ({ limit, span }) => {
     const renderLimit = () => {
         switch (limit.type) {
-            case LimitType.PerRound:
+            case LimitType.Per_Round:
                 return limit.limit + ' Per Round';
-            case LimitType.PerEncounter:
+            case LimitType.Per_Encounter:
                 return limit.limit + ' Per Encounter';
-            case LimitType.PerSession:
+            case LimitType.Per_Session:
                 return limit.limit + ' Per Session';
             case LimitType.None:
                 return 'None';

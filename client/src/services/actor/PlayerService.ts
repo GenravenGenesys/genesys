@@ -4,8 +4,8 @@ import {PlayerPath, CampaignPath, RootPath} from "../RootPath";
 import type Career from "../../models/actor/player/Career";
 import type Archetype from "../../models/actor/player/Archetype";
 import type {Characteristic} from "../../models/actor/Characteristic";
-import type Talent from "../../models/Talent";
 import { apiRequest, apiRequestList } from "../ApiRequest";
+import type {Talent} from "../../api/model";
 
 export default class PlayerService {
     static async createPlayer(id: string, playerName: string): Promise<Player> {

@@ -1,9 +1,10 @@
-import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import {ChangeEvent, useState} from "react";
+import {Dialog, DialogContentText, TextField} from "@mui/material";
+import {type ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router";
-import TalentService from "../../services/TalentService";
 import GenesysDialogActions from "../common/dialog/GenesysDialogActions";
 import {RootPath} from "../../services/RootPath";
+import {getTalentController} from "../../api/generated/talent-controller/talent-controller.ts";
+import CenteredDialogTitle from "../common/dialog/CenteredDialogTitle.tsx";
 
 interface Props {
     open: boolean
@@ -16,7 +17,7 @@ export default function TalentDialog(props: Props) {
     const navigate = useNavigate()
 
     const handleCreate = async (): Promise<void> => {
-        const talent = await TalentService.createTalent(name)
+        const talent = await getTalentController().createTalent(name);
         navigate(RootPath.Talent + talent.id + '/edit')
         onClose()
     }
@@ -28,7 +29,7 @@ export default function TalentDialog(props: Props) {
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Name New Talent</DialogTitle>
+            <CenteredDialogTitle title={'Name New Talent'}/>
             <DialogContentText>
                 <TextField onChange={onChange} value={name} required/>
             </DialogContentText>

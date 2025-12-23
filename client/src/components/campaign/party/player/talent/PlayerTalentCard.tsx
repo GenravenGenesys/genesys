@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@mui/material";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
-import { ActorTalent } from "../../../../../models/Talent";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {
@@ -14,6 +13,7 @@ import { renderSingleRowTableHeader } from "../../../../common/table/TableRender
 import * as React from "react";
 import TalentActivationTableCell from "../../../../common/table/TalentActivationTableCell";
 import Player from "../../../../../models/actor/player/Player";
+import type {ActorTalent} from "../../../../../api/model";
 
 interface Props {
     player: Player;

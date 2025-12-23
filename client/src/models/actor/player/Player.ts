@@ -1,9 +1,6 @@
-import { ActorTalent } from "../../Talent";
-import Actor, {ActorSkill} from "../Actor";
-import Injury from "../../Injury";
-import Career from "./Career";
-import Archetype from "./Archetype";
-import Stats from "../Stats";
+import type {ActorSkill, ActorTalent, Archetype, Career, CriticalInjury, Stats} from "../../../api/model";
+import type Actor from "../Actor.ts";
+
 
 export default interface Player extends Actor {
     strain: Stats
@@ -13,7 +10,7 @@ export default interface Player extends Actor {
     archetype: Archetype
     talents: ActorTalent[]
     skills: PlayerSkill[]
-    injuries: Injury[]
+    injuries: CriticalInjury[]
 }
 
 export interface PlayerSkill extends ActorSkill {

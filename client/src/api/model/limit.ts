@@ -8,6 +8,6 @@
 import type { LimitType } from "./limitType";
 
 export interface Limit {
-  type?: LimitType;
-  limit?: number;
+  type: LimitType;
+  limit: number;
 }

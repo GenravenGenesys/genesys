@@ -1,8 +1,7 @@
 import type Actor from "../Actor";
 import { type ActorSkill } from "../Actor";
 import type Ability from "../../Ability";
-import {type ActorTalent } from "../../Talent";
-import type Injury from "../../Injury";
+import type {ActorTalent, CriticalInjury} from "../../../api/model";
 
 export enum RatingType {
     Combat = 'Combat',
@@ -20,7 +19,7 @@ export default interface NonPlayerActor extends Actor {
 
 export interface SingleNonPlayerCharacter extends NonPlayerActor {
     skills: ActorSkill[]
-    injuries: Injury[]
+    injuries: CriticalInjury[]
 }
 
 export const getRatings = (npc: NonPlayerActor): string => {

@@ -54,7 +54,7 @@ public class TalentController extends AbstractController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing talent", description = "Update the details of an existing talent.")
-    public Mono<ResponseEntity<Talent>> updateSkill(@PathVariable final String id, @RequestBody final Talent talent) {
+    public Mono<ResponseEntity<Talent>> updateTalent(@PathVariable final String id, @RequestBody final Talent talent) {
         return talentService.updateTalent(id, talent)
             .map(tal -> ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)

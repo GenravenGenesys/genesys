@@ -1,14 +1,14 @@
-import {Tier} from "../../../../models/Talent";
 import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
 import GenesysSelectField from "../../field/GenesysSelectField";
+import {TalentTier} from "../../../../api/model";
 
 interface Props {
-    value: Tier;
-    onChange: (value: Tier) => void;
+    value: TalentTier;
+    onChange: (value: TalentTier) => void;
     disabled: boolean;
 }
 
@@ -18,7 +18,7 @@ const TierCard: React.FC<Props> = ({value, onChange, disabled}) => {
             <Card>
                 <CenteredCardHeader title={'Tier'}/>
                 <CardContent>
-                    <GenesysSelectField value={value} label={'Tier'} onChange={onChange} options={Tier}
+                    <GenesysSelectField value={value} label={'Tier'} onChange={onChange} options={TalentTier}
                                         disabled={disabled}/>
                 </CardContent>
             </Card>

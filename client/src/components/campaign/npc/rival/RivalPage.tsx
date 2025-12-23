@@ -13,7 +13,6 @@ import { ActorSkill } from "../../../../models/actor/Actor";
 import { ActorWeapon } from "../../../../models/equipment/Weapon";
 import { ActorArmor } from "../../../../models/equipment/Armor";
 import Ability from "../../../../models/Ability";
-import { ActorTalent } from "../../../../models/Talent";
 import RivalCharacteristicTab from "./RivalCharacteristicTab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList/TabList";
@@ -21,6 +20,7 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import GridContainer from "../../../common/grid/GridContainer";
 import AbilityTableCard from "../ability/AbilityTableCard";
+import type {ActorTalent} from "../../../../api/model";
 
 const RivalPage = () => {
     const { id } = useParams<{ id: string }>();

@@ -1,7 +1,6 @@
 import {Button, Card, CardContent, Stack} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import TierTalentDialog from "./TierTalentDialog";
-import {Tier} from "../../../../../../models/Talent";
 import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHeader";
 import GenesysDescriptionTypography from "../../../../../common/typography/GenesysDescriptionTypography";
 import * as React from "react";
@@ -9,11 +8,12 @@ import {useState} from "react";
 import type Player from "../../../../../../models/actor/player/Player";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
+import type {TalentTier} from "../../../../../../api/model";
 
 interface Props {
     player: Player;
     size: number;
-    tier: Tier;
+    tier: TalentTier;
     updatePlayer: (player: Player) => void;
 }
 

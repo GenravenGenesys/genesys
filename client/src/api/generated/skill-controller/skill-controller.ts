@@ -21,7 +21,7 @@ export const getSkillController = () => {
    * Update the details of an existing skill.
    * @summary Update an existing skill
    */
-  const updateSkill1 = (id: string, skill: Skill) => {
+  const updateSkill = (id: string, skill: Skill) => {
     return customInstance<Skill>({
       url: `/api/skills/${id}`,
       method: "PUT",
@@ -46,13 +46,13 @@ export const getSkillController = () => {
   const getAllSkills = () => {
     return customInstance<Skill[]>({ url: `/api/skills/`, method: "GET" });
   };
-  return { getSkill, updateSkill1, createSkill, getAllSkills };
+  return { getSkill, updateSkill, createSkill, getAllSkills };
 };
 export type GetSkillResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getSkillController>["getSkill"]>>
 >;
-export type UpdateSkill1Result = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getSkillController>["updateSkill1"]>>
+export type UpdateSkillResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getSkillController>["updateSkill"]>>
 >;
 export type CreateSkillResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getSkillController>["createSkill"]>>

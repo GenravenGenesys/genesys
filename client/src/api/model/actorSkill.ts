@@ -16,5 +16,5 @@ export interface ActorSkill {
   characteristic: ActorSkillCharacteristic;
   type: ActorSkillType;
   initiative: boolean;
-  ranks?: number;
+  ranks: number;
 }

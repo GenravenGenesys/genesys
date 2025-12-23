@@ -1,13 +1,15 @@
-import {Characteristic} from "../../actor/Characteristic";
-import Stats from "../../actor/Stats";
-import {ActorWeapon} from "../../equipment/Weapon";
-import {ActorArmor} from "../../equipment/Armor";
-import {ActorGear} from "../../equipment/Gear";
-import {ActorSkill, ActorType} from "../../actor/Actor";
-import Ability from "../../Ability";
-import {ActorTalent} from "../../Talent";
-import Injury from "../../Injury";
-import StatusEffect from "../../actor/StatusEffect";
+import type {ActorType} from "../../actor/Actor.ts";
+import type {
+    Ability,
+    ActorArmor,
+    ActorSkill,
+    ActorTalent,
+    ActorWeapon,
+    Characteristic, CriticalInjury,
+    Stats, StatusEffect
+} from "../../../api/model";
+import type {ActorGear} from "../../equipment/Gear.ts";
+
 
 export default interface Character {
     id: string
@@ -29,6 +31,6 @@ export default interface Character {
     abilities: Ability[],
     talents: ActorTalent[],
     skills: ActorSkill[],
-    injuries: Injury[],
+    injuries: CriticalInjury[],
     effects: StatusEffect[],
 }

@@ -1,9 +1,7 @@
 import {Dialog, DialogContent, DialogTitle, Divider} from "@mui/material";
-import * as React from "react";
 import {useState} from "react";
 import Archetype from "../../../../models/actor/player/Archetype";
 import Ability from "../../../../models/Ability";
-import {Activation, getActivationOptions} from "../../../../models/Talent";
 import {InputTextFieldCard} from "../../../common/InputTextFieldCard";
 import InputSelectFieldCard from "../../../common/InlineSelectFieldCard";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
@@ -12,6 +10,7 @@ import Cost, {CostType, DefaultCost, getCostOptions} from "../../../../models/co
 import Limit, {DefaultLimit, getLimitOptions, LimitType} from "../../../../models/common/Limit";
 import NumberRangeSelectCard from "../../../common/NumberRangeSelectCard";
 import GridContainer from "../../../common/grid/GridContainer";
+import ActivationCard from "../../../common/card/select/ActivationCard.tsx";
 
 interface Props {
     archetype: Archetype
@@ -112,9 +111,9 @@ export default function CreateArchetypeAbilityDialog(props: Props) {
                     }} title={'Description'} helperText={'Description'} placeholder={'Description'}/>
                 </GridContainer>
                 <GridContainer spacing={10}>
-                    <InputSelectFieldCard defaultValue={ability?.activation!} onCommit={(value: string): void => {
+                    <ActivationCard value={ability?.activation} onChange={(value: string): void => {
                         onChange('activation', value)
-                    }} title={'Activation'} options={getActivationOptions()}/>
+                    }} disabled={false}/>
                 </GridContainer>
                 <GridContainer spacing={10}>
                     <InputSelectFieldCard defaultValue={ability?.cost?.type!} onCommit={(value: string): void => {

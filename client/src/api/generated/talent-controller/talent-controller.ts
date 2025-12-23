@@ -21,7 +21,7 @@ export const getTalentController = () => {
    * Update the details of an existing talent.
    * @summary Update an existing talent
    */
-  const updateSkill = (id: string, talent: Talent) => {
+  const updateTalent = (id: string, talent: Talent) => {
     return customInstance<Talent>({
       url: `/api/talents/${id}`,
       method: "PUT",
@@ -46,13 +46,13 @@ export const getTalentController = () => {
   const getAllTalents = () => {
     return customInstance<Talent[]>({ url: `/api/talents/`, method: "GET" });
   };
-  return { getTalent, updateSkill, createTalent, getAllTalents };
+  return { getTalent, updateTalent, createTalent, getAllTalents };
 };
 export type GetTalentResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getTalentController>["getTalent"]>>
 >;
-export type UpdateSkillResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getTalentController>["updateSkill"]>>
+export type UpdateTalentResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getTalentController>["updateTalent"]>>
 >;
 export type CreateTalentResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getTalentController>["createTalent"]>>

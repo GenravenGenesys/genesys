@@ -13,7 +13,6 @@ import Ability from "../../../../models/Ability";
 import Minion, { GroupSkill } from "../../../../models/actor/npc/Minion";
 import MinionSkillCard from "./skill/MinionSkillCard";
 import MinionTalentCard from "./talent/MinionTalentCard";
-import { ActorTalent } from "../../../../models/Talent";
 import MinionCharacteristicTab from "./MinionCharacteristicTab";
 import TabList from "@mui/lab/TabList/TabList";
 import Tab from "@mui/material/Tab";
@@ -21,6 +20,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import GridContainer from "../../../common/grid/GridContainer";
 import MinionAbilityTableCard from "./ability/MinionAbilityTableCard";
+import type {ActorTalent} from "../../../../api/model";
 
 const MinionPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -40,7 +40,7 @@ const MinionPage = () => {
         return <Fragment />;
     }
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (_: React.SyntheticEvent, newValue: string) => {
         setTab(newValue);
     };
 

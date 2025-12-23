@@ -2,6 +2,7 @@ package com.github.genraven.genesys.domain.actor;
 
 import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import com.github.genraven.genesys.domain.skill.Skill;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,5 +29,6 @@ public class ActorSkill extends Skill {
         this.setRanks(skill.getRanks());
     }
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int ranks = 0;
 }

@@ -1,11 +1,13 @@
-import {Characteristic, CharacteristicType} from './Characteristic';
-import Skill from "./Skill";
-import {ActorWeapon} from "../equipment/Weapon";
-import {ActorArmor} from "../equipment/Armor";
 import {ActorGear} from "../equipment/Gear";
-import {SingleNonPlayerCharacter} from "./npc/NonPlayerActor";
-import Stats from "./Stats";
 import Character from '../campaign/encounter/Character';
+import {
+    type ActorArmor,
+    type ActorWeapon,
+    type Characteristic,
+    CharacteristicType,
+    type Skill,
+    type Stats
+} from "../../api/model";
 
 export default interface Actor {
     id: string
@@ -44,6 +46,8 @@ export const getActorCharacteristicRanks = (actor: Actor, skill: ActorSkill): nu
             return actor.presence.current;
         case CharacteristicType.Willpower:
             return actor.willpower.current;
+        default:
+            return 0;
     }
 };
 
@@ -61,6 +65,8 @@ export const getCharacteristicRanks = (actor: Character, skill: ActorSkill): num
             return actor.presence.current;
         case CharacteristicType.Willpower:
             return actor.willpower.current;
+        default:
+            return 0;
     }
 };
 
@@ -69,21 +75,4 @@ export enum ActorType {
     Rival = 'Rival',
     Nemesis = 'Nemesis',
     Player = 'Player'
-}
-
-export enum ActorKey {
-    Agility = 'agility',
-    Brawn = 'brawn',
-    Cunning = 'cunning',
-    Intellect = 'intellect',
-    Melee = 'melee',
-    Name = 'name',
-    Presence = 'presence',
-    Ranged = 'ranged',
-    Soak = 'soak',
-    Talents = 'talents',
-    Willpower = 'willpower',
-    Wounds = 'wounds',
-    Strain = 'strain',
-    Skills = 'skills'
 }

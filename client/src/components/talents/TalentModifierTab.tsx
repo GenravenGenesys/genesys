@@ -1,4 +1,3 @@
-import Talent, {TalentSkills} from "../../models/Talent";
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel} from "@mui/material";
 import CostCard from "../common/card/select/CostCard";
 import LimitCard from "../common/card/select/LimitCard";
@@ -8,9 +7,8 @@ import TalentModifierCard from "./modifier/TalentModifierCard";
 import TalentCareerSkillsCard from "./skill/TalentCareerSkillsCard";
 import NumberTextFieldCard from "../common/card/NumberTextFieldCard";
 import {StatsType} from "../../models/actor/Stats";
-import Cost, {CostType} from "../../models/common/Cost";
-import Limit, {LimitType} from "../../models/common/Limit";
 import GridContainer from "../common/grid/GridContainer";
+import {type Cost, CostType, type Limit, LimitType, type Talent, type TalentSkills} from "../../api/model";
 
 interface Props {
     talent: Talent;

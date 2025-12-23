@@ -8,7 +8,7 @@
 import type { StatsType } from "./statsType";
 
 export interface Stats {
-  current?: number;
-  threshold?: number;
-  type?: StatsType;
+  current: number;
+  threshold: number;
+  type: StatsType;
 }

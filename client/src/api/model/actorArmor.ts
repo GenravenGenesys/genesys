@@ -21,5 +21,5 @@ export interface ActorArmor {
   qualities?: EquipmentQuality[];
   soak?: number;
   defense?: number;
-  slot?: ActorArmorSlot;
+  slot: ActorArmorSlot;
 }

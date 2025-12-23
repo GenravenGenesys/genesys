@@ -2,6 +2,7 @@ package com.github.genraven.genesys.domain.actor;
 
 import com.github.genraven.genesys.domain.equipment.EquipmentSlot;
 import com.github.genraven.genesys.domain.equipment.Weapon;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,5 +31,6 @@ public class ActorWeapon extends Weapon {
         this.setHands(weapon.getHands());
     }
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private EquipmentSlot slot = EquipmentSlot.NONE;
 }

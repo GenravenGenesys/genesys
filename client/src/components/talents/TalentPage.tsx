@@ -1,9 +1,7 @@
-import {Card, CardContent} from '@mui/material';
-import Talent, { Activation } from "../../models/Talent";
+import {Alert, Card, CardContent, CircularProgress} from '@mui/material';
 import * as React from "react";
 import {useLocation, useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
-import TalentService from "../../services/TalentService";
 import CenteredCardHeaderWithAction from "../common/card/header/CenteredCardHeaderWithAction";
 import {RootPath} from "../../services/RootPath";
 import TabList from "@mui/lab/TabList/TabList";
@@ -14,10 +12,14 @@ import TalentBaseTab from "./TalentBaseTab";
 import TalentModifierTab from "./TalentModifierTab";
 import GridContainer from "../common/grid/GridContainer";
 import TalentActionTab from './action/TalentActionTab';
+import {getTalentController} from "../../api/generated/talent-controller/talent-controller.ts";
+import {Activation, type Talent} from "../../api/model";
 
 export default function TalentPage() {
     const {id} = useParams<{ id: string }>();
     const [talent, setTalent] = useState<Talent | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [tab, setTab] = useState('1');
     const pathname = useLocation().pathname;
 
@@ -25,22 +27,45 @@ export default function TalentPage() {
         if (!id) {
             return;
         }
-        (async (): Promise<void> => {
-            setTalent(await TalentService.getTalent(id));
-        })()
-    }, [id, setTalent]);
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await getTalentController().getTalent(id);
+                setTalent(response);
+            } catch (err) {
+                setError('Failed to load injury.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    if (!talent) {
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
+
+    if (!talent || !id) {
         return <Fragment/>;
     }
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (_: React.SyntheticEvent, newValue: string) => {
         setTab(newValue);
     };
 
     const updateTalent = async (updatedTalent: Talent) => {
         if (talent) {
-            setTalent(await TalentService.updateTalent(updatedTalent));
+            setTalent(await getTalentController().updateTalent(id, updatedTalent));
         }
     };
 
@@ -53,7 +78,7 @@ export default function TalentPage() {
                         <TabList onChange={handleChange} centered>
                             <Tab label="Base" value="1"/>
                             <Tab label="Modifiers" value="2"/>
-                            <Tab label="Action" value="3" disabled={talent.activation !== Activation.ActiveAction}/>
+                            <Tab label="Action" value="3" disabled={talent.activation !== Activation["Active_(Action)"]}/>
                         </TabList>
                     </GridContainer>
                     <TabPanel value="1">

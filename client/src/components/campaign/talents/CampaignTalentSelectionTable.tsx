@@ -1,53 +1,28 @@
-import {useEffect, useState} from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import {Button} from "@mui/material";
-import Talent from "../../../models/Talent";
-import TalentBackdrop from "../../talents/TalentBackdrop";
-import TalentService from "../../../services/TalentService";
+import {Alert, CircularProgress} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
-import CampaignService from "../../../services/CampaignService";
-
-interface RowProps {
-    talent: Talent
-}
-
-function TalentNameRow(props: RowProps) {
-    const {talent} = props;
-    const [openTalentBackDrop, setOpenTalentBackDrop] = useState(false);
-
-    const addTalent = async () => {
-        await CampaignService.addCampaignTalent(talent);
-    }
-
-    return (
-        <TableRow key={talent.name}>
-            <TableCell>
-                <Button onClick={(): void => setOpenTalentBackDrop(true)}>{talent.name}</Button>
-                {openTalentBackDrop &&
-                    <TalentBackdrop open={openTalentBackDrop} onClose={(): void => setOpenTalentBackDrop(false)}
-                                    talent={talent}/>}
-            </TableCell>
-            <TableCell>
-                <Button onClick={addTalent}>Add</Button>
-            </TableCell>
-        </TableRow>
-    );
-}
+import TalentRow from "./TalentRow.tsx";
+import {useFetchAllTalents} from "../../../hooks/useFetchAllTalents.ts";
+import type {Talent} from "../../../api/model";
 
 export default function CampaignTalentSelectionTable() {
-    const [talents, setTalents] = useState<Talent[]>([])
-    const headers = ['Name', 'Add']
+    const headers = ['Name', 'Add'];
+    const {talents, loading, error} = useFetchAllTalents();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setTalents(await TalentService.getTalents())
-        })()
-    }, [setTalents]);
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return (
         <TableContainer component={Paper}>
@@ -55,7 +30,7 @@ export default function CampaignTalentSelectionTable() {
                 {renderSingleRowTableHeader(headers)}
                 <TableBody>
                     {talents.map((talent: Talent) => (
-                        <TalentNameRow talent={talent}/>
+                        <TalentRow talent={talent}/>
                     ))}
                 </TableBody>
             </Table>

@@ -2,7 +2,6 @@ import { Dialog, DialogContent, TextField } from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
 import Ability from "../../../../models/Ability";
-import { Activation } from "../../../../models/Talent";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
 import { LimitType } from "../../../../models/common/Limit";
 import { CostType } from "../../../../models/common/Cost";
@@ -15,8 +14,8 @@ import { DifficultyUI } from "../../../../models/common/DifficultyUI.ts";
 import { RangeBand } from "../../../../models/common/RangeBand";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
 import AbilityActionCard from "./AbilityActionCard";
-import Action from "../../../../models/campaign/encounter/Action";
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
+import {type Action, Activation} from "../../../../api/model";
 
 interface Props {
     open: boolean;
