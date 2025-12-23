@@ -1,15 +1,14 @@
 import Player, {PlayerSkill} from "../../../../models/actor/player/Player";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import ExperienceCard from "./experience/ExperienceCard";
-import * as React from "react";
 import ArchetypeSelectCard from "./ArchetypeSelectCard";
 import CareerSelectCard from "./CareerSkillCard";
 import Archetype from "../../../../models/actor/player/Archetype";
 import PlayerService from "../../../../services/actor/PlayerService";
-import Career from "../../../../models/actor/player/Career";
 import PlayerCharacteristicRow from "./PlayerCharacteristicRow";
 import DerivedPlayerStatsRow from "./DerivedPlayerStatsRow";
 import GridContainer from "../../../common/grid/GridContainer";
+import type {Career} from "../../../../api/model";
 
 interface Props {
     player: Player;

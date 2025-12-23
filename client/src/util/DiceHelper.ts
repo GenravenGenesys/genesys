@@ -1,4 +1,4 @@
-import type {Difficulty} from "../api/model";
+import {Difficulty} from "../api/model";
 
 export const getDifficultyDice = (difficulty: Difficulty) => {
     switch (difficulty) {

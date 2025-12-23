@@ -6,7 +6,7 @@ import RangeBandCard from "../../../../common/card/select/RangeBandCard";
 import SkillAutocompleteCard from "../../../../common/card/SkillAutocompleteCard";
 import GridContainer from "../../../../common/grid/GridContainer";
 import GridItem from "../../../../common/grid/GridItem";
-import {useFetchAllSkills} from "../../../../../hooks/useFetchAllSkills.tsx";
+import {useFetchAllSkills} from "../../../../../hooks/useFetchAllSkills.ts";
 import type {Action, ActorSkill, Difficulty, RangeBand, Skill} from "../../../../../api/model";
 import type Minion from "../../../../../models/actor/npc/Minion.ts";
 

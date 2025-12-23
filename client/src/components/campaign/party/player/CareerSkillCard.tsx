@@ -1,10 +1,7 @@
-import {useEffect, useState} from "react";
-import {Autocomplete, Card, CardContent, IconButton, TextField,} from "@mui/material";
+import {useState} from "react";
+import {Alert, Autocomplete, Card, CardContent, CircularProgress, IconButton, TextField,} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
-import CareerService from "../../../../services/CareerService";
-import Career from "../../../../models/actor/player/Career";
 import InfoIcon from "@mui/icons-material/Info";
-import * as React from "react";
 import CareerBackdrop from "../../career/CareerBackdrop";
 import EditIcon from "@mui/icons-material/Edit";
 import Player, {PlayerSkill} from "../../../../models/actor/player/Player";
@@ -13,6 +10,8 @@ import {useLocation} from "react-router";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import GridItem from "../../../common/grid/GridItem";
 import GridContainer from "../../../common/grid/GridContainer";
+import {useFetchAllCareers} from "../../../../hooks/useFetchAllCareers.ts";
+import type {Career} from "../../../../api/model";
 
 interface Props {
     player: Player;
@@ -22,15 +21,21 @@ interface Props {
 
 export default function CareerSelectCard(props: Props) {
     const {player, onCommit, onSkillSelect} = props;
-    const [careers, setCareers] = useState<Career[]>([]);
     const [openCareerBackDrop, setOpenCareerBackDrop] = useState(false);
     const [openCareerSkillDialog, setOpenCareerSkillDialog] = useState(false);
+    const {careers, loading, error} = useFetchAllCareers();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setCareers(await CareerService.getCareers());
-        })()
-    }, []);
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return useLocation().pathname.endsWith("/view") ?
         <ViewFieldCard name={"Career"} value={player.career.name}/> :
@@ -45,7 +50,7 @@ export default function CareerSelectCard(props: Props) {
                                 getOptionLabel={(option) => option.name}
                                 value={player.career}
                                 fullWidth
-                                onChange={(e, newValue) => onCommit(newValue as Career)}
+                                onChange={(_, newValue) => onCommit(newValue as Career)}
                                 renderInput={(params) => <TextField {...params} label='Career'
                                                                     variant="outlined"/>}
                             />

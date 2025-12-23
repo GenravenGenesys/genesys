@@ -7,7 +7,7 @@ import {useState} from "react";
 import GridItem from "../../common/grid/GridItem";
 import GridContainer from "../../common/grid/GridContainer";
 import type {ActorSkill, Difficulty, Skill, Talent} from "../../../api/model";
-import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.tsx";
+import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.ts";
 
 interface Props {
     talent: Talent;

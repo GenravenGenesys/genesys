@@ -10,7 +10,7 @@ import SingleNonPlayerCharacterSkillSelectCard
     from "../../../common/card/select/SingleNonPlayerCharacterSkillSelectCard;";
 import type {Action, ActorSkill, Difficulty, RangeBand, Skill} from "../../../../api/model";
 import type {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor.ts";
-import {useFetchAllSkills} from "../../../../hooks/useFetchAllSkills.tsx";
+import {useFetchAllSkills} from "../../../../hooks/useFetchAllSkills.ts";
 
 interface Props {
     action: Action;

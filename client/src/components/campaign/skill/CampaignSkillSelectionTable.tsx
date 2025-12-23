@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
-import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.tsx";
+import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.ts";
 import type {Skill} from "../../../api/model";
 import SkillRow from "./SkillRow.tsx";
 

@@ -14,7 +14,7 @@ import WeaponDamageTextFieldCard from "../../../common/card/WeaponDamageTextFiel
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 import GridContainer from '../../../common/grid/GridContainer';
 import WeaponService from "../../../../services/equipment/WeaponService";
-import {useFetchAllSkills} from "../../../../hooks/useFetchAllSkills.tsx";
+import {useFetchAllSkills} from "../../../../hooks/useFetchAllSkills.ts";
 import type {Weapon} from "../../../../models/equipment/Weapon.ts";
 import {type RangeBand, type Skill, SkillType} from "../../../../api/model";
 

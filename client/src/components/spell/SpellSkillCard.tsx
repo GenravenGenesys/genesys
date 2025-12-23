@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import CheckboxTableCell from "../common/table/CheckboxTableCell";
-import {useFetchAllSkills} from "../../hooks/useFetchAllSkills.tsx";
+import {useFetchAllSkills} from "../../hooks/useFetchAllSkills.ts";
 import {type Skill, SkillType, type Spell} from "../../api/model";
 
 interface Props {

@@ -11,7 +11,7 @@ import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import CreateSkillDialog from "./CreateSkillDialog";
 import {RootPath} from "../../services/RootPath";
 import CenteredCardHeaderWithButton from "../common/card/header/CenteredCardHeaderWithButton.tsx";
-import {useFetchAllSkills} from "../../hooks/useFetchAllSkills.tsx";
+import {useFetchAllSkills} from "../../hooks/useFetchAllSkills.ts";
 import type {Skill} from "../../api/model";
 
 export default function ViewAllSkills() {

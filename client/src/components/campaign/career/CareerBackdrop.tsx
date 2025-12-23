@@ -1,9 +1,8 @@
-import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import {Card, CardContent, Typography} from "@mui/material";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
-import Career from "../../../models/actor/player/Career";
 import {renderSkillNames} from "../../common/skill/SkillRenders";
+import type {Career} from "../../../api/model";
 
 interface Props {
     career: Career

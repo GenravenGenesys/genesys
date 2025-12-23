@@ -10,7 +10,7 @@ import SkillAutocompleteCard from "../../common/card/SkillAutocompleteCard";
 import CharacteristicCard from "../../common/card/CharacteristicCard";
 import ArchetypeAbilityCard from "./ability/ArchetypeAbilityCard";
 import GridContainer from "../../common/grid/GridContainer";
-import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.tsx";
+import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.ts";
 import type {Archetype, Skill} from "../../../api/model";
 import {CharacteristicType} from "../../../api/model";
 

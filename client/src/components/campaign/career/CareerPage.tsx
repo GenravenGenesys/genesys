@@ -1,9 +1,7 @@
-import {Card, CardContent} from '@mui/material';
+import {Alert, Card, CardContent, CircularProgress} from '@mui/material';
 import {useLocation, useParams} from "react-router";
 import {RootPath} from "../../../services/RootPath";
-import Career from '../../../models/actor/player/Career';
 import {Fragment, useEffect, useState} from "react";
-import CareerService from '../../../services/CareerService';
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import {renderSingleRowTableHeaderWithColumns} from "../../common/table/TableRenders";
@@ -13,26 +11,52 @@ import TableContainer from "@mui/material/TableContainer";
 import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardHeaderWithAction";
 import SkillAutocompleteTableCell from "../../common/table/SkillAutocompleteTableCell";
 import GridContainer from "../../common/grid/GridContainer";
-import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.tsx";
-import type {Skill} from "../../../api/model";
+import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.ts";
+import type {Career, Skill} from "../../../api/model";
+import {getCareerController} from "../../../api/generated/career-controller/career-controller.ts";
 
 export default function CareerPage() {
     const {id} = useParams<{ id: string }>();
     const [career, setCareer] = useState<Career | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const {skills} = useFetchAllSkills();
     const pathname = useLocation().pathname;
     const headers = ['Career Skills'];
 
     useEffect(() => {
         if (!id) {
-            return
+            return;
         }
-        (async (): Promise<void> => {
-            setCareer(await CareerService.getCareer(id));
-        })()
-    }, [id, setCareer])
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await getCareerController().getCareer(id);
+                setCareer(response);
+            } catch (err) {
+                setError('Failed to load injury.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    if (!career) {
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
+
+    if (!career || !id) {
         return <Fragment/>;
     }
 
@@ -40,7 +64,7 @@ export default function CareerPage() {
         const updatedSkills = career.skills.map((row, i) =>
             i === index ? {...value} : row
         );
-        setCareer(await CareerService.updateCareer({...career, skills: updatedSkills}));
+        setCareer(await getCareerController().updateCareer(id, {...career, skills: updatedSkills}));
     };
 
     return (
@@ -52,7 +76,7 @@ export default function CareerPage() {
                         <Table>
                             {renderSingleRowTableHeaderWithColumns(headers, 2)}
                             <TableBody>
-                                {career.skills.map((skill, index) => (
+                                {career.skills.map((_skill, index) => (
                                     index % 2 === 0 && (
                                         <TableRow key={index}>
                                             <SkillAutocompleteTableCell skill={career.skills[index]} skills={skills}

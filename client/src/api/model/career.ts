@@ -8,12 +8,12 @@
 import type { Skill } from "./skill";
 
 export interface Career {
-  id?: string;
+  id: string;
   /** @minLength 1 */
   name: string;
   /**
    * @minItems 0
    * @maxItems 8
    */
-  skills?: Skill[];
+  skills: Skill[];
 }

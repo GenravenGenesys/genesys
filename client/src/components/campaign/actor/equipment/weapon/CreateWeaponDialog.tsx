@@ -13,7 +13,7 @@ import WeaponQualityCard from "../../../equipment/weapon/quality/WeaponQualityCa
 import WeaponModifierCard from "../../../equipment/weapon/modifier/WeaponModifierCard";
 import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
 import GridContainer from "../../../../common/grid/GridContainer";
-import {useFetchAllSkills} from "../../../../../hooks/useFetchAllSkills.tsx";
+import {useFetchAllSkills} from "../../../../../hooks/useFetchAllSkills.ts";
 import {type ActorSkill, RangeBand, type Skill, SkillType} from "../../../../../api/model";
 
 interface Props {
