@@ -39,9 +39,9 @@ public class CampaignSkillController {
     @Operation(summary = "Add Skill to Campaign", description = "Adds a Skill to the current Campaign.")
     public Mono<ResponseEntity<Campaign>> addSkillToCurrentCampaign(@PathVariable final String id) {
         return skillService.addSkillToCurrentCampaign(id)
-            .map(sk -> ResponseEntity.ok()
+            .map(campaign -> ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(sk))
+                .body(campaign))
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }
