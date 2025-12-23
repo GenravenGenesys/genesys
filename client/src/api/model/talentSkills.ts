@@ -8,5 +8,5 @@
 import type { Skill } from "./skill";
 
 export interface TalentSkills {
-  potentialCareerSkills?: Skill[];
+  potentialCareerSkills: Skill[];
 }

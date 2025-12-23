@@ -7,8 +7,8 @@
  */
 
 export interface TalentStats {
-  wounds?: number;
-  strain?: number;
-  soak?: number;
-  defense?: number;
+  wounds: number;
+  strain: number;
+  soak: number;
+  defense: number;
 }

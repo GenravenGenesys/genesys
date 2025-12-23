@@ -9,7 +9,7 @@ import type { ActorSkill } from "./actorSkill";
 import type { Difficulty } from "./difficulty";
 
 export interface TalentSkillCheck {
-  skill?: ActorSkill;
-  difficulty?: Difficulty;
-  opposedSkill?: ActorSkill;
+  skill: ActorSkill;
+  difficulty: Difficulty;
+  opposedSkill: ActorSkill;
 }

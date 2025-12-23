@@ -10,11 +10,11 @@ import type { Skill } from "./skill";
 import type { Effect } from "./effect";
 
 export interface Spell {
-  id?: string;
-  name?: string;
-  concentration?: boolean;
-  difficulty?: Difficulty;
-  description?: string;
-  skills?: Skill[];
-  effects?: Effect[];
+  id: string;
+  name: string;
+  concentration: boolean;
+  difficulty: Difficulty;
+  description: string;
+  skills: Skill[];
+  effects: Effect[];
 }

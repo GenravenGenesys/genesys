@@ -8,5 +8,5 @@
 import type { ActorSkill } from "./actorSkill";
 
 export interface TalentRollModifiers {
-  skill?: ActorSkill;
+  skill: ActorSkill;
 }
