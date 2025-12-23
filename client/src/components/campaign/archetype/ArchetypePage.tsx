@@ -1,7 +1,6 @@
 import {Card, CardContent} from '@mui/material';
 import {useLocation, useParams} from 'react-router';
 import {RootPath} from "../../../services/RootPath";
-import {CharacteristicType} from "../../../models/actor/Characteristic";
 import {Fragment, useEffect, useState} from "react";
 import ArchetypeService from "../../../services/ArchetypeService";
 import NumberTextFieldCard from "../../common/card/NumberTextFieldCard";
@@ -13,6 +12,7 @@ import ArchetypeAbilityCard from "./ability/ArchetypeAbilityCard";
 import GridContainer from "../../common/grid/GridContainer";
 import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.tsx";
 import type {Archetype, Skill} from "../../../api/model";
+import {CharacteristicType} from "../../../api/model";
 
 const ArchetypePage = ()=> {
     const {id} = useParams<{ id: string }>();

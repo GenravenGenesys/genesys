@@ -7,11 +7,11 @@ import RatingCard from "../RatingCard";
 import { RatingType } from "../../../../models/actor/npc/NonPlayerActor";
 import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
 import { StatsType } from "../../../../models/actor/Stats";
-import { CharacteristicType } from "../../../../models/actor/Characteristic";
 import RivalService from "../../../../services/actor/RivalService";
 import { useLocation } from "react-router";
 import GridContainer from "../../../common/grid/GridContainer";
 import NonPlayerCharacterCharacteristicRow from "../NonPlayerCharacterCharacteristicRow";
+import type {CharacteristicType} from "../../../../api/model";
 
 interface Props {
     rival: Rival;

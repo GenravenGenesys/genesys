@@ -1,5 +1,5 @@
-import Skill from "../Skill";
-import Ability from "../../Ability";
+import type {Ability, Skill} from "../../../api/model";
+
 
 export default interface Archetype {
     id: string

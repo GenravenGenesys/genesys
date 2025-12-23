@@ -1,10 +1,10 @@
 import * as React from "react";
 import {useLocation} from "react-router";
 import NonPlayerActor from "../../../models/actor/npc/NonPlayerActor";
-import { CharacteristicType } from "../../../models/actor/Characteristic";
 import GridContainer from "../../common/grid/GridContainer";
 import ViewFieldCard from "../../common/ViewFieldCard";
 import CharacteristicCard from "../../common/card/CharacteristicCard";
+import type {CharacteristicType} from "../../../api/model";
 
 type Props = {
     npc: NonPlayerActor;

@@ -1,5 +1,4 @@
 import {Button, Dialog, DialogActions, DialogContent, IconButton} from "@mui/material";
-import type {Characteristic} from "../../../../../../models/actor/Characteristic";
 import Typography from "@mui/material/Typography";
 import {Add} from "@mui/icons-material";
 import React, {useEffect, useState} from "react";
@@ -8,6 +7,7 @@ import PlayerService from "../../../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
+import type {Characteristic} from "../../../../../../api/model";
 
 interface Props {
     open: boolean;

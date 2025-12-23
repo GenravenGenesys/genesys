@@ -1,6 +1,5 @@
 import Minion from "../../../../models/actor/npc/Minion";
 import {useLocation} from "react-router";
-import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import MinionService from "../../../../services/actor/MinionService";
 import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import RatingCard from "../RatingCard";
@@ -12,6 +11,7 @@ import * as React from "react";
 import {DefenseType} from "../../../../models/actor/Defense";
 import GridContainer from "../../../common/grid/GridContainer";
 import NonPlayerCharacterCharacteristicRow from "../NonPlayerCharacterCharacteristicRow";
+import type {CharacteristicType} from "../../../../api/model";
 
 interface Props {
     minion: Minion;
