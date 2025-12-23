@@ -17,20 +17,20 @@ import type { TalentRollModifiers } from "./talentRollModifiers";
 import type { Modifier } from "./modifier";
 
 export interface Talent {
-  id?: string;
+  id: string;
   /** @minLength 1 */
   name: string;
-  activation?: Activation;
-  tier?: TalentTier;
+  activation: Activation;
+  tier: TalentTier;
   ranked: boolean;
-  summary?: string;
-  description?: string;
-  cost?: Cost;
-  limit?: Limit;
-  talentSkills?: TalentSkills;
-  talentStats?: TalentStats;
-  talentSkillCheck?: TalentSkillCheck;
-  action?: Action;
-  talentRollModifiers?: TalentRollModifiers[];
-  modifiers?: Modifier[];
+  summary: string;
+  description: string;
+  cost: Cost;
+  limit: Limit;
+  talentSkills: TalentSkills;
+  talentStats: TalentStats;
+  talentSkillCheck: TalentSkillCheck;
+  action: Action;
+  talentRollModifiers: TalentRollModifiers[];
+  modifiers: Modifier[];
 }

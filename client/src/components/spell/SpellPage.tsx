@@ -11,7 +11,7 @@ import SpellSkillCard from "./SpellSkillCard.tsx";
 import SpellEffectCard from "./effect/SpellEffectCard.tsx";
 import TextFieldCard from "../common/card/TextFieldCard.tsx";
 import BooleanTextFieldCard from "../common/card/BooleanTextFieldCard.tsx";
-import SkillService from "../../services/SkillService.ts";
+import {getSkillController} from "../../api/generated/skill-controller/skill-controller.ts";
 
 const SpellPage = () => {
     const {id} = useParams<{ id: string }>();
@@ -76,7 +76,7 @@ const SpellPage = () => {
 
     const onSkillAddition = async (name: string) => {
         const copySpell = {...spell} as Spell
-        const skill = await SkillService.getSkill(name)
+        const skill = await getSkillController().getSkill(name)
         copySpell.skills = copySpell.skills!.concat(skill)
         await updateQuality(copySpell)
     }

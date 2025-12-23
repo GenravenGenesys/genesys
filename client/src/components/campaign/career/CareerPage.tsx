@@ -10,16 +10,16 @@ import {renderSingleRowTableHeaderWithColumns} from "../../common/table/TableRen
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableContainer from "@mui/material/TableContainer";
-import SkillService from "../../../services/SkillService";
-import Skill from "../../../models/actor/Skill";
 import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardHeaderWithAction";
 import SkillAutocompleteTableCell from "../../common/table/SkillAutocompleteTableCell";
 import GridContainer from "../../common/grid/GridContainer";
+import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.tsx";
+import type {Skill} from "../../../api/model";
 
 export default function CareerPage() {
     const {id} = useParams<{ id: string }>();
     const [career, setCareer] = useState<Career | null>(null);
-    const [skills, setSkills] = useState<Skill[]>([]);
+    const {skills} = useFetchAllSkills();
     const pathname = useLocation().pathname;
     const headers = ['Career Skills'];
 
@@ -31,12 +31,6 @@ export default function CareerPage() {
             setCareer(await CareerService.getCareer(id));
         })()
     }, [id, setCareer])
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setSkills(await SkillService.getSkills());
-        })()
-    }, [])
 
     if (!career) {
         return <Fragment/>;

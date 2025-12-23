@@ -8,20 +8,14 @@ import TableBody from "@mui/material/TableBody";
 import {Button} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import CampaignService from "../../../services/CampaignService";
-import Skill from "../../../models/actor/Skill";
-import SkillService from "../../../services/SkillService";
 import SkillBackdrop from "../../skills/SkillBackdrop";
+import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.tsx";
+import type {Skill} from "../../../api/model";
 
 export default function CampaignSkillSelectionTable() {
-    const [skills, setSkills] = useState<Skill[]>([]);
+    const {skills} = useFetchAllSkills();
     const [openSkillBackDrop, setOpenSkillBackDrop] = useState(false);
     const headers = ['Name', 'Add'];
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setSkills(await SkillService.getSkills());
-        })()
-    }, [setSkills]);
 
     const addSkill = async (skill: Skill) => {
         await CampaignService.addCampaignSkill(skill);

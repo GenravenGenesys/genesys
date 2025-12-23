@@ -1,9 +1,9 @@
-import Skill from "../../../models/actor/Skill";
-import { ActorSkill, ActorType } from "../../../models/actor/Actor";
-import Minion from "../../../models/actor/npc/Minion";
-import NonPlayerActor, { SingleNonPlayerCharacter } from "../../../models/actor/npc/NonPlayerActor";
-import { ActorWeapon } from "../../../models/equipment/Weapon";
-import Player, { PlayerSkill } from "../../../models/actor/player/Player";
+import type {ActorSkill, ActorWeapon, Player, PlayerSkill, Skill} from "../../../api/model";
+import type NonPlayerActor from "../../../models/actor/npc/NonPlayerActor.ts";
+import type { SingleNonPlayerCharacter } from "../../../models/actor/npc/NonPlayerActor.ts";
+import {ActorType} from "../../../models/actor/Actor.ts";
+import type Minion from "../../../models/actor/npc/Minion.ts";
+
 
 export const renderSkillName = (skill: Skill): string => {
     return !skill ? 'None' : skill.name;

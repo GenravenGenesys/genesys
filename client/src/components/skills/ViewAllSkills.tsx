@@ -3,36 +3,39 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {useEffect, useState} from 'react';
-import * as React from 'react';
-import Skill from "../../models/actor/Skill";
-import SkillService from "../../services/SkillService";
+import {useState} from 'react';
 import ActionsTableCell from "../common/table/actions/ActionsTableCell";
 import {renderSingleRowTableHeader} from "../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../common/table/TypographyTableCell";
-import {Button, Card, CardContent, CardHeader} from "@mui/material";
+import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import CreateSkillDialog from "./CreateSkillDialog";
 import {RootPath} from "../../services/RootPath";
+import CenteredCardHeaderWithButton from "../common/card/header/CenteredCardHeaderWithButton.tsx";
+import {useFetchAllSkills} from "../../hooks/useFetchAllSkills.tsx";
+import type {Skill} from "../../api/model";
 
 export default function ViewAllSkills() {
-    const [skills, setSkills] = useState<Skill[]>([])
-    const [openSkillCreationDialog, setOpenSkillCreationDialog] = useState(false)
-    const headers = ['Name', 'Type', 'Linked Characteristic', 'View']
+    const [openSkillCreationDialog, setOpenSkillCreationDialog] = useState(false);
+    const headers = ['Name', 'Type', 'Linked Characteristic', 'View'];
+    const {skills, loading, error} = useFetchAllSkills();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setSkills(await SkillService.getSkills())
-        })()
-    }, [])
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return (
         <Card>
-            <CardHeader
-                style={{textAlign: 'center'}}
-                title={'View All Skills'}
-                action={<Button color='primary' variant='contained'
-                                onClick={(): void => setOpenSkillCreationDialog(true)}>Create Skill</Button>}>
-            </CardHeader>
+            <CenteredCardHeaderWithButton title={'View All Skills'}
+                                          onClick={(): void => setOpenSkillCreationDialog(true)}
+                                          buttonText={'Create Skill'}/>
             <CardContent>
                 <TableContainer component={Paper}>
                     <Table>

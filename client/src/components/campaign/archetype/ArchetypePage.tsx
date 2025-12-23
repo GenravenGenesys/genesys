@@ -1,13 +1,9 @@
 import {Card, CardContent} from '@mui/material';
 import {useLocation, useParams} from 'react-router';
-import * as React from "react";
-import Archetype from "../../../models/actor/player/Archetype";
 import {RootPath} from "../../../services/RootPath";
 import {CharacteristicType} from "../../../models/actor/Characteristic";
 import {Fragment, useEffect, useState} from "react";
-import SkillService from "../../../services/SkillService";
 import ArchetypeService from "../../../services/ArchetypeService";
-import Skill from "../../../models/actor/Skill";
 import NumberTextFieldCard from "../../common/card/NumberTextFieldCard";
 import TextFieldCard from "../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardHeaderWithAction";
@@ -15,11 +11,13 @@ import SkillAutocompleteCard from "../../common/card/SkillAutocompleteCard";
 import CharacteristicCard from "../../common/card/CharacteristicCard";
 import ArchetypeAbilityCard from "./ability/ArchetypeAbilityCard";
 import GridContainer from "../../common/grid/GridContainer";
+import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.tsx";
+import type {Archetype, Skill} from "../../../api/model";
 
 const ArchetypePage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [archetype, setArchetype] = useState<Archetype | null>(null);
-    const [skills, setSkills] = useState<Skill[]>([]);
+    const {skills} = useFetchAllSkills();
     const pathname = useLocation().pathname;
 
     useEffect(() => {
@@ -30,12 +28,6 @@ const ArchetypePage = ()=> {
             setArchetype(await ArchetypeService.getArchetype(id))
         })()
     }, [id, setArchetype])
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setSkills(await SkillService.getSkills())
-        })()
-    }, [])
 
     if (!archetype) {
         return <Fragment/>;

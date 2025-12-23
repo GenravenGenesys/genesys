@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import Skill from "../../models/actor/Skill";
 import {Card, CardContent, CardHeader} from "@mui/material";
 import ViewFieldCard from "../common/ViewFieldCard";
 import GridContainer from "../common/grid/GridContainer";
+import type {Skill} from "../../api/model";
 
 interface Props {
     skill: Skill;
