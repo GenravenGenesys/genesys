@@ -3,19 +3,22 @@ import * as React from "react";
 import { useState } from "react";
 import Ability from "../../../../models/Ability";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
-import { LimitType } from "../../../../models/common/Limit";
-import { CostType } from "../../../../models/common/Cost";
 import { useLocation } from "react-router";
 import ActivationCard from "../../../common/card/select/ActivationCard";
 import TextFieldCard from "../../../common/card/TextFieldCard";
 import GridContainer from "../../../common/grid/GridContainer";
-import { ActorSkill } from "../../../../models/actor/Actor";
-import { DifficultyUI } from "../../../../models/common/DifficultyUI.ts";
-import { RangeBand } from "../../../../models/common/RangeBand";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
 import AbilityActionCard from "./AbilityActionCard";
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
-import {type Action, Activation} from "../../../../api/model";
+import {
+    type Action,
+    Activation,
+    type ActorSkill,
+    CostType,
+    Difficulty,
+    LimitType,
+    RangeBand
+} from "../../../../api/model";
 
 interface Props {
     open: boolean;
@@ -33,7 +36,7 @@ const CreateAbilityDialog: React.FC<Props> = ({ open, npc, onCreateAbility, onCl
         cost: { type: CostType.None, amount: 0 },
         action: {
             skill: { name: '', ranks: 0 } as ActorSkill,
-            difficulty: DifficultyUI.Easy,
+            difficulty: Difficulty.Easy,
             opposedSkill: { name: '', ranks: 0 } as ActorSkill,
             rangeBand: RangeBand.Engaged
         },

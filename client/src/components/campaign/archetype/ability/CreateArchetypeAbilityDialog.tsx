@@ -6,11 +6,12 @@ import {InputTextFieldCard} from "../../../common/InputTextFieldCard";
 import InputSelectFieldCard from "../../../common/InlineSelectFieldCard";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
 import ArchetypeService from "../../../../services/ArchetypeService";
-import Cost, {CostType, DefaultCost, getCostOptions} from "../../../../models/common/Cost";
-import Limit, {DefaultLimit, getLimitOptions, LimitType} from "../../../../models/common/Limit";
+import Limit, {DefaultLimit, getLimitOptions} from "../../../../models/common/Limit";
 import NumberRangeSelectCard from "../../../common/NumberRangeSelectCard";
 import GridContainer from "../../../common/grid/GridContainer";
 import ActivationCard from "../../../common/card/select/ActivationCard.tsx";
+import {type Activation, type Cost, CostType, LimitType} from "../../../../api/model";
+import CostCard from "../../../common/card/select/CostCard.tsx";
 
 interface Props {
     archetype: Archetype
@@ -26,7 +27,10 @@ export default function CreateArchetypeAbilityDialog(props: Props) {
         if (ability) {
             if (!archetype.abilities.some(archetypeAbility => archetypeAbility.name === ability.name)) {
                 if (!ability.cost) {
-                    ability.cost = DefaultCost.create()
+                    ability.cost = {
+                        type: CostType.None,
+                        amount: 0,
+                    }
                 }
                 if (!ability.limiter) {
                     ability.limiter = DefaultLimit.create()
@@ -116,9 +120,9 @@ export default function CreateArchetypeAbilityDialog(props: Props) {
                     }} disabled={false}/>
                 </GridContainer>
                 <GridContainer spacing={10}>
-                    <InputSelectFieldCard defaultValue={ability?.cost?.type!} onCommit={(value: string): void => {
+                    <CostCard initialCost={ability?.cost?.type!} onChange={(value: string): void => {
                         onCostChange('type', value)
-                    }} title={'Cost Type'} options={getCostOptions()}/>
+                    }} disabled={false}/>
                     <NumberRangeSelectCard defaultValue={ability?.cost?.amount!} title={'Amount'} onChange={(value: number): void => {
                         onCostChange('amount', String(value))
                     }} min={1} max={6}/>
