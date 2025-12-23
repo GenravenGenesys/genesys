@@ -12,11 +12,11 @@ import type { Action } from "./action";
 import type { Modifier } from "./modifier";
 
 export interface Ability {
-  name?: string;
-  description?: string;
-  activation?: Activation;
-  cost?: Cost;
-  limit?: Limit;
-  action?: Action;
-  modifiers?: Modifier[];
+  name: string;
+  description: string;
+  activation: Activation;
+  cost: Cost;
+  limit: Limit;
+  action: Action;
+  modifiers: Modifier[];
 }

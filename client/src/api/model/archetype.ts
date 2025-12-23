@@ -9,44 +9,44 @@ import type { Skill } from "./skill";
 import type { Ability } from "./ability";
 
 export interface Archetype {
-  id?: string;
+  id: string;
   /** @minLength 1 */
   name: string;
-  description?: string;
+  description: string;
   /**
    * @minimum 1
    * @maximum 5
    */
-  brawn?: number;
+  brawn: number;
   /**
    * @minimum 1
    * @maximum 5
    */
-  agility?: number;
+  agility: number;
   /**
    * @minimum 1
    * @maximum 5
    */
-  intellect?: number;
+  intellect: number;
   /**
    * @minimum 1
    * @maximum 5
    */
-  cunning?: number;
+  cunning: number;
   /**
    * @minimum 1
    * @maximum 5
    */
-  willpower?: number;
+  willpower: number;
   /**
    * @minimum 1
    * @maximum 5
    */
-  presence?: number;
-  wounds?: number;
-  strain?: number;
+  presence: number;
+  wounds: number;
+  strain: number;
   /** @minimum 65 */
-  experience?: number;
-  skill?: Skill;
-  abilities?: Ability[];
+  experience: number;
+  skill: Skill;
+  abilities: Ability[];
 }
