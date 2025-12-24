@@ -12,15 +12,22 @@ import type { RangeBand } from "./rangeBand";
 import type { ActorWeaponSlot } from "./actorWeaponSlot";
 
 export interface ActorWeapon {
-  id?: string;
-  name?: string;
-  description?: string;
-  price?: number;
-  restricted?: boolean;
-  encumbrance?: number;
-  rarity?: number;
-  modifiers?: Modifier[];
-  qualities?: EquipmentQuality[];
+  id: string;
+  /** @minLength 1 */
+  name: string;
+  description: string;
+  /** @minimum 0 */
+  price: number;
+  restricted: boolean;
+  /** @minimum 0 */
+  encumbrance: number;
+  /**
+   * @minimum 0
+   * @maximum 10
+   */
+  rarity: number;
+  modifiers: Modifier[];
+  qualities: EquipmentQuality[];
   damage?: number;
   skill?: Skill;
   critical?: number;

@@ -19,6 +19,7 @@ export * from "./actorTalentTier";
 export * from "./actorWeapon";
 export * from "./actorWeaponSlot";
 export * from "./archetype";
+export * from "./armor";
 export * from "./campaign";
 export * from "./career";
 export * from "./characterResponse";

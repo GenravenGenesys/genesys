@@ -1,5 +1,7 @@
 package com.github.genraven.genesys.domain.equipment;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,6 +25,11 @@ public class Armor extends Equipment {
         this.setQualities(equipment.getQualities());
     }
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    @Min(0)
     private int soak = 0;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    @Min(0)
     private int defense = 0;
 }

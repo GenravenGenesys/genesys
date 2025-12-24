@@ -7,9 +7,8 @@
  */
 import type { Modifier } from "./modifier";
 import type { EquipmentQuality } from "./equipmentQuality";
-import type { ActorArmorSlot } from "./actorArmorSlot";
 
-export interface ActorArmor {
+export interface Armor {
   id: string;
   /** @minLength 1 */
   name: string;
@@ -30,5 +29,4 @@ export interface ActorArmor {
   soak: number;
   /** @minimum 0 */
   defense: number;
-  slot: ActorArmorSlot;
 }

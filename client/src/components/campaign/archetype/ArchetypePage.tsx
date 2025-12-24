@@ -112,63 +112,64 @@ const ArchetypePage = ()=> {
             await updateArchetype({...archetype, experience: value});
         }
     };
-    
+
     const updateArchetype = async (updatedArchetype: Archetype) => {
         if (updatedArchetype) {
             setArchetype(await getArchetypeController().updateArchetype(updatedArchetype.id, updatedArchetype));
         }
 
-    return (
-        <Card>
-            <CenteredCardHeaderWithAction title={archetype.name} path={RootPath.Archetype + archetype.id}/>
-            <CardContent>
-                <GridContainer centered>
+        return (
+            <Card>
+                <CenteredCardHeaderWithAction title={archetype.name} path={RootPath.Archetype + archetype.id}/>
+                <CardContent>
                     <GridContainer centered>
-                        <TextFieldCard title={"Description"} value={archetype.description}
-                                       disabled={!pathname.endsWith(archetype.id + '/edit')}
-                                       onChange={handleDescriptionChange}/>
+                        <GridContainer centered>
+                            <TextFieldCard title={"Description"} value={archetype.description}
+                                           disabled={!pathname.endsWith(archetype.id + '/edit')}
+                                           onChange={handleDescriptionChange}/>
+                        </GridContainer>
+                        <GridContainer spacing={2}>
+                            <CharacteristicCard type={CharacteristicType.Brawn} value={archetype.brawn}
+                                                handleCharacteristicChange={handleCharacteristicChange}
+                                                disabled={!pathname.endsWith(archetype.id + '/edit')}/>
+                            <CharacteristicCard type={CharacteristicType.Agility} value={archetype.agility}
+                                                handleCharacteristicChange={handleCharacteristicChange}
+                                                disabled={!pathname.endsWith(archetype.id + '/edit')}/>
+                            <CharacteristicCard type={CharacteristicType.Intellect} value={archetype.intellect}
+                                                handleCharacteristicChange={handleCharacteristicChange}
+                                                disabled={!pathname.endsWith(archetype.id + '/edit')}/>
+                            <CharacteristicCard type={CharacteristicType.Cunning} value={archetype.cunning}
+                                                handleCharacteristicChange={handleCharacteristicChange}
+                                                disabled={!pathname.endsWith(archetype.id + '/edit')}/>
+                            <CharacteristicCard type={CharacteristicType.Willpower} value={archetype.willpower}
+                                                handleCharacteristicChange={handleCharacteristicChange}
+                                                disabled={!pathname.endsWith(archetype.id + '/edit')}/>
+                            <CharacteristicCard type={CharacteristicType.Presence} value={archetype.presence}
+                                                handleCharacteristicChange={handleCharacteristicChange}
+                                                disabled={!pathname.endsWith(archetype.id + '/edit')}/>
+                        </GridContainer>
+                        <GridContainer centered>
+                            <NumberTextFieldCard title={"Wound Threshold"} value={archetype.wounds}
+                                                 onChange={handleWoundsChange} min={7} max={13}
+                                                 disabled={!pathname.endsWith(archetype.id + '/edit')}/>
+                            <NumberTextFieldCard title={"Strain Threshold"} value={archetype.strain}
+                                                 onChange={handleStrainChange} min={7} max={13}
+                                                 disabled={!pathname.endsWith(archetype.id + '/edit')}/>
+                            <NumberTextFieldCard title={"Base Experience"} value={archetype.experience}
+                                                 onChange={handleExperienceChange} min={70} max={170}
+                                                 disabled={!pathname.endsWith(archetype.id + '/edit')} steps={5}/>
+                        </GridContainer>
+                        <GridContainer>
+                            <SkillAutocompleteCard disabled={!pathname.endsWith(archetype.id + '/edit')}
+                                                   handleSkillChange={handleSkillChange} skills={skills}
+                                                   startingSkill={archetype.skill} title={'Starting Skill'}/>
+                        </GridContainer>
                     </GridContainer>
-                    <GridContainer spacing={2}>
-                        <CharacteristicCard type={CharacteristicType.Brawn} value={archetype.brawn}
-                                            handleCharacteristicChange={handleCharacteristicChange}
-                                            disabled={!pathname.endsWith(archetype.id + '/edit')}/>
-                        <CharacteristicCard type={CharacteristicType.Agility} value={archetype.agility}
-                                            handleCharacteristicChange={handleCharacteristicChange}
-                                            disabled={!pathname.endsWith(archetype.id + '/edit')}/>
-                        <CharacteristicCard type={CharacteristicType.Intellect} value={archetype.intellect}
-                                            handleCharacteristicChange={handleCharacteristicChange}
-                                            disabled={!pathname.endsWith(archetype.id + '/edit')}/>
-                        <CharacteristicCard type={CharacteristicType.Cunning} value={archetype.cunning}
-                                            handleCharacteristicChange={handleCharacteristicChange}
-                                            disabled={!pathname.endsWith(archetype.id + '/edit')}/>
-                        <CharacteristicCard type={CharacteristicType.Willpower} value={archetype.willpower}
-                                            handleCharacteristicChange={handleCharacteristicChange}
-                                            disabled={!pathname.endsWith(archetype.id + '/edit')}/>
-                        <CharacteristicCard type={CharacteristicType.Presence} value={archetype.presence}
-                                            handleCharacteristicChange={handleCharacteristicChange}
-                                            disabled={!pathname.endsWith(archetype.id + '/edit')}/>
-                    </GridContainer>
-                    <GridContainer centered>
-                        <NumberTextFieldCard title={"Wound Threshold"} value={archetype.wounds}
-                                             onChange={handleWoundsChange} min={7} max={13}
-                                             disabled={!pathname.endsWith(archetype.id + '/edit')}/>
-                        <NumberTextFieldCard title={"Strain Threshold"} value={archetype.strain}
-                                             onChange={handleStrainChange} min={7} max={13}
-                                             disabled={!pathname.endsWith(archetype.id + '/edit')}/>
-                        <NumberTextFieldCard title={"Base Experience"} value={archetype.experience}
-                                             onChange={handleExperienceChange} min={70} max={170}
-                                             disabled={!pathname.endsWith(archetype.id + '/edit')} steps={5}/>
-                    </GridContainer>
-                    <GridContainer>
-                        <SkillAutocompleteCard disabled={!pathname.endsWith(archetype.id + '/edit')}
-                                               handleSkillChange={handleSkillChange} skills={skills}
-                                               startingSkill={archetype.skill} title={'Starting Skill'}/>
-                    </GridContainer>
-                </GridContainer>
-                <ArchetypeAbilityCard archetype={archetype}/>
-            </CardContent>
-        </Card>
-    );
+                    <ArchetypeAbilityCard archetype={archetype}/>
+                </CardContent>
+            </Card>
+        );
+    };
 };
 
 export default ArchetypePage;
