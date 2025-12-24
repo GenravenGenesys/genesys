@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Button, TableCell, Typography } from "@mui/material";
 import GenesysDescriptionTypography from "../typography/GenesysDescriptionTypography";
 import type Actor from "../../../models/actor/Actor";
-import type { getActorCharacteristicRanks } from "../../../models/actor/Actor";
+import { getActorCharacteristicRanks } from "../../../models/actor/Actor";
 import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography";
-import { getDifficultyDice } from "../../../models/common/DifficultyUI.ts";
 import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
 // import { GenesysSymbols } from "../../../models/roll/GenesysSymbols";
 import DiceRollerDialog from "../../roll/DiceRollerDialog";
 import {type ActorSkill, type Cost, CostType, type Difficulty, type Limit, LimitType} from "../../../api/model";
+import {getDifficultyDice} from "../../../util/DiceHelper.ts";
 
 interface LeftProps {
     value: string;
