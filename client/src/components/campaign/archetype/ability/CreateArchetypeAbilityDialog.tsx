@@ -1,16 +1,15 @@
 import {Dialog, DialogContent, Divider} from "@mui/material";
 import {useState} from "react";
-import Archetype from "../../../../models/actor/player/Archetype";
-import Ability from "../../../../models/Ability";
+import {type Archetype, type Ability} from "../../../../api/model";
 import {InputTextFieldCard} from "../../../common/InputTextFieldCard";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
-import ArchetypeService from "../../../../services/ArchetypeService";
 import GridContainer from "../../../common/grid/GridContainer";
 import ActivationCard from "../../../common/card/select/ActivationCard.tsx";
 import {type Activation, type Cost, CostType, type Limit, LimitType} from "../../../../api/model";
 import CostCard from "../../../common/card/select/CostCard.tsx";
 import LimitCard from "../../../common/card/select/LimitCard.tsx";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle.tsx";
+import {getArchetypeController} from "../../../../api/generated/archetype-controller/archetype-controller.ts";
 
 interface Props {
     archetype: Archetype
@@ -31,14 +30,14 @@ export default function CreateArchetypeAbilityDialog(props: Props) {
                         amount: 0,
                     }
                 }
-                if (!ability.limiter) {
-                    ability.limiter = {
+                if (!ability.limit) {
+                    ability.limit = {
                         type: LimitType.None,
                         limit: 0,
                     }
                 }
                 archetype.abilities.push(ability)
-                await ArchetypeService.updateArchetype(archetype)
+                await getArchetypeController().updateArchetype(archetype.id, archetype);
             }
         }
         onClose()
@@ -52,7 +51,7 @@ export default function CreateArchetypeAbilityDialog(props: Props) {
 
     const handleLimitChange = async (value: Limit) => {
         if (ability) {
-            setAbility({...ability, limiter: value});
+            setAbility({...ability, limit: value});
         }
     };
 
@@ -99,7 +98,7 @@ export default function CreateArchetypeAbilityDialog(props: Props) {
                 </GridContainer>
                 <GridContainer spacing={10}>
                     <CostCard initialCost={ability?.cost!} onChange={handleCostChange} disabled={false}/>
-                    <LimitCard initialLimit={ability?.limiter!} onChange={handleLimitChange} disabled={false}/>
+                    <LimitCard initialLimit={ability?.limit!} onChange={handleLimitChange} disabled={false}/>
                 </GridContainer>
             </DialogContent>
             <GenesysDialogActions handleCreate={onCreate} onClose={onClose}/>

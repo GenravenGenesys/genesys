@@ -3,7 +3,7 @@ import ViewFieldCard from "../../../common/ViewFieldCard";
 import ExperienceCard from "./experience/ExperienceCard";
 import ArchetypeSelectCard from "./ArchetypeSelectCard";
 import CareerSelectCard from "./CareerSkillCard";
-import Archetype from "../../../../models/actor/player/Archetype";
+import {type Archetype} from "../../../../api/model";
 import PlayerService from "../../../../services/actor/PlayerService";
 import PlayerCharacteristicRow from "./PlayerCharacteristicRow";
 import DerivedPlayerStatsRow from "./DerivedPlayerStatsRow";

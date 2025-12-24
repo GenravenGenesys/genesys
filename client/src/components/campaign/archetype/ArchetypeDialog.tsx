@@ -1,9 +1,9 @@
-import {ChangeEvent, useState} from "react";
+import {type ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router";
 import {RootPath} from "../../../services/RootPath";
 import {Dialog, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import ArchetypeService from "../../../services/ArchetypeService";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
+import {getArchetypeController} from "../../../api/generated/archetype-controller/archetype-controller.ts";
 
 interface Props {
     open: boolean
@@ -16,8 +16,8 @@ export default function ArchetypeDialog(props: Props) {
     const navigate = useNavigate()
 
     const handleCreate = async (): Promise<void> => {
-        const archetype = await ArchetypeService.createArchetype(name)
-        navigate(RootPath.Archetype + archetype.id + '/edit')
+        const archetype = await getArchetypeController().createArchetype(name);
+        navigate(RootPath.Archetype + archetype.id + '/view')
         onClose()
     }
 

@@ -1,15 +1,14 @@
-import {Autocomplete, Card, CardContent, IconButton, TextField} from "@mui/material";
+import {Alert, Autocomplete, Card, CardContent, CircularProgress, IconButton, TextField} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
-import {useEffect, useState} from "react";
-import Archetype from "../../../../models/actor/player/Archetype";
-import ArchetypeService from "../../../../services/ArchetypeService";
+import {useState} from "react";
 import InfoIcon from "@mui/icons-material/Info";
-import * as React from "react";
 import ArchetypeBackdrop from "../../archetype/ArchetypeBackdrop";
 import {useLocation} from "react-router";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import GridContainer from "../../../common/grid/GridContainer";
 import GridItem from "../../../common/grid/GridItem";
+import {useFetchAllArchetypes} from "../../../../hooks/useFetchAllArchetypes.ts";
+import type {Archetype} from "../../../../api/model";
 
 interface Props {
     archetype: Archetype;
@@ -18,14 +17,20 @@ interface Props {
 
 export default function ArchetypeSelectCard(props: Props) {
     const {archetype, onCommit} = props;
-    const [archetypes, setArchetypes] = useState<Archetype[]>([]);
     const [openArchetypeBackDrop, setOpenArchetypeBackDrop] = useState(false);
+    const {archetypes, loading, error} = useFetchAllArchetypes();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setArchetypes(await ArchetypeService.getArchetypes());
-        })()
-    }, [setArchetypes])
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return useLocation().pathname.endsWith("/view") ? <ViewFieldCard name={"Archetype"} value={archetype.name}/> :
         <GridItem>
@@ -39,7 +44,7 @@ export default function ArchetypeSelectCard(props: Props) {
                                 getOptionLabel={(option) => option.name}
                                 value={archetype}
                                 fullWidth
-                                onChange={(e, newValue) => onCommit(newValue as Archetype)}
+                                onChange={(_, newValue) => onCommit(newValue as Archetype)}
                                 renderInput={(params) => <TextField {...params} label='Archetype'
                                                                     variant="outlined"/>}
                             />

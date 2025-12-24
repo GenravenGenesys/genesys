@@ -1,11 +1,9 @@
-import * as React from "react";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
-import Archetype from "../../../../models/actor/player/Archetype";
-import Ability from "../../../../models/Ability";
+import type {Ability, Archetype} from "../../../../api/model";
 import {
     CostTableCell,
     GenesysDescriptionTypographyCenterTableCell, LimitTableCell, TypographyCenterTableCell,
@@ -23,7 +21,7 @@ function Row(props: Props): JSX.Element {
     return (
         <TableRow key={ability.name}>
             <TypographyLeftTableCell value={ability.name}/>
-            <LimitTableCell limit={ability.limiter}/>
+            <LimitTableCell limit={ability.limit}/>
             <CostTableCell cost={ability.cost}/>
             <TypographyCenterTableCell value={ability.activation}/>
             <GenesysDescriptionTypographyCenterTableCell value={ability.description}/>

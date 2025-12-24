@@ -1,8 +1,7 @@
-import {Card, CardContent} from '@mui/material';
+import {Alert, Card, CardContent, CircularProgress} from '@mui/material';
 import {useLocation, useParams} from 'react-router';
 import {RootPath} from "../../../services/RootPath";
 import {Fragment, useEffect, useState} from "react";
-import ArchetypeService from "../../../services/ArchetypeService";
 import NumberTextFieldCard from "../../common/card/NumberTextFieldCard";
 import TextFieldCard from "../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardHeaderWithAction";
@@ -13,29 +12,55 @@ import GridContainer from "../../common/grid/GridContainer";
 import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.ts";
 import type {Archetype, Skill} from "../../../api/model";
 import {CharacteristicType} from "../../../api/model";
+import {getArchetypeController} from "../../../api/generated/archetype-controller/archetype-controller.ts";
 
 const ArchetypePage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [archetype, setArchetype] = useState<Archetype | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const {skills} = useFetchAllSkills();
     const pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {
-            return
+            return;
         }
-        (async (): Promise<void> => {
-            setArchetype(await ArchetypeService.getArchetype(id))
-        })()
-    }, [id, setArchetype])
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await getArchetypeController().getArchetype(id);
+                setArchetype(response);
+            } catch (err) {
+                setError('Failed to load injury.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    if (!archetype) {
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
+
+    if (!archetype || !id) {
         return <Fragment/>;
     }
 
     const handleDescriptionChange = async (value: string) => {
         if (archetype) {
-            setArchetype(await ArchetypeService.updateArchetype({...archetype, description: value}));
+            await updateArchetype({...archetype, description: value});
         }
     };
 
@@ -43,22 +68,22 @@ const ArchetypePage = ()=> {
         if (archetype) {
             switch (characteristic) {
                 case CharacteristicType.Brawn:
-                    setArchetype(await ArchetypeService.updateArchetype({...archetype, brawn: value}));
+                    await updateArchetype({...archetype, brawn: value});
                     break;
                 case CharacteristicType.Agility:
-                    setArchetype(await ArchetypeService.updateArchetype({...archetype, agility: value}));
+                    await updateArchetype({...archetype, agility: value});
                     break;
                 case CharacteristicType.Intellect:
-                    setArchetype(await ArchetypeService.updateArchetype({...archetype, intellect: value}));
+                    await updateArchetype({...archetype, intellect: value});
                     break;
                 case CharacteristicType.Cunning:
-                    setArchetype(await ArchetypeService.updateArchetype({...archetype, cunning: value}));
+                    await updateArchetype({...archetype, cunning: value});
                     break;
                 case CharacteristicType.Willpower:
-                    setArchetype(await ArchetypeService.updateArchetype({...archetype, willpower: value}));
+                    await updateArchetype({...archetype, willpower: value});
                     break;
                 case CharacteristicType.Presence:
-                    setArchetype(await ArchetypeService.updateArchetype({...archetype, presence: value}));
+                    await updateArchetype({...archetype, presence: value});
                     break;
             }
         }
@@ -66,27 +91,32 @@ const ArchetypePage = ()=> {
 
     const handleSkillChange = async (value: Skill) => {
         if (archetype) {
-            setArchetype(await ArchetypeService.updateArchetype({...archetype, skill: value}));
+            await updateArchetype({...archetype, skill: value});
         }
     };
 
     const handleWoundsChange = async (value: number) => {
         if (archetype) {
-            setArchetype(await ArchetypeService.updateArchetype({...archetype, wounds: value}));
+            await updateArchetype({...archetype, wounds: value});
         }
     };
 
     const handleStrainChange = async (value: number) => {
         if (archetype) {
-            setArchetype(await ArchetypeService.updateArchetype({...archetype, strain: value}));
+            await updateArchetype({...archetype, strain: value});
         }
     };
 
     const handleExperienceChange = async (value: number) => {
         if (archetype) {
-            setArchetype(await ArchetypeService.updateArchetype({...archetype, experience: value}));
+            await updateArchetype({...archetype, experience: value});
         }
     };
+    
+    const updateArchetype = async (updatedArchetype: Archetype) => {
+        if (updatedArchetype) {
+            setArchetype(await getArchetypeController().updateArchetype(updatedArchetype.id, updatedArchetype));
+        }
 
     return (
         <Card>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import ViewFieldCard from "../../common/ViewFieldCard";
-import Archetype from "../../../models/actor/player/Archetype";
+import {type Archetype} from "../../../api/model";
 import {Card, CardContent} from "@mui/material";
 import {StatsType} from "../../../models/actor/Stats";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
