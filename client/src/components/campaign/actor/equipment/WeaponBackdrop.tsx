@@ -11,7 +11,7 @@ import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
-import {renderDamage, renderPrice, renderQualities} from "../../../../models/equipment/EquipmentHelper";
+import {renderDamage, renderPrice, renderQualities} from "../../../../util/EquipmentHelper.ts";
 import GridContainer from "../../../common/grid/GridContainer";
 
 interface Props {

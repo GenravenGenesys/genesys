@@ -3,14 +3,13 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
-import {ActorArmor, ArmorSlot, getArmorSlotOptions} from "../../../../../../models/equipment/Armor";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import {TypographyLeftTableCell} from "../../../../../common/table/TypographyTableCell";
-import InputSelectField from "../../../../../common/InputSelectField";
 import Player from "../../../../../../models/actor/player/Player";
-import ActorService from "../../../../../../services/actor/ActorService";
 import PlayerService from "../../../../../../services/actor/PlayerService";
+import {ArmorSlotTableCell} from "../../../../../common/table/EquipmentSlotTableCell.tsx";
+import {type ActorArmor, ActorArmorSlot} from "../../../../../../api/model";
 
 interface Props {
     open: boolean;
@@ -23,7 +22,7 @@ export default function PlayerArmorEquipDialog(props: Props) {
     const headers = ['Name', 'Armor Slot']
 
     const onChange = async (value: ActorArmor) => {
-        if (value.slot === ArmorSlot.None) {
+        if (value.slot === ActorArmorSlot.None) {
             player.armors.forEach((armor) => {
                 if (armor.name === value.name) {
                     armor.slot = value.slot
@@ -34,7 +33,7 @@ export default function PlayerArmorEquipDialog(props: Props) {
                 if (armor.name === value.name) {
                     armor.slot = value.slot
                 } else {
-                    armor.slot = ArmorSlot.None
+                    armor.slot = ActorArmorSlot.None
                 }
             })
         }
@@ -71,15 +70,10 @@ interface RowProps {
 function ArmorRow(props: RowProps) {
     const {armor, onChange} = props
 
-    const onCommit = (value: string) => {
-        armor.slot = value as ArmorSlot
-        onChange(armor)
-    }
-
     return (
         <TableRow key={armor.name}>
             <TypographyLeftTableCell value={armor.name}/>
-            <InputSelectField defaultValue={armor.slot} options={getArmorSlotOptions()} onCommit={onCommit}/>
+            <ArmorSlotTableCell armor={armor} onChange={onChange}/>
         </TableRow>
     )
 }

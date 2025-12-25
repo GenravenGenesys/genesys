@@ -1,19 +1,16 @@
 import {Button, Card, CardContent, Dialog, DialogActions, DialogContent} from "@mui/material";
-import {useEffect, useState} from "react";
-import {Armor} from "../../../../../models/equipment/Armor";
-import GearService from "../../../../../services/equipment/GearService";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
-import * as React from "react";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
-import {renderPrice, renderQualities, renderSoak} from "../../../../../models/equipment/EquipmentHelper";
+import {renderPrice, renderQualities, renderSoak} from "../../../../../util/EquipmentHelper.ts";
 import TableCell from "@mui/material/TableCell";
-import ArmorService from "../../../../../services/equipment/ArmorService";
+import type {Armor} from "../../../../../api/model";
+import {useFetchAllArmor} from "../../../../../hooks/useFetchAllArmor.ts";
 
 interface Props {
     open: boolean
@@ -23,14 +20,8 @@ interface Props {
 
 export default function ArmorSelectionDialog(props: Props) {
     const {open, addArmor, onClose} = props;
-    const [armors, setArmors] = useState<Armor[]>([]);
     const headers = ['Name', 'Defense', 'Soak', 'Encumbrance', 'Price', 'Rarity', 'Special Qualities', 'Add'];
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setArmors(await ArmorService.getArmors());
-        })()
-    }, [setArmors])
+    const {armors} = useFetchAllArmor();
 
     return (
         <Dialog open={open} onClose={onClose} fullScreen>

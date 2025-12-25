@@ -1,12 +1,12 @@
-import {Armor} from "../../../models/equipment/Armor";
 import {useLocation} from "react-router";
 import NumberTextFieldCard from "./NumberTextFieldCard";
 import React from "react";
+import type {Armor} from "../../../api/model";
 
-type Props = {
+interface Props {
     armor: Armor;
     updateDefense: (defense: number) => void;
-};
+}
 
 const DefenseCard: React.FC<Props> = ({armor, updateDefense}) => {
     return <NumberTextFieldCard title={"Defense"} value={armor.defense}

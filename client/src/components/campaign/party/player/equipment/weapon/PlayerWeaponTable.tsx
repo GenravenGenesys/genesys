@@ -11,7 +11,7 @@ import {
     GenesysDicePoolCenterTableCellButton,
     TypographyCenterTableCell
 } from "../../../../../common/table/TypographyTableCell";
-import {renderActorDamage, renderQualities} from "../../../../../../models/equipment/EquipmentHelper";
+import {renderActorDamage, renderQualities} from "../../../../../../util/EquipmentHelper.ts";
 import type Player from "../../../../../../models/actor/player/Player";
 import type {ActorSkill} from "../../../../../../models/actor/Actor";
 import {Fragment} from "react";

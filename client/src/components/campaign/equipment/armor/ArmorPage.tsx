@@ -1,6 +1,5 @@
-import {Card, CardContent} from '@mui/material';
+import {Alert, Card, CardContent, CircularProgress} from '@mui/material';
 import {useLocation, useParams} from 'react-router';
-import {type Armor} from "../../../../models/equipment/Armor";
 import {Fragment, useEffect, useState} from "react";
 import TextFieldCard from "../../../common/card/TextFieldCard";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
@@ -13,23 +12,49 @@ import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 import ArmorQualityCard from "./quality/ArmorQualityCard";
 import ArmorModifierCard from "./modifier/ArmorModifierCard";
 import GridContainer from "../../../common/grid/GridContainer";
-import ArmorService from "../../../../services/equipment/ArmorService";
+import type {Armor} from "../../../../api/model";
+import {getArmorController} from "../../../../api/generated/armor-controller/armor-controller.ts";
 
 const ArmorPage = ()=> {
     const {id} = useParams<{ id: string }>();
     const [armor, setArmor] = useState<Armor | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const pathname = useLocation().pathname;
 
     useEffect(() => {
         if (!id) {
-            return
+            return;
         }
-        (async (): Promise<void> => {
-            setArmor(await ArmorService.getArmor(id));
-        })()
-    }, [id, setArmor])
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await getArmorController().getArmor(id);
+                setArmor(response);
+            } catch (err) {
+                setError('Failed to load armor.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    if (!armor) {
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
+
+    if (!armor || !id) {
         return <Fragment/>;
     }
 
@@ -76,7 +101,7 @@ const ArmorPage = ()=> {
     };
 
     const updateArmor = async (updatedArmor: Armor) => {
-        setArmor(await ArmorService.updateArmor(updatedArmor));
+        setArmor(await getArmorController().updateArmor(id, updatedArmor));
     };
 
     return (

@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Fragment, useEffect, useState} from 'react';
 import {type Gear} from "../../../../models/equipment/Gear";
-import {renderPrice} from "../../../../models/equipment/EquipmentHelper";
+import {renderPrice} from "../../../../util/EquipmentHelper.ts";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {EquipmentPath} from "../../../../services/RootPath";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";

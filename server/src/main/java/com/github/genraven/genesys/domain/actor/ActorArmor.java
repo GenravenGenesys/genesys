@@ -1,10 +1,13 @@
 package com.github.genraven.genesys.domain.actor;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.equipment.Armor;
 import com.github.genraven.genesys.domain.equipment.EquipmentSlot;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -27,5 +30,15 @@ public class ActorArmor extends Armor {
     }
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private EquipmentSlot slot = EquipmentSlot.NONE;
+    private ArmorSlot slot = ArmorSlot.BODY;
+
+    @AllArgsConstructor
+    @Getter
+    public enum ArmorSlot {
+        BODY("Body"),
+        NONE("None");
+
+        @JsonValue
+        private final String label;
+    }
 }

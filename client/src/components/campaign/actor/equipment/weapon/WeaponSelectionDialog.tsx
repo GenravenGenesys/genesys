@@ -7,7 +7,7 @@ import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders"
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
-import {renderPrice, renderQualities} from "../../../../../models/equipment/EquipmentHelper";
+import {renderPrice, renderQualities} from "../../../../../util/EquipmentHelper.ts";
 import TableCell from "@mui/material/TableCell";
 import * as React from "react";
 import {Weapon} from "../../../../../models/equipment/Weapon";

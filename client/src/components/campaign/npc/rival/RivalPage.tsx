@@ -9,10 +9,7 @@ import EquipmentCard from "../../actor/equipment/EquipmentCard";
 import { ActorPath } from "../../../../services/RootPath";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
 import RivalService from "../../../../services/actor/RivalService";
-import { ActorSkill } from "../../../../models/actor/Actor";
 import { ActorWeapon } from "../../../../models/equipment/Weapon";
-import { ActorArmor } from "../../../../models/equipment/Armor";
-import Ability from "../../../../models/Ability";
 import RivalCharacteristicTab from "./RivalCharacteristicTab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList/TabList";
@@ -20,7 +17,7 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import GridContainer from "../../../common/grid/GridContainer";
 import AbilityTableCard from "../ability/AbilityTableCard";
-import type {ActorTalent} from "../../../../api/model";
+import type {ActorTalent, Ability, ActorSkill, ActorArmor} from "../../../../api/model";
 
 const RivalPage = () => {
     const { id } = useParams<{ id: string }>();

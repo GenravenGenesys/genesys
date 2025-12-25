@@ -7,7 +7,6 @@ import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCa
 import {ActorPath} from "../../../../services/RootPath";
 import PlayerSkillCard from "./skill/PlayerSkillCard";
 import EquipmentCard from "../../actor/equipment/EquipmentCard";
-import {ActorArmor} from "../../../../models/equipment/Armor";
 import {ActorWeapon} from "../../../../models/equipment/Weapon";
 import PlayerService from "../../../../services/actor/PlayerService";
 import TabList from "@mui/lab/TabList/TabList";
@@ -17,6 +16,7 @@ import TabContext from "@mui/lab/TabContext";
 import PlayerCharacteristicTab from "./PlayerCharacteristicTab";
 import PlayerTalentCard from "./talent/PlayerTalentCard";
 import GridContainer from "../../../common/grid/GridContainer";
+import type {ActorArmor} from "../../../../api/model";
 
 export default function PlayerPage() {
     const {id} = useParams<{ id: string }>();
@@ -36,7 +36,7 @@ export default function PlayerPage() {
         return <Fragment/>;
     }
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (_: React.SyntheticEvent, newValue: string) => {
         setTab(newValue);
     };
 

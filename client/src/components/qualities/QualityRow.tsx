@@ -3,7 +3,7 @@ import {TypographyCenterTableCell} from "../common/table/TypographyTableCell.tsx
 import TableCell from "@mui/material/TableCell";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography.tsx";
 import GenesysQualityTypography from "../common/typography/GenesysQualityTypography.tsx";
-import {renderUsable} from "../../models/equipment/EquipmentHelper.ts";
+import {renderUsable} from "../../util/EquipmentHelper.ts";
 import ActionsTableCell from "../common/table/actions/ActionsTableCell.tsx";
 import {RootPath} from "../../services/RootPath.ts";
 import Collapse from "@mui/material/Collapse";

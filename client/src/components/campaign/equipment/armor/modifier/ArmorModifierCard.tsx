@@ -7,10 +7,10 @@ import TableRow from "@mui/material/TableRow";
 import AddIcon from '@mui/icons-material/Add';
 import {Fragment} from "react";
 import TableCell from "@mui/material/TableCell";
-import {type Armor} from "../../../../../models/equipment/Armor";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import {useFetchAllModifierTypes} from "../../../../../hooks/useFetchAllModifierTypes.ts";
+import type {Armor, ModifierType} from "../../../../../api/model";
 
 interface Props {
     armor: Armor;
@@ -38,7 +38,7 @@ export default function ArmorModifierCard(props: Props) {
         }
     };
 
-    const handleTypeChange = async (index: number, value: string) => {
+    const handleTypeChange = async (index: number, value: ModifierType) => {
         const updatedModifiers = armor.modifiers.map((row, i) =>
             i === index ? {...row, type: value} : row
         );
@@ -71,7 +71,7 @@ export default function ArmorModifierCard(props: Props) {
                                             options={modifiers}
                                             getOptionLabel={(option) => option}
                                             value={modifier.type}
-                                            onChange={(_, newValue) => handleTypeChange(index, newValue as string)}
+                                            onChange={(_, newValue) => handleTypeChange(index, newValue as ModifierType)}
                                             renderInput={(params) => <TextField {...params} label="Type"
                                                                                 variant="outlined"/>}
                                             disabled={disabled}
@@ -83,7 +83,14 @@ export default function ArmorModifierCard(props: Props) {
                                             value={modifier.ranks}
                                             label="Ranks"
                                             onChange={(e) => handleRanksChange(index, e.target.value)}
-                                            inputProps={{min: 1, max: 10}}
+                                            slotProps={{
+                                                htmlInput: {
+                                                    min: 1,
+                                                    max: 10,
+                                                    step: 1,
+                                                    autoFocus: true
+                                                }
+                                            }}
                                             disabled={disabled}
                                         />
                                     </TableCell>

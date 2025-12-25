@@ -4,25 +4,25 @@ import CenteredCardHeader from "../header/CenteredCardHeader";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
 import GenesysSelectField from "../../field/GenesysSelectField";
-import {Activation} from "../../../../api/model";
+import {ActorArmorSlot} from "../../../../api/model";
 
 interface Props {
-    value: Activation;
-    onChange: (value: Activation) => void;
+    value: ActorArmorSlot;
+    onChange: (value: ActorArmorSlot) => void;
     disabled: boolean;
 }
 
-const ActivationCard: React.FC<Props> = ({value, onChange, disabled}) => {
-    return disabled ? <ViewFieldCard name={'Activation'} value={value}/> :
+const ArmorSlotCard: React.FC<Props> = ({value, onChange, disabled}) => {
+    return disabled ? <ViewFieldCard name={'Armor Slot'} value={value}/> :
         <GridItem>
             <Card>
-                <CenteredCardHeader title={'Activation'}/>
+                <CenteredCardHeader title={'Armor Slot'}/>
                 <CardContent>
-                    <GenesysSelectField value={value} label={'Activation'} onChange={onChange} options={Activation}
+                    <GenesysSelectField value={value} label={'Armor Slot'} onChange={onChange} options={ActorArmorSlot}
                                         disabled={disabled}/>
                 </CardContent>
             </Card>
         </GridItem>;
 };
 
-export default ActivationCard;
+export default ArmorSlotCard;

@@ -1,8 +1,7 @@
 import {MenuItem, Select, TableCell} from "@mui/material";
-import React from "react";
-import {ActorArmor, ArmorSlot} from "../../../models/equipment/Armor";
 import {useLocation} from "react-router";
 import {ActorWeapon, WeaponSlot} from "../../../models/equipment/Weapon";
+import {type ActorArmor, ActorArmorSlot} from "../../../api/model";
 
 interface ArmorProps {
     armor: ActorArmor
@@ -16,12 +15,12 @@ export function ArmorSlotTableCell(props: ArmorProps) {
         <TableCell style={{textAlign: 'center'}}>
             <Select
                 value={armor.slot}
-                onChange={(e) => onChange({...armor, slot: e.target.value as ArmorSlot})}
+                onChange={(e) => onChange({...armor, slot: e.target.value as ActorArmorSlot})}
                 disabled={!useLocation().pathname.endsWith('/edit')}
                 fullWidth
                 label={'Armor Slot'}
                 variant={'standard'}>
-                {Object.values(ArmorSlot).map(option => (
+                {Object.values(ActorArmorSlot).map(option => (
                     <MenuItem key={option} value={option}>
                         {option}
                     </MenuItem>

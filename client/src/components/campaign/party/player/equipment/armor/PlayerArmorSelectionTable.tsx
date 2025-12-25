@@ -1,29 +1,29 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import {Button} from "@mui/material";
-import {Armor, ArmorSlot} from "../../../../../../models/equipment/Armor";
+import {Alert, Button, CircularProgress} from "@mui/material";
 import Player from "../../../../../../models/actor/player/Player";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
 import ArmorBackdrop from "../../../../actor/equipment/ArmorBackdrop";
 import PlayerService from "../../../../../../services/actor/PlayerService";
-import ArmorService from "../../../../../../services/equipment/ArmorService";
+import {ActorArmorSlot, type Armor} from "../../../../../../api/model";
+import {useFetchAllArmor} from "../../../../../../hooks/useFetchAllArmor.ts";
 
 interface RowProps {
     armor: Armor
     player: Player
 }
 
-function ArmorNameRow(props: RowProps): JSX.Element {
+function ArmorNameRow(props: RowProps) {
     const {armor, player} = props;
     const [openArmorBackDrop, setOpenArmorBackDrop] = useState(false)
 
     const addArmor = async () => {
-        player.armors.push({slot: ArmorSlot.None, ...armor})
+        player.armors.push({slot: ActorArmorSlot.None, ...armor})
         await PlayerService.updatePlayer(player)
     }
 
@@ -41,21 +41,25 @@ function ArmorNameRow(props: RowProps): JSX.Element {
 }
 
 interface TableProps {
-    player: Player
+    player: Player;
 }
 
 export default function PlayerArmorSelectionTable(props: TableProps) {
-    const {player} = props
-    const [armors, setArmors] = useState<Armor[]>([])
-    const headers = ['Name', 'Add']
+    const {player} = props;
+    const headers = ['Name', 'Add'];
+    const {armors, loading, error} = useFetchAllArmor();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            const armorList = await ArmorService.getArmors()
-            if (!armorList) { return }
-            setArmors(armorList)
-        })()
-    }, [setArmors])
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return (
         <TableContainer component={Paper}>

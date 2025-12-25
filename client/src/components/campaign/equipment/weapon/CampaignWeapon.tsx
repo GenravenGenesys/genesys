@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { Fragment, useEffect, useState } from 'react';
 import * as React from 'react';
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
-import {renderDamage, renderPrice} from '../../../../models/equipment/EquipmentHelper';
+import {renderDamage, renderPrice} from '../../../../util/EquipmentHelper.ts';
 import {Weapon} from "../../../../models/equipment/Weapon";
 import {renderSkillName} from "../../../common/skill/SkillRenders";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";

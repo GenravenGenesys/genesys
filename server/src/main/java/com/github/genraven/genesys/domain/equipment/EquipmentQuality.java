@@ -1,5 +1,7 @@
 package com.github.genraven.genesys.domain.equipment;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,5 +19,8 @@ public class EquipmentQuality extends Quality {
         this.setWeapon(quality.isWeapon());
         this.setModifiers(quality.getModifiers());
     }
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    @Min(0)
     private int ranks = 0;
 }

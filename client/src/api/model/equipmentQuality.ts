@@ -15,5 +15,6 @@ export interface EquipmentQuality {
   armor?: boolean;
   weapon?: boolean;
   modifiers?: Modifier[];
-  ranks?: number;
+  /** @minimum 0 */
+  ranks: number;
 }

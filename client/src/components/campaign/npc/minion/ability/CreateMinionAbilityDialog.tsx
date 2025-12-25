@@ -1,19 +1,23 @@
 import { Dialog, DialogContent, TextField } from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
-import Ability from "../../../../../models/Ability";
 import Minion from "../../../../../models/actor/npc/Minion";
 import { useLocation } from "react-router";
-import { ActorSkill } from "../../../../../models/actor/Actor";
-import Action from "../../../../../models/campaign/encounter/Action";
 import ActivationCard from "../../../../common/card/select/ActivationCard";
 import TextFieldCard from "../../../../common/card/TextFieldCard";
 import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
 import GridContainer from "../../../../common/grid/GridContainer";
 import MinionAbilityActionCard from "./MinionAbilityActionCard";
-import {Activation, CostType, Difficulty, LimitType, RangeBand} from "../../../../../api/model";
-
+import {
+    type Ability, type Action,
+    Activation,
+    type ActorSkill,
+    CostType,
+    Difficulty,
+    LimitType,
+    RangeBand
+} from "../../../../../api/model";
 
 interface Props {
     open: boolean;
@@ -27,7 +31,7 @@ const CreateMinionAbilityDialog: React.FC<Props> = ({ open, minion, onCreateAbil
         name: '',
         activation: Activation.Passive,
         description: '',
-        limiter: { type: LimitType.None, limit: 0 },
+        limit: { type: LimitType.None, limit: 0 },
         cost: { type: CostType.None, amount: 0 },
         action: {
             skill: {} as ActorSkill,

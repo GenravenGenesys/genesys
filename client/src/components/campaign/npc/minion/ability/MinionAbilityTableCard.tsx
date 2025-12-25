@@ -1,5 +1,4 @@
-import { FC, Fragment, useState } from "react";
-import Ability from "../../../../../models/Ability";
+import {type FC, Fragment, useState } from "react";
 import { useLocation } from "react-router";
 import { Button, Card, CardContent, Paper, Table, TableBody, TableContainer, TableFooter, TableRow } from "@mui/material";
 import { GenesysDescriptionTypographyCenterTableCell, TypographyCenterTableCell, TypographyLeftTableCell } from "../../../../common/table/TypographyTableCell";
@@ -7,13 +6,13 @@ import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeade
 import { renderSingleRowTableHeader } from "../../../../common/table/TableRenders";
 import Minion from "../../../../../models/actor/npc/Minion";
 import CreateMinionAbilityDialog from "./CreateMinionAbilityDialog";
+import type {Ability} from "../../../../../api/model";
 
-
-type Props = {
+interface Props {
     minion: Minion;
     abilities: Ability[];
     updateAbilities: (abilities: Ability[]) => void;
-};
+}
 
 const MinionAbilityTableCard: FC<Props> = ({ minion, abilities, updateAbilities }) => {
     const [openCreateAbilityDialog, setOpenCreateAbilityDialog] = useState(false);

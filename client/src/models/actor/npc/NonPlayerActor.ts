@@ -1,7 +1,6 @@
 import type Actor from "../Actor";
 import { type ActorSkill } from "../Actor";
-import type Ability from "../../Ability";
-import type {ActorTalent, CriticalInjury} from "../../../api/model";
+import type {ActorTalent, CriticalInjury, Ability} from "../../../api/model";
 
 export enum RatingType {
     Combat = 'Combat',

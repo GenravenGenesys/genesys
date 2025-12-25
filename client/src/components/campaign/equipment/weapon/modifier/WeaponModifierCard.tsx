@@ -86,7 +86,14 @@ export default function WeaponModifierCard(props: Props) {
                                             value={modifier.ranks}
                                             label="Ranks"
                                             onChange={(e) => handleRanksChange(index, e.target.value)}
-                                            inputProps={{min: 1, max: 10}}
+                                            slotProps={{
+                                                htmlInput: {
+                                                    min: 1,
+                                                    max: 10,
+                                                    step: 1,
+                                                    autoFocus: true
+                                                }
+                                            }}
                                             disabled={disabled}
                                         />
                                     </TableCell>

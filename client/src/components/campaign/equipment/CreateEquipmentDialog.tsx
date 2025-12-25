@@ -1,12 +1,12 @@
 import {EquipmentType} from "../../../models/equipment/Equipment";
-import {ChangeEvent, useState} from "react";
+import {type ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router";
 import {EquipmentPath} from "../../../services/RootPath";
 import {Dialog, DialogContentText, DialogTitle, TextField,} from "@mui/material";
 import GearService from "../../../services/equipment/GearService";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
-import ArmorService from "../../../services/equipment/ArmorService";
 import WeaponService from "../../../services/equipment/WeaponService";
+import {getArmorController} from "../../../api/generated/armor-controller/armor-controller.ts";
 
 interface Props {
     open: boolean;
@@ -22,7 +22,7 @@ export default function CreateEquipmentDialog(props: Props) {
     const handleCreate = async (): Promise<void> => {
         switch (type) {
             case EquipmentType.Armor:
-                const armor = await ArmorService.createArmor(name);
+                const armor = await getArmorController().createArmor(name);
                 navigate(EquipmentPath.Armor + armor.id + '/view');
                 break;
             case EquipmentType.Weapon:

@@ -20,7 +20,7 @@ export default function SkillAutocompleteTableCell(props: Props) {
                 options={skills}
                 getOptionLabel={(option) => renderSkillName(option)}
                 value={skill}
-                onChange={(e, newValue) => onChange(index, newValue as Skill)}
+                onChange={(_, newValue) => onChange(index, newValue as Skill)}
                 renderInput={(params) => <TextField {...params} label="Skill"
                                                     variant="outlined"/>}
                 disabled={disabled}

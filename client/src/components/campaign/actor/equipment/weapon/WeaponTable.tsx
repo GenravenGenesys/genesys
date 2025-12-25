@@ -10,7 +10,7 @@ import {
     TypographyCenterTableCell,
     TypographyLeftTableCell
 } from "../../../../common/table/TypographyTableCell";
-import {renderQualities} from "../../../../../models/equipment/EquipmentHelper";
+import {renderQualities} from "../../../../../util/EquipmentHelper.ts";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import {Button, TableFooter} from "@mui/material";
 import {useLocation} from "react-router";

@@ -1,7 +1,6 @@
 import { Dialog, DialogContent, TextField } from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
-import Ability from "../../../../models/Ability";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
 import { useLocation } from "react-router";
 import ActivationCard from "../../../common/card/select/ActivationCard";
@@ -17,7 +16,8 @@ import {
     CostType,
     Difficulty,
     LimitType,
-    RangeBand
+    RangeBand,
+    type Ability
 } from "../../../../api/model";
 
 interface Props {
@@ -32,7 +32,7 @@ const CreateAbilityDialog: React.FC<Props> = ({ open, npc, onCreateAbility, onCl
         name: '',
         activation: Activation.Passive,
         description: '',
-        limiter: { type: LimitType.None, limit: 0 },
+        limit: { type: LimitType.None, limit: 0 },
         cost: { type: CostType.None, amount: 0 },
         action: {
             skill: { name: '', ranks: 0 } as ActorSkill,
