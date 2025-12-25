@@ -28,40 +28,6 @@ public class EquipmentHandler extends BaseHandler {
     private final GearService gearService;
     private final GearValidator gearValidator;
 
-    public Mono<ServerResponse> getAllArmors(final ServerRequest serverRequest) {
-        return armorService.getAllArmors().collectList().flatMap(armors -> {
-            if (armors.isEmpty()) {
-                return ServerResponse.noContent().build();
-            }
-            return ServerResponse.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(fromValue(armors));
-        });
-    }
-
-    public Mono<ServerResponse> createArmor(final ServerRequest serverRequest) {
-        return armorService.createArmor(serverRequest.pathVariable(NAME))
-                .flatMap(armor -> ServerResponse.created(getURI(armor.getName()))
-                        .bodyValue(armor));
-    }
-
-    public Mono<ServerResponse> getArmor(final ServerRequest serverRequest) {
-        return armorService.getArmor(serverRequest.pathVariable(NAME))
-                .flatMap(armor -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(armor))
-                        .switchIfEmpty(ServerResponse.notFound().build()));
-    }
-
-    public Mono<ServerResponse> updateArmor(final ServerRequest serverRequest) {
-        return serverRequest.bodyToMono(Armor.class)
-                .flatMap(gear -> armorService.updateArmor(serverRequest.pathVariable(NAME), gear))
-                .flatMap(gear -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(gear))
-                        .switchIfEmpty(ServerResponse.notFound().build()));
-    }
-
     public Mono<ServerResponse> getAllWeapons(final ServerRequest serverRequest) {
         return weaponService.getAllWeapons().collectList().flatMap(weapons -> {
             if (weapons.isEmpty()) {

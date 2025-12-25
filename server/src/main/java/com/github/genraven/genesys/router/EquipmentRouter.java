@@ -15,12 +15,6 @@ public class EquipmentRouter {
     public RouterFunction<ServerResponse> equipmentRouterMethod(final EquipmentHandler equipmentHandler) {
         return RouterFunctions.route()
                 .nest(RequestPredicates.path("/api"), builder -> builder
-                        .path("/equipment/armors", armorBuilder -> armorBuilder
-                                .GET("/", equipmentHandler::getAllArmors)
-                                .POST("/{name}", equipmentHandler::createArmor)
-                                .PUT("/{name}", equipmentHandler::updateArmor)
-                                .GET("/{name}", equipmentHandler::getArmor)
-                        )
                         .path("/equipment/weapons", weaponBuilder -> weaponBuilder
                                 .GET("/", equipmentHandler::getAllWeapons)
                                 .POST("/{name}", equipmentHandler::createWeapon)
