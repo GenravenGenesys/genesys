@@ -64,3 +64,4 @@ export * from "./talentSkillCheck";
 export * from "./talentSkills";
 export * from "./talentStats";
 export * from "./talentTier";
+export * from "./weapon";

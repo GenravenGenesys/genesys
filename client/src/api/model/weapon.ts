@@ -9,9 +9,8 @@ import type { Modifier } from "./modifier";
 import type { EquipmentQuality } from "./equipmentQuality";
 import type { Skill } from "./skill";
 import type { RangeBand } from "./rangeBand";
-import type { ActorWeaponSlot } from "./actorWeaponSlot";
 
-export interface ActorWeapon {
+export interface Weapon {
   id: string;
   /** @minLength 1 */
   name: string;
@@ -40,5 +39,4 @@ export interface ActorWeapon {
    * @maximum 2
    */
   hands: number;
-  slot: ActorWeaponSlot;
 }
