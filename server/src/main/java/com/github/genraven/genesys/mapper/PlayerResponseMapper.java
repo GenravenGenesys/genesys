@@ -3,9 +3,9 @@ package com.github.genraven.genesys.mapper;
 import java.util.List;
 import java.util.Optional;
 
+import com.github.genraven.genesys.domain.actor.ActorArmor;
 import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.actor.player.Archetype;
-import com.github.genraven.genesys.domain.equipment.EquipmentQuality;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,7 +15,6 @@ import org.mapstruct.factory.Mappers;
 import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.equipment.Armor;
-import com.github.genraven.genesys.domain.equipment.EquipmentSlot;
 import com.github.genraven.genesys.domain.response.PlayerResponse;
 
 @Mapper(componentModel = "spring")
@@ -56,7 +55,7 @@ public interface PlayerResponseMapper {
 
         int armorBonus = Optional.ofNullable(playerResponse.getArmors())
             .orElse(List.of()).stream()
-            .filter(actorArmor -> actorArmor.getSlot().equals(EquipmentSlot.BODY))
+            .filter(actorArmor -> actorArmor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
             .map(Armor::getSoak).mapToInt(Integer::intValue).sum();
 
         playerResponse.setSoak(baseSoak + talentBonus + armorBonus);
@@ -82,7 +81,7 @@ public interface PlayerResponseMapper {
 
         int armorBonus = Optional.ofNullable(playerResponse.getArmors())
             .orElse(List.of()).stream()
-            .filter(actorArmor -> actorArmor.getSlot().equals(EquipmentSlot.BODY))
+            .filter(actorArmor -> actorArmor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
             .map(Armor::getDefense).mapToInt(Integer::intValue).sum();
 
         playerResponse.setMelee(talentBonus + armorBonus);
@@ -101,7 +100,7 @@ public interface PlayerResponseMapper {
 
         int armorBonus = Optional.ofNullable(playerResponse.getArmors())
             .orElse(List.of()).stream()
-            .filter(actorArmor -> actorArmor.getSlot().equals(EquipmentSlot.BODY))
+            .filter(actorArmor -> actorArmor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
             .map(Armor::getDefense).mapToInt(Integer::intValue).sum();
 
         playerResponse.setRanged(talentBonus + armorBonus);

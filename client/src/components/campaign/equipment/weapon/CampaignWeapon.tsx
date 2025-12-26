@@ -6,20 +6,20 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Fragment, useEffect, useState } from 'react';
-import * as React from 'react';
+import {Fragment, useState} from 'react';
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import {renderDamage, renderPrice} from '../../../../util/EquipmentHelper.ts';
-import {Weapon} from "../../../../models/equipment/Weapon";
 import {renderSkillName} from "../../../common/skill/SkillRenders";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {EquipmentPath} from "../../../../services/RootPath";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
-import WeaponService from "../../../../services/equipment/WeaponService";
-import {Button, Card, CardContent, CardHeader} from "@mui/material";
+import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import CreateEquipmentDialog from "../CreateEquipmentDialog";
 import {EquipmentType} from "../../../../models/equipment/Equipment";
+import {useFetchAllWeapons} from "../../../../hooks/useFetchAllWeapons.ts";
+import type {Weapon} from "../../../../api/model";
+import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton.tsx";
 
 interface Props {
     weapon: Weapon
@@ -44,9 +44,9 @@ function Row(props: Props) {
                 <ActionsTableCell name={weapon.id} path={EquipmentPath.Weapon}/>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns}>
+                <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={columns}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
+                        <Box sx={{margin: 1}}>
                             <Table size="small">
                                 <TableBody>
                                     <GenesysDescriptionTypography text={weapon.description}/>
@@ -61,24 +61,27 @@ function Row(props: Props) {
 }
 
 export default function CampaignWeapon() {
-    const [weapons, setWeapons] = useState<Weapon[]>([])
-    const [openEquipmentCreationDialog, setOpenEquipmentCreationDialog] = useState(false)
-    const headers = ['Name', 'Skill', 'Damage', 'Critical', 'Range', 'Encumbrance', 'Price', 'Rarity', 'View']
+    const [openEquipmentCreationDialog, setOpenEquipmentCreationDialog] = useState(false);
+    const headers = ['Name', 'Skill', 'Damage', 'Critical', 'Range', 'Encumbrance', 'Price', 'Rarity', 'View'];
+    const {weapons, loading, error} = useFetchAllWeapons();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setWeapons(await WeaponService.getWeapons())
-        })()
-    }, [setWeapons])
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return (
         <Card>
-            <CardHeader
-                style={{textAlign: 'center'}}
-                title={'Campaign Weapons'}
-                action={<Button color='primary' variant='contained'
-                                onClick={(): void => setOpenEquipmentCreationDialog(true)}>Create Weapon</Button>}>
-            </CardHeader>
+            <CenteredCardHeaderWithButton title={'Campaign Weapons'}
+                                          onClick={(): void => setOpenEquipmentCreationDialog(true)}
+                                          buttonText={'Create Weapon'}/>
             <CardContent>
                 <TableContainer component={Paper}>
                     <Table>

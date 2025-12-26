@@ -7,7 +7,6 @@ import { ActorPath } from "../../../../services/RootPath";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
 import { Fragment, useEffect, useState } from "react";
 import MinionService from "../../../../services/actor/MinionService";
-import { ActorWeapon } from "../../../../models/equipment/Weapon";
 import Minion, { GroupSkill } from "../../../../models/actor/npc/Minion";
 import MinionSkillCard from "./skill/MinionSkillCard";
 import MinionTalentCard from "./talent/MinionTalentCard";
@@ -18,7 +17,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import GridContainer from "../../../common/grid/GridContainer";
 import MinionAbilityTableCard from "./ability/MinionAbilityTableCard";
-import type {Ability, ActorArmor, ActorTalent} from "../../../../api/model";
+import type {Ability, ActorArmor, ActorTalent, ActorWeapon} from "../../../../api/model";
 
 const MinionPage = () => {
     const { id } = useParams<{ id: string }>();

@@ -1,4 +1,4 @@
-import {Card, CardContent} from '@mui/material';
+import {Alert, Card, CardContent, CircularProgress} from '@mui/material';
 import {Fragment, useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router";
 import WeaponQualityCard from "./quality/WeaponQualityCard";
@@ -13,27 +13,51 @@ import BooleanTextFieldCard from "../../../common/card/BooleanTextFieldCard";
 import WeaponDamageTextFieldCard from "../../../common/card/WeaponDamageTextFieldCard";
 import PriceTextFieldCard from "../../../common/card/PriceTextFieldCard";
 import GridContainer from '../../../common/grid/GridContainer';
-import WeaponService from "../../../../services/equipment/WeaponService";
 import {useFetchAllSkills} from "../../../../hooks/useFetchAllSkills.ts";
-import type {Weapon} from "../../../../models/equipment/Weapon.ts";
-import {type RangeBand, type Skill, SkillType} from "../../../../api/model";
+import {type RangeBand, type Skill, SkillType, type Weapon} from "../../../../api/model";
+import {getWeaponController} from "../../../../api/generated/weapon-controller/weapon-controller.ts";
 
 const WeaponPage = ()=> {
     const {id} = useParams<{ id: string }>();
-    const [weapon, setWeapon] = useState<Weapon | null>(null);
     const {skills} = useFetchAllSkills(SkillType.Combat);
     const pathname = useLocation().pathname;
+    const [weapon, setWeapon] = useState<Weapon | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!id) {
-            return
+            return;
         }
-        (async (): Promise<void> => {
-            setWeapon(await WeaponService.getWeapon(id));
-        })()
-    }, [id, setWeapon])
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await getWeaponController().getWeapon(id);
+                setWeapon(response);
+            } catch (err) {
+                setError('Failed to load weapon.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    if (!weapon) {
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
+
+    if (!weapon || !id) {
         return <Fragment/>;
     }
 
@@ -104,7 +128,7 @@ const WeaponPage = ()=> {
     };
 
     const updateWeapon = async (updatedWeapon: Weapon) => {
-        setWeapon(await WeaponService.updateWeapon(updatedWeapon));
+        setWeapon(await getWeaponController().updateWeapon(id, updatedWeapon));
     };
 
     return (

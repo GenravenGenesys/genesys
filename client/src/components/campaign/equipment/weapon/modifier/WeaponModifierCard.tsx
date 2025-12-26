@@ -7,10 +7,10 @@ import TableRow from "@mui/material/TableRow";
 import AddIcon from '@mui/icons-material/Add';
 import {Fragment} from "react";
 import TableCell from "@mui/material/TableCell";
-import {type Weapon} from "../../../../../models/equipment/Weapon";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import {useFetchAllModifierTypes} from "../../../../../hooks/useFetchAllModifierTypes.ts";
+import type {Weapon} from "../../../../../api/model";
 
 interface Props {
     weapon: Weapon

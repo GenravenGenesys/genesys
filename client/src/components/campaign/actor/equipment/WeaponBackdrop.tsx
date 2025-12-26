@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import {Weapon} from "../../../../models/equipment/Weapon";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import {Card, CardContent} from "@mui/material";
 import ViewFieldCard from "../../../common/ViewFieldCard";
@@ -13,6 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import {renderDamage, renderPrice, renderQualities} from "../../../../util/EquipmentHelper.ts";
 import GridContainer from "../../../common/grid/GridContainer";
+import type {Weapon} from "../../../../api/model";
 
 interface Props {
     weapon: Weapon;

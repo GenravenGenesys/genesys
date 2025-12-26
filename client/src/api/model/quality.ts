@@ -8,11 +8,11 @@
 import type { Modifier } from "./modifier";
 
 export interface Quality {
-  id?: string;
-  name?: string;
-  description?: string;
-  cost?: number;
-  armor?: boolean;
-  weapon?: boolean;
-  modifiers?: Modifier[];
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  armor: boolean;
+  weapon: boolean;
+  modifiers: Modifier[];
 }

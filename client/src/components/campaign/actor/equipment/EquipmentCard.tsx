@@ -9,10 +9,9 @@ import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import ArmorTable from "./armor/ArmorTable";
 import Actor from "../../../../models/actor/Actor";
 import WeaponTable from "./weapon/WeaponTable";
-import {ActorWeapon} from "../../../../models/equipment/Weapon";
 import GridContainer from "../../../common/grid/GridContainer";
 import FullGrid from "../../../common/grid/FullGrid";
-import type {ActorArmor} from "../../../../api/model";
+import type {ActorArmor, ActorWeapon} from "../../../../api/model";
 
 interface Props {
     actor: Actor

@@ -1,11 +1,7 @@
 package com.github.genraven.genesys.handler;
 
-import com.github.genraven.genesys.domain.equipment.Armor;
 import com.github.genraven.genesys.domain.equipment.Gear;
-import com.github.genraven.genesys.domain.equipment.Weapon;
-import com.github.genraven.genesys.service.equipment.ArmorService;
 import com.github.genraven.genesys.service.equipment.GearService;
-import com.github.genraven.genesys.service.equipment.WeaponService;
 
 import com.github.genraven.genesys.validator.equipment.GearValidator;
 import lombok.RequiredArgsConstructor;
@@ -23,44 +19,8 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 @RequiredArgsConstructor
 public class EquipmentHandler extends BaseHandler {
 
-    private final ArmorService armorService;
-    private final WeaponService weaponService;
     private final GearService gearService;
     private final GearValidator gearValidator;
-
-    public Mono<ServerResponse> getAllWeapons(final ServerRequest serverRequest) {
-        return weaponService.getAllWeapons().collectList().flatMap(weapons -> {
-            if (weapons.isEmpty()) {
-                return ServerResponse.noContent().build();
-            }
-            return ServerResponse.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(fromValue(weapons));
-        });
-    }
-
-    public Mono<ServerResponse> createWeapon(final ServerRequest serverRequest) {
-        return weaponService.createWeapon(serverRequest.pathVariable(NAME))
-                .flatMap(weapon -> ServerResponse.created(getURI(weapon.getName()))
-                        .bodyValue(weapon));
-    }
-
-    public Mono<ServerResponse> getWeapon(final ServerRequest serverRequest) {
-        return weaponService.getWeapon(serverRequest.pathVariable(NAME))
-                .flatMap(weapon -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(weapon))
-                        .switchIfEmpty(ServerResponse.notFound().build()));
-    }
-
-    public Mono<ServerResponse> updateWeapon(final ServerRequest serverRequest) {
-        return serverRequest.bodyToMono(Weapon.class)
-                .flatMap(weapon -> weaponService.updateWeapon(serverRequest.pathVariable(NAME), weapon))
-                .flatMap(weapon -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(weapon))
-                        .switchIfEmpty(ServerResponse.notFound().build()));
-    }
 
     public Mono<ServerResponse> getAllGears(final ServerRequest serverRequest) {
         return gearService.getAllGears().collectList().flatMap(gears -> {

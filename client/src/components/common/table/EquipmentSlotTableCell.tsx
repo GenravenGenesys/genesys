@@ -1,7 +1,6 @@
 import {MenuItem, Select, TableCell} from "@mui/material";
 import {useLocation} from "react-router";
-import {ActorWeapon, WeaponSlot} from "../../../models/equipment/Weapon";
-import {type ActorArmor, ActorArmorSlot} from "../../../api/model";
+import {type ActorArmor, ActorArmorSlot, type ActorWeapon, ActorWeaponSlot} from "../../../api/model";
 
 interface ArmorProps {
     armor: ActorArmor
@@ -20,11 +19,12 @@ export function ArmorSlotTableCell(props: ArmorProps) {
                 fullWidth
                 label={'Armor Slot'}
                 variant={'standard'}>
-                {Object.values(ActorArmorSlot).map(option => (
-                    <MenuItem key={option} value={option}>
-                        {option}
-                    </MenuItem>
-                ))}
+                <MenuItem key={ActorArmorSlot.None} value={ActorArmorSlot.None}>
+                    {ActorArmorSlot.None}
+                </MenuItem>
+                <MenuItem key={ActorArmorSlot.Body} value={ActorArmorSlot.Body}>
+                    {ActorArmorSlot.Body}
+                </MenuItem>
             </Select>
         </TableCell>
     )
@@ -44,16 +44,16 @@ export function WeaponSlotTableCell(props: WeaponProps) {
             return (
                 <Select
                     value={weapon.slot}
-                    onChange={(e) => onChange({...weapon, slot: e.target.value as WeaponSlot})}
+                    onChange={(e) => onChange({...weapon, slot: e.target.value as ActorWeaponSlot})}
                     disabled={!pathname.endsWith('/edit')}
                     fullWidth
                     label={'Weapon Slot'}
                     variant={'standard'}>
-                    <MenuItem key={WeaponSlot.None} value={WeaponSlot.None}>
-                        {WeaponSlot.None}
+                    <MenuItem key={ActorWeaponSlot.None} value={ActorWeaponSlot.None}>
+                        {ActorWeaponSlot.None}
                     </MenuItem>
-                    <MenuItem key={WeaponSlot.Both} value={WeaponSlot.Both}>
-                        {WeaponSlot.Both}
+                    <MenuItem key={ActorWeaponSlot.Both} value={ActorWeaponSlot.Both}>
+                        {ActorWeaponSlot.Both}
                     </MenuItem>
                 </Select>
             )
@@ -61,19 +61,19 @@ export function WeaponSlotTableCell(props: WeaponProps) {
             return (
                 <Select
                     value={weapon.slot}
-                    onChange={(e) => onChange({...weapon, slot: e.target.value as WeaponSlot})}
+                    onChange={(e) => onChange({...weapon, slot: e.target.value as ActorWeaponSlot})}
                     disabled={!pathname.endsWith('/edit')}
                     fullWidth
                     label={'Weapon Slot'}
                     variant={'standard'}>
-                    <MenuItem key={WeaponSlot.None} value={WeaponSlot.None}>
-                        {WeaponSlot.None}
+                    <MenuItem key={ActorWeaponSlot.None} value={ActorWeaponSlot.None}>
+                        {ActorWeaponSlot.None}
                     </MenuItem>
-                    <MenuItem key={WeaponSlot.Main} value={WeaponSlot.Main}>
-                        {WeaponSlot.Main}
+                    <MenuItem key={ActorWeaponSlot.Main} value={ActorWeaponSlot.Main}>
+                        {ActorWeaponSlot.Main}
                     </MenuItem>
-                    <MenuItem key={WeaponSlot.Off} value={WeaponSlot.Off}>
-                        {WeaponSlot.Off}
+                    <MenuItem key={ActorWeaponSlot.Off} value={ActorWeaponSlot.Off}>
+                        {ActorWeaponSlot.Off}
                     </MenuItem>
                 </Select>
             )

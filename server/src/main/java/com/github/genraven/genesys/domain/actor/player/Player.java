@@ -4,9 +4,7 @@ import com.github.genraven.genesys.domain.CriticalInjury;
 import com.github.genraven.genesys.domain.actor.*;
 
 import com.github.genraven.genesys.domain.equipment.Armor;
-import com.github.genraven.genesys.domain.equipment.EquipmentSlot;
 import com.github.genraven.genesys.validator.ValidationGroups;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -68,7 +66,7 @@ public class Player extends Actor {
                 .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getSoak() * talent.getRanks() : talent.getTalentStats().getSoak())
                 .sum();
         soak += getArmors().stream()
-                .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
+                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
                 .mapToInt(Armor::getSoak)
                 .sum();
         this.setSoak(soak);
@@ -94,7 +92,7 @@ public class Player extends Actor {
                 .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks() : talent.getTalentStats().getDefense())
                 .sum();
         melee += getArmors().stream()
-                .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
+                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
                 .mapToInt(Armor::getDefense).sum();
         this.setMelee(melee);
     }
@@ -106,7 +104,7 @@ public class Player extends Actor {
                 .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks() : talent.getTalentStats().getDefense())
                 .sum();
         ranged += getArmors().stream()
-                .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
+                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
                 .mapToInt(Armor::getDefense)
                 .sum();
         this.setRanged(ranged);

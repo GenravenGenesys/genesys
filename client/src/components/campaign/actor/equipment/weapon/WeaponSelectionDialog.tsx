@@ -1,4 +1,4 @@
-import {Button, Card, CardContent, Dialog, DialogActions, DialogContent} from "@mui/material";
+import {Alert, Button, Card, CardContent, CircularProgress, Dialog, DialogActions, DialogContent} from "@mui/material";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -9,10 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
 import {renderPrice, renderQualities} from "../../../../../util/EquipmentHelper.ts";
 import TableCell from "@mui/material/TableCell";
-import * as React from "react";
-import {Weapon} from "../../../../../models/equipment/Weapon";
-import {useEffect, useState} from "react";
-import WeaponService from "../../../../../services/equipment/WeaponService";
+import {useFetchAllWeapons} from "../../../../../hooks/useFetchAllWeapons.ts";
+import type {Weapon} from "../../../../../api/model";
 
 interface Props {
     open: boolean
@@ -22,14 +20,20 @@ interface Props {
 
 export default function WeaponSelectionDialog(props: Props) {
     const {open, addWeapon, onClose} = props;
-    const [weapons, setWeapons] = useState<Weapon[]>([]);
     const headers = ['Name', 'Skill', 'Damage', 'Critical', 'Range', 'Encumbrance', 'Price', 'Rarity', 'Special Qualities', 'Add'];
+    const {weapons, loading, error} = useFetchAllWeapons();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setWeapons(await WeaponService.getWeapons());
-        })()
-    }, [setWeapons])
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return (
         <Dialog open={open} onClose={onClose} fullScreen>

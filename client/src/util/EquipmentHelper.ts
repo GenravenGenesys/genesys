@@ -1,6 +1,5 @@
 import type Equipment from "../models/equipment/Equipment.ts";
-import {type Weapon} from "../models/equipment/Weapon.ts";
-import type {Quality, Armor} from "../api/model";
+import type {Quality, Armor, Weapon} from "../api/model";
 
 
 export const renderPrice = (equipment: Equipment): string => {
@@ -15,7 +14,7 @@ export const renderQualities = (equipment: Equipment): string => {
     if (!(equipment.qualities === undefined || equipment.qualities.length > 0)) {
         qualities = 'None'
     } else {
-        const qualityList = equipment?.qualities!.sort((a, b) => a.name.localeCompare(b.name))
+        const qualityList = equipment.qualities.sort((a, b) => a.name.localeCompare(b.name))
         for (let i = 0; i < qualityList.length; i++) {
             const quality = qualityList[i];
             if (i !== qualityList.length - 1) {

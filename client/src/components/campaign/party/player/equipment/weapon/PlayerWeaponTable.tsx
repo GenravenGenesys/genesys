@@ -4,8 +4,6 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import * as React from "react";
-import type {ActorWeapon} from "../../../../../../models/equipment/Weapon";
-import {WeaponSlot} from "../../../../../../models/equipment/Weapon";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
 import {
     GenesysDicePoolCenterTableCellButton,
@@ -13,8 +11,8 @@ import {
 } from "../../../../../common/table/TypographyTableCell";
 import {renderActorDamage, renderQualities} from "../../../../../../util/EquipmentHelper.ts";
 import type Player from "../../../../../../models/actor/player/Player";
-import type {ActorSkill} from "../../../../../../models/actor/Actor";
 import {Fragment} from "react";
+import {type ActorWeapon, ActorWeaponSlot, type PlayerSkill} from "../../../../../../api/model";
 
 
 interface Props {
@@ -27,14 +25,14 @@ const PlayerWeaponTable: React.FC<Props> = (props: Props)=> {
     const headers = ['Name', 'Equipped', 'Skill', 'Damage', 'Critical', 'Range', 'Special Qualities', 'Dice Pool']
 
     const renderEquipped = (weapon: ActorWeapon): string => {
-        return weapon.slot !== WeaponSlot.None ? 'True' : 'False';
+        return weapon.slot !== ActorWeaponSlot.None ? 'True' : 'False';
     }
 
-    const getActorSkill = (weapon: ActorWeapon): ActorSkill => {
-        let actorSkill = {} as ActorSkill;
+    const getPlayerSkill = (weapon: ActorWeapon): PlayerSkill => {
+        let actorSkill = {} as PlayerSkill;
         for (const skill of player.skills) {
             if (skill.name === weapon.skill.name) {
-                actorSkill = skill as ActorSkill;
+                actorSkill = skill as PlayerSkill;
             }
         }
         return actorSkill;
@@ -55,7 +53,7 @@ const PlayerWeaponTable: React.FC<Props> = (props: Props)=> {
                             <TypographyCenterTableCell value={String(weapon.critical)}/>
                             <TypographyCenterTableCell value={weapon.range}/>
                             <TypographyCenterTableCell value={renderQualities(weapon)}/>
-                            <GenesysDicePoolCenterTableCellButton actor={player} skill={getActorSkill(weapon)}/>
+                            <GenesysDicePoolCenterTableCellButton actor={player} skill={getPlayerSkill(weapon)}/>
                         </TableRow>))}
                 </TableBody>
             )

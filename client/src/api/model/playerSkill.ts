@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { PlayerSkillCharacteristic } from "./playerSkillCharacteristic";
-import type { PlayerSkillType } from "./playerSkillType";
+import type { SkillType } from "./skillType";
 
 /**
  * Player Skill Data
@@ -17,9 +17,9 @@ export interface PlayerSkill {
   name: string;
   /** The type of Characteristic */
   characteristic: PlayerSkillCharacteristic;
-  type: PlayerSkillType;
+  type: SkillType;
   initiative: boolean;
   /** @minimum 0 */
-  ranks?: number;
+  ranks: number;
   career: boolean;
 }

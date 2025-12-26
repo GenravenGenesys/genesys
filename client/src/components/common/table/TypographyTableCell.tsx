@@ -7,7 +7,15 @@ import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography
 import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
 // import { GenesysSymbols } from "../../../models/roll/GenesysSymbols";
 import DiceRollerDialog from "../../roll/DiceRollerDialog";
-import {type ActorSkill, type Cost, CostType, type Difficulty, type Limit, LimitType} from "../../../api/model";
+import {
+    type ActorSkill,
+    type Cost,
+    CostType,
+    type Difficulty,
+    type Limit,
+    LimitType,
+    type PlayerSkill
+} from "../../../api/model";
 import {getDifficultyDice} from "../../../util/DiceHelper.ts";
 
 interface LeftProps {
@@ -112,7 +120,7 @@ interface Target {
 
 interface DiceRollProps {
     actor: Actor;
-    skill: ActorSkill;
+    skill: ActorSkill | PlayerSkill;
     difficulty?: Difficulty;
     target?: Target;
 }

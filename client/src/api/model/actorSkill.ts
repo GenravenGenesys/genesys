@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { ActorSkillCharacteristic } from "./actorSkillCharacteristic";
-import type { ActorSkillType } from "./actorSkillType";
+import type { SkillType } from "./skillType";
 
 export interface ActorSkill {
   id: string;
@@ -14,7 +14,7 @@ export interface ActorSkill {
   name: string;
   /** The type of Characteristic */
   characteristic: ActorSkillCharacteristic;
-  type: ActorSkillType;
+  type: SkillType;
   initiative: boolean;
   ranks: number;
 }

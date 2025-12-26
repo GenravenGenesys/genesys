@@ -1,9 +1,9 @@
 package com.github.genraven.genesys.domain.actor.npc;
 
 import com.github.genraven.genesys.domain.CriticalInjury;
+import com.github.genraven.genesys.domain.actor.ActorArmor;
 import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.equipment.Armor;
-import com.github.genraven.genesys.domain.equipment.EquipmentSlot;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -49,7 +49,7 @@ public class Nemesis extends SingleNonPlayerActor {
     private void getTotalSoak() {
         int soak = getBrawn().getCurrent();
         soak += getArmors().stream()
-                .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
+                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
                 .mapToInt(Armor::getSoak)
                 .sum();
         soak += getTalents().stream()
@@ -66,7 +66,7 @@ public class Nemesis extends SingleNonPlayerActor {
                 .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks() : talent.getTalentStats().getDefense())
                 .sum();
         melee += getArmors().stream()
-                .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
+                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
                 .mapToInt(Armor::getDefense)
                 .sum();
         this.setMelee(melee);
@@ -79,7 +79,7 @@ public class Nemesis extends SingleNonPlayerActor {
                 .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks() : talent.getTalentStats().getDefense())
                 .sum();
         ranged += getArmors().stream()
-                .filter(armor -> armor.getSlot().equals(EquipmentSlot.BODY))
+                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
                 .mapToInt(Armor::getDefense)
                 .sum();
         this.setRanged(ranged);

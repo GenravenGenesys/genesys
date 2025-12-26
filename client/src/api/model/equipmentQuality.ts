@@ -8,13 +8,13 @@
 import type { Modifier } from "./modifier";
 
 export interface EquipmentQuality {
-  id?: string;
-  name?: string;
-  description?: string;
-  cost?: number;
-  armor?: boolean;
-  weapon?: boolean;
-  modifiers?: Modifier[];
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  armor: boolean;
+  weapon: boolean;
+  modifiers: Modifier[];
   /** @minimum 0 */
   ranks: number;
 }

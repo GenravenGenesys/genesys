@@ -27,6 +27,7 @@ public class PlayerSkill extends Skill {
     @Min(value = 0)
     @Max(value = 2, groups = ValidationGroups.PlayerCreationValidation.class)
     @Max(value = 5)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int ranks = 0;
 
     @NotNull

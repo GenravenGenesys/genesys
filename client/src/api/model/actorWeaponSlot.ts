@@ -14,6 +14,5 @@ export const ActorWeaponSlot = {
   Main_Hand: "Main Hand",
   Off_Hand: "Off Hand",
   Both_Hands: "Both Hands",
-  Body: "Body",
   None: "None",
 } as const;

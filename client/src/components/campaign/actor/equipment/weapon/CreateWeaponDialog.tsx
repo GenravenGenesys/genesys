@@ -1,7 +1,6 @@
 import {Dialog, DialogContent, Divider, TextField} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
-import {ActorWeapon, Weapon, WeaponSlot} from "../../../../../models/equipment/Weapon";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
 import {useLocation} from "react-router";
 import SkillAutocompleteCard from "../../../../common/card/SkillAutocompleteCard";
@@ -14,7 +13,14 @@ import WeaponModifierCard from "../../../equipment/weapon/modifier/WeaponModifie
 import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
 import GridContainer from "../../../../common/grid/GridContainer";
 import {useFetchAllSkills} from "../../../../../hooks/useFetchAllSkills.ts";
-import {type ActorSkill, RangeBand, type Skill, SkillType} from "../../../../../api/model";
+import {
+    type ActorSkill,
+    type ActorWeapon,
+    ActorWeaponSlot,
+    RangeBand,
+    type Skill,
+    SkillType, type Weapon
+} from "../../../../../api/model";
 
 interface Props {
     open: boolean;
@@ -22,9 +28,9 @@ interface Props {
     onClose: () => void;
 }
 
-const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> {
+const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose}) => {
     const [weapon, setWeapon] = useState<ActorWeapon>({
-        slot: WeaponSlot.None,
+        slot: ActorWeaponSlot.None,
         id: 'custom',
         modifiers: [],
         name: 'Default',
@@ -45,7 +51,7 @@ const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> 
     const pathname = useLocation().pathname;
 
     const onCreate = async (): Promise<void> => {
-        onCreateWeapon({...weapon, slot: WeaponSlot.None} as ActorWeapon);
+        onCreateWeapon({...weapon, slot: ActorWeaponSlot.None} as ActorWeapon);
         onClose();
     };
 
@@ -78,7 +84,7 @@ const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> 
     };
 
     const updateWeapon = (updatedWeapon: Weapon) => {
-        setWeapon({...updatedWeapon, slot: WeaponSlot.None});
+        setWeapon({...updatedWeapon, slot: ActorWeaponSlot.None});
     };
 
     return (

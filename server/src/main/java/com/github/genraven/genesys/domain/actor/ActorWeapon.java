@@ -1,10 +1,12 @@
 package com.github.genraven.genesys.domain.actor;
 
-import com.github.genraven.genesys.domain.equipment.EquipmentSlot;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.equipment.Weapon;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -32,5 +34,17 @@ public class ActorWeapon extends Weapon {
     }
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private EquipmentSlot slot = EquipmentSlot.NONE;
+    private WeaponSlot slot = WeaponSlot.NONE;
+
+    @Getter
+    @AllArgsConstructor
+    public enum WeaponSlot {
+        MAIN_HAND("Main Hand"),
+        OFF_HAND("Off Hand"),
+        BOTH_HANDS("Both Hands"),
+        NONE("None");
+
+        @JsonValue
+        private final String value;
+    }
 }
