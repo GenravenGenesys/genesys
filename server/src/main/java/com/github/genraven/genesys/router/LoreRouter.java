@@ -11,20 +11,17 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class LoreRouter {
 
-    @Bean
-    public RouterFunction<ServerResponse> loreRouterMethod(final LoreHandler loreHandler) {
-        return RouterFunctions.route()
-                .nest(RequestPredicates.path("/api"), builder -> builder
-                        .path("/lore", loreBuilder -> loreBuilder
-                                .GET("/", loreHandler::getAllLore)
-                        )
-                        .path("/lore/organizations", organizationBuilder -> organizationBuilder
-                                .GET("/", loreHandler::getAllOrganizations)
-                                .POST("/{name}", loreHandler::createOrganization)
-                                .PUT("/{name}", loreHandler::updateOrganization)
-                                .GET("/{name}", loreHandler::getOrganization)
-                        )
-                )
-                .build();
-    }
+//    @Bean
+//    public RouterFunction<ServerResponse> loreRouterMethod(final LoreHandler loreHandler) {
+//        return RouterFunctions.route()
+//                .nest(RequestPredicates.path("/api"), builder -> builder
+//                        .path("/lore/organizations", organizationBuilder -> organizationBuilder
+//                                .GET("/", loreHandler::getAllOrganizations)
+//                                .POST("/{name}", loreHandler::createOrganization)
+//                                .PUT("/{name}", loreHandler::updateOrganization)
+//                                .GET("/{name}", loreHandler::getOrganization)
+//                        )
+//                )
+//                .build();
+//    }
 }

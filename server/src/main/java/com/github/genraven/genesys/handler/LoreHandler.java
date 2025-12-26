@@ -2,7 +2,6 @@ package com.github.genraven.genesys.handler;
 
 import com.github.genraven.genesys.domain.lore.Lore;
 import com.github.genraven.genesys.domain.lore.Organization;
-import com.github.genraven.genesys.service.lore.LoreService;
 import com.github.genraven.genesys.service.lore.OrganizationService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,19 +22,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 @RequiredArgsConstructor
 public class LoreHandler {
 
-    private final LoreService loreService;
     private final OrganizationService organizationService;
-
-    public Mono<ServerResponse> getAllLore(final ServerRequest serverRequest) {
-        return loreService.getAllLore().collectList().flatMap(lores -> {
-            if (lores.isEmpty()) {
-                return ServerResponse.noContent().build();
-            }
-            return ServerResponse.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(fromValue(lores));
-        });
-    }
 
     public Mono<ServerResponse> getAllOrganizations(final ServerRequest serverRequest) {
         return organizationService.getAllOrganizations().collectList().flatMap(organizations -> {
