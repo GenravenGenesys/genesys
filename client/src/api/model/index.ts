@@ -35,6 +35,8 @@ export * from "./experience";
 export * from "./getModifiers200Item";
 export * from "./limit";
 export * from "./limitType";
+export * from "./lore";
+export * from "./loreType";
 export * from "./modifier";
 export * from "./modifierType";
 export * from "./party";
