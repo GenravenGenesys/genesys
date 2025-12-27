@@ -3,17 +3,14 @@ import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import * as React from "react";
-import {useEffect, useState} from "react";
-import LoreService from "../../../services/lore/LoreService";
-import Lore, {LoreType} from "../../../models/lore/Lore";
 import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
 import {LorePath} from "../../../services/RootPath";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
-import {Card, CardContent} from "@mui/material";
+import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
-import {useFetchCurrentCampaign} from "../../campaign/CampaignWorkflow";
+import {useFetchAllLore} from "../../../hooks/useFetchAllLore.ts";
+import {type Lore, LoreType} from "../../../api/model";
 
 interface RowProps {
     lore: Lore
@@ -24,7 +21,7 @@ function LoreRow(props: RowProps): JSX.Element {
 
     const getLorePath = ():LorePath => {
         switch (lore.type) {
-            case LoreType.ORGANIZATION:
+            case LoreType.Organization:
                 return LorePath.Organization
         }
     }
@@ -39,16 +36,20 @@ function LoreRow(props: RowProps): JSX.Element {
 }
 
 export function ViewAllLore() {
-    const [lore, setLore] = useState<Lore[]>([]);
     const headers = ['Name', 'Type', 'View'];
-    const campaign = useFetchCurrentCampaign();
+    const {lore, loading, error} = useFetchAllLore();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            if (!campaign) return;
-            setLore(await LoreService.getAllLore(campaign.id))
-        })()
-    }, [campaign])
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return (
         <Card>
@@ -66,5 +67,5 @@ export function ViewAllLore() {
                 </TableContainer>
             </CardContent>
         </Card>
-    )
+    );
 }
