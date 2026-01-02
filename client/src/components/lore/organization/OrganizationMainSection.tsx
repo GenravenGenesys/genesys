@@ -1,7 +1,7 @@
-import {Organization} from "../../../models/lore/Organization";
 import React from "react";
 import {Card} from "@mui/material";
 import LoreTextBoxField from "../common/LoreTextBoxField";
+import type {Organization} from "../../../api/model";
 
 type Props = {
     organization: Organization;

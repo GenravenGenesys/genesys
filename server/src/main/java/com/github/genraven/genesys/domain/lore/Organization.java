@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain.lore;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,10 +20,19 @@ public class Organization extends Lore {
         this.setType(Type.ORGANIZATION);
     }
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private OrgType orgType;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int founded;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int disbanded;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String nickname;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String membersName;
 
     @Getter

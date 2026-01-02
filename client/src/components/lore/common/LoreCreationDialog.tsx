@@ -1,11 +1,11 @@
-import {LoreType} from "../../../models/lore/Lore";
-import {ChangeEvent, useState} from "react";
+import {type ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router";
 import {LorePath} from "../../../services/RootPath";
 import {Dialog, DialogContentText, TextField} from "@mui/material";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
-import OrganizationService from "../../../services/lore/OrganizationService";
 import CenteredDialogTitle from "../../common/dialog/CenteredDialogTitle";
+import {LoreType} from "../../../api/model";
+import {getOrganizationController} from "../../../api/generated/organization-controller/organization-controller.ts";
 
 
 interface Props {
@@ -22,8 +22,8 @@ export default function LoreCreationDialog(props: Props) {
 
     const handleCreate = async (): Promise<void> => {
         switch (lore) {
-            case LoreType.ORGANIZATION:
-                const organization = await OrganizationService.createOrganization(name);
+            case LoreType.Organization:
+                const organization = await getOrganizationController().createOrganization(name);
                 navigate(path + organization.id + '/view');
         }
         onClose();

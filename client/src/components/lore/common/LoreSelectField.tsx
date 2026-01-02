@@ -1,15 +1,14 @@
-import * as React from "react";
 import Typography from "@mui/material/Typography";
 import GenesysSelectField from "../../common/field/GenesysSelectField";
 
 
-type Props<T extends Record<string, string | number>> = {
+interface Props<T extends Record<string, string | number>> {
     value: T[keyof T];
     label: string;
     onChange: (value: T[keyof T]) => void;
     options: T;
     disabled: boolean;
-};
+}
 
 const LoreSelectField = <T extends Record<string, string | number>>({
                                                                         value,

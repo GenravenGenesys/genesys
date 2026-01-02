@@ -1,6 +1,5 @@
-import {Organization} from "../../../models/lore/Organization";
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import TableRow from "@mui/material/TableRow";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -9,26 +8,30 @@ import TableBody from "@mui/material/TableBody";
 import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
 import {GenesysDescriptionTypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
-import {Card, CardContent} from "@mui/material";
+import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import LoreCreationDialog from "../common/LoreCreationDialog";
 import {LoreType} from "../../../models/lore/Lore";
 import {LorePath} from "../../../services/RootPath";
-import {useFetchCurrentCampaign} from "../../campaign/CampaignWorkflow";
-import OrganizationService from "../../../services/lore/OrganizationService";
 import CenteredCardHeaderWithButton from "../../common/card/header/CenteredCardHeaderWithButton";
+import {useFetchAllOrganizations} from "../../../hooks/useFetchAllOrganizations.ts";
+import type {Organization} from "../../../api/model";
 
 const ViewAllOrganizations: React.FC = () => {
-    const [organizations, setOrganizations] = useState<Organization[]>([]);
     const [openLoreCreationDialog, setOpenLoreCreationDialog] = useState(false);
     const headers = ['Name', 'View'];
-    const campaign = useFetchCurrentCampaign();
+    const {organizations, loading, error} = useFetchAllOrganizations();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            if (!campaign) return;
-            setOrganizations(await OrganizationService.getOrganizations());
-        })()
-    }, [setOrganizations, campaign])
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return (
         <Card>

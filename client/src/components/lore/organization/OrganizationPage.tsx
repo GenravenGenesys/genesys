@@ -1,36 +1,60 @@
 import {useLocation, useParams} from "react-router";
 import {Fragment, useEffect, useState} from "react";
-import * as React from "react";
-import {Organization} from "../../../models/lore/Organization";
-import OrganizationService from "../../../services/lore/OrganizationService";
-import {Card, CardContent} from "@mui/material";
+import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import CenteredCardHeaderWithAction from "../../common/card/header/CenteredCardHeaderWithAction";
 import {LorePath} from "../../../services/RootPath";
 import GridContainer from "../../common/grid/GridContainer";
 import GridItem from "../../common/grid/GridItem";
 import OrganizationSidebar from "./OrganizationSidebar";
 import OrganizationMainPage from "./OrganizationMainSection";
+import type {Organization} from "../../../api/model";
+import {getOrganizationController} from "../../../api/generated/organization-controller/organization-controller.ts";
 
 const OrganizationPage = () => {
     const {id} = useParams<{ id: string }>();
     const [organization, setOrganization] = useState<Organization | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const disabled = useLocation().pathname.endsWith('/view');
 
     useEffect(() => {
         if (!id) {
-            return
+            return;
         }
-        (async (): Promise<void> => {
-            setOrganization(await OrganizationService.getOrganization(id))
-        })()
-    }, [id, setOrganization])
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await getOrganizationController().getOrganization(id);
+                setOrganization(response);
+            } catch (err) {
+                setError('Failed to load injury.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    if (!organization) {
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
+
+    if (!organization || !id) {
         return <Fragment/>;
     }
 
     const updateOrganization = async (updatedOrganization: Organization) => {
-        setOrganization(await OrganizationService.updateOrganization(updatedOrganization));
+        setOrganization(await getOrganizationController().updateOrganization(id, updatedOrganization));
     };
 
     return (
