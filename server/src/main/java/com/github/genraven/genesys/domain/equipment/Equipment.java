@@ -25,6 +25,7 @@ import java.util.List;
     @JsonSubTypes.Type(value = Armor.class, name = "Armor"),
     @JsonSubTypes.Type(value = Gear.class, name = "Gear")
 })
+@Schema(subTypes = { Weapon.class, Armor.class, Gear.class })
 public class Equipment {
 
     protected Equipment() {
