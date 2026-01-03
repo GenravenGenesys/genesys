@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Document(collection = "armors")
+@Schema(allOf = { Equipment.class })
 public class Armor extends Equipment {
 
     protected Armor() {}
