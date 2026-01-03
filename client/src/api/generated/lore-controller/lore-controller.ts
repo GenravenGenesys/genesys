@@ -5,7 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { Lore } from "../../model";
+import type { GetAllLore200Item } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
@@ -15,7 +15,10 @@ export const getLoreController = () => {
    * @summary Get all lore
    */
   const getAllLore = () => {
-    return customInstance<Lore[]>({ url: `/api/lore/`, method: "GET" });
+    return customInstance<GetAllLore200Item[]>({
+      url: `/api/lore/`,
+      method: "GET",
+    });
   };
   return { getAllLore };
 };

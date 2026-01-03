@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type OrganizationOrgType =
-  (typeof OrganizationOrgType)[keyof typeof OrganizationOrgType];
+export type OrganizationAllOfOrgType =
+  (typeof OrganizationAllOfOrgType)[keyof typeof OrganizationAllOfOrgType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OrganizationOrgType = {
+export const OrganizationAllOfOrgType = {
   Political: "Political",
   Social: "Social",
   Religious: "Religious",

@@ -5,17 +5,14 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { OrganizationType } from "./organizationType";
-import type { OrganizationOrgType } from "./organizationOrgType";
+import type { Lore } from "./lore";
+import type { OrganizationAllOf } from "./organizationAllOf";
 
-export interface Organization {
-  id: string;
-  name: string;
-  type: OrganizationType;
-  description: string;
-  orgType?: OrganizationOrgType;
-  founded?: number;
-  disbanded?: number;
-  nickname?: string;
-  membersName?: string;
-}
+export type Organization = Lore &
+  OrganizationAllOf &
+  Required<
+    Pick<
+      Lore & OrganizationAllOf,
+      "disbanded" | "founded" | "membersName" | "nickname" | "orgType"
+    >
+  >;
