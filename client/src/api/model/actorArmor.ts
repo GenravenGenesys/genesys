@@ -5,6 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { ActorArmorType } from "./actorArmorType";
 import type { Modifier } from "./modifier";
 import type { EquipmentQuality } from "./equipmentQuality";
 import type { ActorArmorSlot } from "./actorArmorSlot";
@@ -13,6 +14,7 @@ export interface ActorArmor {
   id: string;
   /** @minLength 1 */
   name: string;
+  type: ActorArmorType;
   description: string;
   /** @minimum 0 */
   price: number;

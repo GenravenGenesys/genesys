@@ -16,7 +16,7 @@ import GearService from "../../../../services/equipment/GearService";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import CreateEquipmentDialog from "../CreateEquipmentDialog";
-import {EquipmentType} from "../../../../models/equipment/Equipment";
+import {EquipmentType} from "../../../../api/model";
 
 
 interface Props {

@@ -5,6 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { ActorWeaponType } from "./actorWeaponType";
 import type { Modifier } from "./modifier";
 import type { EquipmentQuality } from "./equipmentQuality";
 import type { Skill } from "./skill";
@@ -15,6 +16,7 @@ export interface ActorWeapon {
   id: string;
   /** @minLength 1 */
   name: string;
+  type: ActorWeaponType;
   description: string;
   /** @minimum 0 */
   price: number;

@@ -2,13 +2,17 @@ package com.github.genraven.genesys.domain.equipment;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
@@ -43,6 +47,10 @@ public class Equipment {
     private String name;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    @EnumValidator(enumClass = Type.class)
+    private Type type;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -66,4 +74,15 @@ public class Equipment {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<EquipmentQuality> qualities = new ArrayList<>();
+
+    @AllArgsConstructor
+    @Getter
+    public enum Type {
+        WEAPON("Weapon"),
+        ARMOR("Armor"),
+        GEAR("Gear");
+
+        @JsonValue
+        private final String label;
+    }
 }

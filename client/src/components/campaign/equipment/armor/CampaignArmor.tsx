@@ -6,10 +6,9 @@ import {useState} from 'react';
 import {renderSingleRowTableHeader} from '../../../common/table/TableRenders';
 import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import CreateEquipmentDialog from "../CreateEquipmentDialog";
-import {EquipmentType} from "../../../../models/equipment/Equipment";
 import ArmorRow from "./ArmorRow.tsx";
 import {useFetchAllArmor} from "../../../../hooks/useFetchAllArmor.ts";
-import type {Armor} from "../../../../api/model";
+import {type Armor, EquipmentType} from "../../../../api/model";
 import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton.tsx";
 
 export default function CampaignArmor() {

@@ -16,9 +16,8 @@ import GenesysDescriptionTypography from "../../../common/typography/GenesysDesc
 import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import CreateEquipmentDialog from "../CreateEquipmentDialog";
-import {EquipmentType} from "../../../../models/equipment/Equipment";
 import {useFetchAllWeapons} from "../../../../hooks/useFetchAllWeapons.ts";
-import type {Weapon} from "../../../../api/model";
+import {EquipmentType, type Weapon} from "../../../../api/model";
 import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton.tsx";
 
 interface Props {

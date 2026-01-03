@@ -5,6 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { EquipmentType } from "./equipmentType";
 import type { Modifier } from "./modifier";
 import type { EquipmentQuality } from "./equipmentQuality";
 
@@ -12,6 +13,7 @@ export interface Equipment {
   id: string;
   /** @minLength 1 */
   name: string;
+  type: EquipmentType;
   description: string;
   /** @minimum 0 */
   price: number;
@@ -25,5 +27,4 @@ export interface Equipment {
   rarity: number;
   modifiers: Modifier[];
   qualities: EquipmentQuality[];
-  type: string;
 }

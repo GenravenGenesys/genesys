@@ -1,23 +1,24 @@
-import {EquipmentType} from "../../../models/equipment/Equipment";
 import {type ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router";
 import {EquipmentPath} from "../../../services/RootPath";
-import {Dialog, DialogContentText, DialogTitle, TextField,} from "@mui/material";
+import {Dialog, DialogContentText, TextField,} from "@mui/material";
 import GearService from "../../../services/equipment/GearService";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
 import {getArmorController} from "../../../api/generated/armor-controller/armor-controller.ts";
 import {getWeaponController} from "../../../api/generated/weapon-controller/weapon-controller.ts";
+import {EquipmentType} from "../../../api/model";
+import CenteredDialogTitle from "../../common/dialog/CenteredDialogTitle.tsx";
 
 interface Props {
     open: boolean;
     onClose: () => void;
-    type: EquipmentType
+    type: EquipmentType;
 }
 
 export default function CreateEquipmentDialog(props: Props) {
-    const { open, onClose, type } = props
-    const [ name, setName ] = useState('')
-    const navigate = useNavigate()
+    const { open, onClose, type } = props;
+    const [ name, setName ] = useState('');
+    const navigate = useNavigate();
 
     const handleCreate = async (): Promise<void> => {
         switch (type) {
@@ -34,25 +35,21 @@ export default function CreateEquipmentDialog(props: Props) {
                 navigate(EquipmentPath.Gear + gear.id + '/view');
                 break;
         }
-        onClose()
-    }
+        onClose();
+    };
 
     const onNameChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const { value } = event.target
-        setName(value)
-    }
-
-    function getTitle():string {
-        return 'Create ' + type
-    }
+        const { value } = event.target;
+        setName(value);
+    };
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>{getTitle()}</DialogTitle>
+            <CenteredDialogTitle title={'Create ' + type}/>
             <DialogContentText>
                 <TextField onChange={onNameChange} value={name} required/>
             </DialogContentText>
             <GenesysDialogActions handleCreate={handleCreate} onClose={onClose}/>
         </Dialog>
-    )
+    );
 }

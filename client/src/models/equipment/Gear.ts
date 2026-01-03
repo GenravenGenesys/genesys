@@ -1,5 +1,4 @@
-import type Equipment from "./Equipment";
-import type {RangeBand, Skill} from "../../api/model";
+import type {Equipment, RangeBand, Skill} from "../../api/model";
 
 export interface Gear extends Equipment {
     skill: Skill

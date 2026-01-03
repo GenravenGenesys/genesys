@@ -16,13 +16,15 @@ interface RowProps {
     lore: Lore
 }
 
-function LoreRow(props: RowProps): JSX.Element {
+function LoreRow(props: RowProps) {
     const {lore} = props
 
-    const getLorePath = ():LorePath => {
+    const getLorePath = () => {
         switch (lore.type) {
             case LoreType.Organization:
-                return LorePath.Organization
+                return LorePath.Organization;
+            default:
+                return '';
         }
     }
 
