@@ -1,5 +1,7 @@
 package com.github.genraven.genesys.domain.equipment;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
@@ -13,6 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type"
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Weapon.class, name = "Weapon"),
+    @JsonSubTypes.Type(value = Armor.class, name = "Armor"),
+    @JsonSubTypes.Type(value = Gear.class, name = "Gear")
+})
 public class Equipment {
 
     protected Equipment() {
