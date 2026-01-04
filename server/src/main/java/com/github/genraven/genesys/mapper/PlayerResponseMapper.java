@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.github.genraven.genesys.domain.actor.ActorArmor;
 import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.actor.player.Archetype;
+import com.github.genraven.genesys.exceptions.BaseException;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,6 +29,7 @@ public interface PlayerResponseMapper {
     @Mapping(target = "melee", ignore = true)
     @Mapping(target = "ranged", ignore = true)
     @Mapping(target = "encumbrance", ignore = true)
+    @Mapping(target = "errors", ignore = true)
     PlayerResponse mapPlayerToPlayerResponse(final Player player);
 
     @AfterMapping

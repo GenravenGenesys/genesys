@@ -16,6 +16,7 @@ import type { PlayerSkill } from "./playerSkill";
 import type { Experience } from "./experience";
 import type { Career } from "./career";
 import type { Archetype } from "./archetype";
+import type { PlayerResponseErrorsItem } from "./playerResponseErrorsItem";
 
 /**
  * Response DTO representing a Player
@@ -67,4 +68,5 @@ export interface PlayerResponse {
   career?: Career;
   /** Archetype Information */
   archetype?: Archetype;
+  errors?: PlayerResponseErrorsItem[];
 }

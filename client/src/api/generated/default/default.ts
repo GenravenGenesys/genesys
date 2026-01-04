@@ -7,7 +7,6 @@
  */
 import type {
   Archetype,
-  Career,
   Characteristic,
   Player,
   PlayerResponse,
@@ -19,6 +18,26 @@ import { customInstance } from "../../axios-instance";
 
 export const getDefault = () => {
   /**
+   * @summary Fetch a player by name
+   */
+  const getPlayer = (name: string) => {
+    return customInstance<PlayerResponse>({
+      url: `/api/players/${name}`,
+      method: "GET",
+    });
+  };
+  /**
+   * @summary Update a player
+   */
+  const updatePlayer = (name: string, player: Player) => {
+    return customInstance<PlayerResponse>({
+      url: `/api/players/${name}`,
+      method: "PUT",
+      headers: { "Content-Type": "*/*" },
+      data: player,
+    });
+  };
+  /**
    * @summary Retrieve all players in a campaign
    */
   const getAllPlayers = (name: string) => {
@@ -27,7 +46,7 @@ export const getDefault = () => {
       method: "GET",
     });
   };
-  const createPlayer = (name: string, playerName: string) => {
+  const createPlayer1 = (name: string, playerName: string) => {
     return customInstance<PlayerResponse>({
       url: `/api/campaigns/${name}/players/${playerName}`,
       method: "POST",
@@ -66,42 +85,6 @@ export const getDefault = () => {
       method: "PATCH",
       headers: { "Content-Type": "*/*" },
       data: talent,
-    });
-  };
-  const updatePlayerCareer = (id: string, career: Career) => {
-    return customInstance<PlayerResponse>({
-      url: `/api/players/creation/${id}/careers/`,
-      method: "PATCH",
-      headers: { "Content-Type": "*/*" },
-      data: career,
-    });
-  };
-  const updatePlayerCareerSkills = (id: string, playerSkill: PlayerSkill[]) => {
-    return customInstance<PlayerResponse>({
-      url: `/api/players/creation/${id}/careers/skills/`,
-      method: "PATCH",
-      headers: { "Content-Type": "*/*" },
-      data: playerSkill,
-    });
-  };
-  /**
-   * @summary Fetch a player by name
-   */
-  const getPlayer = (name: string) => {
-    return customInstance<PlayerResponse>({
-      url: `/api/players/${name}`,
-      method: "GET",
-    });
-  };
-  /**
-   * @summary Update a player
-   */
-  const updatePlayer = (name: string, player: Player) => {
-    return customInstance<PlayerResponse>({
-      url: `/api/players/${name}`,
-      method: "PUT",
-      headers: { "Content-Type": "*/*" },
-      data: player,
     });
   };
   return {};

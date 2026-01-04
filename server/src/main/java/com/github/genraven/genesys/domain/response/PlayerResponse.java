@@ -91,4 +91,6 @@ public class PlayerResponse {
 
     @Schema(description = "Archetype Information")
     private Archetype archetype;
+
+    private List<Error> errors;
 }
