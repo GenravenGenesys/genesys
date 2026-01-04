@@ -8,14 +8,14 @@ import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
 import { useFetchCurrentCampaign } from "../../CampaignWorkflow";
 import RivalService from "../../../../services/actor/RivalService";
 import NemesisService from "../../../../services/actor/NemesisService";
-import PlayerService from "../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
+import {getPlayerController} from "../../../../api/generated/player-controller/player-controller.ts";
 
-type Props = {
+interface Props {
     open: boolean;
     actorType: ActorType;
     onClose: () => void;
-};
+}
 
 const CreateActorDialog = (props: Props) => {
     const { open, actorType, onClose } = props;
@@ -39,8 +39,8 @@ const CreateActorDialog = (props: Props) => {
                 navigate(ActorPath.Nemesis + nemesis.id + '/edit');
                 break
             case ActorType.Player:
-                const player = await PlayerService.createPlayer(campaign.id, name);
-                navigate(ActorPath.Player + player.id + '/edit');
+                const player = await getPlayerController().createPlayer(name);
+                navigate(ActorPath.Player + player.id + '/view');
                 break
         }
         onClose();

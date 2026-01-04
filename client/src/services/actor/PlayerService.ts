@@ -5,10 +5,6 @@ import { apiRequest, apiRequestList } from "../ApiRequest";
 import type {Career, Characteristic, Talent, Archetype} from "../../api/model";
 
 export default class PlayerService {
-    static async createPlayer(id: string, playerName: string): Promise<Player> {
-        return apiRequest(CampaignPath.Campaign + `${id}` + PlayerPath.Player + `${playerName}`, "POST");
-    };
-
     static async getPlayer(id: string): Promise<Player> {
         return apiRequest(PlayerPath.Player + `${id}`);
     };
