@@ -21,14 +21,12 @@ public class NemesisService {
 
     public Flux<Nemesis> getAllNemeses() {
         return nemesisRepository.findAll().map(nemesis -> {
-            nemesis.getTotalNemesisStats();
             return nemesis;
         });
     }
 
     public Mono<Nemesis> getNemesis(final String name) {
         return nemesisRepository.findById(name).map(nemesis -> {
-            nemesis.getTotalNemesisStats();
             return nemesis;
         });
     }

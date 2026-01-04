@@ -28,7 +28,6 @@ public class Rival extends SingleNonPlayerActor {
         this.setWillpower(singleNonPlayerActor.getWillpower());
         this.setPresence(singleNonPlayerActor.getPresence());
         this.setWounds(singleNonPlayerActor.getWounds());
-        this.setSoak(singleNonPlayerActor.getSoak());
         this.setCombat(singleNonPlayerActor.getCombat());
         this.setSocial(singleNonPlayerActor.getSocial());
         this.setGeneral(singleNonPlayerActor.getGeneral());
@@ -40,64 +39,51 @@ public class Rival extends SingleNonPlayerActor {
 
     private List<CriticalInjury> injuries = new ArrayList<>();
 
-    public void getTotalRivalStats() {
-        this.getTotalSoak();
-        this.getTotalMeleeDefense();
-        this.getTotalRangedDefense();
-    }
-
-    private void getTotalSoak() {
-        int soak = getBrawn().getCurrent();
-        soak += getArmors().stream()
-                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
-                .mapToInt(Armor::getSoak)
-                .sum();
-        soak += getTalents().stream()
-                .filter(talent -> talent.getTalentStats().getSoak() > 0)
-                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getSoak() * talent.getRanks()
-                        : talent.getTalentStats().getSoak())
-                .sum();
-        this.setSoak(soak);
-    }
-
-    private void getTotalMeleeDefense() {
-        int melee = 0;
-        melee += getTalents().stream()
-                .filter(talent -> talent.getTalentStats().getDefense() > 0)
-                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks()
-                        : talent.getTalentStats().getDefense())
-                .sum();
-        melee += getArmors().stream()
-                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
-                .mapToInt(Armor::getDefense)
-                .sum();
-        this.setMelee(melee);
-    }
-
-    private void getTotalRangedDefense() {
-        int ranged = 0;
-        ranged += getTalents().stream()
-                .filter(talent -> talent.getTalentStats().getDefense() > 0)
-                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks()
-                        : talent.getTalentStats().getDefense())
-                .sum();
-        ranged += getArmors().stream()
-                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
-                .mapToInt(Armor::getDefense)
-                .sum();
-        this.setRanged(ranged);
-    }
-
-    @Override
-    public String toString() {
-        return "Rival{" +
-                "id='" + getId() + '\'' +
-                ", name='" + getName() + '\'' +
-                ", brawn=" + getBrawn() +
-                ", agility=" + getAgility() +
-                ", intellect=" + getIntellect() +
-                ", injuries=" + injuries +
-                '}';
-    }
-
+//    public void getTotalRivalStats() {
+//        this.getTotalSoak();
+//        this.getTotalMeleeDefense();
+//        this.getTotalRangedDefense();
+//    }
+//
+//    private void getTotalSoak() {
+//        int soak = getBrawn().getCurrent();
+//        soak += getArmors().stream()
+//                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
+//                .mapToInt(Armor::getSoak)
+//                .sum();
+//        soak += getTalents().stream()
+//                .filter(talent -> talent.getTalentStats().getSoak() > 0)
+//                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getSoak() * talent.getRanks()
+//                        : talent.getTalentStats().getSoak())
+//                .sum();
+//        this.setSoak(soak);
+//    }
+//
+//    private void getTotalMeleeDefense() {
+//        int melee = 0;
+//        melee += getTalents().stream()
+//                .filter(talent -> talent.getTalentStats().getDefense() > 0)
+//                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks()
+//                        : talent.getTalentStats().getDefense())
+//                .sum();
+//        melee += getArmors().stream()
+//                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
+//                .mapToInt(Armor::getDefense)
+//                .sum();
+//        this.setMelee(melee);
+//    }
+//
+//    private void getTotalRangedDefense() {
+//        int ranged = 0;
+//        ranged += getTalents().stream()
+//                .filter(talent -> talent.getTalentStats().getDefense() > 0)
+//                .mapToInt(talent -> talent.isRanked() ? talent.getTalentStats().getDefense() * talent.getRanks()
+//                        : talent.getTalentStats().getDefense())
+//                .sum();
+//        ranged += getArmors().stream()
+//                .filter(armor -> armor.getSlot().equals(ActorArmor.ArmorSlot.BODY))
+//                .mapToInt(Armor::getDefense)
+//                .sum();
+//        this.setRanged(ranged);
+//    }
 }

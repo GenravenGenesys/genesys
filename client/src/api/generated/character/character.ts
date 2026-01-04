@@ -13,15 +13,15 @@ export const getCharacter = () => {
   /**
    * @summary Get all player characters
    */
-  const getPlayer2 = (player: Player[]) => {
+  const getPlayer1 = (player: Player[]) => {
     return customInstance<CharacterResponse[] | ServerResponse>({
       url: `/api/characters/players`,
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
   };
-  return { getPlayer2 };
+  return { getPlayer1 };
 };
-export type GetPlayer2Result = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getCharacter>["getPlayer2"]>>
+export type GetPlayer1Result = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getCharacter>["getPlayer1"]>>
 >;

@@ -28,7 +28,6 @@ public class RivalService {
         log.info("Fetching all rivals");
         return rivalRepository.findAll()
                 .map(rival -> {
-                    rival.getTotalRivalStats();
                     log.debug("Processed rival: {}", rival.getName());
                     return rival;
                 });
@@ -39,7 +38,6 @@ public class RivalService {
         return rivalRepository.findById(id)
                 .doOnNext(rival -> log.debug("Found rival: {}", rival.getName()))
                 .map(rival -> {
-                    rival.getTotalRivalStats();
                     return rival;
                 })
                 .doOnError(err -> log.error("Failed to fetch rival with ID: {}", id, err));

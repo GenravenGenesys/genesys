@@ -8,9 +8,11 @@
 import type {
   Archetype,
   Career,
+  Characteristic,
   Player,
   PlayerResponse,
   PlayerSkill,
+  Talent,
 } from "../../model";
 
 import { customInstance } from "../../axios-instance";
@@ -24,6 +26,65 @@ export const getPlayerController = () => {
     return customInstance<Player>({
       url: `/api/players/${name}`,
       method: "POST",
+    });
+  };
+  /**
+   * Resets the Player Experience during Creation.
+   * @summary Resets Player Experience during Creation.
+   */
+  const resetPlayerExperience = (id: string) => {
+    return customInstance<PlayerResponse>({
+      url: `/api/players/creation/${id}/reset/`,
+      method: "POST",
+    });
+  };
+  /**
+   * Ends Player Character Creation and locks experience spending.
+   * @summary Locks Creation Experience Spending.
+   */
+  const lockPlayerCreation = (id: string) => {
+    return customInstance<PlayerResponse>({
+      url: `/api/players/creation/${id}/lock/`,
+      method: "POST",
+    });
+  };
+  /**
+   * Updates the Player Talents during Creation.
+   * @summary Patches Player Talents during Creation.
+   */
+  const updatePlayerTalent = (id: string, talent: Talent) => {
+    return customInstance<PlayerResponse>({
+      url: `/api/players/creation/${id}/talents/`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      data: talent,
+    });
+  };
+  /**
+   * Updates the Player Skills during Creation.
+   * @summary Patches Player Skills during Creation.
+   */
+  const updatePlayerSkill = (id: string, playerSkill: PlayerSkill) => {
+    return customInstance<PlayerResponse>({
+      url: `/api/players/creation/${id}/skills/`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      data: playerSkill,
+    });
+  };
+  /**
+   * Updates the Player Characteristics during Creation.
+   * @summary Patches Player Characteristics during Creation.
+   */
+  const updatePlayerCharacteristic = (
+    id: string,
+    characteristic: Characteristic,
+  ) => {
+    return customInstance<PlayerResponse>({
+      url: `/api/players/creation/${id}/characteristics/`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      data: characteristic,
     });
   };
   /**
@@ -54,7 +115,7 @@ export const getPlayerController = () => {
    * Updates the Player Archetype during Creation.
    * @summary Patches Player Archetypes during Creation.
    */
-  const updatePlayerCareer1 = (id: string, archetype: Archetype) => {
+  const updatePlayerArchetype = (id: string, archetype: Archetype) => {
     return customInstance<PlayerResponse>({
       url: `/api/players/creation/${id}/archetypes/`,
       method: "PATCH",
@@ -63,22 +124,62 @@ export const getPlayerController = () => {
     });
   };
   /**
+   * Retrieve a list of all players.
+   * @summary Get all players
+   */
+  const getAllPlayers = () => {
+    return customInstance<Player[]>({ url: `/api/players/`, method: "GET" });
+  };
+  /**
    * Retrieve a specific player by its name.
    * @summary Get player by id
    */
-  const getPlayer1 = (id: string) => {
+  const getPlayer = (id: string) => {
     return customInstance<Player>({ url: `/api/players/${id}`, method: "GET" });
   };
   return {
     createPlayer,
+    resetPlayerExperience,
+    lockPlayerCreation,
+    updatePlayerTalent,
+    updatePlayerSkill,
+    updatePlayerCharacteristic,
     updatePlayerCareer,
     updatePlayerCareerSkills,
-    updatePlayerCareer1,
-    getPlayer1,
+    updatePlayerArchetype,
+    getAllPlayers,
+    getPlayer,
   };
 };
 export type CreatePlayerResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getPlayerController>["createPlayer"]>>
+>;
+export type ResetPlayerExperienceResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getPlayerController>["resetPlayerExperience"]>
+  >
+>;
+export type LockPlayerCreationResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getPlayerController>["lockPlayerCreation"]>
+  >
+>;
+export type UpdatePlayerTalentResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getPlayerController>["updatePlayerTalent"]>
+  >
+>;
+export type UpdatePlayerSkillResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getPlayerController>["updatePlayerSkill"]>
+  >
+>;
+export type UpdatePlayerCharacteristicResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getPlayerController>["updatePlayerCharacteristic"]
+    >
+  >
 >;
 export type UpdatePlayerCareerResult = NonNullable<
   Awaited<
@@ -92,11 +193,14 @@ export type UpdatePlayerCareerSkillsResult = NonNullable<
     >
   >
 >;
-export type UpdatePlayerCareer1Result = NonNullable<
+export type UpdatePlayerArchetypeResult = NonNullable<
   Awaited<
-    ReturnType<ReturnType<typeof getPlayerController>["updatePlayerCareer1"]>
+    ReturnType<ReturnType<typeof getPlayerController>["updatePlayerArchetype"]>
   >
 >;
-export type GetPlayer1Result = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getPlayerController>["getPlayer1"]>>
+export type GetAllPlayersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getPlayerController>["getAllPlayers"]>>
+>;
+export type GetPlayerResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getPlayerController>["getPlayer"]>>
 >;

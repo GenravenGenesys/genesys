@@ -20,8 +20,6 @@ public class Character {
     }
 
     public Character(final Player player) {
-        player.getTotalPlayerStats();
-
         this.setId(player.getId());
         this.setName(player.getName());
         this.setType(player.getType());
@@ -33,7 +31,6 @@ public class Character {
         this.setPresence(player.getPresence());
         this.setWounds(player.getWounds());
         this.setStrain(player.getStrain());
-        this.setSoak(player.getSoak());
         this.setMelee(player.getMelee());
         this.setRanged(player.getRanged());
 
@@ -46,8 +43,6 @@ public class Character {
     }
 
     public Character(final Nemesis nemesis) {
-        nemesis.getTotalNemesisStats();
-
         this.setId(nemesis.getId());
         this.setName(nemesis.getName());
         this.setType(nemesis.getType());
@@ -59,7 +54,6 @@ public class Character {
         this.setPresence(nemesis.getPresence());
         this.setWounds(nemesis.getWounds());
         this.setStrain(nemesis.getStrain());
-        this.setSoak(nemesis.getSoak());
         this.setMelee(nemesis.getMelee());
         this.setRanged(nemesis.getRanged());
         this.setWeapons(nemesis.getWeapons());
@@ -71,8 +65,6 @@ public class Character {
     }
 
     public Character(final Rival rival) {
-        rival.getTotalRivalStats();
-
         this.setId(rival.getId());
         this.setName(rival.getName());
         this.setType(rival.getType());
@@ -83,7 +75,6 @@ public class Character {
         this.setWillpower(rival.getWillpower());
         this.setPresence(rival.getPresence());
         this.setWounds(rival.getWounds());
-        this.setSoak(rival.getSoak());
         this.setMelee(rival.getMelee());
         this.setRanged(rival.getRanged());
         this.setWeapons(rival.getWeapons());
@@ -107,7 +98,6 @@ public class Character {
         this.setWillpower(minionGroup.getWillpower());
         this.setPresence(minionGroup.getPresence());
         this.setWounds(minionGroup.getWounds());
-        this.setSoak(minionGroup.getSoak());
         this.setMelee(minionGroup.getMelee());
         this.setRanged(minionGroup.getRanged());
         this.setWeapons(minionGroup.getWeapons());

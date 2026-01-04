@@ -18,14 +18,12 @@ public class MinionService {
 
     public Flux<Minion> getAllMinions() {
         return minionRepository.findAll().map(minion -> {
-            minion.getTotalMinionStats();
             return minion;
         });
     }
 
     public Mono<Minion> getMinion(final String id) {
         return minionRepository.findById(id).map(minion -> {
-            minion.getTotalMinionStats();
             return minion;
         });
     }

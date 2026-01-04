@@ -7,7 +7,10 @@
  */
 
 export interface Experience {
-  initial?: number;
-  total?: number;
-  available?: number;
+  /** @minimum 0 */
+  initial: number;
+  /** @minimum 0 */
+  total: number;
+  /** @minimum 0 */
+  available: number;
 }
