@@ -2,12 +2,12 @@ import {Button, Dialog, DialogActions, DialogContent, IconButton} from "@mui/mat
 import Typography from "@mui/material/Typography";
 import {Add} from "@mui/icons-material";
 import React, {useEffect, useState} from "react";
-import type Player from "../../../../../../models/actor/player/Player";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
-import type {Characteristic} from "../../../../../../api/model";
+import type {Characteristic, Player} from "../../../../../../api/model";
+import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
 
 interface Props {
     open: boolean;
@@ -25,7 +25,7 @@ const SpendCharacteristicDialog: React.FC<Props> = (props: Props) => {
 
     const handleIncreaseLevel = async (characteristic: Characteristic) => {
         const updatedCharacteristic = {...characteristic, current: characteristic.current + 1} as Characteristic;
-        setPlayer(await PlayerService.purchaseCharacteristicUpgrade(player.id, updatedCharacteristic));
+        setPlayer(await getPlayerController().updatePlayerCharacteristic(player.id, updatedCharacteristic));
     };
 
     const characteristics: Characteristic[] = [

@@ -12,11 +12,11 @@ public class MapperUtil {
     private static final PlayerResponseMapper playerResponseMapper = PlayerResponseMapper.INSTANCE;
     private static final ErrorResponseMapper errorResponseMapper = ErrorResponseMapper.INSTANCE;
 
-    public static Mono<PlayerResponse> mapPlayerToResponse(final Player player) {
+    public static Mono<Player> mapPlayerToResponse(final Player player) {
         return Mono.just(playerResponseMapper.mapPlayerToPlayerResponse(player));
     }
 
-    public static Mono<PlayerResponse> mapErrorsToPlayerResponse(final BaseException exception) {
+    public static Mono<Player> mapErrorsToPlayerResponse(final BaseException exception) {
         return Mono.just(errorResponseMapper.mapErrorsToPlayerResponse(exception));
     }
 }

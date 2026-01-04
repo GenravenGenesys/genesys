@@ -9,6 +9,7 @@ import jakarta.validation.constraints.AssertTrue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.validation.Errors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,8 @@ public class Player extends Actor {
 
     @AssertTrue(groups = ValidationGroups.PlayerCreationValidation.class)
     private Boolean creation = Boolean.TRUE;
+
+    private List<Errors> errors;
 
 //    public void getTotalPlayerStats() {
 //        this.getTotalSoak();

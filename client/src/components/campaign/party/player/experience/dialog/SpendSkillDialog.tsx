@@ -1,5 +1,3 @@
-import type Player from "../../../../../../models/actor/player/Player";
-import type {PlayerSkill} from "../../../../../../models/actor/player/Player";
 import {useEffect, useState} from "react";
 import PlayerService from "../../../../../../services/actor/PlayerService";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
@@ -15,6 +13,8 @@ import {GenesysDescriptionTypographyCenterTableCell} from "../../../../../common
 import TableCell from "@mui/material/TableCell";
 import BooleanTableCell from "../../../../../common/table/BooleanTableCell";
 import GridContainer from "../../../../../common/grid/GridContainer";
+import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
+import type {Player, PlayerSkill} from "../../../../../../api/model";
 
 interface Props {
     open: boolean;
@@ -32,7 +32,7 @@ const SpendSkillDialog: React.FC<Props> = ({open, onClose, currentPlayer}) => {
 
     const handleIncreaseLevel = async (skill: PlayerSkill) => {
         const updatedSkill = {...skill, ranks: skill.ranks + 1} as PlayerSkill;
-        setPlayer(await PlayerService.purchaseSkillUpgrade(player.id, updatedSkill))
+        setPlayer(await getPlayerController().updatePlayerSkill(player.id, updatedSkill))
     };
 
     const handleCancel = async () => {

@@ -1,14 +1,13 @@
-import Player, {PlayerSkill} from "../../../../models/actor/player/Player";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import ExperienceCard from "./experience/ExperienceCard";
 import ArchetypeSelectCard from "./ArchetypeSelectCard";
 import CareerSelectCard from "./CareerSkillCard";
-import {type Archetype} from "../../../../api/model";
-import PlayerService from "../../../../services/actor/PlayerService";
+import {type Archetype, type Player, type PlayerSkill} from "../../../../api/model";
 import PlayerCharacteristicRow from "./PlayerCharacteristicRow";
 import DerivedPlayerStatsRow from "./DerivedPlayerStatsRow";
 import GridContainer from "../../../common/grid/GridContainer";
 import type {Career} from "../../../../api/model";
+import {getPlayerController} from "../../../../api/generated/player-controller/player-controller.ts";
 
 interface Props {
     player: Player;
@@ -20,19 +19,19 @@ export default function PlayerCharacteristicTab(props: Props) {
 
     const handleArchetypeChange = async (value: Archetype) => {
         if (player) {
-            updatePlayer(await PlayerService.updatePlayerArchetype(player.id, value));
+            updatePlayer(await getPlayerController().updatePlayerArchetype(player.id, value));
         }
     };
 
     const handleCareerChange = async (value: Career) => {
         if (player) {
-            updatePlayer(await PlayerService.updatePlayerCareer(player.id, value));
+            updatePlayer(await getPlayerController().updatePlayerCareer(player.id, value));
         }
     };
 
     const handleCareerSkillChange = async (value: PlayerSkill[]) => {
         if (player) {
-            updatePlayer(await PlayerService.updatePlayerCareerSkills(player.id, value));
+            updatePlayer(await getPlayerController().updatePlayerCareerSkills(player.id, value));
         }
     };
 

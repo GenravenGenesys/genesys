@@ -30,10 +30,10 @@ public interface PlayerResponseMapper {
     @Mapping(target = "ranged", ignore = true)
     @Mapping(target = "encumbrance", ignore = true)
     @Mapping(target = "errors", ignore = true)
-    PlayerResponse mapPlayerToPlayerResponse(final Player player);
+    Player mapPlayerToPlayerResponse(final Player player);
 
     @AfterMapping
-    default void enrichFields(@MappingTarget PlayerResponse playerResponse, Player player) {
+    default void enrichFields(@MappingTarget Player playerResponse, Player player) {
         getTotalSoak(playerResponse);
         getTotalEncumbrance(playerResponse);
         getTotalMeleeDefense(playerResponse);
@@ -42,7 +42,7 @@ public interface PlayerResponseMapper {
         getTotalStrain(playerResponse, player);
     }
 
-    private void getTotalSoak(@MappingTarget PlayerResponse playerResponse) {
+    private void getTotalSoak(@MappingTarget Player playerResponse) {
         int baseSoak = playerResponse.getBrawn().getCurrent();
 
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
@@ -63,14 +63,14 @@ public interface PlayerResponseMapper {
         playerResponse.setSoak(baseSoak + talentBonus + armorBonus);
     }
 
-    private void getTotalEncumbrance(@MappingTarget PlayerResponse playerResponse) {
+    private void getTotalEncumbrance(@MappingTarget Player playerResponse) {
         int encumbrance = Optional.ofNullable(playerResponse.getBrawn())
                 .map(characteristic -> characteristic.getCurrent() + 5).orElse(5);
 
         playerResponse.setEncumbrance(encumbrance);
     }
 
-    private void getTotalMeleeDefense(@MappingTarget PlayerResponse playerResponse) {
+    private void getTotalMeleeDefense(@MappingTarget Player playerResponse) {
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
             .orElse(List.of()).stream()
             .map(talent -> Optional.ofNullable(talent.getTalentStats())
@@ -89,7 +89,7 @@ public interface PlayerResponseMapper {
         playerResponse.setMelee(talentBonus + armorBonus);
     }
 
-    private void getTotalRangedDefense(@MappingTarget PlayerResponse playerResponse) {
+    private void getTotalRangedDefense(@MappingTarget Player playerResponse) {
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
             .orElse(List.of()).stream()
             .map(talent -> Optional.ofNullable(talent.getTalentStats())
@@ -108,7 +108,7 @@ public interface PlayerResponseMapper {
         playerResponse.setRanged(talentBonus + armorBonus);
     }
 
-    private void getTotalWounds(@MappingTarget PlayerResponse playerResponse, Player player) {
+    private void getTotalWounds(@MappingTarget Player playerResponse, Player player) {
         int archetypeWounds = Optional.ofNullable(playerResponse.getArchetype())
             .map(Archetype::getWounds)
             .orElse(0);
@@ -134,7 +134,7 @@ public interface PlayerResponseMapper {
         playerResponse.setWounds(new Stats(current, archetypeWounds + brawnWounds + talentBonus, Stats.Type.WOUNDS));
     }
 
-    private void getTotalStrain(@MappingTarget PlayerResponse playerResponse, Player player) {
+    private void getTotalStrain(@MappingTarget Player playerResponse, Player player) {
         int archetypeStrain = Optional.ofNullable(playerResponse.getArchetype())
             .map(Archetype::getStrain)
             .orElse(0);

@@ -6,7 +6,6 @@ import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import com.github.genraven.genesys.domain.context.player.*;
-import com.github.genraven.genesys.domain.response.PlayerResponse;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.exceptions.BaseException;
 import com.github.genraven.genesys.service.actor.PlayerService;
@@ -70,7 +69,7 @@ public class PlayerController extends AbstractController {
 
     @PatchMapping("/creation/{id}/careers/")
     @Operation(summary = "Patches Player Career during Creation.", description = "Updates the Player Career during Creation.")
-    public Mono<ResponseEntity<PlayerResponse>> updatePlayerCareer(@PathVariable final String id, @RequestBody final Career career) {
+    public Mono<ResponseEntity<Player>> updatePlayerCareer(@PathVariable final String id, @RequestBody final Career career) {
         final Mono<Career> careerMono = Mono.just(career);
         return careerMono.zipWith(playerService.getPlayer(id))
             .map(tuple -> new PlayerCreationCareerUpdateContext(
@@ -90,7 +89,7 @@ public class PlayerController extends AbstractController {
 
     @PatchMapping("/creation/{id}/careers/skills/")
     @Operation(summary = "Patches Player Career Skills during Creation.", description = "Updates the Player Career Skills during Creation.")
-    public Mono<ResponseEntity<PlayerResponse>> updatePlayerCareerSkills(@PathVariable final String id, @RequestBody final List<PlayerSkill> playerSkills) {
+    public Mono<ResponseEntity<Player>> updatePlayerCareerSkills(@PathVariable final String id, @RequestBody final List<PlayerSkill> playerSkills) {
         final Mono<List<PlayerSkill>> skillsMono = Mono.just(playerSkills);
         return skillsMono.zipWith(playerService.getPlayer(id))
             .map(tuple -> new PlayerCreationCareerSkillUpdateContext(
@@ -109,7 +108,7 @@ public class PlayerController extends AbstractController {
 
     @PatchMapping("/creation/{id}/archetypes/")
     @Operation(summary = "Patches Player Archetypes during Creation.", description = "Updates the Player Archetype during Creation.")
-    public Mono<ResponseEntity<PlayerResponse>> updatePlayerArchetype(@PathVariable final String id, @RequestBody final Archetype archetype) {
+    public Mono<ResponseEntity<Player>> updatePlayerArchetype(@PathVariable final String id, @RequestBody final Archetype archetype) {
         final Mono<Archetype> archetypeMono = Mono.just(archetype);
         return archetypeMono.zipWith(playerService.getPlayer(id))
             .map(tuple -> new PlayerCreationArchetypeUpdateContext(
@@ -128,7 +127,7 @@ public class PlayerController extends AbstractController {
 
     @PatchMapping("/creation/{id}/characteristics/")
     @Operation(summary = "Patches Player Characteristics during Creation.", description = "Updates the Player Characteristics during Creation.")
-    public Mono<ResponseEntity<PlayerResponse>> updatePlayerCharacteristic(@PathVariable final String id, @RequestBody final Characteristic characteristic) {
+    public Mono<ResponseEntity<Player>> updatePlayerCharacteristic(@PathVariable final String id, @RequestBody final Characteristic characteristic) {
         final Mono<Characteristic> characteristicMono = Mono.just(characteristic);
         return characteristicMono.zipWith(playerService.getPlayer(id))
             .map(tuple -> new PlayerCreationCharacteristicUpdateContext(
@@ -147,7 +146,7 @@ public class PlayerController extends AbstractController {
 
     @PatchMapping("/creation/{id}/skills/")
     @Operation(summary = "Patches Player Skills during Creation.", description = "Updates the Player Skills during Creation.")
-    public Mono<ResponseEntity<PlayerResponse>> updatePlayerSkill(@PathVariable final String id, @RequestBody final PlayerSkill playerSkill) {
+    public Mono<ResponseEntity<Player>> updatePlayerSkill(@PathVariable final String id, @RequestBody final PlayerSkill playerSkill) {
         final Mono<PlayerSkill> playerSkillMono = Mono.just(playerSkill);
         return playerSkillMono.zipWith(playerService.getPlayer(id))
             .map(tuple -> new PlayerCreationSkillUpdateContext(
@@ -166,7 +165,7 @@ public class PlayerController extends AbstractController {
 
     @PatchMapping("/creation/{id}/talents/")
     @Operation(summary = "Patches Player Talents during Creation.", description = "Updates the Player Talents during Creation.")
-    public Mono<ResponseEntity<PlayerResponse>> updatePlayerTalent(@PathVariable final String id, @RequestBody final Talent talent) {
+    public Mono<ResponseEntity<Player>> updatePlayerTalent(@PathVariable final String id, @RequestBody final Talent talent) {
         final Mono<Talent> talentMono = Mono.just(talent);
         return talentMono.zipWith(playerService.getPlayer(id))
             .map(tuple -> new PlayerCreationTalentUpdateContext(
@@ -186,7 +185,7 @@ public class PlayerController extends AbstractController {
 
     @PostMapping("/creation/{id}/reset/")
     @Operation(summary = "Resets Player Experience during Creation.", description = "Resets the Player Experience during Creation.")
-    public Mono<ResponseEntity<PlayerResponse>> resetPlayerExperience(@PathVariable final String id) {
+    public Mono<ResponseEntity<Player>> resetPlayerExperience(@PathVariable final String id) {
         return playerService.getPlayer(id)
             .map(PlayerCreationResetExperienceContext::new)
             .flatMap(playerCreationResetExperienceContextValidator::validate)
@@ -202,7 +201,7 @@ public class PlayerController extends AbstractController {
 
     @PostMapping("/creation/{id}/lock/")
     @Operation(summary = "Locks Creation Experience Spending.", description = "Ends Player Character Creation and locks experience spending.")
-    public Mono<ResponseEntity<PlayerResponse>> lockPlayerCreation(@PathVariable final String id) {
+    public Mono<ResponseEntity<Player>> lockPlayerCreation(@PathVariable final String id) {
         return playerService.getPlayer(id)
             .map(PlayerCreationLockContext::new)
             .flatMap(playerService::lockPlayerCreation)

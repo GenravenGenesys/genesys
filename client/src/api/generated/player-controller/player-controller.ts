@@ -10,7 +10,6 @@ import type {
   Career,
   Characteristic,
   Player,
-  PlayerResponse,
   PlayerSkill,
   Talent,
 } from "../../model";
@@ -33,7 +32,7 @@ export const getPlayerController = () => {
    * @summary Resets Player Experience during Creation.
    */
   const resetPlayerExperience = (id: string) => {
-    return customInstance<PlayerResponse>({
+    return customInstance<Player>({
       url: `/api/players/creation/${id}/reset/`,
       method: "POST",
     });
@@ -43,7 +42,7 @@ export const getPlayerController = () => {
    * @summary Locks Creation Experience Spending.
    */
   const lockPlayerCreation = (id: string) => {
-    return customInstance<PlayerResponse>({
+    return customInstance<Player>({
       url: `/api/players/creation/${id}/lock/`,
       method: "POST",
     });
@@ -53,7 +52,7 @@ export const getPlayerController = () => {
    * @summary Patches Player Talents during Creation.
    */
   const updatePlayerTalent = (id: string, talent: Talent) => {
-    return customInstance<PlayerResponse>({
+    return customInstance<Player>({
       url: `/api/players/creation/${id}/talents/`,
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -65,7 +64,7 @@ export const getPlayerController = () => {
    * @summary Patches Player Skills during Creation.
    */
   const updatePlayerSkill = (id: string, playerSkill: PlayerSkill) => {
-    return customInstance<PlayerResponse>({
+    return customInstance<Player>({
       url: `/api/players/creation/${id}/skills/`,
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -80,7 +79,7 @@ export const getPlayerController = () => {
     id: string,
     characteristic: Characteristic,
   ) => {
-    return customInstance<PlayerResponse>({
+    return customInstance<Player>({
       url: `/api/players/creation/${id}/characteristics/`,
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -92,7 +91,7 @@ export const getPlayerController = () => {
    * @summary Patches Player Career during Creation.
    */
   const updatePlayerCareer = (id: string, career: Career) => {
-    return customInstance<PlayerResponse>({
+    return customInstance<Player>({
       url: `/api/players/creation/${id}/careers/`,
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -104,7 +103,7 @@ export const getPlayerController = () => {
    * @summary Patches Player Career Skills during Creation.
    */
   const updatePlayerCareerSkills = (id: string, playerSkill: PlayerSkill[]) => {
-    return customInstance<PlayerResponse>({
+    return customInstance<Player>({
       url: `/api/players/creation/${id}/careers/skills/`,
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -116,7 +115,7 @@ export const getPlayerController = () => {
    * @summary Patches Player Archetypes during Creation.
    */
   const updatePlayerArchetype = (id: string, archetype: Archetype) => {
-    return customInstance<PlayerResponse>({
+    return customInstance<Player>({
       url: `/api/players/creation/${id}/archetypes/`,
       method: "PATCH",
       headers: { "Content-Type": "application/json" },

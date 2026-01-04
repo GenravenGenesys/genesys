@@ -5,6 +5,7 @@ import com.github.genraven.genesys.validator.EnumValidator;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -62,9 +63,15 @@ public class Actor {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Stats wounds = new Stats(0, 1, Stats.Type.WOUNDS);
 
+    @Min(0)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private int soak = 0;
+
+    @Min(0)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int melee = 0;
 
+    @Min(0)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int ranged = 0;
 

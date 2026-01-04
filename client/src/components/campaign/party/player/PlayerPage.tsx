@@ -1,6 +1,5 @@
-import {Card, CardContent} from '@mui/material';
+import {Alert, Card, CardContent, CircularProgress} from '@mui/material';
 import {useParams} from 'react-router';
-import Player from '../../../../models/actor/player/Player';
 import {Fragment, useEffect, useState} from "react";
 import * as React from "react";
 import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCardHeaderWithAction";
@@ -15,23 +14,49 @@ import TabContext from "@mui/lab/TabContext";
 import PlayerCharacteristicTab from "./PlayerCharacteristicTab";
 import PlayerTalentCard from "./talent/PlayerTalentCard";
 import GridContainer from "../../../common/grid/GridContainer";
-import type {ActorArmor, ActorWeapon} from "../../../../api/model";
+import type {ActorArmor, ActorWeapon, Player} from "../../../../api/model";
+import {getPlayerController} from "../../../../api/generated/player-controller/player-controller.ts";
 
 export default function PlayerPage() {
     const {id} = useParams<{ id: string }>();
     const [player, setPlayer] = useState<Player | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [tab, setTab] = useState('1');
 
     useEffect(() => {
         if (!id) {
-            return
+            return;
         }
-        (async (): Promise<void> => {
-            setPlayer(await PlayerService.getPlayer(id));
-        })()
-    }, [id, setPlayer])
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await getPlayerController().getPlayer(id);
+                setPlayer(response);
+            } catch (err) {
+                setError('Failed to load injury.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    if (!player) {
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
+
+    if (!player || !id) {
         return <Fragment/>;
     }
 
@@ -50,6 +75,12 @@ export default function PlayerPage() {
             setPlayer(await PlayerService.updatePlayer({...player, weapons: value}));
         }
     };
+
+    const handlePlayerUpdate = async (updatedPlayer: Player) => {
+        if (player) {
+            setPlayer(await getPlayerController().(id, updatedPlayer));
+        }
+    }
 
     return (
         <Card>

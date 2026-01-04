@@ -16,6 +16,7 @@ import type { Archetype } from "./archetype";
 import type { ActorTalent } from "./actorTalent";
 import type { PlayerSkill } from "./playerSkill";
 import type { CriticalInjury } from "./criticalInjury";
+import type { Errors } from "./errors";
 
 export interface Player {
   id: string;
@@ -29,7 +30,11 @@ export interface Player {
   willpower: Characteristic;
   presence: Characteristic;
   wounds: Stats;
+  /** @minimum 0 */
+  soak: number;
+  /** @minimum 0 */
   melee: number;
+  /** @minimum 0 */
   ranged: number;
   weapons: ActorWeapon[];
   armors: ActorArmor[];
@@ -42,4 +47,5 @@ export interface Player {
   skills: PlayerSkill[];
   injuries: CriticalInjury[];
   creation?: boolean;
+  errors?: Errors[];
 }

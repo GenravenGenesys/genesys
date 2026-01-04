@@ -1,5 +1,5 @@
 import { Dialog, DialogContentText, Divider, MenuItem, Select, TextField } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import {type ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router";
 import MinionService from "../../../../services/actor/MinionService";
 import { ActorPath } from "../../../../services/RootPath";

@@ -3,32 +3,34 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import * as React from 'react';
-import {useEffect, useState} from 'react';
-import Player from '../../../../models/actor/player/Player';
+import {useState} from 'react';
 import ActionsTableCell from '../../../common/table/actions/ActionsTableCell';
 import {ActorPath} from "../../../../services/RootPath";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
-import {Card, CardContent} from "@mui/material";
+import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import CreateActorDialog from "../../actor/common/CreateActorDialog";
 import {ActorType} from "../../../../models/actor/Actor";
-import {useFetchCurrentCampaign} from "../../CampaignWorkflow";
 import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
-import PlayerService from "../../../../services/actor/PlayerService";
+import {useFetchAllPlayers} from "../../../../hooks/useFetchAllPlayers.ts";
+import type {Player} from "../../../../api/model";
 
 export default function ViewAllPlayers() {
-    const [players, setPlayers] = useState<Player[]>([]);
     const [openActorCreationDialog, setOpenActorCreationDialog] = useState(false);
     const headers = ['Name', 'View'];
-    const campaign = useFetchCurrentCampaign();
+    const {players, loading, error} = useFetchAllPlayers();
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            if (!campaign) return;
-            setPlayers(await PlayerService.getPlayers(campaign.id));
-        })()
-    }, [campaign])
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     return (
         <Card>
