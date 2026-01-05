@@ -6,9 +6,8 @@ import {useState} from "react";
 import TalentModifierCard from "./modifier/TalentModifierCard";
 import TalentCareerSkillsCard from "./skill/TalentCareerSkillsCard";
 import NumberTextFieldCard from "../common/card/NumberTextFieldCard";
-import {StatsType} from "../../models/actor/Stats";
 import GridContainer from "../common/grid/GridContainer";
-import {type Cost, CostType, type Limit, LimitType, type Talent, type TalentSkills} from "../../api/model";
+import {type Cost, CostType, type Limit, LimitType, StatsType, type Talent, type TalentSkills} from "../../api/model";
 
 interface Props {
     talent: Talent;

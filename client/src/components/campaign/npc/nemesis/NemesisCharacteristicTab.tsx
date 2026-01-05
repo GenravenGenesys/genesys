@@ -4,14 +4,13 @@ import {RatingType} from "../../../../models/actor/npc/NonPlayerActor";
 import RatingCard from "../RatingCard";
 import {Fragment} from "react";
 import NumberTextFieldCard from "../../../common/card/NumberTextFieldCard";
-import {StatsType} from "../../../../models/actor/Stats";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import * as React from "react";
 import {DefenseType} from "../../../../models/actor/Defense";
 import {useLocation} from "react-router";
 import GridContainer from "../../../common/grid/GridContainer";
 import NonPlayerCharacterCharacteristicRow from "../NonPlayerCharacterCharacteristicRow";
-import {CharacteristicType} from "../../../../api/model";
+import {CharacteristicType, StatsType} from "../../../../api/model";
 
 interface Props {
     nemesis: Nemesis;

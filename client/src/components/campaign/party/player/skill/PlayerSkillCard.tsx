@@ -4,7 +4,6 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import {SkillType} from "../../../../../models/actor/Skill";
 import {renderDoubleRowTableHeader, renderSkillName} from "../../../../common/table/TableRenders";
 import TableRow from "@mui/material/TableRow";
 import {
@@ -14,7 +13,7 @@ import {
 import BooleanTableCell from "../../../../common/table/BooleanTableCell";
 import GridItem from "../../../../common/grid/GridItem";
 import GridContainer from "../../../../common/grid/GridContainer";
-import type {Player, PlayerSkill} from "../../../../../api/model";
+import {type Player, type PlayerSkill, SkillType} from "../../../../../api/model";
 
 interface Props {
     player: Player

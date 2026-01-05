@@ -1,5 +1,5 @@
 import NonPlayerActor, {SingleNonPlayerCharacter} from "./NonPlayerActor";
-import Skill from "../Skill";
+import {Skill} from "../../api/model";
 
 export default interface Minion extends NonPlayerActor {
     skills: GroupSkill[]
