@@ -1,43 +1,51 @@
-import {MenuItem, Select, SelectChangeEvent} from "@mui/material";
-import * as React from "react";
+import {Alert, CircularProgress, MenuItem, Select, type SelectChangeEvent} from "@mui/material";
 import {Fragment, useEffect, useState} from "react";
-import Campaign from "../../../models/campaign/Campaign";
 import CampaignService from "../../../services/CampaignService";
+import type {Campaign} from "../../../api/model";
+import {useFetchCurrentCampaign} from "../../../hooks/campaign/useFetchCurrentCampaign.ts";
 
 interface Props {
-    onChange: (event: SelectChangeEvent) => void
+    onChange: (event: SelectChangeEvent) => void;
 }
 
 export default function CampaignSelection(props: Props) {
-    const {onChange} = props
-    const [campaigns, setCampaigns] = useState<Campaign[]>([])
-    const [campaign, setCampaign] = useState<Campaign>()
+    const {onChange} = props;
+    const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+    const {campaign, loading, error} = useFetchCurrentCampaign();
 
     useEffect(() => {
         (async (): Promise<void> => {
-            setCampaigns(await CampaignService.getAllCampaigns())
+            setCampaigns(await CampaignService.getAllCampaigns());
         })()
-    }, [setCampaigns])
+    }, [setCampaigns]);
 
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setCampaign(await CampaignService.getCurrentCampaign())
-        })()
-    }, [setCampaign])
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
 
     const render = () => {
         if (campaigns.length === undefined || campaigns.length === 0) {
             return <Fragment></Fragment>
         } else {
-            <Select value={campaign?.name!} onChange={onChange} variant={'standard'}>
-                {campaigns.map((set) => (<MenuItem key={set.name} value={set.name}>{set.name}</MenuItem>))}
-            </Select>
+            return (
+                <Select value={campaign?.name!} onChange={onChange} variant={'standard'}>
+                    {campaigns.map((campaign) => (<MenuItem key={campaign.name} value={campaign.id}>{campaign.name}</MenuItem>))}
+                </Select>
+            );
         }
-    }
+    };
 
     return (
         <Fragment>
             {render()}
         </Fragment>
-    )
+    );
 }

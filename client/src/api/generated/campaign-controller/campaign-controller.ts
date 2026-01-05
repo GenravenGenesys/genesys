@@ -14,7 +14,7 @@ export const getCampaignController = () => {
    * Retrieve a specific campaign by its name.
    * @summary Get campaign by id
    */
-  const getCampaign1 = (id: string) => {
+  const getCampaign = (id: string) => {
     return customInstance<Campaign>({
       url: `/api/campaigns/${id}`,
       method: "GET",
@@ -24,7 +24,7 @@ export const getCampaignController = () => {
    * Update the details of an existing campaign.
    * @summary Update an existing campaign
    */
-  const updateCampaign1 = (id: string, campaign: Campaign) => {
+  const updateCampaign = (id: string, campaign: Campaign) => {
     return customInstance<Campaign>({
       url: `/api/campaigns/${id}`,
       method: "PUT",
@@ -52,14 +52,14 @@ export const getCampaignController = () => {
       method: "GET",
     });
   };
-  return { getCampaign1, updateCampaign1, createCampaign, getAllCampaigns };
+  return { getCampaign, updateCampaign, createCampaign, getAllCampaigns };
 };
-export type GetCampaign1Result = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getCampaignController>["getCampaign1"]>>
+export type GetCampaignResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getCampaignController>["getCampaign"]>>
 >;
-export type UpdateCampaign1Result = NonNullable<
+export type UpdateCampaignResult = NonNullable<
   Awaited<
-    ReturnType<ReturnType<typeof getCampaignController>["updateCampaign1"]>
+    ReturnType<ReturnType<typeof getCampaignController>["updateCampaign"]>
   >
 >;
 export type CreateCampaignResult = NonNullable<

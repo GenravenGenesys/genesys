@@ -20,8 +20,8 @@ public class CampaignService {
         return campaignRepository.findAll();
     }
 
-    public Mono<Campaign> getCampaign(final String name) {
-        return campaignRepository.findById(name);
+    public Mono<Campaign> getCampaign(final String id) {
+        return campaignRepository.findById(id);
     }
 
     public Mono<Campaign> createCampaign(final String name) {
@@ -45,14 +45,14 @@ public class CampaignService {
         return campaignRepository.findByCurrent(true);
     }
 
-    public Mono<Campaign> setCurrentCampaign(final String name) {
+    public Mono<Campaign> setCurrentCampaign(final String id) {
         return campaignRepository.findAll()
             .map(campaign -> {
                 campaign.setCurrent(false);
                 return campaign;
             })
             .flatMap(campaignRepository::save)
-            .then(getCampaign(name))
+            .then(getCampaign(id))
             .map(campaign -> {
                 campaign.setCurrent(true);
                 return campaign;

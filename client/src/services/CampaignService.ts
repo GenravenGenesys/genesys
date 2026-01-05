@@ -1,13 +1,9 @@
-import Campaign from "../models/campaign/Campaign";
 import {CampaignPath} from "./RootPath";
 import Scene from "../models/campaign/Scene";
 import {apiRequest, apiRequestList} from "./ApiRequest";
+import type {Campaign} from "../api/model";
 
 export default class CampaignService {
-    static async createCampaign(campaign: Campaign): Promise<Campaign> {
-        return apiRequest(CampaignPath.Campaign, "POST", campaign);
-    };
-
     static async getAllCampaigns(): Promise<Campaign[]> {
         return apiRequestList(CampaignPath.Campaign);
     };

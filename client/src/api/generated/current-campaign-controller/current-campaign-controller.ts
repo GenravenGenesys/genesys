@@ -11,35 +11,35 @@ import { customInstance } from "../../axios-instance";
 
 export const getCurrentCampaignController = () => {
   /**
-   * Retrieve a specific campaign by its name.
-   * @summary Get campaign by id
-   */
-  const getCampaign = () => {
-    return customInstance<Campaign>({ url: `/api/current/`, method: "GET" });
-  };
-  /**
    * Update the details of an existing campaign.
-   * @summary Update an existing campaign
+   * @summary Sets an existing campaign as the current campaign
    */
-  const updateCampaign = (campaign: Campaign) => {
+  const setCurrentCampaign = (id: string) => {
     return customInstance<Campaign>({
-      url: `/api/current/`,
+      url: `/api/current/${id}`,
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: campaign,
     });
   };
-  return { getCampaign, updateCampaign };
+  /**
+   * Retrieve current campaign.
+   * @summary Get current campaign
+   */
+  const getCurrentCampaign = () => {
+    return customInstance<Campaign>({ url: `/api/current/`, method: "GET" });
+  };
+  return { setCurrentCampaign, getCurrentCampaign };
 };
-export type GetCampaignResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getCurrentCampaignController>["getCampaign"]>
-  >
->;
-export type UpdateCampaignResult = NonNullable<
+export type SetCurrentCampaignResult = NonNullable<
   Awaited<
     ReturnType<
-      ReturnType<typeof getCurrentCampaignController>["updateCampaign"]
+      ReturnType<typeof getCurrentCampaignController>["setCurrentCampaign"]
+    >
+  >
+>;
+export type GetCurrentCampaignResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getCurrentCampaignController>["getCurrentCampaign"]
     >
   >
 >;
