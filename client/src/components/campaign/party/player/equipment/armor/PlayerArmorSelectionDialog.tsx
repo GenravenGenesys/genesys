@@ -1,6 +1,6 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import PlayerArmorSelectionTable from "./PlayerArmorSelectionTable";
-import Player from "../../../../../../models/actor/player/Player";
+import type {Player} from "../../../../../../api/model";
 
 interface Props {
     player: Player

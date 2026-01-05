@@ -8,7 +8,9 @@
 import type { StatsType } from "./statsType";
 
 export interface Stats {
+  /** @minimum 0 */
   current: number;
+  /** @minimum 0 */
   threshold: number;
   type: StatsType;
 }

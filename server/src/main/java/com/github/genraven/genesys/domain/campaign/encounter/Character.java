@@ -31,9 +31,8 @@ public class Character {
         this.setPresence(player.getPresence());
         this.setWounds(player.getWounds());
         this.setStrain(player.getStrain());
-        this.setMelee(player.getMelee());
-        this.setRanged(player.getRanged());
-
+        this.setMelee(new Defense(player.getMelee(), player.getMelee(), Defense.Type.MELEE));
+        this.setRanged(new Defense(player.getRanged(), player.getRanged(), Defense.Type.RANGED));
         this.setWeapons(player.getWeapons());
         this.setArmors(player.getArmors());
         this.setTalents(player.getTalents());
@@ -54,8 +53,8 @@ public class Character {
         this.setPresence(nemesis.getPresence());
         this.setWounds(nemesis.getWounds());
         this.setStrain(nemesis.getStrain());
-        this.setMelee(nemesis.getMelee());
-        this.setRanged(nemesis.getRanged());
+        this.setMelee(new Defense(nemesis.getMelee(), nemesis.getMelee(), Defense.Type.MELEE));
+        this.setRanged(new Defense(nemesis.getRanged(), nemesis.getRanged(), Defense.Type.RANGED));
         this.setWeapons(nemesis.getWeapons());
         this.setArmors(nemesis.getArmors());
         this.setTalents(nemesis.getTalents());
@@ -75,8 +74,8 @@ public class Character {
         this.setWillpower(rival.getWillpower());
         this.setPresence(rival.getPresence());
         this.setWounds(rival.getWounds());
-        this.setMelee(rival.getMelee());
-        this.setRanged(rival.getRanged());
+        this.setMelee(new Defense(rival.getMelee(), rival.getMelee(), Defense.Type.MELEE));
+        this.setRanged(new Defense(rival.getRanged(), rival.getRanged(), Defense.Type.RANGED));
         this.setWeapons(rival.getWeapons());
         this.setArmors(rival.getArmors());
         this.setTalents(rival.getTalents());
@@ -98,8 +97,8 @@ public class Character {
         this.setWillpower(minionGroup.getWillpower());
         this.setPresence(minionGroup.getPresence());
         this.setWounds(minionGroup.getWounds());
-        this.setMelee(minionGroup.getMelee());
-        this.setRanged(minionGroup.getRanged());
+        this.setMelee(new Defense(minionGroup.getMelee(), minionGroup.getMelee(), Defense.Type.MELEE));
+        this.setRanged(new Defense(minionGroup.getRanged(), minionGroup.getRanged(), Defense.Type.RANGED));
         this.setWeapons(minionGroup.getWeapons());
         this.setArmors(minionGroup.getArmors());
         this.setTalents(minionGroup.getTalents());
@@ -119,8 +118,8 @@ public class Character {
     private Stats wounds;
     private Stats strain;
     private int soak;
-    private int melee;
-    private int ranged;
+    private Defense melee;
+    private Defense ranged;
     private List<ActorWeapon> weapons;
     private List<ActorArmor> armors;
     private List<Ability> abilities;

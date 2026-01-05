@@ -1,12 +1,11 @@
 import * as React from "react";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import GridContainer from "../../../common/grid/GridContainer";
-import Player from "../../../../models/actor/player/Player";
-import {CharacteristicType} from "../../../../api/model";
+import {CharacteristicType, type Player} from "../../../../api/model";
 
-type Props = {
+interface Props {
     player: Player;
-};
+}
 
 const PlayerCharacteristicRow: React.FC<Props> = ({player}) => {
     return (

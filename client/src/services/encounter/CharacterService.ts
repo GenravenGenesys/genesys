@@ -3,10 +3,10 @@ import {type MinionGroup } from "../../models/actor/npc/Minion";
 import type Nemesis from "../../models/actor/npc/Nemesis";
 import { type SingleNonPlayerCharacter } from "../../models/actor/npc/NonPlayerActor";
 import type Rival from "../../models/actor/npc/Rival";
-import type Player from "../../models/actor/player/Player";
 import type Character from "../../models/campaign/encounter/Character";
 import { apiRequestList } from "../ApiRequest";
 import { EncounterPath } from "../RootPath";
+import type {Player} from "../../api/model";
 
 export default class CharacterService {
 

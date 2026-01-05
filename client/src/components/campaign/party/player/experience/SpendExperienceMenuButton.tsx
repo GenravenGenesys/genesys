@@ -1,10 +1,10 @@
-import type Player from "../../../../../models/actor/player/Player";
 import React, {useState} from "react";
 import {Collapse, List, ListItemButton, ListItemText} from "@mui/material";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import SpendCharacteristicDialog from "./dialog/SpendCharacteristicDialog";
 import SpendSkillDialog from "./dialog/SpendSkillDialog";
 import SpendTalentDialog from "./dialog/SpendTalentDialog";
+import type {Player} from "../../../../../api/model";
 
 interface Props {
     player: Player;

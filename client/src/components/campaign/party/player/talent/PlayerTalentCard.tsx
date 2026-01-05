@@ -12,8 +12,7 @@ import Table from "@mui/material/Table";
 import { renderSingleRowTableHeader } from "../../../../common/table/TableRenders";
 import * as React from "react";
 import TalentActivationTableCell from "../../../../common/table/TalentActivationTableCell";
-import Player from "../../../../../models/actor/player/Player";
-import type {ActorTalent} from "../../../../../api/model";
+import type {ActorTalent, Player} from "../../../../../api/model";
 
 interface Props {
     player: Player;

@@ -10,9 +10,9 @@ import lombok.Getter;
 
 @Data
 @AllArgsConstructor
-public class Stats {
+public class Defense {
 
-    protected Stats() {}
+    protected Defense() {}
 
     @Min(0)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -20,17 +20,17 @@ public class Stats {
 
     @Min(0)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private int threshold;
+    private int temporary;
 
-    @EnumValidator(enumClass = Defense.Type.class)
+    @EnumValidator(enumClass = Type.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Type type;
 
     @AllArgsConstructor
     @Getter
     public enum Type {
-        WOUNDS("Wounds"),
-        STRAIN("Strain");
+        MELEE("Melee"),
+        RANGED("Ranged");
 
         @JsonValue
         private final String label;

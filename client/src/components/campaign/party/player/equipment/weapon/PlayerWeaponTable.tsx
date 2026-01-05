@@ -10,9 +10,8 @@ import {
     TypographyCenterTableCell
 } from "../../../../../common/table/TypographyTableCell";
 import {renderActorDamage, renderQualities} from "../../../../../../util/EquipmentHelper.ts";
-import type Player from "../../../../../../models/actor/player/Player";
 import {Fragment} from "react";
-import {type ActorWeapon, ActorWeaponSlot, type PlayerSkill} from "../../../../../../api/model";
+import {type ActorWeapon, ActorWeaponSlot, type Player, type PlayerSkill} from "../../../../../../api/model";
 
 
 interface Props {

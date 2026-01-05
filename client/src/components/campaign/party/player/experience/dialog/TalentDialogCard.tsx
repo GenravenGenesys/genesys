@@ -5,10 +5,9 @@ import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHe
 import GenesysDescriptionTypography from "../../../../../common/typography/GenesysDescriptionTypography";
 import * as React from "react";
 import {useState} from "react";
-import type Player from "../../../../../../models/actor/player/Player";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
-import type {TalentTier} from "../../../../../../api/model";
+import type {Player, TalentTier, ActorTalent} from "../../../../../../api/model";
 
 interface Props {
     player: Player;
@@ -19,7 +18,7 @@ interface Props {
 
 const TalentDialogCard: React.FC<Props> = ({player, size, tier, updatePlayer})=> {
     const [openTalentDialog, setOpenTalentDialog] = useState(false);
-    const talents = player.talents.filter(talent => talent.tier === tier);
+    const talents = player.talents.filter((talent: ActorTalent) => talent.tier === tier);
 
     return (
         <GridContainer centered>
@@ -41,7 +40,7 @@ const TalentDialogCard: React.FC<Props> = ({player, size, tier, updatePlayer})=>
                         </Card>
                     </GridItem>
                 ))}
-                {talents.map((talent) => (
+                {talents.map((talent: ActorTalent) => (
                     <GridItem>
                         <Card>
                             <CenteredCardHeader title={talent.name}/>
