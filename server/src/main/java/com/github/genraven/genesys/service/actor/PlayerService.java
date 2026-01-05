@@ -43,7 +43,7 @@ public class PlayerService {
 
     public Mono<Player> createPlayer(final String name) {
         return skillService.getSkillsForCurrentCampaign().flatMap(skills -> {
-            final Player player = new Player(new Actor(name));
+            final Player player = new Player(name);
             player.setSkills(skills.stream().map(PlayerSkill::new).collect(Collectors.toList()));
             return playerRepository.save(player);
         }).flatMap(savedPlayer -> campaignService.getCurrentCampaign().flatMap(campaign -> {

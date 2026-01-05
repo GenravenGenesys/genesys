@@ -4,7 +4,7 @@ import {Card, CardContent} from "@mui/material";
 import LoreSelectField from "../common/LoreSelectField";
 import LoreTextField from "../common/LoreTextField";
 import type {Organization} from "../../../api/model";
-import {OrganizationOrgType} from "../../../api/model";
+import {OrganizationAllOfOrgType} from "../../../api/model";
 
 interface Props {
     organization: Organization;
@@ -14,7 +14,7 @@ interface Props {
 
 const OrganizationSidebar: React.FC<Props> = ({organization, updateOrganization, disabled}) => {
 
-    const handleOrgTypeChange = async (value: OrganizationOrgType) => {
+    const handleOrgTypeChange = async (value: OrganizationAllOfOrgType) => {
         if (organization) {
             updateOrganization({...organization, orgType: value});
         }
@@ -30,7 +30,7 @@ const OrganizationSidebar: React.FC<Props> = ({organization, updateOrganization,
         <Card>
             <CardContent>
                 <LoreSelectField value={organization.orgType} label={'Organization Type'} onChange={handleOrgTypeChange}
-                                 disabled={disabled} options={OrganizationOrgType}/>
+                                 disabled={disabled} options={OrganizationAllOfOrgType}/>
                 {/*{organization.founded && renderFragment('Founding Date', organization.founded)}*/}
                 {/*{organization.disbanded && renderFragment('Disbanded', organization.disbanded)}*/}
                 <LoreTextField value={organization.nickname} label={'Alternative Name'} onChange={handleNickNameChange}

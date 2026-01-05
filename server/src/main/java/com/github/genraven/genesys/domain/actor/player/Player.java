@@ -9,7 +9,7 @@ import jakarta.validation.constraints.AssertTrue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.validation.Errors;
+import com.github.genraven.genesys.domain.error.Error;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +22,9 @@ public class Player extends Actor {
     protected Player() {
     }
 
-    public Player(final Actor actor) {
-        this.setName(actor.getName());
+    public Player(final String name) {
+        this.setName(name);
         this.setType(ActorType.PLAYER);
-        this.setBrawn(actor.getBrawn());
-        this.setAgility(actor.getAgility());
-        this.setIntellect(actor.getIntellect());
-        this.setCunning(actor.getCunning());
-        this.setWillpower(actor.getWillpower());
-        this.setPresence(actor.getPresence());
-        this.setWounds(actor.getWounds());
-        this.setMelee(actor.getMelee());
-        this.setRanged(actor.getRanged());
-        this.setWeapons(actor.getWeapons());
-        this.setArmors(actor.getArmors());
     }
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -65,7 +54,7 @@ public class Player extends Actor {
     @AssertTrue(groups = ValidationGroups.PlayerCreationValidation.class)
     private Boolean creation = Boolean.TRUE;
 
-    private List<Errors> errors;
+    private List<Error> errors;
 
     public void updateAvailableExperience(final int experience) {
         final Experience oldExperience = getExperience();
