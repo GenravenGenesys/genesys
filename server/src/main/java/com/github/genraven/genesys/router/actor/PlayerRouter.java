@@ -34,15 +34,15 @@ import static com.github.genraven.genesys.router.ApiRoutes.*;
 @Configuration
 public class PlayerRouter {
 
-    @Bean
-    public RouterFunction<ServerResponse> playerRouterMethod(final PlayerHandler handler) {
-        return RouterFunctions.route()
-            .nest(RequestPredicates.path(API), builder -> builder
-                .path("/campaigns/{name}", campaign -> campaign
-                    .GET("/players/", handler::getAllPlayers)
-                    .POST("/players/{playerName}", handler::createPlayer)
-                )
-            )
-            .build();
-    }
+//    @Bean
+//    public RouterFunction<ServerResponse> playerRouterMethod(final PlayerHandler handler) {
+//        return RouterFunctions.route()
+//            .nest(RequestPredicates.path(API), builder -> builder
+//                .path("/campaigns/{name}", campaign -> campaign
+//                    .GET("/players/", handler::getAllPlayers)
+//                    .POST("/players/{playerName}", handler::createPlayer)
+//                )
+//            )
+//            .build();
+//    }
 }

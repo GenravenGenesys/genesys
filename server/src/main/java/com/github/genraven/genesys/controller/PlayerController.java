@@ -42,6 +42,7 @@ public class PlayerController extends AbstractController {
     @Operation(summary = "Get player by id", description = "Retrieve a specific player by its name.")
     public Mono<ResponseEntity<Player>> getPlayer(@PathVariable final String id) {
         return playerService.getPlayer(id)
+            .flatMap(MapperUtil::mapPlayerToResponse)
             .map(player -> ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(player))
@@ -52,13 +53,16 @@ public class PlayerController extends AbstractController {
     @Operation(summary = "Create a new player", description = "Create a new player with the specified name.")
     public Mono<ResponseEntity<Player>> createPlayer(@PathVariable final String name) {
         return playerService.createPlayer(name)
+            .flatMap(MapperUtil::mapPlayerToResponse)
             .map(player -> ResponseEntity.created(getURI(player.getName())).body(player));
     }
 
     @GetMapping("/")
     @Operation(summary = "Get all players", description = "Retrieve a list of all players.")
     public Mono<ResponseEntity<List<Player>>> getAllPlayers() {
-        return playerService.getAllPlayers().collectList()
+        return playerService.getAllPlayers()
+            .flatMap(MapperUtil::mapPlayerToResponse)
+            .collectList()
             .map(players -> {
                 if (CollectionUtils.isEmpty(players)) {
                     return ResponseEntity.noContent().build();

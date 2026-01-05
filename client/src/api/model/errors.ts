@@ -12,11 +12,11 @@ export interface Errors {
   objectName?: string;
   nestedPath?: string;
   fieldError?: FieldError;
-  globalErrors?: ObjectError[];
   allErrors?: ObjectError[];
-  fieldErrors?: FieldError[];
-  errorCount?: number;
   fieldErrorCount?: number;
   globalError?: ObjectError;
+  fieldErrors?: FieldError[];
+  globalErrors?: ObjectError[];
+  errorCount?: number;
   globalErrorCount?: number;
 }

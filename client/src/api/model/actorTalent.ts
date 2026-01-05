@@ -33,5 +33,5 @@ export interface ActorTalent {
   action: Action;
   talentRollModifiers: TalentRollModifiers[];
   modifiers: Modifier[];
-  ranks?: number;
+  ranks: number;
 }

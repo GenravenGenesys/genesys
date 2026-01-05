@@ -10,9 +10,9 @@ import type { Party } from "./party";
 export interface Session {
   /** @minLength 1 */
   name: string;
-  party?: Party;
-  active?: boolean;
-  player?: number;
-  gm?: number;
-  sceneIds?: string[];
+  party: Party;
+  active: boolean;
+  player: number;
+  gm: number;
+  sceneIds: string[];
 }
