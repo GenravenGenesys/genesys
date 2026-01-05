@@ -11,21 +11,21 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class CampaignRouter {
 
-    @Bean
-    public RouterFunction<ServerResponse> campaignRouterMethod(final CampaignHandler campaignHandler) {
-        return RouterFunctions.route()
-                .nest(RequestPredicates.path("/api"), builder -> builder
-//                        .path("/campaigns", campaignBuilder -> campaignBuilder
-//                                .GET("/", campaignHandler::getAllCampaigns)
-//                                .POST("/", campaignHandler::createCampaign)
-//                                .GET("/{id}", campaignHandler::getCampaign)
-//                                .PUT("/{id}", campaignHandler::updateCampaign)
-//                        )
-                        .path("/current", currentBuilder -> currentBuilder
-                                .PUT(campaignHandler::setCurrentCampaign)
-                                .GET(campaignHandler::getCurrentCampaign)
-                        )
-                )
-                .build();
-    }
+//    @Bean
+//    public RouterFunction<ServerResponse> campaignRouterMethod(final CampaignHandler campaignHandler) {
+//        return RouterFunctions.route()
+//                .nest(RequestPredicates.path("/api"), builder -> builder
+////                        .path("/campaigns", campaignBuilder -> campaignBuilder
+////                                .GET("/", campaignHandler::getAllCampaigns)
+////                                .POST("/", campaignHandler::createCampaign)
+////                                .GET("/{id}", campaignHandler::getCampaign)
+////                                .PUT("/{id}", campaignHandler::updateCampaign)
+////                        )
+////                        .path("/current", currentBuilder -> currentBuilder
+////                                .PUT(campaignHandler::setCurrentCampaign)
+////                                .GET(campaignHandler::getCurrentCampaign)
+////                        )
+//                )
+//                .build();
+//    }
 }
