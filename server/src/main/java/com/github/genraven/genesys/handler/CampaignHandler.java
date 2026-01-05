@@ -41,15 +41,15 @@ public class CampaignHandler {
                         .switchIfEmpty(ServerResponse.notFound().build()));
     }
 
-    public Mono<ServerResponse> createCampaign(final ServerRequest serverRequest) {
-        final Mono<Campaign> campaignMono = serverRequest.bodyToMono(Campaign.class);
-        return campaignMono
-                .flatMap(campaignService::createCampaign)
-                .flatMap(campaign -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(campaign))
-                        .switchIfEmpty(ServerResponse.notFound().build()));
-    }
+//    public Mono<ServerResponse> createCampaign(final ServerRequest serverRequest) {
+//        final Mono<Campaign> campaignMono = serverRequest.bodyToMono(Campaign.class);
+//        return campaignMono
+//                .flatMap(campaignService::createCampaign)
+//                .flatMap(campaign -> ServerResponse.ok()
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(fromValue(campaign))
+//                        .switchIfEmpty(ServerResponse.notFound().build()));
+//    }
 
     public Mono<ServerResponse> updateCampaign(final ServerRequest serverRequest) {
         final String id = serverRequest.pathVariable(ID);

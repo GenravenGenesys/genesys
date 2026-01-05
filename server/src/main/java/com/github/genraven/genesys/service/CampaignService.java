@@ -24,21 +24,21 @@ public class CampaignService {
         return campaignRepository.findById(name);
     }
 
-    public Mono<Campaign> createCampaign(final Campaign campaign) {
-        return campaignRepository.save(campaign);
+    public Mono<Campaign> createCampaign(final String name) {
+        return campaignRepository.save(new Campaign(name));
     }
 
     public Mono<Campaign> updateCampaign(final String id, final Campaign campaign) {
         log.info("Updating campaign with id: {}", id);
         return getCampaign(id).map(camp -> {
-            camp.setName(campaign.getName());
-            camp.setParty(campaign.getParty());
-            camp.setSessions(campaign.getSessions());
-            camp.setActive(campaign.isActive());
-            return camp;
-        }).flatMap(campaignRepository::save)
-                .doOnNext(updatedCampaign -> log.debug("Updated campaign: {}", updatedCampaign))
-                .doOnError(error -> log.error("Error updating campaign with id: {}", id, error));
+                camp.setName(campaign.getName());
+                camp.setParty(campaign.getParty());
+                camp.setSessions(campaign.getSessions());
+                camp.setActive(campaign.isActive());
+                return camp;
+            }).flatMap(campaignRepository::save)
+            .doOnNext(updatedCampaign -> log.debug("Updated campaign: {}", updatedCampaign))
+            .doOnError(error -> log.error("Error updating campaign with id: {}", id, error));
     }
 
     public Mono<Campaign> getCurrentCampaign() {
@@ -46,9 +46,17 @@ public class CampaignService {
     }
 
     public Mono<Campaign> setCurrentCampaign(final String name) {
-        return getCampaign(name).map(campaign -> {
-            campaign.setCurrent(true);
-            return campaign;
-        }).flatMap(campaignRepository::save);
+        return campaignRepository.findAll()
+            .map(campaign -> {
+                campaign.setCurrent(false);
+                return campaign;
+            })
+            .flatMap(campaignRepository::save)
+            .then(getCampaign(name))
+            .map(campaign -> {
+                campaign.setCurrent(true);
+                return campaign;
+            })
+            .flatMap(campaignRepository::save);
     }
 }

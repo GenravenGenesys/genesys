@@ -6,10 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface ObjectError {
-  codes?: string[];
-  arguments?: unknown[];
-  defaultMessage?: string;
-  objectName?: string;
-  code?: string;
+export interface Error {
+  message?: string;
 }

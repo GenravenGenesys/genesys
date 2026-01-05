@@ -16,7 +16,7 @@ import type { Archetype } from "./archetype";
 import type { ActorTalent } from "./actorTalent";
 import type { PlayerSkill } from "./playerSkill";
 import type { CriticalInjury } from "./criticalInjury";
-import type { Errors } from "./errors";
+import type { Error } from "./error";
 
 export interface Player {
   id: string;
@@ -47,5 +47,5 @@ export interface Player {
   skills: PlayerSkill[];
   injuries: CriticalInjury[];
   creation?: boolean;
-  errors?: Errors[];
+  errors?: Error[];
 }
