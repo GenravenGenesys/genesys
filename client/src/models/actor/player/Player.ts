@@ -1,4 +1,12 @@
-import type {ActorSkill, ActorTalent, Archetype, Career, CriticalInjury, Stats, PlayerSkill} from "../../../api/model";
+import type {
+    ActorTalent,
+    Archetype,
+    Career,
+    CriticalInjury,
+    Stats,
+    PlayerSkill,
+    Experience
+} from "../../../api/model";
 import type Actor from "../Actor.ts";
 
 
@@ -11,14 +19,4 @@ export default interface Player extends Actor {
     talents: ActorTalent[]
     skills: PlayerSkill[]
     injuries: CriticalInjury[]
-}
-
-export interface PlayerSkill extends ActorSkill {
-    career: boolean
-}
-
-export interface Experience {
-    initial: number
-    total: number
-    available: number
 }

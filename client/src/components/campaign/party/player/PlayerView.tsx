@@ -1,6 +1,5 @@
 import {Card, CardContent, CardHeader, Divider, IconButton} from '@mui/material';
 import {useNavigate} from 'react-router';
-import Player from '../../../../models/actor/player/Player';
 import EditIcon from "@mui/icons-material/Edit";
 import PlayerEquipmentCard from "./equipment/PlayerEquipmentCard";
 import ViewFieldCard from "../../../common/ViewFieldCard";
@@ -8,6 +7,7 @@ import { ActorPath } from '../../../../services/RootPath';
 import DerivedPlayerStatsRow from "./DerivedPlayerStatsRow";
 import GridContainer from "../../../common/grid/GridContainer";
 import PlayerCharacteristicRow from './PlayerCharacteristicRow';
+import type {Player} from "../../../../api/model";
 
 interface Props {
     player: Player

@@ -4,14 +4,13 @@ import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import InfoIcon from "@mui/icons-material/Info";
 import CareerBackdrop from "../../career/CareerBackdrop";
 import EditIcon from "@mui/icons-material/Edit";
-import Player, {PlayerSkill} from "../../../../models/actor/player/Player";
 import CareerSkillSelectDialog from "./skill/CareerSkillSelectDialog";
 import {useLocation} from "react-router";
 import ViewFieldCard from "../../../common/ViewFieldCard";
 import GridItem from "../../../common/grid/GridItem";
 import GridContainer from "../../../common/grid/GridContainer";
 import {useFetchAllCareers} from "../../../../hooks/useFetchAllCareers.ts";
-import type {Career} from "../../../../api/model";
+import type {Career, Player, PlayerSkill} from "../../../../api/model";
 
 interface Props {
     player: Player;

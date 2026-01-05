@@ -1,11 +1,11 @@
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell, TypographyLeftTableCell} from "./TypographyTableCell";
-import Skill from "../../../models/actor/Skill";
 import TableHead from "@mui/material/TableHead";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
+import type {Skill} from "../../../api/model";
 
 const renderHeaders = (headers: string[], columns: number) => {
     return (

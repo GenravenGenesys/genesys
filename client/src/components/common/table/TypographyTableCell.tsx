@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, TableCell, Typography } from "@mui/material";
 import GenesysDescriptionTypography from "../typography/GenesysDescriptionTypography";
-import type Actor from "../../../models/actor/Actor";
 import { getActorCharacteristicRanks } from "../../../models/actor/Actor";
 import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography";
 import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
@@ -14,7 +13,8 @@ import {
     type Difficulty,
     type Limit,
     LimitType,
-    type PlayerSkill
+    type PlayerSkill,
+    Actor
 } from "../../../api/model";
 import {getDifficultyDice} from "../../../util/DiceHelper.ts";
 

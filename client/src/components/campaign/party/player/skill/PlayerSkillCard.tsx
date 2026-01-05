@@ -1,4 +1,3 @@
-import Player, {PlayerSkill} from "../../../../../models/actor/player/Player";
 import {Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
@@ -6,7 +5,6 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import {SkillType} from "../../../../../models/actor/Skill";
-import * as React from "react";
 import {renderDoubleRowTableHeader, renderSkillName} from "../../../../common/table/TableRenders";
 import TableRow from "@mui/material/TableRow";
 import {
@@ -16,6 +14,7 @@ import {
 import BooleanTableCell from "../../../../common/table/BooleanTableCell";
 import GridItem from "../../../../common/grid/GridItem";
 import GridContainer from "../../../../common/grid/GridContainer";
+import type {Player, PlayerSkill} from "../../../../../api/model";
 
 interface Props {
     player: Player
