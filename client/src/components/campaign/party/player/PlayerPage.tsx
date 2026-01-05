@@ -6,7 +6,6 @@ import CenteredCardHeaderWithAction from "../../../common/card/header/CenteredCa
 import {ActorPath} from "../../../../services/RootPath";
 import PlayerSkillCard from "./skill/PlayerSkillCard";
 import EquipmentCard from "../../actor/equipment/EquipmentCard";
-import PlayerService from "../../../../services/actor/PlayerService";
 import TabList from "@mui/lab/TabList/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
@@ -66,19 +65,19 @@ export default function PlayerPage() {
 
     const handleArmorChange = async (value: ActorArmor[]) => {
         if (player) {
-            setPlayer(await PlayerService.updatePlayer({...player, armors: value}));
+            setPlayer(handlePlayerUpdate({...player, armors: value}));
         }
     };
 
     const handleWeaponChange = async (value: ActorWeapon[]) => {
         if (player) {
-            setPlayer(await PlayerService.updatePlayer({...player, weapons: value}));
+            setPlayer(handlePlayerUpdate({...player, weapons: value}));
         }
     };
 
     const handlePlayerUpdate = async (updatedPlayer: Player) => {
         if (player) {
-            setPlayer(await getPlayerController().(id, updatedPlayer));
+            setPlayer(await getPlayerController().updatedPlayer(id, updatedPlayer));
         }
     }
 

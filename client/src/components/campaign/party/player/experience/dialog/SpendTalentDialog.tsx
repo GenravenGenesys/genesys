@@ -1,13 +1,12 @@
-import type Player from "../../../../../../models/actor/player/Player";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent} from "@mui/material";
-import PlayerService from "../../../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
 import TalentDialogCard from "./TalentDialogCard";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
-import {TalentTier} from "../../../../../../api/model";
+import {type Player, TalentTier} from "../../../../../../api/model";
+import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
 
 interface Props {
     open: boolean;
@@ -27,7 +26,7 @@ const SpendTalentDialog: React.FC<Props> = ({open, onClose, currentPlayer}) => {
     };
 
     const handleCancel = async () => {
-        setPlayer(await PlayerService.updatePlayer(currentPlayer));
+        setPlayer(await getPlayerController().updatePlayer(currentPlayer.id, currentPlayer));
         onClose();
     };
 

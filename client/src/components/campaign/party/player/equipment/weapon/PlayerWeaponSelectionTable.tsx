@@ -7,11 +7,10 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {Alert, Button, CircularProgress} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
-import Player from "../../../../../../models/actor/player/Player";
 import WeaponBackdrop from "../../../../actor/equipment/WeaponBackdrop";
-import PlayerService from "../../../../../../services/actor/PlayerService";
 import {useFetchAllWeapons} from "../../../../../../hooks/useFetchAllWeapons.ts";
-import {ActorWeaponSlot, type Weapon} from "../../../../../../api/model";
+import {ActorWeaponSlot, type Player, type Weapon} from "../../../../../../api/model";
+import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
 
 interface RowProps {
     weapon: Weapon
@@ -24,7 +23,7 @@ function WeaponNameRow(props: RowProps) {
 
     const addWeapon = async () => {
         player.weapons.push({slot: ActorWeaponSlot.None, ...weapon})
-        await PlayerService.updatePlayer(player)
+        await getPlayerController().updatePlayer(player.id, player)
     }
 
     return (

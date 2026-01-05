@@ -6,12 +6,11 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {Alert, Button, CircularProgress} from "@mui/material";
-import Player from "../../../../../../models/actor/player/Player";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
 import ArmorBackdrop from "../../../../actor/equipment/ArmorBackdrop";
-import PlayerService from "../../../../../../services/actor/PlayerService";
-import {ActorArmorSlot, type Armor} from "../../../../../../api/model";
+import {ActorArmorSlot, type Armor, type Player} from "../../../../../../api/model";
 import {useFetchAllArmor} from "../../../../../../hooks/useFetchAllArmor.ts";
+import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
 
 interface RowProps {
     armor: Armor
@@ -23,8 +22,8 @@ function ArmorNameRow(props: RowProps) {
     const [openArmorBackDrop, setOpenArmorBackDrop] = useState(false)
 
     const addArmor = async () => {
-        player.armors.push({slot: ActorArmorSlot.None, ...armor})
-        await PlayerService.updatePlayer(player)
+        player.armors.push({slot: ActorArmorSlot.None, ...armor});
+        await getPlayerController().updatePlayer(player.id, player);
     }
 
     return (

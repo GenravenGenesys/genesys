@@ -7,6 +7,7 @@ import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import com.github.genraven.genesys.domain.context.player.*;
+import com.github.genraven.genesys.domain.equipment.Quality;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.exceptions.BaseException;
 import com.github.genraven.genesys.service.actor.PlayerService;
@@ -70,6 +71,16 @@ public class PlayerController extends AbstractController {
                 }
                 return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(players);
             });
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update an existing player", description = "Update the details of an existing player.")
+    public Mono<ResponseEntity<Player>> updatePlayer(@PathVariable final String id, @RequestBody final Player player) {
+        return playerService.updatePlayer(id, player)
+            .map(qual -> ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(qual))
+            .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/creation/{id}/careers/")

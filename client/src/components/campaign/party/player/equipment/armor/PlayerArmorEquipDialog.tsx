@@ -6,10 +6,9 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import {TypographyLeftTableCell} from "../../../../../common/table/TypographyTableCell";
-import Player from "../../../../../../models/actor/player/Player";
-import PlayerService from "../../../../../../services/actor/PlayerService";
 import {ArmorSlotTableCell} from "../../../../../common/table/EquipmentSlotTableCell.tsx";
-import {type ActorArmor, ActorArmorSlot} from "../../../../../../api/model";
+import {type ActorArmor, ActorArmorSlot, type Player} from "../../../../../../api/model";
+import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
 
 interface Props {
     open: boolean;
@@ -23,13 +22,13 @@ export default function PlayerArmorEquipDialog(props: Props) {
 
     const onChange = async (value: ActorArmor) => {
         if (value.slot === ActorArmorSlot.None) {
-            player.armors.forEach((armor) => {
+            player.armors.forEach((armor: ActorArmor) => {
                 if (armor.name === value.name) {
                     armor.slot = value.slot
                 }
             })
         } else {
-            player.armors.forEach((armor) => {
+            player.armors.forEach((armor: ActorArmor) => {
                 if (armor.name === value.name) {
                     armor.slot = value.slot
                 } else {
@@ -37,7 +36,7 @@ export default function PlayerArmorEquipDialog(props: Props) {
                 }
             })
         }
-        await PlayerService.updatePlayer(player)
+        await getPlayerController().updatePlayer(player.id, player);
     }
 
     return (

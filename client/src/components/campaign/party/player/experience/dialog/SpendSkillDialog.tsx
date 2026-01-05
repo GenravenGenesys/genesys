@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import PlayerService from "../../../../../../services/actor/PlayerService";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import {Add} from "@mui/icons-material";
 import Paper from "@mui/material/Paper";
@@ -36,7 +35,7 @@ const SpendSkillDialog: React.FC<Props> = ({open, onClose, currentPlayer}) => {
     };
 
     const handleCancel = async () => {
-        setPlayer(await PlayerService.updatePlayer(currentPlayer));
+        setPlayer(await getPlayerController().updatePlayer(currentPlayer.id, currentPlayer));
         onClose();
     };
 
@@ -49,7 +48,7 @@ const SpendSkillDialog: React.FC<Props> = ({open, onClose, currentPlayer}) => {
                         <Table>
                             {renderSingleRowTableHeader(headers)}
                             <TableBody>
-                                {player.skills.map((skill) => (
+                                {player.skills.map((skill: PlayerSkill) => (
                                     <TableRow>
                                         {renderSkillName(skill)}
                                         <BooleanTableCell bool={skill.career}/>

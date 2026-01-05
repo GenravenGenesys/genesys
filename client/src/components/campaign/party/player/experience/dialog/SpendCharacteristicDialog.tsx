@@ -2,7 +2,6 @@ import {Button, Dialog, DialogActions, DialogContent, IconButton} from "@mui/mat
 import Typography from "@mui/material/Typography";
 import {Add} from "@mui/icons-material";
 import React, {useEffect, useState} from "react";
-import PlayerService from "../../../../../../services/actor/PlayerService";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
@@ -38,7 +37,7 @@ const SpendCharacteristicDialog: React.FC<Props> = (props: Props) => {
     ];
 
     const handleCancel = async () => {
-        await PlayerService.updatePlayer(currentPlayer);
+        await getPlayerController().updatePlayer(currentPlayer.id, currentPlayer);
         onClose();
     };
 

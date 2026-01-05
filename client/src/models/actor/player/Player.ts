@@ -1,4 +1,4 @@
-import type {ActorSkill, ActorTalent, Archetype, Career, CriticalInjury, Stats} from "../../../api/model";
+import type {ActorSkill, ActorTalent, Archetype, Career, CriticalInjury, Stats, PlayerSkill} from "../../../api/model";
 import type Actor from "../Actor.ts";
 
 

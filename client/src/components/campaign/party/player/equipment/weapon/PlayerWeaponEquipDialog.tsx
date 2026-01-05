@@ -6,10 +6,9 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import {TypographyLeftTableCell} from "../../../../../common/table/TypographyTableCell";
-import Player from "../../../../../../models/actor/player/Player";
-import PlayerService from "../../../../../../services/actor/PlayerService";
-import {type ActorWeapon, ActorWeaponSlot} from "../../../../../../api/model";
+import {type ActorWeapon, ActorWeaponSlot, type Player} from "../../../../../../api/model";
 import {WeaponSlotTableCell} from "../../../../../common/table/EquipmentSlotTableCell.tsx";
+import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
 
 interface Props {
     open: boolean;
@@ -23,13 +22,13 @@ export default function PlayerWeaponEquipDialog(props: Props) {
 
     const onChange = async (value: ActorWeapon) => {
         if (value.slot === ActorWeaponSlot.None) {
-            player.weapons.forEach((weapon) => {
+            player.weapons.forEach((weapon: ActorWeapon) => {
                 if (weapon.name === value.name) {
                     weapon.slot = value.slot;
                 }
             })
         } else {
-            player.weapons.forEach((weapon) => {
+            player.weapons.forEach((weapon: ActorWeapon) => {
                 if (weapon.name === value.name) {
                     weapon.slot = value.slot;
                 } else {
@@ -37,7 +36,7 @@ export default function PlayerWeaponEquipDialog(props: Props) {
                 }
             })
         }
-        await PlayerService.updatePlayer(player);
+        await getPlayerController().updatePlayer(player.id, player);
     };
 
     return (

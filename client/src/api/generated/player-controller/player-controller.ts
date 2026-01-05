@@ -18,6 +18,25 @@ import { customInstance } from "../../axios-instance";
 
 export const getPlayerController = () => {
   /**
+   * Retrieve a specific player by its name.
+   * @summary Get player by id
+   */
+  const getPlayer = (id: string) => {
+    return customInstance<Player>({ url: `/api/players/${id}`, method: "GET" });
+  };
+  /**
+   * Update the details of an existing player.
+   * @summary Update an existing player
+   */
+  const updatePlayer = (id: string, player: Player) => {
+    return customInstance<Player>({
+      url: `/api/players/${id}`,
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      data: player,
+    });
+  };
+  /**
    * Create a new player with the specified name.
    * @summary Create a new player
    */
@@ -129,14 +148,9 @@ export const getPlayerController = () => {
   const getAllPlayers = () => {
     return customInstance<Player[]>({ url: `/api/players/`, method: "GET" });
   };
-  /**
-   * Retrieve a specific player by its name.
-   * @summary Get player by id
-   */
-  const getPlayer = (id: string) => {
-    return customInstance<Player>({ url: `/api/players/${id}`, method: "GET" });
-  };
   return {
+    getPlayer,
+    updatePlayer,
     createPlayer,
     resetPlayerExperience,
     lockPlayerCreation,
@@ -147,9 +161,14 @@ export const getPlayerController = () => {
     updatePlayerCareerSkills,
     updatePlayerArchetype,
     getAllPlayers,
-    getPlayer,
   };
 };
+export type GetPlayerResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getPlayerController>["getPlayer"]>>
+>;
+export type UpdatePlayerResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getPlayerController>["updatePlayer"]>>
+>;
 export type CreatePlayerResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getPlayerController>["createPlayer"]>>
 >;
@@ -199,7 +218,4 @@ export type UpdatePlayerArchetypeResult = NonNullable<
 >;
 export type GetAllPlayersResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getPlayerController>["getAllPlayers"]>>
->;
-export type GetPlayerResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getPlayerController>["getPlayer"]>>
 >;
