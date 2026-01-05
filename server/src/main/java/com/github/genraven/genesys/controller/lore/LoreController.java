@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.controller;
+package com.github.genraven.genesys.controller.lore;
 
 import com.github.genraven.genesys.domain.lore.Lore;
 import com.github.genraven.genesys.service.lore.LoreService;

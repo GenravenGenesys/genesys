@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain.actor;
 
 import com.github.genraven.genesys.domain.talent.Talent;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,5 +27,6 @@ public class ActorTalent extends Talent {
         this.setTalentRollModifiers(talent.getTalentRollModifiers());
     }
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int ranks = 1;
 }

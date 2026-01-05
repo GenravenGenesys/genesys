@@ -9,14 +9,14 @@ import type { FieldError } from "./fieldError";
 import type { ObjectError } from "./objectError";
 
 export interface Errors {
-  objectName?: string;
   nestedPath?: string;
+  globalErrorCount?: number;
   fieldError?: FieldError;
   allErrors?: ObjectError[];
+  errorCount?: number;
   fieldErrorCount?: number;
   globalError?: ObjectError;
   fieldErrors?: FieldError[];
   globalErrors?: ObjectError[];
-  errorCount?: number;
-  globalErrorCount?: number;
+  objectName?: string;
 }

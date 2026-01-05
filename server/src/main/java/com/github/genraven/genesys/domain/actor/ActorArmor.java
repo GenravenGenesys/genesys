@@ -2,6 +2,7 @@ package com.github.genraven.genesys.domain.actor;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.equipment.Armor;
+import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class ActorArmor extends Armor {
         this.setDefense(armor.getDefense());
     }
 
+    @EnumValidator(enumClass = ArmorSlot.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private ArmorSlot slot = ArmorSlot.BODY;
 

@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain.actor.npc;
 
 import com.github.genraven.genesys.domain.actor.ActorSkill;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,5 +32,6 @@ public class SingleNonPlayerActor extends NonPlayerActor {
         this.setAbilities(nonPlayerActor.getAbilities());
     }
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<ActorSkill> skills = new ArrayList<>();
 }

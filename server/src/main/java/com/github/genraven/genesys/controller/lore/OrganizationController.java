@@ -1,5 +1,6 @@
-package com.github.genraven.genesys.controller;
+package com.github.genraven.genesys.controller.lore;
 
+import com.github.genraven.genesys.controller.AbstractController;
 import com.github.genraven.genesys.domain.lore.Organization;
 import com.github.genraven.genesys.service.lore.OrganizationService;
 import io.swagger.v3.oas.annotations.Operation;

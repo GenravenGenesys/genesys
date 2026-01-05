@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.controller;
+package com.github.genraven.genesys.controller.campaign;
 
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.domain.skill.Skill;

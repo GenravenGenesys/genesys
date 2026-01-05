@@ -1,9 +1,11 @@
 package com.github.genraven.genesys.domain.campaign;
 
 import com.github.genraven.genesys.validator.ValidationGroups;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -23,14 +25,19 @@ public class Session {
     private String name;
 
     @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Party party;
 
+    @NotNull
     @AssertTrue(groups = ValidationGroups.SceneStartValidation.class, message = "Session must be active in order to start the scene.")
     private Boolean active = false;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer player;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer gm;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<String> sceneIds = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
-package com.github.genraven.genesys.controller;
+package com.github.genraven.genesys.controller.player;
 
+import com.github.genraven.genesys.controller.AbstractController;
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.service.CareerService;
 import io.swagger.v3.oas.annotations.Operation;

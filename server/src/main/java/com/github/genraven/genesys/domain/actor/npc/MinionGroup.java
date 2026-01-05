@@ -2,6 +2,9 @@ package com.github.genraven.genesys.domain.actor.npc;
 
 import com.github.genraven.genesys.domain.actor.ActorSkill;
 import com.github.genraven.genesys.domain.actor.Stats;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,8 +18,6 @@ public class MinionGroup extends SingleNonPlayerActor {
     }
 
     public MinionGroup(final Minion minion, final int size) {
-//        minion.getTotalMinionStats();
-
         this.setName(minion.getName());
         this.setType(ActorType.MINION);
         this.setBrawn(minion.getBrawn());
@@ -38,6 +39,9 @@ public class MinionGroup extends SingleNonPlayerActor {
         this.setSize(size);
     }
 
+    @Min(1)
+    @Max(5)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int size = 3;
 
     public static List<ActorSkill> adaptGroupSkillsToActorSkills(final List<GroupSkill> groupSkills, final int size) {

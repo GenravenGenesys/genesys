@@ -1,5 +1,6 @@
-package com.github.genraven.genesys.controller;
+package com.github.genraven.genesys.controller.equipment;
 
+import com.github.genraven.genesys.controller.AbstractController;
 import com.github.genraven.genesys.domain.equipment.Weapon;
 import com.github.genraven.genesys.service.equipment.WeaponService;
 import io.swagger.v3.oas.annotations.Operation;
