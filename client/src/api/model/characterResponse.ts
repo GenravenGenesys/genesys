@@ -15,6 +15,7 @@ import type { ActorTalent } from "./actorTalent";
 import type { CriticalInjury } from "./criticalInjury";
 import type { ActorSkill } from "./actorSkill";
 import type { StatusEffect } from "./statusEffect";
+import type { Error } from "./error";
 
 /**
  * Response DTO representing any character type: Player, Nemesis, Rival, or MinionGroup
@@ -66,4 +67,5 @@ export interface CharacterResponse {
   effects?: StatusEffect[];
   /** Number of Minions in the Minion Group */
   size?: number;
+  errors?: Error[];
 }

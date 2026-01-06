@@ -5,24 +5,22 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { PlayerType } from "./playerType";
+import type { RivalType } from "./rivalType";
 import type { Characteristic } from "./characteristic";
 import type { Stats } from "./stats";
 import type { ActorWeapon } from "./actorWeapon";
 import type { ActorArmor } from "./actorArmor";
 import type { Error } from "./error";
-import type { Experience } from "./experience";
-import type { Career } from "./career";
-import type { Archetype } from "./archetype";
 import type { ActorTalent } from "./actorTalent";
-import type { PlayerSkill } from "./playerSkill";
+import type { Ability } from "./ability";
+import type { ActorSkill } from "./actorSkill";
 import type { CriticalInjury } from "./criticalInjury";
 
-export interface Player {
+export interface Rival {
   id: string;
   /** @minLength 1 */
   name: string;
-  type: PlayerType;
+  type: RivalType;
   brawn: Characteristic;
   agility: Characteristic;
   intellect: Characteristic;
@@ -39,13 +37,14 @@ export interface Player {
   weapons: ActorWeapon[];
   armors: ActorArmor[];
   errors?: Error[];
-  strain: Stats;
-  encumbrance: number;
-  experience: Experience;
-  career: Career;
-  archetype: Archetype;
+  /** @minimum 1 */
+  combat: number;
+  /** @minimum 1 */
+  social: number;
+  /** @minimum 1 */
+  general: number;
   talents: ActorTalent[];
-  skills: PlayerSkill[];
+  abilities: Ability[];
+  skills: ActorSkill[];
   injuries: CriticalInjury[];
-  creation?: boolean;
 }
