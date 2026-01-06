@@ -1,10 +1,11 @@
 import {Box, CircularProgress} from '@mui/material';
 import FocusedVTT from "./Sample.tsx";
 import CampaignWizard from "./CampaignWizard.tsx";
+import {useGetAllCampaigns} from "../../../api/generated/campaign-controller/campaign-controller.ts";
 
 
-export default function DashboardPage() {
-    const {data: campaigns, isLoading} = useGetCampaigns();
+export default function CampaignDashboardPage() {
+    const {data: campaigns, isLoading} = useGetAllCampaigns();
 
     if (isLoading) {
         return (
@@ -14,11 +15,9 @@ export default function DashboardPage() {
         );
     }
 
-    // 1. IF NO DATA: Render the Wizard directly as the main UI
     if (!campaigns || campaigns.length === 0) {
         return <CampaignWizard/>;
     }
 
-    // 2. IF DATA EXISTS: Render the standard list
     return <FocusedVTT/>;
 }

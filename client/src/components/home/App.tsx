@@ -38,7 +38,7 @@ import EquipmentListView from "./sample/EquipmentList.tsx";
 import AdversaryCompendium from "./sample/ViewAllAdvesaries.tsx";
 import SessionManager from "./sample/SessionManager.tsx";
 import CharacterCreator from "./sample/PlayerCreation.tsx";
-import DashboardPage from "./sample/HomeDashboard.tsx";
+import CampaignDashboardPage from "./sample/HomeDashboard.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -92,7 +92,7 @@ export const App: React.FC = () => {
                 <Route path="/" element={<Navigate replace to={"/" + RootPath.Home}/>}/>
                 <Route path={RootPath.Home} element={<HomeCampaignDashboard/>}/>
 
-                <Route path={"/sample"} element={<DashboardPage/>}/>
+                <Route path={"/sample"} element={<CampaignDashboardPage/>}/>
                 <Route path={"/comp"} element={<CompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>
                 <Route path={"/sample/equipment"} element={<EquipmentListView/>}/>

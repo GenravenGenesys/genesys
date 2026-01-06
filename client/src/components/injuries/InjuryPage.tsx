@@ -1,4 +1,4 @@
-import {Alert, Card, CardContent, CircularProgress, Divider} from "@mui/material";
+import {Card, CardContent, CircularProgress, Divider} from "@mui/material";
 import {useLocation, useParams} from "react-router";
 import {RootPath} from "../../services/RootPath";
 import CriticalInjuryModifierCard from "./modifiers/CriticalInjuryModifierCard";
@@ -10,6 +10,7 @@ import TextFieldCard from "../common/card/TextFieldCard";
 import GridContainer from "../common/grid/GridContainer";
 import {getInjuryController} from "../../api/generated/injury-controller/injury-controller.ts";
 import type {CriticalInjury, Difficulty} from "../../api/model";
+import GenesysAlert from "../common/GenesysAlert.tsx";
 
 const InjuryPage = () => {
     const {id} = useParams<{ id: string }>();
@@ -43,11 +44,7 @@ const InjuryPage = () => {
     }
 
     if (error) {
-        return (
-            <Alert severity="error">
-                {error}
-            </Alert>
-        );
+        return <GenesysAlert message={error}/>;
     }
 
     if (!injury || !id) {
