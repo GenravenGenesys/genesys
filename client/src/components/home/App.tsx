@@ -40,6 +40,7 @@ import EquipmentListView from "./EquipmentList.tsx";
 import AdversaryCompendium from "./ViewAllAdvesaries.tsx";
 import SessionManager from "./SessionManager.tsx";
 import EncounterManager from "./EncounterManager.tsx";
+import CharacterCreator from "./sample/PlayerCreation.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -97,6 +98,7 @@ export const App: React.FC = () => {
                 <Route path={"/sample/equipment"} element={<EquipmentListView/>}/>
                 <Route path={"/sample/adversaries"} element={<AdversaryCompendium/>}/>
                 <Route path={"/sample/session"} element={<SessionManager/>}/>
+                <Route path={"/sample/creation"} element={<CharacterCreator campaignCompendium={undefined}/>}/>
 
                 <Route path={RootPath.Injury} element={<InjuryWorkflow/>}/>
                 <Route path={RootPath.Injury + ':id/view'} element={<InjuryWorkflow/>}/>
