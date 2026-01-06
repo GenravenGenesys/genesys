@@ -1,11 +1,10 @@
 import {ActorGear} from "../equipment/Gear";
 import Character from '../campaign/encounter/Character';
 import {
-    type ActorArmor,
+    type ActorArmor, type ActorSkill, type ActorType,
     type ActorWeapon,
     type Characteristic,
     CharacteristicType,
-    type Skill,
     type Stats,
 } from "../../api/model";
 
@@ -26,10 +25,6 @@ export default interface Actor {
     weapons: ActorWeapon[],
     armors: ActorArmor[],
     gear: ActorGear[],
-}
-
-export interface ActorSkill extends Skill {
-    ranks: number
 }
 
 export const getActorCharacteristicRanks = (actor: Actor, skill: ActorSkill): number => {
@@ -69,10 +64,3 @@ export const getCharacteristicRanks = (actor: Character, skill: ActorSkill): num
             return 0;
     }
 };
-
-export enum ActorType {
-    Minion = 'Minion',
-    Rival = 'Rival',
-    Nemesis = 'Nemesis',
-    Player = 'Player'
-}
