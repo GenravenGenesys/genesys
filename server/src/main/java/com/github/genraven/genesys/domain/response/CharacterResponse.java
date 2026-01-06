@@ -14,6 +14,7 @@ import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.StatusEffect;
 
+import com.github.genraven.genesys.domain.error.Error;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -92,4 +93,6 @@ public class CharacterResponse {
 
     @Schema(description = "Number of Minions in the Minion Group", example = "1")
     private int size;
+
+    private List<Error> errors;
 }

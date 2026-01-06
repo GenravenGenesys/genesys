@@ -5,11 +5,11 @@ import MinionService from "../../../../services/actor/MinionService";
 import { ActorPath } from "../../../../services/RootPath";
 import { ActorType } from "../../../../models/actor/Actor";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
-import { useFetchCurrentCampaign } from "../../CampaignWorkflow";
 import RivalService from "../../../../services/actor/RivalService";
 import NemesisService from "../../../../services/actor/NemesisService";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
 import {getPlayerController} from "../../../../api/generated/player-controller/player-controller.ts";
+import {useFetchCurrentCampaign} from "../../../../hooks/campaign/useFetchCurrentCampaign.ts";
 
 interface Props {
     open: boolean;
@@ -22,7 +22,7 @@ const CreateActorDialog = (props: Props) => {
     const [name, setName] = useState('');
     const [type, setType] = useState<ActorType>(actorType);
     const navigate = useNavigate();
-    const campaign = useFetchCurrentCampaign();
+    const {campaign} = useFetchCurrentCampaign();
 
     const handleCreate = async (): Promise<void> => {
         switch (type) {

@@ -31,7 +31,7 @@ public class MinionService {
     public Mono<Minion> createMinion(final String name) {
         return skillService.getSkillsForCurrentCampaign()
                 .flatMap(skills -> {
-                    final Minion minion = new Minion(new NonPlayerActor(new Actor(name)));
+                    final Minion minion = new Minion(name);
                     minion.setSkills(skills.stream().map(GroupSkill::new).toList());
                     return minionRepository.save(minion);
                 });

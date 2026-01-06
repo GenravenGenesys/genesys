@@ -9,7 +9,6 @@ import jakarta.validation.constraints.AssertTrue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.github.genraven.genesys.domain.error.Error;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +52,6 @@ public class Player extends Actor {
 
     @AssertTrue(groups = ValidationGroups.PlayerCreationValidation.class)
     private Boolean creation = Boolean.TRUE;
-
-    private List<Error> errors;
 
     public void updateAvailableExperience(final int experience) {
         final Experience oldExperience = getExperience();

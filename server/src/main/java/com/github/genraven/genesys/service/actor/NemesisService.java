@@ -33,11 +33,11 @@ public class NemesisService {
 
     public Mono<Nemesis> createNemesis(final String name) {
         return skillService.getSkillsForCurrentCampaign()
-                .flatMap(skills -> {
-                    final Nemesis nemesis = new Nemesis(new SingleNonPlayerActor(new NonPlayerActor(new Actor(name))));
-                    nemesis.setSkills(skills.stream().map(ActorSkill::new).toList());
-                    return nemesisRepository.save(nemesis);
-                });
+            .flatMap(skills -> {
+                final Nemesis nemesis = new Nemesis((name));
+                nemesis.setSkills(skills.stream().map(ActorSkill::new).toList());
+                return nemesisRepository.save(nemesis);
+            });
     }
 
     public Mono<Nemesis> updateNemesis(final String name, final Nemesis nemesis) {
@@ -65,7 +65,7 @@ public class NemesisService {
     public Mono<Nemesis> updateNemesisSkill(final String id, final ActorSkill skill) {
         return nemesisRepository.findById(id).flatMap(nemesis -> {
             nemesis.getSkills().stream().filter(actorSkill -> actorSkill.getId().equals(skill.getId()))
-                    .forEach(actorSkill -> actorSkill.setRanks(skill.getRanks()));
+                .forEach(actorSkill -> actorSkill.setRanks(skill.getRanks()));
             return nemesisRepository.save(nemesis);
         });
     }

@@ -1,8 +1,7 @@
 import {Alert, CircularProgress, MenuItem, Select, type SelectChangeEvent} from "@mui/material";
-import {Fragment, useEffect, useState} from "react";
-import CampaignService from "../../../services/CampaignService";
-import type {Campaign} from "../../../api/model";
+import {Fragment} from "react";
 import {useFetchCurrentCampaign} from "../../../hooks/campaign/useFetchCurrentCampaign.ts";
+import {useFetchAllCampaigns} from "../../../hooks/campaign/useFetchAllCampaigns.ts";
 
 interface Props {
     onChange: (event: SelectChangeEvent) => void;
@@ -10,14 +9,8 @@ interface Props {
 
 export default function CampaignSelection(props: Props) {
     const {onChange} = props;
-    const [campaigns, setCampaigns] = useState<Campaign[]>([]);
     const {campaign, loading, error} = useFetchCurrentCampaign();
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setCampaigns(await CampaignService.getAllCampaigns());
-        })()
-    }, [setCampaigns]);
+    const {campaigns} = useFetchAllCampaigns();
 
     if (loading) {
         return <CircularProgress/>;

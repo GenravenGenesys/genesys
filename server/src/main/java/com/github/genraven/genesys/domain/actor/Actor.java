@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain.actor;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.genraven.genesys.domain.error.Error;
 import com.github.genraven.genesys.validator.EnumValidator;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -80,6 +81,8 @@ public class Actor {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<ActorArmor> armors = new ArrayList<>();
+
+    private List<Error> errors;
 
     @AllArgsConstructor
     @Getter
