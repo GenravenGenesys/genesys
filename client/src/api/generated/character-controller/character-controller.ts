@@ -5,28 +5,182 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { CharacterResponse, Player } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getCharacterController = () => {
-  /**
-   * Converts Players into Characters for an Encounter.
-   * @summary Convert Players to Characters for Encounter
-   */
-  const getAllPlayersAsCharacters = (player: Player[]) => {
-    return customInstance<CharacterResponse[]>({
-      url: `/api/characters/`,
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-  };
-  return { getAllPlayersAsCharacters };
+/**
+ * Converts Players into Characters for an Encounter.
+ * @summary Convert Players to Characters for Encounter
+ */
+export const getAllPlayersAsCharacters = (
+  player: Player[],
+  signal?: AbortSignal,
+) => {
+  return customInstance<CharacterResponse[]>({
+    url: `/api/characters/`,
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    signal,
+  });
 };
-export type GetAllPlayersAsCharactersResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getCharacterController>["getAllPlayersAsCharacters"]
-    >
-  >
+
+export const getGetAllPlayersAsCharactersQueryKey = (player?: Player[]) => {
+  return [`/api/characters/`, player] as const;
+};
+
+export const getGetAllPlayersAsCharactersQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+  TError = unknown,
+>(
+  player: Player[],
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetAllPlayersAsCharactersQueryKey(player);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAllPlayersAsCharacters>>
+  > = ({ signal }) => getAllPlayersAsCharacters(player, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAllPlayersAsCharactersQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllPlayersAsCharacters>>
 >;
+export type GetAllPlayersAsCharactersQueryError = unknown;
+
+export function useGetAllPlayersAsCharacters<
+  TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+  TError = unknown,
+>(
+  player: Player[],
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+          TError,
+          Awaited<ReturnType<typeof getAllPlayersAsCharacters>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllPlayersAsCharacters<
+  TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+  TError = unknown,
+>(
+  player: Player[],
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+          TError,
+          Awaited<ReturnType<typeof getAllPlayersAsCharacters>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllPlayersAsCharacters<
+  TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+  TError = unknown,
+>(
+  player: Player[],
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Convert Players to Characters for Encounter
+ */
+
+export function useGetAllPlayersAsCharacters<
+  TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+  TError = unknown,
+>(
+  player: Player[],
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllPlayersAsCharacters>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllPlayersAsCharactersQueryOptions(
+    player,
+    options,
+  );
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

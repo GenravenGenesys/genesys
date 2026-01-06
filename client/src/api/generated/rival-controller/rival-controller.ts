@@ -5,73 +5,524 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { ActorSkill, Rival } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getRivalController = () => {
-  /**
-   * Retrieve a specific rival by its name.
-   * @summary Get rival by id
-   */
-  const getRival = (id: string) => {
-    return customInstance<Rival>({ url: `/api/rivals/${id}`, method: "GET" });
-  };
-  /**
-   * Update the details of an existing rival.
-   * @summary Update an existing rival
-   */
-  const updateRival = (id: string, rival: Rival) => {
-    return customInstance<Rival>({
-      url: `/api/rivals/${id}`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: rival,
-    });
-  };
-  /**
-   * Create a new rival with the specified name.
-   * @summary Create a new rival
-   */
-  const createRival = (name: string) => {
-    return customInstance<Rival>({
-      url: `/api/rivals/${name}`,
-      method: "POST",
-    });
-  };
-  /**
-   * Patch the skill of an existing rival.
-   * @summary Patch skill of an existing rival
-   */
-  const updateRivalSkill = (id: string, actorSkill: ActorSkill) => {
-    return customInstance<Rival>({
-      url: `/api/rivals/${id}/skills`,
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      data: actorSkill,
-    });
-  };
-  /**
-   * Retrieve a list of all rivals.
-   * @summary Get all rivals
-   */
-  const getAllRivals = () => {
-    return customInstance<Rival[]>({ url: `/api/rivals/`, method: "GET" });
-  };
-  return { getRival, updateRival, createRival, updateRivalSkill, getAllRivals };
+/**
+ * Retrieve a specific rival by its name.
+ * @summary Get rival by id
+ */
+export const getRival = (id: string, signal?: AbortSignal) => {
+  return customInstance<Rival>({
+    url: `/api/rivals/${id}`,
+    method: "GET",
+    signal,
+  });
 };
-export type GetRivalResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getRivalController>["getRival"]>>
+
+export const getGetRivalQueryKey = (id?: string) => {
+  return [`/api/rivals/${id}`] as const;
+};
+
+export const getGetRivalQueryOptions = <
+  TData = Awaited<ReturnType<typeof getRival>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetRivalQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getRival>>> = ({
+    signal,
+  }) => getRival(id, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+};
+
+export type GetRivalQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getRival>>
 >;
-export type UpdateRivalResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getRivalController>["updateRival"]>>
+export type GetRivalQueryError = unknown;
+
+export function useGetRival<
+  TData = Awaited<ReturnType<typeof getRival>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRival>>,
+          TError,
+          Awaited<ReturnType<typeof getRival>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetRival<
+  TData = Awaited<ReturnType<typeof getRival>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRival>>,
+          TError,
+          Awaited<ReturnType<typeof getRival>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetRival<
+  TData = Awaited<ReturnType<typeof getRival>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get rival by id
+ */
+
+export function useGetRival<
+  TData = Awaited<ReturnType<typeof getRival>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetRivalQueryOptions(id, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * Update the details of an existing rival.
+ * @summary Update an existing rival
+ */
+export const updateRival = (id: string, rival: Rival) => {
+  return customInstance<Rival>({
+    url: `/api/rivals/${id}`,
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: rival,
+  });
+};
+
+export const getUpdateRivalMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateRival>>,
+    TError,
+    { id: string; data: Rival },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateRival>>,
+  TError,
+  { id: string; data: Rival },
+  TContext
+> => {
+  const mutationKey = ["updateRival"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateRival>>,
+    { id: string; data: Rival }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return updateRival(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateRivalMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateRival>>
 >;
-export type CreateRivalResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getRivalController>["createRival"]>>
+export type UpdateRivalMutationBody = Rival;
+export type UpdateRivalMutationError = unknown;
+
+/**
+ * @summary Update an existing rival
+ */
+export const useUpdateRival = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateRival>>,
+      TError,
+      { id: string; data: Rival },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateRival>>,
+  TError,
+  { id: string; data: Rival },
+  TContext
+> => {
+  const mutationOptions = getUpdateRivalMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Create a new rival with the specified name.
+ * @summary Create a new rival
+ */
+export const createRival = (name: string, signal?: AbortSignal) => {
+  return customInstance<Rival>({
+    url: `/api/rivals/${name}`,
+    method: "POST",
+    signal,
+  });
+};
+
+export const getCreateRivalMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createRival>>,
+    TError,
+    { name: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createRival>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationKey = ["createRival"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createRival>>,
+    { name: string }
+  > = (props) => {
+    const { name } = props ?? {};
+
+    return createRival(name);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateRivalMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createRival>>
 >;
-export type UpdateRivalSkillResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getRivalController>["updateRivalSkill"]>>
+
+export type CreateRivalMutationError = unknown;
+
+/**
+ * @summary Create a new rival
+ */
+export const useCreateRival = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createRival>>,
+      TError,
+      { name: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createRival>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationOptions = getCreateRivalMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Patch the skill of an existing rival.
+ * @summary Patch skill of an existing rival
+ */
+export const updateRivalSkill = (id: string, actorSkill: ActorSkill) => {
+  return customInstance<Rival>({
+    url: `/api/rivals/${id}/skills`,
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    data: actorSkill,
+  });
+};
+
+export const getUpdateRivalSkillMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateRivalSkill>>,
+    TError,
+    { id: string; data: ActorSkill },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateRivalSkill>>,
+  TError,
+  { id: string; data: ActorSkill },
+  TContext
+> => {
+  const mutationKey = ["updateRivalSkill"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateRivalSkill>>,
+    { id: string; data: ActorSkill }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return updateRivalSkill(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateRivalSkillMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateRivalSkill>>
 >;
-export type GetAllRivalsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getRivalController>["getAllRivals"]>>
+export type UpdateRivalSkillMutationBody = ActorSkill;
+export type UpdateRivalSkillMutationError = unknown;
+
+/**
+ * @summary Patch skill of an existing rival
+ */
+export const useUpdateRivalSkill = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateRivalSkill>>,
+      TError,
+      { id: string; data: ActorSkill },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateRivalSkill>>,
+  TError,
+  { id: string; data: ActorSkill },
+  TContext
+> => {
+  const mutationOptions = getUpdateRivalSkillMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Retrieve a list of all rivals.
+ * @summary Get all rivals
+ */
+export const getAllRivals = (signal?: AbortSignal) => {
+  return customInstance<Rival[]>({
+    url: `/api/rivals/`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetAllRivalsQueryKey = () => {
+  return [`/api/rivals/`] as const;
+};
+
+export const getGetAllRivalsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllRivals>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetAllRivalsQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllRivals>>> = ({
+    signal,
+  }) => getAllRivals(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllRivals>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAllRivalsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllRivals>>
 >;
+export type GetAllRivalsQueryError = unknown;
+
+export function useGetAllRivals<
+  TData = Awaited<ReturnType<typeof getAllRivals>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllRivals>>,
+          TError,
+          Awaited<ReturnType<typeof getAllRivals>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllRivals<
+  TData = Awaited<ReturnType<typeof getAllRivals>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllRivals>>,
+          TError,
+          Awaited<ReturnType<typeof getAllRivals>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllRivals<
+  TData = Awaited<ReturnType<typeof getAllRivals>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all rivals
+ */
+
+export function useGetAllRivals<
+  TData = Awaited<ReturnType<typeof getAllRivals>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllRivalsQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

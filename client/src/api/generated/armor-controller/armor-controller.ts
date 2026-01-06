@@ -5,64 +5,445 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { Armor } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getArmorController = () => {
-  /**
-   * Retrieve a specific armor by its name.
-   * @summary Get armor by id
-   */
-  const getArmor = (id: string) => {
-    return customInstance<Armor>({
-      url: `/api/equipment/armor/${id}`,
-      method: "GET",
-    });
-  };
-  /**
-   * Update the details of an existing armor.
-   * @summary Update an existing armor
-   */
-  const updateArmor = (id: string, armor: Armor) => {
-    return customInstance<Armor>({
-      url: `/api/equipment/armor/${id}`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: armor,
-    });
-  };
-  /**
-   * Create a new armor with the specified name.
-   * @summary Create a new armor
-   */
-  const createArmor = (name: string) => {
-    return customInstance<Armor>({
-      url: `/api/equipment/armor/${name}`,
-      method: "POST",
-    });
-  };
-  /**
-   * Retrieve a list of all armors.
-   * @summary Get all armors
-   */
-  const getAllArmors = () => {
-    return customInstance<Armor[]>({
-      url: `/api/equipment/armor/`,
-      method: "GET",
-    });
-  };
-  return { getArmor, updateArmor, createArmor, getAllArmors };
+/**
+ * Retrieve a specific armor by its name.
+ * @summary Get armor by id
+ */
+export const getArmor = (id: string, signal?: AbortSignal) => {
+  return customInstance<Armor>({
+    url: `/api/equipment/armor/${id}`,
+    method: "GET",
+    signal,
+  });
 };
-export type GetArmorResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getArmorController>["getArmor"]>>
+
+export const getGetArmorQueryKey = (id?: string) => {
+  return [`/api/equipment/armor/${id}`] as const;
+};
+
+export const getGetArmorQueryOptions = <
+  TData = Awaited<ReturnType<typeof getArmor>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetArmorQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getArmor>>> = ({
+    signal,
+  }) => getArmor(id, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+};
+
+export type GetArmorQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getArmor>>
 >;
-export type UpdateArmorResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getArmorController>["updateArmor"]>>
+export type GetArmorQueryError = unknown;
+
+export function useGetArmor<
+  TData = Awaited<ReturnType<typeof getArmor>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getArmor>>,
+          TError,
+          Awaited<ReturnType<typeof getArmor>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetArmor<
+  TData = Awaited<ReturnType<typeof getArmor>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getArmor>>,
+          TError,
+          Awaited<ReturnType<typeof getArmor>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetArmor<
+  TData = Awaited<ReturnType<typeof getArmor>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get armor by id
+ */
+
+export function useGetArmor<
+  TData = Awaited<ReturnType<typeof getArmor>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetArmorQueryOptions(id, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * Update the details of an existing armor.
+ * @summary Update an existing armor
+ */
+export const updateArmor = (id: string, armor: Armor) => {
+  return customInstance<Armor>({
+    url: `/api/equipment/armor/${id}`,
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: armor,
+  });
+};
+
+export const getUpdateArmorMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateArmor>>,
+    TError,
+    { id: string; data: Armor },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateArmor>>,
+  TError,
+  { id: string; data: Armor },
+  TContext
+> => {
+  const mutationKey = ["updateArmor"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateArmor>>,
+    { id: string; data: Armor }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return updateArmor(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateArmorMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateArmor>>
 >;
-export type CreateArmorResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getArmorController>["createArmor"]>>
+export type UpdateArmorMutationBody = Armor;
+export type UpdateArmorMutationError = unknown;
+
+/**
+ * @summary Update an existing armor
+ */
+export const useUpdateArmor = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateArmor>>,
+      TError,
+      { id: string; data: Armor },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateArmor>>,
+  TError,
+  { id: string; data: Armor },
+  TContext
+> => {
+  const mutationOptions = getUpdateArmorMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Create a new armor with the specified name.
+ * @summary Create a new armor
+ */
+export const createArmor = (name: string, signal?: AbortSignal) => {
+  return customInstance<Armor>({
+    url: `/api/equipment/armor/${name}`,
+    method: "POST",
+    signal,
+  });
+};
+
+export const getCreateArmorMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createArmor>>,
+    TError,
+    { name: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createArmor>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationKey = ["createArmor"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createArmor>>,
+    { name: string }
+  > = (props) => {
+    const { name } = props ?? {};
+
+    return createArmor(name);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateArmorMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createArmor>>
 >;
-export type GetAllArmorsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getArmorController>["getAllArmors"]>>
+
+export type CreateArmorMutationError = unknown;
+
+/**
+ * @summary Create a new armor
+ */
+export const useCreateArmor = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createArmor>>,
+      TError,
+      { name: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createArmor>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationOptions = getCreateArmorMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Retrieve a list of all armors.
+ * @summary Get all armors
+ */
+export const getAllArmors = (signal?: AbortSignal) => {
+  return customInstance<Armor[]>({
+    url: `/api/equipment/armor/`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetAllArmorsQueryKey = () => {
+  return [`/api/equipment/armor/`] as const;
+};
+
+export const getGetAllArmorsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllArmors>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetAllArmorsQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllArmors>>> = ({
+    signal,
+  }) => getAllArmors(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllArmors>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAllArmorsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllArmors>>
 >;
+export type GetAllArmorsQueryError = unknown;
+
+export function useGetAllArmors<
+  TData = Awaited<ReturnType<typeof getAllArmors>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllArmors>>,
+          TError,
+          Awaited<ReturnType<typeof getAllArmors>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllArmors<
+  TData = Awaited<ReturnType<typeof getAllArmors>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllArmors>>,
+          TError,
+          Awaited<ReturnType<typeof getAllArmors>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllArmors<
+  TData = Awaited<ReturnType<typeof getAllArmors>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all armors
+ */
+
+export function useGetAllArmors<
+  TData = Awaited<ReturnType<typeof getAllArmors>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllArmorsQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

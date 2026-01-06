@@ -5,64 +5,445 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { Weapon } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getWeaponController = () => {
-  /**
-   * Retrieve a specific weapon by its name.
-   * @summary Get weapon by id
-   */
-  const getWeapon = (id: string) => {
-    return customInstance<Weapon>({
-      url: `/api/equipment/weapons/${id}`,
-      method: "GET",
-    });
-  };
-  /**
-   * Update the details of an existing weapon.
-   * @summary Update an existing weapon
-   */
-  const updateWeapon = (id: string, weapon: Weapon) => {
-    return customInstance<Weapon>({
-      url: `/api/equipment/weapons/${id}`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: weapon,
-    });
-  };
-  /**
-   * Create a new weapon with the specified name.
-   * @summary Create a new weapon
-   */
-  const createWeapon = (name: string) => {
-    return customInstance<Weapon>({
-      url: `/api/equipment/weapons/${name}`,
-      method: "POST",
-    });
-  };
-  /**
-   * Retrieve a list of all weapons.
-   * @summary Get all weapons
-   */
-  const getAllWeapons = () => {
-    return customInstance<Weapon[]>({
-      url: `/api/equipment/weapons/`,
-      method: "GET",
-    });
-  };
-  return { getWeapon, updateWeapon, createWeapon, getAllWeapons };
+/**
+ * Retrieve a specific weapon by its name.
+ * @summary Get weapon by id
+ */
+export const getWeapon = (id: string, signal?: AbortSignal) => {
+  return customInstance<Weapon>({
+    url: `/api/equipment/weapons/${id}`,
+    method: "GET",
+    signal,
+  });
 };
-export type GetWeaponResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getWeaponController>["getWeapon"]>>
+
+export const getGetWeaponQueryKey = (id?: string) => {
+  return [`/api/equipment/weapons/${id}`] as const;
+};
+
+export const getGetWeaponQueryOptions = <
+  TData = Awaited<ReturnType<typeof getWeapon>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getWeapon>>, TError, TData>
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetWeaponQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getWeapon>>> = ({
+    signal,
+  }) => getWeapon(id, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getWeapon>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+};
+
+export type GetWeaponQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getWeapon>>
 >;
-export type UpdateWeaponResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getWeaponController>["updateWeapon"]>>
+export type GetWeaponQueryError = unknown;
+
+export function useGetWeapon<
+  TData = Awaited<ReturnType<typeof getWeapon>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getWeapon>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getWeapon>>,
+          TError,
+          Awaited<ReturnType<typeof getWeapon>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetWeapon<
+  TData = Awaited<ReturnType<typeof getWeapon>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getWeapon>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getWeapon>>,
+          TError,
+          Awaited<ReturnType<typeof getWeapon>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetWeapon<
+  TData = Awaited<ReturnType<typeof getWeapon>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getWeapon>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get weapon by id
+ */
+
+export function useGetWeapon<
+  TData = Awaited<ReturnType<typeof getWeapon>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getWeapon>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetWeaponQueryOptions(id, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * Update the details of an existing weapon.
+ * @summary Update an existing weapon
+ */
+export const updateWeapon = (id: string, weapon: Weapon) => {
+  return customInstance<Weapon>({
+    url: `/api/equipment/weapons/${id}`,
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: weapon,
+  });
+};
+
+export const getUpdateWeaponMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateWeapon>>,
+    TError,
+    { id: string; data: Weapon },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateWeapon>>,
+  TError,
+  { id: string; data: Weapon },
+  TContext
+> => {
+  const mutationKey = ["updateWeapon"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateWeapon>>,
+    { id: string; data: Weapon }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return updateWeapon(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateWeaponMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateWeapon>>
 >;
-export type CreateWeaponResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getWeaponController>["createWeapon"]>>
+export type UpdateWeaponMutationBody = Weapon;
+export type UpdateWeaponMutationError = unknown;
+
+/**
+ * @summary Update an existing weapon
+ */
+export const useUpdateWeapon = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateWeapon>>,
+      TError,
+      { id: string; data: Weapon },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateWeapon>>,
+  TError,
+  { id: string; data: Weapon },
+  TContext
+> => {
+  const mutationOptions = getUpdateWeaponMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Create a new weapon with the specified name.
+ * @summary Create a new weapon
+ */
+export const createWeapon = (name: string, signal?: AbortSignal) => {
+  return customInstance<Weapon>({
+    url: `/api/equipment/weapons/${name}`,
+    method: "POST",
+    signal,
+  });
+};
+
+export const getCreateWeaponMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createWeapon>>,
+    TError,
+    { name: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createWeapon>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationKey = ["createWeapon"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createWeapon>>,
+    { name: string }
+  > = (props) => {
+    const { name } = props ?? {};
+
+    return createWeapon(name);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateWeaponMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createWeapon>>
 >;
-export type GetAllWeaponsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getWeaponController>["getAllWeapons"]>>
+
+export type CreateWeaponMutationError = unknown;
+
+/**
+ * @summary Create a new weapon
+ */
+export const useCreateWeapon = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createWeapon>>,
+      TError,
+      { name: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createWeapon>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationOptions = getCreateWeaponMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Retrieve a list of all weapons.
+ * @summary Get all weapons
+ */
+export const getAllWeapons = (signal?: AbortSignal) => {
+  return customInstance<Weapon[]>({
+    url: `/api/equipment/weapons/`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetAllWeaponsQueryKey = () => {
+  return [`/api/equipment/weapons/`] as const;
+};
+
+export const getGetAllWeaponsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllWeapons>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getAllWeapons>>, TError, TData>
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetAllWeaponsQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllWeapons>>> = ({
+    signal,
+  }) => getAllWeapons(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllWeapons>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAllWeaponsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllWeapons>>
 >;
+export type GetAllWeaponsQueryError = unknown;
+
+export function useGetAllWeapons<
+  TData = Awaited<ReturnType<typeof getAllWeapons>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllWeapons>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllWeapons>>,
+          TError,
+          Awaited<ReturnType<typeof getAllWeapons>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllWeapons<
+  TData = Awaited<ReturnType<typeof getAllWeapons>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllWeapons>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllWeapons>>,
+          TError,
+          Awaited<ReturnType<typeof getAllWeapons>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllWeapons<
+  TData = Awaited<ReturnType<typeof getAllWeapons>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllWeapons>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all weapons
+ */
+
+export function useGetAllWeapons<
+  TData = Awaited<ReturnType<typeof getAllWeapons>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllWeapons>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllWeaponsQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

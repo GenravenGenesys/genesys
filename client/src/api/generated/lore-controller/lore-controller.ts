@@ -5,23 +5,147 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { GetAllLore200Item } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getLoreController = () => {
-  /**
-   * Retrieve a list of all lore.
-   * @summary Get all lore
-   */
-  const getAllLore = () => {
-    return customInstance<GetAllLore200Item[]>({
-      url: `/api/lore/`,
-      method: "GET",
-    });
-  };
-  return { getAllLore };
+/**
+ * Retrieve a list of all lore.
+ * @summary Get all lore
+ */
+export const getAllLore = (signal?: AbortSignal) => {
+  return customInstance<GetAllLore200Item[]>({
+    url: `/api/lore/`,
+    method: "GET",
+    signal,
+  });
 };
-export type GetAllLoreResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getLoreController>["getAllLore"]>>
+
+export const getGetAllLoreQueryKey = () => {
+  return [`/api/lore/`] as const;
+};
+
+export const getGetAllLoreQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllLore>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetAllLoreQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllLore>>> = ({
+    signal,
+  }) => getAllLore(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllLore>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAllLoreQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllLore>>
 >;
+export type GetAllLoreQueryError = unknown;
+
+export function useGetAllLore<
+  TData = Awaited<ReturnType<typeof getAllLore>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllLore>>,
+          TError,
+          Awaited<ReturnType<typeof getAllLore>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllLore<
+  TData = Awaited<ReturnType<typeof getAllLore>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllLore>>,
+          TError,
+          Awaited<ReturnType<typeof getAllLore>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllLore<
+  TData = Awaited<ReturnType<typeof getAllLore>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all lore
+ */
+
+export function useGetAllLore<
+  TData = Awaited<ReturnType<typeof getAllLore>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllLoreQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

@@ -5,70 +5,463 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { Archetype } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getArchetypeController = () => {
-  /**
-   * Retrieve a specific archetype by its name.
-   * @summary Get archetype by id
-   */
-  const getArchetype = (id: string) => {
-    return customInstance<Archetype>({
-      url: `/api/archetypes/${id}`,
-      method: "GET",
-    });
-  };
-  /**
-   * Update the details of an existing archetype.
-   * @summary Update an existing archetype
-   */
-  const updateArchetype = (id: string, archetype: Archetype) => {
-    return customInstance<Archetype>({
-      url: `/api/archetypes/${id}`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: archetype,
-    });
-  };
-  /**
-   * Create a new archetype with the specified name.
-   * @summary Create a new archetype
-   */
-  const createArchetype = (name: string) => {
-    return customInstance<Archetype>({
-      url: `/api/archetypes/${name}`,
-      method: "POST",
-    });
-  };
-  /**
-   * Retrieve a list of all archetypes.
-   * @summary Get all archetypes
-   */
-  const getAllArchetypes = () => {
-    return customInstance<Archetype[]>({
-      url: `/api/archetypes/`,
-      method: "GET",
-    });
-  };
-  return { getArchetype, updateArchetype, createArchetype, getAllArchetypes };
+/**
+ * Retrieve a specific archetype by its name.
+ * @summary Get archetype by id
+ */
+export const getArchetype = (id: string, signal?: AbortSignal) => {
+  return customInstance<Archetype>({
+    url: `/api/archetypes/${id}`,
+    method: "GET",
+    signal,
+  });
 };
-export type GetArchetypeResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getArchetypeController>["getArchetype"]>>
+
+export const getGetArchetypeQueryKey = (id?: string) => {
+  return [`/api/archetypes/${id}`] as const;
+};
+
+export const getGetArchetypeQueryOptions = <
+  TData = Awaited<ReturnType<typeof getArchetype>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetArchetypeQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getArchetype>>> = ({
+    signal,
+  }) => getArchetype(id, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getArchetype>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetArchetypeQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getArchetype>>
 >;
-export type UpdateArchetypeResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getArchetypeController>["updateArchetype"]>
-  >
+export type GetArchetypeQueryError = unknown;
+
+export function useGetArchetype<
+  TData = Awaited<ReturnType<typeof getArchetype>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getArchetype>>,
+          TError,
+          Awaited<ReturnType<typeof getArchetype>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetArchetype<
+  TData = Awaited<ReturnType<typeof getArchetype>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getArchetype>>,
+          TError,
+          Awaited<ReturnType<typeof getArchetype>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetArchetype<
+  TData = Awaited<ReturnType<typeof getArchetype>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get archetype by id
+ */
+
+export function useGetArchetype<
+  TData = Awaited<ReturnType<typeof getArchetype>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetArchetypeQueryOptions(id, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * Update the details of an existing archetype.
+ * @summary Update an existing archetype
+ */
+export const updateArchetype = (id: string, archetype: Archetype) => {
+  return customInstance<Archetype>({
+    url: `/api/archetypes/${id}`,
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: archetype,
+  });
+};
+
+export const getUpdateArchetypeMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateArchetype>>,
+    TError,
+    { id: string; data: Archetype },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateArchetype>>,
+  TError,
+  { id: string; data: Archetype },
+  TContext
+> => {
+  const mutationKey = ["updateArchetype"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateArchetype>>,
+    { id: string; data: Archetype }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return updateArchetype(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateArchetypeMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateArchetype>>
 >;
-export type CreateArchetypeResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getArchetypeController>["createArchetype"]>
-  >
+export type UpdateArchetypeMutationBody = Archetype;
+export type UpdateArchetypeMutationError = unknown;
+
+/**
+ * @summary Update an existing archetype
+ */
+export const useUpdateArchetype = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateArchetype>>,
+      TError,
+      { id: string; data: Archetype },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateArchetype>>,
+  TError,
+  { id: string; data: Archetype },
+  TContext
+> => {
+  const mutationOptions = getUpdateArchetypeMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Create a new archetype with the specified name.
+ * @summary Create a new archetype
+ */
+export const createArchetype = (name: string, signal?: AbortSignal) => {
+  return customInstance<Archetype>({
+    url: `/api/archetypes/${name}`,
+    method: "POST",
+    signal,
+  });
+};
+
+export const getCreateArchetypeMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createArchetype>>,
+    TError,
+    { name: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createArchetype>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationKey = ["createArchetype"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createArchetype>>,
+    { name: string }
+  > = (props) => {
+    const { name } = props ?? {};
+
+    return createArchetype(name);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateArchetypeMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createArchetype>>
 >;
-export type GetAllArchetypesResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getArchetypeController>["getAllArchetypes"]>
-  >
+
+export type CreateArchetypeMutationError = unknown;
+
+/**
+ * @summary Create a new archetype
+ */
+export const useCreateArchetype = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createArchetype>>,
+      TError,
+      { name: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createArchetype>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationOptions = getCreateArchetypeMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Retrieve a list of all archetypes.
+ * @summary Get all archetypes
+ */
+export const getAllArchetypes = (signal?: AbortSignal) => {
+  return customInstance<Archetype[]>({
+    url: `/api/archetypes/`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetAllArchetypesQueryKey = () => {
+  return [`/api/archetypes/`] as const;
+};
+
+export const getGetAllArchetypesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllArchetypes>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getAllArchetypes>>, TError, TData>
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetAllArchetypesQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAllArchetypes>>
+  > = ({ signal }) => getAllArchetypes(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllArchetypes>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAllArchetypesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllArchetypes>>
 >;
+export type GetAllArchetypesQueryError = unknown;
+
+export function useGetAllArchetypes<
+  TData = Awaited<ReturnType<typeof getAllArchetypes>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllArchetypes>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllArchetypes>>,
+          TError,
+          Awaited<ReturnType<typeof getAllArchetypes>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllArchetypes<
+  TData = Awaited<ReturnType<typeof getAllArchetypes>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllArchetypes>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllArchetypes>>,
+          TError,
+          Awaited<ReturnType<typeof getAllArchetypes>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllArchetypes<
+  TData = Awaited<ReturnType<typeof getAllArchetypes>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllArchetypes>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all archetypes
+ */
+
+export function useGetAllArchetypes<
+  TData = Awaited<ReturnType<typeof getAllArchetypes>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllArchetypes>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllArchetypesQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

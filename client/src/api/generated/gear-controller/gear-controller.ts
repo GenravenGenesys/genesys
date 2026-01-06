@@ -5,64 +5,445 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { Gear } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getGearController = () => {
-  /**
-   * Retrieve a specific gear by its name.
-   * @summary Get gear by id
-   */
-  const getGear = (id: string) => {
-    return customInstance<Gear>({
-      url: `/api/equipment/gears/${id}`,
-      method: "GET",
-    });
-  };
-  /**
-   * Update the details of an existing gear.
-   * @summary Update an existing gear
-   */
-  const updateGear = (id: string, gear: Gear) => {
-    return customInstance<Gear>({
-      url: `/api/equipment/gears/${id}`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: gear,
-    });
-  };
-  /**
-   * Create a new gear with the specified name.
-   * @summary Create a new gear
-   */
-  const createGear = (name: string) => {
-    return customInstance<Gear>({
-      url: `/api/equipment/gears/${name}`,
-      method: "POST",
-    });
-  };
-  /**
-   * Retrieve a list of all gears.
-   * @summary Get all gears
-   */
-  const getAllGears = () => {
-    return customInstance<Gear[]>({
-      url: `/api/equipment/gears/`,
-      method: "GET",
-    });
-  };
-  return { getGear, updateGear, createGear, getAllGears };
+/**
+ * Retrieve a specific gear by its name.
+ * @summary Get gear by id
+ */
+export const getGear = (id: string, signal?: AbortSignal) => {
+  return customInstance<Gear>({
+    url: `/api/equipment/gears/${id}`,
+    method: "GET",
+    signal,
+  });
 };
-export type GetGearResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getGearController>["getGear"]>>
+
+export const getGetGearQueryKey = (id?: string) => {
+  return [`/api/equipment/gears/${id}`] as const;
+};
+
+export const getGetGearQueryOptions = <
+  TData = Awaited<ReturnType<typeof getGear>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetGearQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getGear>>> = ({
+    signal,
+  }) => getGear(id, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+};
+
+export type GetGearQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getGear>>
 >;
-export type UpdateGearResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getGearController>["updateGear"]>>
+export type GetGearQueryError = unknown;
+
+export function useGetGear<
+  TData = Awaited<ReturnType<typeof getGear>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGear>>,
+          TError,
+          Awaited<ReturnType<typeof getGear>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetGear<
+  TData = Awaited<ReturnType<typeof getGear>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGear>>,
+          TError,
+          Awaited<ReturnType<typeof getGear>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetGear<
+  TData = Awaited<ReturnType<typeof getGear>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get gear by id
+ */
+
+export function useGetGear<
+  TData = Awaited<ReturnType<typeof getGear>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetGearQueryOptions(id, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * Update the details of an existing gear.
+ * @summary Update an existing gear
+ */
+export const updateGear = (id: string, gear: Gear) => {
+  return customInstance<Gear>({
+    url: `/api/equipment/gears/${id}`,
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: gear,
+  });
+};
+
+export const getUpdateGearMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateGear>>,
+    TError,
+    { id: string; data: Gear },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateGear>>,
+  TError,
+  { id: string; data: Gear },
+  TContext
+> => {
+  const mutationKey = ["updateGear"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateGear>>,
+    { id: string; data: Gear }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return updateGear(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateGearMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateGear>>
 >;
-export type CreateGearResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getGearController>["createGear"]>>
+export type UpdateGearMutationBody = Gear;
+export type UpdateGearMutationError = unknown;
+
+/**
+ * @summary Update an existing gear
+ */
+export const useUpdateGear = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateGear>>,
+      TError,
+      { id: string; data: Gear },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateGear>>,
+  TError,
+  { id: string; data: Gear },
+  TContext
+> => {
+  const mutationOptions = getUpdateGearMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Create a new gear with the specified name.
+ * @summary Create a new gear
+ */
+export const createGear = (name: string, signal?: AbortSignal) => {
+  return customInstance<Gear>({
+    url: `/api/equipment/gears/${name}`,
+    method: "POST",
+    signal,
+  });
+};
+
+export const getCreateGearMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createGear>>,
+    TError,
+    { name: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createGear>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationKey = ["createGear"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createGear>>,
+    { name: string }
+  > = (props) => {
+    const { name } = props ?? {};
+
+    return createGear(name);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateGearMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createGear>>
 >;
-export type GetAllGearsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getGearController>["getAllGears"]>>
+
+export type CreateGearMutationError = unknown;
+
+/**
+ * @summary Create a new gear
+ */
+export const useCreateGear = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createGear>>,
+      TError,
+      { name: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createGear>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationOptions = getCreateGearMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Retrieve a list of all gears.
+ * @summary Get all gears
+ */
+export const getAllGears = (signal?: AbortSignal) => {
+  return customInstance<Gear[]>({
+    url: `/api/equipment/gears/`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetAllGearsQueryKey = () => {
+  return [`/api/equipment/gears/`] as const;
+};
+
+export const getGetAllGearsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllGears>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetAllGearsQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllGears>>> = ({
+    signal,
+  }) => getAllGears(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllGears>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAllGearsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllGears>>
 >;
+export type GetAllGearsQueryError = unknown;
+
+export function useGetAllGears<
+  TData = Awaited<ReturnType<typeof getAllGears>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllGears>>,
+          TError,
+          Awaited<ReturnType<typeof getAllGears>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllGears<
+  TData = Awaited<ReturnType<typeof getAllGears>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllGears>>,
+          TError,
+          Awaited<ReturnType<typeof getAllGears>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllGears<
+  TData = Awaited<ReturnType<typeof getAllGears>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all gears
+ */
+
+export function useGetAllGears<
+  TData = Awaited<ReturnType<typeof getAllGears>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllGearsQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

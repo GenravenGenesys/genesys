@@ -5,73 +5,425 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { Campaign, Talent } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getCampaignTalentController = () => {
-  /**
-   * Adds a Talent to the current Campaign.
-   * @summary Add Talent to Campaign
-   */
-  const addTalentToCurrentCampaign = (id: string) => {
-    return customInstance<Campaign>({
-      url: `/api/campaigns/talents/${id}`,
-      method: "POST",
-    });
-  };
-  /**
-   * Retrieve a list of all skills for current campaign.
-   * @summary Get all skills for current campaign
-   */
-  const getTalentsForCurrentCampaign = () => {
-    return customInstance<Talent[]>({
-      url: `/api/campaigns/talents/`,
-      method: "GET",
-    });
-  };
-  /**
-   * Retrieve a list of all talent for current campaign of a specific tier.
-   * @summary Get all talents for current campaign of tier
-   */
-  const getTalentsForCurrentCampaignByTier = (
-    tier: "First" | "Second" | "Third" | "Fourth" | "Fifth",
-  ) => {
-    return customInstance<Talent[]>({
-      url: `/api/campaigns/talents/tiers/${tier}`,
-      method: "GET",
-    });
-  };
-  return {
-    addTalentToCurrentCampaign,
-    getTalentsForCurrentCampaign,
-    getTalentsForCurrentCampaignByTier,
-  };
+/**
+ * Adds a Talent to the current Campaign.
+ * @summary Add Talent to Campaign
+ */
+export const addTalentToCurrentCampaign = (
+  id: string,
+  signal?: AbortSignal,
+) => {
+  return customInstance<Campaign>({
+    url: `/api/campaigns/talents/${id}`,
+    method: "POST",
+    signal,
+  });
 };
-export type AddTalentToCurrentCampaignResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getCampaignTalentController
-      >["addTalentToCurrentCampaign"]
-    >
-  >
+
+export const getAddTalentToCurrentCampaignMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof addTalentToCurrentCampaign>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof addTalentToCurrentCampaign>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ["addTalentToCurrentCampaign"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addTalentToCurrentCampaign>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {};
+
+    return addTalentToCurrentCampaign(id);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type AddTalentToCurrentCampaignMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addTalentToCurrentCampaign>>
 >;
-export type GetTalentsForCurrentCampaignResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getCampaignTalentController
-      >["getTalentsForCurrentCampaign"]
+
+export type AddTalentToCurrentCampaignMutationError = unknown;
+
+/**
+ * @summary Add Talent to Campaign
+ */
+export const useAddTalentToCurrentCampaign = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof addTalentToCurrentCampaign>>,
+      TError,
+      { id: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof addTalentToCurrentCampaign>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationOptions = getAddTalentToCurrentCampaignMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Retrieve a list of all skills for current campaign.
+ * @summary Get all skills for current campaign
+ */
+export const getTalentsForCurrentCampaign = (signal?: AbortSignal) => {
+  return customInstance<Talent[]>({
+    url: `/api/campaigns/talents/`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetTalentsForCurrentCampaignQueryKey = () => {
+  return [`/api/campaigns/talents/`] as const;
+};
+
+export const getGetTalentsForCurrentCampaignQueryOptions = <
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+      TError,
+      TData
     >
-  >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetTalentsForCurrentCampaignQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>
+  > = ({ signal }) => getTalentsForCurrentCampaign(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetTalentsForCurrentCampaignQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>
 >;
-export type GetTalentsForCurrentCampaignByTierResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getCampaignTalentController
-      >["getTalentsForCurrentCampaignByTier"]
-    >
-  >
+export type GetTalentsForCurrentCampaignQueryError = unknown;
+
+export function useGetTalentsForCurrentCampaign<
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+          TError,
+          Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTalentsForCurrentCampaign<
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+          TError,
+          Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTalentsForCurrentCampaign<
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all skills for current campaign
+ */
+
+export function useGetTalentsForCurrentCampaign<
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTalentsForCurrentCampaign>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetTalentsForCurrentCampaignQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * Retrieve a list of all talent for current campaign of a specific tier.
+ * @summary Get all talents for current campaign of tier
+ */
+export const getTalentsForCurrentCampaignByTier = (
+  tier: "First" | "Second" | "Third" | "Fourth" | "Fifth",
+  signal?: AbortSignal,
+) => {
+  return customInstance<Talent[]>({
+    url: `/api/campaigns/talents/tiers/${tier}`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetTalentsForCurrentCampaignByTierQueryKey = (
+  tier?: "First" | "Second" | "Third" | "Fourth" | "Fifth",
+) => {
+  return [`/api/campaigns/talents/tiers/${tier}`] as const;
+};
+
+export const getGetTalentsForCurrentCampaignByTierQueryOptions = <
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+  TError = unknown,
+>(
+  tier: "First" | "Second" | "Third" | "Fourth" | "Fifth",
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetTalentsForCurrentCampaignByTierQueryKey(tier);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>
+  > = ({ signal }) => getTalentsForCurrentCampaignByTier(tier, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!tier,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetTalentsForCurrentCampaignByTierQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>
 >;
+export type GetTalentsForCurrentCampaignByTierQueryError = unknown;
+
+export function useGetTalentsForCurrentCampaignByTier<
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+  TError = unknown,
+>(
+  tier: "First" | "Second" | "Third" | "Fourth" | "Fifth",
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+          TError,
+          Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTalentsForCurrentCampaignByTier<
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+  TError = unknown,
+>(
+  tier: "First" | "Second" | "Third" | "Fourth" | "Fifth",
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+          TError,
+          Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTalentsForCurrentCampaignByTier<
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+  TError = unknown,
+>(
+  tier: "First" | "Second" | "Third" | "Fourth" | "Fifth",
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all talents for current campaign of tier
+ */
+
+export function useGetTalentsForCurrentCampaignByTier<
+  TData = Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+  TError = unknown,
+>(
+  tier: "First" | "Second" | "Third" | "Fourth" | "Fifth",
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTalentsForCurrentCampaignByTier>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetTalentsForCurrentCampaignByTierQueryOptions(
+    tier,
+    options,
+  );
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

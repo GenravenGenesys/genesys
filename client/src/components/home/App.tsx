@@ -1,4 +1,4 @@
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes, Outlet } from 'react-router-dom';
 import NavBar from '../navigation/NavBar';
 import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
 import {ActorPath, CampaignPath, EquipmentPath, LorePath, RootPath} from '../../services/RootPath';
@@ -32,14 +32,12 @@ import {AuthenticationGuard} from "../../auth/AuthenticationGuard";
 import {AdminPage} from "../../auth/AdminPage";
 import ProfilePage from "../../auth/ProfilePage";
 import CallbackPage from "../../auth/CallBackPage";
-import VTTDashboard from "./sample/Sample.tsx";
 import FocusedVTT from "./sample/Sample.tsx";
 import CompendiumHome from "./sample/CompendiumSample.tsx";
 import TalentListView from "./sample/SampleTalents.tsx";
 import EquipmentListView from "./sample/EquipmentList.tsx";
 import AdversaryCompendium from "./sample/ViewAllAdvesaries.tsx";
 import SessionManager from "./sample/SessionManager.tsx";
-import EncounterManager from "./sample/EncounterManager.tsx";
 import CharacterCreator from "./sample/PlayerCreation.tsx";
 
 export const App: React.FC = () => {
@@ -71,6 +69,18 @@ export const App: React.FC = () => {
             </div>
         );
     }
+
+    const CampaignGuard = ({ campaigns, loading }) => {
+        if (loading) return <PageLoader />;
+
+        // Force new users to the creator route
+        if (campaigns.length === 0) {
+            return <Navigate to="/create-campaign" replace />;
+        }
+
+        return <Outlet />;
+    };
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
@@ -90,9 +100,14 @@ export const App: React.FC = () => {
                     element={<AuthenticationGuard component={AdminPage} />}
                 />
                 <Route path="/callback" element={<CallbackPage />} />
-                <Route path="/" element={<Navigate replace to="/home"/>}/>
+                <Route path="/" element={<Navigate replace to={"/" + RootPath.Home}/>}/>
                 <Route path={RootPath.Home} element={<HomeCampaignDashboard/>}/>
-                <Route path={"/sample"} element={<FocusedVTT/>}/>
+
+
+                <Route path="/create-campaign" element={<CampaignWizard />} />
+                <Route element={<CampaignGuard campaigns={data} loading={isLoading} />}>
+                    <Route path="/dashboard" element={<FocusedVTT />} />
+                </Route>
                 <Route path={"/comp"} element={<CompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>
                 <Route path={"/sample/equipment"} element={<EquipmentListView/>}/>

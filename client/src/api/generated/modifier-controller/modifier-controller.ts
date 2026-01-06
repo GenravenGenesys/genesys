@@ -5,23 +5,147 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { GetModifiers200Item } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getModifierController = () => {
-  /**
-   * Retrieve a list of all modifiers that can be applied.
-   * @summary Get all modifier type
-   */
-  const getModifiers = () => {
-    return customInstance<GetModifiers200Item[]>({
-      url: `/api/modifiers`,
-      method: "GET",
-    });
-  };
-  return { getModifiers };
+/**
+ * Retrieve a list of all modifiers that can be applied.
+ * @summary Get all modifier type
+ */
+export const getModifiers = (signal?: AbortSignal) => {
+  return customInstance<GetModifiers200Item[]>({
+    url: `/api/modifiers`,
+    method: "GET",
+    signal,
+  });
 };
-export type GetModifiersResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getModifierController>["getModifiers"]>>
+
+export const getGetModifiersQueryKey = () => {
+  return [`/api/modifiers`] as const;
+};
+
+export const getGetModifiersQueryOptions = <
+  TData = Awaited<ReturnType<typeof getModifiers>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetModifiersQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getModifiers>>> = ({
+    signal,
+  }) => getModifiers(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getModifiers>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetModifiersQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getModifiers>>
 >;
+export type GetModifiersQueryError = unknown;
+
+export function useGetModifiers<
+  TData = Awaited<ReturnType<typeof getModifiers>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getModifiers>>,
+          TError,
+          Awaited<ReturnType<typeof getModifiers>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetModifiers<
+  TData = Awaited<ReturnType<typeof getModifiers>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getModifiers>>,
+          TError,
+          Awaited<ReturnType<typeof getModifiers>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetModifiers<
+  TData = Awaited<ReturnType<typeof getModifiers>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all modifier type
+ */
+
+export function useGetModifiers<
+  TData = Awaited<ReturnType<typeof getModifiers>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetModifiersQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

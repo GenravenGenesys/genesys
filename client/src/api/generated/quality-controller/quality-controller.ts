@@ -5,63 +5,463 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+
 import type { Quality } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-export const getQualityController = () => {
-  /**
-   * Retrieve a specific quality by its name.
-   * @summary Get quality by id
-   */
-  const getQuality = (id: string) => {
-    return customInstance<Quality>({
-      url: `/api/qualities/${id}`,
-      method: "GET",
-    });
-  };
-  /**
-   * Update the details of an existing quality.
-   * @summary Update an existing quality
-   */
-  const updateQuality = (id: string, quality: Quality) => {
-    return customInstance<Quality>({
-      url: `/api/qualities/${id}`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: quality,
-    });
-  };
-  /**
-   * Create a new quality with the specified name.
-   * @summary Create a new quality
-   */
-  const createQuality = (name: string) => {
-    return customInstance<Quality>({
-      url: `/api/qualities/${name}`,
-      method: "POST",
-    });
-  };
-  /**
-   * Retrieve a list of all qualities that can be applied to equipment.
-   * @summary Get all qualities
-   */
-  const getAllQualities = () => {
-    return customInstance<Quality[]>({ url: `/api/qualities/`, method: "GET" });
-  };
-  return { getQuality, updateQuality, createQuality, getAllQualities };
+/**
+ * Retrieve a specific quality by its name.
+ * @summary Get quality by id
+ */
+export const getQuality = (id: string, signal?: AbortSignal) => {
+  return customInstance<Quality>({
+    url: `/api/qualities/${id}`,
+    method: "GET",
+    signal,
+  });
 };
-export type GetQualityResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getQualityController>["getQuality"]>>
+
+export const getGetQualityQueryKey = (id?: string) => {
+  return [`/api/qualities/${id}`] as const;
+};
+
+export const getGetQualityQueryOptions = <
+  TData = Awaited<ReturnType<typeof getQuality>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getQuality>>, TError, TData>
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetQualityQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getQuality>>> = ({
+    signal,
+  }) => getQuality(id, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getQuality>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetQualityQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getQuality>>
 >;
-export type UpdateQualityResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getQualityController>["updateQuality"]>>
+export type GetQualityQueryError = unknown;
+
+export function useGetQuality<
+  TData = Awaited<ReturnType<typeof getQuality>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getQuality>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getQuality>>,
+          TError,
+          Awaited<ReturnType<typeof getQuality>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetQuality<
+  TData = Awaited<ReturnType<typeof getQuality>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getQuality>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getQuality>>,
+          TError,
+          Awaited<ReturnType<typeof getQuality>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetQuality<
+  TData = Awaited<ReturnType<typeof getQuality>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getQuality>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get quality by id
+ */
+
+export function useGetQuality<
+  TData = Awaited<ReturnType<typeof getQuality>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getQuality>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetQualityQueryOptions(id, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * Update the details of an existing quality.
+ * @summary Update an existing quality
+ */
+export const updateQuality = (id: string, quality: Quality) => {
+  return customInstance<Quality>({
+    url: `/api/qualities/${id}`,
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: quality,
+  });
+};
+
+export const getUpdateQualityMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateQuality>>,
+    TError,
+    { id: string; data: Quality },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateQuality>>,
+  TError,
+  { id: string; data: Quality },
+  TContext
+> => {
+  const mutationKey = ["updateQuality"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateQuality>>,
+    { id: string; data: Quality }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return updateQuality(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateQualityMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateQuality>>
 >;
-export type CreateQualityResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getQualityController>["createQuality"]>>
+export type UpdateQualityMutationBody = Quality;
+export type UpdateQualityMutationError = unknown;
+
+/**
+ * @summary Update an existing quality
+ */
+export const useUpdateQuality = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateQuality>>,
+      TError,
+      { id: string; data: Quality },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateQuality>>,
+  TError,
+  { id: string; data: Quality },
+  TContext
+> => {
+  const mutationOptions = getUpdateQualityMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Create a new quality with the specified name.
+ * @summary Create a new quality
+ */
+export const createQuality = (name: string, signal?: AbortSignal) => {
+  return customInstance<Quality>({
+    url: `/api/qualities/${name}`,
+    method: "POST",
+    signal,
+  });
+};
+
+export const getCreateQualityMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createQuality>>,
+    TError,
+    { name: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createQuality>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationKey = ["createQuality"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createQuality>>,
+    { name: string }
+  > = (props) => {
+    const { name } = props ?? {};
+
+    return createQuality(name);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateQualityMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createQuality>>
 >;
-export type GetAllQualitiesResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getQualityController>["getAllQualities"]>
-  >
+
+export type CreateQualityMutationError = unknown;
+
+/**
+ * @summary Create a new quality
+ */
+export const useCreateQuality = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createQuality>>,
+      TError,
+      { name: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createQuality>>,
+  TError,
+  { name: string },
+  TContext
+> => {
+  const mutationOptions = getCreateQualityMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Retrieve a list of all qualities that can be applied to equipment.
+ * @summary Get all qualities
+ */
+export const getAllQualities = (signal?: AbortSignal) => {
+  return customInstance<Quality[]>({
+    url: `/api/qualities/`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetAllQualitiesQueryKey = () => {
+  return [`/api/qualities/`] as const;
+};
+
+export const getGetAllQualitiesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllQualities>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getAllQualities>>, TError, TData>
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetAllQualitiesQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllQualities>>> = ({
+    signal,
+  }) => getAllQualities(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllQualities>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAllQualitiesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllQualities>>
 >;
+export type GetAllQualitiesQueryError = unknown;
+
+export function useGetAllQualities<
+  TData = Awaited<ReturnType<typeof getAllQualities>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllQualities>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllQualities>>,
+          TError,
+          Awaited<ReturnType<typeof getAllQualities>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllQualities<
+  TData = Awaited<ReturnType<typeof getAllQualities>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllQualities>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllQualities>>,
+          TError,
+          Awaited<ReturnType<typeof getAllQualities>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllQualities<
+  TData = Awaited<ReturnType<typeof getAllQualities>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllQualities>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get all qualities
+ */
+
+export function useGetAllQualities<
+  TData = Awaited<ReturnType<typeof getAllQualities>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllQualities>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllQualitiesQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

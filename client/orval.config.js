@@ -5,7 +5,7 @@ module.exports = {
             mode: 'tags-split',
             target: 'src/api/generated',
             schemas: 'src/api/model',
-            client: 'axios',
+            client: 'react-query',
             mock: false,
             clean: true,
             prettier: true,
