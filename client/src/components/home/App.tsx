@@ -32,14 +32,14 @@ import {AuthenticationGuard} from "../../auth/AuthenticationGuard";
 import {AdminPage} from "../../auth/AdminPage";
 import ProfilePage from "../../auth/ProfilePage";
 import CallbackPage from "../../auth/CallBackPage";
-import VTTDashboard from "./Sample.tsx";
-import FocusedVTT from "./Sample.tsx";
-import CompendiumHome from "./CompendiumSample.tsx";
-import TalentListView from "./SampleTalents.tsx";
-import EquipmentListView from "./EquipmentList.tsx";
-import AdversaryCompendium from "./ViewAllAdvesaries.tsx";
-import SessionManager from "./SessionManager.tsx";
-import EncounterManager from "./EncounterManager.tsx";
+import VTTDashboard from "./sample/Sample.tsx";
+import FocusedVTT from "./sample/Sample.tsx";
+import CompendiumHome from "./sample/CompendiumSample.tsx";
+import TalentListView from "./sample/SampleTalents.tsx";
+import EquipmentListView from "./sample/EquipmentList.tsx";
+import AdversaryCompendium from "./sample/ViewAllAdvesaries.tsx";
+import SessionManager from "./sample/SessionManager.tsx";
+import EncounterManager from "./sample/EncounterManager.tsx";
 import CharacterCreator from "./sample/PlayerCreation.tsx";
 
 export const App: React.FC = () => {
