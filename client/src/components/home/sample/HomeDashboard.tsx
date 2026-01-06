@@ -1,5 +1,6 @@
 import {Box, CircularProgress} from '@mui/material';
 import FocusedVTT from "./Sample.tsx";
+import CampaignWizard from "./CampaignWizard.tsx";
 
 
 export default function DashboardPage() {
@@ -15,7 +16,7 @@ export default function DashboardPage() {
 
     // 1. IF NO DATA: Render the Wizard directly as the main UI
     if (!campaigns || campaigns.length === 0) {
-        return <CampaignWizard isFirstCampaign={true}/>;
+        return <CampaignWizard/>;
     }
 
     // 2. IF DATA EXISTS: Render the standard list

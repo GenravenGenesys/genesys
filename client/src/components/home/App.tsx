@@ -32,13 +32,13 @@ import {AuthenticationGuard} from "../../auth/AuthenticationGuard";
 import {AdminPage} from "../../auth/AdminPage";
 import ProfilePage from "../../auth/ProfilePage";
 import CallbackPage from "../../auth/CallBackPage";
-import FocusedVTT from "./sample/Sample.tsx";
 import CompendiumHome from "./sample/CompendiumSample.tsx";
 import TalentListView from "./sample/SampleTalents.tsx";
 import EquipmentListView from "./sample/EquipmentList.tsx";
 import AdversaryCompendium from "./sample/ViewAllAdvesaries.tsx";
 import SessionManager from "./sample/SessionManager.tsx";
 import CharacterCreator from "./sample/PlayerCreation.tsx";
+import DashboardPage from "./sample/HomeDashboard.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -70,17 +70,6 @@ export const App: React.FC = () => {
         );
     }
 
-    const CampaignGuard = ({ campaigns, loading }) => {
-        if (loading) return <PageLoader />;
-
-        // Force new users to the creator route
-        if (campaigns.length === 0) {
-            return <Navigate to="/create-campaign" replace />;
-        }
-
-        return <Outlet />;
-    };
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
@@ -103,11 +92,7 @@ export const App: React.FC = () => {
                 <Route path="/" element={<Navigate replace to={"/" + RootPath.Home}/>}/>
                 <Route path={RootPath.Home} element={<HomeCampaignDashboard/>}/>
 
-
-                <Route path="/create-campaign" element={<CampaignWizard />} />
-                <Route element={<CampaignGuard campaigns={data} loading={isLoading} />}>
-                    <Route path="/dashboard" element={<FocusedVTT />} />
-                </Route>
+                <Route path={"/sample"} element={<DashboardPage/>}/>
                 <Route path={"/comp"} element={<CompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>
                 <Route path={"/sample/equipment"} element={<EquipmentListView/>}/>
