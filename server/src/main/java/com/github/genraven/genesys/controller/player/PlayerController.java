@@ -51,13 +51,13 @@ public class PlayerController extends AbstractController {
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{name}")
-    @Operation(summary = "Create a new player", description = "Create a new player with the specified name.")
-    public Mono<ResponseEntity<Player>> createPlayer(@PathVariable final String name) {
-        return playerService.createPlayer(name)
-            .flatMap(MapperUtil::mapPlayerToResponse)
-            .map(player -> ResponseEntity.created(getURI(player.getName())).body(player));
-    }
+//    @PostMapping("/{name}")
+//    @Operation(summary = "Create a new player", description = "Create a new player with the specified name.")
+//    public Mono<ResponseEntity<Player>> createPlayer(@PathVariable final String name) {
+//        return playerService.createPlayer(name)
+//            .flatMap(MapperUtil::mapPlayerToResponse)
+//            .map(player -> ResponseEntity.created(getURI(player.getName())).body(player));
+//    }
 
     @GetMapping("/")
     @Operation(summary = "Get all players", description = "Retrieve a list of all players.")

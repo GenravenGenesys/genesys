@@ -46,12 +46,12 @@ public class CareerController extends AbstractController {
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{name}")
-    @Operation(summary = "Create a new career", description = "Create a new career with the specified name.")
-    public Mono<ResponseEntity<Career>> createCareer(@PathVariable final String name) {
-        return careerService.createCareer(name)
-            .map(career -> ResponseEntity.created(getURI(career.getName())).body(career));
-    }
+//    @PostMapping("/{name}")
+//    @Operation(summary = "Create a new career", description = "Create a new career with the specified name.")
+//    public Mono<ResponseEntity<Career>> createCareer(@PathVariable final String name) {
+//        return careerService.createCareer(name)
+//            .map(career -> ResponseEntity.created(getURI(career.getName())).body(career));
+//    }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing career", description = "Update the details of an existing career.")

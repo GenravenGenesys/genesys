@@ -31,14 +31,14 @@ public class NemesisService {
         });
     }
 
-    public Mono<Nemesis> createNemesis(final String name) {
-        return skillService.getSkillsForCurrentCampaign()
-            .flatMap(skills -> {
-                final Nemesis nemesis = new Nemesis((name));
-                nemesis.setSkills(skills.stream().map(ActorSkill::new).toList());
-                return nemesisRepository.save(nemesis);
-            });
-    }
+//    public Mono<Nemesis> createNemesis(final String name) {
+//        return skillService.getSkillsForCurrentCampaign()
+//            .flatMap(skills -> {
+//                final Nemesis nemesis = new Nemesis((name));
+//                nemesis.setSkills(skills.stream().map(ActorSkill::new).toList());
+//                return nemesisRepository.save(nemesis);
+//            });
+//    }
 
     public Mono<Nemesis> updateNemesis(final String name, final Nemesis nemesis) {
         return getNemesis(name).map(nem -> {

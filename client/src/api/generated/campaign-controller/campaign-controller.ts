@@ -21,229 +21,10 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query";
 
-import type { Campaign } from "../../model";
+import type { Campaign, CampaignCompendium } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
-/**
- * Retrieve a specific campaign by its name.
- * @summary Get campaign by id
- */
-export const getCampaign = (id: string, signal?: AbortSignal) => {
-  return customInstance<Campaign>({
-    url: `/api/campaigns/${id}`,
-    method: "GET",
-    signal,
-  });
-};
-
-export const getGetCampaignQueryKey = (id?: string) => {
-  return [`/api/campaigns/${id}`] as const;
-};
-
-export const getGetCampaignQueryOptions = <
-  TData = Awaited<ReturnType<typeof getCampaign>>,
-  TError = unknown,
->(
-  id: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
-    >;
-  },
-) => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey = queryOptions?.queryKey ?? getGetCampaignQueryKey(id);
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCampaign>>> = ({
-    signal,
-  }) => getCampaign(id, signal);
-
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!id,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getCampaign>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetCampaignQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getCampaign>>
->;
-export type GetCampaignQueryError = unknown;
-
-export function useGetCampaign<
-  TData = Awaited<ReturnType<typeof getCampaign>>,
-  TError = unknown,
->(
-  id: string,
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCampaign>>,
-          TError,
-          Awaited<ReturnType<typeof getCampaign>>
-        >,
-        "initialData"
-      >;
-  },
-  queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetCampaign<
-  TData = Awaited<ReturnType<typeof getCampaign>>,
-  TError = unknown,
->(
-  id: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCampaign>>,
-          TError,
-          Awaited<ReturnType<typeof getCampaign>>
-        >,
-        "initialData"
-      >;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetCampaign<
-  TData = Awaited<ReturnType<typeof getCampaign>>,
-  TError = unknown,
->(
-  id: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
-    >;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-/**
- * @summary Get campaign by id
- */
-
-export function useGetCampaign<
-  TData = Awaited<ReturnType<typeof getCampaign>>,
-  TError = unknown,
->(
-  id: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
-    >;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getGetCampaignQueryOptions(id, options);
-
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
-/**
- * Update the details of an existing campaign.
- * @summary Update an existing campaign
- */
-export const updateCampaign = (id: string, campaign: Campaign) => {
-  return customInstance<Campaign>({
-    url: `/api/campaigns/${id}`,
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    data: campaign,
-  });
-};
-
-export const getUpdateCampaignMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateCampaign>>,
-    TError,
-    { id: string; data: Campaign },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateCampaign>>,
-  TError,
-  { id: string; data: Campaign },
-  TContext
-> => {
-  const mutationKey = ["updateCampaign"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateCampaign>>,
-    { id: string; data: Campaign }
-  > = (props) => {
-    const { id, data } = props ?? {};
-
-    return updateCampaign(id, data);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type UpdateCampaignMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateCampaign>>
->;
-export type UpdateCampaignMutationBody = Campaign;
-export type UpdateCampaignMutationError = unknown;
-
-/**
- * @summary Update an existing campaign
- */
-export const useUpdateCampaign = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updateCampaign>>,
-      TError,
-      { id: string; data: Campaign },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof updateCampaign>>,
-  TError,
-  { id: string; data: Campaign },
-  TContext
-> => {
-  const mutationOptions = getUpdateCampaignMutationOptions(options);
-
-  return useMutation(mutationOptions, queryClient);
-};
 /**
  * Create a new campaign with the specified name.
  * @summary Create a new campaign
@@ -455,6 +236,299 @@ export function useGetAllCampaigns<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetAllCampaignsQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * Retrieve a specific campaign by its name.
+ * @summary Get campaign by id
+ */
+export const getCampaign = (id: string, signal?: AbortSignal) => {
+  return customInstance<Campaign>({
+    url: `/api/campaigns/${id}`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetCampaignQueryKey = (id?: string) => {
+  return [`/api/campaigns/${id}`] as const;
+};
+
+export const getGetCampaignQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCampaign>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetCampaignQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCampaign>>> = ({
+    signal,
+  }) => getCampaign(id, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCampaign>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetCampaignQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCampaign>>
+>;
+export type GetCampaignQueryError = unknown;
+
+export function useGetCampaign<
+  TData = Awaited<ReturnType<typeof getCampaign>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCampaign>>,
+          TError,
+          Awaited<ReturnType<typeof getCampaign>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetCampaign<
+  TData = Awaited<ReturnType<typeof getCampaign>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCampaign>>,
+          TError,
+          Awaited<ReturnType<typeof getCampaign>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetCampaign<
+  TData = Awaited<ReturnType<typeof getCampaign>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get campaign by id
+ */
+
+export function useGetCampaign<
+  TData = Awaited<ReturnType<typeof getCampaign>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetCampaignQueryOptions(id, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const streamCompendium = (id: string, signal?: AbortSignal) => {
+  return customInstance<CampaignCompendium[]>({
+    url: `/api/campaigns/${id}/stream`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getStreamCompendiumQueryKey = (id?: string) => {
+  return [`/api/campaigns/${id}/stream`] as const;
+};
+
+export const getStreamCompendiumQueryOptions = <
+  TData = Awaited<ReturnType<typeof streamCompendium>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof streamCompendium>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getStreamCompendiumQueryKey(id);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof streamCompendium>>
+  > = ({ signal }) => streamCompendium(id, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof streamCompendium>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type StreamCompendiumQueryResult = NonNullable<
+  Awaited<ReturnType<typeof streamCompendium>>
+>;
+export type StreamCompendiumQueryError = unknown;
+
+export function useStreamCompendium<
+  TData = Awaited<ReturnType<typeof streamCompendium>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof streamCompendium>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof streamCompendium>>,
+          TError,
+          Awaited<ReturnType<typeof streamCompendium>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useStreamCompendium<
+  TData = Awaited<ReturnType<typeof streamCompendium>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof streamCompendium>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof streamCompendium>>,
+          TError,
+          Awaited<ReturnType<typeof streamCompendium>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useStreamCompendium<
+  TData = Awaited<ReturnType<typeof streamCompendium>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof streamCompendium>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useStreamCompendium<
+  TData = Awaited<ReturnType<typeof streamCompendium>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof streamCompendium>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getStreamCompendiumQueryOptions(id, options);
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

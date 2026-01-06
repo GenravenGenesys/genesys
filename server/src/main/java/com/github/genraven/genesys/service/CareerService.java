@@ -24,15 +24,15 @@ public class CareerService {
         return careerRepository.findById(name);
     }
 
-    public Mono<Career> createCareer(final String name) {
-        return skillService.getSkillsForCurrentCampaign()
-                .flatMap(skills -> {
-                    final List<Skill> careerSkills = skills.stream().limit(8).toList();
-                    final Career career = new Career(name);
-                    career.setSkills(careerSkills);
-                    return careerRepository.save(career);
-                });
-    }
+//    public Mono<Career> createCareer(final String name) {
+//        return skillService.getSkillsForCurrentCampaign()
+//                .flatMap(skills -> {
+//                    final List<Skill> careerSkills = skills.stream().limit(8).toList();
+//                    final Career career = new Career(name);
+//                    career.setSkills(careerSkills);
+//                    return careerRepository.save(career);
+//                });
+//    }
 
     public Mono<Career> updateCareer(final String name, final Career career) {
         return getCareer(name).map(car -> {

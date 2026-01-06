@@ -40,16 +40,16 @@ public class PlayerService {
             .doOnError(error -> log.error("Error fetching player with id: {}", id, error));
     }
 
-    public Mono<Player> createPlayer(final String name) {
-        return skillService.getSkillsForCurrentCampaign().flatMap(skills -> {
-            final Player player = new Player(name);
-            player.setSkills(skills.stream().map(PlayerSkill::new).collect(Collectors.toList()));
-            return playerRepository.save(player);
-        }).flatMap(savedPlayer -> campaignService.getCurrentCampaign().flatMap(campaign -> {
-            campaign.getParty().getPlayers().add(savedPlayer);
-            return campaignService.updateCampaign(campaign.getId(), campaign).thenReturn(savedPlayer);
-        }));
-    }
+//    public Mono<Player> createPlayer(final String name) {
+//        return skillService.getSkillsForCurrentCampaign().flatMap(skills -> {
+//            final Player player = new Player(name);
+//            player.setSkills(skills.stream().map(PlayerSkill::new).collect(Collectors.toList()));
+//            return playerRepository.save(player);
+//        }).flatMap(savedPlayer -> campaignService.getCurrentCampaign().flatMap(campaign -> {
+//            campaign.getParty().getPlayers().add(savedPlayer);
+//            return campaignService.updateCampaign(campaign.getId(), campaign).thenReturn(savedPlayer);
+//        }));
+//    }
 
     public Mono<Player> updatePlayer(final String name, final Player player) {
         return getPlayer(name).map(existingPlayer -> {

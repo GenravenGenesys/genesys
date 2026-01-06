@@ -40,41 +40,4 @@ public class CampaignHandler {
                         .body(fromValue(campaign))
                         .switchIfEmpty(ServerResponse.notFound().build()));
     }
-
-//    public Mono<ServerResponse> createCampaign(final ServerRequest serverRequest) {
-//        final Mono<Campaign> campaignMono = serverRequest.bodyToMono(Campaign.class);
-//        return campaignMono
-//                .flatMap(campaignService::createCampaign)
-//                .flatMap(campaign -> ServerResponse.ok()
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .body(fromValue(campaign))
-//                        .switchIfEmpty(ServerResponse.notFound().build()));
-//    }
-
-    public Mono<ServerResponse> updateCampaign(final ServerRequest serverRequest) {
-        final String id = serverRequest.pathVariable(ID);
-        final Mono<Campaign> campaignMono = serverRequest.bodyToMono(Campaign.class);
-        return campaignMono
-                .flatMap(campaign -> campaignService.updateCampaign(id, campaign))
-                .flatMap(campaign -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(campaign))
-                        .switchIfEmpty(ServerResponse.notFound().build()));
-    }
-
-    public Mono<ServerResponse> getCurrentCampaign(final ServerRequest serverRequest) {
-        return campaignService.getCurrentCampaign()
-                .flatMap(campaign -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(campaign))
-                        .switchIfEmpty(ServerResponse.notFound().build()));
-    }
-
-    public Mono<ServerResponse> setCurrentCampaign(final ServerRequest serverRequest) {
-        return campaignService.setCurrentCampaign(serverRequest.pathVariable(NAME))
-                .flatMap(campaign -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(campaign))
-                        .switchIfEmpty(ServerResponse.notFound().build()));
-    }
 }

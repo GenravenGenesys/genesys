@@ -38,18 +38,4 @@ public class SkillService {
             return sk;
         }).flatMap(skillRepository::save);
     }
-
-    public Mono<List<Skill>> getSkillsForCurrentCampaign() {
-        return campaignRepository.findByCurrent(true)
-                .flatMap(campaign -> Flux.fromIterable(campaign.getSkillIds())
-                        .flatMap(skillRepository::findById)
-                        .collectList());
-    }
-
-    public Mono<Campaign> addSkillToCurrentCampaign(final String skillId) {
-        return campaignRepository.findByCurrent(true).flatMap(existingCampaign -> {
-            existingCampaign.getSkillIds().add(skillId);
-            return campaignRepository.save(existingCampaign);
-        });
-    }
 }

@@ -33,10 +33,10 @@ public class SceneRouter {
                     .GET("/", sceneHandler::getEnemyNemeses)
                     .POST("/", sceneHandler::addEnemyNemesisToScene)
                 )
-                .path("campaigns/scenes/", campaignSceneBuilder -> campaignSceneBuilder
-                    .GET(sceneHandler::getScenesForCurrentCampaign)
-                    .POST(sceneHandler::addSceneToCurrentCampaign)
-                )
+//                .path("campaigns/scenes/", campaignSceneBuilder -> campaignSceneBuilder
+//                    .GET(sceneHandler::getScenesForCurrentCampaign)
+//                    .POST(sceneHandler::addSceneToCurrentCampaign)
+//                )
                 .path("/scenes/{sceneId}/encounters/{encounterId}", sceneEncounterBuilder -> sceneEncounterBuilder
                     .GET("/player-characters", sceneHandler::getPlayerCharacters)
                     .GET("/non-player-characters", sceneHandler::getNonPlayerCharacters)

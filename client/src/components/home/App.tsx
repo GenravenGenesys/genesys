@@ -1,4 +1,4 @@
-import {Navigate, Route, Routes, Outlet } from 'react-router-dom';
+import {Navigate, Route, Routes } from 'react-router-dom';
 import NavBar from '../navigation/NavBar';
 import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
 import {ActorPath, CampaignPath, EquipmentPath, LorePath, RootPath} from '../../services/RootPath';

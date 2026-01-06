@@ -6,17 +6,16 @@
  * OpenAPI spec version: 1.0
  */
 import type { Party } from "./party";
-import type { Session } from "./session";
+import type { CampaignCompendium } from "./campaignCompendium";
 
+/**
+ * The root entity for a VTT Campaign setting
+ */
 export interface Campaign {
   id: string;
   /** @minLength 1 */
   name: string;
   party: Party;
-  sessions: Session[];
-  current: boolean;
-  active: boolean;
-  talentIds: string[];
-  skillIds: string[];
-  sceneIds: string[];
+  /** GM-defined setting bible */
+  compendium?: CampaignCompendium;
 }

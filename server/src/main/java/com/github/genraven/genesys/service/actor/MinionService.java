@@ -28,14 +28,14 @@ public class MinionService {
         });
     }
 
-    public Mono<Minion> createMinion(final String name) {
-        return skillService.getSkillsForCurrentCampaign()
-                .flatMap(skills -> {
-                    final Minion minion = new Minion(name);
-                    minion.setSkills(skills.stream().map(GroupSkill::new).toList());
-                    return minionRepository.save(minion);
-                });
-    }
+//    public Mono<Minion> createMinion(final String name) {
+//        return skillService.getSkillsForCurrentCampaign()
+//                .flatMap(skills -> {
+//                    final Minion minion = new Minion(name);
+//                    minion.setSkills(skills.stream().map(GroupSkill::new).toList());
+//                    return minionRepository.save(minion);
+//                });
+//    }
 
     public Mono<Minion> updateMinion(final String name, final Minion minion) {
         return minionRepository.findById(name).map(min -> {

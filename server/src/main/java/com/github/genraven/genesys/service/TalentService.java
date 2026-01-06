@@ -62,33 +62,4 @@ public class TalentService {
                 .doOnNext(updatedTalent -> log.debug("Updated talent: {}", updatedTalent))
                 .doOnError(error -> log.error("Error updating talent with id: {}", id, error));
     }
-
-    public Mono<List<Talent>> getTalentsForCurrentCampaign() {
-        log.info("Fetching talents for current campaign");
-        return campaignService.getCurrentCampaign()
-                .doOnNext(campaign -> log.debug("Found current campaign: {}", campaign))
-                .flatMap(campaign -> Flux.fromIterable(campaign.getTalentIds())
-                        .flatMap(talentRepository::findById)
-                        .collectList())
-                .doOnNext(talents -> log.debug("Fetched talents for current campaign: {}", talents))
-                .doOnError(error -> log.error("Error fetching talents for current campaign", error));
-    }
-
-    public Mono<Campaign> addTalentToCurrentCampaign(final String talentId) {
-        log.info("Adding talent with ID: {} to current campaign", talentId);
-        return campaignService.getCurrentCampaign().flatMap(existingCampaign -> {
-            existingCampaign.getTalentIds().add(talentId);
-            return campaignService.updateCampaign(existingCampaign.getId(), existingCampaign);
-        }).doOnNext(updatedCampaign -> log.debug("Added talent to current campaign: {}", updatedCampaign))
-                .doOnError(error -> log.error("Error adding talent to current campaign", error));
-    }
-
-    public Mono<List<Talent>> getTalentsForCurrentCampaignByTier(final Talent.Tier tier) {
-        log.info("Fetching talents for current campaign by tier: {}", tier);
-        return getTalentsForCurrentCampaign().flatMap(talents -> {
-            final List<Talent> tierTalents = talents.stream().filter(talent -> talent.getTier() == tier)
-                    .collect(Collectors.toList());
-            return Mono.just(tierTalents);
-        }).doOnNext(tierTalents -> log.debug("Fetched talents for tier {}: {}", tier, tierTalents));
-    }
 }

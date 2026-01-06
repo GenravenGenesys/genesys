@@ -50,13 +50,13 @@ public class NemesisController extends AbstractController {
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{name}")
-    @Operation(summary = "Create a new nemesis", description = "Create a new nemesis with the specified name.")
-    public Mono<ResponseEntity<Nemesis>> createNemesis(@PathVariable final String name) {
-        return nemesisService.createNemesis(name)
-            .flatMap(MapperUtil::mapNemesisToResponse)
-            .map(nemesis -> ResponseEntity.created(getURI(nemesis.getName())).body(nemesis));
-    }
+//    @PostMapping("/{name}")
+//    @Operation(summary = "Create a new nemesis", description = "Create a new nemesis with the specified name.")
+//    public Mono<ResponseEntity<Nemesis>> createNemesis(@PathVariable final String name) {
+//        return nemesisService.createNemesis(name)
+//            .flatMap(MapperUtil::mapNemesisToResponse)
+//            .map(nemesis -> ResponseEntity.created(getURI(nemesis.getName())).body(nemesis));
+//    }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing nemesis", description = "Update the details of an existing nemesis.")

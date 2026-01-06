@@ -50,13 +50,13 @@ public class MinionController extends AbstractController {
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{name}")
-    @Operation(summary = "Create a new minion", description = "Create a new minion with the specified name.")
-    public Mono<ResponseEntity<Minion>> createMinion(@PathVariable final String name) {
-        return minionService.createMinion(name)
-            .flatMap(MapperUtil::mapMinionToResponse)
-            .map(minion -> ResponseEntity.created(getURI(minion.getName())).body(minion));
-    }
+//    @PostMapping("/{name}")
+//    @Operation(summary = "Create a new minion", description = "Create a new minion with the specified name.")
+//    public Mono<ResponseEntity<Minion>> createMinion(@PathVariable final String name) {
+//        return minionService.createMinion(name)
+//            .flatMap(MapperUtil::mapMinionToResponse)
+//            .map(minion -> ResponseEntity.created(getURI(minion.getName())).body(minion));
+//    }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing minion", description = "Update the details of an existing minion.")

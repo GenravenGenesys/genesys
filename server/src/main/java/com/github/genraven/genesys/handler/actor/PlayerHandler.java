@@ -66,11 +66,11 @@ public class PlayerHandler extends BaseHandler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
-    public Mono<ServerResponse> createPlayer(final ServerRequest serverRequest) {
-        return playerService.createPlayer(serverRequest.pathVariable("playerName"))
-                .flatMap(MapperUtil::mapPlayerToResponse)
-                .flatMap(player -> ServerResponse.created(getURI(player.getName())).bodyValue(player));
-    }
+//    public Mono<ServerResponse> createPlayer(final ServerRequest serverRequest) {
+//        return playerService.createPlayer(serverRequest.pathVariable("playerName"))
+//                .flatMap(MapperUtil::mapPlayerToResponse)
+//                .flatMap(player -> ServerResponse.created(getURI(player.getName())).bodyValue(player));
+//    }
 
     public Mono<ServerResponse> updatePlayer(final ServerRequest serverRequest) {
         final String name = serverRequest.pathVariable(NAME);

@@ -40,16 +40,16 @@ public class RivalService {
             .doOnError(err -> log.error("Failed to fetch rival with ID: {}", id, err));
     }
 
-    public Mono<Rival> createRival(final String rivalName) {
-        log.info("Creating new rival with name: {}", rivalName);
-        return skillService.getSkillsForCurrentCampaign()
-            .flatMap(skills -> {
-                final Rival rival = new Rival(rivalName);
-                rival.setSkills(skills.stream().map(ActorSkill::new).toList());
-                log.debug("Constructed rival object: {}", rival);
-                return rivalRepository.save(rival);
-            });
-    }
+//    public Mono<Rival> createRival(final String rivalName) {
+//        log.info("Creating new rival with name: {}", rivalName);
+//        return skillService.getSkillsForCurrentCampaign()
+//            .flatMap(skills -> {
+//                final Rival rival = new Rival(rivalName);
+//                rival.setSkills(skills.stream().map(ActorSkill::new).toList());
+//                log.debug("Constructed rival object: {}", rival);
+//                return rivalRepository.save(rival);
+//            });
+//    }
 
     public Mono<Rival> updateRival(final String id, final Rival rival) {
         log.info("Updating rival with ID: {}", id);

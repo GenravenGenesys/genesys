@@ -22,26 +22,4 @@ import java.util.List;
 public class CampaignSkillController {
 
     private final SkillService skillService;
-
-    @GetMapping("/")
-    @Operation(summary = "Get all skills for current campaign", description = "Retrieve a list of all skills for current campaign.")
-    public Mono<ResponseEntity<List<Skill>>> getSkillsForCurrentCampaign() {
-        return skillService.getSkillsForCurrentCampaign()
-            .map(skills -> {
-                if (CollectionUtils.isEmpty(skills)) {
-                    return ResponseEntity.noContent().build();
-                }
-                return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(skills);
-            });
-    }
-
-    @PostMapping("/{id}")
-    @Operation(summary = "Add Skill to Campaign", description = "Adds a Skill to the current Campaign.")
-    public Mono<ResponseEntity<Campaign>> addSkillToCurrentCampaign(@PathVariable final String id) {
-        return skillService.addSkillToCurrentCampaign(id)
-            .map(campaign -> ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(campaign))
-            .defaultIfEmpty(ResponseEntity.notFound().build());
-    }
 }

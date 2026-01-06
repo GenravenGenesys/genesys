@@ -19,23 +19,4 @@ public class CurrentCampaignController {
 
     private final CampaignService campaignService;
 
-    @GetMapping("/")
-    @Operation(summary = "Get current campaign", description = "Retrieve current campaign.")
-    public Mono<ResponseEntity<Campaign>> getCurrentCampaign() {
-        return campaignService.getCurrentCampaign()
-            .map(campaign -> ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(campaign))
-            .defaultIfEmpty(ResponseEntity.notFound().build());
-    }
-
-    @PutMapping("/{id}")
-    @Operation(summary = "Sets an existing campaign as the current campaign", description = "Update the details of an existing campaign.")
-    public Mono<ResponseEntity<Campaign>> setCurrentCampaign(@PathVariable final String id) {
-        return campaignService.setCurrentCampaign(id)
-            .map(sk -> ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(sk))
-            .defaultIfEmpty(ResponseEntity.notFound().build());
-    }
 }

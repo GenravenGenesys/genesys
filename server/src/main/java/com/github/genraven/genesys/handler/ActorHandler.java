@@ -51,10 +51,10 @@ public class ActorHandler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
-    public Mono<ServerResponse> createNemesis(final ServerRequest serverRequest) {
-        return nemesisService.createNemesis(serverRequest.pathVariable("nemesisName"))
-                .flatMap(nemesis -> ServerResponse.created(getURI(nemesis)).bodyValue(nemesis));
-    }
+//    public Mono<ServerResponse> createNemesis(final ServerRequest serverRequest) {
+//        return nemesisService.createNemesis(serverRequest.pathVariable("nemesisName"))
+//                .flatMap(nemesis -> ServerResponse.created(getURI(nemesis)).bodyValue(nemesis));
+//    }
 
     public Mono<ServerResponse> updateNemesis(final ServerRequest serverRequest) {
         final String name = serverRequest.pathVariable(NAME);
@@ -97,12 +97,6 @@ public class ActorHandler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
-    public Mono<ServerResponse> createRival(final ServerRequest serverRequest) {
-        final String rivalName = serverRequest.pathVariable("rivalName");
-        return rivalService.createRival(rivalName)
-                .flatMap(rival -> ServerResponse.created(getURI(rival)).bodyValue(rival));
-    }
-
     public Mono<ServerResponse> updateRival(final ServerRequest serverRequest) {
         final String id = serverRequest.pathVariable(ID);
         final Mono<Rival> rivalMono = serverRequest.bodyToMono(Rival.class);
@@ -142,12 +136,6 @@ public class ActorHandler {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(fromValue(minion)))
                 .switchIfEmpty(ServerResponse.notFound().build());
-    }
-
-    public Mono<ServerResponse> createMinion(final ServerRequest serverRequest) {
-        final String minionName = serverRequest.pathVariable("minionName");
-        return minionService.createMinion(minionName)
-                .flatMap(minion -> ServerResponse.created(getURI(minion)).bodyValue(minion));
     }
 
     public Mono<ServerResponse> updateMinion(final ServerRequest serverRequest) {

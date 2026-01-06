@@ -4,12 +4,9 @@ import com.github.genraven.genesys.domain.actor.npc.Minion;
 import com.github.genraven.genesys.domain.actor.npc.MinionGroup;
 import com.github.genraven.genesys.domain.actor.npc.Nemesis;
 import com.github.genraven.genesys.domain.actor.npc.Rival;
-import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.domain.campaign.Scene;
-import com.github.genraven.genesys.domain.campaign.Session;
 import com.github.genraven.genesys.domain.campaign.encounter.Character;
 import com.github.genraven.genesys.repository.SceneRepository;
-import com.github.genraven.genesys.util.CampaignUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,19 +44,6 @@ public class SceneService {
             return scene;
         }).flatMap(sceneRepository::save)
                 .doOnNext(scene -> log.debug("Updated scene: {}", scene));
-    }
-
-    public Flux<Scene> getScenesForCurrentCampaign() {
-        return campaignService.getCurrentCampaign()
-                .flatMapMany(campaign -> Flux.fromIterable(campaign.getSceneIds())
-                        .flatMap(sceneRepository::findById));
-    }
-
-    public Mono<Campaign> addSceneToCurrentCampaign(final String sceneId) {
-        return campaignService.getCurrentCampaign().flatMap(existingCampaign -> {
-            existingCampaign.getSceneIds().add(sceneId);
-            return campaignService.updateCampaign(existingCampaign.getId(), existingCampaign);
-        });
     }
 
     public Flux<MinionGroup> getEnemyMinions(final String id) {

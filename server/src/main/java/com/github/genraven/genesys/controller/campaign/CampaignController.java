@@ -2,6 +2,7 @@ package com.github.genraven.genesys.controller.campaign;
 
 import com.github.genraven.genesys.controller.AbstractController;
 import com.github.genraven.genesys.domain.campaign.Campaign;
+import com.github.genraven.genesys.domain.campaign.CampaignCompendium;
 import com.github.genraven.genesys.service.CampaignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,9 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @RestController
 @RequestMapping("/api/campaigns")
@@ -22,6 +26,15 @@ import java.util.List;
 public class CampaignController extends AbstractController {
     
     private final CampaignService campaignService;
+
+    @GetMapping(value = "/{id}/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<CampaignCompendium> streamCompendium(@PathVariable final String id) {
+        Mono<CampaignCompendium> initial = campaignService.getCampaignCompendium(id);
+
+        Flux<CampaignCompendium> updates = campaignService.getCampaignCompendiumUpdates(id);
+
+        return Flux.concat(initial, updates);
+    }
 
     @GetMapping("/")
     @Operation(summary = "Get all campaigns", description = "Retrieve a list of all campaigns.")
@@ -51,15 +64,5 @@ public class CampaignController extends AbstractController {
     public Mono<ResponseEntity<Campaign>> createCampaign(@PathVariable final String name) {
         return campaignService.createCampaign(name)
             .map(campaign -> ResponseEntity.created(getURI(campaign.getName())).body(campaign));
-    }
-
-    @PutMapping("/{id}")
-    @Operation(summary = "Update an existing campaign", description = "Update the details of an existing campaign.")
-    public Mono<ResponseEntity<Campaign>> updateCampaign(@PathVariable final String id, @RequestBody final Campaign campaign) {
-        return campaignService.updateCampaign(id, campaign)
-            .map(sk -> ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(sk))
-            .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }

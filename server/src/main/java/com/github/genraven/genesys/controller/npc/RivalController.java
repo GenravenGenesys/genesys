@@ -50,13 +50,13 @@ public class RivalController extends AbstractController {
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{name}")
-    @Operation(summary = "Create a new rival", description = "Create a new rival with the specified name.")
-    public Mono<ResponseEntity<Rival>> createRival(@PathVariable final String name) {
-        return rivalService.createRival(name)
-            .flatMap(MapperUtil::mapRivalToResponse)
-            .map(rival -> ResponseEntity.created(getURI(rival.getName())).body(rival));
-    }
+//    @PostMapping("/{name}")
+//    @Operation(summary = "Create a new rival", description = "Create a new rival with the specified name.")
+//    public Mono<ResponseEntity<Rival>> createRival(@PathVariable final String name) {
+//        return rivalService.createRival(name)
+//            .flatMap(MapperUtil::mapRivalToResponse)
+//            .map(rival -> ResponseEntity.created(getURI(rival.getName())).body(rival));
+//    }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing rival", description = "Update the details of an existing rival.")
