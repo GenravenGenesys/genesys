@@ -1,6 +1,6 @@
 import {Navigate, Route, Routes} from 'react-router-dom';
 import NavBar from '../navigation/NavBar';
-import {createTheme, ThemeProvider} from '@mui/material';
+import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
 import {ActorPath, CampaignPath, EquipmentPath, LorePath, RootPath} from '../../services/RootPath';
 import AllNemesesView from '../campaign/npc/nemesis/CampaignNemeses';
 import * as React from 'react';
@@ -37,9 +37,31 @@ import FocusedVTT from "./Sample.tsx";
 import CompendiumHome from "./CompendiumSample.tsx";
 import TalentListView from "./SampleTalents.tsx";
 import EquipmentListView from "./EquipmentList.tsx";
+import AdversaryCompendium from "./ViewAllAdvesaries.tsx";
+import SessionManager from "./SessionManager.tsx";
+import EncounterManager from "./EncounterManager.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
+
+    const theme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: { main: '#00e5ff' },
+            background: { default: '#050c14', paper: '#0a1929' },
+        },
+        components: {
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: 20,
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(12px)',
+                    },
+                },
+            },
+        },
+    });
 
     if (isLoading) {
         return (
@@ -49,7 +71,8 @@ export const App: React.FC = () => {
         );
     }
     return (
-        <ThemeProvider theme={createTheme({palette: {mode: 'dark'}})}>
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
             <NavBar/>
             <Routes>
                 <Route
@@ -72,6 +95,8 @@ export const App: React.FC = () => {
                 <Route path={"/comp"} element={<CompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>
                 <Route path={"/sample/equipment"} element={<EquipmentListView/>}/>
+                <Route path={"/sample/adversaries"} element={<AdversaryCompendium/>}/>
+                <Route path={"/sample/session"} element={<SessionManager/>}/>
 
                 <Route path={RootPath.Injury} element={<InjuryWorkflow/>}/>
                 <Route path={RootPath.Injury + ':id/view'} element={<InjuryWorkflow/>}/>
