@@ -6,7 +6,7 @@ import {
     type Characteristic,
     CharacteristicType,
     type Skill,
-    type Stats
+    type Stats,
 } from "../../api/model";
 
 export default interface Actor {

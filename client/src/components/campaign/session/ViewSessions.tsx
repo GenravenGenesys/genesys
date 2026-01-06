@@ -1,5 +1,4 @@
-import Campaign from "../../../models/campaign/Campaign";
-import React, {useState} from "react";
+import {useState} from "react";
 import {Button, Card, CardContent, Table, TableContainer, TableFooter} from "@mui/material";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import Paper from "@mui/material/Paper";
@@ -7,11 +6,11 @@ import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import AddIcon from "@mui/icons-material/Add";
-import CampaignSession from "../../../models/campaign/CampaignSession";
 import {RootPath} from "../../../services/RootPath";
 import TextFieldTableCell from "../../common/table/TextFieldTableCell";
 import CampaignService from "../../../services/CampaignService";
 import SingleActionTableCell from "../../common/table/actions/SingleActionTableCell";
+import type {Campaign, Session} from "../../../api/model";
 
 interface Props {
     camp: Campaign
@@ -29,10 +28,10 @@ export default function ViewSessions(props: Props) {
                 name: 'new',
                 party: campaign.party,
                 active: false,
-                scenes: [],
+                sceneIds: [],
                 player: 0,
                 gm: 0
-            } as CampaignSession]
+            } as Session]
         });
     };
 

@@ -1,7 +1,6 @@
-import {Button, Card, CardActions, CardContent, CardHeader} from "@mui/material";
+import {Alert, Button, Card, CardActions, CardContent, CardHeader, CircularProgress} from "@mui/material";
 import * as React from "react";
-import {useFetchCurrentCampaign} from "../campaign/CampaignWorkflow";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import GenesysSystemDashboard from "./MainDashboard";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -16,14 +15,49 @@ import Tab from "@mui/material/Tab";
 import ViewScenes from "../campaign/scene/ViewScenes";
 import GridContainer from "../common/grid/GridContainer";
 import FullGrid from "../common/grid/FullGrid";
+import {
+    getCurrentCampaignController
+} from "../../api/generated/current-campaign-controller/current-campaign-controller.ts";
+import type {Campaign} from "../../api/model";
 
 export default function HomeCampaignDashboard() {
-    const campaign = useFetchCurrentCampaign();
+    const [campaign, setCampaign] = useState<Campaign | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [value, setValue] = useState('1');
     const [openCampaignSelectionDialog, setOpenCampaignSelectionDialog] = useState(false);
     const [openCampaignCreationDialog, setOpenCampaignCreationDialog] = useState(false);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await getCurrentCampaignController().getCurrentCampaign();
+                setCampaign(response);
+            } catch (err) {
+                setError('Failed to load injury.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                {error}
+            </Alert>
+        );
+    }
+
+    const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     }
 
@@ -54,23 +88,23 @@ export default function HomeCampaignDashboard() {
                         <GridContainer centered>
                             <TabList onChange={handleChange} centered>
                                 <Tab label="Genesys System Defaults" value="1"/>
-                                <Tab label="Campaign Information" value="2"/>
-                                <Tab label="Party Information" value="3"/>
-                                <Tab label="Session Management" value="4"/>
-                                <Tab label="Scene Management" value="5"/>
+                                <Tab label="Campaign Information" value="2" disabled={!campaign}/>
+                                <Tab label="Party Information" value="3" disabled={!campaign}/>
+                                <Tab label="Session Management" value="4" disabled={!campaign}/>
+                                <Tab label="Scene Management" value="5" disabled={!campaign}/>
                             </TabList>
                         </GridContainer>
                         <TabPanel value="1">
                             <GenesysSystemDashboard/>
                         </TabPanel>
                         <TabPanel value="2">
-                            <CampaignPage campaign={campaign}/>
+                            {campaign && <CampaignPage campaign={campaign}/>}
                         </TabPanel>
                         <TabPanel value="3">
                             <ViewAllPlayers/>
                         </TabPanel>
                         <TabPanel value="4">
-                            <ViewSessions camp={campaign}/>
+                            {campaign && <ViewSessions camp={campaign}/>}
                         </TabPanel>
                         <TabPanel value="5">
                             <ViewScenes/>

@@ -6,14 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-/**
- * Actor type
- */
-export type CharacterResponseType =
-  (typeof CharacterResponseType)[keyof typeof CharacterResponseType];
+export type ActorType = (typeof ActorType)[keyof typeof ActorType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const CharacterResponseType = {
+export const ActorType = {
   Minion: "Minion",
   Rival: "Rival",
   Nemesis: "Nemesis",

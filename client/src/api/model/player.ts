@@ -5,47 +5,21 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { PlayerType } from "./playerType";
-import type { Characteristic } from "./characteristic";
-import type { Stats } from "./stats";
-import type { ActorWeapon } from "./actorWeapon";
-import type { ActorArmor } from "./actorArmor";
-import type { Error } from "./error";
-import type { Experience } from "./experience";
-import type { Career } from "./career";
-import type { Archetype } from "./archetype";
-import type { ActorTalent } from "./actorTalent";
-import type { PlayerSkill } from "./playerSkill";
-import type { CriticalInjury } from "./criticalInjury";
+import type { Actor } from "./actor";
+import type { PlayerAllOf } from "./playerAllOf";
 
-export interface Player {
-  id: string;
-  /** @minLength 1 */
-  name: string;
-  type: PlayerType;
-  brawn: Characteristic;
-  agility: Characteristic;
-  intellect: Characteristic;
-  cunning: Characteristic;
-  willpower: Characteristic;
-  presence: Characteristic;
-  wounds: Stats;
-  /** @minimum 0 */
-  soak: number;
-  /** @minimum 0 */
-  melee: number;
-  /** @minimum 0 */
-  ranged: number;
-  weapons: ActorWeapon[];
-  armors: ActorArmor[];
-  errors?: Error[];
-  strain: Stats;
-  encumbrance: number;
-  experience: Experience;
-  career: Career;
-  archetype: Archetype;
-  talents: ActorTalent[];
-  skills: PlayerSkill[];
-  injuries: CriticalInjury[];
-  creation?: boolean;
-}
+export type Player = Actor &
+  PlayerAllOf &
+  Required<
+    Pick<
+      Actor & PlayerAllOf,
+      | "archetype"
+      | "career"
+      | "encumbrance"
+      | "experience"
+      | "injuries"
+      | "skills"
+      | "strain"
+      | "talents"
+    >
+  >;

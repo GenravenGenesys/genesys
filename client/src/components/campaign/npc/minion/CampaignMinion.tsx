@@ -7,25 +7,21 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Fragment, useEffect, useState } from 'react';
-import * as React from 'react';
-import MinionService from '../../../../services/actor/MinionService'
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
-import Minion from "../../../../models/actor/npc/Minion";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
-import {ActorType} from "../../../../models/actor/Actor";
 import {ActorPath} from "../../../../services/RootPath";
 import CreateActorDialog from "../../actor/common/CreateActorDialog";
-import {useFetchCurrentCampaign} from "../../CampaignWorkflow";
+import type {Minion} from "../../../../api/model";
 
 interface Props {
-    minion: Minion
+    minion: Minion;
 }
 
 function Row(props: Props) {
-    const { minion } = props
-    const [open, setOpen] = useState(false)
+    const { minion } = props;
+    const [open, setOpen] = useState(false);
 
     return (
         <Fragment>

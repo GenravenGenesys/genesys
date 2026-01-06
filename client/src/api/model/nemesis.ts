@@ -5,47 +5,21 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { NemesisType } from "./nemesisType";
-import type { Characteristic } from "./characteristic";
-import type { Stats } from "./stats";
-import type { ActorWeapon } from "./actorWeapon";
-import type { ActorArmor } from "./actorArmor";
-import type { Error } from "./error";
-import type { ActorTalent } from "./actorTalent";
-import type { Ability } from "./ability";
-import type { ActorSkill } from "./actorSkill";
-import type { CriticalInjury } from "./criticalInjury";
+import type { Actor } from "./actor";
+import type { NemesisAllOf } from "./nemesisAllOf";
 
-export interface Nemesis {
-  id: string;
-  /** @minLength 1 */
-  name: string;
-  type: NemesisType;
-  brawn: Characteristic;
-  agility: Characteristic;
-  intellect: Characteristic;
-  cunning: Characteristic;
-  willpower: Characteristic;
-  presence: Characteristic;
-  wounds: Stats;
-  /** @minimum 0 */
-  soak: number;
-  /** @minimum 0 */
-  melee: number;
-  /** @minimum 0 */
-  ranged: number;
-  weapons: ActorWeapon[];
-  armors: ActorArmor[];
-  errors?: Error[];
-  /** @minimum 1 */
-  combat: number;
-  /** @minimum 1 */
-  social: number;
-  /** @minimum 1 */
-  general: number;
-  talents: ActorTalent[];
-  abilities: Ability[];
-  skills: ActorSkill[];
-  strain: Stats;
-  injuries: CriticalInjury[];
-}
+export type Nemesis = Actor &
+  NemesisAllOf &
+  Required<
+    Pick<
+      Actor & NemesisAllOf,
+      | "abilities"
+      | "combat"
+      | "general"
+      | "injuries"
+      | "skills"
+      | "social"
+      | "strain"
+      | "talents"
+    >
+  >;

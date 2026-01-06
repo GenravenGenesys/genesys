@@ -1,6 +1,12 @@
 package com.github.genraven.genesys.domain.actor;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.genraven.genesys.domain.actor.npc.Minion;
+import com.github.genraven.genesys.domain.actor.npc.Nemesis;
+import com.github.genraven.genesys.domain.actor.npc.Rival;
+import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.error.Error;
 import com.github.genraven.genesys.validator.EnumValidator;
 
@@ -17,6 +23,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type"
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Player.class, name = "Player"),
+    @JsonSubTypes.Type(value = Nemesis.class, name = "Nemesis"),
+    @JsonSubTypes.Type(value = Rival.class, name = "Rival"),
+    @JsonSubTypes.Type(value = Minion.class, name = "Minion")
+})
+@Schema(subTypes = { Player.class, Nemesis.class, Rival.class, Minion.class })
 public class Actor {
 
     protected Actor() {

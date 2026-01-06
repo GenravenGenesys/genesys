@@ -5,46 +5,20 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { RivalType } from "./rivalType";
-import type { Characteristic } from "./characteristic";
-import type { Stats } from "./stats";
-import type { ActorWeapon } from "./actorWeapon";
-import type { ActorArmor } from "./actorArmor";
-import type { Error } from "./error";
-import type { ActorTalent } from "./actorTalent";
-import type { Ability } from "./ability";
-import type { ActorSkill } from "./actorSkill";
-import type { CriticalInjury } from "./criticalInjury";
+import type { Actor } from "./actor";
+import type { RivalAllOf } from "./rivalAllOf";
 
-export interface Rival {
-  id: string;
-  /** @minLength 1 */
-  name: string;
-  type: RivalType;
-  brawn: Characteristic;
-  agility: Characteristic;
-  intellect: Characteristic;
-  cunning: Characteristic;
-  willpower: Characteristic;
-  presence: Characteristic;
-  wounds: Stats;
-  /** @minimum 0 */
-  soak: number;
-  /** @minimum 0 */
-  melee: number;
-  /** @minimum 0 */
-  ranged: number;
-  weapons: ActorWeapon[];
-  armors: ActorArmor[];
-  errors?: Error[];
-  /** @minimum 1 */
-  combat: number;
-  /** @minimum 1 */
-  social: number;
-  /** @minimum 1 */
-  general: number;
-  talents: ActorTalent[];
-  abilities: Ability[];
-  skills: ActorSkill[];
-  injuries: CriticalInjury[];
-}
+export type Rival = Actor &
+  RivalAllOf &
+  Required<
+    Pick<
+      Actor & RivalAllOf,
+      | "abilities"
+      | "combat"
+      | "general"
+      | "injuries"
+      | "skills"
+      | "social"
+      | "talents"
+    >
+  >;

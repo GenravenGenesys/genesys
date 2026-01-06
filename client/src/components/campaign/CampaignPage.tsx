@@ -1,4 +1,3 @@
-import type Campaign from "../../models/campaign/Campaign";
 import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
@@ -21,6 +20,7 @@ import GridContainer from "../common/grid/GridContainer";
 import CenteredCardHeader from "../common/card/header/CenteredCardHeader";
 import FullGrid from "../common/grid/FullGrid";
 import ViewCampaignScenes from "./scene/ViewCampaignScenes";
+import type {Campaign} from "../../api/model";
 
 interface Props {
     campaign: Campaign;

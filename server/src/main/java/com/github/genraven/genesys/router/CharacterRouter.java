@@ -29,39 +29,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @Configuration
 public class CharacterRouter {
 
-    @RouterOperations({
-        @RouterOperation(
-            path = API + CHARACTERS + PLAYERS,
-            produces = {
-                MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET,
-            beanClass = CharacterHandler.class,
-            beanMethod = "getPlayer",
-            operation = @Operation(
-                operationId = "getPlayer",
-                summary = "Get all player characters",
-                tags = {"Character"},
-                requestBody = @RequestBody(
-                    description = "List of Player objects to transform",
-                    required = true,
-                    content = @Content(
-                        array = @ArraySchema(
-                            schema = @Schema(
-                                implementation = Player.class)),
-                        mediaType = MediaType.APPLICATION_JSON_VALUE)),
-                responses = {
-                    @ApiResponse(
-                        responseCode = "200",
-                        description = "Successful retrieval of players",
-                        content = @Content(
-                            array = @ArraySchema(
-                                schema = @Schema(
-                                    implementation = CharacterResponse.class)))),
-                    @ApiResponse(
-                        responseCode = "204",
-                        description = "No Players Found")
-                }))
-    })
     @Bean
     RouterFunction<ServerResponse> characterRouterMethod(final CharacterHandler handler) {
         return RouterFunctions.route()

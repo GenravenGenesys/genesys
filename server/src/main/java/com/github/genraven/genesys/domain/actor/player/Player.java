@@ -16,6 +16,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Document(collection = "players")
+@Schema(allOf = { Actor.class })
 public class Player extends Actor {
 
     protected Player() {

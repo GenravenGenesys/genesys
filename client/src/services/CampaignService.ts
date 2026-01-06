@@ -27,8 +27,4 @@ export default class CampaignService {
     static async getCurrentCampaign(): Promise<Campaign> {
         return apiRequest(CampaignPath.Current);
     };
-
-    static async setCurrentCampaign(campaign_id: string): Promise<Campaign> {
-        return apiRequest(CampaignPath.Current + `${campaign_id}`, "PUT");
-    };
 }
