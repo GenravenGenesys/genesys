@@ -11,11 +11,11 @@ import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
-import {ActorType} from "../../../../models/actor/Actor";
 import NonPlayerCharacterEncounterTable from "./NonPlayerCharacterEncounterTable";
 import {MinionGroup} from "../../../../models/actor/npc/Minion";
 import Rival from "../../../../models/actor/npc/Rival";
 import GridContainer from "../../../common/grid/GridContainer";
+import {ActorType} from "../../../../api/model";
 
 interface Props {
     open: boolean;

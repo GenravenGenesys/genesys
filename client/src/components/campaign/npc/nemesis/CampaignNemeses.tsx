@@ -7,17 +7,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Fragment, useEffect, useState} from 'react';
-import * as React from 'react';
-import Nemesis from "../../../../models/actor/npc/Nemesis";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import {Button, Card, CardContent, CardHeader} from "@mui/material";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
-import {ActorType} from "../../../../models/actor/Actor";
 import {ActorPath} from "../../../../services/RootPath";
 import CreateActorDialog from "../../actor/common/CreateActorDialog";
 import {useFetchCurrentCampaign} from "../../CampaignWorkflow";
 import NemesisService from "../../../../services/actor/NemesisService";
+import {ActorType, type Nemesis} from "../../../../api/model";
 
 interface Props {
     nemesis: Nemesis

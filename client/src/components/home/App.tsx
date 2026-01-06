@@ -32,6 +32,11 @@ import {AuthenticationGuard} from "../../auth/AuthenticationGuard";
 import {AdminPage} from "../../auth/AdminPage";
 import ProfilePage from "../../auth/ProfilePage";
 import CallbackPage from "../../auth/CallBackPage";
+import VTTDashboard from "./Sample.tsx";
+import FocusedVTT from "./Sample.tsx";
+import CompendiumHome from "./CompendiumSample.tsx";
+import TalentListView from "./SampleTalents.tsx";
+import EquipmentListView from "./EquipmentList.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -63,6 +68,10 @@ export const App: React.FC = () => {
                 <Route path="/callback" element={<CallbackPage />} />
                 <Route path="/" element={<Navigate replace to="/home"/>}/>
                 <Route path={RootPath.Home} element={<HomeCampaignDashboard/>}/>
+                <Route path={"/sample"} element={<FocusedVTT/>}/>
+                <Route path={"/comp"} element={<CompendiumHome/>}/>
+                <Route path={"/sample/talents"} element={<TalentListView/>}/>
+                <Route path={"/sample/equipment"} element={<EquipmentListView/>}/>
 
                 <Route path={RootPath.Injury} element={<InjuryWorkflow/>}/>
                 <Route path={RootPath.Injury + ':id/view'} element={<InjuryWorkflow/>}/>

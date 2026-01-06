@@ -14,11 +14,11 @@ import ActionsTableCell from "../../../common/table/actions/ActionsTableCell";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import {Card, CardContent} from "@mui/material";
-import {ActorType} from "../../../../models/actor/Actor";
 import {useFetchCurrentCampaign} from "../../CampaignWorkflow";
 import {ActorPath} from "../../../../services/RootPath";
 import CreateActorDialog from "../../actor/common/CreateActorDialog";
 import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
+import {ActorType} from "../../../../api/model";
 
 interface Props {
     rival: Rival

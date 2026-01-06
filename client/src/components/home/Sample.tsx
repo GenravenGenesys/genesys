@@ -1,0 +1,137 @@
+import React, { useState } from 'react';
+import {
+    Box, CssBaseline, AppBar, Toolbar, Typography,
+    Grid2 as Grid, Card, CardContent, Button,
+    ThemeProvider, createTheme, Tabs, Tab,
+    Divider, Chip, Paper
+} from '@mui/material';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import AddIcon from '@mui/icons-material/Add';
+import SettingsIcon from '@mui/icons-material/Settings';
+import PeopleIcon from '@mui/icons-material/People';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import {useNavigate} from "react-router";
+
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+        primary: { main: '#00e5ff' },
+        background: { default: '#050c14', paper: '#0a1929' },
+    },
+    components: {
+        MuiCard: {
+            styleOverrides: {
+                root: {
+                    borderRadius: 20,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(12px)',
+                },
+            },
+        },
+    },
+});
+
+export default function FocusedVTT() {
+    const [selectedCampaign, setSelectedCampaign] = useState(0);
+    const navigate = useNavigate();
+
+    // Mock data representing your MongoDB objects
+    const campaigns = [
+        { id: 1, name: "Twilight Imperium", setting: "Custom Space Opera", players: 5, items: 28 },
+        { id: 2, name: "The Frozen Wastes", setting: "Grimdark Fantasy", players: 3, items: 12 },
+        { id: 3, name: "Neo-Tokyo 2099", setting: "Cyberpunk", players: 4, items: 45 }
+    ];
+
+    const current = campaigns[selectedCampaign];
+
+    return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Box sx={{ flexGrow: 1, minHeight: '100vh', pb: 10 }}>
+
+                {/* 1. CAMPAIGN SELECTOR (Top Navigation) */}
+                <AppBar position="sticky" sx={{ bgcolor: 'rgba(5, 12, 20, 0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                    <Toolbar sx={{ justifyContent: 'space-between' }}>
+                        <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main' }}>GENESYS ENGINE</Typography>
+
+                        <Tabs
+                            value={selectedCampaign}
+                            onChange={(_, v) => setSelectedCampaign(v)}
+                            textColor="primary"
+                            indicatorColor="primary"
+                            sx={{ '& .MuiTab-root': { fontWeight: 'bold', px: 4 } }}
+                        >
+                            {campaigns.map((c) => <Tab key={c.id} label={c.name} />)}
+                        </Tabs>
+
+                        <Button variant="outlined" startIcon={<AddIcon />} size="small">New</Button>
+                    </Toolbar>
+                </AppBar>
+
+                {/* 2. FOCUSED CAMPAIGN VIEW */}
+                <Box sx={{ p: { xs: 2, md: 6 }, maxWidth: 1200, mx: 'auto' }}>
+
+                    {/* Main Hero Section */}
+                    <Grid container spacing={4}>
+                        <Grid size={{ xs: 12 }}>
+                            <Paper sx={{
+                                p: 6,
+                                borderRadius: 8,
+                                background: 'linear-gradient(180deg, rgba(0, 229, 255, 0.08) 0%, rgba(10, 25, 41, 0) 100%)',
+                                textAlign: 'center',
+                                border: '1px solid rgba(0, 229, 255, 0.2)'
+                            }}>
+                                <Chip label={current.setting.toUpperCase()} color="primary" variant="outlined" sx={{ mb: 2, letterSpacing: 2 }} />
+                                <Typography variant="h2" sx={{ fontWeight: 900, mb: 2 }}>{current.name}</Typography>
+                                <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>Active Session Ready</Typography>
+
+                                <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+                                    <Button variant="contained" size="large" startIcon={<PlayArrowIcon />} sx={{ px: 8, py: 2, borderRadius: 4, fontWeight: 'bold' }}>
+                                        Launch VTT
+                                    </Button>
+                                    <Button variant="outlined" size="large" startIcon={<SettingsIcon />} sx={{ borderRadius: 4 }}>
+                                        Rules & Settings
+                                    </Button>
+                                </Box>
+                            </Paper>
+                        </Grid>
+
+                        {/* Campaign-Specific Sub-Items */}
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <Card>
+                                <CardContent sx={{ textAlign: 'center', py: 4 }}>
+                                    <PeopleIcon sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
+                                    <Typography variant="h4">{current.players}</Typography>
+                                    <Typography variant="body2" color="text.secondary">Players in Lobby</Typography>
+                                    <Button sx={{ mt: 2 }}>Invite Players</Button>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <Card>
+                                <CardContent sx={{ textAlign: 'center', py: 4 }}>
+                                    <LibraryBooksIcon sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
+                                    <Typography variant="h4">{current.items}</Typography>
+                                    <Typography variant="body2" color="text.secondary">Custom Library Items</Typography>
+                                    <Button sx={{ mt: 2 }} onClick={() => navigate("/comp")}>Open Compendium</Button>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <Card>
+                                <CardContent sx={{ textAlign: 'center', py: 4 }}>
+                                    <Typography variant="h4">06 Jan 2026</Typography>
+                                    <Typography variant="body2" color="text.secondary">Next Session Date</Typography>
+                                    <Button sx={{ mt: 2 }}>Schedule</Button>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                    </Grid>
+                </Box>
+            </Box>
+        </ThemeProvider>
+    );
+}

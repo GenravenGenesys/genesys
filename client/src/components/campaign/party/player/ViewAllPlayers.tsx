@@ -10,10 +10,9 @@ import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import {Alert, Card, CardContent, CircularProgress} from "@mui/material";
 import CreateActorDialog from "../../actor/common/CreateActorDialog";
-import {ActorType} from "../../../../models/actor/Actor";
 import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
 import {useFetchAllPlayers} from "../../../../hooks/useFetchAllPlayers.ts";
-import type {Player} from "../../../../api/model";
+import {ActorType, type Player} from "../../../../api/model";
 
 export default function ViewAllPlayers() {
     const [openActorCreationDialog, setOpenActorCreationDialog] = useState(false);
