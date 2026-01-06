@@ -1,15 +1,14 @@
 import { Dialog, DialogContentText, Divider, MenuItem, Select, TextField } from "@mui/material";
 import {type ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router";
-import MinionService from "../../../../services/actor/MinionService";
 import { ActorPath } from "../../../../services/RootPath";
-import { ActorType } from "../../../../models/actor/Actor";
 import GenesysDialogActions from "../../../common/dialog/GenesysDialogActions";
-import RivalService from "../../../../services/actor/RivalService";
-import NemesisService from "../../../../services/actor/NemesisService";
 import CenteredDialogTitle from "../../../common/dialog/CenteredDialogTitle";
 import {getPlayerController} from "../../../../api/generated/player-controller/player-controller.ts";
-import {useFetchCurrentCampaign} from "../../../../hooks/campaign/useFetchCurrentCampaign.ts";
+import {getNemesisController} from "../../../../api/generated/nemesis-controller/nemesis-controller.ts";
+import {getRivalController} from "../../../../api/generated/rival-controller/rival-controller.ts";
+import {getMinionController} from "../../../../api/generated/minion-controller/minion-controller.ts";
+import {ActorType} from "../../../../api/model";
 
 interface Props {
     open: boolean;
@@ -22,20 +21,19 @@ const CreateActorDialog = (props: Props) => {
     const [name, setName] = useState('');
     const [type, setType] = useState<ActorType>(actorType);
     const navigate = useNavigate();
-    const {campaign} = useFetchCurrentCampaign();
 
     const handleCreate = async (): Promise<void> => {
         switch (type) {
             case ActorType.Minion:
-                const minion = await MinionService.createMinion(campaign.id, name);
+                const minion = await getMinionController().createMinion(name);
                 navigate(ActorPath.Minion + minion.id + '/edit');
                 break
             case ActorType.Rival:
-                const rival = await RivalService.createRival(campaign.id, name);
+                const rival = await getRivalController().createRival(name);
                 navigate(ActorPath.Rival + rival.id + '/edit');
                 break
             case ActorType.Nemesis:
-                const nemesis = await NemesisService.createNemesis(campaign.id, name);
+                const nemesis = await getNemesisController().createNemesis(name);
                 navigate(ActorPath.Nemesis + nemesis.id + '/edit');
                 break
             case ActorType.Player:

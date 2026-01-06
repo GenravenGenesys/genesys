@@ -13,7 +13,7 @@ import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import {ActorPath} from "../../../../services/RootPath";
 import CreateActorDialog from "../../actor/common/CreateActorDialog";
-import type {Minion} from "../../../../api/model";
+import {ActorType, type Minion} from "../../../../api/model";
 
 interface Props {
     minion: Minion;
@@ -48,7 +48,6 @@ function Row(props: Props) {
 export default function CampaignMinion() {
     const [minions, setMinions] = useState<Minion[]>([]);
     const [openActorCreationDialog, setOpenActorCreationDialog] = useState(false);
-    const campaign = useFetchCurrentCampaign();
     const headers = ['Name', 'View'];
 
     useEffect(() => {
