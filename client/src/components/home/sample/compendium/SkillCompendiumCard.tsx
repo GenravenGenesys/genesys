@@ -1,0 +1,80 @@
+import {
+    Box,
+    Button, Card,
+    CardContent,
+    Chip,
+    Divider,
+    Grid2,
+    IconButton,
+    List,
+    ListItem,
+    ListItemText,
+    Typography
+} from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import AddIcon from "@mui/icons-material/Add";
+import SkillIcon from "@mui/icons-material/Psychology";
+import type {Skill} from "../../../../api/model";
+import {renderSkillName} from "../../../common/skill/SkillRenders.tsx";
+
+interface Props {
+    skills: Skill[];
+}
+
+export default function SkillCompendiumCard(props: Props) {
+    const {skills} = props;
+    const color = "#00e5ff";
+
+    return (
+        <Grid2 size={{xs: 12, md: 6, lg: 3}} key={"Skills"}>
+            <Card sx={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                borderTop: `4px solid ${color}`,
+                transition: 'transform 0.2s',
+                '&:hover': {transform: 'translateY(-4px)'}
+            }}>
+                <CardContent sx={{flexGrow: 1}}>
+                    <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 2}}>
+                        <Box sx={{
+                            p: 1,
+                            borderRadius: 2,
+                            bgcolor: `${color}22`,
+                            color: color,
+                            display: 'flex'
+                        }}>
+                            <SkillIcon/>
+                        </Box>
+                        <Chip label={`${skills.length} Items`} size="small"/>
+                    </Box>
+
+                    <Typography variant="h5" fontWeight="bold" gutterBottom>
+                        Skills
+                    </Typography>
+
+                    <Divider sx={{my: 1.5, opacity: 0.1}}/>
+
+                    <List dense>
+                        {skills.map(item => (
+                            <ListItem key={item.id} disablePadding sx={{py: 0.5}}>
+                                <ListItemText
+                                    primary={renderSkillName(item)}
+                                />
+                            </ListItem>
+                        ))}
+                    </List>
+                </CardContent>
+
+                <Box sx={{p: 2, display: 'flex', gap: 1}}>
+                    <Button fullWidth variant="outlined" size="small" startIcon={<OpenInNewIcon/>}>
+                        View All
+                    </Button>
+                    <IconButton color="primary" size="small" sx={{border: '1px solid'}}>
+                        <AddIcon/>
+                    </IconButton>
+                </Box>
+            </Card>
+        </Grid2>
+    );
+}

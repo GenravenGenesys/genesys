@@ -12,6 +12,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import {useNavigate} from "react-router";
 import type {Campaign} from "../../../api/model";
+import {RootPath} from "../../../services/RootPath.ts";
 
 interface Props {
     campaigns: Campaign[];
@@ -69,10 +70,10 @@ export default function FocusedVTT(props: Props) {
                                         sx={{px: 8, py: 2, borderRadius: 4, fontWeight: 'bold'}}>
                                     Launch VTT
                                 </Button>
-                                <Button variant="outlined" size="large" startIcon={<SettingsIcon/>}
-                                        sx={{borderRadius: 4}}>
-                                    Rules & Settings
-                                </Button>
+                                {/*<Button variant="outlined" size="large" startIcon={<SettingsIcon/>}*/}
+                                {/*        sx={{borderRadius: 4}}>*/}
+                                {/*    Rules & Settings*/}
+                                {/*</Button>*/}
                             </Box>
                         </Paper>
                     </Grid>
@@ -92,7 +93,8 @@ export default function FocusedVTT(props: Props) {
                             <CardContent sx={{textAlign: 'center', py: 4}}>
                                 <LibraryBooksIcon sx={{fontSize: 40, color: 'primary.main'}}/>
                                 <Typography variant="h4">{"Custom Files"}</Typography>
-                                <Button onClick={() => navigate("/comp")}>Open Compendium</Button>
+                                <Button onClick={() => navigate(RootPath.Campaign + current.id + "/compendium")}>Open
+                                    Compendium</Button>
                             </CardContent>
                         </Card>
                     </Grid>

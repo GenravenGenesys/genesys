@@ -2,6 +2,7 @@ package com.github.genraven.genesys.domain.campaign;
 
 import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
+import com.github.genraven.genesys.domain.skill.Skill;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,15 +17,15 @@ import java.util.List;
 @AllArgsConstructor
 public class CampaignCompendium {
 
-    @Schema(description = "Custom species or archetypes")
-    private List<Archetype> archetypes;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Custom species or archetypes")
+    private List<Archetype> archetypes = List.of();
 
-    @Schema(description = "Custom careers and career skills")
-    private List<Career> careers;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Custom careers and career skills")
+    private List<Career> careers = List.of();
 
-//    @Schema(description = "Setting-specific skills")
-//    private List<SkillTemplate> skills;
-//
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Setting-specific skills")
+    private List<Skill> skills = List.of();
+
 //    @Schema(description = "Setting-specific gear and weapons")
 //    private List<ItemTemplate> items;
 }

@@ -8,7 +8,8 @@ export enum RootPath {
     Career = '/careers/',
     Archetype = '/archetypes/',
     Scenes = '/scenes/',
-    Session = '/sessions/'
+    Session = '/sessions/',
+    Campaign = '/campaigns/',
 }
 
 export enum EquipmentPath {

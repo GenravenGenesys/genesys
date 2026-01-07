@@ -1,4 +1,4 @@
-import {Navigate, Route, Routes } from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import NavBar from '../navigation/NavBar';
 import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
 import {ActorPath, CampaignPath, EquipmentPath, LorePath, RootPath} from '../../services/RootPath';
@@ -32,13 +32,14 @@ import {AuthenticationGuard} from "../../auth/AuthenticationGuard";
 import {AdminPage} from "../../auth/AdminPage";
 import ProfilePage from "../../auth/ProfilePage";
 import CallbackPage from "../../auth/CallBackPage";
-import CompendiumHome from "./sample/CompendiumSample.tsx";
+import SampleCompendiumHome from "./sample/CompendiumSample.tsx";
 import TalentListView from "./sample/SampleTalents.tsx";
 import EquipmentListView from "./sample/EquipmentList.tsx";
 import AdversaryCompendium from "./sample/ViewAllAdvesaries.tsx";
 import SessionManager from "./sample/SessionManager.tsx";
 import CharacterCreator from "./sample/PlayerCreation.tsx";
 import CampaignDashboardPage from "./sample/HomeDashboard.tsx";
+import CompendiumHome from "./sample/compendium/CompendiumHome.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -46,8 +47,8 @@ export const App: React.FC = () => {
     const theme = createTheme({
         palette: {
             mode: 'dark',
-            primary: { main: '#00e5ff' },
-            background: { default: '#050c14', paper: '#0a1929' },
+            primary: {main: '#00e5ff'},
+            background: {default: '#050c14', paper: '#0a1929'},
         },
         components: {
             MuiCard: {
@@ -65,7 +66,7 @@ export const App: React.FC = () => {
     if (isLoading) {
         return (
             <div className="page-layout">
-                <PageLoader />
+                <PageLoader/>
             </div>
         );
     }
@@ -77,7 +78,7 @@ export const App: React.FC = () => {
             <Routes>
                 <Route
                     path="/profile"
-                    element={<AuthenticationGuard component={ProfilePage} />}
+                    element={<AuthenticationGuard component={ProfilePage}/>}
                 />
                 {/*<Route path="/public" element={<PublicPage />} />*/}
                 {/*<Route*/}
@@ -86,14 +87,14 @@ export const App: React.FC = () => {
                 {/*/>*/}
                 <Route
                     path="/admin"
-                    element={<AuthenticationGuard component={AdminPage} />}
+                    element={<AuthenticationGuard component={AdminPage}/>}
                 />
-                <Route path="/callback" element={<CallbackPage />} />
-                <Route path="/" element={<Navigate replace to={"/" + "sample"}/>}/>
-                {/*<Route path={RootPath.Home} element={<HomeCampaignDashboard/>}/>*/}
+                <Route path="/callback" element={<CallbackPage/>}/>
+                <Route path="/" element={<Navigate replace to={"/" + RootPath.Home}/>}/>
+                <Route path={RootPath.Home} element={<CampaignDashboardPage/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium"} element={<CompendiumHome/>}/>
 
-                <Route path={"/sample"} element={<CampaignDashboardPage/>}/>
-                <Route path={"/comp"} element={<CompendiumHome/>}/>
+                <Route path={"/sample/comp"} element={<SampleCompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>
                 <Route path={"/sample/equipment"} element={<EquipmentListView/>}/>
                 <Route path={"/sample/adversaries"} element={<AdversaryCompendium/>}/>

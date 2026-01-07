@@ -13,7 +13,7 @@ import AddIcon from '@mui/icons-material/Add';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GroupsIcon from '@mui/icons-material/Groups';
 
-export default function CompendiumHome({ campaignName = "Twilight Imperium" }) {
+export default function SampleCompendiumHome({ campaignName = "Twilight Imperium" }) {
 
     // Mock Data: In 2026, these would be fetched via your Spring Boot Reactive API
     const compendiumCategories = [
