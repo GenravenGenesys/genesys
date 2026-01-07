@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {
-    Box, CssBaseline, AppBar, Toolbar, Typography,
+    Box, AppBar, Toolbar, Typography,
     Grid2 as Grid, Card, CardContent, Button,
-    ThemeProvider, createTheme, Tabs, Tab,
-    Divider, Chip, Paper
+    Tabs, Tab,
+    Paper
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AddIcon from '@mui/icons-material/Add';
@@ -15,13 +15,12 @@ import type {Campaign} from "../../../api/model";
 
 interface Props {
     campaigns: Campaign[];
-};
+}
 
 export default function FocusedVTT(props: Props) {
     const {campaigns} = props;
     const [selectedCampaign, setSelectedCampaign] = useState(0);
     const navigate = useNavigate();
-    console.log(campaigns)
 
     const current = campaigns[selectedCampaign];
 
@@ -82,23 +81,21 @@ export default function FocusedVTT(props: Props) {
                     {/*    <Card>*/}
                     {/*        <CardContent sx={{textAlign: 'center', py: 4}}>*/}
                     {/*            <PeopleIcon sx={{fontSize: 40, color: 'primary.main', mb: 1}}/>*/}
-                    {/*            <Typography variant="h4">{current.players}</Typography>*/}
-                    {/*            <Typography variant="body2" color="text.secondary">Players in Lobby</Typography>*/}
+                    {/*            <Typography variant="h4">{5}</Typography>*/}
                     {/*            <Button sx={{mt: 2}}>Invite Players</Button>*/}
                     {/*        </CardContent>*/}
                     {/*    </Card>*/}
                     {/*</Grid>*/}
 
-                    {/*<Grid size={{xs: 12, md: 4}}>*/}
-                    {/*    <Card>*/}
-                    {/*        <CardContent sx={{textAlign: 'center', py: 4}}>*/}
-                    {/*            <LibraryBooksIcon sx={{fontSize: 40, color: 'primary.main', mb: 1}}/>*/}
-                    {/*            <Typography variant="h4">{current.items}</Typography>*/}
-                    {/*            <Typography variant="body2" color="text.secondary">Custom Library Items</Typography>*/}
-                    {/*            <Button sx={{mt: 2}} onClick={() => navigate("/comp")}>Open Compendium</Button>*/}
-                    {/*        </CardContent>*/}
-                    {/*    </Card>*/}
-                    {/*</Grid>*/}
+                    <Grid size={{xs: 12, md: 4}}>
+                        <Card>
+                            <CardContent sx={{textAlign: 'center', py: 4}}>
+                                <LibraryBooksIcon sx={{fontSize: 40, color: 'primary.main'}}/>
+                                <Typography variant="h4">{"Custom Files"}</Typography>
+                                <Button onClick={() => navigate("/comp")}>Open Compendium</Button>
+                            </CardContent>
+                        </Card>
+                    </Grid>
 
                     <Grid size={{xs: 12, md: 4}}>
                         <Card>
