@@ -5,15 +5,23 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
+import type {Skill} from "../../../../api/model";
 
-export default function EquipmentEditDrawer({open, item, onClose, onSave}) {
-    // Local state initialized with the weapon's current stats
-    const [formData, setFormData] = useState(item || {});
-    const isNew = item?.isNew;
+interface Props {
+    open: boolean;
+    skill: Skill;
+    onClose: () => void;
+    onSave: (data: Skill) => void;
+    isNew: boolean;
+}
+
+export default function SkillDrawer(props: Props) {
+    const {open, skill, onClose, onSave, isNew} = props;
+    const [formData, setFormData] = useState(skill || {});
 
     useEffect(() => {
-        if (item) setFormData(item);
-    }, [item]);
+        if (skill) setFormData(skill);
+    }, [skill]);
 
     const handleChange = (field, value) => {
         setFormData(prev => ({...prev, [field]: value}));
@@ -28,14 +36,14 @@ export default function EquipmentEditDrawer({open, item, onClose, onSave}) {
         >
             <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 3}}>
                 <Typography variant="h5" fontWeight="bold">
-                    {isNew ? "Create New Weapon" : "Edit Weapon"}
+                    {isNew ? "Create New Skill" : "Edit Skill"}
                 </Typography>
                 <Button onClick={onClose}><CloseIcon/></Button>
             </Box>
 
             <Stack spacing={3}>
                 <TextField
-                    label="Weapon Name"
+                    label="Skill Name"
                     fullWidth
                     value={formData.name || ''}
                     onChange={(e) => handleChange('name', e.target.value)}
@@ -94,18 +102,6 @@ export default function EquipmentEditDrawer({open, item, onClose, onSave}) {
                         />
                     </Grid>
                 </Grid>
-
-                <TextField
-                    label="Special Qualities"
-                    placeholder="e.g. Accurate 1, Vicious 2"
-                    helperText="Comma separated values"
-                    fullWidth
-                    multiline
-                    rows={2}
-                    value={Array.isArray(formData.qualities) ? formData.qualities.join(', ') : ''}
-                    onChange={(e) => handleChange('qualities', e.target.value.split(', '))}
-                />
-
                 <Box sx={{mt: 'auto', pt: 4, display: 'flex', gap: 2}}>
                     <Button
                         variant="contained"

@@ -16,8 +16,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-
 @RestController
 @RequestMapping("/api/campaigns")
 @RequiredArgsConstructor

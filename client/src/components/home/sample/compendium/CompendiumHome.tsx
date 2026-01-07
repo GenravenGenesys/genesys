@@ -7,7 +7,6 @@ import {
 // Standard MUI Icons
 import SwordIcon from '@mui/icons-material/SportsMma';
 import TalentIcon from '@mui/icons-material/AutoStories';
-import SkillIcon from '@mui/icons-material/Psychology';
 import ArchetypeIcon from '@mui/icons-material/PersonAdd';
 import AddIcon from '@mui/icons-material/Add';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -133,7 +132,7 @@ export default function CompendiumHome() {
                         </Card>
                     </Grid>
                 ))}
-                <SkillCompendiumCard skills={campaign.compendium.skills}/>
+                <SkillCompendiumCard skills={campaign.compendium.skills} campaignId={id}/>
 
                 {/* Setting Rules & Formatting Section */}
                 {/*<Grid size={{ xs: 12, md: 8 }}>*/}

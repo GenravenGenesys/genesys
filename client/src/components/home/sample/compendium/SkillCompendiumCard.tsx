@@ -5,24 +5,25 @@ import {
     Chip,
     Divider,
     Grid2,
-    IconButton,
     List,
     ListItem,
     ListItemText,
     Typography
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import AddIcon from "@mui/icons-material/Add";
 import SkillIcon from "@mui/icons-material/Psychology";
 import type {Skill} from "../../../../api/model";
 import {renderSkillName} from "../../../common/skill/SkillRenders.tsx";
+import RouterLinkButton from "../../../common/RouterLink.tsx";
+import {RootPath} from "../../../../services/RootPath.ts";
 
 interface Props {
     skills: Skill[];
+    campaignId: string;
 }
 
 export default function SkillCompendiumCard(props: Props) {
-    const {skills} = props;
+    const {skills, campaignId} = props;
     const color = "#00e5ff";
 
     return (
@@ -67,12 +68,13 @@ export default function SkillCompendiumCard(props: Props) {
                 </CardContent>
 
                 <Box sx={{p: 2, display: 'flex', gap: 1}}>
-                    <Button fullWidth variant="outlined" size="small" startIcon={<OpenInNewIcon/>}>
-                        View All
-                    </Button>
-                    <IconButton color="primary" size="small" sx={{border: '1px solid'}}>
-                        <AddIcon/>
-                    </IconButton>
+                    {/*<Button fullWidth variant="outlined" size="small" startIcon={<OpenInNewIcon/>}>*/}
+                    {/*    View All*/}
+                    {/*</Button>*/}
+                    <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Skills} text={"View All"}/>
+                    {/*<IconButton color="primary" size="small" sx={{border: '1px solid'}}>*/}
+                    {/*    <AddIcon/>*/}
+                    {/*</IconButton>*/}
                 </Box>
             </Card>
         </Grid2>
