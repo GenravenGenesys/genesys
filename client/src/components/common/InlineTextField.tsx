@@ -16,6 +16,7 @@ interface Props {
     placeholder?: string;
     errorText?: string;
     inputProps?: InputHTMLAttributes<HTMLInputElement>;
+    fullWidth?: boolean;
 }
 
 const InlineTextField: FC<Props> = ({
@@ -30,7 +31,8 @@ const InlineTextField: FC<Props> = ({
                                         disabled,
                                         placeholder,
                                         errorText,
-                                        inputProps
+                                        inputProps,
+                                        fullWidth
                                     }) => {
     const [textValue, setTextValue] = useState(defaultValue);
     const [edit, setEdit] = useState(defaultEdit ?? false);
@@ -68,7 +70,7 @@ const InlineTextField: FC<Props> = ({
             <TextField defaultValue={textValue} onChange={inputOnChange} helperText={error ? errorText : helperText}
                        label={label} rows={rows}
                        disabled={Boolean(disabled)} placeholder={placeholder} error={error}
-                       slotProps={{htmlInput: {autoFocus: true, ...inputProps}}} fullWidth/>
+                       slotProps={{htmlInput: {autoFocus: true, ...inputProps}}} fullWidth={fullWidth}/>
         </ClickAwayListener>
     );
 

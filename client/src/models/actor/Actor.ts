@@ -1,4 +1,3 @@
-import {ActorGear} from "../equipment/Gear";
 import Character from '../campaign/encounter/Character';
 import {
     type ActorArmor, type ActorSkill, type ActorType,
@@ -24,7 +23,7 @@ export default interface Actor {
     ranged: number,
     weapons: ActorWeapon[],
     armors: ActorArmor[],
-    gear: ActorGear[],
+    // gear: ActorGear[],
 }
 
 export const getActorCharacteristicRanks = (actor: Actor, skill: ActorSkill): number => {

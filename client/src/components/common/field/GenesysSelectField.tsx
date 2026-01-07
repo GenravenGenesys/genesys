@@ -1,4 +1,3 @@
-import React from "react";
 import {MenuItem, TextField} from "@mui/material";
 
 type Props<T extends Record<string, string | number>> = {

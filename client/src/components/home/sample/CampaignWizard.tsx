@@ -1,13 +1,22 @@
 import {useState} from 'react';
 import {
     Box, Stepper, Step, StepLabel, Button, Typography,
-    TextField, Stack, Paper, Container, Divider, List, ListItem, IconButton, ListItemText
+    Stack, Paper, Container, Divider, List, ListItem, IconButton, ListItemText
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import {InputTextFieldCard} from "../../common/InputTextFieldCard.tsx";
-import {type Archetype, type Career, CharacteristicType, type Skill, SkillType} from "../../../api/model";
+import {
+    type Archetype,
+    type Career,
+    CharacteristicType,
+    type Skill,
+    SkillCharacteristic,
+    SkillType
+} from "../../../api/model";
+import InlineTextField from "../../common/InlineTextField.tsx";
+import GenesysSelectField from "../../common/field/GenesysSelectField.tsx";
 
 const steps = ['World Identity', 'Define Skills', 'Create Archetypes', 'Set Careers'];
 
@@ -39,10 +48,10 @@ export default function CampaignWizard() {
     const StepIdentity = () => (
         <Stack spacing={3} sx={{mt: 4}}>
             <Typography variant="h5">Name your World</Typography>
-            <InputTextFieldCard defaultValue={campaign.name}
+            <InputTextFieldCard defaultValue={campaign.name} fullWidth={true}
                                 onCommit={(name) => setCampaign(prev => ({...prev, name: name}))}
                                 title={"Campaign Title"} placeholder={"e.g. Shadows of the Core"}/>
-            <InputTextFieldCard defaultValue={campaign.description}
+            <InputTextFieldCard defaultValue={campaign.description} fullWidth={true}
                                 onCommit={(description) => setCampaign(prev => ({...prev, description: description}))}
                                 title={"Setting Description"} rows={4}/>
         </Stack>
@@ -58,17 +67,24 @@ export default function CampaignWizard() {
         setNewSkill(blankSkill);
     };
 
+    const onCharacteristicChange = (value: CharacteristicType) => {
+        setNewSkill({...newSkill, characteristic: value});
+    };
+
+    const onSkillTypeChange = (value: SkillType) => {
+        setNewSkill({...newSkill, type: value});
+    };
+
     const StepSkills = () => (
         <Box sx={{mt: 4}}>
             <Typography variant="h5" gutterBottom>Define the Skill List</Typography>
             <Paper variant="outlined" sx={{p: 2, mb: 3, display: 'flex', gap: 2}}>
-                <TextField size="small" label="Skill Name" value={newSkill.name}
-                           onChange={(e) => setNewSkill({...newSkill, name: e.target.value})}/>
-                <TextField select size="small" label="Attr" value={newSkill.characteristic} SelectProps={{native: true}}
-                           onChange={(e) => setNewSkill({...newSkill, characteristic: e.target.value})}>
-                    {['Brawn', 'Agility', 'Intellect', 'Cunning', 'Willpower', 'Presence'].map(s => <option key={s}
-                                                                                                            value={s}>{s}</option>)}
-                </TextField>
+                <InlineTextField defaultValue={newSkill.name} onCommit={(e) => setNewSkill({...newSkill, name: e})}
+                                 label={"Skill Name"} fullWidth/>
+                <GenesysSelectField value={newSkill.characteristic} label={'Skill Type'}
+                                    onChange={onCharacteristicChange} options={SkillCharacteristic}/>
+                <GenesysSelectField value={newSkill.type} label={'Skill Type'} onChange={onSkillTypeChange}
+                                    options={SkillType}/>
                 <Button onClick={addSkill} variant="contained" startIcon={<AddIcon/>}>Add</Button>
             </Paper>
             <List dense sx={{maxHeight: 300, overflowY: 'auto'}}>
