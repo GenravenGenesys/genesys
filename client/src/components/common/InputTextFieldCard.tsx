@@ -3,23 +3,24 @@ import InlineTextField from "./InlineTextField"
 import GridItem from "./grid/GridItem";
 
 interface TextProps {
-    defaultValue: string
-    onCommit: (value: string) => void
-    title: string
-    helperText: string
-    placeholder: string
-    errorText?: string
+    defaultValue: string,
+    onCommit: (value: string) => void,
+    title: string,
+    helperText?: string,
+    placeholder?: string,
+    errorText?: string,
+    rows?: number,
 }
 
 export function InputTextFieldCard(props: TextProps) {
-    const {defaultValue, onCommit, title, helperText, placeholder, errorText} = props;
+    const {defaultValue, onCommit, title, helperText, placeholder, errorText, rows} = props;
     return (
         <GridItem>
             <Card>
                 <CardHeader title={title} style={{textAlign: 'center'}}/>
                 <Divider/>
                 <InlineTextField defaultValue={defaultValue} editable={true} onCommit={onCommit} helperText={helperText}
-                                 placeholder={placeholder} errorText={errorText}/>
+                                 placeholder={placeholder} errorText={errorText} rows={rows}/>
             </Card>
         </GridItem>
     )

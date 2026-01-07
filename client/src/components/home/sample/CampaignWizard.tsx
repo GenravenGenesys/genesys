@@ -6,6 +6,8 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
+import {InputTextFieldCard} from "../../common/InputTextFieldCard.tsx";
+import {type Archetype, type Career, CharacteristicType, type Skill, SkillType} from "../../../api/model";
 
 const steps = ['World Identity', 'Define Skills', 'Create Archetypes', 'Set Careers'];
 
@@ -16,11 +18,19 @@ export default function CampaignWizard() {
         name: '',
         description: '',
         compendium: {
-            skills: [] as any[],
-            archetypes: [] as any[],
-            careers: [] as any[]
+            skills: [] as Skill[],
+            archetypes: [] as Archetype[],
+            careers: [] as Career[]
         }
     });
+
+    const blankSkill = {
+        id: '',
+        name: '',
+        characteristic: CharacteristicType.Brawn,
+        type: SkillType.General,
+        initiative: false,
+    } as Skill;
 
     const handleNext = () => setActiveStep((prev) => prev + 1);
     const handleBack = () => setActiveStep((prev) => prev - 1);
@@ -29,32 +39,23 @@ export default function CampaignWizard() {
     const StepIdentity = () => (
         <Stack spacing={3} sx={{mt: 4}}>
             <Typography variant="h5">Name your World</Typography>
-            // Switch Below to Edit Field
-            <TextField
-                label="Campaign Title"
-                fullWidth
-                value={campaign.name}
-                onChange={(e) => setCampaign(prev => ({...prev, name: e.target.value}))}
-                placeholder="e.g. Shadows of the Core"
-            />
-            <TextField
-                label="Setting Description"
-                multiline rows={4}
-                fullWidth
-                value={campaign.description}
-                onChange={(e) => setCampaign(prev => ({...prev, description: e.target.value}))}
-            />
+            <InputTextFieldCard defaultValue={campaign.name}
+                                onCommit={(name) => setCampaign(prev => ({...prev, name: name}))}
+                                title={"Campaign Title"} placeholder={"e.g. Shadows of the Core"}/>
+            <InputTextFieldCard defaultValue={campaign.description}
+                                onCommit={(description) => setCampaign(prev => ({...prev, description: description}))}
+                                title={"Setting Description"} rows={4}/>
         </Stack>
     );
 
-    const [newSkill, setNewSkill] = useState({name: '', characteristic: 'Brawn'});
+    const [newSkill, setNewSkill] = useState(blankSkill);
     const addSkill = () => {
         if (!newSkill.name) return;
         setCampaign({
             ...campaign,
             compendium: {...campaign.compendium, skills: [...campaign.compendium.skills, newSkill]}
         });
-        setNewSkill({name: '', characteristic: 'Brawn'});
+        setNewSkill(blankSkill);
     };
 
     const StepSkills = () => (
