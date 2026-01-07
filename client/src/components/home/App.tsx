@@ -40,6 +40,7 @@ import SessionManager from "./sample/SessionManager.tsx";
 import CharacterCreator from "./sample/PlayerCreation.tsx";
 import CampaignDashboardPage from "./sample/HomeDashboard.tsx";
 import CompendiumHome from "./sample/compendium/CompendiumHome.tsx";
+import ViewCompendiumSkills from "./sample/compendium/ViewCompendiumSkills.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -93,6 +94,7 @@ export const App: React.FC = () => {
                 <Route path="/" element={<Navigate replace to={"/" + RootPath.Home}/>}/>
                 <Route path={RootPath.Home} element={<CampaignDashboardPage/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium"} element={<CompendiumHome/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium/skills/"} element={<ViewCompendiumSkills/>}/>
 
                 <Route path={"/sample/comp"} element={<SampleCompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>
