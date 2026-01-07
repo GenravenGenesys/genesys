@@ -1,6 +1,6 @@
 import {Box, CircularProgress} from '@mui/material';
-import FocusedVTT from "./Sample.tsx";
-import CampaignWizard from "./CampaignWizard.tsx";
+import FocusedVTT from "./FocusedVTT.tsx";
+import CampaignWizard from "./campaign-creation/CampaignWizard.tsx";
 import {useGetAllCampaigns} from "../../../api/generated/campaign-controller/campaign-controller.ts";
 
 
@@ -19,5 +19,5 @@ export default function CampaignDashboardPage() {
         return <CampaignWizard/>;
     }
 
-    return <FocusedVTT/>;
+    return <FocusedVTT campaigns={campaigns}/>;
 }

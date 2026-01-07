@@ -13,9 +13,15 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import {useNavigate} from "react-router";
 import type {Campaign} from "../../../api/model";
 
-export default function FocusedVTT(campaigns: Campaign[]) {
+interface Props {
+    campaigns: Campaign[];
+};
+
+export default function FocusedVTT(props: Props) {
+    const {campaigns} = props;
     const [selectedCampaign, setSelectedCampaign] = useState(0);
     const navigate = useNavigate();
+    console.log(campaigns)
 
     const current = campaigns[selectedCampaign];
 

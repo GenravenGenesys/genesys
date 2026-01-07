@@ -31,8 +31,9 @@ public class CampaignService {
         return campaignRepository.findById(id);
     }
 
-    public Mono<Campaign> createCampaign(final String name) {
-        return campaignRepository.save(new Campaign());
+    public Mono<Campaign> createCampaign(final Campaign campaign) {
+        log.info("Creating new campaign with name: {}", campaign.getName());
+        return campaignRepository.save(campaign);
     }
 
     public Mono<CampaignCompendium> getCampaignCompendium(final String campaignId) {

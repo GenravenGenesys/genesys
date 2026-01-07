@@ -6,7 +6,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
-import {InputTextFieldCard} from "../../common/InputTextFieldCard.tsx";
+import {InputTextFieldCard} from "../../../common/InputTextFieldCard.tsx";
 import {
     type Archetype,
     type Career,
@@ -14,9 +14,10 @@ import {
     type Skill,
     SkillCharacteristic,
     SkillType
-} from "../../../api/model";
-import InlineTextField from "../../common/InlineTextField.tsx";
-import GenesysSelectField from "../../common/field/GenesysSelectField.tsx";
+} from "../../../../api/model";
+import InlineTextField from "../../../common/InlineTextField.tsx";
+import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
+import {createCampaign} from "../../../../api/generated/campaign-controller/campaign-controller.ts";
 
 const steps = ['World Identity', 'Define Skills', 'Create Archetypes', 'Set Careers'];
 
@@ -112,6 +113,11 @@ export default function CampaignWizard() {
         }
     };
 
+    const onCreate = () => {
+        console.log("SUBMIT TO SPRING BOOT", campaign);
+        createCampaign(campaign);
+    };
+
     return (
         <Container maxWidth="md" sx={{py: 8}}>
             <Paper elevation={3} sx={{p: 6, borderRadius: 4}}>
@@ -138,7 +144,7 @@ export default function CampaignWizard() {
                     <Box>
                         {activeStep === steps.length - 1 ? (
                             <Button variant="contained" color="success" startIcon={<SaveIcon/>}
-                                    onClick={() => console.log("SUBMIT TO SPRING BOOT", campaign)}>
+                                    onClick={onCreate}>
                                 Create Setting
                             </Button>
                         ) : (

@@ -1,6 +1,7 @@
-import {Card, CardHeader, Divider} from "@mui/material"
+import {Card, CardContent} from "@mui/material"
 import InlineTextField from "./InlineTextField"
 import GridItem from "./grid/GridItem";
+import CenteredCardHeader from "./card/header/CenteredCardHeader.tsx";
 
 interface TextProps {
     defaultValue: string,
@@ -18,11 +19,13 @@ export function InputTextFieldCard(props: TextProps) {
     return (
         <GridItem>
             <Card>
-                <CardHeader title={title} style={{textAlign: 'center'}}/>
-                <Divider/>
-                <InlineTextField defaultValue={defaultValue} editable={true} onCommit={onCommit} helperText={helperText}
-                                 placeholder={placeholder} errorText={errorText} rows={rows} fullWidth={fullWidth}/>
+                <CenteredCardHeader title={title}/>
+                <CardContent>
+                    <InlineTextField defaultValue={defaultValue} editable={true} onCommit={onCommit}
+                                     helperText={helperText}
+                                     placeholder={placeholder} errorText={errorText} rows={rows} fullWidth={fullWidth}/>
+                </CardContent>
             </Card>
         </GridItem>
-    )
+    );
 }

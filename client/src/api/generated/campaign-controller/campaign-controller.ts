@@ -26,84 +26,6 @@ import type { Campaign, CampaignCompendium } from "../../model";
 import { customInstance } from "../../axios-instance";
 
 /**
- * Create a new campaign with the specified name.
- * @summary Create a new campaign
- */
-export const createCampaign = (name: string, signal?: AbortSignal) => {
-  return customInstance<Campaign>({
-    url: `/api/campaigns/${name}`,
-    method: "POST",
-    signal,
-  });
-};
-
-export const getCreateCampaignMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createCampaign>>,
-    TError,
-    { name: string },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createCampaign>>,
-  TError,
-  { name: string },
-  TContext
-> => {
-  const mutationKey = ["createCampaign"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createCampaign>>,
-    { name: string }
-  > = (props) => {
-    const { name } = props ?? {};
-
-    return createCampaign(name);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type CreateCampaignMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createCampaign>>
->;
-
-export type CreateCampaignMutationError = unknown;
-
-/**
- * @summary Create a new campaign
- */
-export const useCreateCampaign = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createCampaign>>,
-      TError,
-      { name: string },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof createCampaign>>,
-  TError,
-  { name: string },
-  TContext
-> => {
-  const mutationOptions = getCreateCampaignMutationOptions(options);
-
-  return useMutation(mutationOptions, queryClient);
-};
-/**
  * Retrieve a list of all campaigns.
  * @summary Get all campaigns
  */
@@ -247,6 +169,86 @@ export function useGetAllCampaigns<
   return query;
 }
 
+/**
+ * Create a new campaign with the specified name.
+ * @summary Create a new campaign
+ */
+export const createCampaign = (campaign: Campaign, signal?: AbortSignal) => {
+  return customInstance<Campaign>({
+    url: `/api/campaigns/`,
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    data: campaign,
+    signal,
+  });
+};
+
+export const getCreateCampaignMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createCampaign>>,
+    TError,
+    { data: Campaign },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createCampaign>>,
+  TError,
+  { data: Campaign },
+  TContext
+> => {
+  const mutationKey = ["createCampaign"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createCampaign>>,
+    { data: Campaign }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createCampaign(data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateCampaignMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createCampaign>>
+>;
+export type CreateCampaignMutationBody = Campaign;
+export type CreateCampaignMutationError = unknown;
+
+/**
+ * @summary Create a new campaign
+ */
+export const useCreateCampaign = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createCampaign>>,
+      TError,
+      { data: Campaign },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createCampaign>>,
+  TError,
+  { data: Campaign },
+  TContext
+> => {
+  const mutationOptions = getCreateCampaignMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+};
 /**
  * Retrieve a specific campaign by its name.
  * @summary Get campaign by id

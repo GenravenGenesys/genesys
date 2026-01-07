@@ -59,10 +59,10 @@ public class CampaignController extends AbstractController {
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{name}")
+    @PostMapping("/")
     @Operation(summary = "Create a new campaign", description = "Create a new campaign with the specified name.")
-    public Mono<ResponseEntity<Campaign>> createCampaign(@PathVariable final String name) {
-        return campaignService.createCampaign(name)
-            .map(campaign -> ResponseEntity.created(getURI(campaign.getName())).body(campaign));
+    public Mono<ResponseEntity<Campaign>> createCampaign(@RequestBody final Campaign campaign) {
+        return campaignService.createCampaign(campaign)
+            .map(newCampaign -> ResponseEntity.created(getURI(newCampaign.getName())).body(newCampaign));
     }
 }
