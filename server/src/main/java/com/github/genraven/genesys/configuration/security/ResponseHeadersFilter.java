@@ -19,7 +19,6 @@ public class ResponseHeadersFilter implements WebFilter {
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final WebFilterChain chain) {
         final var headers = exchange.getResponse().getHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("X-XSS-Protection", "0");
         headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
         headers.set("X-Frame-Options", "deny");

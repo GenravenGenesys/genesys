@@ -27,6 +27,6 @@ public class Campaign {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Party party = new Party();
 
-    @Schema(description = "GM-defined setting bible")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "GM-defined setting bible")
     private CampaignCompendium compendium;
 }

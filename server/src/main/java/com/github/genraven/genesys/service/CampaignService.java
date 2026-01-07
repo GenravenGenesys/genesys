@@ -42,6 +42,7 @@ public class CampaignService {
     }
 
     public Flux<CampaignCompendium> getCampaignCompendiumUpdates(final String campaignId) {
+        log.info("Subscribing to updates for {}", campaignId);
         return reactiveMongoTemplate
             .changeStream(Campaign.class)
             .watchCollection("campaigns")
@@ -50,35 +51,10 @@ public class CampaignService {
             .map(event -> Objects.requireNonNull(event.getBody()).getCompendium());
     }
 
-//    public Mono<Campaign> updateCampaign(final String id, final Campaign campaign) {
-//        log.info("Updating campaign with id: {}", id);
-//        return getCampaign(id).map(camp -> {
-//                camp.setName(campaign.getName());
-//                camp.setParty(campaign.getParty());
-//                camp.setSessions(campaign.getSessions());
-//                camp.setActive(campaign.isActive());
-//                return camp;
-//            }).flatMap(campaignRepository::save)
-//            .doOnNext(updatedCampaign -> log.debug("Updated campaign: {}", updatedCampaign))
-//            .doOnError(error -> log.error("Error updating campaign with id: {}", id, error));
-//    }
-//
-//    public Mono<Campaign> getCurrentCampaign() {
-//        return campaignRepository.findByCurrent(true);
-//    }
-//
-//    public Mono<Campaign> setCurrentCampaign(final String id) {
-//        return campaignRepository.findAll()
-//            .map(campaign -> {
-//                campaign.setCurrent(false);
-//                return campaign;
-//            })
-//            .flatMap(campaignRepository::save)
-//            .then(getCampaign(id))
-//            .map(campaign -> {
-//                campaign.setCurrent(true);
-//                return campaign;
-//            })
-//            .flatMap(campaignRepository::save);
-//    }
+    public Mono<Campaign> updateCampaign(final String id, final Campaign campaign) {
+        log.info("Updating campaign with id: {}", id);
+        return campaignRepository.save(campaign)
+            .doOnNext(updatedCampaign -> log.debug("Updated campaign: {}", updatedCampaign))
+            .doOnError(error -> log.error("Error updating campaign with id: {}", id, error));
+    }
 }

@@ -1,6 +1,6 @@
 import {
     Box,
-    Button, Card,
+    Card,
     CardContent,
     Chip,
     Divider,
@@ -68,13 +68,7 @@ export default function SkillCompendiumCard(props: Props) {
                 </CardContent>
 
                 <Box sx={{p: 2, display: 'flex', gap: 1}}>
-                    {/*<Button fullWidth variant="outlined" size="small" startIcon={<OpenInNewIcon/>}>*/}
-                    {/*    View All*/}
-                    {/*</Button>*/}
                     <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Skills} text={"View All"}/>
-                    {/*<IconButton color="primary" size="small" sx={{border: '1px solid'}}>*/}
-                    {/*    <AddIcon/>*/}
-                    {/*</IconButton>*/}
                 </Box>
             </Card>
         </Grid2>

@@ -12,8 +12,8 @@ import AddIcon from '@mui/icons-material/Add';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GroupsIcon from '@mui/icons-material/Groups';
 import {useParams} from "react-router-dom";
-import {useGetCampaign} from "../../../../api/generated/campaign-controller/campaign-controller.ts";
 import SkillCompendiumCard from "./SkillCompendiumCard.tsx";
+import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 
 export default function CompendiumHome() {
     const {id} = useParams<{ id: string }>();
@@ -22,7 +22,7 @@ export default function CompendiumHome() {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
     }
 
-    const {data: campaign, isLoading} = useGetCampaign(id);
+    const {data: campaign, isLoading} = useCampaignLive(id);
 
     if (isLoading) {
         return <CircularProgress/>;
@@ -33,36 +33,36 @@ export default function CompendiumHome() {
     }
 
     // Mock Data: In 2026, these would be fetched via your Spring Boot Reactive API
-    const compendiumCategories = [
-        {
-            title: "Talents",
-            count: 24,
-            icon: <TalentIcon/>,
-            color: "#ff4081",
-            preview: ["Hard Headed", "Quick Strike", "Side Step"]
-        },
-        {
-            title: "Weapons & Gear",
-            count: 42,
-            icon: <SwordIcon/>,
-            color: "#ff9100",
-            preview: ["Heavy Blaster", "Monofilament Blade"]
-        },
-        {
-            title: "Adversaries",
-            count: 12,
-            icon: <GroupsIcon/>,
-            color: "#f44336", // Nemesis Red
-            preview: ["Stormtrooper (Minion)", "Local Thug (Rival)", "Sith Inquisitor (Nemesis)"]
-        },
-        {
-            title: "Archetypes",
-            count: 5,
-            icon: <ArchetypeIcon/>,
-            color: "#a255ff",
-            preview: ["Human", "Android", "N'hali"]
-        },
-    ];
+    // const compendiumCategories = [
+    //     {
+    //         title: "Talents",
+    //         count: 24,
+    //         icon: <TalentIcon/>,
+    //         color: "#ff4081",
+    //         preview: ["Hard Headed", "Quick Strike", "Side Step"]
+    //     },
+    //     {
+    //         title: "Weapons & Gear",
+    //         count: 42,
+    //         icon: <SwordIcon/>,
+    //         color: "#ff9100",
+    //         preview: ["Heavy Blaster", "Monofilament Blade"]
+    //     },
+    //     {
+    //         title: "Adversaries",
+    //         count: 12,
+    //         icon: <GroupsIcon/>,
+    //         color: "#f44336", // Nemesis Red
+    //         preview: ["Stormtrooper (Minion)", "Local Thug (Rival)", "Sith Inquisitor (Nemesis)"]
+    //     },
+    //     {
+    //         title: "Archetypes",
+    //         count: 5,
+    //         icon: <ArchetypeIcon/>,
+    //         color: "#a255ff",
+    //         preview: ["Human", "Android", "N'hali"]
+    //     },
+    // ];
 
     return (
         <Box sx={{p: 4, maxWidth: 1400, mx: 'auto'}}>
@@ -80,58 +80,58 @@ export default function CompendiumHome() {
             <Grid container spacing={3}>
 
                 {/* Main Category Cards */}
-                {compendiumCategories.map((cat) => (
-                    <Grid size={{xs: 12, md: 6, lg: 3}} key={cat.title}>
-                        <Card sx={{
-                            height: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            borderTop: `4px solid ${cat.color}`,
-                            transition: 'transform 0.2s',
-                            '&:hover': {transform: 'translateY(-4px)'}
-                        }}>
-                            <CardContent sx={{flexGrow: 1}}>
-                                <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 2}}>
-                                    <Box sx={{
-                                        p: 1,
-                                        borderRadius: 2,
-                                        bgcolor: `${cat.color}22`,
-                                        color: cat.color,
-                                        display: 'flex'
-                                    }}>
-                                        {cat.icon}
-                                    </Box>
-                                    <Chip label={`${cat.count} Items`} size="small"/>
-                                </Box>
+                {/*{compendiumCategories.map((cat) => (*/}
+                {/*    <Grid size={{xs: 12, md: 6, lg: 3}} key={cat.title}>*/}
+                {/*        <Card sx={{*/}
+                {/*            height: '100%',*/}
+                {/*            display: 'flex',*/}
+                {/*            flexDirection: 'column',*/}
+                {/*            borderTop: `4px solid ${cat.color}`,*/}
+                {/*            transition: 'transform 0.2s',*/}
+                {/*            '&:hover': {transform: 'translateY(-4px)'}*/}
+                {/*        }}>*/}
+                {/*            <CardContent sx={{flexGrow: 1}}>*/}
+                {/*                <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 2}}>*/}
+                {/*                    <Box sx={{*/}
+                {/*                        p: 1,*/}
+                {/*                        borderRadius: 2,*/}
+                {/*                        bgcolor: `${cat.color}22`,*/}
+                {/*                        color: cat.color,*/}
+                {/*                        display: 'flex'*/}
+                {/*                    }}>*/}
+                {/*                        {cat.icon}*/}
+                {/*                    </Box>*/}
+                {/*                    <Chip label={`${cat.count} Items`} size="small"/>*/}
+                {/*                </Box>*/}
 
-                                <Typography variant="h5" fontWeight="bold" gutterBottom>
-                                    {cat.title}
-                                </Typography>
+                {/*                <Typography variant="h5" fontWeight="bold" gutterBottom>*/}
+                {/*                    {cat.title}*/}
+                {/*                </Typography>*/}
 
-                                <Divider sx={{my: 1.5, opacity: 0.1}}/>
+                {/*                <Divider sx={{my: 1.5, opacity: 0.1}}/>*/}
 
-                                <List dense>
-                                    {cat.preview.map(item => (
-                                        <ListItem key={item} disablePadding sx={{py: 0.5}}>
-                                            <ListItemText
-                                                primary={item}
-                                            />
-                                        </ListItem>
-                                    ))}
-                                </List>
-                            </CardContent>
+                {/*                <List dense>*/}
+                {/*                    {cat.preview.map(item => (*/}
+                {/*                        <ListItem key={item} disablePadding sx={{py: 0.5}}>*/}
+                {/*                            <ListItemText*/}
+                {/*                                primary={item}*/}
+                {/*                            />*/}
+                {/*                        </ListItem>*/}
+                {/*                    ))}*/}
+                {/*                </List>*/}
+                {/*            </CardContent>*/}
 
-                            <Box sx={{p: 2, display: 'flex', gap: 1}}>
-                                <Button fullWidth variant="outlined" size="small" startIcon={<OpenInNewIcon/>}>
-                                    View All
-                                </Button>
-                                <IconButton color="primary" size="small" sx={{border: '1px solid'}}>
-                                    <AddIcon/>
-                                </IconButton>
-                            </Box>
-                        </Card>
-                    </Grid>
-                ))}
+                {/*            <Box sx={{p: 2, display: 'flex', gap: 1}}>*/}
+                {/*                <Button fullWidth variant="outlined" size="small" startIcon={<OpenInNewIcon/>}>*/}
+                {/*                    View All*/}
+                {/*                </Button>*/}
+                {/*                <IconButton color="primary" size="small" sx={{border: '1px solid'}}>*/}
+                {/*                    <AddIcon/>*/}
+                {/*                </IconButton>*/}
+                {/*            </Box>*/}
+                {/*        </Card>*/}
+                {/*    </Grid>*/}
+                {/*))}*/}
                 <SkillCompendiumCard skills={campaign.compendium.skills} campaignId={id}/>
 
                 {/* Setting Rules & Formatting Section */}

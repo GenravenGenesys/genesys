@@ -5,7 +5,8 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
-import type {Skill} from "../../../../api/model";
+import {CharacteristicType, type Skill, SkillType} from "../../../../api/model";
+import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 
 interface Props {
     open: boolean;
@@ -17,14 +18,14 @@ interface Props {
 
 export default function SkillDrawer(props: Props) {
     const {open, skill, onClose, onSave, isNew} = props;
-    const [formData, setFormData] = useState(skill || {});
+    const [formData, setFormData] = useState<Skill>(skill || {});
 
     useEffect(() => {
         if (skill) setFormData(skill);
     }, [skill]);
 
-    const handleChange = (field, value) => {
-        setFormData(prev => ({...prev, [field]: value}));
+    const handleChange = <K extends keyof Skill>(field: K, value: Skill[K]) => {
+        setFormData((prev: Skill) => ({...prev, [field]: value}));
     };
 
     return (
@@ -46,25 +47,17 @@ export default function SkillDrawer(props: Props) {
                     label="Skill Name"
                     fullWidth
                     value={formData.name || ''}
-                    onChange={(e) => handleChange('name', e.target.value)}
+                    onChange={(e) => handleChange("name", e.target.value)}
                 />
 
                 <Grid container spacing={2}>
                     <Grid size={6}>
-                        <TextField
-                            label="Damage"
-                            fullWidth
-                            value={formData.damage || ''}
-                            onChange={(e) => handleChange('damage', e.target.value)}
-                        />
+                        <GenesysSelectField value={formData.characteristic} label={"Characteristic"}
+                                            onChange={(e) => handleChange("characteristic", e)} options={CharacteristicType}/>
                     </Grid>
                     <Grid size={6}>
-                        <TextField
-                            label="Critical"
-                            fullWidth
-                            value={formData.crit || ''}
-                            onChange={(e) => handleChange('crit', e.target.value)}
-                        />
+                        <GenesysSelectField value={formData.type} label={"Type"}
+                                            onChange={(e) => handleChange("type", e)} options={SkillType}/>
                     </Grid>
                 </Grid>
 

@@ -17,5 +17,5 @@ export interface Campaign {
   name: string;
   party: Party;
   /** GM-defined setting bible */
-  compendium?: CampaignCompendium;
+  compendium: CampaignCompendium;
 }
