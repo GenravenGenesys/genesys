@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {
     Box, Stepper, Step, StepLabel, Button, Typography,
     TextField, Stack, Paper, Container, Divider, List, ListItem, IconButton, ListItemText
@@ -12,7 +12,6 @@ const steps = ['World Identity', 'Define Skills', 'Create Archetypes', 'Set Care
 export default function CampaignWizard() {
     const [activeStep, setActiveStep] = useState(0);
 
-    // Local state for the "Blank Slate" setting
     const [campaign, setCampaign] = useState({
         name: '',
         description: '',
@@ -30,11 +29,12 @@ export default function CampaignWizard() {
     const StepIdentity = () => (
         <Stack spacing={3} sx={{mt: 4}}>
             <Typography variant="h5">Name your World</Typography>
+            // Switch Below to Edit Field
             <TextField
                 label="Campaign Title"
                 fullWidth
                 value={campaign.name}
-                onChange={(e) => setCampaign({...campaign, name: e.target.value})}
+                onChange={(e) => setCampaign(prev => ({...prev, name: e.target.value}))}
                 placeholder="e.g. Shadows of the Core"
             />
             <TextField
@@ -42,12 +42,11 @@ export default function CampaignWizard() {
                 multiline rows={4}
                 fullWidth
                 value={campaign.description}
-                onChange={(e) => setCampaign({...campaign, description: e.target.value})}
+                onChange={(e) => setCampaign(prev => ({...prev, description: e.target.value}))}
             />
         </Stack>
     );
 
-    // --- Step 2: Skills (The Engine) ---
     const [newSkill, setNewSkill] = useState({name: '', characteristic: 'Brawn'});
     const addSkill = () => {
         if (!newSkill.name) return;

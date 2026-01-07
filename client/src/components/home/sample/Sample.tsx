@@ -17,19 +17,11 @@ export default function FocusedVTT(campaigns: Campaign[]) {
     const [selectedCampaign, setSelectedCampaign] = useState(0);
     const navigate = useNavigate();
 
-    // Mock data representing your MongoDB objects
-    // const campaigns = [
-    //     {id: 1, name: "Twilight Imperium", setting: "Custom Space Opera", players: 5, items: 28},
-    //     {id: 2, name: "The Frozen Wastes", setting: "Grimdark Fantasy", players: 3, items: 12},
-    //     {id: 3, name: "Neo-Tokyo 2099", setting: "Cyberpunk", players: 4, items: 45}
-    // ];
-
     const current = campaigns[selectedCampaign];
 
     return (
         <Box sx={{flexGrow: 1, minHeight: '100vh', pb: 10}}>
 
-            {/* 1. CAMPAIGN SELECTOR (Top Navigation) */}
             <AppBar position="sticky" sx={{
                 bgcolor: 'rgba(5, 12, 20, 0.8)',
                 backdropFilter: 'blur(20px)',
@@ -52,10 +44,8 @@ export default function FocusedVTT(campaigns: Campaign[]) {
                 </Toolbar>
             </AppBar>
 
-            {/* 2. FOCUSED CAMPAIGN VIEW */}
             <Box sx={{p: {xs: 2, md: 6}, maxWidth: 1200, mx: 'auto'}}>
 
-                {/* Main Hero Section */}
                 <Grid container spacing={4}>
                     <Grid size={{xs: 12}}>
                         <Paper sx={{
@@ -82,7 +72,6 @@ export default function FocusedVTT(campaigns: Campaign[]) {
                         </Paper>
                     </Grid>
 
-                    {/* Campaign-Specific Sub-Items */}
                     {/*<Grid size={{xs: 12, md: 4}}>*/}
                     {/*    <Card>*/}
                     {/*        <CardContent sx={{textAlign: 'center', py: 4}}>*/}
