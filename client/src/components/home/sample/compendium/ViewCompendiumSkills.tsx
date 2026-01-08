@@ -1,63 +1,45 @@
 import {useState} from 'react';
 import {
     Box, Typography, Paper, TextField, InputAdornment,
-    Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, IconButton, Chip, Stack, Button, CircularProgress
+    Table, TableBody, TableContainer,
+    TableRow, Button, CircularProgress
 } from '@mui/material';
-
-// Standard MUI Icons
 import SearchIcon from '@mui/icons-material/Search';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddIcon from '@mui/icons-material/Add';
-import BoltIcon from '@mui/icons-material/Bolt'; // Active
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import {useParams} from "react-router-dom";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 import type {Skill} from "../../../../api/model";
-import {renderSkillName} from "../../../common/skill/SkillRenders.tsx";
 import SkillDrawer from "./SkillDrawer.tsx";
-import {emptySkill} from "../../../../models/Skill.ts"; // Passive
+import {emptySkill} from "../../../../models/Skill.ts";
+import {useCreateSkill, useUpdateSkill} from "../../../../api/generated/skills/skills.ts";
+import {renderSingleRowTableHeader, renderSkillNameTableCell} from "../../../common/table/TableRenders.tsx";
+import BooleanTableCell from "../../../common/table/BooleanTableCell.tsx";
+import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell.tsx";
+import CustomTableCell from "../../../common/table/common/CustomTableCell.tsx";
 
 interface Props {
     skill: Skill;
     onEdit: (skill: Skill) => void;
 }
 
-// 1. Talent Row Component with Detail Collapse
 function SkillRow(props: Props) {
     const {skill, onEdit} = props;
-    const [open, setOpen] = useState(false);
+
+    const onEditClick = () => {
+        onEdit(skill);
+    }
 
     return (
-        <>
-            <TableRow sx={{'& > *': {borderBottom: 'unset'}, cursor: 'pointer'}} onClick={() => setOpen(!open)}>
-                <TableCell width="40">
-                    <IconButton size="small">
-                        {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
-                    </IconButton>
-                </TableCell>
-                <TableCell component="th" scope="row">
-                    <Typography fontWeight="bold">{renderSkillName(skill)}</Typography>
-                </TableCell>
-                {/*<TableCell align="center">*/}
-                {/*    <Chip label={`Tier ${skill.tier}`} size="small" variant="outlined" color="primary"/>*/}
-                {/*</TableCell>*/}
-                {/*<TableCell align="center">*/}
-                {/*    <Chip*/}
-                {/*        icon={skill.activation === 'Active' ? <BoltIcon fontSize="small"/> :*/}
-                {/*            <VisibilityIcon fontSize="small"/>}*/}
-                {/*        label={talent.activation}*/}
-                {/*        size="small"*/}
-                {/*    />*/}
-                {/*</TableCell>*/}
-                <TableCell align="center">
-                    {skill.initiative ? <Chip label="Yes" size="small" color="primary"/> :
-                        <Chip label="No" size="small" color="secondary"/>}
-                </TableCell>
-                <Button size="small" variant="text" onClick={() => onEdit}>Edit</Button>
-            </TableRow>
-        </>
+        <TableRow>
+            {renderSkillNameTableCell(skill)}
+            <TypographyCenterTableCell value={skill.type}/>
+            <BooleanTableCell bool={skill.initiative}/>
+            <CustomTableCell centered>
+                <Button variant="text" onClick={onEditClick}>
+                    Edit
+                </Button>
+            </CustomTableCell>
+        </TableRow>
     );
 }
 
@@ -67,12 +49,15 @@ export default function ViewCompendiumSkills() {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [skill, setSkill] = useState<Skill>(emptySkill);
     const [isNew, setIsNew] = useState(false);
+    const headers = ["Name", "Type", "Initiative", "Actions"];
 
     if (!id) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
     }
 
     const {data: campaign, isLoading} = useCampaignLive(id);
+    const createSkillMutation = useCreateSkill();
+    const updateSkillMutation = useUpdateSkill();
 
     if (isLoading) {
         return <CircularProgress/>;
@@ -101,9 +86,16 @@ export default function ViewCompendiumSkills() {
 
     const handleSave = async (updatedSkill: Skill) => {
         if (isNew) {
-            // Backend Call: await fetch('/api/equipment', { method: 'POST', body: newItem });
+            await createSkillMutation.mutateAsync({
+                campaignId: campaign.id,
+                data: updatedSkill
+            });
         } else {
-            // Backend Call: await fetch(`/api/equipment/${itemData.id}`, { method: 'PATCH', body: itemData });
+            await updateSkillMutation.mutateAsync({
+                campaignId: campaign.id,
+                skillId: updatedSkill.id,
+                data: updatedSkill
+            });
         }
 
         setSkill(emptySkill);
@@ -111,14 +103,14 @@ export default function ViewCompendiumSkills() {
 
     return (
         <Box sx={{p: 4, maxWidth: 1200, mx: 'auto'}}>
-
-            {/* Page Header */}
             <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 4}}>
-                <Typography variant="h4" fontWeight="900">Skill Compendium</Typography>
-                <Button variant="contained" startIcon={<AddIcon/>} onClick={handleOpenCreate}>New Skill</Button>
+                <Typography variant="h4" fontWeight="900">
+                    Skill Compendium
+                </Typography>
+                <Button variant="contained" startIcon={<AddIcon/>} onClick={handleOpenCreate}>
+                    New Skill
+                </Button>
             </Box>
-
-            {/* 3. Search & Filter Bar */}
             <Paper sx={{p: 2, mb: 3, display: 'flex', gap: 2, alignItems: 'center'}}>
                 <TextField
                     fullWidth
@@ -137,29 +129,10 @@ export default function ViewCompendiumSkills() {
                         }
                     }}
                 />
-                <Stack direction="row" spacing={1}>
-                    <Chip label="All Tiers" onClick={() => {
-                    }} color="primary"/>
-                    <Chip label="Ranked Only" onClick={() => {
-                    }} variant="outlined"/>
-                </Stack>
             </Paper>
-
-            {/* 4. The Talent Table */}
             <TableContainer component={Paper} sx={{borderRadius: 4}}>
                 <Table aria-label="skill table">
-                    <TableHead sx={{bgcolor: 'rgba(255,255,255,0.05)'}}>
-                        <TableRow>
-                            <TableCell width="40"/>
-                            <TableCell><Typography variant="subtitle2" fontWeight="bold">Name</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle2"
-                                                                  fontWeight="bold">Tier</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle2"
-                                                                  fontWeight="bold">Activation</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle2"
-                                                                  fontWeight="bold">Type</Typography></TableCell>
-                        </TableRow>
-                    </TableHead>
+                    {renderSingleRowTableHeader(headers, {bgcolor: 'rgba(255,255,255,0.05)'})}
                     <TableBody>
                         {filteredSkills.map((skill: Skill) => (
                             <SkillRow key={skill.id} skill={skill} onEdit={handleOpenEdit}/>

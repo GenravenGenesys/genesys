@@ -1,16 +1,16 @@
 import {TextField} from "@mui/material";
 import * as React from "react";
 
-type Props = {
+interface Props {
     text: string;
     label: string;
-    disabled: boolean;
     onChange: (value: string) => void;
+    disabled?: boolean;
     fullwidth?: boolean;
     rows?: number;
-};
+}
 
-const GenesysTextField: React.FC<Props> = ({text, label, disabled, onChange, fullwidth, rows}) => {
+const GenesysTextField: React.FC<Props> = ({text, label, onChange, disabled, fullwidth, rows}) => {
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange(event.target.value);
     };

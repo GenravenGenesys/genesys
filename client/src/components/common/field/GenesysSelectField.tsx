@@ -1,12 +1,12 @@
 import {MenuItem, TextField} from "@mui/material";
 
-type Props<T extends Record<string, string | number>> = {
+interface Props<T extends Record<string, string | number>> {
     value: T[keyof T];
     label: string;
     onChange: (value: T[keyof T]) => void;
     options: T
     disabled?: boolean;
-};
+}
 
 const GenesysSelectField = <T extends Record<string, string | number>>({
                                                                            value,

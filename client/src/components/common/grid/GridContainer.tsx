@@ -1,12 +1,12 @@
 import React from "react";
 import {Grid2} from "@mui/material";
 
-type Props = {
+interface Props {
     children: React.ReactNode;
     centered?: boolean;
     spacing?: number;
     columns?: number;
-};
+}
 
 const GridContainer: React.FC<Props> = ({children, centered, spacing, columns}) => {
     return <Grid2 container spacing={spacing ?? 0} columns={columns}

@@ -4,7 +4,7 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import {renderDoubleRowTableHeader, renderSkillName} from "../../../../common/table/TableRenders";
+import {renderDoubleRowTableHeader, renderSkillNameTableCell} from "../../../../common/table/TableRenders";
 import TableRow from "@mui/material/TableRow";
 import {
     GenesysDicePoolCenterTableCellButton,
@@ -30,7 +30,7 @@ export default function PlayerSkillCard(props: Props) {
                 <TableBody>
                     {(player.skills || []).filter((skill) => skill.type === type).map((skill: PlayerSkill) => (
                         <TableRow key={skill.name}>
-                            {renderSkillName(skill)}
+                            {renderSkillNameTableCell(skill)}
                             <BooleanTableCell bool={skill.career}/>
                             <TypographyCenterTableCell value={String(skill.ranks)}/>
                             <GenesysDicePoolCenterTableCellButton actor={player} skill={skill}/>

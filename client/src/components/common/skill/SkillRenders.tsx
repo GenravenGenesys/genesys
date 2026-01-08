@@ -10,7 +10,7 @@ import type NonPlayerActor from "../../../models/actor/npc/NonPlayerActor.ts";
 import type { SingleNonPlayerCharacter } from "../../../models/actor/npc/NonPlayerActor.ts";
 
 
-export const renderSkillName = (skill: Skill): string => {
+export const renderBasicSkillName = (skill: Skill): string => {
     return !skill ? 'None' : skill.name;
 }
 

@@ -1,6 +1,6 @@
 import { Autocomplete, Card, CardContent, TextField } from "@mui/material";
 import CenteredCardHeader from "./header/CenteredCardHeader";
-import { renderSkillName } from "../skill/SkillRenders";
+import { renderBasicSkillName } from "../skill/SkillRenders";
 import * as React from "react";
 import ViewFieldCard from "../ViewFieldCard";
 import GridItem from "../grid/GridItem";
@@ -22,7 +22,7 @@ const SkillAutocompleteCard: React.FC<Props> = ({ handleSkillChange, disabled, s
                 <CardContent>
                     <Autocomplete
                         options={skills}
-                        getOptionLabel={(option) => renderSkillName(option)}
+                        getOptionLabel={(option) => renderBasicSkillName(option)}
                         value={startingSkill}
                         fullWidth
                         onChange={(_, newValue) => handleSkillChange(newValue as Skill)}

@@ -5,7 +5,7 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import { renderDoubleRowTableHeader, renderSkillName } from "../../../common/table/TableRenders";
+import { renderDoubleRowTableHeader, renderSkillNameTableCell } from "../../../common/table/TableRenders";
 import TableRow from "@mui/material/TableRow";
 import { GenesysDicePoolCenterTableCellButton } from "../../../common/table/TypographyTableCell";
 import SkillRanksTextFieldTableCell from "../../../common/table/SkillRanksTextFieldTableCell";
@@ -34,7 +34,7 @@ export default function SingleNonPlayerCharacterSkillCard(props: Props) {
                         .sort((a, b) => a.name.localeCompare(b.name))
                         .map((skill) => (
                             <TableRow key={skill.name}>
-                                {renderSkillName(skill)}
+                                {renderSkillNameTableCell(skill)}
                                 {onSkillChange && (
                                     <SkillRanksTextFieldTableCell
                                         onChange={onSkillChange}

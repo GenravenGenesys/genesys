@@ -13,7 +13,7 @@ import {
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SkillIcon from "@mui/icons-material/Psychology";
 import type {Skill} from "../../../../api/model";
-import {renderSkillName} from "../../../common/skill/SkillRenders.tsx";
+import {renderBasicSkillName} from "../../../common/skill/SkillRenders.tsx";
 import RouterLinkButton from "../../../common/RouterLink.tsx";
 import {RootPath} from "../../../../services/RootPath.ts";
 
@@ -60,7 +60,7 @@ export default function SkillCompendiumCard(props: Props) {
                         {skills.map(item => (
                             <ListItem key={item.id} disablePadding sx={{py: 0.5}}>
                                 <ListItemText
-                                    primary={renderSkillName(item)}
+                                    primary={renderBasicSkillName(item)}
                                 />
                             </ListItem>
                         ))}
