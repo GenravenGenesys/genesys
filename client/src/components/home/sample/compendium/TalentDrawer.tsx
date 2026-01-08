@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {
     Box, Drawer, Typography, TextField, Stack, Button, MenuItem,
     Grid2 as Grid, Divider, FormControlLabel, Switch, IconButton,
-    Select, InputLabel, FormControl, Paper
+    Select, InputLabel, FormControl, Paper, Collapse
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
@@ -25,6 +25,7 @@ interface Props {
 export default function TalentDrawer(props: Props) {
     const {open, talent, onClose, onSave, isNew} = props;
     const [formData, setFormData] = useState<Talent>(talent || {});
+    const [modifierCollasped, setModifierCollapsed] = useState(false);
 
     useEffect(() => {
         if (talent) setFormData(talent);
@@ -84,14 +85,8 @@ export default function TalentDrawer(props: Props) {
                 </GridContainer>
                 <GenesysSelectField value={formData.activation} label={"Activation"}
                                     onChange={(e) => handleChange('activation', e)} options={Activation}/>
-                <TextField
-                    label="Description"
-                    multiline rows={3}
-                    fullWidth
-                    value={formData.description}
-                    onChange={(e) => handleChange('description', e.target.value)}
-                />
-
+                <GenesysTextField text={formData.description || ''} label={"Description"}
+                                  onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
                 {/* AUTOMATION: MODIFIERS (Stats/Dice) */}
                 {/*<Divider sx={{ my: 2 }}><Typography variant="caption" sx={{ fontWeight: 'bold', color: 'primary.main' }}>STAT & DICE MODIFIERS</Typography></Divider>*/}
 
@@ -137,48 +132,58 @@ export default function TalentDrawer(props: Props) {
                 {/*))}*/}
                 {/*<Button startIcon={<AddIcon />} onClick={addModifier}>Add Modifier</Button>*/}
 
-                {/* AUTOMATION: ACTIVE ACTIONS */}
-                <Divider sx={{my: 2}}><Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>ACTION
-                    LOGIC</Typography></Divider>
+                <Collapse in={formData.activation === Activation["Active_(Action)"]}>
+                    <Divider sx={{my: 2}}>
+                        <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                            ACTION LOGIC
+                        </Typography>
+                    </Divider>
+                    <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>
+                        {/*<TextField*/}
+                        {/*    select*/}
+                        {/*    label="Roll Skill"*/}
+                        {/*    fullWidth*/}
+                        {/*    size="small"*/}
+                        {/*    value={formData.action.skillId}*/}
+                        {/*    onChange={(e) => handleChange('action', {...formData.action, skillId: e.target.value})}*/}
+                        {/*>*/}
+                        {/*    {campaignSkills.map(s => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}*/}
+                        {/*</TextField>*/}
 
-                <FormControlLabel
-                    control={<Switch checked={formData.action?.isAction} onChange={(e) => handleChange('action', {
-                        ...formData.action,
-                        isAction: e.target.checked
-                    })}/>}
-                    label="This Talent is a Rollable Action"
-                />
+                        {/*<FormControlLabel*/}
+                        {/*    control={*/}
+                        {/*        <Switch*/}
+                        {/*            size="small"*/}
+                        {/*            checked={formData.action.isOpposed}*/}
+                        {/*            onChange={(e) => handleChange('action', {*/}
+                        {/*                ...formData.action,*/}
+                        {/*                isOpposed: e.target.checked*/}
+                        {/*            })}*/}
+                        {/*        />*/}
+                        {/*    }*/}
+                        {/*    label="Is an Opposed Check?"*/}
+                        {/*/>*/}
 
-                {formData.action?.isAction && (
-                    <Stack spacing={2} sx={{p: 2, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>
-                        <TextField select label="Roll Talent" fullWidth value={formData.action.talentId}
-                                   onChange={(e) => handleChange('action', {
-                                       ...formData.action,
-                                       talentId: e.target.value
-                                   })}>
-                            {campaignTalents.map(s => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}
-                        </TextField>
-
-                        <FormControlLabel
-                            control={<Switch checked={formData.action.isOpposed}
-                                             onChange={(e) => handleChange('action', {
-                                                 ...formData.action,
-                                                 isOpposed: e.target.checked
-                                             })}/>}
-                            label="Is an Opposed Check?"
-                        />
-
-                        {formData.action.isOpposed && (
-                            <TextField select label="Target Resists with..." fullWidth
-                                       value={formData.action.opposedTalentId} onChange={(e) => handleChange('action', {
-                                ...formData.action,
-                                opposedTalentId: e.target.value
-                            })}>
-                                {campaignTalents.map(s => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}
-                            </TextField>
-                        )}
+                        {/* 3. Nested Collapse for Opposed Skills */}
+                        {/*<Collapse in={formData.action.isOpposed}>*/}
+                        {/*    <Box sx={{pt: 1}}>*/}
+                        {/*        /!*<TextField*!/*/}
+                        {/*        /!*    select*!/*/}
+                        {/*        /!*    label="Target Resists with..."*!/*/}
+                        {/*        /!*    fullWidth*!/*/}
+                        {/*        /!*    size="small"*!/*/}
+                        {/*        /!*    value={formData.action.opposedSkillId}*!/*/}
+                        {/*        /!*    onChange={(e) => handleChange('action', {*!/*/}
+                        {/*        /!*        ...formData.action,*!/*/}
+                        {/*        /!*        opposedSkillId: e.target.value*!/*/}
+                        {/*        /!*    })}*!/*/}
+                        {/*        /!*>*!/*/}
+                        {/*        /!*    {campaignSkills.map(s => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}*!/*/}
+                        {/*        /!*</TextField>*!/*/}
+                        {/*    </Box>*/}
+                        {/*</Collapse>*/}
                     </Stack>
-                )}
+                </Collapse>
 
                 <Box sx={{mt: 4, display: 'flex', gap: 2}}>
                     <Button variant="contained" fullWidth startIcon={<SaveIcon/>} onClick={() => onSave(formData)}>
