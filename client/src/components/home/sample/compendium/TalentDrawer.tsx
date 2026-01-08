@@ -8,11 +8,12 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Activation, type Talent, TalentTier} from "../../../../api/model";
+import {Activation, type Talent, TalentTier, type Skill} from "../../../../api/model";
 import GridContainer from "../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
+import SelectSkillField from "./SelectSkillField.tsx";
 
 interface Props {
     open: boolean;
@@ -139,6 +140,11 @@ export default function TalentDrawer(props: Props) {
                         </Typography>
                     </Divider>
                     <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>
+                        <SelectSkillField currentSkill={{...formData.action.skill}}
+                                          handleSkillSelect={(selectedSkill) => handleChange('action', {
+                                              ...formData.action,
+                                              skill: {...selectedSkill, ranks: 0}
+                                          })}/>
                         {/*<TextField*/}
                         {/*    select*/}
                         {/*    label="Roll Skill"*/}
