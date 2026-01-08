@@ -67,9 +67,7 @@ export default function ViewCompendiumSkills() {
         return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
     }
 
-    const skills = campaign.compendium.skills;
-
-    const filteredSkills = skills.filter((skill: Skill) =>
+    const filteredSkills = campaign.compendium.skills.filter((skill: Skill) =>
         skill.name.toLowerCase().includes(search.toLowerCase())
     );
 
