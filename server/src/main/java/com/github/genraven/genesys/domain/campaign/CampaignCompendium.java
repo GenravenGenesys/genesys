@@ -17,12 +17,15 @@ import java.util.List;
 @AllArgsConstructor
 public class CampaignCompendium {
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Custom species or archetypes")
     private List<Archetype> archetypes = List.of();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Custom careers and career skills")
     private List<Career> careers = List.of();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Setting-specific skills")
     private List<Skill> skills = List.of();
 

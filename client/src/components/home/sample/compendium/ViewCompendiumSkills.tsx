@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {
     Box, Typography, Paper, TextField, InputAdornment,
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Collapse, IconButton, Chip, Stack, Button, CircularProgress
+    TableRow, IconButton, Chip, Stack, Button, CircularProgress
 } from '@mui/material';
 
 // Standard MUI Icons
@@ -99,25 +99,14 @@ export default function ViewCompendiumSkills() {
         setOpenDrawer(true);
     };
 
-    const handleSave = async (itemData) => {
-        if (itemData.isNew) {
-            // 1. CREATE Logic (POST)
-            // Remove the 'isNew' flag before sending to Java
-            const { isNew, ...newItem } = itemData;
-
-            // Optimistic UI update: generate a temp ID
-            const tempItem = { ...newItem, id: Date.now().toString() };
-            setEquipment(prev => [...prev, tempItem]);
-
+    const handleSave = async (updatedSkill: Skill) => {
+        if (isNew) {
             // Backend Call: await fetch('/api/equipment', { method: 'POST', body: newItem });
         } else {
-            // 2. UPDATE Logic (PATCH)
-            setEquipment(prev => prev.map(i => i.id === itemData.id ? itemData : i));
-
             // Backend Call: await fetch(`/api/equipment/${itemData.id}`, { method: 'PATCH', body: itemData });
         }
 
-        setEditingItem(null);
+        setSkill(emptySkill);
     };
 
     return (

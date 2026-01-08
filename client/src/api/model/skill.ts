@@ -8,6 +8,9 @@
 import type { SkillCharacteristic } from "./skillCharacteristic";
 import type { SkillType } from "./skillType";
 
+/**
+ * Setting-specific skills
+ */
 export interface Skill {
   id: string;
   /** @minLength 1 */

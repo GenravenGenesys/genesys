@@ -24,6 +24,7 @@ public class Campaign {
     @NotEmpty
     private String name;
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Party party = new Party();
 
