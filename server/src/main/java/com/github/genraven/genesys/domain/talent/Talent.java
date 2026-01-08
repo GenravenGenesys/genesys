@@ -49,29 +49,37 @@ public class Talent {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Cost cost = new Cost();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Limit limit = new Limit();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private TalentSkills talentSkills = new TalentSkills();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private TalentStats talentStats = new TalentStats();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private TalentSkillCheck talentSkillCheck = new TalentSkillCheck();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Action action = new Action();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<TalentRollModifiers> talentRollModifiers = new ArrayList<>();
+    private List<TalentRollModifiers> talentRollModifiers = List.of();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Modifier> modifiers = new ArrayList<>();
+    private List<Modifier> modifiers = List.of();
 
     @AllArgsConstructor
     @Getter

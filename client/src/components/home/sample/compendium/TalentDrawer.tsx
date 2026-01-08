@@ -1,14 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {
-    Box, Drawer, Typography, TextField, Stack, Button, MenuItem,
-    Grid2 as Grid, Divider, FormControlLabel, Switch, IconButton,
-    Select, InputLabel, FormControl, Paper, Collapse
+    Box, Drawer, Typography, Stack, Button,
+    Grid2 as Grid, Divider, IconButton, Collapse
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import {Activation, type Talent, TalentTier, type Skill} from "../../../../api/model";
+import {Activation, type Talent, TalentTier} from "../../../../api/model";
 import GridContainer from "../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
@@ -140,7 +137,7 @@ export default function TalentDrawer(props: Props) {
                         </Typography>
                     </Divider>
                     <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>
-                        <SelectSkillField currentSkill={{...formData.action.skill}}
+                        <SelectSkillField currentSkill={{...formData.action?.skill || null}}
                                           handleSkillSelect={(selectedSkill) => handleChange('action', {
                                               ...formData.action,
                                               skill: {...selectedSkill, ranks: 0}
@@ -192,7 +189,7 @@ export default function TalentDrawer(props: Props) {
                 </Collapse>
 
                 <Box sx={{mt: 4, display: 'flex', gap: 2}}>
-                    <Button variant="contained" fullWidth startIcon={<SaveIcon/>} onClick={() => onSave(formData)}>
+                    <Button variant="contained" fullWidth startIcon={<SaveIcon/>} onClick={handleSave}>
                         Save Talent
                     </Button>
                     <Button variant="outlined" fullWidth onClick={onClose}>Cancel</Button>
