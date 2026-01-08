@@ -6,7 +6,6 @@ import {
 
 // Standard MUI Icons
 import SwordIcon from '@mui/icons-material/SportsMma';
-import TalentIcon from '@mui/icons-material/AutoStories';
 import ArchetypeIcon from '@mui/icons-material/PersonAdd';
 import AddIcon from '@mui/icons-material/Add';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -14,6 +13,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import {useParams} from "react-router-dom";
 import SkillCompendiumCard from "./SkillCompendiumCard.tsx";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
+import TalentCompendiumCard from "./TalentCompendiumCard.tsx";
 
 export default function CompendiumHome() {
     const {id} = useParams<{ id: string }>();
@@ -34,13 +34,6 @@ export default function CompendiumHome() {
 
     // Mock Data: In 2026, these would be fetched via your Spring Boot Reactive API
     // const compendiumCategories = [
-    //     {
-    //         title: "Talents",
-    //         count: 24,
-    //         icon: <TalentIcon/>,
-    //         color: "#ff4081",
-    //         preview: ["Hard Headed", "Quick Strike", "Side Step"]
-    //     },
     //     {
     //         title: "Weapons & Gear",
     //         count: 42,
@@ -133,6 +126,7 @@ export default function CompendiumHome() {
                 {/*    </Grid>*/}
                 {/*))}*/}
                 <SkillCompendiumCard skills={campaign.compendium.skills} campaignId={id}/>
+                <TalentCompendiumCard talents={campaign.compendium.talents} campaignId={id}/>
 
                 {/* Setting Rules & Formatting Section */}
                 {/*<Grid size={{ xs: 12, md: 8 }}>*/}

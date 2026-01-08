@@ -8,6 +8,7 @@
 import type { Archetype } from "./archetype";
 import type { Career } from "./career";
 import type { Skill } from "./skill";
+import type { Talent } from "./talent";
 
 export interface CampaignCompendium {
   /** Custom species or archetypes */
@@ -16,4 +17,6 @@ export interface CampaignCompendium {
   careers: Career[];
   /** Setting-specific skills */
   skills: Skill[];
+  /** Setting-specific talents */
+  talents: Talent[];
 }

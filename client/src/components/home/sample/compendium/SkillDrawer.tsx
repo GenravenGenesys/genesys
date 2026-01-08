@@ -46,14 +46,14 @@ export default function SkillDrawer(props: Props) {
         <Drawer
             anchor="right"
             open={open}
-            onClose={onClose}
+            onClose={handleClose}
             slotProps={{paper: {sx: {width: {xs: '100%', sm: 450}, p: 3, bgcolor: '#0a1929'}}}}
         >
             <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 3}}>
                 <Typography variant="h5" fontWeight="bold">
                     {isNew ? "Create New Skill" : "Edit Skill"}
                 </Typography>
-                <Button onClick={onClose}><CloseIcon/></Button>
+                <Button onClick={handleClose}><CloseIcon/></Button>
             </Box>
             <Stack spacing={3}>
                 <GenesysTextField text={formData.name || ''} label={"Skill Name"}

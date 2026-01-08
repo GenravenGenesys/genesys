@@ -16,6 +16,9 @@ import type { Action } from "./action";
 import type { TalentRollModifiers } from "./talentRollModifiers";
 import type { Modifier } from "./modifier";
 
+/**
+ * Setting-specific talents
+ */
 export interface Talent {
   id: string;
   /** @minLength 1 */

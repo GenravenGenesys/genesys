@@ -10,23 +10,22 @@ import {
     ListItemText,
     Typography
 } from "@mui/material";
-import SkillIcon from "@mui/icons-material/Psychology";
-import type {Skill} from "../../../../api/model";
-import {renderBasicSkillName} from "../../../common/skill/SkillRenders.tsx";
+import type {Talent} from "../../../../api/model";
 import RouterLinkButton from "../../../common/RouterLink.tsx";
 import {RootPath} from "../../../../services/RootPath.ts";
+import TalentIcon from "@mui/icons-material/AutoStories";
 
 interface Props {
-    skills: Skill[];
+    talents: Talent[];
     campaignId: string;
 }
 
-export default function SkillCompendiumCard(props: Props) {
-    const {skills, campaignId} = props;
+export default function TalentCompendiumCard(props: Props) {
+    const {talents, campaignId} = props;
     const color = "#00e5ff";
 
     return (
-        <Grid2 size={{xs: 12, md: 6, lg: 3}} key={"Skills"}>
+        <Grid2 size={{xs: 12, md: 6, lg: 3}} key={"Talents"}>
             <Card sx={{
                 height: '100%',
                 display: 'flex',
@@ -44,22 +43,22 @@ export default function SkillCompendiumCard(props: Props) {
                             color: color,
                             display: 'flex'
                         }}>
-                            <SkillIcon/>
+                            <TalentIcon/>
                         </Box>
-                        <Chip label={`${skills.length} Items`} size="small"/>
+                        <Chip label={`${talents.length} Items`} size="small"/>
                     </Box>
 
                     <Typography variant="h5" fontWeight="bold" gutterBottom>
-                        Skills
+                        Talents
                     </Typography>
 
                     <Divider sx={{my: 1.5, opacity: 0.1}}/>
 
                     <List dense>
-                        {skills.map(item => (
+                        {talents.map(item => (
                             <ListItem key={item.id} disablePadding sx={{py: 0.5}}>
                                 <ListItemText
-                                    primary={renderBasicSkillName(item)}
+                                    primary={item.name}
                                 />
                             </ListItem>
                         ))}
@@ -67,7 +66,8 @@ export default function SkillCompendiumCard(props: Props) {
                 </CardContent>
 
                 <Box sx={{p: 2, display: 'flex', gap: 1}}>
-                    <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Skills} text={"View All"}/>
+                    <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Talent}
+                                      text={"View All"}/>
                 </Box>
             </Card>
         </Grid2>
