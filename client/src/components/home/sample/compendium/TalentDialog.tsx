@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {
     Box, Drawer, Typography, Stack, Button,
-    Grid2 as Grid, Divider, IconButton, Collapse
+    Grid2 as Grid, Divider, IconButton, Collapse, Dialog, useTheme, useMediaQuery
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
@@ -20,10 +20,13 @@ interface Props {
     isNew: boolean;
 }
 
-export default function TalentDrawer(props: Props) {
+export default function TalentDialog(props: Props) {
     const {open, talent, onClose, onSave, isNew} = props;
     const [formData, setFormData] = useState<Talent>(talent || {});
     const [modifierCollasped, setModifierCollapsed] = useState(false);
+    const theme = useTheme();
+    // Check if screen is smaller than 'md' (960px)
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     useEffect(() => {
         if (talent) setFormData(talent);
@@ -55,11 +58,14 @@ export default function TalentDrawer(props: Props) {
     };
 
     return (
-        <Drawer
-            anchor="right"
+        <Dialog
             open={open}
             onClose={handleClose}
-            slotProps={{paper: {sx: {width: {xs: '100%', sm: 450}, p: 3, bgcolor: '#0a1929'}}}}
+            fullWidth
+            fullScreen={fullScreen}
+            maxWidth="md"
+            scroll="paper"
+            slotProps={{paper: {sx: { borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none' }}}}
         >
             <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3}}>
                 <Typography variant="h5" fontWeight="bold">
@@ -195,6 +201,6 @@ export default function TalentDrawer(props: Props) {
                     <Button variant="outlined" fullWidth onClick={onClose}>Cancel</Button>
                 </Box>
             </Stack>
-        </Drawer>
+        </Dialog>
     );
 }

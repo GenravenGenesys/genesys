@@ -15,7 +15,7 @@ import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCe
 import CustomTableCell from "../../../common/table/common/CustomTableCell.tsx";
 import {useCreateTalent, useUpdateTalent} from "../../../../api/generated/talents/talents.ts";
 import type {Talent} from "../../../../api/model";
-import TalentDrawer from "./TalentDrawer.tsx";
+import TalentDialog from "./TalentDialog.tsx";
 
 interface Props {
     talent: Talent;
@@ -31,6 +31,7 @@ function TalentRow(props: Props) {
 
     return (
         <TableRow>
+            <TypographyCenterTableCell value={talent.name}/>
             {/*{renderTalentNameTableCell(talent)}*/}
             {/*<TypographyCenterTableCell value={talent.type}/>*/}
             {/*<BooleanTableCell bool={talent.initiative}/>*/}
@@ -138,8 +139,8 @@ export default function ViewCompendiumTalents() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TalentDrawer open={Boolean(openDrawer)} talent={talent} onClose={() => setOpenDrawer(false)}
-                         onSave={handleSave} isNew={isNew}/>
+            <TalentDialog open={Boolean(openDrawer)} talent={talent} onClose={() => setOpenDrawer(false)}
+                          onSave={handleSave} isNew={isNew}/>
         </Box>
     );
 }
