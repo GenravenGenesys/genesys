@@ -9,5 +9,6 @@ import type { CostType } from "./costType";
 
 export interface Cost {
   type: CostType;
+  /** @minimum 0 */
   amount: number;
 }

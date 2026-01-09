@@ -1,7 +1,8 @@
 import {useState, useEffect} from 'react';
 import {
     Box, Drawer, Typography, Stack, Button,
-    Grid2 as Grid, Divider, IconButton, Collapse, Dialog, useTheme, useMediaQuery
+    Grid2 as Grid, Divider, IconButton, Collapse, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
+    DialogContent, TextField, FormControlLabel, Switch, Tabs
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,6 +12,7 @@ import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
 import SelectSkillField from "./SelectSkillField.tsx";
+import Tab from "@mui/material/Tab";
 
 interface Props {
     open: boolean;
@@ -23,7 +25,7 @@ interface Props {
 export default function TalentDialog(props: Props) {
     const {open, talent, onClose, onSave, isNew} = props;
     const [formData, setFormData] = useState<Talent>(talent || {});
-    const [modifierCollasped, setModifierCollapsed] = useState(false);
+    const [tabValue, setTabValue] = useState(0);
     const theme = useTheme();
     // Check if screen is smaller than 'md' (960px)
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -65,142 +67,132 @@ export default function TalentDialog(props: Props) {
             fullScreen={fullScreen}
             maxWidth="md"
             scroll="paper"
-            slotProps={{paper: {sx: { borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none' }}}}
+            slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
         >
-            <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3}}>
-                <Typography variant="h5" fontWeight="bold">
-                    {isNew ? "Create Custom Talent" : "Edit Talent"}
-                </Typography>
-                <IconButton onClick={handleClose}><CloseIcon/></IconButton>
+            <DialogTitle>{isNew ? "Create Custom Talent" : "Edit Talent"}</DialogTitle>
+
+            <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
+                <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
+                    <Tab label="Basic Information"/>
+                    <Tab label="Modifiers"/>
+                    <Tab label="Action Logic" disabled={formData.activation !== Activation["Active_(Action)"]}/>
+                </Tabs>
             </Box>
 
-            <Stack spacing={3}>
-                <GenesysTextField text={formData.name || ''} label={"Talent Name"}
-                                  onChange={(e) => handleChange("name", e)} fullwidth={true}/>
-                <GridContainer spacing={2}>
-                    <Grid size={6}>
-                        <GenesysSelectField value={formData.tier} label={"Tier"}
-                                            onChange={(e) => handleChange('tier', e)} options={TalentTier}/>
-                    </Grid>
-                    <Grid size={6}>
-                        <GenesysBooleanField value={formData.ranked} onChange={(e) => handleChange('ranked', e)}
-                                             label={"Ranked Talent"}/>
-                    </Grid>
-                </GridContainer>
-                <GenesysSelectField value={formData.activation} label={"Activation"}
-                                    onChange={(e) => handleChange('activation', e)} options={Activation}/>
-                <GenesysTextField text={formData.description || ''} label={"Description"}
-                                  onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
-                {/* AUTOMATION: MODIFIERS (Stats/Dice) */}
-                {/*<Divider sx={{ my: 2 }}><Typography variant="caption" sx={{ fontWeight: 'bold', color: 'primary.main' }}>STAT & DICE MODIFIERS</Typography></Divider>*/}
-
-                {/*{formData.modifiers.map((mod, index) => (*/}
-                {/*    <Paper key={index} variant="outlined" sx={{ p: 2, bgcolor: 'rgba(255,255,255,0.02)' }}>*/}
-                {/*        <Grid container spacing={1} alignItems="center">*/}
-                {/*            <Grid size={5}>*/}
-                {/*                <TextField select label="Target" size="small" fullWidth value={mod.target} onChange={(e) => {*/}
-                {/*                    const newMods = [...formData.modifiers];*/}
-                {/*                    newMods[index].target = e.target.value;*/}
-                {/*                    handleChange('modifiers', newMods);*/}
-                {/*                }}>*/}
-                {/*                    <MenuItem value="WOUND_THRESHOLD">Wounds</MenuItem>*/}
-                {/*                    <MenuItem value="STRAIN_THRESHOLD">Strain</MenuItem>*/}
-                {/*                    <MenuItem value="SOAK">Soak</MenuItem>*/}
-                {/*                    <MenuItem value="DICE_BOOST">Boost Die [B]</MenuItem>*/}
-                {/*                    <MenuItem value="DICE_SETBACK">Setback Die [S]</MenuItem>*/}
-                {/*                </TextField>*/}
-                {/*            </Grid>*/}
-                {/*            <Grid size={3}>*/}
-                {/*                <TextField label="Value" type="number" size="small" fullWidth value={mod.value} onChange={(e) => {*/}
-                {/*                    const newMods = [...formData.modifiers];*/}
-                {/*                    newMods[index].value = parseInt(e.target.value);*/}
-                {/*                    handleChange('modifiers', newMods);*/}
-                {/*                }} />*/}
-                {/*            </Grid>*/}
-                {/*            <Grid size={3}>*/}
-                {/*                {mod.target.startsWith('DICE') && (*/}
-                {/*                    <TextField select label="Talent" size="small" fullWidth value={mod.talentId} onChange={(e) => {*/}
-                {/*                        const newMods = [...formData.modifiers];*/}
-                {/*                        newMods[index].talentId = e.target.value;*/}
-                {/*                        handleChange('modifiers', newMods);*/}
-                {/*                    }}>*/}
-                {/*                        {campaignTalents.map(s => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}*/}
-                {/*                    </TextField>*/}
-                {/*                )}*/}
-                {/*            </Grid>*/}
-                {/*            <Grid size={1}>*/}
-                {/*                <IconButton onClick={() => removeModifier(index)} color="error"><DeleteIcon fontSize="small" /></IconButton>*/}
-                {/*            </Grid>*/}
-                {/*        </Grid>*/}
-                {/*    </Paper>*/}
-                {/*))}*/}
-                {/*<Button startIcon={<AddIcon />} onClick={addModifier}>Add Modifier</Button>*/}
-
-                <Collapse in={formData.activation === Activation["Active_(Action)"]}>
-                    <Divider sx={{my: 2}}>
-                        <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                            ACTION LOGIC
-                        </Typography>
-                    </Divider>
-                    <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>
-                        <SelectSkillField currentSkill={{...formData.action?.skill || null}}
-                                          handleSkillSelect={(selectedSkill) => handleChange('action', {
-                                              ...formData.action,
-                                              skill: {...selectedSkill, ranks: 0}
-                                          })}/>
-                        {/*<TextField*/}
-                        {/*    select*/}
-                        {/*    label="Roll Skill"*/}
-                        {/*    fullWidth*/}
-                        {/*    size="small"*/}
-                        {/*    value={formData.action.skillId}*/}
-                        {/*    onChange={(e) => handleChange('action', {...formData.action, skillId: e.target.value})}*/}
-                        {/*>*/}
-                        {/*    {campaignSkills.map(s => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}*/}
-                        {/*</TextField>*/}
-
-                        {/*<FormControlLabel*/}
-                        {/*    control={*/}
-                        {/*        <Switch*/}
-                        {/*            size="small"*/}
-                        {/*            checked={formData.action.isOpposed}*/}
-                        {/*            onChange={(e) => handleChange('action', {*/}
-                        {/*                ...formData.action,*/}
-                        {/*                isOpposed: e.target.checked*/}
-                        {/*            })}*/}
-                        {/*        />*/}
-                        {/*    }*/}
-                        {/*    label="Is an Opposed Check?"*/}
-                        {/*/>*/}
-
-                        {/* 3. Nested Collapse for Opposed Skills */}
-                        {/*<Collapse in={formData.action.isOpposed}>*/}
-                        {/*    <Box sx={{pt: 1}}>*/}
-                        {/*        /!*<TextField*!/*/}
-                        {/*        /!*    select*!/*/}
-                        {/*        /!*    label="Target Resists with..."*!/*/}
-                        {/*        /!*    fullWidth*!/*/}
-                        {/*        /!*    size="small"*!/*/}
-                        {/*        /!*    value={formData.action.opposedSkillId}*!/*/}
-                        {/*        /!*    onChange={(e) => handleChange('action', {*!/*/}
-                        {/*        /!*        ...formData.action,*!/*/}
-                        {/*        /!*        opposedSkillId: e.target.value*!/*/}
-                        {/*        /!*    })}*!/*/}
-                        {/*        /!*>*!/*/}
-                        {/*        /!*    {campaignSkills.map(s => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}*!/*/}
-                        {/*        /!*</TextField>*!/*/}
-                        {/*    </Box>*/}
+            <DialogContent sx={{minHeight: '500px', py: 3}} dividers>
+                {tabValue === 0 && (
+                    <Stack spacing={3}>
+                        <GenesysTextField text={formData.name || ''} label={"Talent Name"}
+                                          onChange={(e) => handleChange("name", e)} fullwidth={true}/>
+                        <GridContainer spacing={2}>
+                            <Grid size={6}>
+                                <GenesysSelectField value={formData.tier} label={"Tier"}
+                                                    onChange={(e) => handleChange('tier', e)} options={TalentTier}/>
+                            </Grid>
+                            <Grid size={6}>
+                                <GenesysBooleanField value={formData.ranked} onChange={(e) => handleChange('ranked', e)}
+                                                     label={"Ranked Talent"}/>
+                            </Grid>
+                        </GridContainer>
+                        <GenesysSelectField value={formData.activation} label={"Activation"}
+                                            onChange={(e) => handleChange('activation', e)} options={Activation}/>
+                        <GenesysTextField text={formData.description || ''} label={"Description"}
+                                          onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
+                        <GenesysTextField text={formData.summary || ''} label={"Summary"}
+                                          onChange={(e) => handleChange("summary", e)} fullwidth={true} rows={3}/>
+                        {/*<Collapse in={formData.activation === Activation["Active_(Action)"]}>*/}
+                        {/*    <Divider sx={{my: 2}}>*/}
+                        {/*        <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>*/}
+                        {/*            ACTION LOGIC*/}
+                        {/*        </Typography>*/}
+                        {/*    </Divider>*/}
+                        {/*    <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>*/}
+                        {/*        <SelectSkillField currentSkill={{...formData.action?.skill || null}}*/}
+                        {/*                          handleSkillSelect={(selectedSkill) => handleChange('action', {*/}
+                        {/*                              ...formData.action,*/}
+                        {/*                              skill: {...selectedSkill, ranks: 0}*/}
+                        {/*                          })}/>*/}
+                        {/*    </Stack>*/}
                         {/*</Collapse>*/}
                     </Stack>
-                </Collapse>
+                )}
 
-                <Box sx={{mt: 4, display: 'flex', gap: 2}}>
-                    <Button variant="contained" fullWidth startIcon={<SaveIcon/>} onClick={handleSave}>
-                        Save Talent
-                    </Button>
-                    <Button variant="outlined" fullWidth onClick={onClose}>Cancel</Button>
-                </Box>
-            </Stack>
+                {/* TAB 2: MECHANICS */}
+                {tabValue === 1 && (
+                    <Box>
+                        <Typography variant="subtitle2" gutterBottom>Passive Modifiers</Typography>
+                        {/*<ModifierBuilder modifiers={formData.modifiers}/>*/}
+                    </Box>
+                )}
+
+                {/* TAB 3: ACTION LOGIC */}
+                {tabValue === 2 && (
+                    <Box>
+                        {/*<ActionLogicBuilder action={formData.action}/>*/}
+                    </Box>
+                )}
+            </DialogContent>
+
+            <DialogActions sx={{p: 3}}>
+                <Button variant="outlined" onClick={onClose}>Cancel</Button>
+                <Button variant="contained" startIcon={<SaveIcon/>} onClick={handleSave}>
+                    Save Talent
+                </Button>
+            </DialogActions>
         </Dialog>
+        // <Dialog
+        //     open={open}
+        //     onClose={handleClose}
+        //     fullWidth
+        //     fullScreen={fullScreen}
+        //     maxWidth="md"
+        //     scroll="paper"
+        //     slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
+        // >
+        //     <DialogTitle sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        //         <Typography variant="h5" fontWeight="bold">{isNew ? "Create Custom Talent" : "Edit Talent"}</Typography>
+        //         <IconButton onClick={handleClose}><CloseIcon/></IconButton>
+        //     </DialogTitle>
+        //     <DialogContent dividers>
+        //         <Stack spacing={3}>
+        //             <GenesysTextField text={formData.name || ''} label={"Talent Name"}
+        //                               onChange={(e) => handleChange("name", e)} fullwidth={true}/>
+        //             <GridContainer spacing={2}>
+        //                 <Grid size={6}>
+        //                     <GenesysSelectField value={formData.tier} label={"Tier"}
+        //                                         onChange={(e) => handleChange('tier', e)} options={TalentTier}/>
+        //                 </Grid>
+        //                 <Grid size={6}>
+        //                     <GenesysBooleanField value={formData.ranked} onChange={(e) => handleChange('ranked', e)}
+        //                                          label={"Ranked Talent"}/>
+        //                 </Grid>
+        //             </GridContainer>
+        //             <GenesysSelectField value={formData.activation} label={"Activation"}
+        //                                 onChange={(e) => handleChange('activation', e)} options={Activation}/>
+        //             <GenesysTextField text={formData.description || ''} label={"Description"}
+        //                               onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
+        //             <Collapse in={formData.activation === Activation["Active_(Action)"]}>
+        //                 <Divider sx={{my: 2}}>
+        //                     <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+        //                         ACTION LOGIC
+        //                     </Typography>
+        //                 </Divider>
+        //                 <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>
+        //                     <SelectSkillField currentSkill={{...formData.action?.skill || null}}
+        //                                       handleSkillSelect={(selectedSkill) => handleChange('action', {
+        //                                           ...formData.action,
+        //                                           skill: {...selectedSkill, ranks: 0}
+        //                                       })}/>
+        //                 </Stack>
+        //             </Collapse>
+        //         </Stack>
+        //     </DialogContent>
+        //     <DialogActions sx={{p: 3}}>
+        //         <Button variant="outlined" onClick={onClose}>Cancel</Button>
+        //         <Button variant="contained" startIcon={<SaveIcon/>} onClick={handleSave}>
+        //             Save Talent
+        //         </Button>
+        //     </DialogActions>
+        // </Dialog>
     );
 }

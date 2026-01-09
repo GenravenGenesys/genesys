@@ -9,6 +9,7 @@ import com.github.genraven.genesys.domain.modifier.Modifier;
 import com.github.genraven.genesys.validator.EnumValidator;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -49,10 +50,12 @@ public class Talent {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
+    @Valid
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Cost cost = new Cost();
 
+    @Valid
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Limit limit = new Limit();

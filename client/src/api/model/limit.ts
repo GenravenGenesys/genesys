@@ -9,5 +9,6 @@ import type { LimitType } from "./limitType";
 
 export interface Limit {
   type: LimitType;
+  /** @minimum 0 */
   limit: number;
 }
