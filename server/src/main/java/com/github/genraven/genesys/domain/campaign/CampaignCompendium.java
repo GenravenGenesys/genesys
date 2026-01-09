@@ -1,7 +1,9 @@
 package com.github.genraven.genesys.domain.campaign;
 
+import com.github.genraven.genesys.domain.actor.AdversaryTemplate;
 import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
+import com.github.genraven.genesys.domain.equipment.ItemTemplate;
 import com.github.genraven.genesys.domain.skill.Skill;
 import com.github.genraven.genesys.domain.talent.Talent;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,6 +36,11 @@ public class CampaignCompendium {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Setting-specific talents")
     private List<Talent> talents = List.of();
 
-//    @Schema(description = "Setting-specific gear and weapons")
-//    private List<ItemTemplate> items;
+    @Builder.Default
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Setting-specific weapons, armor, and gear")
+    private List<ItemTemplate> items = List.of();
+
+    @Builder.Default
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Setting-specific Nemeses, Rivals, and Minions")
+    private List<AdversaryTemplate> adversaries = List.of();
 }

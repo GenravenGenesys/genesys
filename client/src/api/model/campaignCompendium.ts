@@ -9,6 +9,8 @@ import type { Archetype } from "./archetype";
 import type { Career } from "./career";
 import type { Skill } from "./skill";
 import type { Talent } from "./talent";
+import type { ItemTemplate } from "./itemTemplate";
+import type { AdversaryTemplate } from "./adversaryTemplate";
 
 export interface CampaignCompendium {
   /** Custom species or archetypes */
@@ -19,4 +21,8 @@ export interface CampaignCompendium {
   skills: Skill[];
   /** Setting-specific talents */
   talents: Talent[];
+  /** Setting-specific weapons, armor, and gear */
+  items: ItemTemplate[];
+  /** Setting-specific Nemeses, Rivals, and Minions */
+  adversaries: AdversaryTemplate[];
 }
