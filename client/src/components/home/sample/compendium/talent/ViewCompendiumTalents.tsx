@@ -7,14 +7,14 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import {useParams} from "react-router-dom";
-import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
-import {emptyTalent} from "../../../../models/Talent.ts";
-import {renderSingleRowTableHeader} from "../../../common/table/TableRenders.tsx";
-import BooleanTableCell from "../../../common/table/BooleanTableCell.tsx";
-import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell.tsx";
-import CustomTableCell from "../../../common/table/common/CustomTableCell.tsx";
-import {useCreateTalent, useUpdateTalent} from "../../../../api/generated/talents/talents.ts";
-import type {Talent} from "../../../../api/model";
+import {useCampaignLive} from "../../../../../hooks/campaign/useCampaginLive.ts";
+import {emptyTalent} from "../../../../../models/Talent.ts";
+import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.tsx";
+import BooleanTableCell from "../../../../common/table/BooleanTableCell.tsx";
+import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell.tsx";
+import CustomTableCell from "../../../../common/table/common/CustomTableCell.tsx";
+import {useCreateTalent, useUpdateTalent} from "../../../../../api/generated/talents/talents.ts";
+import type {Talent} from "../../../../../api/model";
 import TalentDialog from "./TalentDialog.tsx";
 
 interface Props {

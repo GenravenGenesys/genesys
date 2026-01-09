@@ -6,13 +6,14 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
-import {Activation, type Talent, TalentTier} from "../../../../api/model";
-import GridContainer from "../../../common/grid/GridContainer.tsx";
-import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
-import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
-import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
-import SelectSkillField from "./SelectSkillField.tsx";
+import {Activation, type Talent, TalentTier} from "../../../../../api/model";
+import GridContainer from "../../../../common/grid/GridContainer.tsx";
+import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
+import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
+import GenesysBooleanField from "../../../../common/field/GenesysBooleanField.tsx";
+import SelectSkillField from "../SelectSkillField.tsx";
 import Tab from "@mui/material/Tab";
+import TalentModifierTab from "./tabs/TalentModifierTab.tsx";
 
 interface Props {
     open: boolean;
@@ -107,11 +108,11 @@ export default function TalentDialog(props: Props) {
                         {/*        </Typography>*/}
                         {/*    </Divider>*/}
                         {/*    <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>*/}
-                        {/*        <SelectSkillField currentSkill={{...formData.action?.skill || null}}*/}
-                        {/*                          handleSkillSelect={(selectedSkill) => handleChange('action', {*/}
-                        {/*                              ...formData.action,*/}
-                        {/*                              skill: {...selectedSkill, ranks: 0}*/}
-                        {/*                          })}/>*/}
+                        {/*<SelectSkillField currentSkill={{...formData.action?.skill || null}}*/}
+                        {/*                  handleSkillSelect={(selectedSkill) => handleChange('action', {*/}
+                        {/*                      ...formData.action,*/}
+                        {/*                      skill: {...selectedSkill, ranks: 0}*/}
+                        {/*                  })}/>*/}
                         {/*    </Stack>*/}
                         {/*</Collapse>*/}
                     </Stack>
@@ -119,10 +120,8 @@ export default function TalentDialog(props: Props) {
 
                 {/* TAB 2: MECHANICS */}
                 {tabValue === 1 && (
-                    <Box>
-                        <Typography variant="subtitle2" gutterBottom>Passive Modifiers</Typography>
-                        {/*<ModifierBuilder modifiers={formData.modifiers}/>*/}
-                    </Box>
+                    <TalentModifierTab talent={formData}
+                                       updateTalentStats={(stats) => handleChange('talentStats', stats)}/>
                 )}
 
                 {/* TAB 3: ACTION LOGIC */}

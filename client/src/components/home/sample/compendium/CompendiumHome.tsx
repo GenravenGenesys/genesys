@@ -13,7 +13,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import {useParams} from "react-router-dom";
 import SkillCompendiumCard from "./SkillCompendiumCard.tsx";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
-import TalentCompendiumCard from "./TalentCompendiumCard.tsx";
+import TalentCompendiumCard from "./talent/TalentCompendiumCard.tsx";
 
 export default function CompendiumHome() {
     const {id} = useParams<{ id: string }>();

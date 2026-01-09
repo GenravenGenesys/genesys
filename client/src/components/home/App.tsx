@@ -41,7 +41,7 @@ import CharacterCreator from "./sample/PlayerCreation.tsx";
 import CampaignDashboardPage from "./sample/HomeDashboard.tsx";
 import CompendiumHome from "./sample/compendium/CompendiumHome.tsx";
 import ViewCompendiumSkills from "./sample/compendium/ViewCompendiumSkills.tsx";
-import ViewCompendiumTalents from "./sample/compendium/ViewCompendiumTalents.tsx";
+import ViewCompendiumTalents from "./sample/compendium/talent/ViewCompendiumTalents.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
