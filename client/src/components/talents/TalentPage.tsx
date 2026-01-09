@@ -9,7 +9,7 @@
 // import TabPanel from "@mui/lab/TabPanel";
 // import TabContext from "@mui/lab/TabContext";
 // import TalentBaseTab from "./TalentBaseTab";
-// import TalentModifierTab from "./TalentModifierTab";
+// import TalentModifyStatsTab from "./TalentModifyStatsTab";
 // import GridContainer from "../common/grid/GridContainer";
 // import TalentActionTab from './action/TalentActionTab';
 // import {getTalentController} from "../../api/generated/talent-controller/talent-controller.ts";
@@ -85,7 +85,7 @@
 //                         <TalentBaseTab talent={talent} updateTalent={updateTalent} disabled={!pathname.endsWith(talent.id + '/edit')}/>
 //                     </TabPanel>
 //                     <TabPanel value="2">
-//                         <TalentModifierTab talent={talent} updateTalent={updateTalent} disabled={!pathname.endsWith(talent.id + '/edit')}/>
+//                         <TalentModifyStatsTab talent={talent} updateTalent={updateTalent} disabled={!pathname.endsWith(talent.id + '/edit')}/>
 //                     </TabPanel>
 //                     <TabPanel value="3">
 //                         <TalentActionTab talent={talent} updateTalent={updateTalent} disabled={!pathname.endsWith(talent.id + '/edit')}/>

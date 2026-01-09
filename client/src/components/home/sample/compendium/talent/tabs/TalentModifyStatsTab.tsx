@@ -16,20 +16,21 @@ import LimitCard from "../../../../../common/card/select/LimitCard.tsx";
 import TalentCareerSkillsCard from "../../../../../talents/skill/TalentCareerSkillsCard.tsx";
 import NumberTextFieldCard from "../../../../../common/card/NumberTextFieldCard.tsx";
 import TalentModifierCard from "../../../../../talents/modifier/TalentModifierCard.tsx";
+import GenesysNumberField from "../../../../../common/field/GenesysNumberField.tsx";
 
 interface Props {
     talent: Talent;
     updateTalentStats: (stats: TalentStats) => void;
 }
 
-const TalentModifierTab: React.FC<Props> = ({talent, updateTalentStats})=> {
+const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
     const [state, setState] = useState({
         // cost: !(talent.cost.type === CostType.None && talent.limit.type === LimitType.None),
         // careerSkill: talent.talentSkills.potentialCareerSkills.length > 0,
         stats: talent.talentStats.wounds > 0 || talent.talentStats.strain > 0 || talent.talentStats.soak > 0 || talent.talentStats.defense > 0
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({
             ...state,
             [event.target.name]: event.target.checked,
@@ -54,61 +55,41 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalentStats})=> {
     //     }
     // };
     //
-    // const handleWoundsChange = async (value: number) => {
-    //     if (talent) {
-    //         updateTalent({
-    //             ...talent,
-    //             talentStats: {
-    //                 wounds: value,
-    //                 strain: talent.talentStats.strain,
-    //                 soak: talent.talentStats.soak,
-    //                 defense: talent.talentStats.defense
-    //             }
-    //         });
-    //     }
-    // };
-    //
-    // const handleStrainChange = async (value: number) => {
-    //     if (talent) {
-    //         updateTalent({
-    //             ...talent,
-    //             talentStats: {
-    //                 wounds: value,
-    //                 strain: talent.talentStats.strain,
-    //                 soak: talent.talentStats.soak,
-    //                 defense: talent.talentStats.defense
-    //             }
-    //         });
-    //     }
-    // };
-    //
-    // const handleSoakChange = async (value: number) => {
-    //     if (talent) {
-    //         updateTalent({
-    //             ...talent,
-    //             talentStats: {
-    //                 wounds: talent.talentStats.wounds,
-    //                 strain: talent.talentStats.strain,
-    //                 soak: value,
-    //                 defense: talent.talentStats.defense
-    //             }
-    //         });
-    //     }
-    // };
-    //
-    // const handleDefenseChange = async (value: number) => {
-    //     if (talent) {
-    //         updateTalent({
-    //             ...talent,
-    //             talentStats: {
-    //                 wounds: talent.talentStats.wounds,
-    //                 strain: talent.talentStats.strain,
-    //                 soak: talent.talentStats.soak,
-    //                 defense: value
-    //             }
-    //         });
-    //     }
-    // };
+    const handleWoundsChange = async (value: number) => {
+        if (talent) {
+            updateTalentStats({
+                ...talent.talentStats,
+                wounds: value,
+            });
+        }
+    };
+
+    const handleStrainChange = async (value: number) => {
+        if (talent) {
+            updateTalentStats({
+                ...talent.talentStats,
+                strain: value,
+            });
+        }
+    };
+
+    const handleSoakChange = async (value: number) => {
+        if (talent) {
+            updateTalentStats({
+                ...talent.talentStats,
+                soak: value,
+            });
+        }
+    };
+
+    const handleDefenseChange = async (value: number) => {
+        if (talent) {
+            updateTalentStats({
+                ...talent.talentStats,
+                defense: value,
+            });
+        }
+    };
 
     return (
         <GridContainer centered>
@@ -130,16 +111,28 @@ const TalentModifierTab: React.FC<Props> = ({talent, updateTalentStats})=> {
                         {/*/>*/}
                         <FormControlLabel
                             control={
-                                <Checkbox checked={state.stats} onChange={handleChange} name="stats"/>
+                                <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>
                             }
                             label="Stats"
                         />
                     </FormGroup>
                 </FormControl>
             </GridContainer>
+            {state.stats && <GridContainer spacing={2}>
+                <GenesysNumberField value={talent.talentStats.wounds}
+                                    label={'Increase ' + StatsType.Wounds + ' Threshold'}
+                                    onChange={handleWoundsChange} min={0} max={5} fullwidth/>
+                <GenesysNumberField value={talent.talentStats.strain}
+                                    label={'Increase ' + StatsType.Strain + ' Threshold'}
+                                    onChange={handleStrainChange} min={0} max={5} fullwidth/>
+                <GenesysNumberField value={talent.talentStats.soak} label={'Increase Soak'}
+                                    onChange={handleSoakChange} min={0} max={5} fullwidth/>
+                <GenesysNumberField value={talent.talentStats.defense} label={'Increase Defense'}
+                                    onChange={handleDefenseChange} min={0} max={5} fullwidth/>
+            </GridContainer>}
         </GridContainer>
     );
 };
 
-export default TalentModifierTab;
+export default TalentModifyStatsTab;
 

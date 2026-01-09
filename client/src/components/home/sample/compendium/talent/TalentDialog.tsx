@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {
     Box, Drawer, Typography, Stack, Button,
     Grid2 as Grid, Divider, IconButton, Collapse, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
-    DialogContent, TextField, FormControlLabel, Switch, Tabs
+    DialogContent, TextField, FormControlLabel, Switch, Tabs, FormControl, FormLabel, FormGroup, Checkbox
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,7 +13,8 @@ import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx"
 import GenesysBooleanField from "../../../../common/field/GenesysBooleanField.tsx";
 import SelectSkillField from "../SelectSkillField.tsx";
 import Tab from "@mui/material/Tab";
-import TalentModifierTab from "./tabs/TalentModifierTab.tsx";
+import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
+import * as React from "react";
 
 interface Props {
     open: boolean;
@@ -28,8 +29,12 @@ export default function TalentDialog(props: Props) {
     const [formData, setFormData] = useState<Talent>(talent || {});
     const [tabValue, setTabValue] = useState(0);
     const theme = useTheme();
-    // Check if screen is smaller than 'md' (960px)
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const [state, setState] = useState({
+        // cost: !(talent.cost.type === CostType.None && talent.limit.type === LimitType.None),
+        // careerSkill: talent.talentSkills.potentialCareerSkills.length > 0,
+        stats: talent.talentStats.wounds > 0 || talent.talentStats.strain > 0 || talent.talentStats.soak > 0 || talent.talentStats.defense > 0
+    });
 
     useEffect(() => {
         if (talent) setFormData(talent);
@@ -37,6 +42,13 @@ export default function TalentDialog(props: Props) {
 
     const handleChange = <K extends keyof Talent>(field: K, value: Talent[K]) => {
         setFormData((prev: Talent) => ({...prev, [field]: value}));
+    };
+
+    const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.checked,
+        });
     };
 
     const handleSave = () => {
@@ -75,7 +87,7 @@ export default function TalentDialog(props: Props) {
             <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                     <Tab label="Basic Information"/>
-                    <Tab label="Modifiers"/>
+                    <Tab label="Modify Stats"/>
                     <Tab label="Action Logic" disabled={formData.activation !== Activation["Active_(Action)"]}/>
                 </Tabs>
             </Box>
@@ -120,8 +132,8 @@ export default function TalentDialog(props: Props) {
 
                 {/* TAB 2: MECHANICS */}
                 {tabValue === 1 && (
-                    <TalentModifierTab talent={formData}
-                                       updateTalentStats={(stats) => handleChange('talentStats', stats)}/>
+                    <TalentModifyStatsTab talent={formData}
+                                          updateTalentStats={(stats) => handleChange('talentStats', stats)}/>
                 )}
 
                 {/* TAB 3: ACTION LOGIC */}
@@ -131,6 +143,38 @@ export default function TalentDialog(props: Props) {
                     </Box>
                 )}
             </DialogContent>
+            <Divider sx={{my: 2}}>
+                <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                    MODIFICATION OPTIONS
+                </Typography>
+            </Divider>
+            <GridContainer centered>
+                <FormControl component="fieldset" variant="standard">
+                    {/*<FormControl sx={{m: 3}} component="fieldset" variant="standard">*/}
+                    {/*<FormLabel component="legend" sx={{textAlign: 'center'}}>Talent Modifiers</FormLabel>*/}
+                    <FormGroup row>
+                        {/*<FormControlLabel*/}
+                        {/*    control={*/}
+                        {/*        <Checkbox checked={state.cost} onChange={handleChange} name="cost"/>*/}
+                        {/*    }*/}
+                        {/*    label="Cost"*/}
+                        {/*/>*/}
+                        {/*<FormControlLabel*/}
+                        {/*    control={*/}
+                        {/*        <Checkbox checked={state.careerSkill} onChange={handleChange} name="careerSkill"/>*/}
+                        {/*    }*/}
+                        {/*    label="Career Skills"*/}
+                        {/*/>*/}
+                        <FormControlLabel
+                            control={
+                                <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>
+                            }
+                            label="Stats"
+                            labelPlacement={"top"}
+                        />
+                    </FormGroup>
+                </FormControl>
+            </GridContainer>
 
             <DialogActions sx={{p: 3}}>
                 <Button variant="outlined" onClick={onClose}>Cancel</Button>
