@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 // Components
 import DetailedNpcCard from './DetailedNpcCard.tsx';
-import AdversaryEditDrawer from './AdversaryEditDrawer.tsx';
+import AdversaryEditDrawer from './compendium/adversary/AdversaryEditDrawer.tsx';
 
 // 1. Define the base template for new NPCs
 const BLANK_NPC = {

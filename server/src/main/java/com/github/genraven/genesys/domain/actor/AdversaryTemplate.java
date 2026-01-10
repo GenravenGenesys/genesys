@@ -1,6 +1,8 @@
 package com.github.genraven.genesys.domain.actor;
 
+import com.github.genraven.genesys.domain.actor.equipment.AdversaryEquipment;
 import com.github.genraven.genesys.domain.error.Error;
+import com.github.genraven.genesys.domain.skill.Skill;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -38,6 +40,18 @@ public class AdversaryTemplate {
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "The stats of the adversary")
     private DerivedStats derivedStats;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Weapons, armor, and gear of the adversary")
+    private AdversaryEquipment equipment;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Adversary Skills")
+    private List<Skill> skills;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Adversary Ratings")
+    private AdversaryRatings ratings;
 
     private List<Error> errors;
 }

@@ -3,7 +3,7 @@ import {
     Box, Drawer, Typography, TextField, Stack, Button,
     MenuItem, Grid2 as Grid, Divider, ToggleButtonGroup, ToggleButton
 } from '@mui/material';
-import NpcWeaponPicker from "./NpcWeaponPicker.tsx";
+import NpcWeaponPicker from "../../NpcWeaponPicker.tsx";
 
 export default function AdversaryEditDrawer({ open, item, onClose, onSave }) {
     const [formData, setFormData] = useState(item || {

@@ -8,6 +8,9 @@
 import type { AdversaryTemplateType } from "./adversaryTemplateType";
 import type { Characteristics } from "./characteristics";
 import type { DerivedStats } from "./derivedStats";
+import type { AdversaryEquipment } from "./adversaryEquipment";
+import type { Skill } from "./skill";
+import type { AdversaryRatings } from "./adversaryRatings";
 import type { Error } from "./error";
 
 /**
@@ -23,5 +26,11 @@ export interface AdversaryTemplate {
   characteristics: Characteristics;
   /** The stats of the adversary */
   derivedStats: DerivedStats;
+  /** Weapons, armor, and gear of the adversary */
+  equipment: AdversaryEquipment;
+  /** Adversary Skills */
+  skills: Skill[];
+  /** Adversary Ratings */
+  ratings: AdversaryRatings;
   errors?: Error[];
 }

@@ -15,7 +15,6 @@ import CustomTableCell from "../../../../common/table/common/CustomTableCell.tsx
 import {useParams} from "react-router-dom";
 import {useState} from "react";
 import {useCampaignLive} from "../../../../../hooks/campaign/useCampaginLive.ts";
-import {useCreateTalent, useUpdateTalent} from "../../../../../api/generated/talents/talents.ts";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.tsx";
@@ -135,18 +134,18 @@ export default function ViewCompendiumAdversaries() {
                     }}
                 />
             </Paper>
-            {/*<TableContainer component={Paper} sx={{borderRadius: 4}}>*/}
-            {/*    <Table aria-label="talent table">*/}
-            {/*        {renderSingleRowTableHeader(headers, {bgcolor: 'rgba(255,255,255,0.05)'})}*/}
-            {/*        <TableBody>*/}
-            {/*            {filteredTalents.map((talent: Talent) => (*/}
-            {/*                <AdversaryRow key={talent.id} talent={talent} onEdit={handleOpenEdit}/>*/}
-            {/*            ))}*/}
-            {/*        </TableBody>*/}
-            {/*    </Table>*/}
-            {/*</TableContainer>*/}
-            {/*<TalentDialog open={Boolean(openDrawer)} talent={talent} onClose={() => setOpenDrawer(false)}*/}
-            {/*              onSave={handleSave} isNew={isNew}/>*/}
+            <TableContainer component={Paper} sx={{borderRadius: 4}}>
+                <Table aria-label="talent table">
+                    {renderSingleRowTableHeader(headers, {bgcolor: 'rgba(255,255,255,0.05)'})}
+                    <TableBody>
+                        {filteredAdversaries.map((adversary) => (
+                            <AdversaryRow key={adversary.id} adversary={adversary} onEdit={handleOpenEdit}/>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TalentDialog open={Boolean(openDrawer)} talent={talent} onClose={() => setOpenDrawer(false)}
+                          onSave={handleSave} isNew={isNew}/>
         </Box>
     );
 }

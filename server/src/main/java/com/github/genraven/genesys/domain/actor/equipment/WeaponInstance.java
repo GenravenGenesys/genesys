@@ -1,27 +1,20 @@
-package com.github.genraven.genesys.domain.equipment;
+package com.github.genraven.genesys.domain.actor.equipment;
 
-import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.domain.RangeBand;
+import com.github.genraven.genesys.domain.skill.Skill;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Schema(description = "Setting-specific weapons, armor, and gear")
-public class ItemTemplate {
+public class WeaponInstance {
 
     @Id
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -30,32 +23,36 @@ public class ItemTemplate {
     @NotEmpty
     private String name;
 
-    @EnumValidator(enumClass = EquipmentType.class)
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private EquipmentType type;
-
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
-    @Min(0)
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private int price;
-
     @NotNull
-    private boolean restricted = false;
+    private boolean restricted;
 
     @Min(0)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int encumbrance;
 
     @Min(0)
-    @Max(10)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private int rarity;
+    private int damage;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Modifier> modifiers = new ArrayList<>();
+    private Skill skill;
 
+    @Min(1)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<EquipmentQuality> qualities = new ArrayList<>();
+    private int critical;
+
+    @EnumValidator(enumClass = RangeBand.class)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private RangeBand range;
+
+    @NotNull
+    private boolean brawn;
+
+    @Min(1)
+    @Max(2)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private int hands;
 }
