@@ -1,5 +1,5 @@
 module.exports = {
-    dynastyApi: {
+    genesysApi: {
         input: 'http://localhost:8080/v3/api-docs',
         output: {
             mode: 'tags-split',

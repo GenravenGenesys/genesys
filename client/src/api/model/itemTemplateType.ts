@@ -6,13 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ActorWeaponSlot =
-  (typeof ActorWeaponSlot)[keyof typeof ActorWeaponSlot];
+export type ItemTemplateType =
+  (typeof ItemTemplateType)[keyof typeof ItemTemplateType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ActorWeaponSlot = {
-  Main_Hand: "Main Hand",
-  Off_Hand: "Off Hand",
-  Both_Hands: "Both Hands",
-  None: "None",
+export const ItemTemplateType = {
+  Weapon: "Weapon",
+  Armor: "Armor",
+  Gear: "Gear",
 } as const;
