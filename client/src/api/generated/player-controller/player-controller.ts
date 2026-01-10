@@ -21,14 +21,7 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query";
 
-import type {
-  Archetype,
-  Career,
-  Characteristic,
-  Player,
-  PlayerSkill,
-  Talent,
-} from "../../model";
+import type { Career, Player, PlayerSkill, Talent } from "../../model";
 
 import { customInstance } from "../../axios-instance";
 
@@ -246,84 +239,6 @@ export const useUpdatePlayer = <TError = unknown, TContext = unknown>(
   TContext
 > => {
   const mutationOptions = getUpdatePlayerMutationOptions(options);
-
-  return useMutation(mutationOptions, queryClient);
-};
-/**
- * Resets the Player Experience during Creation.
- * @summary Resets Player Experience during Creation.
- */
-export const resetPlayerExperience = (id: string, signal?: AbortSignal) => {
-  return customInstance<Player>({
-    url: `/api/players/creation/${id}/reset/`,
-    method: "POST",
-    signal,
-  });
-};
-
-export const getResetPlayerExperienceMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof resetPlayerExperience>>,
-    TError,
-    { id: string },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof resetPlayerExperience>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationKey = ["resetPlayerExperience"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof resetPlayerExperience>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {};
-
-    return resetPlayerExperience(id);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type ResetPlayerExperienceMutationResult = NonNullable<
-  Awaited<ReturnType<typeof resetPlayerExperience>>
->;
-
-export type ResetPlayerExperienceMutationError = unknown;
-
-/**
- * @summary Resets Player Experience during Creation.
- */
-export const useResetPlayerExperience = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof resetPlayerExperience>>,
-      TError,
-      { id: string },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof resetPlayerExperience>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationOptions = getResetPlayerExperienceMutationOptions(options);
 
   return useMutation(mutationOptions, queryClient);
 };
@@ -564,91 +479,6 @@ export const useUpdatePlayerSkill = <TError = unknown, TContext = unknown>(
   return useMutation(mutationOptions, queryClient);
 };
 /**
- * Updates the Player Characteristics during Creation.
- * @summary Patches Player Characteristics during Creation.
- */
-export const updatePlayerCharacteristic = (
-  id: string,
-  characteristic: Characteristic,
-) => {
-  return customInstance<Player>({
-    url: `/api/players/creation/${id}/characteristics/`,
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    data: characteristic,
-  });
-};
-
-export const getUpdatePlayerCharacteristicMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updatePlayerCharacteristic>>,
-    TError,
-    { id: string; data: Characteristic },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updatePlayerCharacteristic>>,
-  TError,
-  { id: string; data: Characteristic },
-  TContext
-> => {
-  const mutationKey = ["updatePlayerCharacteristic"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updatePlayerCharacteristic>>,
-    { id: string; data: Characteristic }
-  > = (props) => {
-    const { id, data } = props ?? {};
-
-    return updatePlayerCharacteristic(id, data);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type UpdatePlayerCharacteristicMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updatePlayerCharacteristic>>
->;
-export type UpdatePlayerCharacteristicMutationBody = Characteristic;
-export type UpdatePlayerCharacteristicMutationError = unknown;
-
-/**
- * @summary Patches Player Characteristics during Creation.
- */
-export const useUpdatePlayerCharacteristic = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updatePlayerCharacteristic>>,
-      TError,
-      { id: string; data: Characteristic },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof updatePlayerCharacteristic>>,
-  TError,
-  { id: string; data: Characteristic },
-  TContext
-> => {
-  const mutationOptions = getUpdatePlayerCharacteristicMutationOptions(options);
-
-  return useMutation(mutationOptions, queryClient);
-};
-/**
  * Updates the Player Career during Creation.
  * @summary Patches Player Career during Creation.
  */
@@ -809,85 +639,6 @@ export const useUpdatePlayerCareerSkills = <
   TContext
 > => {
   const mutationOptions = getUpdatePlayerCareerSkillsMutationOptions(options);
-
-  return useMutation(mutationOptions, queryClient);
-};
-/**
- * Updates the Player Archetype during Creation.
- * @summary Patches Player Archetypes during Creation.
- */
-export const updatePlayerArchetype = (id: string, archetype: Archetype) => {
-  return customInstance<Player>({
-    url: `/api/players/creation/${id}/archetypes/`,
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    data: archetype,
-  });
-};
-
-export const getUpdatePlayerArchetypeMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updatePlayerArchetype>>,
-    TError,
-    { id: string; data: Archetype },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updatePlayerArchetype>>,
-  TError,
-  { id: string; data: Archetype },
-  TContext
-> => {
-  const mutationKey = ["updatePlayerArchetype"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updatePlayerArchetype>>,
-    { id: string; data: Archetype }
-  > = (props) => {
-    const { id, data } = props ?? {};
-
-    return updatePlayerArchetype(id, data);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type UpdatePlayerArchetypeMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updatePlayerArchetype>>
->;
-export type UpdatePlayerArchetypeMutationBody = Archetype;
-export type UpdatePlayerArchetypeMutationError = unknown;
-
-/**
- * @summary Patches Player Archetypes during Creation.
- */
-export const useUpdatePlayerArchetype = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof updatePlayerArchetype>>,
-      TError,
-      { id: string; data: Archetype },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof updatePlayerArchetype>>,
-  TError,
-  { id: string; data: Archetype },
-  TContext
-> => {
-  const mutationOptions = getUpdatePlayerArchetypeMutationOptions(options);
 
   return useMutation(mutationOptions, queryClient);
 };

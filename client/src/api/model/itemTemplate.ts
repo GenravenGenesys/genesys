@@ -6,4 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface ItemTemplate {}
+/**
+ * Setting-specific weapons, armor, and gear
+ */
+export interface ItemTemplate {
+  id: string;
+  /** @minLength 1 */
+  name: string;
+}

@@ -31,7 +31,7 @@ export * from "./career";
 export * from "./characterResponse";
 export * from "./characterResponseType";
 export * from "./characteristic";
-export * from "./characteristicType";
+export * from "./characteristics";
 export * from "./cost";
 export * from "./costType";
 export * from "./criticalInjury";

@@ -5,5 +5,15 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { Characteristics } from "./characteristics";
 
-export interface AdversaryTemplate {}
+/**
+ * Setting-specific adversaries such as Nemeses, Rivals, and Minions
+ */
+export interface AdversaryTemplate {
+  id: string;
+  /** @minLength 1 */
+  name: string;
+  /** The characteristics of the adversary */
+  characteristics: Characteristics;
+}

@@ -5,17 +5,19 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { CharacteristicType } from "./characteristicType";
 
 /**
  * Characteristic Stat
  */
 export interface Characteristic {
-  /** Characteristic type */
-  type: CharacteristicType;
   /**
    * Current value of the Characteristic
    * @minimum 1
    */
   current: number;
+  /**
+   * Base value of the Characteristic
+   * @minimum 1
+   */
+  base: number;
 }

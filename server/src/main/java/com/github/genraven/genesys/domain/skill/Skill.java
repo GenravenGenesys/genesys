@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.domain.skill;
 
-import com.github.genraven.genesys.domain.actor.Characteristic;
+import com.github.genraven.genesys.domain.actor.CharacteristicType;
 import com.github.genraven.genesys.validator.EnumValidator;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Builder
@@ -28,9 +27,9 @@ public class Skill {
     private String name;
 
     @Builder.Default
-    @EnumValidator(enumClass = Characteristic.Type.class)
+    @EnumValidator(enumClass = CharacteristicType.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Characteristic.Type characteristic = Characteristic.Type.BRAWN;
+    private CharacteristicType characteristic = CharacteristicType.BRAWN;
 
     @Builder.Default
     @EnumValidator(enumClass = SkillType.class)
