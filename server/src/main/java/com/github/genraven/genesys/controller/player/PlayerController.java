@@ -122,43 +122,43 @@ public class PlayerController extends AbstractController {
                 .body(MapperUtil.mapErrorsToPlayerResponse(ex).block())));
     }
 
-    @PatchMapping("/creation/{id}/archetypes/")
-    @Operation(summary = "Patches Player Archetypes during Creation.", description = "Updates the Player Archetype during Creation.")
-    public Mono<ResponseEntity<Player>> updatePlayerArchetype(@PathVariable final String id, @RequestBody final Archetype archetype) {
-        final Mono<Archetype> archetypeMono = Mono.just(archetype);
-        return archetypeMono.zipWith(playerService.getPlayer(id))
-            .map(tuple -> new PlayerCreationArchetypeUpdateContext(
-                tuple.getT2(),
-                tuple.getT1()))
-            .flatMap(playerCreationArchetypeUpdateContextValidator::validate)
-            .flatMap(playerService::updatePlayerArchetype)
-            .flatMap(MapperUtil::mapPlayerToResponse)
-            .map(player -> ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(player))
-            .onErrorResume(BaseException.class, ex -> Mono.just(ResponseEntity.status(ex.getStatusCode())
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(MapperUtil.mapErrorsToPlayerResponse(ex).block())));
-    }
-
-    @PatchMapping("/creation/{id}/characteristics/")
-    @Operation(summary = "Patches Player Characteristics during Creation.", description = "Updates the Player Characteristics during Creation.")
-    public Mono<ResponseEntity<Player>> updatePlayerCharacteristic(@PathVariable final String id, @RequestBody final Characteristic characteristic) {
-        final Mono<Characteristic> characteristicMono = Mono.just(characteristic);
-        return characteristicMono.zipWith(playerService.getPlayer(id))
-            .map(tuple -> new PlayerCreationCharacteristicUpdateContext(
-                tuple.getT2(),
-                tuple.getT1()))
-            .flatMap(playerCreationCharacteristicUpdateContextValidator::validate)
-            .flatMap(playerService::updatePlayerCharacteristic)
-            .flatMap(MapperUtil::mapPlayerToResponse)
-            .map(updatedPlayer -> ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(updatedPlayer))
-            .onErrorResume(BaseException.class, ex -> Mono.just(ResponseEntity.status(ex.getStatusCode())
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(MapperUtil.mapErrorsToPlayerResponse(ex).block())));
-    }
+//    @PatchMapping("/creation/{id}/archetypes/")
+//    @Operation(summary = "Patches Player Archetypes during Creation.", description = "Updates the Player Archetype during Creation.")
+//    public Mono<ResponseEntity<Player>> updatePlayerArchetype(@PathVariable final String id, @RequestBody final Archetype archetype) {
+//        final Mono<Archetype> archetypeMono = Mono.just(archetype);
+//        return archetypeMono.zipWith(playerService.getPlayer(id))
+//            .map(tuple -> new PlayerCreationArchetypeUpdateContext(
+//                tuple.getT2(),
+//                tuple.getT1()))
+//            .flatMap(playerCreationArchetypeUpdateContextValidator::validate)
+//            .flatMap(playerService::updatePlayerArchetype)
+//            .flatMap(MapperUtil::mapPlayerToResponse)
+//            .map(player -> ResponseEntity.ok()
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(player))
+//            .onErrorResume(BaseException.class, ex -> Mono.just(ResponseEntity.status(ex.getStatusCode())
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(MapperUtil.mapErrorsToPlayerResponse(ex).block())));
+//    }
+//
+//    @PatchMapping("/creation/{id}/characteristics/")
+//    @Operation(summary = "Patches Player Characteristics during Creation.", description = "Updates the Player Characteristics during Creation.")
+//    public Mono<ResponseEntity<Player>> updatePlayerCharacteristic(@PathVariable final String id, @RequestBody final Characteristic characteristic) {
+//        final Mono<Characteristic> characteristicMono = Mono.just(characteristic);
+//        return characteristicMono.zipWith(playerService.getPlayer(id))
+//            .map(tuple -> new PlayerCreationCharacteristicUpdateContext(
+//                tuple.getT2(),
+//                tuple.getT1()))
+//            .flatMap(playerCreationCharacteristicUpdateContextValidator::validate)
+//            .flatMap(playerService::updatePlayerCharacteristic)
+//            .flatMap(MapperUtil::mapPlayerToResponse)
+//            .map(updatedPlayer -> ResponseEntity.ok()
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(updatedPlayer))
+//            .onErrorResume(BaseException.class, ex -> Mono.just(ResponseEntity.status(ex.getStatusCode())
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(MapperUtil.mapErrorsToPlayerResponse(ex).block())));
+//    }
 
     @PatchMapping("/creation/{id}/skills/")
     @Operation(summary = "Patches Player Skills during Creation.", description = "Updates the Player Skills during Creation.")
@@ -199,21 +199,21 @@ public class PlayerController extends AbstractController {
                 .body(MapperUtil.mapErrorsToPlayerResponse(ex).block())));
     }
 
-    @PostMapping("/creation/{id}/reset/")
-    @Operation(summary = "Resets Player Experience during Creation.", description = "Resets the Player Experience during Creation.")
-    public Mono<ResponseEntity<Player>> resetPlayerExperience(@PathVariable final String id) {
-        return playerService.getPlayer(id)
-            .map(PlayerCreationResetExperienceContext::new)
-            .flatMap(playerCreationResetExperienceContextValidator::validate)
-            .flatMap(playerService::resetPlayerExperience)
-            .flatMap(MapperUtil::mapPlayerToResponse)
-            .map(player -> ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(player))
-            .onErrorResume(BaseException.class, ex -> Mono.just(ResponseEntity.status(ex.getStatusCode())
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(MapperUtil.mapErrorsToPlayerResponse(ex).block())));
-    }
+//    @PostMapping("/creation/{id}/reset/")
+//    @Operation(summary = "Resets Player Experience during Creation.", description = "Resets the Player Experience during Creation.")
+//    public Mono<ResponseEntity<Player>> resetPlayerExperience(@PathVariable final String id) {
+//        return playerService.getPlayer(id)
+//            .map(PlayerCreationResetExperienceContext::new)
+//            .flatMap(playerCreationResetExperienceContextValidator::validate)
+//            .flatMap(playerService::resetPlayerExperience)
+//            .flatMap(MapperUtil::mapPlayerToResponse)
+//            .map(player -> ResponseEntity.ok()
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(player))
+//            .onErrorResume(BaseException.class, ex -> Mono.just(ResponseEntity.status(ex.getStatusCode())
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(MapperUtil.mapErrorsToPlayerResponse(ex).block())));
+//    }
 
     @PostMapping("/creation/{id}/lock/")
     @Operation(summary = "Locks Creation Experience Spending.", description = "Ends Player Character Creation and locks experience spending.")

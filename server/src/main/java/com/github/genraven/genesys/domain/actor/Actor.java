@@ -57,27 +57,27 @@ public class Actor {
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Characteristic brawn = new Characteristic(Characteristic.Type.BRAWN, 1);
+    private Characteristic brawn = new Characteristic(1, 1);
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Characteristic agility = new Characteristic(Characteristic.Type.AGILITY, 1);
+    private Characteristic agility = new Characteristic(1, 1);
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Characteristic intellect = new Characteristic(Characteristic.Type.INTELLECT, 1);
+    private Characteristic intellect = new Characteristic(1, 1);
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Characteristic cunning = new Characteristic(Characteristic.Type.CUNNING, 1);
+    private Characteristic cunning = new Characteristic(1, 1);
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Characteristic willpower = new Characteristic(Characteristic.Type.WILLPOWER, 1);
+    private Characteristic willpower = new Characteristic(1, 1);
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Characteristic presence = new Characteristic(Characteristic.Type.PRESENCE, 1);
+    private Characteristic presence = new Characteristic(1, 1);
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Stats wounds = new Stats(0, 1, Stats.Type.WOUNDS);

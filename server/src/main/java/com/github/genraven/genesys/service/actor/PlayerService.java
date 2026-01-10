@@ -88,36 +88,36 @@ public class PlayerService {
         return player.getSkills().stream().filter(PlayerSkill::isCareer).toList();
     }
 
-    public Mono<Player> updatePlayerArchetype(final PlayerCreationArchetypeUpdateContext context) {
-        return Mono.just(context.player()).flatMap(existingPlayer -> {
-            existingPlayer.setArchetype(context.archetype());
-            existingPlayer.setBrawn(new Characteristic(Characteristic.Type.BRAWN, context.archetype().getBrawn()));
-            existingPlayer.setAgility(new Characteristic(Characteristic.Type.AGILITY, context.archetype().getAgility()));
-            existingPlayer.setIntellect(new Characteristic(Characteristic.Type.INTELLECT, context.archetype().getIntellect()));
-            existingPlayer.setCunning(new Characteristic(Characteristic.Type.CUNNING, context.archetype().getCunning()));
-            existingPlayer.setWillpower(new Characteristic(Characteristic.Type.WILLPOWER, context.archetype().getWillpower()));
-            existingPlayer.setPresence(new Characteristic(Characteristic.Type.PRESENCE, context.archetype().getPresence()));
-            existingPlayer.setWounds(new Stats(0, context.archetype().getWounds(), Stats.Type.WOUNDS));
-            existingPlayer.setStrain(new Stats(0, context.archetype().getStrain(), Stats.Type.STRAIN));
-            existingPlayer.updateAvailableExperience(context.archetype().getExperience());
-            return playerRepository.save(existingPlayer);
-        });
-    }
+//    public Mono<Player> updatePlayerArchetype(final PlayerCreationArchetypeUpdateContext context) {
+//        return Mono.just(context.player()).flatMap(existingPlayer -> {
+//            existingPlayer.setArchetype(context.archetype());
+//            existingPlayer.setBrawn(new Characteristic(Characteristic.Type.BRAWN, context.archetype().getBrawn()));
+//            existingPlayer.setAgility(new Characteristic(Characteristic.Type.AGILITY, context.archetype().getAgility()));
+//            existingPlayer.setIntellect(new Characteristic(Characteristic.Type.INTELLECT, context.archetype().getIntellect()));
+//            existingPlayer.setCunning(new Characteristic(Characteristic.Type.CUNNING, context.archetype().getCunning()));
+//            existingPlayer.setWillpower(new Characteristic(Characteristic.Type.WILLPOWER, context.archetype().getWillpower()));
+//            existingPlayer.setPresence(new Characteristic(Characteristic.Type.PRESENCE, context.archetype().getPresence()));
+//            existingPlayer.setWounds(new Stats(0, context.archetype().getWounds(), Stats.Type.WOUNDS));
+//            existingPlayer.setStrain(new Stats(0, context.archetype().getStrain(), Stats.Type.STRAIN));
+//            existingPlayer.updateAvailableExperience(context.archetype().getExperience());
+//            return playerRepository.save(existingPlayer);
+//        });
+//    }
 
-    public Mono<Player> updatePlayerCharacteristic(final PlayerCreationCharacteristicUpdateContext context) {
-        return Mono.just(context.player()).flatMap(player -> {
-            switch (context.characteristic().getType()) {
-                case BRAWN -> player.setBrawn(context.characteristic());
-                case AGILITY -> player.setAgility(context.characteristic());
-                case INTELLECT -> player.setIntellect(context.characteristic());
-                case CUNNING -> player.setCunning(context.characteristic());
-                case WILLPOWER -> player.setWillpower(context.characteristic());
-                case PRESENCE -> player.setPresence(context.characteristic());
-            }
-            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromCharacteristicUpgrade(context.characteristic())));
-            return playerRepository.save(player);
-        });
-    }
+//    public Mono<Player> updatePlayerCharacteristic(final PlayerCreationCharacteristicUpdateContext context) {
+//        return Mono.just(context.player()).flatMap(player -> {
+//            switch (context.characteristic().getType()) {
+//                case BRAWN -> player.setBrawn(context.characteristic());
+//                case AGILITY -> player.setAgility(context.characteristic());
+//                case INTELLECT -> player.setIntellect(context.characteristic());
+//                case CUNNING -> player.setCunning(context.characteristic());
+//                case WILLPOWER -> player.setWillpower(context.characteristic());
+//                case PRESENCE -> player.setPresence(context.characteristic());
+//            }
+//            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromCharacteristicUpgrade(context.characteristic())));
+//            return playerRepository.save(player);
+//        });
+//    }
 
     public Mono<Player> updatePlayerSkill(final PlayerCreationSkillUpdateContext context) {
         return Mono.just(context.player()).flatMap(player -> {
@@ -152,24 +152,24 @@ public class PlayerService {
         });
     }
 
-    public Mono<Player> resetPlayerExperience(final PlayerCreationResetExperienceContext context) {
-        return Mono.just(context.player()).flatMap(existingPlayer -> {
-            existingPlayer.setArchetype(context.player().getArchetype());
-            existingPlayer.setCareer(context.player().getCareer());
-            existingPlayer.setSkills(resetPlayerSkills(context.player().getSkills()));
-            existingPlayer.setTalents(List.of());
-            existingPlayer.setBrawn(new Characteristic(Characteristic.Type.BRAWN, context.player().getArchetype().getBrawn()));
-            existingPlayer.setAgility(new Characteristic(Characteristic.Type.AGILITY, context.player().getArchetype().getAgility()));
-            existingPlayer.setIntellect(new Characteristic(Characteristic.Type.INTELLECT, context.player().getArchetype().getIntellect()));
-            existingPlayer.setCunning(new Characteristic(Characteristic.Type.CUNNING, context.player().getArchetype().getCunning()));
-            existingPlayer.setWillpower(new Characteristic(Characteristic.Type.WILLPOWER, context.player().getArchetype().getWillpower()));
-            existingPlayer.setPresence(new Characteristic(Characteristic.Type.PRESENCE, context.player().getArchetype().getPresence()));
-            existingPlayer.setWounds(new Stats(0, context.player().getArchetype().getWounds(), Stats.Type.WOUNDS));
-            existingPlayer.setStrain(new Stats(0, context.player().getArchetype().getStrain(), Stats.Type.STRAIN));
-            existingPlayer.updateAvailableExperience(context.player().getArchetype().getExperience());
-            return playerRepository.save(existingPlayer);
-        });
-    }
+//    public Mono<Player> resetPlayerExperience(final PlayerCreationResetExperienceContext context) {
+//        return Mono.just(context.player()).flatMap(existingPlayer -> {
+//            existingPlayer.setArchetype(context.player().getArchetype());
+//            existingPlayer.setCareer(context.player().getCareer());
+//            existingPlayer.setSkills(resetPlayerSkills(context.player().getSkills()));
+//            existingPlayer.setTalents(List.of());
+//            existingPlayer.setBrawn(new Characteristic(Characteristic.Type.BRAWN, context.player().getArchetype().getBrawn()));
+//            existingPlayer.setAgility(new Characteristic(Characteristic.Type.AGILITY, context.player().getArchetype().getAgility()));
+//            existingPlayer.setIntellect(new Characteristic(Characteristic.Type.INTELLECT, context.player().getArchetype().getIntellect()));
+//            existingPlayer.setCunning(new Characteristic(Characteristic.Type.CUNNING, context.player().getArchetype().getCunning()));
+//            existingPlayer.setWillpower(new Characteristic(Characteristic.Type.WILLPOWER, context.player().getArchetype().getWillpower()));
+//            existingPlayer.setPresence(new Characteristic(Characteristic.Type.PRESENCE, context.player().getArchetype().getPresence()));
+//            existingPlayer.setWounds(new Stats(0, context.player().getArchetype().getWounds(), Stats.Type.WOUNDS));
+//            existingPlayer.setStrain(new Stats(0, context.player().getArchetype().getStrain(), Stats.Type.STRAIN));
+//            existingPlayer.updateAvailableExperience(context.player().getArchetype().getExperience());
+//            return playerRepository.save(existingPlayer);
+//        });
+//    }
 
     public Mono<Player> lockPlayerCreation(final PlayerCreationLockContext context) {
         return Mono.just(context.player()).flatMap(existingPlayer -> {

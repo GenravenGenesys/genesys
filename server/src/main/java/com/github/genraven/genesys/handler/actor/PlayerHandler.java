@@ -120,41 +120,41 @@ public class PlayerHandler extends BaseHandler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
-    public Mono<ServerResponse> updatePlayerArchetype(final ServerRequest serverRequest) {
-        final String id = serverRequest.pathVariable(ID);
-        final Mono<Archetype> archetypeMono = serverRequest.bodyToMono(Archetype.class);
-        return archetypeMono.zipWith(playerService.getPlayer(id))
-                .map(tuple -> new PlayerCreationArchetypeUpdateContext(
-                        tuple.getT2(),
-                        tuple.getT1()))
-                .flatMap(playerCreationArchetypeUpdateContextValidator::validate)
-                .flatMap(playerService::updatePlayerArchetype)
-                .flatMap(MapperUtil::mapPlayerToResponse)
-                .flatMap(player -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(player)))
-                .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(Map.of("errors", ex.getErrors()))));
-    }
-
-    public Mono<ServerResponse> updatePlayerCharacteristic(ServerRequest request) {
-        final String playerId = request.pathVariable(ID);
-        final Mono<Characteristic> characteristicMono = request.bodyToMono(Characteristic.class);
-        return characteristicMono.zipWith(playerService.getPlayer(playerId))
-                .map(tuple -> new PlayerCreationCharacteristicUpdateContext(
-                        tuple.getT2(),
-                        tuple.getT1()))
-                .flatMap(playerCreationCharacteristicUpdateContextValidator::validate)
-                .flatMap(playerService::updatePlayerCharacteristic)
-                .flatMap(MapperUtil::mapPlayerToResponse)
-                .flatMap(updatedPlayer -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(updatedPlayer)))
-                .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(Map.of("errors", ex.getErrors()))));
-    }
+//    public Mono<ServerResponse> updatePlayerArchetype(final ServerRequest serverRequest) {
+//        final String id = serverRequest.pathVariable(ID);
+//        final Mono<Archetype> archetypeMono = serverRequest.bodyToMono(Archetype.class);
+//        return archetypeMono.zipWith(playerService.getPlayer(id))
+//                .map(tuple -> new PlayerCreationArchetypeUpdateContext(
+//                        tuple.getT2(),
+//                        tuple.getT1()))
+//                .flatMap(playerCreationArchetypeUpdateContextValidator::validate)
+//                .flatMap(playerService::updatePlayerArchetype)
+//                .flatMap(MapperUtil::mapPlayerToResponse)
+//                .flatMap(player -> ServerResponse.ok()
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(fromValue(player)))
+//                .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(fromValue(Map.of("errors", ex.getErrors()))));
+//    }
+//
+//    public Mono<ServerResponse> updatePlayerCharacteristic(ServerRequest request) {
+//        final String playerId = request.pathVariable(ID);
+//        final Mono<Characteristic> characteristicMono = request.bodyToMono(Characteristic.class);
+//        return characteristicMono.zipWith(playerService.getPlayer(playerId))
+//                .map(tuple -> new PlayerCreationCharacteristicUpdateContext(
+//                        tuple.getT2(),
+//                        tuple.getT1()))
+//                .flatMap(playerCreationCharacteristicUpdateContextValidator::validate)
+//                .flatMap(playerService::updatePlayerCharacteristic)
+//                .flatMap(MapperUtil::mapPlayerToResponse)
+//                .flatMap(updatedPlayer -> ServerResponse.ok()
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(fromValue(updatedPlayer)))
+//                .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(fromValue(Map.of("errors", ex.getErrors()))));
+//    }
 
     public Mono<ServerResponse> updatePlayerSkill(final ServerRequest serverRequest) {
         final String playerId = serverRequest.pathVariable(ID);
@@ -193,20 +193,20 @@ public class PlayerHandler extends BaseHandler {
                         .body(fromValue(Map.of("errors", ex.getErrors()))));
     }
 
-    public Mono<ServerResponse> resetExperience(final ServerRequest serverRequest) {
-        final String id = serverRequest.pathVariable(ID);
-        return playerService.getPlayer(id)
-                .map(PlayerCreationResetExperienceContext::new)
-                .flatMap(playerCreationResetExperienceContextValidator::validate)
-                .flatMap(playerService::resetPlayerExperience)
-                .flatMap(MapperUtil::mapPlayerToResponse)
-                .flatMap(player -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(player)))
-                .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(Map.of("errors", ex.getErrors()))));
-    }
+//    public Mono<ServerResponse> resetExperience(final ServerRequest serverRequest) {
+//        final String id = serverRequest.pathVariable(ID);
+//        return playerService.getPlayer(id)
+//                .map(PlayerCreationResetExperienceContext::new)
+//                .flatMap(playerCreationResetExperienceContextValidator::validate)
+//                .flatMap(playerService::resetPlayerExperience)
+//                .flatMap(MapperUtil::mapPlayerToResponse)
+//                .flatMap(player -> ServerResponse.ok()
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(fromValue(player)))
+//                .onErrorResume(BaseException.class, ex -> ServerResponse.status(ex.getStatusCode())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(fromValue(Map.of("errors", ex.getErrors()))));
+//    }
 
     public Mono<ServerResponse> lockPlayerCreation(final ServerRequest serverRequest) {
         final String id = serverRequest.pathVariable(ID);
