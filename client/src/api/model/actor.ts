@@ -7,7 +7,7 @@
  */
 import type { ActorType } from "./actorType";
 import type { Characteristic } from "./characteristic";
-import type { Stats } from "./stats";
+import type { OldStats } from "./oldStats";
 import type { ActorWeapon } from "./actorWeapon";
 import type { ActorArmor } from "./actorArmor";
 import type { Error } from "./error";
@@ -23,7 +23,7 @@ export interface Actor {
   cunning: Characteristic;
   willpower: Characteristic;
   presence: Characteristic;
-  wounds: Stats;
+  wounds: OldStats;
   /** @minimum 0 */
   soak: number;
   /** @minimum 0 */

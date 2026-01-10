@@ -5,7 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { Stats } from "./stats";
+import type { OldStats } from "./oldStats";
 import type { Experience } from "./experience";
 import type { Career } from "./career";
 import type { Archetype } from "./archetype";
@@ -14,7 +14,7 @@ import type { PlayerSkill } from "./playerSkill";
 import type { CriticalInjury } from "./criticalInjury";
 
 export type PlayerAllOf = {
-  strain?: Stats;
+  strain?: OldStats;
   encumbrance?: number;
   experience?: Experience;
   career?: Career;

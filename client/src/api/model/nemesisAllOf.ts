@@ -8,7 +8,7 @@
 import type { ActorTalent } from "./actorTalent";
 import type { Ability } from "./ability";
 import type { ActorSkill } from "./actorSkill";
-import type { Stats } from "./stats";
+import type { OldStats } from "./oldStats";
 import type { CriticalInjury } from "./criticalInjury";
 
 export type NemesisAllOf = {
@@ -21,6 +21,6 @@ export type NemesisAllOf = {
   talents?: ActorTalent[];
   abilities?: Ability[];
   skills?: ActorSkill[];
-  strain?: Stats;
+  strain?: OldStats;
   injuries?: CriticalInjury[];
 };

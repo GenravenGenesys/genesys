@@ -1,6 +1,5 @@
 package com.github.genraven.genesys.domain.actor;
 
-import com.github.genraven.genesys.validator.EnumValidator;
 import com.github.genraven.genesys.validator.ValidationGroups.PlayerValidation;
 
 import io.swagger.v3.oas.annotations.media.Schema;

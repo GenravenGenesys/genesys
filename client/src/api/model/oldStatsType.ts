@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type StatsType = (typeof StatsType)[keyof typeof StatsType];
+export type OldStatsType = (typeof OldStatsType)[keyof typeof OldStatsType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const StatsType = {
+export const OldStatsType = {
   Wounds: "Wounds",
   Strain: "Strain",
 } as const;

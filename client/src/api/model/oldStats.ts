@@ -5,12 +5,12 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { StatsType } from "./statsType";
+import type { OldStatsType } from "./oldStatsType";
 
-export interface Stats {
+export interface OldStats {
   /** @minimum 0 */
   current: number;
   /** @minimum 0 */
   threshold: number;
-  type: StatsType;
+  type: OldStatsType;
 }

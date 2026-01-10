@@ -7,7 +7,7 @@
  */
 import type { CharacterResponseType } from "./characterResponseType";
 import type { Characteristic } from "./characteristic";
-import type { Stats } from "./stats";
+import type { OldStats } from "./oldStats";
 import type { ActorWeapon } from "./actorWeapon";
 import type { ActorArmor } from "./actorArmor";
 import type { Ability } from "./ability";
@@ -40,9 +40,9 @@ export interface CharacterResponse {
   /** Presence characteristic */
   presence?: Characteristic;
   /** Wound stats (current and max) */
-  wounds?: Stats;
+  wounds?: OldStats;
   /** Strain stats (current and max) */
-  strain?: Stats;
+  strain?: OldStats;
   /** Soak value */
   soak?: number;
   /** Melee defense value */
