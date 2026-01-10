@@ -10,12 +10,12 @@ import {useParams} from "react-router-dom";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 import type {Skill} from "../../../../api/model";
 import SkillDrawer from "./SkillDrawer.tsx";
-import {emptySkill} from "../../../../models/Skill.ts";
 import {useCreateSkill, useUpdateSkill} from "../../../../api/generated/skills/skills.ts";
 import {renderSingleRowTableHeader, renderSkillNameTableCell} from "../../../common/table/TableRenders.tsx";
 import BooleanTableCell from "../../../common/table/BooleanTableCell.tsx";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell.tsx";
 import CustomTableCell from "../../../common/table/common/CustomTableCell.tsx";
+import {emptySkill} from "../../../../models/Template.ts";
 
 interface Props {
     skill: Skill;

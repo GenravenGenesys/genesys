@@ -1,37 +1,43 @@
-import {useState} from 'react';
+import type {AdversaryTemplate, Talent} from "../../../../../api/model";
 import {
-    Box, Typography, Paper, TextField, InputAdornment,
-    Table, TableBody, TableContainer,
-    TableRow, Button, CircularProgress
-} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
-import {useParams} from "react-router-dom";
-import {useCampaignLive} from "../../../../../hooks/campaign/useCampaginLive.ts";
-import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.tsx";
-import BooleanTableCell from "../../../../common/table/BooleanTableCell.tsx";
+    Box,
+    Button,
+    CircularProgress,
+    InputAdornment,
+    Paper, Table, TableBody,
+    TableContainer,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
 import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell.tsx";
 import CustomTableCell from "../../../../common/table/common/CustomTableCell.tsx";
+import {useParams} from "react-router-dom";
+import {useState} from "react";
+import {useCampaignLive} from "../../../../../hooks/campaign/useCampaginLive.ts";
 import {useCreateTalent, useUpdateTalent} from "../../../../../api/generated/talents/talents.ts";
-import type {Talent} from "../../../../../api/model";
-import TalentDialog from "./TalentDialog.tsx";
-import {emptyTalent} from "../../../../../models/Template.ts";
+import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
+import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.tsx";
+import TalentDialog from "../talent/TalentDialog.tsx";
+import {emptyAdversary} from "../../../../../models/Template.ts";
+import {useCreateAdversary, useUpdateAdversary} from "../../../../../api/generated/adversaries/adversaries.ts";
 
 interface Props {
-    talent: Talent;
-    onEdit: (talent: Talent) => void;
+    adversary: AdversaryTemplate;
+    onEdit: (talent: AdversaryTemplate) => void;
 }
 
-function TalentRow(props: Props) {
-    const {talent, onEdit} = props;
+function AdversaryRow(props: Props) {
+    const {adversary, onEdit} = props;
 
     const onEditClick = () => {
-        onEdit(talent);
+        onEdit(adversary);
     }
 
     return (
         <TableRow>
-            <TypographyCenterTableCell value={talent.name}/>
+            <TypographyCenterTableCell value={adversary.name}/>
             {/*{renderTalentNameTableCell(talent)}*/}
             {/*<TypographyCenterTableCell value={talent.type}/>*/}
             {/*<BooleanTableCell bool={talent.initiative}/>*/}
@@ -44,11 +50,11 @@ function TalentRow(props: Props) {
     );
 }
 
-export default function ViewCompendiumTalents() {
+export default function ViewCompendiumAdversaries() {
     const {id} = useParams<{ id: string }>();
     const [search, setSearch] = useState("");
     const [openDrawer, setOpenDrawer] = useState(false);
-    const [talent, setTalent] = useState<Talent>(emptyTalent);
+    const [adversary, setAdversary] = useState<AdversaryTemplate>(emptyAdversary);
     const [isNew, setIsNew] = useState(false);
     const headers = ["Name", "Type", "Initiative", "Actions"];
 
@@ -57,8 +63,8 @@ export default function ViewCompendiumTalents() {
     }
 
     const {data: campaign, isLoading} = useCampaignLive(id);
-    const createTalentMutation = useCreateTalent();
-    const updateTalentMutation = useUpdateTalent();
+    const createAdversary = useCreateAdversary();
+    const updateAdversary = useUpdateAdversary();
 
     if (isLoading) {
         return <CircularProgress/>;
@@ -68,8 +74,8 @@ export default function ViewCompendiumTalents() {
         return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
     }
 
-    const filteredTalents = campaign.compendium.talents.filter((talent: Talent) =>
-        talent.name.toLowerCase().includes(search.toLowerCase())
+    const filteredAdversaries = campaign.compendium.adversaries.filter((adversary: AdversaryTemplate) =>
+        adversary.name.toLowerCase().includes(search.toLowerCase())
     );
 
     const handleOpenCreate = () => {
@@ -77,44 +83,44 @@ export default function ViewCompendiumTalents() {
         setOpenDrawer(true);
     };
 
-    const handleOpenEdit = (newTalent: Talent) => {
-        setTalent(newTalent);
+    const handleOpenEdit = (newAdversary: AdversaryTemplate) => {
+        setAdversary(newAdversary);
         setIsNew(false);
         setOpenDrawer(true);
     };
 
-    const handleSave = async (updatedTalent: Talent) => {
+    const handleSave = async (updatedAdversary: AdversaryTemplate) => {
         if (isNew) {
-            await createTalentMutation.mutateAsync({
+            await createAdversary.mutateAsync({
                 campaignId: campaign.id,
-                data: updatedTalent
+                data: updatedAdversary
             });
         } else {
-            await updateTalentMutation.mutateAsync({
+            await updateAdversary.mutateAsync({
                 campaignId: campaign.id,
-                talentId: updatedTalent.id,
-                data: updatedTalent
+                adversaryId: updatedAdversary.id,
+                data: updatedAdversary
             });
         }
 
-        setTalent(emptyTalent);
+        setAdversary(emptyAdversary);
     };
 
     return (
         <Box sx={{p: 4, maxWidth: 1200, mx: 'auto'}}>
             <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 4}}>
                 <Typography variant="h4" fontWeight="900">
-                    Talent Compendium
+                    Adversary Compendium
                 </Typography>
                 <Button variant="contained" startIcon={<AddIcon/>} onClick={handleOpenCreate}>
-                    New Talent
+                    New Adversary
                 </Button>
             </Box>
             <Paper sx={{p: 2, mb: 3, display: 'flex', gap: 2, alignItems: 'center'}}>
                 <TextField
                     fullWidth
                     variant="outlined"
-                    placeholder="Search talents by name..."
+                    placeholder="Search adversaries by name..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     size="small"
@@ -129,18 +135,18 @@ export default function ViewCompendiumTalents() {
                     }}
                 />
             </Paper>
-            <TableContainer component={Paper} sx={{borderRadius: 4}}>
-                <Table aria-label="talent table">
-                    {renderSingleRowTableHeader(headers, {bgcolor: 'rgba(255,255,255,0.05)'})}
-                    <TableBody>
-                        {filteredTalents.map((talent: Talent) => (
-                            <TalentRow key={talent.id} talent={talent} onEdit={handleOpenEdit}/>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TalentDialog open={Boolean(openDrawer)} talent={talent} onClose={() => setOpenDrawer(false)}
-                          onSave={handleSave} isNew={isNew}/>
+            {/*<TableContainer component={Paper} sx={{borderRadius: 4}}>*/}
+            {/*    <Table aria-label="talent table">*/}
+            {/*        {renderSingleRowTableHeader(headers, {bgcolor: 'rgba(255,255,255,0.05)'})}*/}
+            {/*        <TableBody>*/}
+            {/*            {filteredTalents.map((talent: Talent) => (*/}
+            {/*                <AdversaryRow key={talent.id} talent={talent} onEdit={handleOpenEdit}/>*/}
+            {/*            ))}*/}
+            {/*        </TableBody>*/}
+            {/*    </Table>*/}
+            {/*</TableContainer>*/}
+            {/*<TalentDialog open={Boolean(openDrawer)} talent={talent} onClose={() => setOpenDrawer(false)}*/}
+            {/*              onSave={handleSave} isNew={isNew}/>*/}
         </Box>
     );
 }

@@ -42,6 +42,7 @@ import CampaignDashboardPage from "./sample/HomeDashboard.tsx";
 import CompendiumHome from "./sample/compendium/CompendiumHome.tsx";
 import ViewCompendiumSkills from "./sample/compendium/ViewCompendiumSkills.tsx";
 import ViewCompendiumTalents from "./sample/compendium/talent/ViewCompendiumTalents.tsx";
+import ViewCompendiumAdversaries from "./sample/compendium/adversary/ViewCompendiumAdversaries.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -97,6 +98,7 @@ export const App: React.FC = () => {
                 <Route path={RootPath.Campaign + ":id/compendium"} element={<CompendiumHome/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Skills} element={<ViewCompendiumSkills/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Talent} element={<ViewCompendiumTalents/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Adversary} element={<ViewCompendiumAdversaries/>}/>
 
                 <Route path={"/sample/comp"} element={<SampleCompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>

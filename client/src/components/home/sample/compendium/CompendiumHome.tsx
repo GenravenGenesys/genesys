@@ -11,7 +11,7 @@ import {useParams} from "react-router-dom";
 import SkillCompendiumCard from "./SkillCompendiumCard.tsx";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 import TalentCompendiumCard from "./talent/TalentCompendiumCard.tsx";
-import AdversaryCompendiumCard from "./AdversaryCompendiumCard.tsx";
+import AdversaryCompendiumCard from "./adversary/AdversaryCompendiumCard.tsx";
 
 export default function CompendiumHome() {
     const {id} = useParams<{ id: string }>();

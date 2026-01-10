@@ -1,11 +1,7 @@
 import {
-    type Cost,
-    CostType,
-    type Limit,
-    LimitType,
-    StatsType,
+    OldStatsType,
     type Talent,
-    type TalentSkills, type TalentStats
+    type TalentStats
 } from "../../../../../../api/model";
 import * as React from "react";
 import {useState} from "react";
@@ -120,10 +116,10 @@ const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
             </GridContainer>
             {state.stats && <GridContainer spacing={2}>
                 <GenesysNumberField value={talent.talentStats.wounds}
-                                    label={'Increase ' + StatsType.Wounds + ' Threshold'}
+                                    label={'Increase ' + OldStatsType.Wounds + ' Threshold'}
                                     onChange={handleWoundsChange} min={0} max={5} fullwidth/>
                 <GenesysNumberField value={talent.talentStats.strain}
-                                    label={'Increase ' + StatsType.Strain + ' Threshold'}
+                                    label={'Increase ' + OldStatsType.Strain + ' Threshold'}
                                     onChange={handleStrainChange} min={0} max={5} fullwidth/>
                 <GenesysNumberField value={talent.talentStats.soak} label={'Increase Soak'}
                                     onChange={handleSoakChange} min={0} max={5} fullwidth/>

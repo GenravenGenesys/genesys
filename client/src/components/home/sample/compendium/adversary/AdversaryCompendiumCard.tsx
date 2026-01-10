@@ -10,10 +10,10 @@ import {
     ListItemText,
     Typography
 } from "@mui/material";
-import RouterLinkButton from "../../../common/RouterLink.tsx";
-import {RootPath} from "../../../../services/RootPath.ts";
+import RouterLinkButton from "../../../../common/RouterLink.tsx";
+import {RootPath} from "../../../../../services/RootPath.ts";
 import GroupsIcon from "@mui/icons-material/Groups";
-import type {AdversaryTemplate} from "../../../../api/model";
+import type {AdversaryTemplate} from "../../../../../api/model";
 
 interface Props {
     adversaries: AdversaryTemplate[];
