@@ -1,9 +1,9 @@
-import {CharacteristicType, type Skill, SkillType} from "../api/model";
+import {type Skill, SkillType} from "../api/model";
 
 export const emptySkill = {
     id: '',
     name: '',
-    characteristic: CharacteristicType.Brawn,
+    characteristic: {},
     type: SkillType.General,
     initiative: false,
 } as Skill;

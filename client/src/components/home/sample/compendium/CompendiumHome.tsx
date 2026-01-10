@@ -7,13 +7,11 @@ import {
 // Standard MUI Icons
 import SwordIcon from '@mui/icons-material/SportsMma';
 import ArchetypeIcon from '@mui/icons-material/PersonAdd';
-import AddIcon from '@mui/icons-material/Add';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import GroupsIcon from '@mui/icons-material/Groups';
 import {useParams} from "react-router-dom";
 import SkillCompendiumCard from "./SkillCompendiumCard.tsx";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 import TalentCompendiumCard from "./talent/TalentCompendiumCard.tsx";
+import AdversaryCompendiumCard from "./AdversaryCompendiumCard.tsx";
 
 export default function CompendiumHome() {
     const {id} = useParams<{ id: string }>();
@@ -40,13 +38,6 @@ export default function CompendiumHome() {
     //         icon: <SwordIcon/>,
     //         color: "#ff9100",
     //         preview: ["Heavy Blaster", "Monofilament Blade"]
-    //     },
-    //     {
-    //         title: "Adversaries",
-    //         count: 12,
-    //         icon: <GroupsIcon/>,
-    //         color: "#f44336", // Nemesis Red
-    //         preview: ["Stormtrooper (Minion)", "Local Thug (Rival)", "Sith Inquisitor (Nemesis)"]
     //     },
     //     {
     //         title: "Archetypes",
@@ -127,6 +118,7 @@ export default function CompendiumHome() {
                 {/*))}*/}
                 <SkillCompendiumCard skills={campaign.compendium.skills} campaignId={id}/>
                 <TalentCompendiumCard talents={campaign.compendium.talents} campaignId={id}/>
+                <AdversaryCompendiumCard adversaries={campaign.compendium.adversaries} campaignId={id}/>
 
                 {/* Setting Rules & Formatting Section */}
                 {/*<Grid size={{ xs: 12, md: 8 }}>*/}

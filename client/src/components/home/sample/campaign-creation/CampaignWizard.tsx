@@ -10,7 +10,6 @@ import {InputTextFieldCard} from "../../../common/InputTextFieldCard.tsx";
 import {
     type Archetype,
     type Career,
-    CharacteristicType,
     type Skill,
     SkillCharacteristic,
     SkillType
@@ -37,7 +36,7 @@ export default function CampaignWizard() {
     const blankSkill = {
         id: '',
         name: '',
-        characteristic: CharacteristicType.Brawn,
+        characteristic: 'Brawn',
         type: SkillType.General,
         initiative: false,
     } as Skill;
