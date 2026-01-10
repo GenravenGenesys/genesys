@@ -28,7 +28,7 @@ public class Player extends Actor {
     }
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Stats strain = new Stats(0, 1, Stats.Type.STRAIN);
+    private OldStats strain = new OldStats(0, 1, OldStats.Type.STRAIN);
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int encumbrance;

@@ -9,7 +9,7 @@ import com.github.genraven.genesys.domain.actor.ActorArmor;
 import com.github.genraven.genesys.domain.actor.ActorTalent;
 import com.github.genraven.genesys.domain.actor.ActorWeapon;
 import com.github.genraven.genesys.domain.actor.Characteristic;
-import com.github.genraven.genesys.domain.actor.Stats;
+import com.github.genraven.genesys.domain.actor.OldStats;
 import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.Experience;
@@ -51,10 +51,10 @@ public class PlayerResponse {
     private Characteristic presence;
 
     @Schema(description = "Wound stats (current and max)")
-    private Stats wounds;
+    private OldStats wounds;
 
     @Schema(description = "Strain stats (current and max)")
-    private Stats strain;
+    private OldStats strain;
 
     @Schema(description = "Soak value", example = "5")
     private int soak;

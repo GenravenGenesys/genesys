@@ -2,7 +2,7 @@ package com.github.genraven.genesys.mapper;
 
 import com.github.genraven.genesys.domain.actor.ActorArmor;
 import com.github.genraven.genesys.domain.actor.Characteristic;
-import com.github.genraven.genesys.domain.actor.Stats;
+import com.github.genraven.genesys.domain.actor.OldStats;
 import com.github.genraven.genesys.domain.actor.npc.Rival;
 import com.github.genraven.genesys.domain.equipment.Armor;
 import org.mapstruct.AfterMapping;
@@ -109,9 +109,9 @@ public interface RivalResponseMapper {
             .sum();
 
         int current = Optional.ofNullable(rival.getWounds())
-            .map(Stats::getCurrent)
+            .map(OldStats::getCurrent)
             .orElse(0);
 
-        rivalResponse.setWounds(new Stats(current, brawnWounds + talentBonus, Stats.Type.WOUNDS));
+        rivalResponse.setWounds(new OldStats(current, brawnWounds + talentBonus, OldStats.Type.WOUNDS));
     }
 }

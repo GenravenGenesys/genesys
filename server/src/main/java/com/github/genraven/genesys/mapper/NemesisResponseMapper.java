@@ -2,7 +2,7 @@ package com.github.genraven.genesys.mapper;
 
 import com.github.genraven.genesys.domain.actor.ActorArmor;
 import com.github.genraven.genesys.domain.actor.Characteristic;
-import com.github.genraven.genesys.domain.actor.Stats;
+import com.github.genraven.genesys.domain.actor.OldStats;
 import com.github.genraven.genesys.domain.actor.npc.Nemesis;
 import com.github.genraven.genesys.domain.equipment.Armor;
 import org.mapstruct.AfterMapping;
@@ -111,10 +111,10 @@ public interface NemesisResponseMapper {
             .sum();
 
         int current = Optional.ofNullable(nemesis.getWounds())
-            .map(Stats::getCurrent)
+            .map(OldStats::getCurrent)
             .orElse(0);
 
-        nemesisResponse.setWounds(new Stats(current, brawnWounds + talentBonus, Stats.Type.WOUNDS));
+        nemesisResponse.setWounds(new OldStats(current, brawnWounds + talentBonus, OldStats.Type.WOUNDS));
     }
 
     private void getTotalStrain(@MappingTarget Nemesis nemesisResponse, Nemesis nemesis) {
@@ -133,9 +133,9 @@ public interface NemesisResponseMapper {
             .sum();
 
         int current = Optional.ofNullable(nemesis.getStrain())
-            .map(Stats::getCurrent)
+            .map(OldStats::getCurrent)
             .orElse(0);
 
-        nemesisResponse.setStrain(new Stats(current, willpowerStrain + talentBonus, Stats.Type.STRAIN));
+        nemesisResponse.setStrain(new OldStats(current, willpowerStrain + talentBonus, OldStats.Type.STRAIN));
     }
 }

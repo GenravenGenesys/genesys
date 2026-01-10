@@ -80,7 +80,7 @@ public class Actor {
     private Characteristic presence = new Characteristic(1, 1);
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Stats wounds = new Stats(0, 1, Stats.Type.WOUNDS);
+    private OldStats wounds = new OldStats(0, 1, OldStats.Type.WOUNDS);
 
     @Min(0)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)

@@ -1,9 +1,7 @@
 package com.github.genraven.genesys.domain.actor.npc;
 
 import com.github.genraven.genesys.domain.CriticalInjury;
-import com.github.genraven.genesys.domain.actor.ActorArmor;
-import com.github.genraven.genesys.domain.actor.Stats;
-import com.github.genraven.genesys.domain.equipment.Armor;
+import com.github.genraven.genesys.domain.actor.OldStats;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,7 +23,7 @@ public class Nemesis extends SingleNonPlayerActor {
     }
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Stats strain = new Stats(0, 1, Stats.Type.STRAIN);
+    private OldStats strain = new OldStats(0, 1, OldStats.Type.STRAIN);
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<CriticalInjury> injuries = new ArrayList<>();

@@ -1,9 +1,7 @@
 package com.github.genraven.genesys.service.actor;
 
 import com.github.genraven.genesys.domain.actor.ActorTalent;
-import com.github.genraven.genesys.domain.actor.Stats;
 import com.github.genraven.genesys.domain.actor.player.*;
-import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.context.player.*;
 import com.github.genraven.genesys.repository.actor.PlayerRepository;
 import com.github.genraven.genesys.service.CampaignService;
@@ -17,7 +15,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service

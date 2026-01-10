@@ -1,7 +1,7 @@
 package com.github.genraven.genesys.domain.actor.npc;
 
 import com.github.genraven.genesys.domain.actor.ActorSkill;
-import com.github.genraven.genesys.domain.actor.Stats;
+import com.github.genraven.genesys.domain.actor.OldStats;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -34,7 +34,7 @@ public class MinionGroup extends SingleNonPlayerActor {
         this.setArmors(minion.getArmors());
         this.setTalents(minion.getTalents());
         // Minion Group Size Changes
-        this.setWounds(new Stats(0, minion.getWounds().getThreshold() * size, Stats.Type.WOUNDS));
+        this.setWounds(new OldStats(0, minion.getWounds().getThreshold() * size, OldStats.Type.WOUNDS));
         this.setSkills(adaptGroupSkillsToActorSkills(minion.getSkills(), size));
         this.setSize(size);
     }

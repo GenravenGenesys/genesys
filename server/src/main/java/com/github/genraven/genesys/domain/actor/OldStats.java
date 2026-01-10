@@ -10,9 +10,9 @@ import lombok.Getter;
 
 @Data
 @AllArgsConstructor
-public class Stats {
+public class OldStats {
 
-    protected Stats() {}
+    protected OldStats() {}
 
     @Min(0)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)

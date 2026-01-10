@@ -13,7 +13,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-import com.github.genraven.genesys.domain.actor.Stats;
+import com.github.genraven.genesys.domain.actor.OldStats;
 import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import com.github.genraven.genesys.domain.equipment.Armor;
@@ -143,10 +143,10 @@ public interface CharacterResponseMapper {
                 .sum();
 
         int current = Optional.ofNullable(player.getWounds())
-                .map(Stats::getCurrent)
+                .map(OldStats::getCurrent)
                 .orElse(0);
 
-        characterResponse.setWounds(new Stats(current, archetypeWounds + brawnWounds + talentBonus, Stats.Type.WOUNDS));
+        characterResponse.setWounds(new OldStats(current, archetypeWounds + brawnWounds + talentBonus, OldStats.Type.WOUNDS));
     }
 
     private void getTotalStrain(@MappingTarget CharacterResponse characterResponse, Player player) {
@@ -169,9 +169,9 @@ public interface CharacterResponseMapper {
                 .sum();
 
         int current = Optional.ofNullable(player.getStrain())
-                .map(Stats::getCurrent)
+                .map(OldStats::getCurrent)
                 .orElse(0);
 
-        characterResponse.setStrain(new Stats(current, archetypeStrain + willpowerStrain+ talentBonus, Stats.Type.STRAIN));
+        characterResponse.setStrain(new OldStats(current, archetypeStrain + willpowerStrain+ talentBonus, OldStats.Type.STRAIN));
     }
 }

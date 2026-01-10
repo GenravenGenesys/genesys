@@ -2,7 +2,7 @@ package com.github.genraven.genesys.mapper;
 
 import com.github.genraven.genesys.domain.actor.ActorArmor;
 import com.github.genraven.genesys.domain.actor.Characteristic;
-import com.github.genraven.genesys.domain.actor.Stats;
+import com.github.genraven.genesys.domain.actor.OldStats;
 import com.github.genraven.genesys.domain.actor.npc.Minion;
 import com.github.genraven.genesys.domain.equipment.Armor;
 import org.mapstruct.AfterMapping;
@@ -109,9 +109,9 @@ public interface MinionResponseMapper {
             .sum();
 
         int current = Optional.ofNullable(minion.getWounds())
-            .map(Stats::getCurrent)
+            .map(OldStats::getCurrent)
             .orElse(0);
 
-        minionResponse.setWounds(new Stats(current, brawnWounds + talentBonus, Stats.Type.WOUNDS));
+        minionResponse.setWounds(new OldStats(current, brawnWounds + talentBonus, OldStats.Type.WOUNDS));
     }
 }

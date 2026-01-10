@@ -115,8 +115,8 @@ public class Character {
     private Characteristic cunning;
     private Characteristic willpower;
     private Characteristic presence;
-    private Stats wounds;
-    private Stats strain;
+    private OldStats wounds;
+    private OldStats strain;
     private int soak;
     private Defense melee;
     private Defense ranged;
