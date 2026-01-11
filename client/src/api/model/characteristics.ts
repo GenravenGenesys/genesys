@@ -5,15 +5,16 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { Characteristic } from "./characteristic";
 
 /**
  * Characteristic Stat
  */
 export interface Characteristics {
-  brawn: number;
-  agility: number;
-  intellect: number;
-  cunning: number;
-  willpower: number;
-  presence: number;
+  brawn: Characteristic;
+  agility: Characteristic;
+  intellect: Characteristic;
+  cunning: Characteristic;
+  willpower: Characteristic;
+  presence: Characteristic;
 }

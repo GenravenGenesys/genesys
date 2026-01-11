@@ -21,6 +21,7 @@ import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.
 import TalentDialog from "../talent/TalentDialog.tsx";
 import {emptyAdversary} from "../../../../../models/Template.ts";
 import {useCreateAdversary, useUpdateAdversary} from "../../../../../api/generated/adversaries/adversaries.ts";
+import AdversaryDialog from "./AdversaryDialog.tsx";
 
 interface Props {
     adversary: AdversaryTemplate;
@@ -144,8 +145,8 @@ export default function ViewCompendiumAdversaries() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TalentDialog open={Boolean(openDrawer)} talent={talent} onClose={() => setOpenDrawer(false)}
-                          onSave={handleSave} isNew={isNew}/>
+            <AdversaryDialog open={Boolean(openDrawer)} adversary={adversary} onClose={() => setOpenDrawer(false)}
+                             onSave={handleSave} isNew={isNew}/>
         </Box>
     );
 }

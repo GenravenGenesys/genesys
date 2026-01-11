@@ -1,0 +1,66 @@
+import {type Characteristics, SkillCharacteristic} from "../../../../../api/model";
+import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
+import GridContainer from "../../../../common/grid/GridContainer.tsx";
+import {Grid2} from "@mui/material";
+
+interface Props {
+    characteristics: Characteristics
+    updateCharacteristics: (characteristics: Characteristics) => void;
+}
+
+export default function AdversaryCharacteristics(props: Props) {
+    const {characteristics, updateCharacteristics} = props;
+
+    const handleBrawnUpdate = (value: number) => {
+        updateCharacteristics({...characteristics, brawn: value});
+    };
+
+    const handleAgilityUpdate = (value: number) => {
+        updateCharacteristics({...characteristics, agility: value});
+    };
+
+    const handleIntellectUpdate = (value: number) => {
+        updateCharacteristics({...characteristics, intellect: value});
+    };
+
+    const handleCunningUpdate = (value: number) => {
+        updateCharacteristics({...characteristics, cunning: value});
+    };
+
+    const handleWillpowerUpdate = (value: number) => {
+        updateCharacteristics({...characteristics, willpower: value});
+    };
+
+    const handlePresenceUpdate = (value: number) => {
+        updateCharacteristics({...characteristics, presence: value});
+    };
+
+    return (
+        <GridContainer>
+            <Grid2 size={4}>
+                <GenesysNumberField value={characteristics.brawn.base}
+                                    label={SkillCharacteristic.Brawn}
+                                    onChange={handleBrawnUpdate} min={0} max={5} fullwidth/>
+                <GenesysNumberField value={characteristics.cunning.base}
+                                    label={SkillCharacteristic.Cunning}
+                                    onChange={handleCunningUpdate} min={0} max={5} fullwidth/>
+            </Grid2>
+            <Grid2 size={4}>
+                <GenesysNumberField value={characteristics.agility.base}
+                                    label={SkillCharacteristic.Agility}
+                                    onChange={handleAgilityUpdate} min={0} max={5} fullwidth/>
+                <GenesysNumberField value={characteristics.willpower.base}
+                                    label={SkillCharacteristic.Willpower}
+                                    onChange={handleWillpowerUpdate} min={0} max={5} fullwidth/>
+            </Grid2>
+            <Grid2 size={4}>
+                <GenesysNumberField value={characteristics.intellect.base}
+                                    label={SkillCharacteristic.Intellect}
+                                    onChange={handleIntellectUpdate} min={0} max={5} fullwidth/>
+                <GenesysNumberField value={characteristics.presence.base}
+                                    label={SkillCharacteristic.Presence}
+                                    onChange={handlePresenceUpdate} min={0} max={5} fullwidth/>
+            </Grid2>
+        </GridContainer>
+    );
+}

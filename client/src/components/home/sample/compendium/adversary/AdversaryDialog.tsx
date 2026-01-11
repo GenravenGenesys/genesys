@@ -1,0 +1,121 @@
+import React, {useState, useEffect} from 'react';
+import {
+    Box, Drawer, Typography, Stack, Button,
+    Grid2 as Grid, Divider, IconButton, Collapse, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
+    DialogContent, TextField, FormControlLabel, Switch, Tabs, FormControl, FormLabel, FormGroup, Checkbox, ToggleButton,
+    ToggleButtonGroup, MenuItem
+} from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
+import {
+    Activation,
+    type AdversaryTemplate,
+    AdversaryTemplateType,
+    OldStatsType, SkillCharacteristic,
+    TalentTier
+} from "../../../../../api/model";
+import GridContainer from "../../../../common/grid/GridContainer.tsx";
+import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
+import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
+import GenesysBooleanField from "../../../../common/field/GenesysBooleanField.tsx";
+import Tab from "@mui/material/Tab";
+import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
+import AdversaryCharacteristics from "./AdversaryCharacteristics.tsx";
+
+interface Props {
+    open: boolean;
+    adversary: AdversaryTemplate;
+    onClose: () => void;
+    onSave: (data: AdversaryTemplate) => void;
+    isNew: boolean;
+}
+
+export default function AdversaryDialog(props: Props) {
+    const {open, adversary, onClose, onSave, isNew} = props;
+    const [formData, setFormData] = useState<AdversaryTemplate>(adversary || {});
+    const [tabValue, setTabValue] = useState(0);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+    useEffect(() => {
+        if (adversary) setFormData(adversary);
+    }, [adversary]);
+
+    const handleChange = <K extends keyof AdversaryTemplate>(field: K, value: AdversaryTemplate[K]) => {
+        setFormData((prev: AdversaryTemplate) => ({...prev, [field]: value}));
+    };
+
+    const handleSave = () => {
+        onSave(formData);
+        setFormData({} as AdversaryTemplate);
+        onClose();
+    }
+
+    const handleClose = () => {
+        setFormData({} as AdversaryTemplate);
+        onClose();
+    };
+
+    return (
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            fullWidth
+            fullScreen={fullScreen}
+            maxWidth="md"
+            scroll="paper"
+            slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
+        >
+            <DialogTitle>{isNew ? "Create Custom Adversary" : "Edit Adversary"}</DialogTitle>
+
+            <ToggleButtonGroup
+                exclusive fullWidth
+                value={formData.type}
+                onChange={(_, val) => val && handleChange('type', val)}
+            >
+                {Object.values(AdversaryTemplateType).map((type: AdversaryTemplateType) => (
+                    <MenuItem key={type} value={type}>
+                        {type}
+                    </MenuItem>
+                ))}
+            </ToggleButtonGroup>
+
+            <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
+                <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
+                    <Tab label="Basic Information"/>
+                </Tabs>
+            </Box>
+
+            <DialogContent sx={{minHeight: '500px', py: 3}} dividers>
+                {tabValue === 0 && (
+                    <Stack spacing={3}>
+                        <GenesysTextField text={formData.name || ''} label={"Adversary Name"}
+                                          onChange={(e) => handleChange("name", e)} fullwidth={true}/>
+                        <Divider sx={{my: 2}}>
+                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                CHARACTERISTICS
+                            </Typography>
+                        </Divider>
+                        <AdversaryCharacteristics characteristics={adversary.characteristics}
+                                                  updateCharacteristics={() => handleChange}/>
+                        <Divider sx={{my: 2}}>
+                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                RATINGS
+                            </Typography>
+                        </Divider>
+                    </Stack>
+                )}
+            </DialogContent>
+            <Divider sx={{my: 2}}>
+                <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                    MODIFICATION OPTIONS
+                </Typography>
+            </Divider>
+            <DialogActions sx={{p: 3}}>
+                <Button variant="outlined" onClick={onClose}>Cancel</Button>
+                <Button variant="contained" startIcon={<SaveIcon/>} onClick={handleSave}>
+                    Save Adversary
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+}
