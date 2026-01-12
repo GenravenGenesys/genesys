@@ -20,6 +20,8 @@ import GenesysBooleanField from "../../../../common/field/GenesysBooleanField.ts
 import Tab from "@mui/material/Tab";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import AdversaryCharacteristics from "./AdversaryCharacteristics.tsx";
+import AdversaryRatings from "./AdversaryRatings.tsx";
+import AdversarySkillManager from "./AdversarySkillManager.tsx";
 
 interface Props {
     open: boolean;
@@ -41,6 +43,7 @@ export default function AdversaryDialog(props: Props) {
     }, [adversary]);
 
     const handleChange = <K extends keyof AdversaryTemplate>(field: K, value: AdversaryTemplate[K]) => {
+        console.log(field, value);
         setFormData((prev: AdversaryTemplate) => ({...prev, [field]: value}));
     };
 
@@ -65,23 +68,27 @@ export default function AdversaryDialog(props: Props) {
             scroll="paper"
             slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
         >
-            <DialogTitle>{isNew ? "Create Custom Adversary" : "Edit Adversary"}</DialogTitle>
+            <DialogTitle>{isNew ? "Create Custom " + formData.type : "Edit Adversary"}</DialogTitle>
 
             <ToggleButtonGroup
-                exclusive fullWidth
+                exclusive
+                fullWidth
                 value={formData.type}
-                onChange={(_, val) => val && handleChange('type', val)}
+                onChange={(_, val) => val && handleChange("type", val)}
             >
                 {Object.values(AdversaryTemplateType).map((type: AdversaryTemplateType) => (
-                    <MenuItem key={type} value={type}>
+                    <ToggleButton key={type} value={type}>
                         {type}
-                    </MenuItem>
+                    </ToggleButton>
                 ))}
             </ToggleButtonGroup>
 
             <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                     <Tab label="Basic Information"/>
+                    <Tab label="Skills"/>
+                    <Tab label="Talents and Abilities"/>
+                    <Tab label="Equipment"/>
                 </Tabs>
             </Box>
 
@@ -89,27 +96,31 @@ export default function AdversaryDialog(props: Props) {
                 {tabValue === 0 && (
                     <Stack spacing={3}>
                         <GenesysTextField text={formData.name || ''} label={"Adversary Name"}
-                                          onChange={(e) => handleChange("name", e)} fullwidth={true}/>
+                                          onChange={(e) => handleChange("name", e)} fullwidth/>
+                        <GenesysTextField text={formData.description || ''} label={"Description"}
+                                          onChange={(e) => handleChange("description", e)} fullwidth rows={3}/>
                         <Divider sx={{my: 2}}>
                             <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
                                 CHARACTERISTICS
                             </Typography>
                         </Divider>
-                        <AdversaryCharacteristics characteristics={adversary.characteristics}
-                                                  updateCharacteristics={() => handleChange}/>
+                        <AdversaryCharacteristics characteristics={formData.characteristics}
+                                                  updateCharacteristics={(characteristics) => handleChange('characteristics', characteristics)}/>
                         <Divider sx={{my: 2}}>
                             <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
                                 RATINGS
                             </Typography>
                         </Divider>
+                        <AdversaryRatings ratings={formData.ratings}
+                                          updateRatings={(updatedRating) => handleChange('ratings', updatedRating)}/>
                     </Stack>
                 )}
+                {tabValue === 1 && (
+                    <AdversarySkillManager npcSkills={formData.skills}
+                                           onUpdate={(skills) => handleChange('skills', skills)}
+                                           isMinion={formData.type === AdversaryTemplateType.Minion}/>
+                )}
             </DialogContent>
-            <Divider sx={{my: 2}}>
-                <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                    MODIFICATION OPTIONS
-                </Typography>
-            </Divider>
             <DialogActions sx={{p: 3}}>
                 <Button variant="outlined" onClick={onClose}>Cancel</Button>
                 <Button variant="contained" startIcon={<SaveIcon/>} onClick={handleSave}>

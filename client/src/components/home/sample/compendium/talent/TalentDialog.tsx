@@ -183,59 +183,5 @@ export default function TalentDialog(props: Props) {
                 </Button>
             </DialogActions>
         </Dialog>
-        // <Dialog
-        //     open={open}
-        //     onClose={handleClose}
-        //     fullWidth
-        //     fullScreen={fullScreen}
-        //     maxWidth="md"
-        //     scroll="paper"
-        //     slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
-        // >
-        //     <DialogTitle sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-        //         <Typography variant="h5" fontWeight="bold">{isNew ? "Create Custom Talent" : "Edit Talent"}</Typography>
-        //         <IconButton onClick={handleClose}><CloseIcon/></IconButton>
-        //     </DialogTitle>
-        //     <DialogContent dividers>
-        //         <Stack spacing={3}>
-        //             <GenesysTextField text={formData.name || ''} label={"Talent Name"}
-        //                               onChange={(e) => handleChange("name", e)} fullwidth={true}/>
-        //             <GridContainer spacing={2}>
-        //                 <Grid size={6}>
-        //                     <GenesysSelectField value={formData.tier} label={"Tier"}
-        //                                         onChange={(e) => handleChange('tier', e)} options={TalentTier}/>
-        //                 </Grid>
-        //                 <Grid size={6}>
-        //                     <GenesysBooleanField value={formData.ranked} onChange={(e) => handleChange('ranked', e)}
-        //                                          label={"Ranked Talent"}/>
-        //                 </Grid>
-        //             </GridContainer>
-        //             <GenesysSelectField value={formData.activation} label={"Activation"}
-        //                                 onChange={(e) => handleChange('activation', e)} options={Activation}/>
-        //             <GenesysTextField text={formData.description || ''} label={"Description"}
-        //                               onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
-        //             <Collapse in={formData.activation === Activation["Active_(Action)"]}>
-        //                 <Divider sx={{my: 2}}>
-        //                     <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-        //                         ACTION LOGIC
-        //                     </Typography>
-        //                 </Divider>
-        //                 <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>
-        //                     <SelectSkillField currentSkill={{...formData.action?.skill || null}}
-        //                                       handleSkillSelect={(selectedSkill) => handleChange('action', {
-        //                                           ...formData.action,
-        //                                           skill: {...selectedSkill, ranks: 0}
-        //                                       })}/>
-        //                 </Stack>
-        //             </Collapse>
-        //         </Stack>
-        //     </DialogContent>
-        //     <DialogActions sx={{p: 3}}>
-        //         <Button variant="outlined" onClick={onClose}>Cancel</Button>
-        //         <Button variant="contained" startIcon={<SaveIcon/>} onClick={handleSave}>
-        //             Save Talent
-        //         </Button>
-        //     </DialogActions>
-        // </Dialog>
     );
 }

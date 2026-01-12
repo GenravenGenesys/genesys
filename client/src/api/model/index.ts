@@ -23,6 +23,8 @@ export * from "./actorWeaponSlot";
 export * from "./actorWeaponType";
 export * from "./adversaryEquipment";
 export * from "./adversaryRatings";
+export * from "./adversarySkill";
+export * from "./adversarySkillCharacteristic";
 export * from "./adversaryTemplate";
 export * from "./adversaryTemplateType";
 export * from "./archetype";

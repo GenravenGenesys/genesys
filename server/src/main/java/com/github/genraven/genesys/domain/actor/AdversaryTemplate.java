@@ -29,6 +29,9 @@ public class AdversaryTemplate {
     @NotEmpty
     private String name;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "The description of the adversary")
+    private String description;
+
     @EnumValidator(enumClass =  AdversaryType.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "The type of adversary")
     private AdversaryType type;
@@ -47,7 +50,7 @@ public class AdversaryTemplate {
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Adversary Skills")
-    private List<Skill> skills;
+    private List<AdversarySkill> skills;
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Adversary Ratings")

@@ -7,7 +7,10 @@
  */
 
 export interface AdversaryRatings {
+  /** @minimum 1 */
   combat: number;
+  /** @minimum 1 */
   social: number;
+  /** @minimum 1 */
   general: number;
 }

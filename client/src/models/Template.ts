@@ -65,12 +65,30 @@ export const emptyAdversary = {
     description: '',
     type: AdversaryTemplateType.Nemesis,
     characteristics: {
-        brawn: 0,
-        agility: 0,
-        intellect: 0,
-        cunning: 0,
-        willpower: 0,
-        presence: 0,
+        brawn: {
+            current: 1,
+            base: 1
+        },
+        agility: {
+            current: 1,
+            base: 1
+        },
+        intellect: {
+            current: 1,
+            base: 1
+        },
+        cunning: {
+            current: 1,
+            base: 1
+        },
+        willpower: {
+            current: 1,
+            base: 1
+        },
+        presence: {
+            current: 1,
+            base: 1
+        },
     },
     derivedStats: {
         soak: {
@@ -89,5 +107,12 @@ export const emptyAdversary = {
             current: 0,
             base: 0
         },
+    },
+    equipment: [],
+    skills: [],
+    ratings: {
+        combat: 1,
+        social: 1,
+        general: 1
     }
 } as AdversaryTemplate;
