@@ -1,22 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {
-    Box, Drawer, Typography, Stack, Button,
-    Grid2 as Grid, Divider, IconButton, Collapse, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
-    DialogContent, TextField, FormControlLabel, Switch, Tabs, FormControl, FormLabel, FormGroup, Checkbox, ToggleButton,
-    ToggleButtonGroup, MenuItem
+    Box, Typography, Stack, Button,
+    Grid2 as Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
+    DialogContent, Tabs, ToggleButton,
+    ToggleButtonGroup,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import {
-    Activation,
     type AdversaryTemplate,
     AdversaryTemplateType,
-    OldStatsType, SkillCharacteristic,
-    TalentTier
+    OldStatsType,
 } from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
-import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
-import GenesysBooleanField from "../../../../common/field/GenesysBooleanField.tsx";
 import Tab from "@mui/material/Tab";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import AdversaryCharacteristics from "./AdversaryCharacteristics.tsx";
@@ -69,20 +65,8 @@ export default function AdversaryDialog(props: Props) {
             slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
         >
             <DialogTitle>{isNew ? "Create Custom " + formData.type : "Edit Adversary"}</DialogTitle>
-
-            <ToggleButtonGroup
-                exclusive
-                fullWidth
-                value={formData.type}
-                onChange={(_, val) => val && handleChange("type", val)}
-            >
-                {Object.values(AdversaryTemplateType).map((type: AdversaryTemplateType) => (
-                    <ToggleButton key={type} value={type}>
-                        {type}
-                    </ToggleButton>
-                ))}
-            </ToggleButtonGroup>
-
+            <GenesysTextField text={formData.name || ''} label={"Adversary Name"}
+                              onChange={(e) => handleChange("name", e)} fullwidth/>
             <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                     <Tab label="Basic Information"/>
@@ -95,8 +79,18 @@ export default function AdversaryDialog(props: Props) {
             <DialogContent sx={{minHeight: '500px', py: 3}} dividers>
                 {tabValue === 0 && (
                     <Stack spacing={3}>
-                        <GenesysTextField text={formData.name || ''} label={"Adversary Name"}
-                                          onChange={(e) => handleChange("name", e)} fullwidth/>
+                        <ToggleButtonGroup
+                            exclusive
+                            fullWidth
+                            value={formData.type}
+                            onChange={(_, val) => val && handleChange("type", val)}
+                        >
+                            {Object.values(AdversaryTemplateType).map((type: AdversaryTemplateType) => (
+                                <ToggleButton key={type} value={type}>
+                                    {type}
+                                </ToggleButton>
+                            ))}
+                        </ToggleButtonGroup>
                         <GenesysTextField text={formData.description || ''} label={"Description"}
                                           onChange={(e) => handleChange("description", e)} fullwidth rows={3}/>
                         <Divider sx={{my: 2}}>
@@ -113,6 +107,18 @@ export default function AdversaryDialog(props: Props) {
                         </Divider>
                         <AdversaryRatings ratings={formData.ratings}
                                           updateRatings={(updatedRating) => handleChange('ratings', updatedRating)}/>
+                        <GridContainer>
+                            <Grid size={formData.type === AdversaryTemplateType.Nemesis ? 6 : 12}>
+                                <GenesysNumberField value={formData.wounds || 0} fullwidth
+                                                    label={OldStatsType.Wounds + ' Threshold'}
+                                                    onChange={(e) => handleChange('wounds', e)}/>
+                            </Grid>
+                            {formData.type === AdversaryTemplateType.Nemesis && <Grid size={6}>
+                                <GenesysNumberField value={formData.strain || 0} fullwidth
+                                                    label={OldStatsType.Strain + ' Threshold'}
+                                                    onChange={(e) => handleChange('strain', e)}/>
+                            </Grid>}
+                        </GridContainer>
                     </Stack>
                 )}
                 {tabValue === 1 && (

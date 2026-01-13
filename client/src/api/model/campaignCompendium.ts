@@ -9,7 +9,7 @@ import type { Archetype } from "./archetype";
 import type { Career } from "./career";
 import type { Skill } from "./skill";
 import type { Talent } from "./talent";
-import type { ItemTemplate } from "./itemTemplate";
+import type { CampaignCompendiumItemsItem } from "./campaignCompendiumItemsItem";
 import type { AdversaryTemplate } from "./adversaryTemplate";
 
 export interface CampaignCompendium {
@@ -22,7 +22,7 @@ export interface CampaignCompendium {
   /** Setting-specific talents */
   talents: Talent[];
   /** Setting-specific weapons, armor, and gear */
-  items: ItemTemplate[];
+  items: CampaignCompendiumItemsItem[];
   /** Setting-specific Nemeses, Rivals, and Minions */
   adversaries: AdversaryTemplate[];
 }

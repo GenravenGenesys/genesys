@@ -10,7 +10,7 @@ import type { Modifier } from "./modifier";
 import type { EquipmentQuality } from "./equipmentQuality";
 
 /**
- * Setting-specific weapons, armor, and gear
+ * Base item template
  */
 export interface ItemTemplate {
   id: string;
