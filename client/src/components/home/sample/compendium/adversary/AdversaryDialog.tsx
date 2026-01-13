@@ -39,7 +39,6 @@ export default function AdversaryDialog(props: Props) {
     }, [adversary]);
 
     const handleChange = <K extends keyof AdversaryTemplate>(field: K, value: AdversaryTemplate[K]) => {
-        console.log(field, value);
         setFormData((prev: AdversaryTemplate) => ({...prev, [field]: value}));
     };
 

@@ -6,5 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 import type { ItemTemplate } from "./itemTemplate";
+import type { ArmorTemplateAllOf } from "./armorTemplateAllOf";
 
-export type ArmorTemplate = ItemTemplate;
+export type ArmorTemplate = ItemTemplate &
+  ArmorTemplateAllOf &
+  Required<Pick<ItemTemplate & ArmorTemplateAllOf, "defense" | "soak">>;

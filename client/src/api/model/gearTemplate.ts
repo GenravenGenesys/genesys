@@ -6,5 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 import type { ItemTemplate } from "./itemTemplate";
+import type { GearTemplateAllOf } from "./gearTemplateAllOf";
 
-export type GearTemplate = ItemTemplate;
+export type GearTemplate = ItemTemplate &
+  GearTemplateAllOf &
+  Required<Pick<ItemTemplate & GearTemplateAllOf, "amount">>;
