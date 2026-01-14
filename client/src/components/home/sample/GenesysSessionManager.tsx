@@ -96,113 +96,138 @@ const EncounterManager = ({encounter, session, onEnd, onUpdateSession}) => {
 
 // --- MAIN SESSION MANAGER ---
 export default function GenesysSessionManager() {
-    const [activeEncounter, setActiveEncounter] = useState(null);
     const [activeSceneIndex, setActiveSceneIndex] = useState(0);
+    const [activeEncounter, setActiveEncounter] = useState(null);
 
-    // Mock Data representing your MongoDB Session document (2026 State)
+    // Mock Data reflecting your MongoDB Session (2026 State)
     const [session, setSession] = useState({
         title: "The Kessel Run: Part 2",
-        // Story Points moved to Session as requested
         playerStoryPoints: 3,
         gmStoryPoints: 1,
         scenes: [
             {
-                id: "s1", name: "Docking Bay 94", mapUrl: "source.unsplash.com", encounters: [
-                    {
-                        id: "e1", name: "Stormtrooper Patrol", turnOrder: [
-                            {side: 'PC', successes: 3, advantages: 2, completed: false},
-                            {side: 'NPC', successes: 2, advantages: 1, completed: false},
-                            {side: 'PC', successes: 1, advantages: 4, completed: false}
-                        ]
-                    }
-                ]
+                id: "s1",
+                name: "Docking Bay 94",
+                mapUrl: "images.unsplash.com",
+                encounters: [{ id: "e1", name: "Stormtrooper Patrol", status: "READY" }]
+            },
+            {
+                id: "s2",
+                name: "Nebula Hideout",
+                mapUrl: "images.unsplash.com",
+                encounters: [{ id: "e2", name: "Pirate Ambush", status: "READY" }]
             }
         ],
         party: [
-            {id: "p1", name: "Kaelen", wounds: 4, woundThreshold: 12, strain: 2, strainThreshold: 14}
+            { id: "p1", name: "Kaelen", wounds: 4, woundThreshold: 12, strain: 2, strainThreshold: 14 },
+            { id: "p2", name: "T-88", wounds: 0, woundThreshold: 10, strain: 5, strainThreshold: 12 }
         ]
     });
 
-    const flipStoryPoint = (side) => {
+    const currentScene = session.scenes[activeSceneIndex];
+
+    const flipStoryPoint = (side: 'PC' | 'GM') => {
         if (side === 'PC' && session.playerStoryPoints > 0) {
-            setSession({
-                ...session,
-                playerStoryPoints: session.playerStoryPoints - 1,
-                gmStoryPoints: session.gmStoryPoints + 1
-            });
+            setSession({ ...session, playerStoryPoints: session.playerStoryPoints - 1, gmStoryPoints: session.gmStoryPoints + 1 });
         } else if (side === 'GM' && session.gmStoryPoints > 0) {
-            setSession({
-                ...session,
-                gmStoryPoints: session.gmStoryPoints - 1,
-                playerStoryPoints: session.playerStoryPoints + 1
-            });
+            setSession({ ...session, gmStoryPoints: session.gmStoryPoints - 1, playerStoryPoints: session.playerStoryPoints + 1 });
         }
     };
 
-    if (activeEncounter) {
-        return <EncounterManager encounter={activeEncounter} session={session} onEnd={() => setActiveEncounter(null)}
-                                 onUpdateSession={setSession}/>;
-    }
-
     return (
-        <Box sx={{p: 3, bgcolor: '#121212', minHeight: '100vh', color: 'white'}}>
-            {/* SESSION HEADER & STORY POINTS */}
-            <Grid container alignItems="center" sx={{mb: 4}}>
-                <Grid size={{xs: 6}}>
-                    <Typography variant="h3" fontWeight="900">{session.title}</Typography>
-                    <Typography color="gray">Genesys VTT v2.0 | Campaign: Edge of the Void</Typography>
-                </Grid>
-                <Grid size={{xs: 6}}>
-                    <Stack direction="row" spacing={2} justifyContent="flex-end" alignItems="center">
-                        <Typography variant="button">Story Points:</Typography>
-                        <Tooltip title="Click to spend for Players">
-                            <Badge badgeContent={session.playerStoryPoints} color="primary" overlap="circular">
-                                <Avatar sx={{bgcolor: 'gold', color: 'black', cursor: 'pointer'}}
-                                        onClick={() => flipStoryPoint('PC')}>P</Avatar>
-                            </Badge>
-                        </Tooltip>
-                        <Tooltip title="Click to spend for GM">
-                            <Badge badgeContent={session.gmStoryPoints} color="error">
-                                <Avatar sx={{bgcolor: 'darkred', cursor: 'pointer'}}
-                                        onClick={() => flipStoryPoint('GM')}>GM</Avatar>
-                            </Badge>
-                        </Tooltip>
+        <Box sx={{ p: 3, height: '100vh', bgcolor: '#0a0a0a', display: 'flex', flexDirection: 'column', color: 'white' }}>
+
+            {/* 1. SESSION HEADER */}
+            <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Box>
+                    <Typography variant="h4" fontWeight="900" sx={{ letterSpacing: -1 }}>{session.title}</Typography>
+                    <Typography variant="body2" color="text.secondary">January 14, 2026 | Campaign: Edge of the Void</Typography>
+                </Box>
+
+                {/* STORY POINTS HUD */}
+                <Stack direction="row" spacing={3} alignItems="center">
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography variant="overline" sx={{ opacity: 0.6 }}>Story Points</Typography>
+                        <Badge badgeContent={session.playerStoryPoints} color="primary">
+                            <Avatar sx={{ bgcolor: '#FFD700', color: 'black', cursor: 'pointer', width: 32, height: 32 }} onClick={() => flipStoryPoint('PC')}>P</Avatar>
+                        </Badge>
+                        <Badge badgeContent={session.gmStoryPoints} color="error">
+                            <Avatar sx={{ bgcolor: '#8b0000', cursor: 'pointer', width: 32, height: 32 }} onClick={() => flipStoryPoint('GM')}>GM</Avatar>
+                        </Badge>
                     </Stack>
-                </Grid>
-            </Grid>
+                    <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.1)' }} />
+                    <Button variant="contained" color="error" startIcon={<PlayArrowIcon />}>End Session</Button>
+                </Stack>
+            </Box>
 
-            {/* STAGE AREA */}
-            <Grid container spacing={3}>
-                <Grid size={{ xs: 12, md: 8 }}>
-                    <CardMedia component="img" image={session.scenes[activeSceneIndex].mapUrl}
-                               sx={{borderRadius: 4, height: 400, filter: 'brightness(0.7)'}}/>
-                    <Box sx={{mt: 2}}>
-                        <Typography variant="h5">Active Scene: {session.scenes[activeSceneIndex].name}</Typography>
-                        <Stack direction="row" spacing={2} sx={{mt: 2}}>
-                            {session.scenes[activeSceneIndex].encounters.map(enc => (
-                                <Button key={enc.id} variant="contained" startIcon={<CasinoIcon/>}
-                                        onClick={() => setActiveEncounter(enc)}>
-                                    Launch {enc.name}
-                                </Button>
+            <Grid container spacing={2} sx={{ flexGrow: 1, minHeight: 0 }}>
+
+                {/* COLUMN 1: SCENE NAVIGATOR (MUI 7 Size Syntax) */}
+                <Grid size={{ xs: 12, md: 2 }} sx={{ height: '100%' }}>
+                    <Paper sx={{ p: 2, height: '100%', borderRadius: 3, bgcolor: '#1a1a1a', overflowY: 'auto' }}>
+                        <Typography variant="overline" fontWeight="700" color="primary">Scenes</Typography>
+                        <List sx={{ mt: 1 }}>
+                            {session.scenes.map((scene, index) => (
+                                <ListItem key={scene.id} disablePadding sx={{ mb: 1 }}>
+                                    <Button
+                                        fullWidth
+                                        onClick={() => setActiveSceneIndex(index)}
+                                        variant={activeSceneIndex === index ? "contained" : "text"}
+                                        sx={{ justifyContent: 'flex-start', textAlign: 'left', borderRadius: 2 }}
+                                        startIcon={<MapIcon />}
+                                    >
+                                        <Typography variant="body2" noWrap>{scene.name}</Typography>
+                                    </Button>
+                                </ListItem>
                             ))}
-                        </Stack>
-                    </Box>
+                        </List>
+                    </Paper>
                 </Grid>
 
-                {/* PARTY ROSTER */}
-                <Grid size={{ xs: 12, md: 4 }}>
-                    <Paper sx={{p: 2, bgcolor: '#1e1e1e', borderRadius: 3}}>
-                        <Typography variant="h6" sx={{mb: 2}}>Party Status</Typography>
+                {/* COLUMN 2: THE STAGE */}
+                <Grid size={{ xs: 12, md: 7 }} sx={{ height: '100%' }}>
+                    <Paper sx={{ height: '100%', borderRadius: 3, overflow: 'hidden', display: 'flex', flexDirection: 'column', bgcolor: '#1a1a1a' }}>
+                        <Box sx={{ position: 'relative', height: '50%' }}>
+                            <CardMedia component="img" image={currentScene.mapUrl} sx={{ height: '100%', filter: 'brightness(0.4)' }} />
+                            <Box sx={{ position: 'absolute', bottom: 20, left: 20 }}>
+                                <Chip label="ACTIVE STAGE" color="primary" size="small" sx={{ mb: 1, fontWeight: 'bold' }} />
+                                <Typography variant="h3" fontWeight="900">{currentScene.name}</Typography>
+                            </Box>
+                        </Box>
+
+                        <Box sx={{ p: 3, flexGrow: 1 }}>
+                            <Typography variant="h6" gutterBottom>Encounters</Typography>
+                            <Stack direction="row" spacing={2}>
+                                {currentScene.encounters.map(enc => (
+                                    <Button
+                                        key={enc.id}
+                                        variant="outlined"
+                                        sx={{ p: 2, borderStyle: 'dashed' }}
+                                        onClick={() => setActiveEncounter(enc)}
+                                        startIcon={<CasinoIcon />}
+                                    >
+                                        Launch {enc.name}
+                                    </Button>
+                                ))}
+                            </Stack>
+                        </Box>
+                    </Paper>
+                </Grid>
+
+                {/* COLUMN 3: PARTY ROSTER */}
+                <Grid size={{ xs: 12, md: 3 }} sx={{ height: '100%' }}>
+                    <Paper sx={{ p: 2, height: '100%', borderRadius: 3, bgcolor: '#1a1a1a', overflowY: 'auto' }}>
+                        <Typography variant="overline" fontWeight="700" color="primary">Party Roster</Typography>
                         {session.party.map(char => (
-                            <Box key={char.id} sx={{mb: 3}}>
-                                <Typography variant="subtitle1">{char.name}</Typography>
-                                <Typography variant="caption">Wounds ({char.wounds}/{char.woundThreshold})</Typography>
-                                <LinearProgress variant="determinate" value={(char.wounds / char.woundThreshold) * 100}
-                                                color="error"/>
-                                <Typography variant="caption" sx={{mt: 1, display: 'block'}}>Strain
-                                    ({char.strain}/{char.strainThreshold})</Typography>
-                                <LinearProgress variant="determinate" value={(char.strain / char.strainThreshold) * 100}
-                                                color="info"/>
+                            <Box key={char.id} sx={{ mb: 3, mt: 2 }}>
+                                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                    <Typography variant="subtitle2">{char.name}</Typography>
+                                    <IconButton size="small"><MoreVertIcon fontSize="inherit" sx={{ color: 'white' }}/></IconButton>
+                                </Stack>
+                                <Typography variant="caption" color="error.light">Wounds ({char.wounds}/{char.woundThreshold})</Typography>
+                                <LinearProgress variant="determinate" value={(char.wounds / char.woundThreshold) * 100} color="error" sx={{ mb: 1, height: 6, borderRadius: 3 }} />
+                                <Typography variant="caption" color="info.light">Strain ({char.strain}/{char.strainThreshold})</Typography>
+                                <LinearProgress variant="determinate" value={(char.strain / char.strainThreshold) * 100} color="info" sx={{ height: 6, borderRadius: 3 }} />
                             </Box>
                         ))}
                     </Paper>
