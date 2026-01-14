@@ -37,11 +37,12 @@ export default function AdversaryEditDrawer({open, item, onClose, onSave}) {
     };
 
     return (
-        <Drawer anchor="right" open={open} onClose={onClose} PaperProps={{sx: {width: 500, p: 4, bgcolor: '#050c14'}}}>
+        <Drawer anchor="right" open={open} onClose={onClose} slotProps={{
+            paper: {sx: {width: 500, p: 4, bgcolor: '#050c14'}}
+        }}>
             <Typography variant="h5" fontWeight="bold" sx={{mb: 3}}>
                 {item?.isNew ? "New Adversary" : "Edit Adversary"}
             </Typography>
-
             <Stack spacing={3}>
                 <TextField label="Name" fullWidth value={formData.name || ''}
                            onChange={(e) => setFormData({...formData, name: e.target.value})}/>

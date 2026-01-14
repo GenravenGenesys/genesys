@@ -65,7 +65,6 @@ export default function SampleCompendiumHome({ campaignName = "Twilight Imperium
                     / {campaignName}
                 </Typography>
             </Box>
-
             {/* Bento Grid Layout */}
             <Grid container spacing={3}>
 
@@ -105,7 +104,9 @@ export default function SampleCompendiumHome({ campaignName = "Twilight Imperium
                                         <ListItem key={item} disablePadding sx={{ py: 0.5 }}>
                                             <ListItemText
                                                 primary={item}
-                                                primaryTypographyProps={{ variant: 'body2', color: 'text.secondary' }}
+                                                slotProps={{
+                                                    primary: { variant: 'body2', color: 'text.secondary' }
+                                                }}
                                             />
                                         </ListItem>
                                     ))}
@@ -130,7 +131,9 @@ export default function SampleCompendiumHome({ campaignName = "Twilight Imperium
                         <Typography variant="h6" fontWeight="bold" gutterBottom>
                             Campaign Settings & Rules
                         </Typography>
-                        <Typography variant="body2" color="text.secondary" paragraph>
+                        <Typography variant="body2" color="text.secondary" sx={{
+                            marginBottom: "16px"
+                        }}>
                             The following custom rules and characteristics are defined for this setting.
                             Changes here will affect all characters linked to this campaign.
                         </Typography>

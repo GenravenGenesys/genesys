@@ -80,13 +80,11 @@ export default function TalentListView() {
 
     return (
         <Box sx={{ p: 4, maxWidth: 1200, mx: 'auto' }}>
-
             {/* Page Header */}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
                 <Typography variant="h4" fontWeight="900">Talent Compendium</Typography>
                 <Button variant="contained" startIcon={<AddIcon />}>New Talent</Button>
             </Box>
-
             {/* 3. Search & Filter Bar */}
             <Paper sx={{ p: 2, mb: 3, display: 'flex', gap: 2, alignItems: 'center' }}>
                 <TextField
@@ -96,12 +94,14 @@ export default function TalentListView() {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     size="small"
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon />
-                            </InputAdornment>
-                        ),
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        }
                     }}
                 />
                 <Stack direction="row" spacing={1}>
@@ -109,7 +109,6 @@ export default function TalentListView() {
                     <Chip label="Ranked Only" onClick={() => {}} variant="outlined" />
                 </Stack>
             </Paper>
-
             {/* 4. The Talent Table */}
             <TableContainer component={Paper} sx={{ borderRadius: 4 }}>
                 <Table aria-label="talent table">
