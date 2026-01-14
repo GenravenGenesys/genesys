@@ -16,12 +16,13 @@ import {
 } from "../../../../api/model";
 import InlineTextField from "../../../common/InlineTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
-import {createCampaign} from "../../../../api/generated/campaign-controller/campaign-controller.ts";
+import {useCreateCampaign} from "../../../../api/generated/campaign-controller/campaign-controller.ts";
 
 const steps = ['World Identity', 'Define Skills', 'Create Archetypes', 'Set Careers'];
 
 export default function CampaignWizard() {
     const [activeStep, setActiveStep] = useState(0);
+    const createCampaignMutation = useCreateCampaign();
 
     const [campaign, setCampaign] = useState({
         name: '',
@@ -112,9 +113,10 @@ export default function CampaignWizard() {
         }
     };
 
-    const onCreate = () => {
-        console.log("SUBMIT TO SPRING BOOT", campaign);
-        createCampaign(campaign);
+    const onCreate = async () => {
+        await createCampaignMutation.mutateAsync({
+            data: campaign
+        });
     };
 
     return (

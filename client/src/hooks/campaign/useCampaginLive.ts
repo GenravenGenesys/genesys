@@ -18,5 +18,7 @@ export function useCampaignLive(campaignId: string) {
         return () => eventSource.close();
     }, [campaignId, queryClient]);
 
-    return { data, isLoading, error: Error };
+    const campaign = data?.data;
+
+    return { campaign, isLoading, error: Error };
 }
