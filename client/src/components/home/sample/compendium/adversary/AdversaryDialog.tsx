@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {
     Box, Typography, Stack, Button,
-    Grid2 as Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
+    Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
     DialogContent, Tabs, ToggleButton,
     ToggleButtonGroup,
 } from '@mui/material';

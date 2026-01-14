@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {
     Box, Typography, Drawer, Stack,
-    Button, Grid2 as Grid
+    Button, Grid
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';

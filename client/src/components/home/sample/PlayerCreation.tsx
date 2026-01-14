@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {
     Box, Stepper, Step, StepLabel, Button, Typography,
-    TextField, MenuItem, Grid2 as Grid, Paper, Divider, Stack
+    TextField, MenuItem, Grid, Paper, Divider, Stack
 } from '@mui/material';
 
 const steps = [

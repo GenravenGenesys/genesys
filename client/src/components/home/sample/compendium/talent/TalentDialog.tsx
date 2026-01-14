@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {
     Box, Drawer, Typography, Stack, Button,
-    Grid2 as Grid, Divider, IconButton, Collapse, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
+    Grid, Divider, IconButton, Collapse, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
     DialogContent, TextField, FormControlLabel, Switch, Tabs, FormControl, FormLabel, FormGroup, Checkbox
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';

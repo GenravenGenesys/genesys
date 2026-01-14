@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    Box, Typography, Grid2 as Grid, Button, ToggleButton,
+    Box, Typography, Grid, Button, ToggleButton,
     ToggleButtonGroup, Stack
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';

@@ -4,7 +4,7 @@ import {
     CardContent,
     Chip,
     Divider,
-    Grid2,
+    Grid,
     List,
     ListItem,
     ListItemText,
@@ -26,7 +26,7 @@ export default function SkillCompendiumCard(props: Props) {
     const color = "#00e5ff";
 
     return (
-        <Grid2 size={{xs: 12, md: 6, lg: 3}} key={"Skills"}>
+        <Grid size={{xs: 12, md: 6, lg: 3}} key={"Skills"}>
             <Card sx={{
                 height: '100%',
                 display: 'flex',
@@ -70,6 +70,6 @@ export default function SkillCompendiumCard(props: Props) {
                     <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Skills} text={"View All"}/>
                 </Box>
             </Card>
-        </Grid2>
+        </Grid>
     );
 }

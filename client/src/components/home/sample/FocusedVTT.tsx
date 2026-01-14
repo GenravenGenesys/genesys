@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {
     Box, AppBar, Toolbar, Typography,
-    Grid2 as Grid, Card, CardContent, Button,
+    Grid, Card, CardContent, Button,
     Tabs, Tab,
     Paper
 } from '@mui/material';

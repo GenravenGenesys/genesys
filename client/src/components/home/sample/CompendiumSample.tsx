@@ -1,5 +1,5 @@
 import {
-    Box, Typography, Grid2 as Grid, Card, CardContent,
+    Box, Typography, Grid, Card, CardContent,
     Button, Divider, List, ListItem, ListItemText,
     IconButton, Chip, Paper
 } from '@mui/material';

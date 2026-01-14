@@ -4,7 +4,7 @@ import {
     CardContent,
     Chip,
     Divider,
-    Grid2,
+    Grid,
     List,
     ListItem,
     ListItemText,
@@ -25,7 +25,7 @@ export default function TalentCompendiumCard(props: Props) {
     const color = "#00e5ff";
 
     return (
-        <Grid2 size={{xs: 12, md: 6, lg: 3}} key={"Talents"}>
+        <Grid size={{xs: 12, md: 6, lg: 3}} key={"Talents"}>
             <Card sx={{
                 height: '100%',
                 display: 'flex',
@@ -70,6 +70,6 @@ export default function TalentCompendiumCard(props: Props) {
                                       text={"View All"}/>
                 </Box>
             </Card>
-        </Grid2>
+        </Grid>
     );
 }

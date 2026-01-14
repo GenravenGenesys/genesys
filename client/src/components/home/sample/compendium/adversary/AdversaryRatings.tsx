@@ -1,6 +1,6 @@
 import {type AdversaryRatings} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
-import {Grid2} from "@mui/material";
+import {Grid} from "@mui/material";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import {RatingType} from "../../../../../models/actor/npc/NonPlayerActor.ts";
 
@@ -26,21 +26,21 @@ export default function AdversaryRatings(props: Props) {
 
     return (
         <GridContainer>
-            <Grid2 size={4}>
+            <Grid size={4}>
                 <GenesysNumberField value={ratings.combat}
                                     label={RatingType.Combat}
                                     onChange={handleCombatUpdate} min={1} max={20} fullwidth/>
-            </Grid2>
-            <Grid2 size={4}>
+            </Grid>
+            <Grid size={4}>
                 <GenesysNumberField value={ratings.social}
                                     label={RatingType.Social}
                                     onChange={handleSocialUpdate} min={1} max={20} fullwidth/>
-            </Grid2>
-            <Grid2 size={4}>
+            </Grid>
+            <Grid size={4}>
                 <GenesysNumberField value={ratings.general}
                                     label={RatingType.General}
                                     onChange={handleGeneralUpdate} min={1} max={20} fullwidth/>
-            </Grid2>
+            </Grid>
         </GridContainer>
     );
 }

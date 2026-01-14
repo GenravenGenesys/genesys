@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    Box, Typography, Paper, Grid2 as Grid, Button,
+    Box, Typography, Paper, Grid, Button,
     Chip, Avatar, IconButton, Stack, Divider, LinearProgress
 } from '@mui/material';
 

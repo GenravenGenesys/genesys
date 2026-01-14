@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
     Box, Drawer, Typography, TextField, Stack, Button,
-    MenuItem, Grid2 as Grid, Divider, ToggleButtonGroup, ToggleButton
+    MenuItem, Grid, Divider, ToggleButtonGroup, ToggleButton
 } from '@mui/material';
 import NpcWeaponPicker from "./NpcWeaponPicker.tsx";
 
