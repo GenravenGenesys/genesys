@@ -44,6 +44,7 @@ import ViewCompendiumSkills from "./sample/compendium/ViewCompendiumSkills.tsx";
 import ViewCompendiumTalents from "./sample/compendium/talent/ViewCompendiumTalents.tsx";
 import ViewCompendiumAdversaries from "./sample/compendium/adversary/ViewCompendiumAdversaries.tsx";
 import SessionManager from "./sample/session/SessionManager.tsx";
+import GenesysSessionManager from "./sample/GenesysSessionManager.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -108,6 +109,7 @@ export const App: React.FC = () => {
                 <Route path={"/sample/equipment"} element={<EquipmentListView/>}/>
                 <Route path={"/sample/adversaries"} element={<AdversaryCompendium/>}/>
                 <Route path={"/sample/session"} element={<SampleSessionManager/>}/>
+                <Route path={"/genesys/session"} element={<GenesysSessionManager/>}/>
                 <Route path={"/sample/creation"} element={<CharacterCreator campaignCompendium={undefined}/>}/>
 
                 {/*<Route path={RootPath.Injury} element={<InjuryWorkflow/>}/>*/}
