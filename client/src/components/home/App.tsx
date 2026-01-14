@@ -43,7 +43,7 @@ import CompendiumHome from "./sample/compendium/CompendiumHome.tsx";
 import ViewCompendiumSkills from "./sample/compendium/ViewCompendiumSkills.tsx";
 import ViewCompendiumTalents from "./sample/compendium/talent/ViewCompendiumTalents.tsx";
 import ViewCompendiumAdversaries from "./sample/compendium/adversary/ViewCompendiumAdversaries.tsx";
-import SessionManager from "./sample/session/SessionManager.tsx";
+import ActiveSessionView from "./sample/session/ActiveSessionView.tsx";
 import GenesysSessionManager from "./sample/GenesysSessionManager.tsx";
 
 export const App: React.FC = () => {
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Talent} element={<ViewCompendiumTalents/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Adversary} element={<ViewCompendiumAdversaries/>}/>
 
-                <Route path={RootPath.Campaign + ":id"} element={<SessionManager/>}/>
+                <Route path={RootPath.Campaign + ":id"} element={<ActiveSessionView/>}/>
 
                 <Route path={"/sample/comp"} element={<SampleCompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>

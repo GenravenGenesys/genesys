@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,5 +12,5 @@ import java.util.List;
 public class Party {
 
     @NotEmpty
-    private List<Player> players = new ArrayList<>();
+    private List<Player> players = List.of();
 }

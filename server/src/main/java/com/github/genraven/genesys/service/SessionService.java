@@ -15,8 +15,8 @@ public class SessionService {
 
     private final SessionRepository sessionRepository;
 
-    public Flux<CampaignSession> getAllCampaignSessions() {
-        return sessionRepository.findAll();
+    public Flux<CampaignSession> getAllCampaignSessions(final String campaignId) {
+        return sessionRepository.getAllCampaignSessionsByCampaignId(campaignId);
     }
 
     public Mono<CampaignSession> getCampaignSession(final String id) {

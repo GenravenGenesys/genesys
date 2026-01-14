@@ -20,7 +20,7 @@ export default function CompendiumHome() {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
     }
 
-    const {data: campaign, isLoading} = useCampaignLive(id);
+    const {campaign, isLoading} = useCampaignLive(id);
 
     if (isLoading) {
         return <CircularProgress/>;

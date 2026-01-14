@@ -36,118 +36,6 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 /**
- * Retrieve a list of all campaign sessions.
- * @summary Get all  campaign sessions
- */
-export type getAllCampaignSessionsResponse200 = {
-  data: CampaignSession[]
-  status: 200
-}
-    
-export type getAllCampaignSessionsResponseSuccess = (getAllCampaignSessionsResponse200) & {
-  headers: Headers;
-};
-;
-
-export type getAllCampaignSessionsResponse = (getAllCampaignSessionsResponseSuccess)
-
-export const getGetAllCampaignSessionsUrl = () => {
-
-
-  
-
-  return `/api/sessions/`
-}
-
-export const getAllCampaignSessions = async ( options?: RequestInit): Promise<getAllCampaignSessionsResponse> => {
-  
-  return customInstance<getAllCampaignSessionsResponse>(getGetAllCampaignSessionsUrl(),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-);}
-
-
-
-
-
-export const getGetAllCampaignSessionsQueryKey = () => {
-    return [
-    `/api/sessions/`
-    ] as const;
-    }
-
-    
-export const getGetAllCampaignSessionsQueryOptions = <TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-
-  const queryKey =  queryOptions?.queryKey ?? getGetAllCampaignSessionsQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllCampaignSessions>>> = ({ signal }) => getAllCampaignSessions({ signal, ...requestOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAllCampaignSessionsQueryResult = NonNullable<Awaited<ReturnType<typeof getAllCampaignSessions>>>
-export type GetAllCampaignSessionsQueryError = unknown
-
-
-export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAllCampaignSessions>>,
-          TError,
-          Awaited<ReturnType<typeof getAllCampaignSessions>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAllCampaignSessions>>,
-          TError,
-          Awaited<ReturnType<typeof getAllCampaignSessions>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-/**
- * @summary Get all  campaign sessions
- */
-
-export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetAllCampaignSessionsQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
-
-
-
-
-/**
  * Create a new  campaign session.
  * @summary Create a new  campaign session
  */
@@ -335,6 +223,118 @@ export function useGetCampaignSession<TData = Awaited<ReturnType<typeof getCampa
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetCampaignSessionQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+/**
+ * Retrieve a list of all sessions for a specific campaign.
+ * @summary Get all sessions for a campaign
+ */
+export type getAllCampaignSessionsResponse200 = {
+  data: CampaignSession[]
+  status: 200
+}
+    
+export type getAllCampaignSessionsResponseSuccess = (getAllCampaignSessionsResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getAllCampaignSessionsResponse = (getAllCampaignSessionsResponseSuccess)
+
+export const getGetAllCampaignSessionsUrl = (campaignId: string,) => {
+
+
+  
+
+  return `/api/sessions/campaign/${campaignId}`
+}
+
+export const getAllCampaignSessions = async (campaignId: string, options?: RequestInit): Promise<getAllCampaignSessionsResponse> => {
+  
+  return customInstance<getAllCampaignSessionsResponse>(getGetAllCampaignSessionsUrl(campaignId),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getGetAllCampaignSessionsQueryKey = (campaignId?: string,) => {
+    return [
+    `/api/sessions/campaign/${campaignId}`
+    ] as const;
+    }
+
+    
+export const getGetAllCampaignSessionsQueryOptions = <TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllCampaignSessionsQueryKey(campaignId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllCampaignSessions>>> = ({ signal }) => getAllCampaignSessions(campaignId, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(campaignId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAllCampaignSessionsQueryResult = NonNullable<Awaited<ReturnType<typeof getAllCampaignSessions>>>
+export type GetAllCampaignSessionsQueryError = unknown
+
+
+export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
+ campaignId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllCampaignSessions>>,
+          TError,
+          Awaited<ReturnType<typeof getAllCampaignSessions>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllCampaignSessions>>,
+          TError,
+          Awaited<ReturnType<typeof getAllCampaignSessions>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all sessions for a campaign
+ */
+
+export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAllCampaignSessionsQueryOptions(campaignId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

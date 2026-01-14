@@ -23,16 +23,16 @@ public class SessionController extends AbstractController {
 
     private final SessionService sessionService;
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get all  campaign sessions", description = "Retrieve a list of all campaign sessions.")
-    public Mono<ResponseEntity<List<CampaignSession>>> getAllCampaignSessions() {
-        return sessionService.getAllCampaignSessions()
+    @GetMapping(value = "/campaign/{campaignId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get all sessions for a campaign", description = "Retrieve a list of all sessions for a specific campaign.")
+    public Mono<ResponseEntity<List<CampaignSession>>> getAllCampaignSessions(@PathVariable final String campaignId) {
+        return sessionService.getAllCampaignSessions(campaignId)
             .collectList()
-            .map(campaigns -> {
-                if (CollectionUtils.isEmpty(campaigns)) {
+            .map(sessions -> {
+                if (CollectionUtils.isEmpty(sessions)) {
                     return ResponseEntity.noContent().build();
                 }
-                return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(campaigns);
+                return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(sessions);
             });
     }
 
