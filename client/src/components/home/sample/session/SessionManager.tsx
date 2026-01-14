@@ -18,16 +18,21 @@ import AddIcon from "@mui/icons-material/Add";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {CampaignSessionStatus} from "../../../../api/model";
+import {useGetSessions} from "../../../../hooks/campaign/useGetSessions.ts";
 
 export default function SessionManager() {
     const {id} = useParams<{ id: string }>();
     const [open, setOpen] = useState(false);
 
+    // Move all hooks before conditional returns
+    const {campaign, isLoading: isCampaignLoading} = useCampaignLive(id || '');
+    const {data: response, isLoading: isSessionsLoading} = useGetSessions(campaign?.id || '');
+    // const {data: response, isLoading: isSessionsLoading} = useGetAllCampaignSessions(campaign?.id || '');
+
+    // Now safe to have conditional returns
     if (!id) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
     }
-
-    const {campaign, isLoading: isCampaignLoading} = useCampaignLive(id);
 
     if (isCampaignLoading) {
         return <CircularProgress/>;
@@ -37,13 +42,17 @@ export default function SessionManager() {
         return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
     }
 
-    const {data: response, isLoading: isSessionsLoading} = useGetAllCampaignSessions(campaign.id);
-
     if (isSessionsLoading) {
         return <CircularProgress/>;
     }
 
-    const sessions = response?.data || [];
+    // const sessions = response?.data || [];
+    const sessions = response || [];
+
+    const handleCreateSession = () => {
+        // TODO: Implement session creation logic
+        setOpen(false);
+    };
 
     return (
         <Box sx={{p: 4, bgcolor: '#0a0a0a', minHeight: '100vh', color: 'white'}}>
@@ -59,7 +68,7 @@ export default function SessionManager() {
                 <Grid size={{xs: 12}}>
                     <Typography variant="h6" sx={{mb: 2, color: 'primary.main'}}>Upcoming Adventures</Typography>
                     <Grid container spacing={3}>
-                        {sessions.filter(s => s.status === CampaignSessionStatus.Planning).map(session => (
+                        {sessions.filter(s => s.status !== CampaignSessionStatus.Resolved).map(session => (
                             <Grid size={{ xs: 12, md: 4 }} key={session.id}>
                                 <Card sx={{
                                     bgcolor: '#1a1a1a',
@@ -115,12 +124,12 @@ export default function SessionManager() {
                             <Typography variant="h6">Session History</Typography>
                         </Box>
                         <List>
-                            {sessions.filter(s => s.status === 'COMPLETED').map((session, index) => (
+                            {sessions.filter(s => s.status === CampaignSessionStatus.Resolved).map((session, index) => (
                                 <React.Fragment key={session.id}>
                                     <ListItem secondaryAction={<Button size="small">View Logs</Button>}>
                                         <ListItemText
-                                            primary={session.title}
-                                            secondary={`${session.date} • ${session.players} Players Attended`}
+                                            primary={session.id}
+                                            secondary={`${session.sessionDate} • ${session.party.players.length} Players Attended`}
                                             secondaryTypographyProps={{color: 'gray'}}
                                         />
                                     </ListItem>
