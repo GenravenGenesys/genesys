@@ -36,13 +36,14 @@ import SampleCompendiumHome from "./sample/CompendiumSample.tsx";
 import TalentListView from "./sample/SampleTalents.tsx";
 import EquipmentListView from "./sample/EquipmentList.tsx";
 import AdversaryCompendium from "./sample/ViewAllAdvesaries.tsx";
-import SessionManager from "./sample/SessionManager.tsx";
+import SampleSessionManager from "./sample/SampleSessionManager.tsx";
 import CharacterCreator from "./sample/PlayerCreation.tsx";
 import CampaignDashboardPage from "./sample/HomeDashboard.tsx";
 import CompendiumHome from "./sample/compendium/CompendiumHome.tsx";
 import ViewCompendiumSkills from "./sample/compendium/ViewCompendiumSkills.tsx";
 import ViewCompendiumTalents from "./sample/compendium/talent/ViewCompendiumTalents.tsx";
 import ViewCompendiumAdversaries from "./sample/compendium/adversary/ViewCompendiumAdversaries.tsx";
+import SessionManager from "./sample/session/SessionManager.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -100,11 +101,13 @@ export const App: React.FC = () => {
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Talent} element={<ViewCompendiumTalents/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Adversary} element={<ViewCompendiumAdversaries/>}/>
 
+                <Route path={RootPath.Campaign + ":id"} element={<SessionManager/>}/>
+
                 <Route path={"/sample/comp"} element={<SampleCompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>
                 <Route path={"/sample/equipment"} element={<EquipmentListView/>}/>
                 <Route path={"/sample/adversaries"} element={<AdversaryCompendium/>}/>
-                <Route path={"/sample/session"} element={<SessionManager/>}/>
+                <Route path={"/sample/session"} element={<SampleSessionManager/>}/>
                 <Route path={"/sample/creation"} element={<CharacterCreator campaignCompendium={undefined}/>}/>
 
                 {/*<Route path={RootPath.Injury} element={<InjuryWorkflow/>}/>*/}

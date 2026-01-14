@@ -38,7 +38,7 @@ import { customInstance } from '../../axios-instance';
  * @summary Get all adversary templates
  */
 export type getAdversariesResponse200 = {
-  data: Blob
+  data: AdversaryTemplate[]
   status: 200
 }
     
@@ -54,7 +54,7 @@ export const getGetAdversariesUrl = (campaignId: string,) => {
 
   
 
-  return `/api/campaigns/${campaignId}/compendium/adversaries`
+  return `/api/campaigns/${campaignId}/compendium/adversaries/`
 }
 
 export const getAdversaries = async (campaignId: string, options?: RequestInit): Promise<getAdversariesResponse> => {
@@ -74,7 +74,7 @@ export const getAdversaries = async (campaignId: string, options?: RequestInit):
 
 export const getGetAdversariesQueryKey = (campaignId?: string,) => {
     return [
-    `/api/campaigns/${campaignId}/compendium/adversaries`
+    `/api/campaigns/${campaignId}/compendium/adversaries/`
     ] as const;
     }
 
@@ -150,7 +150,7 @@ export function useGetAdversaries<TData = Awaited<ReturnType<typeof getAdversari
  * @summary Create a new adversary
  */
 export type createAdversaryResponse200 = {
-  data: Blob
+  data: AdversaryTemplate
   status: 200
 }
     
@@ -166,7 +166,7 @@ export const getCreateAdversaryUrl = (campaignId: string,) => {
 
   
 
-  return `/api/campaigns/${campaignId}/compendium/adversaries`
+  return `/api/campaigns/${campaignId}/compendium/adversaries/`
 }
 
 export const createAdversary = async (campaignId: string,
@@ -236,7 +236,7 @@ export const useCreateAdversary = <TError = unknown,
  * @summary Update a adversary
  */
 export type updateAdversaryResponse200 = {
-  data: Blob
+  data: AdversaryTemplate
   status: 200
 }
     

@@ -38,7 +38,7 @@ import { customInstance } from '../../axios-instance';
  * @summary Get all  campaign sessions
  */
 export type getAllCampaignSessionsResponse200 = {
-  data: Blob
+  data: CampaignSession[]
   status: 200
 }
     
@@ -150,7 +150,7 @@ export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getA
  * @summary Create a new  campaign session
  */
 export type createCampaignSessionResponse200 = {
-  data: Blob
+  data: CampaignSession
   status: 200
 }
     
@@ -235,7 +235,7 @@ export const useCreateCampaignSession = <TError = unknown,
  * @summary Get  campaign session by id
  */
 export type getCampaignSessionResponse200 = {
-  data: Blob
+  data: CampaignSession
   status: 200
 }
     

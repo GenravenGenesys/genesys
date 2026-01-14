@@ -23,7 +23,7 @@ public class SessionController extends AbstractController {
 
     private final SessionService sessionService;
 
-    @GetMapping("/")
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get all  campaign sessions", description = "Retrieve a list of all campaign sessions.")
     public Mono<ResponseEntity<List<CampaignSession>>> getAllCampaignSessions() {
         return sessionService.getAllCampaignSessions()
@@ -36,7 +36,7 @@ public class SessionController extends AbstractController {
             });
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get  campaign session by id", description = "Retrieve a specific  campaign session by its id.")
     public Mono<ResponseEntity<CampaignSession>> getCampaignSession(@PathVariable final String id) {
         return sessionService.getCampaignSession(id)
@@ -46,7 +46,7 @@ public class SessionController extends AbstractController {
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/")
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new  campaign session", description = "Create a new  campaign session.")
     public Mono<ResponseEntity<CampaignSession>> createCampaignSession(@RequestBody final CampaignSession campaignSession) {
         return sessionService.createCampaignSession(campaignSession)

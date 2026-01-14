@@ -34,7 +34,7 @@ public class CampaignController extends AbstractController {
         return Flux.concat(initial, updates);
     }
 
-    @GetMapping("/")
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get all campaigns", description = "Retrieve a list of all campaigns.")
     public Mono<ResponseEntity<List<Campaign>>> getAllCampaigns() {
         return campaignService.getAllCampaigns()
@@ -47,7 +47,7 @@ public class CampaignController extends AbstractController {
             });
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get campaign by id", description = "Retrieve a specific campaign by its name.")
     public Mono<ResponseEntity<Campaign>> getCampaign(@PathVariable final String id) {
         return campaignService.getCampaign(id)
@@ -57,7 +57,7 @@ public class CampaignController extends AbstractController {
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/")
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new campaign", description = "Create a new campaign with the specified name.")
     public Mono<ResponseEntity<Campaign>> createCampaign(@RequestBody final Campaign campaign) {
         return campaignService.createCampaign(campaign)

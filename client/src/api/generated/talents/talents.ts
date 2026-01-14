@@ -38,7 +38,7 @@ import { customInstance } from '../../axios-instance';
  * @summary Get all talent templates
  */
 export type getTalentsResponse200 = {
-  data: Blob
+  data: Talent[]
   status: 200
 }
     
@@ -54,7 +54,7 @@ export const getGetTalentsUrl = (campaignId: string,) => {
 
   
 
-  return `/api/campaigns/${campaignId}/compendium/talents`
+  return `/api/campaigns/${campaignId}/compendium/talents/`
 }
 
 export const getTalents = async (campaignId: string, options?: RequestInit): Promise<getTalentsResponse> => {
@@ -74,7 +74,7 @@ export const getTalents = async (campaignId: string, options?: RequestInit): Pro
 
 export const getGetTalentsQueryKey = (campaignId?: string,) => {
     return [
-    `/api/campaigns/${campaignId}/compendium/talents`
+    `/api/campaigns/${campaignId}/compendium/talents/`
     ] as const;
     }
 
@@ -150,7 +150,7 @@ export function useGetTalents<TData = Awaited<ReturnType<typeof getTalents>>, TE
  * @summary Create a new talent
  */
 export type createTalentResponse200 = {
-  data: Blob
+  data: Talent
   status: 200
 }
     
@@ -166,7 +166,7 @@ export const getCreateTalentUrl = (campaignId: string,) => {
 
   
 
-  return `/api/campaigns/${campaignId}/compendium/talents`
+  return `/api/campaigns/${campaignId}/compendium/talents/`
 }
 
 export const createTalent = async (campaignId: string,
@@ -236,7 +236,7 @@ export const useCreateTalent = <TError = unknown,
  * @summary Update a talent
  */
 export type updateTalentResponse200 = {
-  data: Blob
+  data: Talent
   status: 200
 }
     

@@ -39,7 +39,7 @@ import { customInstance } from '../../axios-instance';
  * @summary Get all campaigns
  */
 export type getAllCampaignsResponse200 = {
-  data: Blob
+  data: Campaign[]
   status: 200
 }
     
@@ -151,7 +151,7 @@ export function useGetAllCampaigns<TData = Awaited<ReturnType<typeof getAllCampa
  * @summary Create a new campaign
  */
 export type createCampaignResponse200 = {
-  data: Blob
+  data: Campaign
   status: 200
 }
     
@@ -231,12 +231,117 @@ export const useCreateCampaign = <TError = unknown,
       > => {
       return useMutation(getCreateCampaignMutationOptions(options), queryClient);
     }
-    /**
+    export type streamCompendiumResponse200 = {
+  data: CampaignCompendium[]
+  status: 200
+}
+    
+export type streamCompendiumResponseSuccess = (streamCompendiumResponse200) & {
+  headers: Headers;
+};
+;
+
+export type streamCompendiumResponse = (streamCompendiumResponseSuccess)
+
+export const getStreamCompendiumUrl = (id: string,) => {
+
+
+  
+
+  return `/api/campaigns/${id}/stream`
+}
+
+export const streamCompendium = async (id: string, options?: RequestInit): Promise<streamCompendiumResponse> => {
+  
+  return customInstance<streamCompendiumResponse>(getStreamCompendiumUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getStreamCompendiumQueryKey = (id?: string,) => {
+    return [
+    `/api/campaigns/${id}/stream`
+    ] as const;
+    }
+
+    
+export const getStreamCompendiumQueryOptions = <TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+
+  const queryKey =  queryOptions?.queryKey ?? getStreamCompendiumQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof streamCompendium>>> = ({ signal }) => streamCompendium(id, { signal });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type StreamCompendiumQueryResult = NonNullable<Awaited<ReturnType<typeof streamCompendium>>>
+export type StreamCompendiumQueryError = unknown
+
+
+export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof streamCompendium>>,
+          TError,
+          Awaited<ReturnType<typeof streamCompendium>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof streamCompendium>>,
+          TError,
+          Awaited<ReturnType<typeof streamCompendium>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getStreamCompendiumQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+/**
  * Retrieve a specific campaign by its name.
  * @summary Get campaign by id
  */
 export type getCampaignResponse200 = {
-  data: Blob
+  data: Campaign
   status: 200
 }
     
@@ -334,111 +439,6 @@ export function useGetCampaign<TData = Awaited<ReturnType<typeof getCampaign>>, 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetCampaignQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
-
-
-
-
-export type streamCompendiumResponse200 = {
-  data: CampaignCompendium[]
-  status: 200
-}
-    
-export type streamCompendiumResponseSuccess = (streamCompendiumResponse200) & {
-  headers: Headers;
-};
-;
-
-export type streamCompendiumResponse = (streamCompendiumResponseSuccess)
-
-export const getStreamCompendiumUrl = (id: string,) => {
-
-
-  
-
-  return `/api/campaigns/${id}/stream`
-}
-
-export const streamCompendium = async (id: string, options?: RequestInit): Promise<streamCompendiumResponse> => {
-  
-  return customInstance<streamCompendiumResponse>(getStreamCompendiumUrl(id),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-);}
-
-
-
-
-
-export const getStreamCompendiumQueryKey = (id?: string,) => {
-    return [
-    `/api/campaigns/${id}/stream`
-    ] as const;
-    }
-
-    
-export const getStreamCompendiumQueryOptions = <TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-
-  const queryKey =  queryOptions?.queryKey ?? getStreamCompendiumQueryKey(id);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof streamCompendium>>> = ({ signal }) => streamCompendium(id, { signal });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type StreamCompendiumQueryResult = NonNullable<Awaited<ReturnType<typeof streamCompendium>>>
-export type StreamCompendiumQueryError = unknown
-
-
-export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof streamCompendium>>,
-          TError,
-          Awaited<ReturnType<typeof streamCompendium>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof streamCompendium>>,
-          TError,
-          Awaited<ReturnType<typeof streamCompendium>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getStreamCompendiumQueryOptions(id,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

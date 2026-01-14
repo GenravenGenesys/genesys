@@ -47,7 +47,7 @@ const RosterItem = ({ name, wounds, strain, isNpc = false }) => (
 );
 
 // --- Main Session Manager ---
-export default function SessionManager() {
+export default function SampleSessionManager() {
     const [activeSceneIndex, setActiveSceneIndex] = useState(0);
     const [activeEncounter, setActiveEncounter] = useState(null);
 

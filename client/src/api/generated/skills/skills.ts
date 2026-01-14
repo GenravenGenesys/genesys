@@ -38,7 +38,7 @@ import { customInstance } from '../../axios-instance';
  * @summary Get all skill templates
  */
 export type getSkillsResponse200 = {
-  data: Blob
+  data: Skill[]
   status: 200
 }
     
@@ -54,7 +54,7 @@ export const getGetSkillsUrl = (campaignId: string,) => {
 
   
 
-  return `/api/campaigns/${campaignId}/compendium/skills`
+  return `/api/campaigns/${campaignId}/compendium/skills/`
 }
 
 export const getSkills = async (campaignId: string, options?: RequestInit): Promise<getSkillsResponse> => {
@@ -74,7 +74,7 @@ export const getSkills = async (campaignId: string, options?: RequestInit): Prom
 
 export const getGetSkillsQueryKey = (campaignId?: string,) => {
     return [
-    `/api/campaigns/${campaignId}/compendium/skills`
+    `/api/campaigns/${campaignId}/compendium/skills/`
     ] as const;
     }
 
@@ -150,7 +150,7 @@ export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TErr
  * @summary Create a new skill
  */
 export type createSkillResponse200 = {
-  data: Blob
+  data: Skill
   status: 200
 }
     
@@ -166,7 +166,7 @@ export const getCreateSkillUrl = (campaignId: string,) => {
 
   
 
-  return `/api/campaigns/${campaignId}/compendium/skills`
+  return `/api/campaigns/${campaignId}/compendium/skills/`
 }
 
 export const createSkill = async (campaignId: string,
@@ -236,7 +236,7 @@ export const useCreateSkill = <TError = unknown,
  * @summary Update a skill
  */
 export type updateSkillResponse200 = {
-  data: Blob
+  data: Skill
   status: 200
 }
     

@@ -17,6 +17,7 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EncounterManager from "./EncounterManager.tsx";
 import {useParams} from "react-router-dom";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
+import {getCampaignSession, useGetCampaignSession} from "../../../../api/generated/sessions/sessions.ts";
 
 // --- Sub-Component: Roster Item ---
 const RosterItem = ({ name, wounds, strain, isNpc = false }) => (
@@ -50,21 +51,22 @@ const RosterItem = ({ name, wounds, strain, isNpc = false }) => (
 
 // --- Main Session Manager ---
 export default function SessionManager() {
-    const {id} = useParams<{ id: string }>();
+    const {id, sessionId} = useParams<{ id: string, sessionId: string }>();
     const [activeSceneIndex, setActiveSceneIndex] = useState(0);
     const [activeEncounter, setActiveEncounter] = useState(null);
 
-    if (!id) {
+    if (!id || !sessionId) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
     }
 
-    const {data: campaign, isLoading} = useCampaignLive(id);
+    const {data: campaign, isLoading: isCampaignLoading} = useCampaignLive(id);
+    const {data: session, isLoading: isSessionLoading} = useGetCampaignSession(sessionId);
 
-    if (isLoading) {
+    if (isCampaignLoading || isSessionLoading) {
         return <CircularProgress/>;
     }
 
-    if (!campaign) {
+    if (!campaign || !session) {
         return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
     }
 
