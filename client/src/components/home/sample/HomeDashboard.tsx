@@ -5,8 +5,7 @@ import {useGetAllCampaigns} from "../../../api/generated/campaign-controller/cam
 
 
 export default function CampaignDashboardPage() {
-    const {data: campaignsResponse, isLoading} = useGetAllCampaigns();
-    const campaigns = campaignsResponse?.data;
+    const { data: campaigns, isLoading } = useGetAllCampaigns();
 
     if (isLoading) {
         return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {Fragment, useState} from 'react';
 import {
     Box, Typography, Grid, Paper, List, ListItem, ListItemIcon,
     ListItemText, Button, Chip, Divider, Card, CardMedia, CardContent,
@@ -17,7 +17,7 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EncounterManager from "./EncounterManager.tsx";
 import {useParams} from "react-router-dom";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
-import {getCampaignSession, useGetCampaignSession} from "../../../../api/generated/sessions/sessions.ts";
+import {useGetCampaignSession} from "../../../../api/generated/sessions/sessions.ts";
 
 // --- Sub-Component: Roster Item ---
 const RosterItem = ({ name, wounds, strain, isNpc = false }) => (
@@ -59,7 +59,7 @@ export default function SessionManager() {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
     }
 
-    const {data: campaign, isLoading: isCampaignLoading} = useCampaignLive(id);
+    const {campaign, isLoading: isCampaignLoading} = useCampaignLive(id);
     const {data: session, isLoading: isSessionLoading} = useGetCampaignSession(sessionId);
 
     if (isCampaignLoading || isSessionLoading) {
@@ -109,10 +109,11 @@ export default function SessionManager() {
 
     if (activeEncounter) {
         return (
-            <EncounterManager
-                encounter={activeEncounter}
-                onEnd={() => setActiveEncounter(null)}
-            />
+            <Fragment/>
+            // <EncounterManager
+            //     encounter={activeEncounter}
+            //     onEnd={() => setActiveEncounter(null)}
+            // />
         );
     }
 
