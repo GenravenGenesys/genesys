@@ -1,49 +1,32 @@
-import {useParams} from "react-router-dom";
-import React, {Fragment, useState} from "react";
+import React, {useState} from 'react';
 import {
-    Box,
-    Button,
-    Card, CardActions,
-    CardContent,
-    Chip,
-    CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider,
-    Grid,
-    LinearProgress, List, ListItem, ListItemText, Paper,
-    Stack, TextField,
-    Typography
-} from "@mui/material";
-import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
-import {useGetAllCampaignSessions} from "../../../../api/generated/sessions/sessions.ts";
-import AddIcon from "@mui/icons-material/Add";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import {CampaignSessionStatus} from "../../../../api/model";
+    Box, Typography, Grid, Paper, Button, Card, CardContent,
+    CardActions, Chip, Stack, TextField, Dialog, DialogTitle, DialogContent,
+    DialogActions, List, ListItem, ListItemText, Divider, LinearProgress
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
-export default function SessionManager() {
-    const {id} = useParams<{ id: string }>();
+export default function SampleSessionManagementPage() {
     const [open, setOpen] = useState(false);
+    const [sessions, setSessions] = useState([
+        {id: "s1", title: "The Kessel Run: Part 2", date: "2026-01-14", status: "PLANNED", players: 4},
+        {id: "s0", title: "Escape from Mos Eisley", date: "2026-01-07", status: "COMPLETED", players: 5},
+        {
+            id: "s1",
+            title: "The Kessel Run: Part 6",
+            status: "PLANNED",
+            prepProgress: 100,
+            date: "2026-01-21"
+        }
+    ]);
 
-    if (!id) {
-        return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
-    }
-
-    const {campaign, isLoading: isCampaignLoading} = useCampaignLive(id);
-
-    if (isCampaignLoading) {
-        return <CircularProgress/>;
-    }
-
-    if (!campaign) {
-        return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
-    }
-
-    const {data: response, isLoading: isSessionsLoading} = useGetAllCampaignSessions(campaign.id);
-
-    if (isSessionsLoading) {
-        return <CircularProgress/>;
-    }
-
-    const sessions = response?.data || [];
+    const handleCreateSession = () => {
+        // Logic to POST to your Spring Boot /sessions endpoint
+        setOpen(false);
+    };
 
     return (
         <Box sx={{p: 4, bgcolor: '#0a0a0a', minHeight: '100vh', color: 'white'}}>
@@ -59,30 +42,43 @@ export default function SessionManager() {
                 <Grid size={{xs: 12}}>
                     <Typography variant="h6" sx={{mb: 2, color: 'primary.main'}}>Upcoming Adventures</Typography>
                     <Grid container spacing={3}>
-                        {sessions.filter(s => s.status === CampaignSessionStatus.Planning).map(session => (
+                        {sessions.filter(s => s.status === 'PLANNED').map(session => (
                             <Grid size={{ xs: 12, md: 4 }} key={session.id}>
                                 <Card sx={{
                                     bgcolor: '#1a1a1a',
                                     color: 'white',
                                     borderRadius: 3,
-                                    border: CampaignSessionStatus.Planning ? '1px dashed #555' : '1px solid #333'
+                                    border: session.status === 'DRAFT' ? '1px dashed #555' : '1px solid #333'
                                 }}>
                                     <CardContent>
                                         <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-                                            <Typography variant="h6">{session.id}</Typography>
+                                            <Typography variant="h6">{session.title}</Typography>
                                             <Chip
                                                 label={session.status}
                                                 size="small"
                                                 // Blue for Draft, Green for Ready (Planned)
-                                                color={CampaignSessionStatus.Planning ? 'info' : 'success'}
+                                                color={session.status === 'DRAFT' ? 'info' : 'success'}
                                             />
                                         </Stack>
 
-                                        <Typography variant="caption" color="gray">Date: {session.sessionDate}</Typography>
+                                        <Typography variant="caption" color="gray">Date: {session.date}</Typography>
+
+                                        {/* PREP PROGRESS INDICATOR */}
+                                        <Box sx={{ mt: 3 }}>
+                                            <Stack direction="row" justifyContent="space-between" sx={{ mb: 0.5 }}>
+                                                <Typography variant="caption" color="gray">Prep Progress</Typography>
+                                                <Typography variant="caption" color="gray">{session.prepProgress}%</Typography>
+                                            </Stack>
+                                            <LinearProgress
+                                                variant="determinate"
+                                                value={session.prepProgress}
+                                                sx={{ height: 6, borderRadius: 3, bgcolor: '#333' }}
+                                            />
+                                        </Box>
                                     </CardContent>
 
                                     <CardActions sx={{ p: 2, pt: 0 }}>
-                                        {CampaignSessionStatus.Planning ? (
+                                        {session.status === 'DRAFT' ? (
                                             <Button
                                                 fullWidth
                                                 variant="outlined"

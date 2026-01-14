@@ -45,6 +45,8 @@ import ViewCompendiumTalents from "./sample/compendium/talent/ViewCompendiumTale
 import ViewCompendiumAdversaries from "./sample/compendium/adversary/ViewCompendiumAdversaries.tsx";
 import ActiveSessionView from "./sample/session/ActiveSessionView.tsx";
 import GenesysSessionManager from "./sample/GenesysSessionManager.tsx";
+import SessionManager from "./sample/session/SessionManager.tsx";
+import SampleSessionManagementPage from "./sample/SampleSessionManagementPage.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -102,7 +104,8 @@ export const App: React.FC = () => {
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Talent} element={<ViewCompendiumTalents/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Adversary} element={<ViewCompendiumAdversaries/>}/>
 
-                <Route path={RootPath.Campaign + ":id"} element={<ActiveSessionView/>}/>
+                <Route path={RootPath.Campaign + ":id"} element={<SessionManager/>}/>
+                <Route path={RootPath.Campaign + ":id" + RootPath.Session + ":sessionId"} element={<ActiveSessionView/>}/>
 
                 <Route path={"/sample/comp"} element={<SampleCompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>
@@ -110,6 +113,7 @@ export const App: React.FC = () => {
                 <Route path={"/sample/adversaries"} element={<AdversaryCompendium/>}/>
                 <Route path={"/sample/session"} element={<SampleSessionManager/>}/>
                 <Route path={"/genesys/session"} element={<GenesysSessionManager/>}/>
+                <Route path={"/genesys/session/manager"} element={<SampleSessionManagementPage/>}/>
                 <Route path={"/sample/creation"} element={<CharacterCreator campaignCompendium={undefined}/>}/>
 
                 {/*<Route path={RootPath.Injury} element={<InjuryWorkflow/>}/>*/}
