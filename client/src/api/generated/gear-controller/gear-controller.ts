@@ -31,6 +31,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -79,17 +81,17 @@ export const getGetGearQueryKey = (id?: string,) => {
     }
 
     
-export const getGetGearQueryOptions = <TData = Awaited<ReturnType<typeof getGear>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>>, }
+export const getGetGearQueryOptions = <TData = Awaited<ReturnType<typeof getGear>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetGearQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGear>>> = ({ signal }) => getGear(id, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGear>>> = ({ signal }) => getGear(id, { signal, ...requestOptions });
 
       
 
@@ -109,7 +111,7 @@ export function useGetGear<TData = Awaited<ReturnType<typeof getGear>>, TError =
           TError,
           Awaited<ReturnType<typeof getGear>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetGear<TData = Awaited<ReturnType<typeof getGear>>, TError = unknown>(
@@ -119,11 +121,11 @@ export function useGetGear<TData = Awaited<ReturnType<typeof getGear>>, TError =
           TError,
           Awaited<ReturnType<typeof getGear>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetGear<TData = Awaited<ReturnType<typeof getGear>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -131,7 +133,7 @@ export function useGetGear<TData = Awaited<ReturnType<typeof getGear>>, TError =
  */
 
 export function useGetGear<TData = Awaited<ReturnType<typeof getGear>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGear>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -186,15 +188,15 @@ export const updateGear = async (id: string,
 
 
 export const getUpdateGearMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGear>>, TError,{id: string;data: Gear}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGear>>, TError,{id: string;data: Gear}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateGear>>, TError,{id: string;data: Gear}, TContext> => {
 
 const mutationKey = ['updateGear'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -204,7 +206,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGear>>, {id: string;data: Gear}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateGear(id,data,)
+          return  updateGear(id,data,requestOptions)
         }
 
 
@@ -222,7 +224,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Update an existing gear
  */
 export const useUpdateGear = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGear>>, TError,{id: string;data: Gear}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGear>>, TError,{id: string;data: Gear}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateGear>>,
         TError,
@@ -270,15 +272,15 @@ export const createGear = async (name: string, options?: RequestInit): Promise<c
 
 
 export const getCreateGearMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGear>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGear>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createGear>>, TError,{name: string}, TContext> => {
 
 const mutationKey = ['createGear'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -288,7 +290,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGear>>, {name: string}> = (props) => {
           const {name} = props ?? {};
 
-          return  createGear(name,)
+          return  createGear(name,requestOptions)
         }
 
 
@@ -306,7 +308,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Create a new gear
  */
 export const useCreateGear = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGear>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGear>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createGear>>,
         TError,
@@ -361,17 +363,17 @@ export const getGetAllGearsQueryKey = () => {
     }
 
     
-export const getGetAllGearsQueryOptions = <TData = Awaited<ReturnType<typeof getAllGears>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>>, }
+export const getGetAllGearsQueryOptions = <TData = Awaited<ReturnType<typeof getAllGears>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllGearsQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllGears>>> = ({ signal }) => getAllGears({ signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllGears>>> = ({ signal }) => getAllGears({ signal, ...requestOptions });
 
       
 
@@ -391,7 +393,7 @@ export function useGetAllGears<TData = Awaited<ReturnType<typeof getAllGears>>, 
           TError,
           Awaited<ReturnType<typeof getAllGears>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllGears<TData = Awaited<ReturnType<typeof getAllGears>>, TError = unknown>(
@@ -401,11 +403,11 @@ export function useGetAllGears<TData = Awaited<ReturnType<typeof getAllGears>>, 
           TError,
           Awaited<ReturnType<typeof getAllGears>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllGears<TData = Awaited<ReturnType<typeof getAllGears>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -413,7 +415,7 @@ export function useGetAllGears<TData = Awaited<ReturnType<typeof getAllGears>>, 
  */
 
 export function useGetAllGears<TData = Awaited<ReturnType<typeof getAllGears>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllGears>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

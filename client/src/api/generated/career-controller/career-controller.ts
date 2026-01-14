@@ -31,6 +31,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -79,17 +81,17 @@ export const getGetCareerQueryKey = (id?: string,) => {
     }
 
     
-export const getGetCareerQueryOptions = <TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, }
+export const getGetCareerQueryOptions = <TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetCareerQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCareer>>> = ({ signal }) => getCareer(id, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCareer>>> = ({ signal }) => getCareer(id, { signal, ...requestOptions });
 
       
 
@@ -109,7 +111,7 @@ export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TErr
           TError,
           Awaited<ReturnType<typeof getCareer>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(
@@ -119,11 +121,11 @@ export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TErr
           TError,
           Awaited<ReturnType<typeof getCareer>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -131,7 +133,7 @@ export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TErr
  */
 
 export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -186,15 +188,15 @@ export const updateCareer = async (id: string,
 
 
 export const getUpdateCareerMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{id: string;data: Career}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{id: string;data: Career}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{id: string;data: Career}, TContext> => {
 
 const mutationKey = ['updateCareer'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -204,7 +206,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCareer>>, {id: string;data: Career}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateCareer(id,data,)
+          return  updateCareer(id,data,requestOptions)
         }
 
 
@@ -222,7 +224,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Update an existing career
  */
 export const useUpdateCareer = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{id: string;data: Career}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{id: string;data: Career}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateCareer>>,
         TError,
@@ -277,17 +279,17 @@ export const getGetAllCareersQueryKey = () => {
     }
 
     
-export const getGetAllCareersQueryOptions = <TData = Awaited<ReturnType<typeof getAllCareers>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCareers>>, TError, TData>>, }
+export const getGetAllCareersQueryOptions = <TData = Awaited<ReturnType<typeof getAllCareers>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCareers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllCareersQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllCareers>>> = ({ signal }) => getAllCareers({ signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllCareers>>> = ({ signal }) => getAllCareers({ signal, ...requestOptions });
 
       
 
@@ -307,7 +309,7 @@ export function useGetAllCareers<TData = Awaited<ReturnType<typeof getAllCareers
           TError,
           Awaited<ReturnType<typeof getAllCareers>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllCareers<TData = Awaited<ReturnType<typeof getAllCareers>>, TError = unknown>(
@@ -317,11 +319,11 @@ export function useGetAllCareers<TData = Awaited<ReturnType<typeof getAllCareers
           TError,
           Awaited<ReturnType<typeof getAllCareers>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllCareers<TData = Awaited<ReturnType<typeof getAllCareers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCareers>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCareers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -329,7 +331,7 @@ export function useGetAllCareers<TData = Awaited<ReturnType<typeof getAllCareers
  */
 
 export function useGetAllCareers<TData = Awaited<ReturnType<typeof getAllCareers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCareers>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCareers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

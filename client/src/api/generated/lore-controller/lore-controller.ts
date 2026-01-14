@@ -23,6 +23,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -71,17 +73,17 @@ export const getGetAllLoreQueryKey = () => {
     }
 
     
-export const getGetAllLoreQueryOptions = <TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, }
+export const getGetAllLoreQueryOptions = <TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllLoreQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllLore>>> = ({ signal }) => getAllLore({ signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllLore>>> = ({ signal }) => getAllLore({ signal, ...requestOptions });
 
       
 
@@ -101,7 +103,7 @@ export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TE
           TError,
           Awaited<ReturnType<typeof getAllLore>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>(
@@ -111,11 +113,11 @@ export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TE
           TError,
           Awaited<ReturnType<typeof getAllLore>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -123,7 +125,7 @@ export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TE
  */
 
 export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

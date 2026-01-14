@@ -32,6 +32,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -80,17 +82,17 @@ export const getGetNemesisQueryKey = (id?: string,) => {
     }
 
     
-export const getGetNemesisQueryOptions = <TData = Awaited<ReturnType<typeof getNemesis>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNemesis>>, TError, TData>>, }
+export const getGetNemesisQueryOptions = <TData = Awaited<ReturnType<typeof getNemesis>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNemesis>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetNemesisQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNemesis>>> = ({ signal }) => getNemesis(id, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNemesis>>> = ({ signal }) => getNemesis(id, { signal, ...requestOptions });
 
       
 
@@ -110,7 +112,7 @@ export function useGetNemesis<TData = Awaited<ReturnType<typeof getNemesis>>, TE
           TError,
           Awaited<ReturnType<typeof getNemesis>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetNemesis<TData = Awaited<ReturnType<typeof getNemesis>>, TError = unknown>(
@@ -120,11 +122,11 @@ export function useGetNemesis<TData = Awaited<ReturnType<typeof getNemesis>>, TE
           TError,
           Awaited<ReturnType<typeof getNemesis>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetNemesis<TData = Awaited<ReturnType<typeof getNemesis>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNemesis>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNemesis>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -132,7 +134,7 @@ export function useGetNemesis<TData = Awaited<ReturnType<typeof getNemesis>>, TE
  */
 
 export function useGetNemesis<TData = Awaited<ReturnType<typeof getNemesis>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNemesis>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNemesis>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -187,15 +189,15 @@ export const updateNemesis = async (id: string,
 
 
 export const getUpdateNemesisMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNemesis>>, TError,{id: string;data: Nemesis}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNemesis>>, TError,{id: string;data: Nemesis}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateNemesis>>, TError,{id: string;data: Nemesis}, TContext> => {
 
 const mutationKey = ['updateNemesis'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -205,7 +207,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateNemesis>>, {id: string;data: Nemesis}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateNemesis(id,data,)
+          return  updateNemesis(id,data,requestOptions)
         }
 
 
@@ -223,7 +225,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Update an existing nemesis
  */
 export const useUpdateNemesis = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNemesis>>, TError,{id: string;data: Nemesis}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNemesis>>, TError,{id: string;data: Nemesis}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateNemesis>>,
         TError,
@@ -273,15 +275,15 @@ export const updateNemesisSkill = async (id: string,
 
 
 export const getUpdateNemesisSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNemesisSkill>>, TError,{id: string;data: ActorSkill}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNemesisSkill>>, TError,{id: string;data: ActorSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateNemesisSkill>>, TError,{id: string;data: ActorSkill}, TContext> => {
 
 const mutationKey = ['updateNemesisSkill'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -291,7 +293,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateNemesisSkill>>, {id: string;data: ActorSkill}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateNemesisSkill(id,data,)
+          return  updateNemesisSkill(id,data,requestOptions)
         }
 
 
@@ -309,7 +311,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Patch skill of an existing nemesis
  */
 export const useUpdateNemesisSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNemesisSkill>>, TError,{id: string;data: ActorSkill}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNemesisSkill>>, TError,{id: string;data: ActorSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateNemesisSkill>>,
         TError,
@@ -364,17 +366,17 @@ export const getGetAllNemesesQueryKey = () => {
     }
 
     
-export const getGetAllNemesesQueryOptions = <TData = Awaited<ReturnType<typeof getAllNemeses>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllNemeses>>, TError, TData>>, }
+export const getGetAllNemesesQueryOptions = <TData = Awaited<ReturnType<typeof getAllNemeses>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllNemeses>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllNemesesQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllNemeses>>> = ({ signal }) => getAllNemeses({ signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllNemeses>>> = ({ signal }) => getAllNemeses({ signal, ...requestOptions });
 
       
 
@@ -394,7 +396,7 @@ export function useGetAllNemeses<TData = Awaited<ReturnType<typeof getAllNemeses
           TError,
           Awaited<ReturnType<typeof getAllNemeses>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllNemeses<TData = Awaited<ReturnType<typeof getAllNemeses>>, TError = unknown>(
@@ -404,11 +406,11 @@ export function useGetAllNemeses<TData = Awaited<ReturnType<typeof getAllNemeses
           TError,
           Awaited<ReturnType<typeof getAllNemeses>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllNemeses<TData = Awaited<ReturnType<typeof getAllNemeses>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllNemeses>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllNemeses>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -416,7 +418,7 @@ export function useGetAllNemeses<TData = Awaited<ReturnType<typeof getAllNemeses
  */
 
 export function useGetAllNemeses<TData = Awaited<ReturnType<typeof getAllNemeses>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllNemeses>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllNemeses>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

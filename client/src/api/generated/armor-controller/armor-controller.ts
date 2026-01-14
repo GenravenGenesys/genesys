@@ -31,6 +31,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -79,17 +81,17 @@ export const getGetArmorQueryKey = (id?: string,) => {
     }
 
     
-export const getGetArmorQueryOptions = <TData = Awaited<ReturnType<typeof getArmor>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>>, }
+export const getGetArmorQueryOptions = <TData = Awaited<ReturnType<typeof getArmor>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetArmorQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getArmor>>> = ({ signal }) => getArmor(id, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getArmor>>> = ({ signal }) => getArmor(id, { signal, ...requestOptions });
 
       
 
@@ -109,7 +111,7 @@ export function useGetArmor<TData = Awaited<ReturnType<typeof getArmor>>, TError
           TError,
           Awaited<ReturnType<typeof getArmor>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetArmor<TData = Awaited<ReturnType<typeof getArmor>>, TError = unknown>(
@@ -119,11 +121,11 @@ export function useGetArmor<TData = Awaited<ReturnType<typeof getArmor>>, TError
           TError,
           Awaited<ReturnType<typeof getArmor>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetArmor<TData = Awaited<ReturnType<typeof getArmor>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -131,7 +133,7 @@ export function useGetArmor<TData = Awaited<ReturnType<typeof getArmor>>, TError
  */
 
 export function useGetArmor<TData = Awaited<ReturnType<typeof getArmor>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArmor>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -186,15 +188,15 @@ export const updateArmor = async (id: string,
 
 
 export const getUpdateArmorMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArmor>>, TError,{id: string;data: Armor}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArmor>>, TError,{id: string;data: Armor}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateArmor>>, TError,{id: string;data: Armor}, TContext> => {
 
 const mutationKey = ['updateArmor'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -204,7 +206,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateArmor>>, {id: string;data: Armor}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateArmor(id,data,)
+          return  updateArmor(id,data,requestOptions)
         }
 
 
@@ -222,7 +224,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Update an existing armor
  */
 export const useUpdateArmor = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArmor>>, TError,{id: string;data: Armor}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArmor>>, TError,{id: string;data: Armor}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateArmor>>,
         TError,
@@ -270,15 +272,15 @@ export const createArmor = async (name: string, options?: RequestInit): Promise<
 
 
 export const getCreateArmorMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArmor>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArmor>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createArmor>>, TError,{name: string}, TContext> => {
 
 const mutationKey = ['createArmor'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -288,7 +290,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createArmor>>, {name: string}> = (props) => {
           const {name} = props ?? {};
 
-          return  createArmor(name,)
+          return  createArmor(name,requestOptions)
         }
 
 
@@ -306,7 +308,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Create a new armor
  */
 export const useCreateArmor = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArmor>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArmor>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createArmor>>,
         TError,
@@ -361,17 +363,17 @@ export const getGetAllArmorsQueryKey = () => {
     }
 
     
-export const getGetAllArmorsQueryOptions = <TData = Awaited<ReturnType<typeof getAllArmors>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>>, }
+export const getGetAllArmorsQueryOptions = <TData = Awaited<ReturnType<typeof getAllArmors>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllArmorsQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllArmors>>> = ({ signal }) => getAllArmors({ signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllArmors>>> = ({ signal }) => getAllArmors({ signal, ...requestOptions });
 
       
 
@@ -391,7 +393,7 @@ export function useGetAllArmors<TData = Awaited<ReturnType<typeof getAllArmors>>
           TError,
           Awaited<ReturnType<typeof getAllArmors>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllArmors<TData = Awaited<ReturnType<typeof getAllArmors>>, TError = unknown>(
@@ -401,11 +403,11 @@ export function useGetAllArmors<TData = Awaited<ReturnType<typeof getAllArmors>>
           TError,
           Awaited<ReturnType<typeof getAllArmors>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllArmors<TData = Awaited<ReturnType<typeof getAllArmors>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -413,7 +415,7 @@ export function useGetAllArmors<TData = Awaited<ReturnType<typeof getAllArmors>>
  */
 
 export function useGetAllArmors<TData = Awaited<ReturnType<typeof getAllArmors>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArmors>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

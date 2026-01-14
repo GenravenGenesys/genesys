@@ -31,6 +31,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -79,17 +81,17 @@ export const getGetArchetypeQueryKey = (id?: string,) => {
     }
 
     
-export const getGetArchetypeQueryOptions = <TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, }
+export const getGetArchetypeQueryOptions = <TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetArchetypeQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getArchetype>>> = ({ signal }) => getArchetype(id, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getArchetype>>> = ({ signal }) => getArchetype(id, { signal, ...requestOptions });
 
       
 
@@ -109,7 +111,7 @@ export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>
           TError,
           Awaited<ReturnType<typeof getArchetype>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(
@@ -119,11 +121,11 @@ export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>
           TError,
           Awaited<ReturnType<typeof getArchetype>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -131,7 +133,7 @@ export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>
  */
 
 export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -186,15 +188,15 @@ export const updateArchetype = async (id: string,
 
 
 export const getUpdateArchetypeMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{id: string;data: Archetype}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{id: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{id: string;data: Archetype}, TContext> => {
 
 const mutationKey = ['updateArchetype'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -204,7 +206,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateArchetype>>, {id: string;data: Archetype}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateArchetype(id,data,)
+          return  updateArchetype(id,data,requestOptions)
         }
 
 
@@ -222,7 +224,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Update an existing archetype
  */
 export const useUpdateArchetype = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{id: string;data: Archetype}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{id: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateArchetype>>,
         TError,
@@ -270,15 +272,15 @@ export const createArchetype = async (name: string, options?: RequestInit): Prom
 
 
 export const getCreateArchetypeMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{name: string}, TContext> => {
 
 const mutationKey = ['createArchetype'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -288,7 +290,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createArchetype>>, {name: string}> = (props) => {
           const {name} = props ?? {};
 
-          return  createArchetype(name,)
+          return  createArchetype(name,requestOptions)
         }
 
 
@@ -306,7 +308,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Create a new archetype
  */
 export const useCreateArchetype = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createArchetype>>,
         TError,
@@ -361,17 +363,17 @@ export const getGetAllArchetypesQueryKey = () => {
     }
 
     
-export const getGetAllArchetypesQueryOptions = <TData = Awaited<ReturnType<typeof getAllArchetypes>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArchetypes>>, TError, TData>>, }
+export const getGetAllArchetypesQueryOptions = <TData = Awaited<ReturnType<typeof getAllArchetypes>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArchetypes>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllArchetypesQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllArchetypes>>> = ({ signal }) => getAllArchetypes({ signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllArchetypes>>> = ({ signal }) => getAllArchetypes({ signal, ...requestOptions });
 
       
 
@@ -391,7 +393,7 @@ export function useGetAllArchetypes<TData = Awaited<ReturnType<typeof getAllArch
           TError,
           Awaited<ReturnType<typeof getAllArchetypes>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllArchetypes<TData = Awaited<ReturnType<typeof getAllArchetypes>>, TError = unknown>(
@@ -401,11 +403,11 @@ export function useGetAllArchetypes<TData = Awaited<ReturnType<typeof getAllArch
           TError,
           Awaited<ReturnType<typeof getAllArchetypes>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllArchetypes<TData = Awaited<ReturnType<typeof getAllArchetypes>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArchetypes>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArchetypes>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -413,7 +415,7 @@ export function useGetAllArchetypes<TData = Awaited<ReturnType<typeof getAllArch
  */
 
 export function useGetAllArchetypes<TData = Awaited<ReturnType<typeof getAllArchetypes>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArchetypes>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllArchetypes>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

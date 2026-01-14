@@ -31,6 +31,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -79,17 +81,17 @@ export const getGetSpellQueryKey = (id?: string,) => {
     }
 
     
-export const getGetSpellQueryOptions = <TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, }
+export const getGetSpellQueryOptions = <TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetSpellQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSpell>>> = ({ signal }) => getSpell(id, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSpell>>> = ({ signal }) => getSpell(id, { signal, ...requestOptions });
 
       
 
@@ -109,7 +111,7 @@ export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError
           TError,
           Awaited<ReturnType<typeof getSpell>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(
@@ -119,11 +121,11 @@ export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError
           TError,
           Awaited<ReturnType<typeof getSpell>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -131,7 +133,7 @@ export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError
  */
 
 export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -186,15 +188,15 @@ export const updateSpell = async (id: string,
 
 
 export const getUpdateSpellMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext> => {
 
 const mutationKey = ['updateSpell'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -204,7 +206,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateSpell>>, {id: string;data: Spell}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateSpell(id,data,)
+          return  updateSpell(id,data,requestOptions)
         }
 
 
@@ -222,7 +224,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Update an existing spell
  */
 export const useUpdateSpell = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateSpell>>,
         TError,
@@ -270,15 +272,15 @@ export const createSpell = async (name: string, options?: RequestInit): Promise<
 
 
 export const getCreateSpellMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext> => {
 
 const mutationKey = ['createSpell'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -288,7 +290,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createSpell>>, {name: string}> = (props) => {
           const {name} = props ?? {};
 
-          return  createSpell(name,)
+          return  createSpell(name,requestOptions)
         }
 
 
@@ -306,7 +308,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Create a new spell
  */
 export const useCreateSpell = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createSpell>>,
         TError,
@@ -361,17 +363,17 @@ export const getGetAllSpellsQueryKey = () => {
     }
 
     
-export const getGetAllSpellsQueryOptions = <TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, }
+export const getGetAllSpellsQueryOptions = <TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllSpellsQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllSpells>>> = ({ signal }) => getAllSpells({ signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllSpells>>> = ({ signal }) => getAllSpells({ signal, ...requestOptions });
 
       
 
@@ -391,7 +393,7 @@ export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>
           TError,
           Awaited<ReturnType<typeof getAllSpells>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>(
@@ -401,11 +403,11 @@ export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>
           TError,
           Awaited<ReturnType<typeof getAllSpells>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -413,7 +415,7 @@ export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>
  */
 
 export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

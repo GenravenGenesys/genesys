@@ -6,10 +6,14 @@
  * OpenAPI spec version: 1.0
  */
 import type { CampaignEncounter } from './campaignEncounter';
+import type { Party } from './party';
 
 export interface CampaignScene {
   sceneId: string;
   name: string;
   mapUrl: string;
   encounters: CampaignEncounter[];
+  /** Party state during Scene */
+  party: Party;
+  active: boolean;
 }

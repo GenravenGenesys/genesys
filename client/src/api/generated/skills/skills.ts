@@ -31,6 +31,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -79,17 +81,17 @@ export const getGetSkillsQueryKey = (campaignId?: string,) => {
     }
 
     
-export const getGetSkillsQueryOptions = <TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, }
+export const getGetSkillsQueryOptions = <TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetSkillsQueryKey(campaignId);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSkills>>> = ({ signal }) => getSkills(campaignId, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSkills>>> = ({ signal }) => getSkills(campaignId, { signal, ...requestOptions });
 
       
 
@@ -109,7 +111,7 @@ export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TErr
           TError,
           Awaited<ReturnType<typeof getSkills>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(
@@ -119,11 +121,11 @@ export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TErr
           TError,
           Awaited<ReturnType<typeof getSkills>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, }
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -131,7 +133,7 @@ export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TErr
  */
 
 export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, }
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -186,15 +188,15 @@ export const createSkill = async (campaignId: string,
 
 
 export const getCreateSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext> => {
 
 const mutationKey = ['createSkill'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -204,7 +206,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createSkill>>, {campaignId: string;data: Skill}> = (props) => {
           const {campaignId,data} = props ?? {};
 
-          return  createSkill(campaignId,data,)
+          return  createSkill(campaignId,data,requestOptions)
         }
 
 
@@ -222,7 +224,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Create a new skill
  */
 export const useCreateSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createSkill>>,
         TError,
@@ -274,15 +276,15 @@ export const updateSkill = async (campaignId: string,
 
 
 export const getUpdateSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext> => {
 
 const mutationKey = ['updateSkill'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -292,7 +294,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateSkill>>, {campaignId: string;skillId: string;data: Skill}> = (props) => {
           const {campaignId,skillId,data} = props ?? {};
 
-          return  updateSkill(campaignId,skillId,data,)
+          return  updateSkill(campaignId,skillId,data,requestOptions)
         }
 
 
@@ -310,7 +312,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Update a skill
  */
 export const useUpdateSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateSkill>>,
         TError,

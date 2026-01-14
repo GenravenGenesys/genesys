@@ -32,6 +32,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -80,17 +82,17 @@ export const getGetRivalQueryKey = (id?: string,) => {
     }
 
     
-export const getGetRivalQueryOptions = <TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, }
+export const getGetRivalQueryOptions = <TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetRivalQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRival>>> = ({ signal }) => getRival(id, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRival>>> = ({ signal }) => getRival(id, { signal, ...requestOptions });
 
       
 
@@ -110,7 +112,7 @@ export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError
           TError,
           Awaited<ReturnType<typeof getRival>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(
@@ -120,11 +122,11 @@ export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError
           TError,
           Awaited<ReturnType<typeof getRival>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -132,7 +134,7 @@ export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError
  */
 
 export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -187,15 +189,15 @@ export const updateRival = async (id: string,
 
 
 export const getUpdateRivalMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext> => {
 
 const mutationKey = ['updateRival'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -205,7 +207,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateRival>>, {id: string;data: Rival}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateRival(id,data,)
+          return  updateRival(id,data,requestOptions)
         }
 
 
@@ -223,7 +225,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Update an existing rival
  */
 export const useUpdateRival = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateRival>>,
         TError,
@@ -273,15 +275,15 @@ export const updateRivalSkill = async (id: string,
 
 
 export const getUpdateRivalSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext> => {
 
 const mutationKey = ['updateRivalSkill'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -291,7 +293,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateRivalSkill>>, {id: string;data: ActorSkill}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateRivalSkill(id,data,)
+          return  updateRivalSkill(id,data,requestOptions)
         }
 
 
@@ -309,7 +311,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Patch skill of an existing rival
  */
 export const useUpdateRivalSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateRivalSkill>>,
         TError,
@@ -364,17 +366,17 @@ export const getGetAllRivalsQueryKey = () => {
     }
 
     
-export const getGetAllRivalsQueryOptions = <TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, }
+export const getGetAllRivalsQueryOptions = <TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllRivalsQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllRivals>>> = ({ signal }) => getAllRivals({ signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllRivals>>> = ({ signal }) => getAllRivals({ signal, ...requestOptions });
 
       
 
@@ -394,7 +396,7 @@ export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>
           TError,
           Awaited<ReturnType<typeof getAllRivals>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>(
@@ -404,11 +406,11 @@ export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>
           TError,
           Awaited<ReturnType<typeof getAllRivals>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -416,7 +418,7 @@ export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>
  */
 
 export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

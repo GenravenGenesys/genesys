@@ -31,6 +31,8 @@ import type {
 import { customInstance } from '../../axios-instance';
 
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
 
 
 /**
@@ -79,17 +81,17 @@ export const getGetInjuryByIdQueryKey = (id?: string,) => {
     }
 
     
-export const getGetInjuryByIdQueryOptions = <TData = Awaited<ReturnType<typeof getInjuryById>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInjuryById>>, TError, TData>>, }
+export const getGetInjuryByIdQueryOptions = <TData = Awaited<ReturnType<typeof getInjuryById>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInjuryById>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetInjuryByIdQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getInjuryById>>> = ({ signal }) => getInjuryById(id, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getInjuryById>>> = ({ signal }) => getInjuryById(id, { signal, ...requestOptions });
 
       
 
@@ -109,7 +111,7 @@ export function useGetInjuryById<TData = Awaited<ReturnType<typeof getInjuryById
           TError,
           Awaited<ReturnType<typeof getInjuryById>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetInjuryById<TData = Awaited<ReturnType<typeof getInjuryById>>, TError = unknown>(
@@ -119,11 +121,11 @@ export function useGetInjuryById<TData = Awaited<ReturnType<typeof getInjuryById
           TError,
           Awaited<ReturnType<typeof getInjuryById>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetInjuryById<TData = Awaited<ReturnType<typeof getInjuryById>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInjuryById>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInjuryById>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -131,7 +133,7 @@ export function useGetInjuryById<TData = Awaited<ReturnType<typeof getInjuryById
  */
 
 export function useGetInjuryById<TData = Awaited<ReturnType<typeof getInjuryById>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInjuryById>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInjuryById>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -186,15 +188,15 @@ export const updateInjury = async (id: string,
 
 
 export const getUpdateInjuryMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateInjury>>, TError,{id: string;data: CriticalInjury}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateInjury>>, TError,{id: string;data: CriticalInjury}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateInjury>>, TError,{id: string;data: CriticalInjury}, TContext> => {
 
 const mutationKey = ['updateInjury'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -204,7 +206,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateInjury>>, {id: string;data: CriticalInjury}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateInjury(id,data,)
+          return  updateInjury(id,data,requestOptions)
         }
 
 
@@ -222,7 +224,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Update an existing injury
  */
 export const useUpdateInjury = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateInjury>>, TError,{id: string;data: CriticalInjury}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateInjury>>, TError,{id: string;data: CriticalInjury}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateInjury>>,
         TError,
@@ -270,15 +272,15 @@ export const createInjury = async (name: string, options?: RequestInit): Promise
 
 
 export const getCreateInjuryMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createInjury>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createInjury>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createInjury>>, TError,{name: string}, TContext> => {
 
 const mutationKey = ['createInjury'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -288,7 +290,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createInjury>>, {name: string}> = (props) => {
           const {name} = props ?? {};
 
-          return  createInjury(name,)
+          return  createInjury(name,requestOptions)
         }
 
 
@@ -306,7 +308,7 @@ const {mutation: mutationOptions} = options ?
  * @summary Create a new injury
  */
 export const useCreateInjury = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createInjury>>, TError,{name: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createInjury>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createInjury>>,
         TError,
@@ -361,17 +363,17 @@ export const getGetAllInjuriesQueryKey = () => {
     }
 
     
-export const getGetAllInjuriesQueryOptions = <TData = Awaited<ReturnType<typeof getAllInjuries>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInjuries>>, TError, TData>>, }
+export const getGetAllInjuriesQueryOptions = <TData = Awaited<ReturnType<typeof getAllInjuries>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInjuries>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllInjuriesQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllInjuries>>> = ({ signal }) => getAllInjuries({ signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllInjuries>>> = ({ signal }) => getAllInjuries({ signal, ...requestOptions });
 
       
 
@@ -391,7 +393,7 @@ export function useGetAllInjuries<TData = Awaited<ReturnType<typeof getAllInjuri
           TError,
           Awaited<ReturnType<typeof getAllInjuries>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllInjuries<TData = Awaited<ReturnType<typeof getAllInjuries>>, TError = unknown>(
@@ -401,11 +403,11 @@ export function useGetAllInjuries<TData = Awaited<ReturnType<typeof getAllInjuri
           TError,
           Awaited<ReturnType<typeof getAllInjuries>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllInjuries<TData = Awaited<ReturnType<typeof getAllInjuries>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInjuries>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInjuries>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -413,7 +415,7 @@ export function useGetAllInjuries<TData = Awaited<ReturnType<typeof getAllInjuri
  */
 
 export function useGetAllInjuries<TData = Awaited<ReturnType<typeof getAllInjuries>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInjuries>>, TError, TData>>, }
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInjuries>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

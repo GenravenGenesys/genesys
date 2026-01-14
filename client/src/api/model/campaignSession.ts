@@ -6,6 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 import type { CampaignScene } from './campaignScene';
+import type { CampaignSessionStatus } from './campaignSessionStatus';
+import type { Party } from './party';
 
 /**
  * The root entity for a VTT Campaign setting
@@ -15,4 +17,7 @@ export interface CampaignSession {
   campaignId: string;
   sessionDate: string;
   scenes: CampaignScene[];
+  /** Party state during Session */
+  party: Party;
+  status: CampaignSessionStatus;
 }
