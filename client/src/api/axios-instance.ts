@@ -4,34 +4,23 @@ export const AXIOS_INSTANCE = Axios.create({
     baseURL: 'http://localhost:8080',
 });
 
-AXIOS_INSTANCE.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        console.error('API Error:', {
-            url: error.config?.url,
-            status: error.response?.status,
-            data: error.response?.data,
-            headers: error.response?.headers
-        });
-        return Promise.reject(error);
-    }
-);
-
-export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
+export const customInstance = <T>(config: AxiosRequestConfig | string, options?: AxiosRequestConfig): Promise<T> => {
     const source = Axios.CancelToken.source();
+
+    // Handle both customInstance(url, config) and customInstance(config)
+    const requestConfig = typeof config === 'string'
+        ? { ...options, url: config }
+        : config;
+
     const promise = AXIOS_INSTANCE({
-        ...config,
+        ...requestConfig,
         cancelToken: source.token,
-    }).then((response) => ({
-        data: response.data,
-        status: response.status,
-        headers: response.headers
-    }));
+    }).then((response) => response as unknown as T);
 
     // @ts-ignore
     promise.cancel = () => {
         source.cancel('Query was cancelled');
     };
 
-    return promise as Promise<T>;
+    return promise;
 };

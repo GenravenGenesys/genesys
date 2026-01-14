@@ -5,9 +5,9 @@ import {useGetAllCampaigns} from "../../../api/generated/campaign-controller/cam
 
 
 export default function CampaignDashboardPage() {
-    const { data: campaigns, isLoading } = useGetAllCampaigns();
+    const {data: response, isLoading, error, isFetching} = useGetAllCampaigns();
 
-    if (isLoading) {
+    if (isLoading || isFetching) {
         return (
             <Box sx={{display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center'}}>
                 <CircularProgress/>
@@ -15,7 +15,13 @@ export default function CampaignDashboardPage() {
         );
     }
 
-    if (!campaigns || campaigns.length === 0) {
+    if (error) {
+        return <div>Error loading campaigns</div>;
+    }
+
+    const campaigns = response?.data || [];
+
+    if (campaigns.length === 0) {
         return <CampaignWizard/>;
     }
 
