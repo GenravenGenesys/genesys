@@ -16,10 +16,12 @@ public class SessionService {
     private final SessionRepository sessionRepository;
 
     public Flux<CampaignSession> getAllCampaignSessions(final String campaignId) {
+        log.info("Getting all sessions for campaign with id: {}", campaignId);
         return sessionRepository.getAllCampaignSessionsByCampaignId(campaignId);
     }
 
     public Mono<CampaignSession> getCampaignSession(final String id) {
+        log.info("Getting a new session with id: {}", id);
         return sessionRepository.findById(id);
     }
 

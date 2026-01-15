@@ -55,10 +55,6 @@ export default function SessionManager() {
         setOpen(false);
     };
 
-    const handleSessionClick = (sessionId: string) => {
-        navigate(RootPath.Campaign + campaign.id + RootPath.Session + sessionId);
-    };
-
     return (
         <Box sx={{p: 4, bgcolor: '#0a0a0a', minHeight: '100vh', color: 'white'}}>
             <Stack direction="row" justifyContent="space-between" sx={{mb: 4}}>
@@ -69,7 +65,6 @@ export default function SessionManager() {
             </Stack>
 
             <Grid container spacing={3}>
-                {/* ACTIVE/UPCOMING SESSIONS */}
                 <Grid size={{xs: 12}}>
                     <Typography variant="h6" sx={{mb: 2, color: 'primary.main'}}>Upcoming Adventures</Typography>
                     <Grid container spacing={3}>
@@ -109,7 +104,8 @@ export default function SessionManager() {
                                                 fullWidth
                                                 variant="outlined"
                                                 startIcon={<ConstructionIcon/>}
-                                                sx={{color: 'info', borderColor: 'info'}}
+                                                color={'info'}
+                                                onClick={() => navigate(RootPath.Campaign + campaign.id + RootPath.Session + session.id)}
                                             >
                                                 Continue Preparations
                                             </Button>
@@ -119,8 +115,8 @@ export default function SessionManager() {
                                                 fullWidth
                                                 variant="outlined"
                                                 startIcon={<PlayArrowIcon/>}
-                                                sx={{color: 'success', borderColor: 'success'}}
-                                                onClick={() => handleSessionClick}
+                                                color={'success'}
+                                                onClick={() => navigate(RootPath.Campaign + campaign.id + RootPath.Session + session.id)}
                                             >
                                                 Ready to Begin
                                             </Button>
@@ -130,8 +126,8 @@ export default function SessionManager() {
                                                 fullWidth
                                                 variant="outlined"
                                                 startIcon={<AdjustIcon/>}
-                                                sx={{color: 'error', borderColor: 'error'}}
-                                                onClick={() => handleSessionClick}
+                                                color={'error'}
+                                                onClick={() => navigate(RootPath.Campaign + campaign.id + RootPath.Session + session.id)}
                                             >
                                                 Currently Active
                                             </Button>
@@ -143,7 +139,6 @@ export default function SessionManager() {
                     </Grid>
                 </Grid>
 
-                {/* HISTORICAL SESSIONS */}
                 <Grid size={{xs: 12}} sx={{mt: 4}}>
                     <Paper sx={{bgcolor: '#1a1a1a', p: 0, borderRadius: 3, overflow: 'hidden'}}>
                         <Box sx={{p: 2, bgcolor: '#222'}}>
@@ -156,7 +151,7 @@ export default function SessionManager() {
                                         <ListItemText
                                             primary={session.id}
                                             secondary={`${session.sessionDate} • ${session.party.players.length} Players Attended`}
-                                            secondaryTypographyProps={{color: 'gray'}}
+                                            slotProps={{secondary: {style: {color: 'gray'}}}}
                                         />
                                     </ListItem>
                                     {index < sessions.length - 1 && <Divider sx={{bgcolor: '#333'}}/>}
@@ -167,16 +162,18 @@ export default function SessionManager() {
                 </Grid>
             </Grid>
 
-            {/* CREATE SESSION MODAL */}
             <Dialog open={open} onClose={() => setOpen(false)}
-                    PaperProps={{sx: {bgcolor: '#1a1a1a', color: 'white'}}}>
+                    slotProps={{paper: {sx: {bgcolor: '#1a1a1a', color: 'white'}}}}
+            >
                 <DialogTitle>Plan New Session</DialogTitle>
                 <DialogContent>
                     <Stack spacing={3} sx={{mt: 1, minWidth: 400}}>
                         <TextField fullWidth label="Session Title" variant="filled"
                                    sx={{bgcolor: '#333', borderRadius: 1}}
-                                   InputLabelProps={{style: {color: 'gray'}}}
-                                   inputProps={{style: {color: 'white'}}}/>
+                                   slotProps={{
+                                       inputLabel: {style: {color: 'gray'}},
+                                       input: {style: {color: 'white'}}
+                                   }}/>
                         <TextField fullWidth label="Target Date" type="date" variant="filled" defaultValue="2026-01-14"
                                    sx={{bgcolor: '#333', borderRadius: 1}}
                                    slotProps={{
