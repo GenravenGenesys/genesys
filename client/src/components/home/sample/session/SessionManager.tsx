@@ -1,5 +1,5 @@
-import {useParams} from "react-router-dom";
-import React, {Fragment, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import React, {useState} from "react";
 import {
     Box,
     Button,
@@ -8,28 +8,29 @@ import {
     Chip,
     CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider,
     Grid,
-    LinearProgress, List, ListItem, ListItemText, Paper,
+    List, ListItem, ListItemText, Paper,
     Stack, TextField,
     Typography
 } from "@mui/material";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
-import {useGetAllCampaignSessions} from "../../../../api/generated/sessions/sessions.ts";
 import AddIcon from "@mui/icons-material/Add";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import AdjustIcon from "@mui/icons-material/Adjust";
 import {CampaignSessionStatus} from "../../../../api/model";
 import {useGetSessions} from "../../../../hooks/campaign/useGetSessions.ts";
+import {RootPath} from "../../../../services/RootPath.ts";
 
 export default function SessionManager() {
     const {id} = useParams<{ id: string }>();
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     // Move all hooks before conditional returns
     const {campaign, isLoading: isCampaignLoading} = useCampaignLive(id || '');
     const {data: response, isLoading: isSessionsLoading} = useGetSessions(campaign?.id || '');
     // const {data: response, isLoading: isSessionsLoading} = useGetAllCampaignSessions(campaign?.id || '');
 
-    // Now safe to have conditional returns
     if (!id) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
     }
@@ -54,6 +55,10 @@ export default function SessionManager() {
         setOpen(false);
     };
 
+    const handleSessionClick = (sessionId: string) => {
+        navigate(RootPath.Campaign + campaign.id + RootPath.Session + sessionId);
+    };
+
     return (
         <Box sx={{p: 4, bgcolor: '#0a0a0a', minHeight: '100vh', color: 'white'}}>
             <Stack direction="row" justifyContent="space-between" sx={{mb: 4}}>
@@ -69,7 +74,7 @@ export default function SessionManager() {
                     <Typography variant="h6" sx={{mb: 2, color: 'primary.main'}}>Upcoming Adventures</Typography>
                     <Grid container spacing={3}>
                         {sessions.filter(s => s.status !== CampaignSessionStatus.Resolved).map(session => (
-                            <Grid size={{ xs: 12, md: 4 }} key={session.id}>
+                            <Grid size={{xs: 12, md: 4}} key={session.id}>
                                 <Card sx={{
                                     bgcolor: '#1a1a1a',
                                     color: 'white',
@@ -79,37 +84,60 @@ export default function SessionManager() {
                                     <CardContent>
                                         <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
                                             <Typography variant="h6">{session.id}</Typography>
-                                            <Chip
+                                            {session.status === CampaignSessionStatus.Planning && <Chip
                                                 label={session.status}
                                                 size="small"
-                                                // Blue for Draft, Green for Ready (Planned)
-                                                color={CampaignSessionStatus.Planning ? 'info' : 'success'}
-                                            />
+                                                color={'info'}
+                                            />}
+                                            {session.status === CampaignSessionStatus.Ready && <Chip
+                                                label={session.status}
+                                                size="small"
+                                                color={'success'}
+                                            />}
+                                            {session.status === CampaignSessionStatus.Active && <Chip
+                                                label={session.status}
+                                                size="small"
+                                                color={'error'}
+                                            />}
                                         </Stack>
 
-                                        <Typography variant="caption" color="gray">Date: {session.sessionDate}</Typography>
+                                        <Typography variant="caption"
+                                                    color="gray">Date: {session.sessionDate}</Typography>
                                     </CardContent>
 
-                                    <CardActions sx={{ p: 2, pt: 0 }}>
-                                        {CampaignSessionStatus.Planning ? (
+                                    <CardActions sx={{p: 2, pt: 0}}>
+                                        {session.status === CampaignSessionStatus.Planning &&
                                             <Button
                                                 fullWidth
                                                 variant="outlined"
-                                                startIcon={<ConstructionIcon />}
-                                                sx={{ color: 'info.main', borderColor: 'info.main' }}
+                                                startIcon={<ConstructionIcon/>}
+                                                sx={{color: 'info', borderColor: 'info'}}
                                             >
-                                                Continue Prep
+                                                Continue Preparations
                                             </Button>
-                                        ) : (
+                                        }
+                                        {session.status === CampaignSessionStatus.Ready &&
                                             <Button
                                                 fullWidth
-                                                variant="contained"
-                                                color="success"
-                                                startIcon={<PlayArrowIcon />}
+                                                variant="outlined"
+                                                startIcon={<PlayArrowIcon/>}
+                                                sx={{color: 'success', borderColor: 'success'}}
+                                                onClick={() => handleSessionClick}
                                             >
-                                                Start Session
+                                                Ready to Begin
                                             </Button>
-                                        )}
+                                        }
+                                        {session.status === CampaignSessionStatus.Active &&
+                                            <Button
+                                                fullWidth
+                                                variant="outlined"
+                                                startIcon={<AdjustIcon/>}
+                                                sx={{color: 'error', borderColor: 'error'}}
+                                                onClick={() => handleSessionClick}
+                                            >
+                                                Currently Active
+                                            </Button>
+                                        }
                                     </CardActions>
                                 </Card>
                             </Grid>
@@ -142,17 +170,22 @@ export default function SessionManager() {
             </Grid>
 
             {/* CREATE SESSION MODAL */}
-            <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{sx: {bgcolor: '#1a1a1a', color: 'white'}}}>
+            <Dialog open={open} onClose={() => setOpen(false)}
+                    PaperProps={{sx: {bgcolor: '#1a1a1a', color: 'white'}}}>
                 <DialogTitle>Plan New Session</DialogTitle>
                 <DialogContent>
                     <Stack spacing={3} sx={{mt: 1, minWidth: 400}}>
                         <TextField fullWidth label="Session Title" variant="filled"
-                                   sx={{bgcolor: '#333', borderRadius: 1}} InputLabelProps={{style: {color: 'gray'}}}
+                                   sx={{bgcolor: '#333', borderRadius: 1}}
+                                   InputLabelProps={{style: {color: 'gray'}}}
                                    inputProps={{style: {color: 'white'}}}/>
                         <TextField fullWidth label="Target Date" type="date" variant="filled" defaultValue="2026-01-14"
                                    sx={{bgcolor: '#333', borderRadius: 1}}
-                                   InputLabelProps={{shrink: true, style: {color: 'gray'}}}
-                                   inputProps={{style: {color: 'white'}}}/>
+                                   slotProps={{
+                                       inputLabel: {shrink: true, style: {color: 'gray'}},
+                                       input: {style: {color: 'white'}}
+                                   }}
+                        />
                     </Stack>
                 </DialogContent>
                 <DialogActions sx={{p: 3}}>
