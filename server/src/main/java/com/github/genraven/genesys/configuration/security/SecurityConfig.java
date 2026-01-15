@@ -30,7 +30,6 @@ public class SecurityConfig {
             messages.adminPath().build());
 
         return http
-            .csrf(ServerHttpSecurity.CsrfSpec::disable)
             .authorizeExchange(authz -> authz
 //                .matchers(secureMatchers).authenticated()
                 .anyExchange().permitAll())
