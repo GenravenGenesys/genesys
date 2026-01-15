@@ -100,11 +100,9 @@ export default function SessionManager() {
                                                 color={'error'}
                                             />}
                                         </Stack>
-
                                         <Typography variant="caption"
                                                     color="gray">Date: {session.sessionDate}</Typography>
                                     </CardContent>
-
                                     <CardActions sx={{p: 2, pt: 0}}>
                                         {session.status === CampaignSessionStatus.Planning &&
                                             <Button
