@@ -31,19 +31,11 @@ export default function SessionManager() {
     const {data: response, isLoading: isSessionsLoading} = useGetSessions(campaign?.id || '');
     // const {data: response, isLoading: isSessionsLoading} = useGetAllCampaignSessions(campaign?.id || '');
 
-    if (!id) {
+    if (!id || !campaign) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
     }
 
-    if (isCampaignLoading) {
-        return <CircularProgress/>;
-    }
-
-    if (!campaign) {
-        return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
-    }
-
-    if (isSessionsLoading) {
+    if (isCampaignLoading || isSessionsLoading) {
         return <CircularProgress/>;
     }
 
