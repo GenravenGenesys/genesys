@@ -10,9 +10,9 @@ export function useGetSessions(campaignId: string) {
 
     const data = [
         {
-            id: '123456',
+            id: 'Final Showdown',
             campaignId: '9596',
-            sessionDate: '',
+            sessionDate: 'January 26, 2026',
             party: {
                 players: []
             },
@@ -20,7 +20,7 @@ export function useGetSessions(campaignId: string) {
             scenes: [
                 {
                     sceneId: "s1",
-                    name: "Campaign 1",
+                    name: "Dark Fortress",
                     mapUrl: "",
                     party: {
                         players: []
@@ -29,7 +29,7 @@ export function useGetSessions(campaignId: string) {
                     encounters: [
                         {
                             encounterId: "encounter1",
-                            name: "Encounter 1",
+                            name: "Main Hall",
                             npcIds: ["npc1", "npc2"],
                             initiativeOrder: [],
                             encounterType: CampaignEncounterEncounterType.Combat,
@@ -45,9 +45,9 @@ export function useGetSessions(campaignId: string) {
             player: 4,
         } as CampaignSession,
         {
-            id: '9385050',
+            id: 'Battle at Echo Ridge',
             campaignId: '9596',
-            sessionDate: '',
+            sessionDate: 'January 19, 2026',
             party: {
                 players: []
             },
@@ -55,7 +55,7 @@ export function useGetSessions(campaignId: string) {
             scenes: [
                 {
                     sceneId: "s1",
-                    name: "Campaign 1",
+                    name: "Echo Ridge",
                     mapUrl: "",
                     party: {
                         players: []
@@ -80,9 +80,9 @@ export function useGetSessions(campaignId: string) {
             player: 4,
         } as CampaignSession,
         {
-            id: '123456',
+            id: 'Rescue Mission at Dawn',
             campaignId: '9596',
-            sessionDate: '',
+            sessionDate: 'January 19, 2026',
             party: {
                 players: []
             },
@@ -90,7 +90,7 @@ export function useGetSessions(campaignId: string) {
             scenes: [
                 {
                     sceneId: "s1",
-                    name: "Campaign 1",
+                    name: "Bandit Hideout",
                     mapUrl: "",
                     party: {
                         players: []

@@ -1,12 +1,13 @@
-import {Fragment} from 'react';
 import {Typography} from '@mui/material';
 
 interface Props {
     text: string;
+    variant?: 'body1' | 'body2' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'caption' | 'overline';
+    sx?: object;
 }
 
-export default function GenesysDescriptionTypography(props: Props): JSX.Element {
-    const {text} = props;
+export default function GenesysDescriptionTypography(props: Props) {
+    const {text, variant, sx} = props;
 
     const checkText = () => {
         if (text === null || text === undefined) {
@@ -74,9 +75,6 @@ export default function GenesysDescriptionTypography(props: Props): JSX.Element 
         return final;
     };
 
-    return (
-        <Fragment>
-            <Typography component="div" style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: checkText()}}/>
-        </Fragment>
-    )
+    return <Typography variant={variant} component="div" sx={sx} style={{wordWrap: 'break-word', textAlign: 'center'}}
+                       dangerouslySetInnerHTML={{__html: checkText()}}/>;
 }

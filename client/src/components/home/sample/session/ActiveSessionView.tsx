@@ -27,6 +27,8 @@ import {
 import {useGetSessions} from "../../../../hooks/campaign/useGetSessions.ts";
 import GM_SP from '../../../../assests/GM_SP.png';
 import PC_SP from '../../../../assests/PC_SP.png';
+import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography.tsx";
+import SceneNavigator from "./SceneNavigator.tsx";
 
 // --- Sub-Component: Roster Item ---
 const RosterItem = ({name, wounds, strain, isNpc = false}) => (
@@ -142,42 +144,8 @@ export default function ActiveSessionView() {
 
                 {/* COLUMN 1: SCENE NAVIGATOR (Left) */}
                 <Grid size={{xs: 12, md: 2}} sx={{height: '100%'}}>
-                    <Paper sx={{p: 2, height: '100%', borderRadius: 3, overflowY: 'auto'}}>
-                        <Typography variant="overline" fontWeight="700" color="primary">Prepared Scenes</Typography>
-                        <List sx={{mt: 1}}>
-                            {sampleSession.scenes.map((scene, index) => (
-                                <ListItem
-                                    key={scene.sceneId}
-                                    disablePadding
-                                    sx={{mb: 1}}
-                                >
-                                    <Button
-                                        fullWidth
-                                        onClick={() => setActiveSceneIndex(index)}
-                                        variant={activeSceneIndex === index ? "contained" : "text"}
-                                        sx={{
-                                            justifyContent: 'flex-start',
-                                            textAlign: 'left',
-                                            py: 1.5,
-                                            borderRadius: 2,
-                                            bgcolor: activeSceneIndex === index ? 'primary.main' : 'transparent',
-                                            color: activeSceneIndex === index ? 'black' : 'white'
-                                        }}
-                                        startIcon={<MapIcon/>}
-                                    >
-                                        <Box>
-                                            <Typography variant="body2" fontWeight="bold">{scene.name}</Typography>
-                                            <Typography variant="caption"
-                                                        sx={{opacity: 0.7}}>{scene.encounters.length} Encounters</Typography>
-                                        </Box>
-                                    </Button>
-                                </ListItem>
-                            ))}
-                        </List>
-                        <Button fullWidth variant="outlined" startIcon={<AddIcon/>} sx={{mt: 2, borderStyle: 'dashed'}}>
-                            Add Scene
-                        </Button>
-                    </Paper>
+                    <SceneNavigator scenes={sampleSession.scenes} activeSceneIndex={activeSceneIndex}
+                                    setActiveSceneIndex={setActiveSceneIndex}/>
                 </Grid>
 
                 {/* COLUMN 2: THE STAGE (Center) */}
