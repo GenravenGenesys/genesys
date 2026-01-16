@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.repository.actor;
+package com.github.genraven.genesys.repository;
 
 import com.github.genraven.genesys.domain.actor.player.Player;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
