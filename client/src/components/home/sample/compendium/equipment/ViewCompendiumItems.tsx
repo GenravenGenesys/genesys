@@ -1,8 +1,5 @@
 import type {
-    ArmorTemplate,
-    GearTemplate,
     ItemTemplate,
-    WeaponTemplate
 } from "../../../../../api/model";
 import {
     Box,
@@ -30,8 +27,8 @@ import {
     useCreateItem,
     useUpdateItem
 } from "../../../../../api/generated/item-compendium/item-compendium.ts";
-import ItemDialog from "./ItemDialog.tsx";
 import {emptyItemTemplate} from "../../../../../models/Template.ts";
+import ItemDialog from "./ItemDialog.tsx";
 
 interface Props {
     item: ItemTemplate;
@@ -41,12 +38,6 @@ interface Props {
 function ItemRow(props: Props) {
     const {item, onEdit} = props;
 
-    const getItemType = () => {
-        if ('damage' in item) return 'Weapon';
-        if ('soak' in item) return 'Armor';
-        return 'Gear';
-    };
-
     const onEditClick = () => {
         onEdit(item);
     }
@@ -55,11 +46,11 @@ function ItemRow(props: Props) {
         <TableRow>
             <TypographyCenterTableCell value={item.name}/>
             <CustomTableCell centered>
-                <Chip label={getItemType()} size="small" color="primary" variant="outlined"/>
+                <Chip label={item.type} size="small" color="primary" variant="outlined"/>
             </CustomTableCell>
-            <TypographyCenterTableCell value={item.price}/>
-            <TypographyCenterTableCell value={item.encumbrance}/>
-            <TypographyCenterTableCell value={item.rarity}/>
+            <TypographyCenterTableCell value={String(item.price)}/>
+            <TypographyCenterTableCell value={String(item.encumbrance)}/>
+            <TypographyCenterTableCell value={String(item.rarity)}/>
             <CustomTableCell centered>
                 <Button variant="text" onClick={onEditClick}>
                     Edit
