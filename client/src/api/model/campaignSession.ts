@@ -20,4 +20,6 @@ export interface CampaignSession {
   /** Party state during Session */
   party: Party;
   status: CampaignSessionStatus;
+  player: number;
+  gm: number;
 }

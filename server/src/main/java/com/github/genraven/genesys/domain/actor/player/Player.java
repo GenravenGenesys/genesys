@@ -54,6 +54,9 @@ public class Player extends Actor {
     @AssertTrue(groups = ValidationGroups.PlayerCreationValidation.class)
     private Boolean creation = Boolean.TRUE;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private String ownerId;
+
     public void updateAvailableExperience(final int experience) {
         final Experience oldExperience = getExperience();
         oldExperience.setInitial(experience);

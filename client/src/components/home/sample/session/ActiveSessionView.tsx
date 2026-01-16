@@ -24,6 +24,9 @@ import {
     type CampaignScene,
     type CampaignSession, CampaignSessionStatus
 } from "../../../../api/model";
+import {useGetSessions} from "../../../../hooks/campaign/useGetSessions.ts";
+import GM_SP from '../../../../assests/GM_SP.png';
+import PC_SP from '../../../../assests/PC_SP.png';
 
 // --- Sub-Component: Roster Item ---
 const RosterItem = ({name, wounds, strain, isNpc = false}) => (
@@ -66,7 +69,11 @@ export default function ActiveSessionView() {
     }
 
     const {campaign, isLoading: isCampaignLoading} = useCampaignLive(id);
+    const {data: response, isLoading: isSessionsLoading} = useGetSessions(campaign?.id || '');
     // const {data: session, isLoading: isSessionLoading} = useGetCampaignSession(sessionId);
+
+    const sampleSession = response[0];
+    const [session, setSession] = useState<CampaignSession>(sampleSession);
 
     if (isCampaignLoading) {
         return <CircularProgress/>;
@@ -75,71 +82,6 @@ export default function ActiveSessionView() {
     if (!campaign) {
         return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
     }
-
-    const sampleSession = {
-        id: '',
-        campaignId: '',
-        sessionDate: '',
-        party: {
-            players: []
-        },
-        status: CampaignSessionStatus.Ready,
-        scenes: [
-            {
-                sceneId: "s1",
-                name: "Campaign 1",
-                mapUrl: "",
-                party: {
-                    players: []
-                },
-                active: true,
-                encounters: [
-                    {
-                        encounterId: "encounter1",
-                        name: "Encounter 1",
-                        npcIds: ["npc1", "npc2"],
-                        initiativeOrder: [],
-                        encounterType: CampaignEncounterEncounterType.Combat,
-                        encounterStatus: CampaignEncounterEncounterStatus.Ready,
-                        party: {
-                            players: []
-                        }
-                    } as CampaignEncounter
-                ]
-            } as CampaignScene
-        ],
-    } as CampaignSession;
-
-    // const sessionData = {
-    //     title: "The Kessel Run: Part 2",
-    //     scenes: [
-    //         {
-    //             id: "s1",
-    //             name: "Docking Bay 94",
-    //             mapUrl: "images.unsplash.com",
-    //             encounters: [
-    //                 {id: "e1", name: "Stormtrooper Patrol", type: "COMBAT", status: "READY"},
-    //                 {id: "e2", name: "The Fixer's Deal", type: "SOCIAL", status: "COMPLETED"}
-    //             ]
-    //         },
-    //         {
-    //             id: "s2",
-    //             name: "Nebula Hideout",
-    //             mapUrl: "images.unsplash.com",
-    //             encounters: [
-    //                 {id: "e3", name: "Pirate Ambush", type: "COMBAT", status: "READY"}
-    //             ]
-    //         }
-    //     ],
-    //     party: [
-    //         {id: "p1", name: "Kaelen", wounds: "4/12", strain: "2/14"},
-    //         {id: "p2", name: "T-88", wounds: "0/10", strain: "5/12"}
-    //     ],
-    //     storyNpcs: [
-    //         {id: "n1", name: "Han", wounds: "2/12", strain: "4/15"},
-    //         {id: "n2", name: "Imperial Spy", wounds: "0/8", strain: "0/10"}
-    //     ]
-    // };
 
     // const currentScene = sessionData.scenes[activeSceneIndex];
     const currentScene = sampleSession.scenes[activeSceneIndex];
@@ -158,6 +100,14 @@ export default function ActiveSessionView() {
         );
     }
 
+    const flipStoryPoint = (side: 'PC' | 'GM') => {
+        if (side === 'PC' && session.player > 0) {
+            setSession({...session, player: session.player - 1, gm: session.gm + 1});
+        } else if (side === 'GM' && session.gm > 0) {
+            setSession({...session, gm: session.gm - 1, player: session.player + 1});
+        }
+    };
+
     return (
         <Box sx={{p: 3, height: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column'}}>
 
@@ -167,6 +117,21 @@ export default function ActiveSessionView() {
                     <Typography variant="h4" fontWeight="900" sx={{letterSpacing: -1}}>{sampleSession.id}</Typography>
                     <Typography variant="body2" color="text.secondary">January 6, 2026 | {campaign.name}</Typography>
                 </Box>
+                <Stack direction="row" spacing={3} alignItems="center">
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography variant="overline" sx={{opacity: 0.6}}>Story Points</Typography>
+                        <Badge badgeContent={session.player} color="primary">
+                            <IconButton onClick={() => flipStoryPoint('PC')} aria-label="custom action">
+                                <img src={PC_SP} alt="Icon" style={{width: 32, height: 32}}/>
+                            </IconButton>
+                        </Badge>
+                        <Badge badgeContent={session.gm} color="error">
+                            <IconButton onClick={() => flipStoryPoint('GM')} aria-label="custom action">
+                                <img src={GM_SP} alt="Icon" style={{width: 32, height: 32}}/>
+                            </IconButton>
+                        </Badge>
+                    </Stack>
+                </Stack>
                 <Stack direction="row" spacing={2}>
                     <Button variant="outlined" color="primary" startIcon={<AddIcon/>}>Quick Note</Button>
                     <Button variant="contained" color="error" startIcon={<PlayArrowIcon/>}>End Session</Button>

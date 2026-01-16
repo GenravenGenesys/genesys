@@ -41,6 +41,8 @@ export function useGetSessions(campaignId: string) {
                     ]
                 } as CampaignScene
             ],
+            gm: 1,
+            player: 4,
         } as CampaignSession,
         {
             id: '9385050',
@@ -74,6 +76,8 @@ export function useGetSessions(campaignId: string) {
                     ]
                 } as CampaignScene
             ],
+            gm: 1,
+            player: 4,
         } as CampaignSession,
         {
             id: '123456',
@@ -107,6 +111,8 @@ export function useGetSessions(campaignId: string) {
                     ]
                 } as CampaignScene
             ],
+            gm: 1,
+            player: 4,
         } as CampaignSession,
     ];
 

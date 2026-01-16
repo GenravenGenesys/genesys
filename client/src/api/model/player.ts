@@ -24,6 +24,7 @@ export type Player = Actor & {
   skills?: PlayerSkill[];
   injuries?: CriticalInjury[];
   creation?: boolean;
+  ownerId?: string;
 } & Required<Pick<Actor & {
   strain?: OldStats;
   encumbrance?: number;
@@ -34,4 +35,5 @@ export type Player = Actor & {
   skills?: PlayerSkill[];
   injuries?: CriticalInjury[];
   creation?: boolean;
-}, 'archetype' | 'career' | 'encumbrance' | 'experience' | 'injuries' | 'skills' | 'strain' | 'talents'>>;
+  ownerId?: string;
+}, 'archetype' | 'career' | 'encumbrance' | 'experience' | 'injuries' | 'ownerId' | 'skills' | 'strain' | 'talents'>>;

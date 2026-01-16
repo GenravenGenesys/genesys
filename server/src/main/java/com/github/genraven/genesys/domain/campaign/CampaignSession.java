@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -43,6 +44,14 @@ public class CampaignSession {
     @EnumValidator(enumClass = Status.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Status status;
+
+    @Min(0)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private Integer player;
+
+    @Min(0)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private Integer gm;
 
     @Getter
     @AllArgsConstructor

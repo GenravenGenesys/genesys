@@ -3,7 +3,7 @@ package com.github.genraven.genesys.service.actor;
 import com.github.genraven.genesys.domain.actor.ActorTalent;
 import com.github.genraven.genesys.domain.actor.player.*;
 import com.github.genraven.genesys.domain.context.player.*;
-import com.github.genraven.genesys.repository.actor.PlayerRepository;
+import com.github.genraven.genesys.repository.PlayerRepository;
 import com.github.genraven.genesys.service.CampaignService;
 import com.github.genraven.genesys.service.SkillService;
 import com.github.genraven.genesys.util.PlayerExperienceUtil;
