@@ -24,6 +24,8 @@ export type WeaponTemplate = ItemTemplate & {
   critical?: number;
   /** The range band of the weapon */
   range?: RangeBand;
+  /** Whether the weapon damage is increased by Brawn */
+  brawn?: boolean;
 } & Required<Pick<ItemTemplate & {
   /** The skill associated with the weapon */
   skill?: Skill;
@@ -39,4 +41,6 @@ export type WeaponTemplate = ItemTemplate & {
   critical?: number;
   /** The range band of the weapon */
   range?: RangeBand;
-}, 'critical' | 'damage' | 'range' | 'skill'>>;
+  /** Whether the weapon damage is increased by Brawn */
+  brawn?: boolean;
+}, 'brawn' | 'critical' | 'damage' | 'range' | 'skill'>>;

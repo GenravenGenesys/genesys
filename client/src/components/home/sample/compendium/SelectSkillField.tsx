@@ -1,4 +1,4 @@
-import type {Skill} from "../../../../api/model";
+import type {Skill, SkillType} from "../../../../api/model";
 import {useGetSkills} from "../../../../api/generated/skills/skills.ts";
 import {useParams} from "react-router-dom";
 import {
@@ -12,10 +12,11 @@ import {
 interface Props {
     currentSkill: Skill;
     handleSkillSelect: (skill: Skill) => void;
+    filterByType?: SkillType;
 }
 
 export default function SelectSkillField(props: Props) {
-    const {currentSkill, handleSkillSelect} = props;
+    const {currentSkill, handleSkillSelect, filterByType} = props;
     const {id} = useParams<{ id: string }>();
 
     if (!id) {
@@ -28,9 +29,14 @@ export default function SelectSkillField(props: Props) {
         return <CircularProgress/>;
     }
 
-    if (!skills || skills.length === 0) {
+    if (!skills || skills.data.length === 0) {
         return <Typography variant="h6" color="error">Skills Not Found</Typography>;
     }
+
+    // Filter skills by type if specified
+    const filteredSkills = filterByType 
+        ? skills.data.filter(skill => skill.type === filterByType)
+        : skills.data;
 
     const handleSelect = (skill: Skill | null) => {
         if (!skill) return;
@@ -40,10 +46,10 @@ export default function SelectSkillField(props: Props) {
     return (
         <Box sx={{mt: 3}}>
             <Typography variant="subtitle2" color="primary" gutterBottom sx={{fontWeight: 'bold'}}>
-                SELECT SKILL
+                SELECT SKILL {filterByType && `(${filterByType} only)`}
             </Typography>
 
-            <Autocomplete options={skills} getOptionLabel={(option) => option.name}
+            <Autocomplete options={filteredSkills} getOptionLabel={(option) => option.name}
                           onChange={(_, newValue) => handleSelect(newValue)}
                           value={currentSkill || null}
                           renderInput={(params) => (

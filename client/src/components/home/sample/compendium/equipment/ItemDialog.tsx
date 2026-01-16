@@ -20,16 +20,19 @@ import {
     Switch
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import type {
-    ArmorTemplate,
-    GearTemplate,
-    ItemTemplate,
-    WeaponTemplate,
-    EquipmentType
+import {
+    type ArmorTemplate,
+    type GearTemplate,
+    type ItemTemplate,
+    type WeaponTemplate,
+    type EquipmentType,
+    type Skill,
+    SkillType
 } from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
+import SelectSkillField from "../SelectSkillField.tsx";
 
 interface Props {
     open: boolean;
@@ -43,7 +46,7 @@ export default function ItemDialog(props: Props) {
     const {open, item, onClose, onSave, isNew} = props;
     const [formData, setFormData] = useState<ItemTemplate>(item || {} as ItemTemplate);
     const [tabValue, setTabValue] = useState(0);
-    const [itemType, setItemType] = useState<EquipmentType>('WEAPON' as EquipmentType);
+    const [itemType, setItemType] = useState<string>('WEAPON');
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -60,9 +63,9 @@ export default function ItemDialog(props: Props) {
         setFormData((prev: ItemTemplate) => ({...prev, [field]: value}));
     };
 
-    const handleTypeChange = (newType: EquipmentType) => {
+    const handleTypeChange = (newType: string) => {
         setItemType(newType);
-        handleChange('type', newType);
+        handleChange('type', newType as EquipmentType);
     };
 
     const handleSave = () => {
@@ -78,6 +81,11 @@ export default function ItemDialog(props: Props) {
 
     const renderWeaponFields = () => (
         <Stack spacing={3}>
+            <SelectSkillField
+                currentSkill={(formData as WeaponTemplate).skill || null}
+                handleSkillSelect={(skill: Skill | null) => handleChange('skill' as keyof ItemTemplate, skill as any)}
+                filterByType={SkillType.Combat}
+            />
             <GridContainer>
                 <Grid size={6}>
                     <GenesysNumberField
@@ -101,6 +109,15 @@ export default function ItemDialog(props: Props) {
                 label="Range"
                 onChange={(e) => handleChange('range' as keyof ItemTemplate, e as any)}
                 fullwidth
+            />
+            <FormControlLabel
+                control={
+                    <Switch
+                        checked={(formData as WeaponTemplate).brawn || false}
+                        onChange={(e) => handleChange('brawn' as keyof ItemTemplate, e.target.checked as any)}
+                    />
+                }
+                label="Add Brawn to Damage"
             />
         </Stack>
     );

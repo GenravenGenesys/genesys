@@ -29,4 +29,7 @@ public class WeaponTemplate extends ItemTemplate {
     @EnumValidator(enumClass = RangeBand.class)
     @Schema(description = "The range band of the weapon", requiredMode = Schema.RequiredMode.REQUIRED)
     private RangeBand range;
+
+    @Schema(description = "Whether the weapon damage is increased by Brawn", requiredMode = Schema.RequiredMode.REQUIRED)
+    private boolean brawn;
 }
