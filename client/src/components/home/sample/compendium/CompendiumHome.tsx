@@ -12,6 +12,7 @@ import SkillCompendiumCard from "./skill/SkillCompendiumCard.tsx";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 import TalentCompendiumCard from "./talent/TalentCompendiumCard.tsx";
 import AdversaryCompendiumCard from "./adversary/AdversaryCompendiumCard.tsx";
+import ItemCompendiumCard from './equipment/ItemCompendiumCard.tsx';
 
 export default function CompendiumHome() {
     const {id} = useParams<{ id: string }>();
@@ -32,13 +33,6 @@ export default function CompendiumHome() {
 
     // Mock Data: In 2026, these would be fetched via your Spring Boot Reactive API
     // const compendiumCategories = [
-    //     {
-    //         title: "Weapons & Gear",
-    //         count: 42,
-    //         icon: <SwordIcon/>,
-    //         color: "#ff9100",
-    //         preview: ["Heavy Blaster", "Monofilament Blade"]
-    //     },
     //     {
     //         title: "Archetypes",
     //         count: 5,
@@ -118,6 +112,7 @@ export default function CompendiumHome() {
                 {/*))}*/}
                 <SkillCompendiumCard skills={campaign.compendium.skills} campaignId={id}/>
                 <TalentCompendiumCard talents={campaign.compendium.talents} campaignId={id}/>
+                <ItemCompendiumCard items={campaign.compendium.items} campaignId={id}/>
                 <AdversaryCompendiumCard adversaries={campaign.compendium.adversaries} campaignId={id}/>
 
                 {/* Setting Rules & Formatting Section */}

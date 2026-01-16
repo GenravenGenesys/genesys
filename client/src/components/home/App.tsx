@@ -43,6 +43,7 @@ import CompendiumHome from "./sample/compendium/CompendiumHome.tsx";
 import ViewCompendiumSkills from "./sample/compendium/skill/ViewCompendiumSkills.tsx";
 import ViewCompendiumTalents from "./sample/compendium/talent/ViewCompendiumTalents.tsx";
 import ViewCompendiumAdversaries from "./sample/compendium/adversary/ViewCompendiumAdversaries.tsx";
+import ViewCompendiumItems from "./sample/compendium/equipment/ViewCompendiumItems.tsx";
 import ActiveSessionView from "./sample/session/ActiveSessionView.tsx";
 import GenesysSessionManager from "./sample/GenesysSessionManager.tsx";
 import SessionManager from "./sample/session/SessionManager.tsx";
@@ -103,6 +104,7 @@ export const App: React.FC = () => {
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Skills} element={<ViewCompendiumSkills/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Talent} element={<ViewCompendiumTalents/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Adversary} element={<ViewCompendiumAdversaries/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Equipment} element={<ViewCompendiumItems/>}/>
 
                 <Route path={RootPath.Campaign + ":id"} element={<SessionManager/>}/>
                 <Route path={RootPath.Campaign + ":id" + RootPath.Session + ":sessionId"} element={<ActiveSessionView/>}/>
