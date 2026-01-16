@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain.actor;
+package com.github.genraven.genesys.domain.actor.adversary;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;

@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.service;
 
-import com.github.genraven.genesys.domain.actor.AdversaryTemplate;
+import com.github.genraven.genesys.domain.actor.adversary.AdversaryTemplate;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;

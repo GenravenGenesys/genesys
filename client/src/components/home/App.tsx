@@ -40,7 +40,7 @@ import SampleSessionManager from "./sample/SampleSessionManager.tsx";
 import CharacterCreator from "./sample/PlayerCreation.tsx";
 import CampaignDashboardPage from "./sample/HomeDashboard.tsx";
 import CompendiumHome from "./sample/compendium/CompendiumHome.tsx";
-import ViewCompendiumSkills from "./sample/compendium/ViewCompendiumSkills.tsx";
+import ViewCompendiumSkills from "./sample/compendium/skill/ViewCompendiumSkills.tsx";
 import ViewCompendiumTalents from "./sample/compendium/talent/ViewCompendiumTalents.tsx";
 import ViewCompendiumAdversaries from "./sample/compendium/adversary/ViewCompendiumAdversaries.tsx";
 import ActiveSessionView from "./sample/session/ActiveSessionView.tsx";

@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.controller.campaign;
 
-import com.github.genraven.genesys.domain.actor.AdversaryTemplate;
+import com.github.genraven.genesys.domain.actor.adversary.AdversaryTemplate;
 import com.github.genraven.genesys.service.AdversaryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.domain.campaign;
 
-import com.github.genraven.genesys.domain.actor.AdversaryTemplate;
+import com.github.genraven.genesys.domain.actor.adversary.AdversaryTemplate;
 import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.equipment.ItemTemplate;

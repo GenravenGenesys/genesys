@@ -1,5 +1,6 @@
-package com.github.genraven.genesys.domain.actor;
+package com.github.genraven.genesys.domain.actor.adversary;
 
+import com.github.genraven.genesys.domain.actor.CharacteristicType;
 import com.github.genraven.genesys.domain.skill.SkillType;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain.actor;
+package com.github.genraven.genesys.domain.actor.adversary;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
