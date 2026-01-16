@@ -2,6 +2,7 @@ import {
     Activation, type AdversaryTemplate, AdversaryTemplateType,
     CostType,
     Difficulty,
+    type ItemTemplate,
     LimitType,
     RangeBand,
     type Skill,
@@ -116,3 +117,16 @@ export const emptyAdversary = {
         general: 1
     }
 } as AdversaryTemplate;
+
+export const emptyItemTemplate = {
+    id: '',
+    name: '',
+    description: '',
+    type: 'WEAPON',
+    price: 0,
+    restricted: false,
+    encumbrance: 0,
+    rarity: 0,
+    modifiers: [],
+    qualities: []
+} as ItemTemplate;

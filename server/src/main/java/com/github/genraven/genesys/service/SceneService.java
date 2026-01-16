@@ -80,8 +80,10 @@ public class SceneService {
     }
 
     public Flux<Character> getPlayerCharactersForScene(final String sceneId) {
-        return getScene(sceneId)
-                .flatMapMany(scene -> Flux.fromIterable(scene.getParty().getPlayers()).map(Character::new));
+        // TODO: Fix PlayerCharacter vs Player type mismatch
+        return Flux.empty();
+        // return getScene(sceneId)
+        //         .flatMapMany(scene -> Flux.fromIterable(scene.getParty().getPlayers()).map(Character::new));
     }
 
     public Flux<Character> getNonPlayerCharactersForScene(final String sceneId) {
