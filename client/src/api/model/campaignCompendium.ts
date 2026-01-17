@@ -7,13 +7,10 @@
  */
 import type { AdversaryTemplate } from './adversaryTemplate';
 import type { Archetype } from './archetype';
-import type { ArmorTemplate } from './armorTemplate';
 import type { Career } from './career';
-import type { GearTemplate } from './gearTemplate';
 import type { ItemTemplate } from './itemTemplate';
 import type { Skill } from './skill';
 import type { Talent } from './talent';
-import type { WeaponTemplate } from './weaponTemplate';
 
 export interface CampaignCompendium {
   /** Custom species or archetypes */
@@ -25,7 +22,7 @@ export interface CampaignCompendium {
   /** Setting-specific talents */
   talents: Talent[];
   /** Setting-specific weapons, armor, and gear */
-  items: (ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate)[];
+  items: ItemTemplate[];
   /** Setting-specific Nemeses, Rivals, and Minions */
   adversaries: AdversaryTemplate[];
 }

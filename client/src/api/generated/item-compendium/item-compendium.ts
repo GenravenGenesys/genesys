@@ -25,10 +25,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  ArmorTemplate,
-  GearTemplate,
-  ItemTemplate,
-  WeaponTemplate
+  ItemTemplate
 } from '../../model';
 
 import { customInstance } from '../../axios-instance';
@@ -43,7 +40,7 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
  * @summary Get all item templates
  */
 export type getItemsResponse200 = {
-  data: (ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate)[]
+  data: ItemTemplate[]
   status: 200
 }
     
@@ -154,7 +151,7 @@ export function useGetItems<TData = Awaited<ReturnType<typeof getItems>>, TError
  * @summary Create a new item
  */
 export type createItemResponse200 = {
-  data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate
+  data: ItemTemplate
   status: 200
 }
     
@@ -174,7 +171,7 @@ export const getCreateItemUrl = (campaignId: string,) => {
 }
 
 export const createItem = async (campaignId: string,
-    itemTemplateArmorTemplateGearTemplateWeaponTemplate: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate, options?: RequestInit): Promise<createItemResponse> => {
+    itemTemplate: ItemTemplate, options?: RequestInit): Promise<createItemResponse> => {
   
   return customInstance<createItemResponse>(getCreateItemUrl(campaignId),
   {      
@@ -182,7 +179,7 @@ export const createItem = async (campaignId: string,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      itemTemplateArmorTemplateGearTemplateWeaponTemplate,)
+      itemTemplate,)
   }
 );}
 
@@ -190,8 +187,8 @@ export const createItem = async (campaignId: string,
 
 
 export const getCreateItemMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext> => {
 
 const mutationKey = ['createItem'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -203,7 +200,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createItem>>, {campaignId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createItem>>, {campaignId: string;data: ItemTemplate}> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createItem(campaignId,data,requestOptions)
@@ -217,18 +214,18 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type CreateItemMutationResult = NonNullable<Awaited<ReturnType<typeof createItem>>>
-    export type CreateItemMutationBody = ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate
+    export type CreateItemMutationBody = ItemTemplate
     export type CreateItemMutationError = unknown
 
     /**
  * @summary Create a new item
  */
 export const useCreateItem = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createItem>>,
         TError,
-        {campaignId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate},
+        {campaignId: string;data: ItemTemplate},
         TContext
       > => {
       return useMutation(getCreateItemMutationOptions(options), queryClient);
@@ -322,7 +319,7 @@ export const useDeleteItem = <TError = unknown,
  * @summary Update an item
  */
 export type updateItemResponse200 = {
-  data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate
+  data: ItemTemplate
   status: 200
 }
     
@@ -344,7 +341,7 @@ export const getUpdateItemUrl = (campaignId: string,
 
 export const updateItem = async (campaignId: string,
     itemId: string,
-    itemTemplateArmorTemplateGearTemplateWeaponTemplate: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate, options?: RequestInit): Promise<updateItemResponse> => {
+    itemTemplate: ItemTemplate, options?: RequestInit): Promise<updateItemResponse> => {
   
   return customInstance<updateItemResponse>(getUpdateItemUrl(campaignId,itemId),
   {      
@@ -352,7 +349,7 @@ export const updateItem = async (campaignId: string,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      itemTemplateArmorTemplateGearTemplateWeaponTemplate,)
+      itemTemplate,)
   }
 );}
 
@@ -360,8 +357,8 @@ export const updateItem = async (campaignId: string,
 
 
 export const getUpdateItemMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext> => {
 
 const mutationKey = ['updateItem'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -373,7 +370,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateItem>>, {campaignId: string;itemId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateItem>>, {campaignId: string;itemId: string;data: ItemTemplate}> = (props) => {
           const {campaignId,itemId,data} = props ?? {};
 
           return  updateItem(campaignId,itemId,data,requestOptions)
@@ -387,18 +384,18 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type UpdateItemMutationResult = NonNullable<Awaited<ReturnType<typeof updateItem>>>
-    export type UpdateItemMutationBody = ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate
+    export type UpdateItemMutationBody = ItemTemplate
     export type UpdateItemMutationError = unknown
 
     /**
  * @summary Update an item
  */
 export const useUpdateItem = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateItem>>,
         TError,
-        {campaignId: string;itemId: string;data: ItemTemplate | ArmorTemplate | GearTemplate | WeaponTemplate},
+        {campaignId: string;itemId: string;data: ItemTemplate},
         TContext
       > => {
       return useMutation(getUpdateItemMutationOptions(options), queryClient);
