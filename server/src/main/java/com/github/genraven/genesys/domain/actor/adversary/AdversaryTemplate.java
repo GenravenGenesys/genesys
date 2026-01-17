@@ -2,7 +2,6 @@ package com.github.genraven.genesys.domain.actor.adversary;
 
 import com.github.genraven.genesys.domain.actor.Characteristics;
 import com.github.genraven.genesys.domain.actor.DerivedStats;
-import com.github.genraven.genesys.domain.actor.equipment.AdversaryEquipment;
 import com.github.genraven.genesys.domain.error.Error;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;

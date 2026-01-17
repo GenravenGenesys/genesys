@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain.actor.player;
+package com.github.genraven.genesys.domain.actor.adversary;
 
 import com.github.genraven.genesys.domain.equipment.ItemTemplate;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class PlayerEquipment {
+public class AdversaryEquipment {
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)

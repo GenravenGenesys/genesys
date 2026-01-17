@@ -5,12 +5,10 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { ArmorInstance } from './armorInstance';
-import type { GearInstance } from './gearInstance';
-import type { WeaponInstance } from './weaponInstance';
+import type { ItemTemplate } from './itemTemplate';
 
 export interface AdversaryEquipment {
-  weapons?: WeaponInstance[];
-  equippedArmor?: ArmorInstance;
-  otherGear?: GearInstance[];
+  weapons: ItemTemplate[];
+  equippedArmor: ItemTemplate;
+  otherGear: ItemTemplate[];
 }
