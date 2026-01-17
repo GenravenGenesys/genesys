@@ -1,7 +1,5 @@
 package com.github.genraven.genesys.domain.equipment;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +19,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = WeaponTemplate.class, name = "WEAPON"),
-    @JsonSubTypes.Type(value = ArmorTemplate.class, name = "ARMOR"),
-    @JsonSubTypes.Type(value = GearTemplate.class, name = "GEAR")
-})
-@Schema(
-    description = "Base item template",
-    subTypes = { WeaponTemplate.class, ArmorTemplate.class, GearTemplate.class },
-    discriminatorProperty = "type"
-)
+@Schema(description = "Base item template")
 public class ItemTemplate {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)

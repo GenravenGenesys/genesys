@@ -101,6 +101,7 @@ export default function ViewCompendiumItems() {
     };
 
     const handleSave = async (updatedItem: ItemTemplate) => {
+        console.log("Saving item:", updatedItem);
         if (isNew) {
             await createItem.mutateAsync({
                 campaignId: campaign.id,

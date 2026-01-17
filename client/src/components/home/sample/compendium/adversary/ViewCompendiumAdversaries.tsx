@@ -18,7 +18,6 @@ import {useCampaignLive} from "../../../../../hooks/campaign/useCampaginLive.ts"
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.tsx";
-import TalentDialog from "../talent/TalentDialog.tsx";
 import {emptyAdversary} from "../../../../../models/Template.ts";
 import {useCreateAdversary, useUpdateAdversary} from "../../../../../api/generated/adversaries/adversaries.ts";
 import AdversaryDialog from "./AdversaryDialog.tsx";
@@ -62,7 +61,7 @@ export default function ViewCompendiumAdversaries() {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
     }
 
-    const {data: campaign, isLoading} = useCampaignLive(id);
+    const {campaign, isLoading} = useCampaignLive(id);
     const createAdversary = useCreateAdversary();
     const updateAdversary = useUpdateAdversary();
 

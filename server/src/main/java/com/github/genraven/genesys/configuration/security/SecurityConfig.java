@@ -34,6 +34,7 @@ public class SecurityConfig {
 //                .matchers(secureMatchers).authenticated()
                 .anyExchange().permitAll())
             .cors(Customizer.withDefaults())
+            .csrf(ServerHttpSecurity.CsrfSpec::disable)
 //            .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
 //                .accessDeniedHandler(errorHandler::handleAccessDenied)
 //                .authenticationEntryPoint(errorHandler::handleAuthenticationError)

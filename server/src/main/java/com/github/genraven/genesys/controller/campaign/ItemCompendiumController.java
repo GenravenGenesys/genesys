@@ -27,14 +27,14 @@ public class ItemCompendiumController {
         return itemTemplateService.findAllByCampaignId(campaignId);
     }
 
-    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new item", description = "Adds a custom equipment item to the campaign library")
     public Mono<ResponseEntity<ItemTemplate>> createItem(@PathVariable final String campaignId, @RequestBody final ItemTemplate newItem) {
         return itemTemplateService.addItem(campaignId, newItem)
             .map(saved -> ResponseEntity.status(HttpStatus.CREATED).body(saved));
     }
 
-    @PatchMapping(value = "/{itemId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{itemId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Update an item", description = "Performs a partial update on a specific item template")
     public Mono<ResponseEntity<ItemTemplate>> updateItem(@PathVariable final String campaignId, @PathVariable final String itemId,
                                                           @RequestBody final ItemTemplate updatedItem) {
