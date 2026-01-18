@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import type {AdversarySkill} from "../../../../../api/model";
 import {useParams} from "react-router-dom";
 import {useGetSkills} from "../../../../../api/generated/skills/skills.ts";
+import SelectSkillField from "../SelectSkillField.tsx";
 
 interface Props {
     npcSkills: AdversarySkill[]
