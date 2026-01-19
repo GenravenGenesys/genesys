@@ -59,7 +59,6 @@ export default function ItemCompendiumCard(props: Props) {
                             <ListItem key={item.id} disablePadding sx={{py: 0.5}}>
                                 <ListItemText
                                     primary={item.name}
-                                    secondary={`${item.price}₡ • Enc ${item.encumbrance}`}
                                 />
                             </ListItem>
                         ))}
