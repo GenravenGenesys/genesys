@@ -46,7 +46,7 @@ public class Player extends Actor {
     private List<ActorTalent> talents = new ArrayList<>();
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<PlayerSkill> skills = new ArrayList<>();
+    private List<OldPlayerSkill> skills = new ArrayList<>();
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<CriticalInjury> injuries = new ArrayList<>();

@@ -70,19 +70,19 @@ public class PlayerService {
     }
 
     public Mono<Player> updatePlayerCareerSkills(final PlayerCreationCareerSkillUpdateContext context) {
-        final List<String> ids = context.skills().stream().map(PlayerSkill::getId).toList();
+        final List<String> ids = context.skills().stream().map(OldPlayerSkill::getId).toList();
         return Mono.just(context.player()).flatMap(existingPlayer -> {
             getCareerSkills(existingPlayer).forEach(playerSkill -> playerSkill.setRanks(ids.contains(playerSkill.getId()) ? 1 : 0));
             return playerRepository.save(existingPlayer);
         });
     }
 
-    private boolean isCareerSkill(final Career career, final PlayerSkill playerSkill) {
-        return career.getSkills().stream().anyMatch(skill -> skill.getId().equals(playerSkill.getId()));
+    private boolean isCareerSkill(final Career career, final OldPlayerSkill oldPlayerSkill) {
+        return career.getSkills().stream().anyMatch(skill -> skill.getId().equals(oldPlayerSkill.getId()));
     }
 
-    private List<PlayerSkill> getCareerSkills(final Player player) {
-        return player.getSkills().stream().filter(PlayerSkill::isCareer).toList();
+    private List<OldPlayerSkill> getCareerSkills(final Player player) {
+        return player.getSkills().stream().filter(OldPlayerSkill::isCareer).toList();
     }
 
 //    public Mono<Player> updatePlayerArchetype(final PlayerCreationArchetypeUpdateContext context) {
@@ -119,9 +119,9 @@ public class PlayerService {
     public Mono<Player> updatePlayerSkill(final PlayerCreationSkillUpdateContext context) {
         return Mono.just(context.player()).flatMap(player -> {
             player.getSkills().stream()
-                .filter(skill -> skill.getId().equals(context.playerSkill().getId())).findFirst()
-                .ifPresent(skill -> skill.setRanks(context.playerSkill().getRanks()));
-            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromSkillUpgrade(context.playerSkill())));
+                .filter(skill -> skill.getId().equals(context.oldPlayerSkill().getId())).findFirst()
+                .ifPresent(skill -> skill.setRanks(context.oldPlayerSkill().getRanks()));
+            player.setExperience(spendInitialExperience(player.getExperience(), PlayerExperienceUtil.getExperienceFromSkillUpgrade(context.oldPlayerSkill())));
             return playerRepository.save(player);
         });
     }
@@ -175,9 +175,9 @@ public class PlayerService {
         });
     }
 
-    private List<PlayerSkill> resetPlayerSkills(final List<PlayerSkill> playerSkills) {
-        playerSkills.forEach(playerSkill -> playerSkill.setRanks(playerSkill.isCareer() ? 1 : 0));
-        return playerSkills;
+    private List<OldPlayerSkill> resetPlayerSkills(final List<OldPlayerSkill> oldPlayerSkills) {
+        oldPlayerSkills.forEach(playerSkill -> playerSkill.setRanks(playerSkill.isCareer() ? 1 : 0));
+        return oldPlayerSkills;
     }
 
     private Experience spendInitialExperience(final Experience experience, final int change) {

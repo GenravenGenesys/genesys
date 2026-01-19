@@ -13,7 +13,7 @@ import com.github.genraven.genesys.domain.actor.OldStats;
 import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.Experience;
-import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
+import com.github.genraven.genesys.domain.actor.player.OldPlayerSkill;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -81,7 +81,7 @@ public class PlayerResponse {
     private List<CriticalInjury> injuries;
 
     @Schema(description = "Skill ratings and expertise")
-    private List<PlayerSkill> skills;
+    private List<OldPlayerSkill> skills;
 
     @Schema(description = "Experience for players")
     private Experience experience;

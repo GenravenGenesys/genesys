@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.github.genraven.genesys.domain.actor.ActorArmor;
 import com.github.genraven.genesys.domain.actor.Characteristic;
 import com.github.genraven.genesys.domain.actor.player.Archetype;
+import com.github.genraven.genesys.domain.actor.player.OldPlayerSkill;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,7 +16,6 @@ import org.mapstruct.factory.Mappers;
 
 import com.github.genraven.genesys.domain.actor.OldStats;
 import com.github.genraven.genesys.domain.actor.player.Player;
-import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import com.github.genraven.genesys.domain.equipment.Armor;
 import com.github.genraven.genesys.domain.actor.ActorSkill;
 import com.github.genraven.genesys.domain.response.CharacterResponse;
@@ -49,7 +49,7 @@ public interface CharacterResponseMapper {
         getTotalStrain(characterResponse, player);
     }
 
-    default List<ActorSkill> convertSkills(final List<PlayerSkill> skills) {
+    default List<ActorSkill> convertSkills(final List<OldPlayerSkill> skills) {
         final List<ActorSkill> actorSkills = new ArrayList<>();
         skills.forEach(skill -> {
             actorSkills.add(new ActorSkill(skill));

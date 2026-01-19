@@ -13,11 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import com.github.genraven.genesys.domain.actor.Characteristic;
-import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.Player;
-import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
+import com.github.genraven.genesys.domain.actor.player.OldPlayerSkill;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.handler.BaseHandler;
 import com.github.genraven.genesys.service.actor.PlayerService;
@@ -105,7 +103,7 @@ public class PlayerHandler extends BaseHandler {
 
     public Mono<ServerResponse> updatePlayerCareerSkills(final ServerRequest serverRequest) {
         final String id = serverRequest.pathVariable(ID);
-        final Mono<List<PlayerSkill>> skillsMono = serverRequest.bodyToMono(new ParameterizedTypeReference<>() {
+        final Mono<List<OldPlayerSkill>> skillsMono = serverRequest.bodyToMono(new ParameterizedTypeReference<>() {
         });
         return skillsMono.zipWith(playerService.getPlayer(id))
                 .map(tuple -> new PlayerCreationCareerSkillUpdateContext(
@@ -158,7 +156,7 @@ public class PlayerHandler extends BaseHandler {
 
     public Mono<ServerResponse> updatePlayerSkill(final ServerRequest serverRequest) {
         final String playerId = serverRequest.pathVariable(ID);
-        final Mono<PlayerSkill> playerSkillMono = serverRequest.bodyToMono(PlayerSkill.class);
+        final Mono<OldPlayerSkill> playerSkillMono = serverRequest.bodyToMono(OldPlayerSkill.class);
         return playerSkillMono.zipWith(playerService.getPlayer(playerId))
                 .map(tuple -> new PlayerCreationSkillUpdateContext(
                         tuple.getT2(),

@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.domain.actor;
 
-import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
+import com.github.genraven.genesys.domain.actor.player.OldPlayerSkill;
 import com.github.genraven.genesys.domain.skill.Skill;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class ActorSkill extends Skill {
         this.setInitiative(skill.isInitiative());
     }
 
-    public ActorSkill(final PlayerSkill skill) {
+    public ActorSkill(final OldPlayerSkill skill) {
         this.setId(skill.getId());
         this.setName(skill.getName());
         this.setCharacteristic(skill.getCharacteristic());

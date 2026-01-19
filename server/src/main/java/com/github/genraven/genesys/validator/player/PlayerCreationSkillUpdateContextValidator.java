@@ -34,8 +34,8 @@ public class PlayerCreationSkillUpdateContextValidator {
                 errorMessages.add(error.getMessage()));
         }
 
-        if (context.player() != null && context.playerSkill() != null) {
-            int requiredExperience = PlayerExperienceUtil.getExperienceFromSkillUpgrade(context.playerSkill());
+        if (context.player() != null && context.oldPlayerSkill() != null) {
+            int requiredExperience = PlayerExperienceUtil.getExperienceFromSkillUpgrade(context.oldPlayerSkill());
             int availableExperience = context.player().getExperience().getAvailable();
 
             if (requiredExperience > availableExperience) {

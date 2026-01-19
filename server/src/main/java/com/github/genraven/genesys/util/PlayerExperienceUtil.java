@@ -2,7 +2,7 @@ package com.github.genraven.genesys.util;
 
 import com.github.genraven.genesys.domain.actor.ActorTalent;
 import com.github.genraven.genesys.domain.actor.Characteristic;
-import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
+import com.github.genraven.genesys.domain.actor.player.OldPlayerSkill;
 
 public final class PlayerExperienceUtil {
 
@@ -52,7 +52,7 @@ public final class PlayerExperienceUtil {
         return characteristic.getCurrent() * 10;
     }
 
-    public static int getExperienceFromSkillUpgrade(final PlayerSkill playerSkill) {
-        return playerSkill.isCareer() ? playerSkill.getRanks() * 5 : 5 + playerSkill.getRanks() * 5;
+    public static int getExperienceFromSkillUpgrade(final OldPlayerSkill oldPlayerSkill) {
+        return oldPlayerSkill.isCareer() ? oldPlayerSkill.getRanks() * 5 : 5 + oldPlayerSkill.getRanks() * 5;
     }
 }

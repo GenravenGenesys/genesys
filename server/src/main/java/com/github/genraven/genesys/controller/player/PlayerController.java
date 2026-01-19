@@ -3,7 +3,7 @@ package com.github.genraven.genesys.controller.player;
 import com.github.genraven.genesys.controller.AbstractController;
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.Player;
-import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
+import com.github.genraven.genesys.domain.actor.player.OldPlayerSkill;
 import com.github.genraven.genesys.domain.context.player.*;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.exceptions.BaseException;
@@ -102,8 +102,8 @@ public class PlayerController extends AbstractController {
 
     @PatchMapping("/creation/{id}/careers/skills/")
     @Operation(summary = "Patches Player Career Skills during Creation.", description = "Updates the Player Career Skills during Creation.")
-    public Mono<ResponseEntity<Player>> updatePlayerCareerSkills(@PathVariable final String id, @RequestBody final List<PlayerSkill> playerSkills) {
-        final Mono<List<PlayerSkill>> skillsMono = Mono.just(playerSkills);
+    public Mono<ResponseEntity<Player>> updatePlayerCareerSkills(@PathVariable final String id, @RequestBody final List<OldPlayerSkill> oldPlayerSkills) {
+        final Mono<List<OldPlayerSkill>> skillsMono = Mono.just(oldPlayerSkills);
         return skillsMono.zipWith(playerService.getPlayer(id))
             .map(tuple -> new PlayerCreationCareerSkillUpdateContext(
                 tuple.getT2(),
@@ -159,8 +159,8 @@ public class PlayerController extends AbstractController {
 
     @PatchMapping("/creation/{id}/skills/")
     @Operation(summary = "Patches Player Skills during Creation.", description = "Updates the Player Skills during Creation.")
-    public Mono<ResponseEntity<Player>> updatePlayerSkill(@PathVariable final String id, @RequestBody final PlayerSkill playerSkill) {
-        final Mono<PlayerSkill> playerSkillMono = Mono.just(playerSkill);
+    public Mono<ResponseEntity<Player>> updatePlayerSkill(@PathVariable final String id, @RequestBody final OldPlayerSkill oldPlayerSkill) {
+        final Mono<OldPlayerSkill> playerSkillMono = Mono.just(oldPlayerSkill);
         return playerSkillMono.zipWith(playerService.getPlayer(id))
             .map(tuple -> new PlayerCreationSkillUpdateContext(
                 tuple.getT2(),
