@@ -5,12 +5,10 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { Attribute } from './attribute';
+import type { ArmorStats } from './armorStats';
 import type { EquipmentQuality } from './equipmentQuality';
 import type { ItemTemplateType } from './itemTemplateType';
-import type { Modifier } from './modifier';
-import type { RangeBand } from './rangeBand';
-import type { Skill } from './skill';
+import type { WeaponStats } from './weaponStats';
 
 /**
  * Base item template
@@ -31,26 +29,9 @@ export interface ItemTemplate {
    * @maximum 10
    */
   rarity: number;
-  modifiers: Modifier[];
   qualities: EquipmentQuality[];
   /** @minimum 1 */
   amount: number;
-  /** The skill associated with the weapon */
-  skill: Skill;
-  /**
-   * The damage of the weapon
-   * @minimum 0
-   */
-  damage: number;
-  /**
-   * The critical rating of the weapon
-   * @minimum 1
-   */
-  critical: number;
-  /** The range band of the weapon */
-  range: RangeBand;
-  /** Whether the weapon damage is increased by Brawn */
-  brawn: boolean;
-  soak: Attribute;
-  defense: Attribute;
+  weaponStats: WeaponStats;
+  armorStats: ArmorStats;
 }
