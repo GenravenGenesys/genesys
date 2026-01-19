@@ -8,7 +8,9 @@
 import type { AdversaryTemplate } from './adversaryTemplate';
 import type { Archetype } from './archetype';
 import type { Career } from './career';
+import type { CriticalInjury } from './criticalInjury';
 import type { ItemTemplate } from './itemTemplate';
+import type { Quality } from './quality';
 import type { Skill } from './skill';
 import type { Talent } from './talent';
 
@@ -25,4 +27,8 @@ export interface CampaignCompendium {
   items: ItemTemplate[];
   /** Setting-specific Nemeses, Rivals, and Minions */
   adversaries: AdversaryTemplate[];
+  /** Setting-specific equipment qualities */
+  qualities: Quality[];
+  /** Setting-specific critical injuries */
+  criticalInjuries: CriticalInjury[];
 }

@@ -5,7 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { Modifier } from './modifier';
+import type { QualityStats } from './qualityStats';
 
 export interface Quality {
   id: string;
@@ -14,5 +14,5 @@ export interface Quality {
   cost: number;
   armor: boolean;
   weapon: boolean;
-  modifiers: Modifier[];
+  stats: QualityStats;
 }

@@ -1,23 +1,12 @@
-package com.github.genraven.genesys.domain.equipment;
+package com.github.genraven.genesys.domain.quality;
 
-import com.github.genraven.genesys.domain.modifier.Modifier;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
-@Document(collection = "qualities")
 public class Quality {
-
-    public Quality(final String name) {
-        this.name = name;
-    }
-    protected Quality() {}
 
     @Id
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -33,11 +22,11 @@ public class Quality {
     private int cost = 2;
 
     @NotNull
-    private boolean armor = false;
+    private Boolean armor = false;
 
     @NotNull
-    private boolean weapon = false;
+    private Boolean weapon = false;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Modifier> modifiers = new ArrayList<>();
+    private QualityStats stats = new QualityStats();
 }

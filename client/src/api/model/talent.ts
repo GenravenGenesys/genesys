@@ -10,10 +10,10 @@ import type { Activation } from './activation';
 import type { Cost } from './cost';
 import type { Limit } from './limit';
 import type { Modifier } from './modifier';
+import type { StatModifiers } from './statModifiers';
 import type { TalentRollModifiers } from './talentRollModifiers';
 import type { TalentSkillCheck } from './talentSkillCheck';
 import type { TalentSkills } from './talentSkills';
-import type { TalentStats } from './talentStats';
 import type { TalentTier } from './talentTier';
 
 /**
@@ -31,7 +31,7 @@ export interface Talent {
   cost: Cost;
   limit: Limit;
   talentSkills: TalentSkills;
-  talentStats: TalentStats;
+  statModifiers: StatModifiers;
   talentSkillCheck: TalentSkillCheck;
   action: Action;
   talentRollModifiers: TalentRollModifiers[];

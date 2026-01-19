@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface TalentStats {
+export interface StatModifiers {
   wounds: number;
   strain: number;
   soak: number;

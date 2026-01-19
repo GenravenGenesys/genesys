@@ -39,7 +39,7 @@ public interface RivalResponseMapper {
 
         int talentBonus = Optional.ofNullable(rivalResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getSoak();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -58,7 +58,7 @@ public interface RivalResponseMapper {
     private void getTotalMeleeDefense(@MappingTarget Rival rivalResponse) {
         int talentBonus = Optional.ofNullable(rivalResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getDefense();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -77,7 +77,7 @@ public interface RivalResponseMapper {
     private void getTotalRangedDefense(@MappingTarget Rival rivalResponse) {
         int talentBonus = Optional.ofNullable(rivalResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getDefense();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -100,7 +100,7 @@ public interface RivalResponseMapper {
 
         int talentBonus = Optional.ofNullable(rivalResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getWounds();
                     return talent.isRanked() ? s * talent.getRanks() : s;

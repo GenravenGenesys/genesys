@@ -1,10 +1,10 @@
-package com.github.genraven.genesys.domain.talent;
+package com.github.genraven.genesys.domain.modifier;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class TalentStats {
+public class StatModifiers {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int wounds = 0;

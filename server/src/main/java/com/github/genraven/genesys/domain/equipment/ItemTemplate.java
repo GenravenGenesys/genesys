@@ -3,6 +3,7 @@ package com.github.genraven.genesys.domain.equipment;
 import com.github.genraven.genesys.domain.RangeBand;
 import com.github.genraven.genesys.domain.actor.Attribute;
 import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.domain.quality.EquipmentQuality;
 import com.github.genraven.genesys.domain.skill.Skill;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;

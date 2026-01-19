@@ -6,10 +6,29 @@
  * OpenAPI spec version: 1.0
  */
 import type { Equipment } from './equipment';
+import type { EquipmentQuality } from './equipmentQuality';
+import type { Modifier } from './modifier';
 import type { RangeBand } from './rangeBand';
 import type { Skill } from './skill';
 
 export type Weapon = Equipment & {
+  id?: string;
+  /** @minLength 1 */
+  name?: string;
+  type?: 'Weapon' | 'Armor' | 'Gear';
+  description?: string;
+  /** @minimum 0 */
+  price?: number;
+  restricted?: boolean;
+  /** @minimum 0 */
+  encumbrance?: number;
+  /**
+   * @minimum 0
+   * @maximum 10
+   */
+  rarity?: number;
+  modifiers?: Modifier[];
+  qualities?: EquipmentQuality[];
   /** @minimum 0 */
   damage?: number;
   skill?: Skill;
@@ -23,6 +42,23 @@ export type Weapon = Equipment & {
    */
   hands?: number;
 } & Required<Pick<Equipment & {
+  id?: string;
+  /** @minLength 1 */
+  name?: string;
+  type?: 'Weapon' | 'Armor' | 'Gear';
+  description?: string;
+  /** @minimum 0 */
+  price?: number;
+  restricted?: boolean;
+  /** @minimum 0 */
+  encumbrance?: number;
+  /**
+   * @minimum 0
+   * @maximum 10
+   */
+  rarity?: number;
+  modifiers?: Modifier[];
+  qualities?: EquipmentQuality[];
   /** @minimum 0 */
   damage?: number;
   skill?: Skill;

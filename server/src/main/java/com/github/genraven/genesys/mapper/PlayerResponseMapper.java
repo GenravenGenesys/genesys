@@ -45,7 +45,7 @@ public interface PlayerResponseMapper {
 
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getSoak();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -71,7 +71,7 @@ public interface PlayerResponseMapper {
     private void getTotalMeleeDefense(@MappingTarget Player playerResponse) {
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getDefense();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -90,7 +90,7 @@ public interface PlayerResponseMapper {
     private void getTotalRangedDefense(@MappingTarget Player playerResponse) {
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getDefense();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -117,7 +117,7 @@ public interface PlayerResponseMapper {
 
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getWounds();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -143,7 +143,7 @@ public interface PlayerResponseMapper {
 
         int talentBonus = Optional.ofNullable(playerResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getStrain();
                     return talent.isRanked() ? s * talent.getRanks() : s;

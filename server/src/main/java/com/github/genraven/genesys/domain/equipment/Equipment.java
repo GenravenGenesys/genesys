@@ -1,9 +1,8 @@
 package com.github.genraven.genesys.domain.equipment;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.domain.quality.EquipmentQuality;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;

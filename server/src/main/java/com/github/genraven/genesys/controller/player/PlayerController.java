@@ -1,13 +1,10 @@
 package com.github.genraven.genesys.controller.player;
 
 import com.github.genraven.genesys.controller.AbstractController;
-import com.github.genraven.genesys.domain.actor.Characteristic;
-import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.Player;
 import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import com.github.genraven.genesys.domain.context.player.*;
-import com.github.genraven.genesys.domain.equipment.Quality;
 import com.github.genraven.genesys.domain.talent.Talent;
 import com.github.genraven.genesys.exceptions.BaseException;
 import com.github.genraven.genesys.service.actor.PlayerService;

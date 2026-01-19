@@ -21,7 +21,7 @@ public class ItemCompendiumController {
 
     private final ItemTemplateService itemTemplateService;
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get all item templates", description = "Retrieves the full library of equipment items for this setting")
     public Flux<ItemTemplate> getItems(@PathVariable final String campaignId) {
         return itemTemplateService.findAllByCampaignId(campaignId);

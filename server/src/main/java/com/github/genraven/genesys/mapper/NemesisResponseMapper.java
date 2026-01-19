@@ -41,7 +41,7 @@ public interface NemesisResponseMapper {
 
         int talentBonus = Optional.ofNullable(nemesisResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getSoak();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -60,7 +60,7 @@ public interface NemesisResponseMapper {
     private void getTotalMeleeDefense(@MappingTarget Nemesis nemesisResponse) {
         int talentBonus = Optional.ofNullable(nemesisResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getDefense();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -79,7 +79,7 @@ public interface NemesisResponseMapper {
     private void getTotalRangedDefense(@MappingTarget Nemesis nemesisResponse) {
         int talentBonus = Optional.ofNullable(nemesisResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getDefense();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -102,7 +102,7 @@ public interface NemesisResponseMapper {
 
         int talentBonus = Optional.ofNullable(nemesisResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getWounds();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -124,7 +124,7 @@ public interface NemesisResponseMapper {
 
         int talentBonus = Optional.ofNullable(nemesisResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getStrain();
                     return talent.isRanked() ? s * talent.getRanks() : s;

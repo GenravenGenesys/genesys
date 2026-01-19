@@ -6,6 +6,7 @@ import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
 import com.github.genraven.genesys.domain.common.Action;
 import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.domain.modifier.StatModifiers;
 import com.github.genraven.genesys.validator.EnumValidator;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,9 +15,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -66,7 +65,7 @@ public class Talent {
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private TalentStats talentStats = new TalentStats();
+    private StatModifiers statModifiers = new StatModifiers();
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)

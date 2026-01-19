@@ -39,7 +39,7 @@ public interface MinionResponseMapper {
 
         int talentBonus = Optional.ofNullable(minionResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getSoak();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -58,7 +58,7 @@ public interface MinionResponseMapper {
     private void getTotalMeleeDefense(@MappingTarget Minion minionResponse) {
         int talentBonus = Optional.ofNullable(minionResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getDefense();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -77,7 +77,7 @@ public interface MinionResponseMapper {
     private void getTotalRangedDefense(@MappingTarget Minion minionResponse) {
         int talentBonus = Optional.ofNullable(minionResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getDefense();
                     return talent.isRanked() ? s * talent.getRanks() : s;
@@ -100,7 +100,7 @@ public interface MinionResponseMapper {
 
         int talentBonus = Optional.ofNullable(minionResponse.getTalents())
             .orElse(List.of()).stream()
-            .map(talent -> Optional.ofNullable(talent.getTalentStats())
+            .map(talent -> Optional.ofNullable(talent.getStatModifiers())
                 .map(stats -> {
                     int s = stats.getWounds();
                     return talent.isRanked() ? s * talent.getRanks() : s;
