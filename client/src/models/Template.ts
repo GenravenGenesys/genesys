@@ -1,8 +1,8 @@
 import {
-    Activation, type AdversaryTemplate, AdversaryTemplateType,
+    Activation, type AdversaryTemplate, AdversaryTemplateType, type Archetype, type Attribute, type Career,
     CostType,
     Difficulty,
-    type ItemTemplate,
+    type ItemTemplate, ItemTemplateType,
     LimitType,
     RangeBand,
     type Skill,
@@ -18,6 +18,31 @@ export const emptySkill = {
     type: SkillType.General,
     initiative: false,
 } as Skill;
+
+export const emptyItemTemplate = {
+    id: '',
+    name: '',
+    description: '',
+    type: ItemTemplateType.Weapon,
+    price: 0,
+    restricted: false,
+    encumbrance: 0,
+    rarity: 0,
+    modifiers: [],
+    qualities: [],
+    amount: 0,
+    weaponStats: {
+        damage: 0,
+        critical: 0,
+        range: RangeBand.Engaged,
+        brawn: false,
+        skill: {...emptySkill, ranks: 0},
+    },
+    armorStats: {
+        soak: {} as Attribute,
+        defense: {} as Attribute,
+    },
+} as ItemTemplate;
 
 export const emptyTalent = {
     id: '',
@@ -47,7 +72,7 @@ export const emptyTalent = {
         potentialCareerSkills: [],
         potentialNonCareerSkills: [],
     },
-    talentStats: {
+    statModifiers: {
         wounds: 0,
         strain: 0,
         soak: 0,
@@ -109,7 +134,11 @@ export const emptyAdversary = {
             base: 0
         },
     },
-    equipment: [],
+    equipment: {
+        weapons: [],
+        equippedArmor: emptyItemTemplate,
+        otherGear: []
+    },
     skills: [],
     ratings: {
         combat: 1,
@@ -118,15 +147,6 @@ export const emptyAdversary = {
     }
 } as AdversaryTemplate;
 
-export const emptyItemTemplate = {
-    id: '',
-    name: '',
-    description: '',
-    type: 'WEAPON',
-    price: 0,
-    restricted: false,
-    encumbrance: 0,
-    rarity: 0,
-    modifiers: [],
-    qualities: []
-} as ItemTemplate;
+export const emptyArchetype = {} as Archetype;
+
+export const emptyCareer = {} as Career;
