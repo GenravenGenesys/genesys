@@ -68,7 +68,7 @@ export default function CampaignWizard() {
         setNewSkill(blankSkill);
     };
 
-    const onCharacteristicChange = (value: CharacteristicType) => {
+    const onCharacteristicChange = (value: SkillCharacteristic) => {
         setNewSkill({...newSkill, characteristic: value});
     };
 

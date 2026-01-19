@@ -1,18 +1,12 @@
-import {
-    Box, Typography, Grid, Card, CardContent,
-    Button, Divider, List, ListItem, ListItemText,
-    IconButton, Chip, Paper, CircularProgress
-} from '@mui/material';
-
-// Standard MUI Icons
-import SwordIcon from '@mui/icons-material/SportsMma';
-import ArchetypeIcon from '@mui/icons-material/PersonAdd';
+import {Box, Typography, Grid, CircularProgress} from '@mui/material';
 import {useParams} from "react-router-dom";
 import SkillCompendiumCard from "./skill/SkillCompendiumCard.tsx";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 import TalentCompendiumCard from "./talent/TalentCompendiumCard.tsx";
 import AdversaryCompendiumCard from "./adversary/AdversaryCompendiumCard.tsx";
 import ItemCompendiumCard from './equipment/ItemCompendiumCard.tsx';
+import ArchetypeCompendiumCard from "./archetype/ArchetypeCompendiumCard.tsx";
+import CareerCompendiumCard from "./career/CareerCompendiumCard.tsx";
 
 export default function CompendiumHome() {
     const {id} = useParams<{ id: string }>();
@@ -31,17 +25,6 @@ export default function CompendiumHome() {
         return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
     }
 
-    // Mock Data: In 2026, these would be fetched via your Spring Boot Reactive API
-    // const compendiumCategories = [
-    //     {
-    //         title: "Archetypes",
-    //         count: 5,
-    //         icon: <ArchetypeIcon/>,
-    //         color: "#a255ff",
-    //         preview: ["Human", "Android", "N'hali"]
-    //     },
-    // ];
-
     return (
         <Box sx={{p: 4, maxWidth: 1400, mx: 'auto'}}>
             {/* Header Section */}
@@ -56,64 +39,12 @@ export default function CompendiumHome() {
 
             {/* Bento Grid Layout */}
             <Grid container spacing={3}>
-
-                {/* Main Category Cards */}
-                {/*{compendiumCategories.map((cat) => (*/}
-                {/*    <Grid size={{xs: 12, md: 6, lg: 3}} key={cat.title}>*/}
-                {/*        <Card sx={{*/}
-                {/*            height: '100%',*/}
-                {/*            display: 'flex',*/}
-                {/*            flexDirection: 'column',*/}
-                {/*            borderTop: `4px solid ${cat.color}`,*/}
-                {/*            transition: 'transform 0.2s',*/}
-                {/*            '&:hover': {transform: 'translateY(-4px)'}*/}
-                {/*        }}>*/}
-                {/*            <CardContent sx={{flexGrow: 1}}>*/}
-                {/*                <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 2}}>*/}
-                {/*                    <Box sx={{*/}
-                {/*                        p: 1,*/}
-                {/*                        borderRadius: 2,*/}
-                {/*                        bgcolor: `${cat.color}22`,*/}
-                {/*                        color: cat.color,*/}
-                {/*                        display: 'flex'*/}
-                {/*                    }}>*/}
-                {/*                        {cat.icon}*/}
-                {/*                    </Box>*/}
-                {/*                    <Chip label={`${cat.count} Items`} size="small"/>*/}
-                {/*                </Box>*/}
-
-                {/*                <Typography variant="h5" fontWeight="bold" gutterBottom>*/}
-                {/*                    {cat.title}*/}
-                {/*                </Typography>*/}
-
-                {/*                <Divider sx={{my: 1.5, opacity: 0.1}}/>*/}
-
-                {/*                <List dense>*/}
-                {/*                    {cat.preview.map(item => (*/}
-                {/*                        <ListItem key={item} disablePadding sx={{py: 0.5}}>*/}
-                {/*                            <ListItemText*/}
-                {/*                                primary={item}*/}
-                {/*                            />*/}
-                {/*                        </ListItem>*/}
-                {/*                    ))}*/}
-                {/*                </List>*/}
-                {/*            </CardContent>*/}
-
-                {/*            <Box sx={{p: 2, display: 'flex', gap: 1}}>*/}
-                {/*                <Button fullWidth variant="outlined" size="small" startIcon={<OpenInNewIcon/>}>*/}
-                {/*                    View All*/}
-                {/*                </Button>*/}
-                {/*                <IconButton color="primary" size="small" sx={{border: '1px solid'}}>*/}
-                {/*                    <AddIcon/>*/}
-                {/*                </IconButton>*/}
-                {/*            </Box>*/}
-                {/*        </Card>*/}
-                {/*    </Grid>*/}
-                {/*))}*/}
                 <SkillCompendiumCard skills={campaign.compendium.skills} campaignId={id}/>
                 <TalentCompendiumCard talents={campaign.compendium.talents} campaignId={id}/>
                 <ItemCompendiumCard items={campaign.compendium.items} campaignId={id}/>
                 <AdversaryCompendiumCard adversaries={campaign.compendium.adversaries} campaignId={id}/>
+                <ArchetypeCompendiumCard archetypes={campaign.compendium.archetypes} campaignId={id}/>
+                <CareerCompendiumCard careers={campaign.compendium.careers} campaignId={id}/>
 
                 {/* Setting Rules & Formatting Section */}
                 {/*<Grid size={{ xs: 12, md: 8 }}>*/}

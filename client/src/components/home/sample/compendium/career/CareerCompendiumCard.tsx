@@ -10,22 +10,22 @@ import {
     ListItemText,
     Typography
 } from "@mui/material";
+import WorkIcon from '@mui/icons-material/Work';
+import type {Career} from "../../../../../api/model";
 import RouterLinkButton from "../../../../common/RouterLink.tsx";
 import {RootPath} from "../../../../../services/RootPath.ts";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import type {ItemTemplate} from "../../../../../api/model";
 
 interface Props {
-    items: ItemTemplate[];
+    careers: Career[];
     campaignId: string;
 }
 
-export default function ItemCompendiumCard(props: Props) {
-    const {items, campaignId} = props;
+export default function CareerCompendiumCard(props: Props) {
+    const {careers, campaignId} = props;
     const color = "#00e5ff";
 
     return (
-        <Grid size={{xs: 12, md: 6, lg: 3}} key={"Items"}>
+        <Grid size={{xs: 12, md: 6, lg: 3}} key={"Careers"}>
             <Card sx={{
                 height: '100%',
                 display: 'flex',
@@ -43,23 +43,22 @@ export default function ItemCompendiumCard(props: Props) {
                             color: color,
                             display: 'flex'
                         }}>
-                            <InventoryIcon/>
+                            <WorkIcon/>
                         </Box>
-                        <Chip label={`${items.length} Items`} size="small"/>
+                        <Chip label={`${careers.length} Items`} size="small"/>
                     </Box>
 
                     <Typography variant="h5" fontWeight="bold" gutterBottom>
-                        Equipment
+                        Careers
                     </Typography>
 
                     <Divider sx={{my: 1.5, opacity: 0.1}}/>
 
                     <List dense>
-                        {items.slice(0, 5).map(item => (
+                        {careers.map(item => (
                             <ListItem key={item.id} disablePadding sx={{py: 0.5}}>
                                 <ListItemText
                                     primary={item.name}
-                                    secondary={`${item.price}₡ • Enc ${item.encumbrance}`}
                                 />
                             </ListItem>
                         ))}
@@ -67,8 +66,7 @@ export default function ItemCompendiumCard(props: Props) {
                 </CardContent>
 
                 <Box sx={{p: 2, display: 'flex', gap: 1}}>
-                    <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Equipment}
-                                      text={"View All"}/>
+                    <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Archetype} text={"View All"}/>
                 </Box>
             </Card>
         </Grid>
