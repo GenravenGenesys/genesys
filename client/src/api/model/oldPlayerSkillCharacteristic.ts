@@ -9,10 +9,10 @@
 /**
  * The type of Characteristic
  */
-export type GroupSkillCharacteristic = typeof GroupSkillCharacteristic[keyof typeof GroupSkillCharacteristic];
+export type OldPlayerSkillCharacteristic = typeof OldPlayerSkillCharacteristic[keyof typeof OldPlayerSkillCharacteristic];
 
 
-export const GroupSkillCharacteristic = {
+export const OldPlayerSkillCharacteristic = {
   Brawn: 'Brawn',
   Agility: 'Agility',
   Intellect: 'Intellect',
