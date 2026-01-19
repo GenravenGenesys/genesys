@@ -19,17 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type"
-)
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = Weapon.class, name = "Weapon"),
-    @JsonSubTypes.Type(value = Armor.class, name = "Armor"),
-    @JsonSubTypes.Type(value = Gear.class, name = "Gear")
-})
-@Schema(subTypes = { Weapon.class, Armor.class, Gear.class })
 public class Equipment {
 
     protected Equipment() {
