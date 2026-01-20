@@ -27,7 +27,7 @@ export default function CareerDrawer(props: Props) {
     }, [career]);
 
     const handleSkillChange = async (index: number, value: Skill) => {
-        const updatedSkills = career.skills.map((row, i) =>
+        const updatedSkills = formData.skills.map((row, i) =>
             i === index ? {...value} : row
         );
         handleChange('skills', updatedSkills);
@@ -63,9 +63,9 @@ export default function CareerDrawer(props: Props) {
             </Box>
             <Stack spacing={3}>
                 <GenesysTextField text={formData.name || ''} label={"Career Name"}
-                                  onChange={(e) => handleChange("name", e)} fullwidth={true}/>
-                {formData.skills.map((skill, index) => (
-                        <CareerSkillSelectField skill={skill} formData={formData}
+                                  onChange={(e) => handleChange("name", e)} fullwidth/>
+                {formData.skills.map((_skill, index) => (
+                        <CareerSkillSelectField skill={formData.skills[index]} formData={formData}
                                                 onChange={handleSkillChange} index={index}/>
                     )
                 )}
