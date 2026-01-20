@@ -42,6 +42,19 @@ export default function AdversaryDialog(props: Props) {
         setFormData((prev: AdversaryTemplate) => ({...prev, [field]: value}));
     };
 
+    const handleThresholdChange = <K extends OldStatsType>(field: K, value: number) => {
+        setFormData((prev: AdversaryTemplate) => ({
+            ...prev,
+            derivedStats: {
+                ...prev.derivedStats,
+                [field === OldStatsType.Wounds ? 'woundThreshold' : 'strainThreshold']: {
+                    ...prev.derivedStats[field === OldStatsType.Wounds ? 'woundThreshold' : 'strainThreshold'],
+                    total: value
+                }
+            }
+        }));
+    };
+
     const handleSave = () => {
         onSave(formData);
         setFormData({} as AdversaryTemplate);
@@ -108,14 +121,14 @@ export default function AdversaryDialog(props: Props) {
                                           updateRatings={(updatedRating) => handleChange('ratings', updatedRating)}/>
                         <GridContainer>
                             <Grid size={formData.type === AdversaryTemplateType.Nemesis ? 6 : 12}>
-                                <GenesysNumberField value={formData.wounds || 0} fullwidth
+                                <GenesysNumberField value={formData.derivedStats.woundThreshold.total || 0} fullwidth
                                                     label={OldStatsType.Wounds + ' Threshold'}
-                                                    onChange={(e) => handleChange('wounds', e)}/>
+                                                    onChange={(e) => handleThresholdChange('Wounds', e)}/>
                             </Grid>
                             {formData.type === AdversaryTemplateType.Nemesis && <Grid size={6}>
-                                <GenesysNumberField value={formData.strain || 0} fullwidth
+                                <GenesysNumberField value={formData.derivedStats.strainThreshold.total || 0} fullwidth
                                                     label={OldStatsType.Strain + ' Threshold'}
-                                                    onChange={(e) => handleChange('strain', e)}/>
+                                                    onChange={(e) => handleThresholdChange('Strain', e)}/>
                             </Grid>}
                         </GridContainer>
                     </Stack>

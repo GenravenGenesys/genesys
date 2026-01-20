@@ -1,20 +1,19 @@
 import {useState, useEffect} from 'react';
 import {
-    Box, Drawer, Typography, Stack, Button,
-    Grid, Divider, IconButton, Collapse, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
-    DialogContent, TextField, FormControlLabel, Switch, Tabs, FormControl, FormLabel, FormGroup, Checkbox
+    Box, Typography, Stack, Button,
+    Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
+    DialogContent, FormControlLabel, Tabs, FormControl, FormGroup, Checkbox
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import CloseIcon from '@mui/icons-material/Close';
 import {Activation, type Talent, TalentTier} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
 import GenesysBooleanField from "../../../../common/field/GenesysBooleanField.tsx";
-import SelectSkillField from "../SelectSkillField.tsx";
 import Tab from "@mui/material/Tab";
 import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
 import * as React from "react";
+import {emptyTalent} from "../../../../../models/Template.ts";
 
 interface Props {
     open: boolean;
@@ -33,7 +32,7 @@ export default function TalentDialog(props: Props) {
     const [state, setState] = useState({
         // cost: !(talent.cost.type === CostType.None && talent.limit.type === LimitType.None),
         // careerSkill: talent.talentSkills.potentialCareerSkills.length > 0,
-        stats: talent.talentStats.wounds > 0 || talent.talentStats.strain > 0 || talent.talentStats.soak > 0 || talent.talentStats.defense > 0
+        stats: talent.statModifiers.wounds > 0 || talent.statModifiers.strain > 0 || talent.statModifiers.soak > 0 || talent.statModifiers.defense > 0
     });
 
     useEffect(() => {
@@ -53,23 +52,13 @@ export default function TalentDialog(props: Props) {
 
     const handleSave = () => {
         onSave(formData);
-        setFormData({} as Talent);
+        setFormData(emptyTalent);
         onClose();
     }
 
     const handleClose = () => {
-        setFormData({} as Talent);
+        setFormData(emptyTalent);
         onClose();
-    };
-
-    // 2. Modifier Logic (Wounds, Strain, Boost Dice)
-    const addModifier = () => {
-        const newMod = {target: 'WOUND_THRESHOLD', value: 1, type: 'ADD', talentId: null, diceType: null};
-        handleChange('modifiers', [...formData.modifiers, newMod]);
-    };
-
-    const removeModifier = (index: number) => {
-        handleChange('modifiers', formData.modifiers.filter((_, i) => i !== index));
     };
 
     return (
@@ -133,7 +122,7 @@ export default function TalentDialog(props: Props) {
                 {/* TAB 2: MECHANICS */}
                 {tabValue === 1 && (
                     <TalentModifyStatsTab talent={formData}
-                                          updateTalentStats={(stats) => handleChange('talentStats', stats)}/>
+                                          updateTalentStats={(stats) => handleChange('statModifiers', stats)}/>
                 )}
 
                 {/* TAB 3: ACTION LOGIC */}

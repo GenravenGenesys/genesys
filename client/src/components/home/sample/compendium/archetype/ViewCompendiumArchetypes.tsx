@@ -9,12 +9,12 @@ import AddIcon from '@mui/icons-material/Add';
 import {useParams} from "react-router-dom";
 import {useCampaignLive} from "../../../../../hooks/campaign/useCampaginLive.ts";
 import type {Archetype} from "../../../../../api/model";
-import ArchetypeDrawer from "./ArchetypeDrawer.tsx";
 import {useCreateArchetype, useUpdateArchetype} from "../../../../../api/generated/archetypes/archetypes.ts";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.tsx";
 import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell.tsx";
 import CustomTableCell from "../../../../common/table/common/CustomTableCell.tsx";
 import {emptyArchetype} from "../../../../../models/Template.ts";
+import ArchetypeDialog from "./ArchetypeDialog.tsx";
 
 interface Props {
     archetype: Archetype;
@@ -30,7 +30,7 @@ function ArchetypeRow(props: Props) {
 
     return (
         <TableRow>
-            <TypographyCenterTableCell value={archetype.name} />
+            <TypographyCenterTableCell value={archetype.name}/>
             <CustomTableCell centered>
                 <Button variant="text" onClick={onEditClick}>
                     Edit
@@ -135,8 +135,8 @@ export default function ViewCompendiumArchetypes() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {/*<ArchetypeDrawer open={Boolean(openDrawer)} archetype={archetype} onClose={() => setOpenDrawer(false)}*/}
-            {/*             onSave={handleSave} isNew={isNew}/>*/}
+            <ArchetypeDialog open={Boolean(openDrawer)} archetype={archetype} onClose={() => setOpenDrawer(false)}
+                             onSave={handleSave} isNew={isNew}/>
         </Box>
     );
 }
