@@ -66,7 +66,7 @@ export default function CareerCompendiumCard(props: Props) {
                 </CardContent>
 
                 <Box sx={{p: 2, display: 'flex', gap: 1}}>
-                    <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Archetype} text={"View All"}/>
+                    <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Career} text={"View All"}/>
                 </Box>
             </Card>
         </Grid>

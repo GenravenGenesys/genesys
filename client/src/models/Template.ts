@@ -149,4 +149,15 @@ export const emptyAdversary = {
 
 export const emptyArchetype = {} as Archetype;
 
-export const emptyCareer = {} as Career;
+export const emptyCareer = {
+    skills: [
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+    ] as Skill[]
+} as Career;

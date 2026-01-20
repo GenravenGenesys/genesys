@@ -135,8 +135,8 @@ export default function ViewCompendiumArchetypes() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <ArchetypeDrawer open={Boolean(openDrawer)} archetype={archetype} onClose={() => setOpenDrawer(false)}
-                         onSave={handleSave} isNew={isNew}/>
+            {/*<ArchetypeDrawer open={Boolean(openDrawer)} archetype={archetype} onClose={() => setOpenDrawer(false)}*/}
+            {/*             onSave={handleSave} isNew={isNew}/>*/}
         </Box>
     );
 }
