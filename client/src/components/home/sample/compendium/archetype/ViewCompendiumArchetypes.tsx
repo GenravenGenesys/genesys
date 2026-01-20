@@ -80,6 +80,7 @@ export default function ViewCompendiumArchetypes() {
     };
 
     const handleSave = async (updatedArchetype: Archetype) => {
+        console.log("Saving archetype:", updatedArchetype);
         if (isNew) {
             await createArchetypeMutation.mutateAsync({
                 campaignId: campaign.id,

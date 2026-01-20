@@ -21,10 +21,7 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import {
-    type ArmorTemplate,
-    type GearTemplate,
     type ItemTemplate,
-    type WeaponTemplate,
     type EquipmentType,
     type Skill,
     SkillType
@@ -36,9 +33,9 @@ import SelectSkillField from "../SelectSkillField.tsx";
 
 interface Props {
     open: boolean;
-    item: ItemTemplate | WeaponTemplate | ArmorTemplate | GearTemplate;
+    item: ItemTemplate;
     onClose: () => void;
-    onSave: (data: ItemTemplate | WeaponTemplate | ArmorTemplate | GearTemplate) => void;
+    onSave: (data: ItemTemplate) => void;
     isNew: boolean;
 }
 
@@ -82,14 +79,14 @@ export default function ItemDialog(props: Props) {
     const renderWeaponFields = () => (
         <Stack spacing={3}>
             <SelectSkillField
-                currentSkill={(formData as WeaponTemplate).skill || null}
+                currentSkill={formData.weaponStats.skill || null}
                 handleSkillSelect={(skill: Skill | null) => handleChange('skill' as keyof ItemTemplate, skill as any)}
                 filterByType={SkillType.Combat}
             />
             <GridContainer>
                 <Grid size={6}>
                     <GenesysNumberField
-                        value={(formData as WeaponTemplate).damage || 0}
+                        value={formData.weaponStats.damage || 0}
                         fullwidth
                         label="Damage"
                         onChange={(e) => handleChange('damage' as keyof ItemTemplate, e as any)}
@@ -97,7 +94,7 @@ export default function ItemDialog(props: Props) {
                 </Grid>
                 <Grid size={6}>
                     <GenesysNumberField
-                        value={(formData as WeaponTemplate).critical || 3}
+                        value={formData.weaponStats.critical || 3}
                         fullwidth
                         label="Critical"
                         onChange={(e) => handleChange('critical' as keyof ItemTemplate, e as any)}
@@ -105,7 +102,7 @@ export default function ItemDialog(props: Props) {
                 </Grid>
             </GridContainer>
             <GenesysTextField
-                text={(formData as WeaponTemplate).range?.toString() || 'ENGAGED'}
+                text={formData.weaponStats.range?.toString() || 'ENGAGED'}
                 label="Range"
                 onChange={(e) => handleChange('range' as keyof ItemTemplate, e as any)}
                 fullwidth
@@ -113,7 +110,7 @@ export default function ItemDialog(props: Props) {
             <FormControlLabel
                 control={
                     <Switch
-                        checked={(formData as WeaponTemplate).brawn || false}
+                        checked={formData.weaponStats.brawn || false}
                         onChange={(e) => handleChange('brawn' as keyof ItemTemplate, e.target.checked as any)}
                     />
                 }
@@ -127,7 +124,7 @@ export default function ItemDialog(props: Props) {
             <GridContainer>
                 <Grid size={6}>
                     <GenesysNumberField
-                        value={(formData as ArmorTemplate).soak?.base || 0}
+                        value={formData.armorStats.soak.base || 0}
                         fullwidth
                         label="Soak"
                         onChange={(e) => handleChange('soak' as keyof ItemTemplate, {base: e, current: e} as any)}
@@ -135,7 +132,7 @@ export default function ItemDialog(props: Props) {
                 </Grid>
                 <Grid size={6}>
                     <GenesysNumberField
-                        value={(formData as ArmorTemplate).defense?.base || 0}
+                        value={formData.armorStats.defense.base || 0}
                         fullwidth
                         label="Defense"
                         onChange={(e) => handleChange('defense' as keyof ItemTemplate, {base: e, current: e} as any)}
@@ -148,7 +145,7 @@ export default function ItemDialog(props: Props) {
     const renderGearFields = () => (
         <Stack spacing={3}>
             <GenesysNumberField
-                value={(formData as GearTemplate).amount || 1}
+                value={formData.amount || 1}
                 fullwidth
                 label="Quantity"
                 onChange={(e) => handleChange('amount' as keyof ItemTemplate, e as any)}
