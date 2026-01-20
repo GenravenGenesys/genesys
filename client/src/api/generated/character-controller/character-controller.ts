@@ -24,7 +24,7 @@ import type {
   Player
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -57,7 +57,7 @@ export const getGetAllPlayersAsCharactersUrl = () => {
 
 export const getAllPlayersAsCharacters = async (player: Player[], options?: RequestInit): Promise<getAllPlayersAsCharactersResponse> => {
   
-  return customInstance<getAllPlayersAsCharactersResponse>(getGetAllPlayersAsCharactersUrl(),
+  return customFetch<getAllPlayersAsCharactersResponse>(getGetAllPlayersAsCharactersUrl(),
   {      
     ...options,
     method: 'GET',
@@ -78,7 +78,7 @@ export const getGetAllPlayersAsCharactersQueryKey = (player?: Player[],) => {
     }
 
     
-export const getGetAllPlayersAsCharactersQueryOptions = <TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError = unknown>(player: Player[], options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetAllPlayersAsCharactersQueryOptions = <TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError = unknown>(player: Player[], options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -107,7 +107,7 @@ export function useGetAllPlayersAsCharacters<TData = Awaited<ReturnType<typeof g
           TError,
           Awaited<ReturnType<typeof getAllPlayersAsCharacters>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllPlayersAsCharacters<TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError = unknown>(
@@ -117,11 +117,11 @@ export function useGetAllPlayersAsCharacters<TData = Awaited<ReturnType<typeof g
           TError,
           Awaited<ReturnType<typeof getAllPlayersAsCharacters>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllPlayersAsCharacters<TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError = unknown>(
- player: Player[], options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ player: Player[], options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -129,7 +129,7 @@ export function useGetAllPlayersAsCharacters<TData = Awaited<ReturnType<typeof g
  */
 
 export function useGetAllPlayersAsCharacters<TData = Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError = unknown>(
- player: Player[], options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ player: Player[], options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayersAsCharacters>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

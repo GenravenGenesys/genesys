@@ -29,7 +29,7 @@ import type {
   Rival
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -62,7 +62,7 @@ export const getGetRivalUrl = (id: string,) => {
 
 export const getRival = async (id: string, options?: RequestInit): Promise<getRivalResponse> => {
   
-  return customInstance<getRivalResponse>(getGetRivalUrl(id),
+  return customFetch<getRivalResponse>(getGetRivalUrl(id),
   {      
     ...options,
     method: 'GET'
@@ -82,7 +82,7 @@ export const getGetRivalQueryKey = (id?: string,) => {
     }
 
     
-export const getGetRivalQueryOptions = <TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetRivalQueryOptions = <TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -111,7 +111,7 @@ export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError
           TError,
           Awaited<ReturnType<typeof getRival>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(
@@ -121,11 +121,11 @@ export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError
           TError,
           Awaited<ReturnType<typeof getRival>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -133,7 +133,7 @@ export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError
  */
 
 export function useGetRival<TData = Awaited<ReturnType<typeof getRival>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRival>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -174,7 +174,7 @@ export const getUpdateRivalUrl = (id: string,) => {
 export const updateRival = async (id: string,
     rival: Rival, options?: RequestInit): Promise<updateRivalResponse> => {
   
-  return customInstance<updateRivalResponse>(getUpdateRivalUrl(id),
+  return customFetch<updateRivalResponse>(getUpdateRivalUrl(id),
   {      
     ...options,
     method: 'PUT',
@@ -188,7 +188,7 @@ export const updateRival = async (id: string,
 
 
 export const getUpdateRivalMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext> => {
 
 const mutationKey = ['updateRival'];
@@ -222,7 +222,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update an existing rival
  */
 export const useUpdateRival = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRival>>, TError,{id: string;data: Rival}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateRival>>,
         TError,
@@ -258,7 +258,7 @@ export const getUpdateRivalSkillUrl = (id: string,) => {
 export const updateRivalSkill = async (id: string,
     actorSkill: ActorSkill, options?: RequestInit): Promise<updateRivalSkillResponse> => {
   
-  return customInstance<updateRivalSkillResponse>(getUpdateRivalSkillUrl(id),
+  return customFetch<updateRivalSkillResponse>(getUpdateRivalSkillUrl(id),
   {      
     ...options,
     method: 'PATCH',
@@ -272,7 +272,7 @@ export const updateRivalSkill = async (id: string,
 
 
 export const getUpdateRivalSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext> => {
 
 const mutationKey = ['updateRivalSkill'];
@@ -306,7 +306,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Patch skill of an existing rival
  */
 export const useUpdateRivalSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRivalSkill>>, TError,{id: string;data: ActorSkill}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateRivalSkill>>,
         TError,
@@ -341,7 +341,7 @@ export const getGetAllRivalsUrl = () => {
 
 export const getAllRivals = async ( options?: RequestInit): Promise<getAllRivalsResponse> => {
   
-  return customInstance<getAllRivalsResponse>(getGetAllRivalsUrl(),
+  return customFetch<getAllRivalsResponse>(getGetAllRivalsUrl(),
   {      
     ...options,
     method: 'GET'
@@ -361,7 +361,7 @@ export const getGetAllRivalsQueryKey = () => {
     }
 
     
-export const getGetAllRivalsQueryOptions = <TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetAllRivalsQueryOptions = <TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -390,7 +390,7 @@ export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>
           TError,
           Awaited<ReturnType<typeof getAllRivals>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>(
@@ -400,11 +400,11 @@ export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>
           TError,
           Awaited<ReturnType<typeof getAllRivals>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -412,7 +412,7 @@ export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>
  */
 
 export function useGetAllRivals<TData = Awaited<ReturnType<typeof getAllRivals>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllRivals>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

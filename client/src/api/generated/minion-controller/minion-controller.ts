@@ -29,7 +29,7 @@ import type {
   Minion
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -62,7 +62,7 @@ export const getGetMinionUrl = (id: string,) => {
 
 export const getMinion = async (id: string, options?: RequestInit): Promise<getMinionResponse> => {
   
-  return customInstance<getMinionResponse>(getGetMinionUrl(id),
+  return customFetch<getMinionResponse>(getGetMinionUrl(id),
   {      
     ...options,
     method: 'GET'
@@ -82,7 +82,7 @@ export const getGetMinionQueryKey = (id?: string,) => {
     }
 
     
-export const getGetMinionQueryOptions = <TData = Awaited<ReturnType<typeof getMinion>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMinion>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetMinionQueryOptions = <TData = Awaited<ReturnType<typeof getMinion>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMinion>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -111,7 +111,7 @@ export function useGetMinion<TData = Awaited<ReturnType<typeof getMinion>>, TErr
           TError,
           Awaited<ReturnType<typeof getMinion>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetMinion<TData = Awaited<ReturnType<typeof getMinion>>, TError = unknown>(
@@ -121,11 +121,11 @@ export function useGetMinion<TData = Awaited<ReturnType<typeof getMinion>>, TErr
           TError,
           Awaited<ReturnType<typeof getMinion>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetMinion<TData = Awaited<ReturnType<typeof getMinion>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMinion>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMinion>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -133,7 +133,7 @@ export function useGetMinion<TData = Awaited<ReturnType<typeof getMinion>>, TErr
  */
 
 export function useGetMinion<TData = Awaited<ReturnType<typeof getMinion>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMinion>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMinion>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -174,7 +174,7 @@ export const getUpdateMinionUrl = (id: string,) => {
 export const updateMinion = async (id: string,
     minion: Minion, options?: RequestInit): Promise<updateMinionResponse> => {
   
-  return customInstance<updateMinionResponse>(getUpdateMinionUrl(id),
+  return customFetch<updateMinionResponse>(getUpdateMinionUrl(id),
   {      
     ...options,
     method: 'PUT',
@@ -188,7 +188,7 @@ export const updateMinion = async (id: string,
 
 
 export const getUpdateMinionMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMinion>>, TError,{id: string;data: Minion}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMinion>>, TError,{id: string;data: Minion}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateMinion>>, TError,{id: string;data: Minion}, TContext> => {
 
 const mutationKey = ['updateMinion'];
@@ -222,7 +222,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update an existing minion
  */
 export const useUpdateMinion = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMinion>>, TError,{id: string;data: Minion}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMinion>>, TError,{id: string;data: Minion}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateMinion>>,
         TError,
@@ -258,7 +258,7 @@ export const getUpdateMinionSkillUrl = (id: string,) => {
 export const updateMinionSkill = async (id: string,
     groupSkill: GroupSkill, options?: RequestInit): Promise<updateMinionSkillResponse> => {
   
-  return customInstance<updateMinionSkillResponse>(getUpdateMinionSkillUrl(id),
+  return customFetch<updateMinionSkillResponse>(getUpdateMinionSkillUrl(id),
   {      
     ...options,
     method: 'PATCH',
@@ -272,7 +272,7 @@ export const updateMinionSkill = async (id: string,
 
 
 export const getUpdateMinionSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMinionSkill>>, TError,{id: string;data: GroupSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMinionSkill>>, TError,{id: string;data: GroupSkill}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateMinionSkill>>, TError,{id: string;data: GroupSkill}, TContext> => {
 
 const mutationKey = ['updateMinionSkill'];
@@ -306,7 +306,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Patch skill of an existing minion
  */
 export const useUpdateMinionSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMinionSkill>>, TError,{id: string;data: GroupSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMinionSkill>>, TError,{id: string;data: GroupSkill}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateMinionSkill>>,
         TError,
@@ -341,7 +341,7 @@ export const getGetAllMinionsUrl = () => {
 
 export const getAllMinions = async ( options?: RequestInit): Promise<getAllMinionsResponse> => {
   
-  return customInstance<getAllMinionsResponse>(getGetAllMinionsUrl(),
+  return customFetch<getAllMinionsResponse>(getGetAllMinionsUrl(),
   {      
     ...options,
     method: 'GET'
@@ -361,7 +361,7 @@ export const getGetAllMinionsQueryKey = () => {
     }
 
     
-export const getGetAllMinionsQueryOptions = <TData = Awaited<ReturnType<typeof getAllMinions>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllMinions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetAllMinionsQueryOptions = <TData = Awaited<ReturnType<typeof getAllMinions>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllMinions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -390,7 +390,7 @@ export function useGetAllMinions<TData = Awaited<ReturnType<typeof getAllMinions
           TError,
           Awaited<ReturnType<typeof getAllMinions>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllMinions<TData = Awaited<ReturnType<typeof getAllMinions>>, TError = unknown>(
@@ -400,11 +400,11 @@ export function useGetAllMinions<TData = Awaited<ReturnType<typeof getAllMinions
           TError,
           Awaited<ReturnType<typeof getAllMinions>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllMinions<TData = Awaited<ReturnType<typeof getAllMinions>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllMinions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllMinions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -412,7 +412,7 @@ export function useGetAllMinions<TData = Awaited<ReturnType<typeof getAllMinions
  */
 
 export function useGetAllMinions<TData = Awaited<ReturnType<typeof getAllMinions>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllMinions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllMinions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

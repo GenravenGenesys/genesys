@@ -28,7 +28,7 @@ import type {
   AdversaryTemplate
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -61,7 +61,7 @@ export const getGetAdversariesUrl = (campaignId: string,) => {
 
 export const getAdversaries = async (campaignId: string, options?: RequestInit): Promise<getAdversariesResponse> => {
   
-  return customInstance<getAdversariesResponse>(getGetAdversariesUrl(campaignId),
+  return customFetch<getAdversariesResponse>(getGetAdversariesUrl(campaignId),
   {      
     ...options,
     method: 'GET'
@@ -81,7 +81,7 @@ export const getGetAdversariesQueryKey = (campaignId?: string,) => {
     }
 
     
-export const getGetAdversariesQueryOptions = <TData = Awaited<ReturnType<typeof getAdversaries>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdversaries>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetAdversariesQueryOptions = <TData = Awaited<ReturnType<typeof getAdversaries>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdversaries>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -110,7 +110,7 @@ export function useGetAdversaries<TData = Awaited<ReturnType<typeof getAdversari
           TError,
           Awaited<ReturnType<typeof getAdversaries>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAdversaries<TData = Awaited<ReturnType<typeof getAdversaries>>, TError = unknown>(
@@ -120,11 +120,11 @@ export function useGetAdversaries<TData = Awaited<ReturnType<typeof getAdversari
           TError,
           Awaited<ReturnType<typeof getAdversaries>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAdversaries<TData = Awaited<ReturnType<typeof getAdversaries>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdversaries>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdversaries>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -132,7 +132,7 @@ export function useGetAdversaries<TData = Awaited<ReturnType<typeof getAdversari
  */
 
 export function useGetAdversaries<TData = Awaited<ReturnType<typeof getAdversaries>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdversaries>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdversaries>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -173,7 +173,7 @@ export const getCreateAdversaryUrl = (campaignId: string,) => {
 export const createAdversary = async (campaignId: string,
     adversaryTemplate: AdversaryTemplate, options?: RequestInit): Promise<createAdversaryResponse> => {
   
-  return customInstance<createAdversaryResponse>(getCreateAdversaryUrl(campaignId),
+  return customFetch<createAdversaryResponse>(getCreateAdversaryUrl(campaignId),
   {      
     ...options,
     method: 'POST',
@@ -187,7 +187,7 @@ export const createAdversary = async (campaignId: string,
 
 
 export const getCreateAdversaryMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,{campaignId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,{campaignId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,{campaignId: string;data: AdversaryTemplate}, TContext> => {
 
 const mutationKey = ['createAdversary'];
@@ -221,7 +221,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Create a new adversary
  */
 export const useCreateAdversary = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,{campaignId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,{campaignId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createAdversary>>,
         TError,
@@ -259,7 +259,7 @@ export const updateAdversary = async (campaignId: string,
     adversaryId: string,
     adversaryTemplate: AdversaryTemplate, options?: RequestInit): Promise<updateAdversaryResponse> => {
   
-  return customInstance<updateAdversaryResponse>(getUpdateAdversaryUrl(campaignId,adversaryId),
+  return customFetch<updateAdversaryResponse>(getUpdateAdversaryUrl(campaignId,adversaryId),
   {      
     ...options,
     method: 'PATCH',
@@ -273,7 +273,7 @@ export const updateAdversary = async (campaignId: string,
 
 
 export const getUpdateAdversaryMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,{campaignId: string;adversaryId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,{campaignId: string;adversaryId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,{campaignId: string;adversaryId: string;data: AdversaryTemplate}, TContext> => {
 
 const mutationKey = ['updateAdversary'];
@@ -307,7 +307,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update a adversary
  */
 export const useUpdateAdversary = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,{campaignId: string;adversaryId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,{campaignId: string;adversaryId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateAdversary>>,
         TError,

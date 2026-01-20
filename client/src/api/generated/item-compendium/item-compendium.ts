@@ -28,7 +28,7 @@ import type {
   ItemTemplate
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -61,7 +61,7 @@ export const getGetItemsUrl = (campaignId: string,) => {
 
 export const getItems = async (campaignId: string, options?: RequestInit): Promise<getItemsResponse> => {
   
-  return customInstance<getItemsResponse>(getGetItemsUrl(campaignId),
+  return customFetch<getItemsResponse>(getGetItemsUrl(campaignId),
   {      
     ...options,
     method: 'GET'
@@ -81,7 +81,7 @@ export const getGetItemsQueryKey = (campaignId?: string,) => {
     }
 
     
-export const getGetItemsQueryOptions = <TData = Awaited<ReturnType<typeof getItems>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItems>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetItemsQueryOptions = <TData = Awaited<ReturnType<typeof getItems>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItems>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -110,7 +110,7 @@ export function useGetItems<TData = Awaited<ReturnType<typeof getItems>>, TError
           TError,
           Awaited<ReturnType<typeof getItems>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetItems<TData = Awaited<ReturnType<typeof getItems>>, TError = unknown>(
@@ -120,11 +120,11 @@ export function useGetItems<TData = Awaited<ReturnType<typeof getItems>>, TError
           TError,
           Awaited<ReturnType<typeof getItems>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetItems<TData = Awaited<ReturnType<typeof getItems>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItems>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItems>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -132,7 +132,7 @@ export function useGetItems<TData = Awaited<ReturnType<typeof getItems>>, TError
  */
 
 export function useGetItems<TData = Awaited<ReturnType<typeof getItems>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItems>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItems>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -173,7 +173,7 @@ export const getCreateItemUrl = (campaignId: string,) => {
 export const createItem = async (campaignId: string,
     itemTemplate: ItemTemplate, options?: RequestInit): Promise<createItemResponse> => {
   
-  return customInstance<createItemResponse>(getCreateItemUrl(campaignId),
+  return customFetch<createItemResponse>(getCreateItemUrl(campaignId),
   {      
     ...options,
     method: 'POST',
@@ -187,7 +187,7 @@ export const createItem = async (campaignId: string,
 
 
 export const getCreateItemMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext> => {
 
 const mutationKey = ['createItem'];
@@ -221,7 +221,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Create a new item
  */
 export const useCreateItem = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createItem>>,
         TError,
@@ -258,7 +258,7 @@ export const getDeleteItemUrl = (campaignId: string,
 export const deleteItem = async (campaignId: string,
     itemId: string, options?: RequestInit): Promise<deleteItemResponse> => {
   
-  return customInstance<deleteItemResponse>(getDeleteItemUrl(campaignId,itemId),
+  return customFetch<deleteItemResponse>(getDeleteItemUrl(campaignId,itemId),
   {      
     ...options,
     method: 'DELETE'
@@ -271,7 +271,7 @@ export const deleteItem = async (campaignId: string,
 
 
 export const getDeleteItemMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,{campaignId: string;itemId: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,{campaignId: string;itemId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,{campaignId: string;itemId: string}, TContext> => {
 
 const mutationKey = ['deleteItem'];
@@ -305,7 +305,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Delete an item
  */
 export const useDeleteItem = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,{campaignId: string;itemId: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,{campaignId: string;itemId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteItem>>,
         TError,
@@ -343,7 +343,7 @@ export const updateItem = async (campaignId: string,
     itemId: string,
     itemTemplate: ItemTemplate, options?: RequestInit): Promise<updateItemResponse> => {
   
-  return customInstance<updateItemResponse>(getUpdateItemUrl(campaignId,itemId),
+  return customFetch<updateItemResponse>(getUpdateItemUrl(campaignId,itemId),
   {      
     ...options,
     method: 'PATCH',
@@ -357,7 +357,7 @@ export const updateItem = async (campaignId: string,
 
 
 export const getUpdateItemMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext> => {
 
 const mutationKey = ['updateItem'];
@@ -391,7 +391,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update an item
  */
 export const useUpdateItem = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateItem>>,
         TError,

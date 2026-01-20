@@ -28,7 +28,7 @@ import type {
   CampaignSession
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -61,7 +61,7 @@ export const getCreateCampaignSessionUrl = () => {
 
 export const createCampaignSession = async (campaignSession: CampaignSession, options?: RequestInit): Promise<createCampaignSessionResponse> => {
   
-  return customInstance<createCampaignSessionResponse>(getCreateCampaignSessionUrl(),
+  return customFetch<createCampaignSessionResponse>(getCreateCampaignSessionUrl(),
   {      
     ...options,
     method: 'POST',
@@ -75,7 +75,7 @@ export const createCampaignSession = async (campaignSession: CampaignSession, op
 
 
 export const getCreateCampaignSessionMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,{data: CampaignSession}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,{data: CampaignSession}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,{data: CampaignSession}, TContext> => {
 
 const mutationKey = ['createCampaignSession'];
@@ -109,7 +109,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Create a new  campaign session
  */
 export const useCreateCampaignSession = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,{data: CampaignSession}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,{data: CampaignSession}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createCampaignSession>>,
         TError,
@@ -144,7 +144,7 @@ export const getGetCampaignSessionUrl = (id: string,) => {
 
 export const getCampaignSession = async (id: string, options?: RequestInit): Promise<getCampaignSessionResponse> => {
   
-  return customInstance<getCampaignSessionResponse>(getGetCampaignSessionUrl(id),
+  return customFetch<getCampaignSessionResponse>(getGetCampaignSessionUrl(id),
   {      
     ...options,
     method: 'GET'
@@ -164,7 +164,7 @@ export const getGetCampaignSessionQueryKey = (id?: string,) => {
     }
 
     
-export const getGetCampaignSessionQueryOptions = <TData = Awaited<ReturnType<typeof getCampaignSession>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaignSession>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetCampaignSessionQueryOptions = <TData = Awaited<ReturnType<typeof getCampaignSession>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaignSession>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -193,7 +193,7 @@ export function useGetCampaignSession<TData = Awaited<ReturnType<typeof getCampa
           TError,
           Awaited<ReturnType<typeof getCampaignSession>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetCampaignSession<TData = Awaited<ReturnType<typeof getCampaignSession>>, TError = unknown>(
@@ -203,11 +203,11 @@ export function useGetCampaignSession<TData = Awaited<ReturnType<typeof getCampa
           TError,
           Awaited<ReturnType<typeof getCampaignSession>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetCampaignSession<TData = Awaited<ReturnType<typeof getCampaignSession>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaignSession>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaignSession>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -215,7 +215,7 @@ export function useGetCampaignSession<TData = Awaited<ReturnType<typeof getCampa
  */
 
 export function useGetCampaignSession<TData = Awaited<ReturnType<typeof getCampaignSession>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaignSession>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaignSession>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -255,7 +255,7 @@ export const getGetAllCampaignSessionsUrl = (campaignId: string,) => {
 
 export const getAllCampaignSessions = async (campaignId: string, options?: RequestInit): Promise<getAllCampaignSessionsResponse> => {
   
-  return customInstance<getAllCampaignSessionsResponse>(getGetAllCampaignSessionsUrl(campaignId),
+  return customFetch<getAllCampaignSessionsResponse>(getGetAllCampaignSessionsUrl(campaignId),
   {      
     ...options,
     method: 'GET'
@@ -275,7 +275,7 @@ export const getGetAllCampaignSessionsQueryKey = (campaignId?: string,) => {
     }
 
     
-export const getGetAllCampaignSessionsQueryOptions = <TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetAllCampaignSessionsQueryOptions = <TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -304,7 +304,7 @@ export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getA
           TError,
           Awaited<ReturnType<typeof getAllCampaignSessions>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
@@ -314,11 +314,11 @@ export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getA
           TError,
           Awaited<ReturnType<typeof getAllCampaignSessions>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -326,7 +326,7 @@ export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getA
  */
 
 export function useGetAllCampaignSessions<TData = Awaited<ReturnType<typeof getAllCampaignSessions>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaignSessions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

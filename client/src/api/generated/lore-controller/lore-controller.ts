@@ -20,7 +20,7 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -53,7 +53,7 @@ export const getGetAllLoreUrl = () => {
 
 export const getAllLore = async ( options?: RequestInit): Promise<getAllLoreResponse> => {
   
-  return customInstance<getAllLoreResponse>(getGetAllLoreUrl(),
+  return customFetch<getAllLoreResponse>(getGetAllLoreUrl(),
   {      
     ...options,
     method: 'GET'
@@ -73,7 +73,7 @@ export const getGetAllLoreQueryKey = () => {
     }
 
     
-export const getGetAllLoreQueryOptions = <TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetAllLoreQueryOptions = <TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -102,7 +102,7 @@ export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TE
           TError,
           Awaited<ReturnType<typeof getAllLore>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>(
@@ -112,11 +112,11 @@ export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TE
           TError,
           Awaited<ReturnType<typeof getAllLore>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -124,7 +124,7 @@ export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TE
  */
 
 export function useGetAllLore<TData = Awaited<ReturnType<typeof getAllLore>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllLore>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

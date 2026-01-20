@@ -31,7 +31,7 @@ import type {
   Talent
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -64,7 +64,7 @@ export const getGetPlayerUrl = (id: string,) => {
 
 export const getPlayer = async (id: string, options?: RequestInit): Promise<getPlayerResponse> => {
   
-  return customInstance<getPlayerResponse>(getGetPlayerUrl(id),
+  return customFetch<getPlayerResponse>(getGetPlayerUrl(id),
   {      
     ...options,
     method: 'GET'
@@ -84,7 +84,7 @@ export const getGetPlayerQueryKey = (id?: string,) => {
     }
 
     
-export const getGetPlayerQueryOptions = <TData = Awaited<ReturnType<typeof getPlayer>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlayer>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetPlayerQueryOptions = <TData = Awaited<ReturnType<typeof getPlayer>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlayer>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -113,7 +113,7 @@ export function useGetPlayer<TData = Awaited<ReturnType<typeof getPlayer>>, TErr
           TError,
           Awaited<ReturnType<typeof getPlayer>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetPlayer<TData = Awaited<ReturnType<typeof getPlayer>>, TError = unknown>(
@@ -123,11 +123,11 @@ export function useGetPlayer<TData = Awaited<ReturnType<typeof getPlayer>>, TErr
           TError,
           Awaited<ReturnType<typeof getPlayer>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetPlayer<TData = Awaited<ReturnType<typeof getPlayer>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlayer>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlayer>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -135,7 +135,7 @@ export function useGetPlayer<TData = Awaited<ReturnType<typeof getPlayer>>, TErr
  */
 
 export function useGetPlayer<TData = Awaited<ReturnType<typeof getPlayer>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlayer>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlayer>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -176,7 +176,7 @@ export const getUpdatePlayerUrl = (id: string,) => {
 export const updatePlayer = async (id: string,
     player: Player, options?: RequestInit): Promise<updatePlayerResponse> => {
   
-  return customInstance<updatePlayerResponse>(getUpdatePlayerUrl(id),
+  return customFetch<updatePlayerResponse>(getUpdatePlayerUrl(id),
   {      
     ...options,
     method: 'PUT',
@@ -190,7 +190,7 @@ export const updatePlayer = async (id: string,
 
 
 export const getUpdatePlayerMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayer>>, TError,{id: string;data: Player}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayer>>, TError,{id: string;data: Player}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updatePlayer>>, TError,{id: string;data: Player}, TContext> => {
 
 const mutationKey = ['updatePlayer'];
@@ -224,7 +224,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update an existing player
  */
 export const useUpdatePlayer = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayer>>, TError,{id: string;data: Player}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayer>>, TError,{id: string;data: Player}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updatePlayer>>,
         TError,
@@ -259,7 +259,7 @@ export const getLockPlayerCreationUrl = (id: string,) => {
 
 export const lockPlayerCreation = async (id: string, options?: RequestInit): Promise<lockPlayerCreationResponse> => {
   
-  return customInstance<lockPlayerCreationResponse>(getLockPlayerCreationUrl(id),
+  return customFetch<lockPlayerCreationResponse>(getLockPlayerCreationUrl(id),
   {      
     ...options,
     method: 'POST'
@@ -272,7 +272,7 @@ export const lockPlayerCreation = async (id: string, options?: RequestInit): Pro
 
 
 export const getLockPlayerCreationMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof lockPlayerCreation>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof lockPlayerCreation>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof lockPlayerCreation>>, TError,{id: string}, TContext> => {
 
 const mutationKey = ['lockPlayerCreation'];
@@ -306,7 +306,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Locks Creation Experience Spending.
  */
 export const useLockPlayerCreation = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof lockPlayerCreation>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof lockPlayerCreation>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof lockPlayerCreation>>,
         TError,
@@ -342,7 +342,7 @@ export const getUpdatePlayerTalentUrl = (id: string,) => {
 export const updatePlayerTalent = async (id: string,
     talent: Talent, options?: RequestInit): Promise<updatePlayerTalentResponse> => {
   
-  return customInstance<updatePlayerTalentResponse>(getUpdatePlayerTalentUrl(id),
+  return customFetch<updatePlayerTalentResponse>(getUpdatePlayerTalentUrl(id),
   {      
     ...options,
     method: 'PATCH',
@@ -356,7 +356,7 @@ export const updatePlayerTalent = async (id: string,
 
 
 export const getUpdatePlayerTalentMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerTalent>>, TError,{id: string;data: Talent}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerTalent>>, TError,{id: string;data: Talent}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updatePlayerTalent>>, TError,{id: string;data: Talent}, TContext> => {
 
 const mutationKey = ['updatePlayerTalent'];
@@ -390,7 +390,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Patches Player Talents during Creation.
  */
 export const useUpdatePlayerTalent = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerTalent>>, TError,{id: string;data: Talent}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerTalent>>, TError,{id: string;data: Talent}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updatePlayerTalent>>,
         TError,
@@ -426,7 +426,7 @@ export const getUpdatePlayerSkillUrl = (id: string,) => {
 export const updatePlayerSkill = async (id: string,
     oldPlayerSkill: OldPlayerSkill, options?: RequestInit): Promise<updatePlayerSkillResponse> => {
   
-  return customInstance<updatePlayerSkillResponse>(getUpdatePlayerSkillUrl(id),
+  return customFetch<updatePlayerSkillResponse>(getUpdatePlayerSkillUrl(id),
   {      
     ...options,
     method: 'PATCH',
@@ -440,7 +440,7 @@ export const updatePlayerSkill = async (id: string,
 
 
 export const getUpdatePlayerSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerSkill>>, TError,{id: string;data: OldPlayerSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerSkill>>, TError,{id: string;data: OldPlayerSkill}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updatePlayerSkill>>, TError,{id: string;data: OldPlayerSkill}, TContext> => {
 
 const mutationKey = ['updatePlayerSkill'];
@@ -474,7 +474,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Patches Player Skills during Creation.
  */
 export const useUpdatePlayerSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerSkill>>, TError,{id: string;data: OldPlayerSkill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerSkill>>, TError,{id: string;data: OldPlayerSkill}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updatePlayerSkill>>,
         TError,
@@ -510,7 +510,7 @@ export const getUpdatePlayerCareerUrl = (id: string,) => {
 export const updatePlayerCareer = async (id: string,
     career: Career, options?: RequestInit): Promise<updatePlayerCareerResponse> => {
   
-  return customInstance<updatePlayerCareerResponse>(getUpdatePlayerCareerUrl(id),
+  return customFetch<updatePlayerCareerResponse>(getUpdatePlayerCareerUrl(id),
   {      
     ...options,
     method: 'PATCH',
@@ -524,7 +524,7 @@ export const updatePlayerCareer = async (id: string,
 
 
 export const getUpdatePlayerCareerMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareer>>, TError,{id: string;data: Career}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareer>>, TError,{id: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareer>>, TError,{id: string;data: Career}, TContext> => {
 
 const mutationKey = ['updatePlayerCareer'];
@@ -558,7 +558,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Patches Player Career during Creation.
  */
 export const useUpdatePlayerCareer = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareer>>, TError,{id: string;data: Career}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareer>>, TError,{id: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updatePlayerCareer>>,
         TError,
@@ -594,7 +594,7 @@ export const getUpdatePlayerCareerSkillsUrl = (id: string,) => {
 export const updatePlayerCareerSkills = async (id: string,
     oldPlayerSkill: OldPlayerSkill[], options?: RequestInit): Promise<updatePlayerCareerSkillsResponse> => {
   
-  return customInstance<updatePlayerCareerSkillsResponse>(getUpdatePlayerCareerSkillsUrl(id),
+  return customFetch<updatePlayerCareerSkillsResponse>(getUpdatePlayerCareerSkillsUrl(id),
   {      
     ...options,
     method: 'PATCH',
@@ -608,7 +608,7 @@ export const updatePlayerCareerSkills = async (id: string,
 
 
 export const getUpdatePlayerCareerSkillsMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareerSkills>>, TError,{id: string;data: OldPlayerSkill[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareerSkills>>, TError,{id: string;data: OldPlayerSkill[]}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareerSkills>>, TError,{id: string;data: OldPlayerSkill[]}, TContext> => {
 
 const mutationKey = ['updatePlayerCareerSkills'];
@@ -642,7 +642,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Patches Player Career Skills during Creation.
  */
 export const useUpdatePlayerCareerSkills = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareerSkills>>, TError,{id: string;data: OldPlayerSkill[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePlayerCareerSkills>>, TError,{id: string;data: OldPlayerSkill[]}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updatePlayerCareerSkills>>,
         TError,
@@ -677,7 +677,7 @@ export const getGetAllPlayersUrl = () => {
 
 export const getAllPlayers = async ( options?: RequestInit): Promise<getAllPlayersResponse> => {
   
-  return customInstance<getAllPlayersResponse>(getGetAllPlayersUrl(),
+  return customFetch<getAllPlayersResponse>(getGetAllPlayersUrl(),
   {      
     ...options,
     method: 'GET'
@@ -697,7 +697,7 @@ export const getGetAllPlayersQueryKey = () => {
     }
 
     
-export const getGetAllPlayersQueryOptions = <TData = Awaited<ReturnType<typeof getAllPlayers>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetAllPlayersQueryOptions = <TData = Awaited<ReturnType<typeof getAllPlayers>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayers>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -726,7 +726,7 @@ export function useGetAllPlayers<TData = Awaited<ReturnType<typeof getAllPlayers
           TError,
           Awaited<ReturnType<typeof getAllPlayers>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllPlayers<TData = Awaited<ReturnType<typeof getAllPlayers>>, TError = unknown>(
@@ -736,11 +736,11 @@ export function useGetAllPlayers<TData = Awaited<ReturnType<typeof getAllPlayers
           TError,
           Awaited<ReturnType<typeof getAllPlayers>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllPlayers<TData = Awaited<ReturnType<typeof getAllPlayers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayers>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -748,7 +748,7 @@ export function useGetAllPlayers<TData = Awaited<ReturnType<typeof getAllPlayers
  */
 
 export function useGetAllPlayers<TData = Awaited<ReturnType<typeof getAllPlayers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPlayers>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

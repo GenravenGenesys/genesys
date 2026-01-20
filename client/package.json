@@ -19,7 +19,6 @@
     "@types/react": "19.2.8",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react-swc": "3.11.0",
-    "axios": "1.13.2",
     "css-select": "6.0.0",
     "eslint": "9.39.2",
     "eslint-plugin-react-hooks": "7.0.1",

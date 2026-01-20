@@ -20,7 +20,7 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -53,7 +53,7 @@ export const getGetModifiersUrl = () => {
 
 export const getModifiers = async ( options?: RequestInit): Promise<getModifiersResponse> => {
   
-  return customInstance<getModifiersResponse>(getGetModifiersUrl(),
+  return customFetch<getModifiersResponse>(getGetModifiersUrl(),
   {      
     ...options,
     method: 'GET'
@@ -73,7 +73,7 @@ export const getGetModifiersQueryKey = () => {
     }
 
     
-export const getGetModifiersQueryOptions = <TData = Awaited<ReturnType<typeof getModifiers>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetModifiersQueryOptions = <TData = Awaited<ReturnType<typeof getModifiers>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -102,7 +102,7 @@ export function useGetModifiers<TData = Awaited<ReturnType<typeof getModifiers>>
           TError,
           Awaited<ReturnType<typeof getModifiers>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetModifiers<TData = Awaited<ReturnType<typeof getModifiers>>, TError = unknown>(
@@ -112,11 +112,11 @@ export function useGetModifiers<TData = Awaited<ReturnType<typeof getModifiers>>
           TError,
           Awaited<ReturnType<typeof getModifiers>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetModifiers<TData = Awaited<ReturnType<typeof getModifiers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -124,7 +124,7 @@ export function useGetModifiers<TData = Awaited<ReturnType<typeof getModifiers>>
  */
 
 export function useGetModifiers<TData = Awaited<ReturnType<typeof getModifiers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getModifiers>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

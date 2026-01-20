@@ -28,7 +28,7 @@ import type {
   Spell
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -61,7 +61,7 @@ export const getGetSpellUrl = (id: string,) => {
 
 export const getSpell = async (id: string, options?: RequestInit): Promise<getSpellResponse> => {
   
-  return customInstance<getSpellResponse>(getGetSpellUrl(id),
+  return customFetch<getSpellResponse>(getGetSpellUrl(id),
   {      
     ...options,
     method: 'GET'
@@ -81,7 +81,7 @@ export const getGetSpellQueryKey = (id?: string,) => {
     }
 
     
-export const getGetSpellQueryOptions = <TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetSpellQueryOptions = <TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -110,7 +110,7 @@ export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError
           TError,
           Awaited<ReturnType<typeof getSpell>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(
@@ -120,11 +120,11 @@ export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError
           TError,
           Awaited<ReturnType<typeof getSpell>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -132,7 +132,7 @@ export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError
  */
 
 export function useGetSpell<TData = Awaited<ReturnType<typeof getSpell>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSpell>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -173,7 +173,7 @@ export const getUpdateSpellUrl = (id: string,) => {
 export const updateSpell = async (id: string,
     spell: Spell, options?: RequestInit): Promise<updateSpellResponse> => {
   
-  return customInstance<updateSpellResponse>(getUpdateSpellUrl(id),
+  return customFetch<updateSpellResponse>(getUpdateSpellUrl(id),
   {      
     ...options,
     method: 'PUT',
@@ -187,7 +187,7 @@ export const updateSpell = async (id: string,
 
 
 export const getUpdateSpellMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext> => {
 
 const mutationKey = ['updateSpell'];
@@ -221,7 +221,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update an existing spell
  */
 export const useUpdateSpell = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{id: string;data: Spell}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateSpell>>,
         TError,
@@ -256,7 +256,7 @@ export const getCreateSpellUrl = (name: string,) => {
 
 export const createSpell = async (name: string, options?: RequestInit): Promise<createSpellResponse> => {
   
-  return customInstance<createSpellResponse>(getCreateSpellUrl(name),
+  return customFetch<createSpellResponse>(getCreateSpellUrl(name),
   {      
     ...options,
     method: 'POST'
@@ -269,7 +269,7 @@ export const createSpell = async (name: string, options?: RequestInit): Promise<
 
 
 export const getCreateSpellMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext> => {
 
 const mutationKey = ['createSpell'];
@@ -303,7 +303,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Create a new spell
  */
 export const useCreateSpell = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{name: string}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createSpell>>,
         TError,
@@ -338,7 +338,7 @@ export const getGetAllSpellsUrl = () => {
 
 export const getAllSpells = async ( options?: RequestInit): Promise<getAllSpellsResponse> => {
   
-  return customInstance<getAllSpellsResponse>(getGetAllSpellsUrl(),
+  return customFetch<getAllSpellsResponse>(getGetAllSpellsUrl(),
   {      
     ...options,
     method: 'GET'
@@ -358,7 +358,7 @@ export const getGetAllSpellsQueryKey = () => {
     }
 
     
-export const getGetAllSpellsQueryOptions = <TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetAllSpellsQueryOptions = <TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -387,7 +387,7 @@ export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>
           TError,
           Awaited<ReturnType<typeof getAllSpells>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>(
@@ -397,11 +397,11 @@ export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>
           TError,
           Awaited<ReturnType<typeof getAllSpells>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -409,7 +409,7 @@ export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>
  */
 
 export function useGetAllSpells<TData = Awaited<ReturnType<typeof getAllSpells>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllSpells>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

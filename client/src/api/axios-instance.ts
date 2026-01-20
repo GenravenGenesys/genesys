@@ -15,7 +15,7 @@ export const customInstance = <T>(config: AxiosRequestConfig | string, options?:
     const promise = AXIOS_INSTANCE({
         ...requestConfig,
         cancelToken: source.token,
-    }).then((response) => response as unknown as T);
+    }).then((response) => response as T);
 
     // @ts-ignore
     promise.cancel = () => {

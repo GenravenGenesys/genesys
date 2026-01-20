@@ -28,7 +28,7 @@ import type {
   Quality
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -61,7 +61,7 @@ export const getGetQualitiesUrl = (campaignId: string,) => {
 
 export const getQualities = async (campaignId: string, options?: RequestInit): Promise<getQualitiesResponse> => {
   
-  return customInstance<getQualitiesResponse>(getGetQualitiesUrl(campaignId),
+  return customFetch<getQualitiesResponse>(getGetQualitiesUrl(campaignId),
   {      
     ...options,
     method: 'GET'
@@ -81,7 +81,7 @@ export const getGetQualitiesQueryKey = (campaignId?: string,) => {
     }
 
     
-export const getGetQualitiesQueryOptions = <TData = Awaited<ReturnType<typeof getQualities>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQualities>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetQualitiesQueryOptions = <TData = Awaited<ReturnType<typeof getQualities>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQualities>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -110,7 +110,7 @@ export function useGetQualities<TData = Awaited<ReturnType<typeof getQualities>>
           TError,
           Awaited<ReturnType<typeof getQualities>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetQualities<TData = Awaited<ReturnType<typeof getQualities>>, TError = unknown>(
@@ -120,11 +120,11 @@ export function useGetQualities<TData = Awaited<ReturnType<typeof getQualities>>
           TError,
           Awaited<ReturnType<typeof getQualities>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetQualities<TData = Awaited<ReturnType<typeof getQualities>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQualities>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQualities>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -132,7 +132,7 @@ export function useGetQualities<TData = Awaited<ReturnType<typeof getQualities>>
  */
 
 export function useGetQualities<TData = Awaited<ReturnType<typeof getQualities>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQualities>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQualities>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -173,7 +173,7 @@ export const getCreateQualityUrl = (campaignId: string,) => {
 export const createQuality = async (campaignId: string,
     quality: Quality, options?: RequestInit): Promise<createQualityResponse> => {
   
-  return customInstance<createQualityResponse>(getCreateQualityUrl(campaignId),
+  return customFetch<createQualityResponse>(getCreateQualityUrl(campaignId),
   {      
     ...options,
     method: 'POST',
@@ -187,7 +187,7 @@ export const createQuality = async (campaignId: string,
 
 
 export const getCreateQualityMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,{campaignId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,{campaignId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,{campaignId: string;data: Quality}, TContext> => {
 
 const mutationKey = ['createQuality'];
@@ -221,7 +221,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Create a new quality
  */
 export const useCreateQuality = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,{campaignId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,{campaignId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createQuality>>,
         TError,
@@ -259,7 +259,7 @@ export const updateQuality = async (campaignId: string,
     qualityId: string,
     quality: Quality, options?: RequestInit): Promise<updateQualityResponse> => {
   
-  return customInstance<updateQualityResponse>(getUpdateQualityUrl(campaignId,qualityId),
+  return customFetch<updateQualityResponse>(getUpdateQualityUrl(campaignId,qualityId),
   {      
     ...options,
     method: 'PATCH',
@@ -273,7 +273,7 @@ export const updateQuality = async (campaignId: string,
 
 
 export const getUpdateQualityMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,{campaignId: string;qualityId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,{campaignId: string;qualityId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,{campaignId: string;qualityId: string;data: Quality}, TContext> => {
 
 const mutationKey = ['updateQuality'];
@@ -307,7 +307,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update a quality
  */
 export const useUpdateQuality = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,{campaignId: string;qualityId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,{campaignId: string;qualityId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateQuality>>,
         TError,

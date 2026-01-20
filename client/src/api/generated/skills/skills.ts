@@ -28,7 +28,7 @@ import type {
   Skill
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -61,7 +61,7 @@ export const getGetSkillsUrl = (campaignId: string,) => {
 
 export const getSkills = async (campaignId: string, options?: RequestInit): Promise<getSkillsResponse> => {
   
-  return customInstance<getSkillsResponse>(getGetSkillsUrl(campaignId),
+  return customFetch<getSkillsResponse>(getGetSkillsUrl(campaignId),
   {      
     ...options,
     method: 'GET'
@@ -81,7 +81,7 @@ export const getGetSkillsQueryKey = (campaignId?: string,) => {
     }
 
     
-export const getGetSkillsQueryOptions = <TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetSkillsQueryOptions = <TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -110,7 +110,7 @@ export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TErr
           TError,
           Awaited<ReturnType<typeof getSkills>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(
@@ -120,11 +120,11 @@ export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TErr
           TError,
           Awaited<ReturnType<typeof getSkills>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -132,7 +132,7 @@ export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TErr
  */
 
 export function useGetSkills<TData = Awaited<ReturnType<typeof getSkills>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkills>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -173,7 +173,7 @@ export const getCreateSkillUrl = (campaignId: string,) => {
 export const createSkill = async (campaignId: string,
     skill: Skill, options?: RequestInit): Promise<createSkillResponse> => {
   
-  return customInstance<createSkillResponse>(getCreateSkillUrl(campaignId),
+  return customFetch<createSkillResponse>(getCreateSkillUrl(campaignId),
   {      
     ...options,
     method: 'POST',
@@ -187,7 +187,7 @@ export const createSkill = async (campaignId: string,
 
 
 export const getCreateSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext> => {
 
 const mutationKey = ['createSkill'];
@@ -221,7 +221,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Create a new skill
  */
 export const useCreateSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createSkill>>,
         TError,
@@ -259,7 +259,7 @@ export const updateSkill = async (campaignId: string,
     skillId: string,
     skill: Skill, options?: RequestInit): Promise<updateSkillResponse> => {
   
-  return customInstance<updateSkillResponse>(getUpdateSkillUrl(campaignId,skillId),
+  return customFetch<updateSkillResponse>(getUpdateSkillUrl(campaignId,skillId),
   {      
     ...options,
     method: 'PATCH',
@@ -273,7 +273,7 @@ export const updateSkill = async (campaignId: string,
 
 
 export const getUpdateSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext> => {
 
 const mutationKey = ['updateSkill'];
@@ -307,7 +307,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update a skill
  */
 export const useUpdateSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateSkill>>,
         TError,

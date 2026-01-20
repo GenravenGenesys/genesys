@@ -28,7 +28,7 @@ import type {
   Career
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -61,7 +61,7 @@ export const getGetCareerUrl = (campaignId: string,) => {
 
 export const getCareer = async (campaignId: string, options?: RequestInit): Promise<getCareerResponse> => {
   
-  return customInstance<getCareerResponse>(getGetCareerUrl(campaignId),
+  return customFetch<getCareerResponse>(getGetCareerUrl(campaignId),
   {      
     ...options,
     method: 'GET'
@@ -81,7 +81,7 @@ export const getGetCareerQueryKey = (campaignId?: string,) => {
     }
 
     
-export const getGetCareerQueryOptions = <TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetCareerQueryOptions = <TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -110,7 +110,7 @@ export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TErr
           TError,
           Awaited<ReturnType<typeof getCareer>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(
@@ -120,11 +120,11 @@ export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TErr
           TError,
           Awaited<ReturnType<typeof getCareer>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -132,7 +132,7 @@ export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TErr
  */
 
 export function useGetCareer<TData = Awaited<ReturnType<typeof getCareer>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareer>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -173,7 +173,7 @@ export const getCreateCareerUrl = (campaignId: string,) => {
 export const createCareer = async (campaignId: string,
     career: Career, options?: RequestInit): Promise<createCareerResponse> => {
   
-  return customInstance<createCareerResponse>(getCreateCareerUrl(campaignId),
+  return customFetch<createCareerResponse>(getCreateCareerUrl(campaignId),
   {      
     ...options,
     method: 'POST',
@@ -187,7 +187,7 @@ export const createCareer = async (campaignId: string,
 
 
 export const getCreateCareerMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,{campaignId: string;data: Career}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,{campaignId: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,{campaignId: string;data: Career}, TContext> => {
 
 const mutationKey = ['createCareer'];
@@ -221,7 +221,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Create a new career
  */
 export const useCreateCareer = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,{campaignId: string;data: Career}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,{campaignId: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createCareer>>,
         TError,
@@ -259,7 +259,7 @@ export const updateCareer = async (campaignId: string,
     careerId: string,
     career: Career, options?: RequestInit): Promise<updateCareerResponse> => {
   
-  return customInstance<updateCareerResponse>(getUpdateCareerUrl(campaignId,careerId),
+  return customFetch<updateCareerResponse>(getUpdateCareerUrl(campaignId,careerId),
   {      
     ...options,
     method: 'PATCH',
@@ -273,7 +273,7 @@ export const updateCareer = async (campaignId: string,
 
 
 export const getUpdateCareerMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{campaignId: string;careerId: string;data: Career}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{campaignId: string;careerId: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{campaignId: string;careerId: string;data: Career}, TContext> => {
 
 const mutationKey = ['updateCareer'];
@@ -307,7 +307,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update a career
  */
 export const useUpdateCareer = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{campaignId: string;careerId: string;data: Career}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{campaignId: string;careerId: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateCareer>>,
         TError,

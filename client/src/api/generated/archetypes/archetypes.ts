@@ -28,7 +28,7 @@ import type {
   Archetype
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -61,7 +61,7 @@ export const getGetArchetypeUrl = (campaignId: string,) => {
 
 export const getArchetype = async (campaignId: string, options?: RequestInit): Promise<getArchetypeResponse> => {
   
-  return customInstance<getArchetypeResponse>(getGetArchetypeUrl(campaignId),
+  return customFetch<getArchetypeResponse>(getGetArchetypeUrl(campaignId),
   {      
     ...options,
     method: 'GET'
@@ -81,7 +81,7 @@ export const getGetArchetypeQueryKey = (campaignId?: string,) => {
     }
 
     
-export const getGetArchetypeQueryOptions = <TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetArchetypeQueryOptions = <TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -110,7 +110,7 @@ export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>
           TError,
           Awaited<ReturnType<typeof getArchetype>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(
@@ -120,11 +120,11 @@ export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>
           TError,
           Awaited<ReturnType<typeof getArchetype>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -132,7 +132,7 @@ export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>
  */
 
 export function useGetArchetype<TData = Awaited<ReturnType<typeof getArchetype>>, TError = unknown>(
- campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ campaignId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getArchetype>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -173,7 +173,7 @@ export const getCreateArchetypeUrl = (campaignId: string,) => {
 export const createArchetype = async (campaignId: string,
     archetype: Archetype, options?: RequestInit): Promise<createArchetypeResponse> => {
   
-  return customInstance<createArchetypeResponse>(getCreateArchetypeUrl(campaignId),
+  return customFetch<createArchetypeResponse>(getCreateArchetypeUrl(campaignId),
   {      
     ...options,
     method: 'POST',
@@ -187,7 +187,7 @@ export const createArchetype = async (campaignId: string,
 
 
 export const getCreateArchetypeMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{campaignId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{campaignId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{campaignId: string;data: Archetype}, TContext> => {
 
 const mutationKey = ['createArchetype'];
@@ -221,7 +221,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Create a new archetype
  */
 export const useCreateArchetype = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{campaignId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{campaignId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createArchetype>>,
         TError,
@@ -259,7 +259,7 @@ export const updateArchetype = async (campaignId: string,
     archetypeId: string,
     archetype: Archetype, options?: RequestInit): Promise<updateArchetypeResponse> => {
   
-  return customInstance<updateArchetypeResponse>(getUpdateArchetypeUrl(campaignId,archetypeId),
+  return customFetch<updateArchetypeResponse>(getUpdateArchetypeUrl(campaignId,archetypeId),
   {      
     ...options,
     method: 'PATCH',
@@ -273,7 +273,7 @@ export const updateArchetype = async (campaignId: string,
 
 
 export const getUpdateArchetypeMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{campaignId: string;archetypeId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{campaignId: string;archetypeId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{campaignId: string;archetypeId: string;data: Archetype}, TContext> => {
 
 const mutationKey = ['updateArchetype'];
@@ -307,7 +307,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update a archetype
  */
 export const useUpdateArchetype = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{campaignId: string;archetypeId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{campaignId: string;archetypeId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateArchetype>>,
         TError,

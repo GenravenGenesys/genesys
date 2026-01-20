@@ -29,7 +29,7 @@ import type {
   CampaignCompendium
 } from '../../model';
 
-import { customInstance } from '../../axios-instance';
+import { customFetch } from '../../fetch-instance';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -62,7 +62,7 @@ export const getGetAllCampaignsUrl = () => {
 
 export const getAllCampaigns = async ( options?: RequestInit): Promise<getAllCampaignsResponse> => {
   
-  return customInstance<getAllCampaignsResponse>(getGetAllCampaignsUrl(),
+  return customFetch<getAllCampaignsResponse>(getGetAllCampaignsUrl(),
   {      
     ...options,
     method: 'GET'
@@ -82,7 +82,7 @@ export const getGetAllCampaignsQueryKey = () => {
     }
 
     
-export const getGetAllCampaignsQueryOptions = <TData = Awaited<ReturnType<typeof getAllCampaigns>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaigns>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetAllCampaignsQueryOptions = <TData = Awaited<ReturnType<typeof getAllCampaigns>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaigns>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -111,7 +111,7 @@ export function useGetAllCampaigns<TData = Awaited<ReturnType<typeof getAllCampa
           TError,
           Awaited<ReturnType<typeof getAllCampaigns>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllCampaigns<TData = Awaited<ReturnType<typeof getAllCampaigns>>, TError = unknown>(
@@ -121,11 +121,11 @@ export function useGetAllCampaigns<TData = Awaited<ReturnType<typeof getAllCampa
           TError,
           Awaited<ReturnType<typeof getAllCampaigns>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllCampaigns<TData = Awaited<ReturnType<typeof getAllCampaigns>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaigns>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaigns>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -133,7 +133,7 @@ export function useGetAllCampaigns<TData = Awaited<ReturnType<typeof getAllCampa
  */
 
 export function useGetAllCampaigns<TData = Awaited<ReturnType<typeof getAllCampaigns>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaigns>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCampaigns>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -173,7 +173,7 @@ export const getCreateCampaignUrl = () => {
 
 export const createCampaign = async (campaign: Campaign, options?: RequestInit): Promise<createCampaignResponse> => {
   
-  return customInstance<createCampaignResponse>(getCreateCampaignUrl(),
+  return customFetch<createCampaignResponse>(getCreateCampaignUrl(),
   {      
     ...options,
     method: 'POST',
@@ -187,7 +187,7 @@ export const createCampaign = async (campaign: Campaign, options?: RequestInit):
 
 
 export const getCreateCampaignMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaign>>, TError,{data: Campaign}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaign>>, TError,{data: Campaign}, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createCampaign>>, TError,{data: Campaign}, TContext> => {
 
 const mutationKey = ['createCampaign'];
@@ -221,7 +221,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Create a new campaign
  */
 export const useCreateCampaign = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaign>>, TError,{data: Campaign}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaign>>, TError,{data: Campaign}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createCampaign>>,
         TError,
@@ -252,7 +252,7 @@ export const getStreamCompendiumUrl = (id: string,) => {
 
 export const streamCompendium = async (id: string, options?: RequestInit): Promise<streamCompendiumResponse> => {
   
-  return customInstance<streamCompendiumResponse>(getStreamCompendiumUrl(id),
+  return customFetch<streamCompendiumResponse>(getStreamCompendiumUrl(id),
   {      
     ...options,
     method: 'GET'
@@ -272,7 +272,7 @@ export const getStreamCompendiumQueryKey = (id?: string,) => {
     }
 
     
-export const getStreamCompendiumQueryOptions = <TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getStreamCompendiumQueryOptions = <TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -301,7 +301,7 @@ export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamComp
           TError,
           Awaited<ReturnType<typeof streamCompendium>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
@@ -311,16 +311,16 @@ export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamComp
           TError,
           Awaited<ReturnType<typeof streamCompendium>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useStreamCompendium<TData = Awaited<ReturnType<typeof streamCompendium>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamCompendium>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -360,7 +360,7 @@ export const getGetCampaignUrl = (id: string,) => {
 
 export const getCampaign = async (id: string, options?: RequestInit): Promise<getCampaignResponse> => {
   
-  return customInstance<getCampaignResponse>(getGetCampaignUrl(id),
+  return customFetch<getCampaignResponse>(getGetCampaignUrl(id),
   {      
     ...options,
     method: 'GET'
@@ -380,7 +380,7 @@ export const getGetCampaignQueryKey = (id?: string,) => {
     }
 
     
-export const getGetCampaignQueryOptions = <TData = Awaited<ReturnType<typeof getCampaign>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetCampaignQueryOptions = <TData = Awaited<ReturnType<typeof getCampaign>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -409,7 +409,7 @@ export function useGetCampaign<TData = Awaited<ReturnType<typeof getCampaign>>, 
           TError,
           Awaited<ReturnType<typeof getCampaign>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetCampaign<TData = Awaited<ReturnType<typeof getCampaign>>, TError = unknown>(
@@ -419,11 +419,11 @@ export function useGetCampaign<TData = Awaited<ReturnType<typeof getCampaign>>, 
           TError,
           Awaited<ReturnType<typeof getCampaign>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetCampaign<TData = Awaited<ReturnType<typeof getCampaign>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -431,7 +431,7 @@ export function useGetCampaign<TData = Awaited<ReturnType<typeof getCampaign>>, 
  */
 
 export function useGetCampaign<TData = Awaited<ReturnType<typeof getCampaign>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCampaign>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

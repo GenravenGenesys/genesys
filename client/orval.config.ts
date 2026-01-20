@@ -11,8 +11,8 @@ module.exports = {
             prettier: true,
             override: {
                 mutator: {
-                    path: 'src/api/axios-instance.ts',
-                    name: 'customInstance',
+                    path: 'src/api/fetch-instance.ts',
+                    name: 'customFetch',
                 },
             },
         },
