@@ -123,14 +123,21 @@ export default function CampaignWizard() {
         <Container maxWidth="md" sx={{py: 8}}>
             <Paper elevation={3} sx={{p: 6, borderRadius: 4}}>
                 <Box sx={{mb: 4, textAlign: 'center'}}>
-                    <Typography variant="h4" fontWeight="bold" color="primary">Create New Campaign</Typography>
-                    <Typography color="text.secondary">Follow these steps to initialize your custom Genesys
-                        setting.</Typography>
+                    <Typography variant="h4" fontWeight="bold" color="primary">
+                        Create New Campaign
+                    </Typography>
+                    <Typography color="text.secondary">
+                        Follow these steps to initialize your custom Genesys setting.
+                    </Typography>
                 </Box>
 
                 <Stepper activeStep={activeStep}>
                     {steps.map((label) => (
-                        <Step key={label}><StepLabel>{label}</StepLabel></Step>
+                        <Step key={label}>
+                            <StepLabel>
+                                {label}
+                            </StepLabel>
+                        </Step>
                     ))}
                 </Stepper>
 
@@ -141,7 +148,9 @@ export default function CampaignWizard() {
                 <Divider sx={{my: 4}}/>
 
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                    <Button disabled={activeStep === 0} onClick={handleBack}>Back</Button>
+                    <Button disabled={activeStep === 0} onClick={handleBack}>
+                        Back
+                    </Button>
                     <Box>
                         {activeStep === steps.length - 1 ? (
                             <Button variant="contained" color="success" startIcon={<SaveIcon/>}
@@ -149,7 +158,9 @@ export default function CampaignWizard() {
                                 Create Setting
                             </Button>
                         ) : (
-                            <Button variant="contained" onClick={handleNext}>Next Step</Button>
+                            <Button variant="contained" onClick={handleNext}>
+                                Next Step
+                            </Button>
                         )}
                     </Box>
                 </Box>

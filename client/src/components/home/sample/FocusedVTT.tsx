@@ -7,9 +7,9 @@ import {
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AddIcon from '@mui/icons-material/Add';
-import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {useNavigate} from "react-router";
 import type {Campaign} from "../../../api/model";
 import {RootPath} from "../../../services/RootPath.ts";
@@ -70,31 +70,20 @@ export default function FocusedVTT(props: Props) {
                                         sx={{px: 8, py: 2, borderRadius: 4, fontWeight: 'bold'}}>
                                     Launch VTT
                                 </Button>
-                                {/*<Button variant="outlined" size="large" startIcon={<SettingsIcon/>}*/}
-                                {/*        sx={{borderRadius: 4}}>*/}
-                                {/*    Rules & Settings*/}
-                                {/*</Button>*/}
                             </Box>
                         </Paper>
                     </Grid>
 
-                    {/*<Grid size={{xs: 12, md: 4}}>*/}
-                    {/*    <Card>*/}
-                    {/*        <CardContent sx={{textAlign: 'center', py: 4}}>*/}
-                    {/*            <PeopleIcon sx={{fontSize: 40, color: 'primary.main', mb: 1}}/>*/}
-                    {/*            <Typography variant="h4">{5}</Typography>*/}
-                    {/*            <Button sx={{mt: 2}}>Invite Players</Button>*/}
-                    {/*        </CardContent>*/}
-                    {/*    </Card>*/}
-                    {/*</Grid>*/}
-
                     <Grid size={{xs: 12, md: 4}}>
                         <Card>
                             <CardContent sx={{textAlign: 'center', py: 4}}>
-                                <LibraryBooksIcon sx={{fontSize: 40, color: 'primary.main'}}/>
-                                <Typography variant="h4">{"Custom Files"}</Typography>
-                                <Button onClick={() => navigate(RootPath.Campaign + current.id + "/compendium")}>Open
-                                    Compendium</Button>
+                                <PeopleIcon sx={{fontSize: 40, color: 'primary.main', mb: 1}}/>
+                                <Typography variant="h5">
+                                    {current.party.players.length}
+                                </Typography>
+                                <Button sx={{mt: 2}} onClick={() => navigate(RootPath.Campaign + current.id + "/party")}>
+                                    Party Management
+                                </Button>
                             </CardContent>
                         </Card>
                     </Grid>
@@ -102,13 +91,31 @@ export default function FocusedVTT(props: Props) {
                     <Grid size={{xs: 12, md: 4}}>
                         <Card>
                             <CardContent sx={{textAlign: 'center', py: 4}}>
-                                <Typography variant="h4">06 Jan 2026</Typography>
-                                <Typography variant="body2" color="text.secondary">Next Session Date</Typography>
-                                <Button sx={{mt: 2}}>Schedule</Button>
+                                <LibraryBooksIcon sx={{fontSize: 40, color: 'primary.main', mb: 1}}/>
+                                <Typography variant="h5">
+                                    {"Custom Compendium"}
+                                </Typography>
+                                <Button sx={{mt: 2}}
+                                        onClick={() => navigate(RootPath.Campaign + current.id + "/compendium")}>
+                                    Open Compendium
+                                </Button>
                             </CardContent>
                         </Card>
                     </Grid>
 
+                    <Grid size={{xs: 12, md: 4}}>
+                        <Card>
+                            <CardContent sx={{textAlign: 'center', py: 4}}>
+                                <CalendarTodayIcon sx={{fontSize: 40, color: 'primary.main', mb: 1}}/>
+                                <Typography variant="h5">
+                                    Next Session: 06 Jan 2026
+                                </Typography>
+                                <Button sx={{mt: 2}} disabled>
+                                    Schedule
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 </Grid>
             </Box>
         </Box>

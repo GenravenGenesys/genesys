@@ -27,6 +27,7 @@ import SessionManager from "./sample/session/SessionManager.tsx";
 import SampleSessionManagementPage from "./sample/SampleSessionManagementPage.tsx";
 import ViewCompendiumArchetypes from "./sample/compendium/archetype/ViewCompendiumArchetypes.tsx";
 import ViewCompendiumCareers from "./sample/compendium/career/ViewCompendiumCareers.tsx";
+import PartyPage from "./sample/party/PartyPage.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useAuth0();
@@ -79,6 +80,9 @@ export const App: React.FC = () => {
                 <Route path="/callback" element={<CallbackPage/>}/>
                 <Route path="/" element={<Navigate replace to={"/" + RootPath.Home}/>}/>
                 <Route path={RootPath.Home} element={<CampaignDashboardPage/>}/>
+
+                <Route path={RootPath.Campaign + ":id/party"} element={<PartyPage/>}/>
+
                 <Route path={RootPath.Campaign + ":id/compendium"} element={<CompendiumHome/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Skills} element={<ViewCompendiumSkills/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Talent}
