@@ -168,6 +168,7 @@ export const emptyPlayerCharacter = {
     archetype: emptyArchetype,
     career: emptyCareer,
     description: '',
+    background: '',
     characteristics: {
         brawn: {
             current: 1,

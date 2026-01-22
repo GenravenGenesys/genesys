@@ -7,11 +7,18 @@ import {
     Paper, Stack, Step, StepLabel, Stepper, TextField,
     Typography, useMediaQuery, useTheme
 } from "@mui/material";
-import {type CampaignCompendium, type PlayerCharacter} from "../../../../api/model";
+import {
+    type CampaignCompendium,
+    type Career,
+    type PlayerCharacter,
+    type PlayerSkill,
+    type Skill
+} from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
 import {useEffect, useState} from "react";
-import {emptyArchetype, emptyPlayerCharacter} from "../../../../models/Template.ts";
+import {emptyArchetype, emptyCareer, emptyPlayerCharacter} from "../../../../models/Template.ts";
 import ArchetypeSelectionStep from "./ArchetypeSelectionStep.tsx";
+import CareerSelectionStep from "./CareerSelectionStep.tsx";
 
 interface Props {
     open: boolean;
@@ -40,7 +47,7 @@ export default function PlayerCreationDialog(props: Props) {
             case 1:
                 return formData.archetype !== emptyArchetype;
             case 2:
-                return !!formData.career;
+                return formData.career !== emptyCareer && formData.skills.length === 4;
             default:
                 return true;
         }
@@ -58,6 +65,15 @@ export default function PlayerCreationDialog(props: Props) {
         setFormData((prev) => ({...prev, [field]: value}));
     };
 
+    const handleCareerSkillSelection = (career: Career, skills: Skill[]) => {
+        handleChange('career', career);
+        const playerSkills = [] as PlayerSkill[];
+        for (const skill of skills) {
+            playerSkills.push({...skill, ranks: 1});
+        }
+        handleChange('skills', playerSkills);
+    }
+
     const renderStepContent = (step: number) => {
         switch (step) {
             case 0:
@@ -70,10 +86,10 @@ export default function PlayerCreationDialog(props: Props) {
                     </Stack>
                 );
             case 1:
-                return <ArchetypeSelectionStep archetype={player.archetype} archetypes={compendium.archetypes}
+                return <ArchetypeSelectionStep archetype={formData.archetype} archetypes={compendium.archetypes}
                                                onSave={(archetype) => handleChange('archetype', archetype)}/>;
             case 2:
-                return <Typography sx={{mt: 4}}>Player Career Selection would go here...</Typography>;
+                return <CareerSelectionStep career={formData.career} careers={compendium.careers} onSave={handleCareerSkillSelection}/>
             case 3:
                 return <Typography sx={{mt: 4}}>Experience Spending would go here...</Typography>;
             case 4:

@@ -30,7 +30,7 @@ export default function ArchetypeSelectionStep(props: Props) {
                 <Autocomplete
                     sx={{mb: 2}}
                     options={archetypes}
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) => option.name  || ""}
                     value={selectedArchetype}
                     onChange={(_, newValue) => onChangeArchetype(newValue as Archetype)}
                     renderInput={(params) => (
