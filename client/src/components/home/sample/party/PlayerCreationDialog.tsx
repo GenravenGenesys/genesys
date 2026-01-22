@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import {type CampaignCompendium, type PlayerCharacter} from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
-import React, {useEffect, useState} from "react";
-import {emptyPlayerCharacter} from "../../../../models/Template.ts";
+import {useEffect, useState} from "react";
+import {emptyArchetype, emptyPlayerCharacter} from "../../../../models/Template.ts";
 import ArchetypeSelectionStep from "./ArchetypeSelectionStep.tsx";
 
 interface Props {
@@ -33,7 +33,25 @@ export default function PlayerCreationDialog(props: Props) {
         if (player) setFormData(player);
     }, [player]);
 
-    const handleNext = () => setActiveStep((prev) => prev + 1);
+    const isStepValid = (step: number): boolean => {
+        switch (step) {
+            case 0:
+                return !!formData.name?.trim();
+            case 1:
+                return formData.archetype !== emptyArchetype;
+            case 2:
+                return !!formData.career;
+            default:
+                return true;
+        }
+    };
+
+    const handleNext = () => {
+        if (isStepValid(activeStep)) {
+            setActiveStep((prev) => prev + 1);
+        }
+    };
+
     const handleBack = () => setActiveStep((prev) => prev - 1);
 
     const handleChange = <K extends keyof PlayerCharacter>(field: K, value: PlayerCharacter[K]) => {
@@ -130,7 +148,7 @@ export default function PlayerCreationDialog(props: Props) {
                                     Create Player Character
                                 </Button>
                             ) : (
-                                <Button variant="contained" onClick={handleNext}>
+                                <Button variant="contained" onClick={handleNext} disabled={!isStepValid(activeStep)}>
                                     Next Step
                                 </Button>
                             )}

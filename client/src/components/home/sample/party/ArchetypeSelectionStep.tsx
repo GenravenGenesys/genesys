@@ -1,9 +1,10 @@
-import {type Archetype, OldStatsType, SkillCharacteristic} from "../../../../api/model";
-import {Autocomplete, Box, Divider, Grid, Paper, Stack, TextField, Typography} from "@mui/material";
+import {type Archetype, SkillCharacteristic} from "../../../../api/model";
+import {Autocomplete, Box, Card, CardContent, Grid, Paper, Stack, TextField, Typography} from "@mui/material";
 import {useState} from "react";
-import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GridContainer from "../../../common/grid/GridContainer.tsx";
-import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
+import {CharacteristicBadge} from "./CharacteristicBadge.tsx";
+import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
+import {emptyArchetype} from "../../../../models/Template.ts";
 
 interface Props {
     archetype: Archetype;
@@ -14,11 +15,11 @@ interface Props {
 export default function ArchetypeSelectionStep(props: Props) {
     const {archetype, archetypes, onSave} = props;
     const [selectedArchetype, setSelectedArchetype] = useState(archetype);
-    const headers = ["Name", "Add"];
 
     const onChangeArchetype = (newArchetype: Archetype) => {
         setSelectedArchetype(newArchetype);
-    }
+        onSave(newArchetype);
+    };
 
     return (
         <Box sx={{mt: 3}}>
@@ -37,66 +38,70 @@ export default function ArchetypeSelectionStep(props: Props) {
                                    placeholder="Select a archetype..." fullWidth/>)}
                 />
             </Paper>
-            <Divider sx={{my: 2}}>
-                <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                    {selectedArchetype.name}
-                </Typography>
-            </Divider>
-            <Stack spacing={3}>
-                <GenesysTextField text={formData.name || ''} label={"Archetype Name"}
-                                  onChange={(e) => handleChange("name", e)} fullwidth/>
-                <GenesysTextField text={formData.description || ''} label={"Description"}
-                                  onChange={(e) => handleChange("description", e)} fullwidth rows={3}/>
-                <Divider sx={{my: 2}}>
-                    <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                        Characteristics
-                    </Typography>
-                </Divider>
-                <GridContainer>
-                    <Grid size={4}>
-                        <GenesysNumberField value={formData.brawn}
-                                            label={SkillCharacteristic.Brawn}
-                                            onChange={(e) => handleChange('brawn', e)} min={1} max={5}
-                                            fullwidth/>
-                        <GenesysNumberField value={formData.cunning}
-                                            label={SkillCharacteristic.Cunning}
-                                            onChange={(e) => handleChange('cunning', e)} min={1} max={5}
-                                            fullwidth/>
-                    </Grid>
-                    <Grid size={4}>
-                        <GenesysNumberField value={formData.agility}
-                                            label={SkillCharacteristic.Agility}
-                                            onChange={(e) => handleChange('agility', e)} min={1} max={5}
-                                            fullwidth/>
-                        <GenesysNumberField value={formData.willpower}
-                                            label={SkillCharacteristic.Willpower}
-                                            onChange={(e) => handleChange('willpower', e)} min={1} max={5}
-                                            fullwidth/>
-                    </Grid>
-                    <Grid size={4}>
-                        <GenesysNumberField value={formData.intellect}
-                                            label={SkillCharacteristic.Intellect}
-                                            onChange={(e) => handleChange('intellect', e)} min={1} max={5}
-                                            fullwidth/>
-                        <GenesysNumberField value={formData.presence}
-                                            label={SkillCharacteristic.Presence}
-                                            onChange={(e) => handleChange('presence', e)} min={1} max={5}
-                                            fullwidth/>
-                    </Grid>
-                </GridContainer>
-                <GridContainer>
-                    <Grid size={6}>
-                        <GenesysNumberField value={formData.wounds || 0} fullwidth
-                                            label={OldStatsType.Wounds + ' Threshold'}
-                                            onChange={(e) => handleChange('wounds', e)}/>
-                    </Grid>
-                    <Grid size={6}>
-                        <GenesysNumberField value={formData.strain || 0} fullwidth
-                                            label={OldStatsType.Strain + ' Threshold'}
-                                            onChange={(e) => handleChange('strain', e)}/>
-                    </Grid>
-                </GridContainer>
-            </Stack>
+            {selectedArchetype !== emptyArchetype && <Card>
+                <CenteredCardHeader title={selectedArchetype.name}/>
+                <CardContent>
+                    <Stack spacing={3}>
+                        <GridContainer spacing={2} centered>
+                            <Grid sx={{xs: 6, md: 4}}>
+                                <CharacteristicBadge value={selectedArchetype.brawn} label={SkillCharacteristic.Brawn}/>
+                            </Grid>
+                            <Grid sx={{xs: 6, md: 4}}>
+                                <CharacteristicBadge value={selectedArchetype.agility}
+                                                     label={SkillCharacteristic.Agility}/>
+                            </Grid>
+                            <Grid sx={{xs: 6, md: 4}}>
+                                <CharacteristicBadge value={selectedArchetype.intellect}
+                                                     label={SkillCharacteristic.Intellect}/>
+                            </Grid>
+                            <Grid sx={{xs: 6, md: 4}}>
+                                <CharacteristicBadge value={selectedArchetype.cunning}
+                                                     label={SkillCharacteristic.Cunning}/>
+                            </Grid>
+                            <Grid sx={{xs: 6, md: 4}}>
+                                <CharacteristicBadge value={selectedArchetype.willpower}
+                                                     label={SkillCharacteristic.Willpower}/>
+                            </Grid>
+                            <Grid sx={{xs: 6, md: 4}}>
+                                <CharacteristicBadge value={selectedArchetype.presence}
+                                                     label={SkillCharacteristic.Presence}/>
+                            </Grid>
+                        </GridContainer>
+                        <GridContainer spacing={3} centered>
+                            <Paper sx={{p: 2, textAlign: "center"}}>
+                                <Typography variant="h3" fontWeight="bold" color="text.primary">
+                                    {selectedArchetype.wounds}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Wound Threshold
+                                </Typography>
+                            </Paper>
+                            <Paper sx={{p: 2, textAlign: "center"}}>
+                                <Typography variant="h3" fontWeight="bold" color="text.primary">
+                                    {selectedArchetype.strain}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Strain Threshold
+                                </Typography>
+                            </Paper>
+                            <Paper sx={{p: 2, textAlign: "center"}}>
+                                <Typography variant="h3" fontWeight="bold" color="text.primary">
+                                    {100}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Starting XP
+                                </Typography>
+                            </Paper>
+                        </GridContainer>
+                        <GridContainer spacing={3} centered>
+                            <Typography sx={{mt: 4}}>Starting Skill(s) would go here...</Typography>
+                        </GridContainer>
+                        <GridContainer spacing={3} centered>
+                            <Typography sx={{mt: 4}}>Abilities would go here...</Typography>
+                        </GridContainer>
+                    </Stack>
+                </CardContent>
+            </Card>}
         </Box>
     );
 }
