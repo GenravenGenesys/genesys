@@ -25,6 +25,9 @@ public class PlayerCharacter {
     @NotEmpty
     private String name;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private String background;
+
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player archetype")
     private Archetype archetype;
 

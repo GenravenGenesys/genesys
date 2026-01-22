@@ -46,7 +46,7 @@ export default function ViewCompendiumCareers() {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [career, setCareer] = useState<Career>(emptyCareer);
     const [isNew, setIsNew] = useState(false);
-    const headers = ["Name", "Type", "Initiative", "Actions"];
+    const headers = ["Name", "Actions"];
 
     if (!id) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
