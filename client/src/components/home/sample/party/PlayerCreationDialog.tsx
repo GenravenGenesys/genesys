@@ -4,40 +4,32 @@ import {
     DialogContent,
     DialogTitle,
     Divider,
-    FormControl, FormControlLabel, FormGroup,
-    Grid, Paper,
-    Stack, Step, StepLabel, Stepper,
-    Tabs,
+    Paper, Stack, Step, StepLabel, Stepper, TextField,
     Typography, useMediaQuery, useTheme
 } from "@mui/material";
-import Tab from "@mui/material/Tab";
-import {Activation, type PlayerCharacter, type Talent, TalentTier} from "../../../../api/model";
-import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
-import GridContainer from "../../../common/grid/GridContainer.tsx";
-import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
-import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
-import TalentModifyStatsTab from "../compendium/talent/tabs/TalentModifyStatsTab.tsx";
+import {type PlayerCharacter} from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
-import {useEffect, useState} from "react";
-import {emptyTalent} from "../../../../models/Template.ts";
+import React, {useEffect, useState} from "react";
+import {emptyPlayerCharacter} from "../../../../models/Template.ts";
 
 interface Props {
     open: boolean;
-    talent: PlayerCharacter;
+    player: PlayerCharacter;
     onClose: () => void;
     onSave: (data: PlayerCharacter) => void;
 }
 
 export default function PlayerCreationDialog(props: Props) {
-    const {open, talent, onClose, onSave} = props;
-    const [formData, setFormData] = useState<PlayerCharacter>(talent || {});
+    const {open, player, onClose, onSave} = props;
+    const [formData, setFormData] = useState<PlayerCharacter>(player || {});
     const [activeStep, setActiveStep] = useState(0);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const steps = ['Character Concept', 'Select Archetype', 'Select Career', 'Spend Initial XP', 'Choose Motivations', 'Select Gear', 'Final Review'];
 
     useEffect(() => {
-        if (talent) setFormData(talent);
-    }, [talent]);
+        if (player) setFormData(player);
+    }, [player]);
 
     const handleNext = () => setActiveStep((prev) => prev + 1);
     const handleBack = () => setActiveStep((prev) => prev - 1);
@@ -49,13 +41,26 @@ export default function PlayerCreationDialog(props: Props) {
     const renderStepContent = (step: number) => {
         switch (step) {
             case 0:
-                return <StepIdentity/>;
+                return (
+                    <Stack spacing={3} sx={{mt: 3}}>
+                        <TextField label="Character Name" fullWidth value={formData.name}
+                                   onChange={(e) => setFormData({...formData, name: e.target.value})}/>
+                        <TextField label="Background Story" multiline rows={4} fullWidth value={formData.background}
+                                   onChange={(e) => setFormData({...formData, background: e.target.value})}/>
+                    </Stack>
+                );
             case 1:
-                return <StepSkills/>;
+                return <Typography sx={{mt: 4}}>Player Archetype Selection would go here...</Typography>;
             case 2:
-                return <Typography sx={{mt: 4}}>Archetype Creator would go here...</Typography>;
+                return <Typography sx={{mt: 4}}>Player Career Selection would go here...</Typography>;
             case 3:
-                return <Typography sx={{mt: 4}}>Career Creator would go here...</Typography>;
+                return <Typography sx={{mt: 4}}>Experience Spending would go here...</Typography>;
+            case 4:
+                return <Typography sx={{mt: 4}}>Player Motivation Selection would go here...</Typography>;
+            case 5:
+                return <Typography sx={{mt: 4}}>Gear Selection would go here...</Typography>;
+            case 6:
+                return <Typography sx={{mt: 4}}>Player Final Review would go here...</Typography>;
             default:
                 return null;
         }
@@ -63,12 +68,12 @@ export default function PlayerCreationDialog(props: Props) {
 
     const handleSave = () => {
         onSave(formData);
-        setFormData(emptyTalent);
+        setFormData(emptyPlayerCharacter);
         onClose();
     }
 
     const handleClose = () => {
-        setFormData(emptyTalent);
+        setFormData(emptyPlayerCharacter);
         onClose();
     };
 
@@ -116,8 +121,9 @@ export default function PlayerCreationDialog(props: Props) {
                         <Box>
                             {activeStep === steps.length - 1 ? (
                                 <Button variant="contained" color="success" startIcon={<SaveIcon/>}
-                                        onClick={onCreate}>
-                                    Create Setting
+                                    // onClick={onCreate}
+                                >
+                                    Create Player Character
                                 </Button>
                             ) : (
                                 <Button variant="contained" onClick={handleNext}>

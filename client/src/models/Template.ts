@@ -3,7 +3,7 @@ import {
     CostType,
     Difficulty,
     type ItemTemplate, ItemTemplateType,
-    LimitType,
+    LimitType, type PlayerCharacter, type PlayerSkill,
     RangeBand,
     type Skill,
     SkillType,
@@ -161,3 +161,64 @@ export const emptyCareer = {
         emptySkill,
     ] as Skill[]
 } as Career;
+
+export const emptyPlayerCharacter = {
+    id: '',
+    name: '',
+    archetype: emptyArchetype,
+    career: emptyCareer,
+    description: '',
+    characteristics: {
+        brawn: {
+            current: 1,
+            base: 1
+        },
+        agility: {
+            current: 1,
+            base: 1
+        },
+        intellect: {
+            current: 1,
+            base: 1
+        },
+        cunning: {
+            current: 1,
+            base: 1
+        },
+        willpower: {
+            current: 1,
+            base: 1
+        },
+        presence: {
+            current: 1,
+            base: 1
+        },
+    },
+    derivedStats: {
+        soak: {
+            current: 0,
+            base: 0
+        },
+        woundThreshold: {
+            current: 0,
+            total: 0,
+        },
+        strainThreshold: {
+            current: 0,
+            total: 0,
+        },
+        defense: {
+            current: 0,
+            base: 0
+        },
+    },
+    skills: [] as PlayerSkill[],
+    talents: [] as Talent[],
+    equipment: {
+        weapons: [] as ItemTemplate[],
+        equippedArmor: emptyItemTemplate,
+        otherGear: [] as ItemTemplate[]
+    },
+    motivations: [] as string[],
+    availableExperience: 0,
+} as PlayerCharacter;

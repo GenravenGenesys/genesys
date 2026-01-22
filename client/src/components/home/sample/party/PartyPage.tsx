@@ -12,13 +12,15 @@ import {
 } from "@mui/material";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 import StarIcon from "@mui/icons-material/Star";
-import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
 import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton.tsx";
 import {useState} from "react";
-import TalentDialog from "../compendium/talent/TalentDialog.tsx";
+import PlayerCreationDialog from "./PlayerCreationDialog.tsx";
+import type {PlayerCharacter} from "../../../../api/model";
+import {emptyPlayerCharacter} from "../../../../models/Template.ts";
 
 export default function PartyPage() {
     const {id} = useParams<{ id: string }>();
+    const [player, setPlayer] = useState<PlayerCharacter>(emptyPlayerCharacter);
     const [openDialog, setOpenDialog] = useState(false);
 
     if (!id) {
@@ -37,6 +39,16 @@ export default function PartyPage() {
 
     const party = campaign.party;
 
+    const handleSave = async (updatedPlayer: PlayerCharacter) => {
+        console.log("Saving player:", updatedPlayer);
+        // await createArchetypeMutation.mutateAsync({
+        //     campaignId: campaign.id,
+        //     data: updatedArchetype
+        // });
+
+        setPlayer(emptyPlayerCharacter);
+    };
+
     return (
         <Box>
             <Typography variant="h4" gutterBottom sx={{textAlign: 'center'}}>
@@ -47,7 +59,8 @@ export default function PartyPage() {
                 {/* Party Status Card */}
                 <Grid size={{xs: 12}}>
                     <Card>
-                        <CenteredCardHeaderWithButton title={"Party Status"} onClick={} buttonText={"Create Player"}/>
+                        <CenteredCardHeaderWithButton title={"Party Status"} onClick={() => setOpenDialog(true)}
+                                                      buttonText={"Create Player"}/>
                         <CardHeader title="Party Status"/>
                         <CardContent>
                             <Grid container spacing={2}>
@@ -65,7 +78,8 @@ export default function PartyPage() {
                                 </Grid>
                             </Grid>
                         </CardContent>
-                        <TalentDialog open={Boolean(openDialog)} onClose={() => setOpenDialog(false)}/>
+                        <PlayerCreationDialog open={Boolean(openDialog)} onClose={() => setOpenDialog(false)}
+                                              player={player} onSave={handleSave}/>
                     </Card>
                 </Grid>
 
