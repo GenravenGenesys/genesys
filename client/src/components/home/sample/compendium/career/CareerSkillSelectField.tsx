@@ -32,12 +32,10 @@ export default function CareerSkillSelectField(props: Props) {
     const filteredSkills = skills.data.filter(s => !formData.skills.some(selectedSkill => selectedSkill.id === s.id) || s.id === skill.id);
 
     return (
-
         <Box sx={{mt: 3}}>
             <Typography variant="subtitle2" color="primary" gutterBottom sx={{fontWeight: 'bold'}}>
                 SELECT SKILL {index + 1}
             </Typography>
-
             <Autocomplete
                 sx={{mb: 2}}
                 options={filteredSkills}
@@ -49,5 +47,5 @@ export default function CareerSkillSelectField(props: Props) {
                                placeholder="Select a skill..." fullWidth/>)}
             />
         </Box>
-    )
+    );
 }

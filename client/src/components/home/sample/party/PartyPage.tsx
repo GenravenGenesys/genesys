@@ -79,7 +79,7 @@ export default function PartyPage() {
                             </Grid>
                         </CardContent>
                         <PlayerCreationDialog open={Boolean(openDialog)} onClose={() => setOpenDialog(false)}
-                                              player={player} onSave={handleSave}/>
+                                              player={player} onSave={handleSave} compendium={campaign.compendium}/>
                     </Card>
                 </Grid>
 

@@ -7,20 +7,22 @@ import {
     Paper, Stack, Step, StepLabel, Stepper, TextField,
     Typography, useMediaQuery, useTheme
 } from "@mui/material";
-import {type PlayerCharacter} from "../../../../api/model";
+import {type CampaignCompendium, type PlayerCharacter} from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
 import React, {useEffect, useState} from "react";
 import {emptyPlayerCharacter} from "../../../../models/Template.ts";
+import ArchetypeSelectionStep from "./ArchetypeSelectionStep.tsx";
 
 interface Props {
     open: boolean;
     player: PlayerCharacter;
+    compendium: CampaignCompendium;
     onClose: () => void;
     onSave: (data: PlayerCharacter) => void;
 }
 
 export default function PlayerCreationDialog(props: Props) {
-    const {open, player, onClose, onSave} = props;
+    const {open, player, compendium, onClose, onSave} = props;
     const [formData, setFormData] = useState<PlayerCharacter>(player || {});
     const [activeStep, setActiveStep] = useState(0);
     const theme = useTheme();
@@ -50,7 +52,8 @@ export default function PlayerCreationDialog(props: Props) {
                     </Stack>
                 );
             case 1:
-                return <Typography sx={{mt: 4}}>Player Archetype Selection would go here...</Typography>;
+                return <ArchetypeSelectionStep archetype={player.archetype} archetypes={compendium.archetypes}
+                                               onSave={(archetype) => handleChange('archetype', archetype)}/>;
             case 2:
                 return <Typography sx={{mt: 4}}>Player Career Selection would go here...</Typography>;
             case 3:
@@ -68,11 +71,13 @@ export default function PlayerCreationDialog(props: Props) {
 
     const handleSave = () => {
         onSave(formData);
+        setActiveStep(0);
         setFormData(emptyPlayerCharacter);
         onClose();
     }
 
     const handleClose = () => {
+        setActiveStep(0);
         setFormData(emptyPlayerCharacter);
         onClose();
     };
@@ -121,8 +126,7 @@ export default function PlayerCreationDialog(props: Props) {
                         <Box>
                             {activeStep === steps.length - 1 ? (
                                 <Button variant="contained" color="success" startIcon={<SaveIcon/>}
-                                    // onClick={onCreate}
-                                >
+                                        onClick={handleSave}>
                                     Create Player Character
                                 </Button>
                             ) : (
