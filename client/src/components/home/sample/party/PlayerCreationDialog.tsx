@@ -19,6 +19,7 @@ import {useEffect, useState} from "react";
 import {emptyArchetype, emptyCareer, emptyPlayerCharacter} from "../../../../models/Template.ts";
 import ArchetypeSelectionStep from "./ArchetypeSelectionStep.tsx";
 import CareerSelectionStep from "./CareerSelectionStep.tsx";
+import SpendExperienceStep from "./SpendExperienceStep.tsx";
 
 interface Props {
     open: boolean;
@@ -94,7 +95,7 @@ export default function PlayerCreationDialog(props: Props) {
                 return <CareerSelectionStep career={formData.career} careers={compendium.careers}
                                             onSave={handleCareerSkillSelection}/>
             case 3:
-                return <Typography sx={{mt: 4}}>Experience Spending would go here...</Typography>;
+                return <SpendExperienceStep player={formData}/>;
             case 4:
                 return <Typography sx={{mt: 4}}>Player Motivation Selection would go here...</Typography>;
             case 5:
