@@ -125,6 +125,13 @@ export default function ArchetypeDialog(props: Props) {
                                                     onChange={(e) => handleChange('strain', e)}/>
                             </Grid>
                         </GridContainer>
+                        <GridContainer>
+                            <Grid size={12}>
+                                <GenesysNumberField value={formData.experience || 0} fullwidth
+                                                    label={'Starting Experience'}
+                                                    onChange={(e) => handleChange('experience', e)}/>
+                            </Grid>
+                        </GridContainer>
                     </Stack>
                 )}
             </DialogContent>

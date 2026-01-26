@@ -221,5 +221,9 @@ export const emptyPlayerCharacter = {
         otherGear: [] as ItemTemplate[]
     },
     motivations: [] as string[],
-    availableExperience: 0,
+    experience: {
+        initial: 0,
+        total: 0,
+        available: 0
+    },
 } as PlayerCharacter;

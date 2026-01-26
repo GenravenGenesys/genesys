@@ -107,7 +107,7 @@ export const App: React.FC = () => {
                 <Route path={"/sample/session"} element={<SampleSessionManager/>}/>
                 <Route path={"/genesys/session"} element={<GenesysSessionManager/>}/>
                 <Route path={"/genesys/session/manager"} element={<SampleSessionManagementPage/>}/>
-                <Route path={"/sample/creation"} element={<CharacterCreator campaignCompendium={undefined}/>}/>
+                <Route path={"/sample/creation"} element={<CharacterCreator/>}/>
             </Routes>
         </ThemeProvider>
     )

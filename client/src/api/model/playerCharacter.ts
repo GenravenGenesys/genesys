@@ -9,6 +9,7 @@ import type { Archetype } from './archetype';
 import type { Career } from './career';
 import type { Characteristics } from './characteristics';
 import type { DerivedStats } from './derivedStats';
+import type { Experience } from './experience';
 import type { PlayerEquipment } from './playerEquipment';
 import type { PlayerSkill } from './playerSkill';
 
@@ -32,4 +33,6 @@ export interface PlayerCharacter {
   equipment: PlayerEquipment;
   /** Player Skills */
   skills: PlayerSkill[];
+  /** Experience points */
+  experience: Experience;
 }

@@ -48,6 +48,8 @@ export default function PlayerCreationDialog(props: Props) {
                 return formData.archetype !== emptyArchetype;
             case 2:
                 return formData.career !== emptyCareer && formData.skills.length === 4;
+            case 3:
+                return formData.experience.initial === 0;
             default:
                 return true;
         }
@@ -89,7 +91,8 @@ export default function PlayerCreationDialog(props: Props) {
                 return <ArchetypeSelectionStep archetype={formData.archetype} archetypes={compendium.archetypes}
                                                onSave={(archetype) => handleChange('archetype', archetype)}/>;
             case 2:
-                return <CareerSelectionStep career={formData.career} careers={compendium.careers} onSave={handleCareerSkillSelection}/>
+                return <CareerSelectionStep career={formData.career} careers={compendium.careers}
+                                            onSave={handleCareerSkillSelection}/>
             case 3:
                 return <Typography sx={{mt: 4}}>Experience Spending would go here...</Typography>;
             case 4:
