@@ -3,14 +3,32 @@ import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.t
 import {Alert, Box, Card, CardContent, Grid, Stack, Typography} from "@mui/material";
 import GridContainer from "../../../common/grid/GridContainer.tsx";
 import {CharacteristicBadge} from "./CharacteristicBadge.tsx";
+import {useState} from "react";
 
 interface Props {
     player: PlayerCharacter;
-    // onChange: (data: PlayerCharacter) => void;
+    onCharacteristicSpend: (experience: number) => void;
 }
 
 export default function SpendExperienceStep(props: Props) {
-    const {player} = props;
+    const {player, onCharacteristicSpend} = props;
+    const [state, setState] = useState({
+        brawn: player.characteristics.brawn.base,
+        agility: player.characteristics.agility.base,
+        intellect: player.characteristics.intellect.base,
+        cunning: player.characteristics.cunning.base,
+        willpower: player.characteristics.willpower.base,
+        presence: player.characteristics.presence.base,
+    });
+
+    const onCharacteristicChange = (label: SkillCharacteristic, newValue: number) => {
+        const experienceCost = newValue * 10;
+        onCharacteristicSpend(experienceCost);
+        setState((prev) => ({
+            ...prev,
+            [label.toLowerCase()]: newValue
+        }));
+    };
 
     return (
         <Box sx={{mt: 3}}>
@@ -28,28 +46,34 @@ export default function SpendExperienceStep(props: Props) {
                     <Stack spacing={3}>
                         <GridContainer spacing={2} centered>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.brawn.base}
-                                                     label={SkillCharacteristic.Brawn}/>
+                                <CharacteristicBadge value={state.brawn} label={SkillCharacteristic.Brawn}
+                                                     onChange={(value) => onCharacteristicChange(SkillCharacteristic.Brawn, value)}
+                                                     editable/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.agility.base}
-                                                     label={SkillCharacteristic.Agility}/>
+                                <CharacteristicBadge value={state.agility} label={SkillCharacteristic.Agility}
+                                                     onChange={(value) => onCharacteristicChange(SkillCharacteristic.Agility, value)}
+                                                     editable/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.intellect.base}
-                                                     label={SkillCharacteristic.Intellect}/>
+                                <CharacteristicBadge value={state.intellect} label={SkillCharacteristic.Intellect}
+                                                     onChange={(value) => onCharacteristicChange(SkillCharacteristic.Intellect, value)}
+                                                     editable/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.cunning.base}
-                                                     label={SkillCharacteristic.Cunning}/>
+                                <CharacteristicBadge value={state.cunning} label={SkillCharacteristic.Cunning}
+                                                     onChange={(value) => onCharacteristicChange(SkillCharacteristic.Cunning, value)}
+                                                     editable/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.willpower.base}
-                                                     label={SkillCharacteristic.Willpower}/>
+                                <CharacteristicBadge value={state.willpower} label={SkillCharacteristic.Willpower}
+                                                     onChange={(value) => onCharacteristicChange(SkillCharacteristic.Willpower, value)}
+                                                     editable/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.presence.base}
-                                                     label={SkillCharacteristic.Presence}/>
+                                <CharacteristicBadge value={state.presence} label={SkillCharacteristic.Presence}
+                                                     onChange={(value) => onCharacteristicChange(SkillCharacteristic.Presence, value)}
+                                                     editable/>
                             </Grid>
                         </GridContainer>
                     </Stack>

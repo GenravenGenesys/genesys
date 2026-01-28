@@ -1,13 +1,12 @@
 import {
-    Box, Button, Checkbox, Container,
-    Dialog, DialogActions,
-    DialogContent,
-    DialogTitle,
+    Box, Button, Container,
+    Dialog,
     Divider,
     Paper, Stack, Step, StepLabel, Stepper, TextField,
     Typography, useMediaQuery, useTheme
 } from "@mui/material";
 import {
+    type Archetype,
     type CampaignCompendium,
     type Career,
     type PlayerCharacter,
@@ -68,6 +67,42 @@ export default function PlayerCreationDialog(props: Props) {
         setFormData((prev) => ({...prev, [field]: value}));
     };
 
+    const handleArchetypeSelection = (archetype: Archetype) => {
+        handleChange('archetype', archetype);
+        const characteristics = {
+            brawn: {
+                base: archetype.brawn,
+                current: archetype.brawn
+            },
+            agility: {
+                base: archetype.agility,
+                current: archetype.agility
+            },
+            intellect: {
+                base: archetype.intellect,
+                current: archetype.intellect
+            },
+            cunning: {
+                base: archetype.cunning,
+                current: archetype.cunning
+            },
+            willpower: {
+                base: archetype.willpower,
+                current: archetype.willpower
+            },
+            presence: {
+                base: archetype.presence,
+                current: archetype.presence
+            }
+        };
+        handleChange('characteristics', characteristics);
+        handleChange('experience', {
+            initial: archetype.experience,
+            total: archetype.experience,
+            available: archetype.experience
+        });
+    }
+
     const handleCareerSkillSelection = (career: Career, skills: Skill[]) => {
         handleChange('career', career);
         const playerSkills = [] as PlayerSkill[];
@@ -75,7 +110,7 @@ export default function PlayerCreationDialog(props: Props) {
             playerSkills.push({...skill, ranks: 1});
         }
         handleChange('skills', playerSkills);
-    }
+    };
 
     const renderStepContent = (step: number) => {
         switch (step) {
@@ -90,7 +125,7 @@ export default function PlayerCreationDialog(props: Props) {
                 );
             case 1:
                 return <ArchetypeSelectionStep archetype={formData.archetype} archetypes={compendium.archetypes}
-                                               onSave={(archetype) => handleChange('archetype', archetype)}/>;
+                                               onSave={handleArchetypeSelection}/>;
             case 2:
                 return <CareerSelectionStep career={formData.career} careers={compendium.careers}
                                             onSave={handleCareerSkillSelection}/>

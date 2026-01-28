@@ -9,8 +9,7 @@ interface CharacteristicBadgeProps {
     value: number;
     label: SkillCharacteristic;
     color?: string;
-    onIncrease?: () => void;
-    onDecrease?: () => void;
+    onChange?: (delta: number) => void;
     editable?: boolean;
 }
 
@@ -53,8 +52,7 @@ export const CharacteristicBadge: React.FC<CharacteristicBadgeProps> = ({
                                                                             value,
                                                                             label,
                                                                             color,
-                                                                            onIncrease,
-                                                                            onDecrease,
+                                                                            onChange,
                                                                             editable = false,
                                                                         }) => {
     return (
@@ -89,17 +87,19 @@ export const CharacteristicBadge: React.FC<CharacteristicBadgeProps> = ({
                 <Box sx={{display: 'flex', gap: 1}}>
                     <IconButton
                         size="small"
-                        onClick={onDecrease}
-                        aria-label="decrease"
+                        onClick={() => onChange?.(1)}
+                        aria-label="increase"
+                        disabled={value >= 5}
                     >
-                        <RemoveIcon fontSize="small" />
+                        <AddIcon fontSize="small"/>
                     </IconButton>
                     <IconButton
                         size="small"
-                        onClick={onIncrease}
-                        aria-label="increase"
+                        onClick={() => onChange?.(-1)}
+                        aria-label="decrease"
+                        disabled={value <= 1}
                     >
-                        <AddIcon fontSize="small" />
+                        <RemoveIcon fontSize="small"/>
                     </IconButton>
                 </Box>
             )}
