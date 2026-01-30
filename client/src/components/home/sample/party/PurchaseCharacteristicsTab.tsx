@@ -12,21 +12,21 @@ interface Props {
 
 export default function PurchaseCharacteristicsTab(props: Props) {
     const {player, onCharacteristicSpend} = props;
-    const [state, setState] = useState({
-        brawn: player.characteristics.brawn.base,
-        agility: player.characteristics.agility.base,
-        intellect: player.characteristics.intellect.base,
-        cunning: player.characteristics.cunning.base,
-        willpower: player.characteristics.willpower.base,
-        presence: player.characteristics.presence.base,
-    });
+    const [characteristics, setCharacteristics] = useState({
+        [SkillCharacteristic.Brawn]: player.characteristics.brawn.base,
+        [SkillCharacteristic.Agility]: player.characteristics.agility.base,
+        [SkillCharacteristic.Intellect]: player.characteristics.intellect.base,
+        [SkillCharacteristic.Cunning]: player.characteristics.cunning.base,
+        [SkillCharacteristic.Willpower]: player.characteristics.willpower.base,
+        [SkillCharacteristic.Presence]: player.characteristics.presence.base,
+    } as Record<SkillCharacteristic, number>);
 
     const onCharacteristicChange = (label: SkillCharacteristic, newValue: number) => {
         const experienceCost = newValue * 10;
         onCharacteristicSpend(experienceCost);
-        setState((prev) => ({
+        setCharacteristics((prev) => ({
             ...prev,
-            [label.toLowerCase()]: newValue
+            [label]: newValue
         }));
     };
 
@@ -44,36 +44,14 @@ export default function PurchaseCharacteristicsTab(props: Props) {
             <CardContent>
                 <Stack spacing={3}>
                     <GridContainer spacing={2} centered>
-                        <Grid sx={{xs: 6, md: 4}}>
-                            <CharacteristicBadge value={state.brawn} label={SkillCharacteristic.Brawn}
-                                                 onChange={(value) => onCharacteristicChange(SkillCharacteristic.Brawn, value)}
-                                                 editable/>
-                        </Grid>
-                        <Grid sx={{xs: 6, md: 4}}>
-                            <CharacteristicBadge value={state.agility} label={SkillCharacteristic.Agility}
-                                                 onChange={(value) => onCharacteristicChange(SkillCharacteristic.Agility, value)}
-                                                 editable/>
-                        </Grid>
-                        <Grid sx={{xs: 6, md: 4}}>
-                            <CharacteristicBadge value={state.intellect} label={SkillCharacteristic.Intellect}
-                                                 onChange={(value) => onCharacteristicChange(SkillCharacteristic.Intellect, value)}
-                                                 editable/>
-                        </Grid>
-                        <Grid sx={{xs: 6, md: 4}}>
-                            <CharacteristicBadge value={state.cunning} label={SkillCharacteristic.Cunning}
-                                                 onChange={(value) => onCharacteristicChange(SkillCharacteristic.Cunning, value)}
-                                                 editable/>
-                        </Grid>
-                        <Grid sx={{xs: 6, md: 4}}>
-                            <CharacteristicBadge value={state.willpower} label={SkillCharacteristic.Willpower}
-                                                 onChange={(value) => onCharacteristicChange(SkillCharacteristic.Willpower, value)}
-                                                 editable/>
-                        </Grid>
-                        <Grid sx={{xs: 6, md: 4}}>
-                            <CharacteristicBadge value={state.presence} label={SkillCharacteristic.Presence}
-                                                 onChange={(value) => onCharacteristicChange(SkillCharacteristic.Presence, value)}
-                                                 editable/>
-                        </Grid>
+                        {Object.values(SkillCharacteristic).map((characteristic) => (
+                            <Grid sx={{xs: 6, md: 4}}>
+                                <CharacteristicBadge value={characteristics[characteristic]}
+                                                     label={characteristic}
+                                                     onChange={(value) => onCharacteristicChange(characteristic, value)}
+                                                     editable/>
+                            </Grid>
+                        ))}
                     </GridContainer>
                 </Stack>
             </CardContent>

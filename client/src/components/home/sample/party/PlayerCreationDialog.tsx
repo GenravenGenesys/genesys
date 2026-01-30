@@ -130,7 +130,7 @@ export default function PlayerCreationDialog(props: Props) {
                 return <CareerSelectionStep career={formData.career} careers={compendium.careers}
                                             onSave={handleCareerSkillSelection}/>
             case 3:
-                return <SpendExperienceStep player={formData}
+                return <SpendExperienceStep player={formData} skills={compendium.skills} talents={compendium.talents}
                                             onSpendExperience={(value) => handleChange('experience', {
                                                 ...formData.experience,
                                                 initial: formData.experience.initial - value
