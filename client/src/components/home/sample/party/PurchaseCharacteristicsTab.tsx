@@ -21,6 +21,25 @@ export default function PurchaseCharacteristicsTab(props: Props) {
         [SkillCharacteristic.Presence]: player.characteristics.presence.base,
     } as Record<SkillCharacteristic, number>);
 
+    const getMinimumFromArchetype = (label: SkillCharacteristic): number => {
+        switch (label) {
+            case SkillCharacteristic.Brawn:
+                return player.archetype.brawn;
+            case SkillCharacteristic.Agility:
+                return player.archetype.agility;
+            case SkillCharacteristic.Intellect:
+                return player.archetype.intellect;
+            case SkillCharacteristic.Cunning:
+                return player.archetype.cunning;
+            case SkillCharacteristic.Willpower:
+                return player.archetype.willpower;
+            case SkillCharacteristic.Presence:
+                return player.archetype.presence;
+            default:
+                return 1;
+        }
+    }
+
     const onCharacteristicChange = (label: SkillCharacteristic, newValue: number) => {
         const experienceCost = newValue * 10;
         onCharacteristicSpend(experienceCost);
@@ -48,8 +67,10 @@ export default function PurchaseCharacteristicsTab(props: Props) {
                             <Grid sx={{xs: 6, md: 4}}>
                                 <CharacteristicBadge value={characteristics[characteristic]}
                                                      label={characteristic}
+                                                     min={getMinimumFromArchetype(characteristic)}
                                                      onChange={(value) => onCharacteristicChange(characteristic, value)}
-                                                     editable/>
+                                                     experience={player.experience.initial}
+                                                     />
                             </Grid>
                         ))}
                     </GridContainer>

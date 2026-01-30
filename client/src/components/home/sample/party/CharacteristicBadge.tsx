@@ -8,9 +8,10 @@ import type {SkillCharacteristic} from "../../../../api/model";
 interface CharacteristicBadgeProps {
     value: number;
     label: SkillCharacteristic;
+    min?: number
     color?: string;
     onChange?: (delta: number) => void;
-    editable?: boolean;
+    experience?: number;
 }
 
 const HexagonBox = styled(Box)<{ bgColor?: string }>(({theme, bgColor}) => ({
@@ -51,10 +52,21 @@ const CircleBox = styled(Box)(({theme}) => ({
 export const CharacteristicBadge: React.FC<CharacteristicBadgeProps> = ({
                                                                             value,
                                                                             label,
+                                                                            min,
                                                                             color,
                                                                             onChange,
-                                                                            editable = false,
+                                                                            experience
                                                                         }) => {
+
+    const disabledByExperience = () => {
+        if (value >= 5) return true;
+        if (experience) {
+            const requiredExp = (value + 1) * 10;
+            return experience < requiredExp;
+        }
+        return false;
+    }
+
     return (
         <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1}}>
             <HexagonBox bgColor={color}>
@@ -83,21 +95,21 @@ export const CharacteristicBadge: React.FC<CharacteristicBadgeProps> = ({
                 {label}
             </Typography>
 
-            {editable && (
+            {min && (
                 <Box sx={{display: 'flex', gap: 1}}>
                     <IconButton
                         size="small"
-                        onClick={() => onChange?.(1)}
+                        onClick={() => onChange?.(value + 1)}
                         aria-label="increase"
-                        disabled={value >= 5}
+                        disabled={disabledByExperience()}
                     >
                         <AddIcon fontSize="small"/>
                     </IconButton>
                     <IconButton
                         size="small"
-                        onClick={() => onChange?.(-1)}
+                        onClick={() => onChange?.(value - 1)}
                         aria-label="decrease"
-                        disabled={value <= 1}
+                        disabled={value <= min}
                     >
                         <RemoveIcon fontSize="small"/>
                     </IconButton>
