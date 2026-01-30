@@ -18,13 +18,11 @@ export default function CareerSelectionStep(props: Props) {
 
     useEffect(() => {
         if (selectedSkills.length === 4) {
-            console.log("Trigger Save");
             onSave(selectedCareer, selectedSkills);
         }
     }, [selectedSkills, selectedCareer]);
 
     const onChangeCareer = (newCareer: Career) => {
-        console.log(newCareer);
         setSelectedCareer(newCareer);
     };
 
@@ -45,7 +43,7 @@ export default function CareerSelectionStep(props: Props) {
                 <Autocomplete
                     sx={{mb: 2}}
                     options={careers}
-                    getOptionLabel={(option) => option.name  || ""}
+                    getOptionLabel={(option) => option.name || ""}
                     value={selectedCareer}
                     onChange={(_, newValue) => onChangeCareer(newValue as Career)}
                     renderInput={(params) => (
@@ -56,18 +54,18 @@ export default function CareerSelectionStep(props: Props) {
             {selectedCareer !== emptyCareer && <Card>
                 <CenteredCardHeader title={selectedCareer.name}/>
                 <CardContent>
-                    <Typography variant="h3" gutterBottom align="center" sx={{ mb: 2 }}>
+                    <Typography variant="h3" gutterBottom align="center" sx={{mb: 2}}>
                         Career Skill Selection
                     </Typography>
                     <Typography
                         variant="body1"
                         align="center"
                         color="text.secondary"
-                        sx={{ mb: 4 }}
+                        sx={{mb: 4}}
                     >
                         Choose 4 skills to receive 1 free rank in.
                     </Typography>
-                    <Alert severity="info" sx={{ mb: 3 }}>
+                    <Alert severity="info" sx={{mb: 3}}>
                         <Typography variant="body2">
                             <strong>Career Skills:</strong> These skills cost less XP to train
                             (5/10/15/20/25 instead of 10/15/20/25/30)
@@ -78,7 +76,7 @@ export default function CareerSelectionStep(props: Props) {
                         selectedSkills={selectedSkills}
                         onSkillToggle={handleSkillToggle}
                     />
-                    <Paper sx={{ p: 2, mt: 3, backgroundColor: "grey.100" }}>
+                    <Paper sx={{p: 2, mt: 3, backgroundColor: "grey.100"}}>
                         <Typography variant="caption" color="text.secondary">
                             Selected Skills:{" "}
                             {selectedSkills.length > 0 ? selectedSkills.join(", ") : "None"}
