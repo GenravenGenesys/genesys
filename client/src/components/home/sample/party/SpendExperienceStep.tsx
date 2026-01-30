@@ -28,28 +28,29 @@ export default function SpendExperienceStep(props: Props) {
             </Tabs>
 
             {tabValue === 0 && <PurchaseCharacteristicsTab player={player} onCharacteristicSpend={onSpendExperience}/>}
-            {tabValue === 1 && <PurchaseSkillRanksTab player={player} onCharacteristicSpend={}/>}
+            {tabValue === 1 && <PurchaseSkillRanksTab player={player} onCharacteristicSpend={onSpendExperience}
+                                                      skillRanks={{}}/>}
             {/* Debug Info */}
             <Paper sx={{ p: 2, mt: 3, backgroundColor: "grey.100" }}>
-                <Typography variant="caption" color="text.secondary">
-                    <strong>Purchased Characteristics:</strong>{" "}
-                    {Object.values(SkillCharacteristic)
-                        .map(characteristic => {
+                {/*<Typography variant="caption" color="text.secondary">*/}
+                {/*    <strong>Purchased Characteristics:</strong>{" "}*/}
+                {/*    {Object.values(SkillCharacteristic)*/}
+                {/*        .map(characteristic => {*/}
 
-                            return `${skill?.name} +${ranks}`;
-                        })
-                        .join(", ") || "None"}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                    <strong>Purchased Skills:</strong>{" "}
-                    {Object.entries(skillRanks)
-                        .filter(([_, ranks]) => ranks > 0)
-                        .map(([skillId, ranks]) => {
-                            const skill = skills.find((s) => s.id === skillId);
-                            return `${skill?.name} +${ranks}`;
-                        })
-                        .join(", ") || "None"}
-                </Typography>
+                {/*            return `${skill?.name} +${ranks}`;*/}
+                {/*        })*/}
+                {/*        .join(", ") || "None"}*/}
+                {/*</Typography>*/}
+                {/*<Typography variant="caption" color="text.secondary">*/}
+                {/*    <strong>Purchased Skills:</strong>{" "}*/}
+                {/*    {Object.entries(skillRanks)*/}
+                {/*        .filter(([_, ranks]) => ranks > 0)*/}
+                {/*        .map(([skillId, ranks]) => {*/}
+                {/*            const skill = skills.find((s) => s.id === skillId);*/}
+                {/*            return `${skill?.name} +${ranks}`;*/}
+                {/*        })*/}
+                {/*        .join(", ") || "None"}*/}
+                {/*</Typography>*/}
             </Paper>
         </Box>
     );
