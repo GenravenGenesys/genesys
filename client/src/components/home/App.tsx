@@ -3,7 +3,6 @@ import NavBar from '../navigation/NavBar';
 import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
 import {RootPath} from '../../services/RootPath';
 import * as React from 'react';
-import {useAuth0} from "@auth0/auth0-react";
 import {PageLoader} from "../../auth/PageLoader";
 import {AuthenticationGuard} from "../../auth/AuthenticationGuard";
 import {AdminPage} from "../../auth/AdminPage";
@@ -28,9 +27,10 @@ import SampleSessionManagementPage from "./sample/SampleSessionManagementPage.ts
 import ViewCompendiumArchetypes from "./sample/compendium/archetype/ViewCompendiumArchetypes.tsx";
 import ViewCompendiumCareers from "./sample/compendium/career/ViewCompendiumCareers.tsx";
 import PartyPage from "./sample/party/PartyPage.tsx";
+import {useOptionalAuth0} from "../../hooks/useOptionalAuth0";
 
 export const App: React.FC = () => {
-    const {isLoading} = useAuth0();
+    const {isLoading} = useOptionalAuth0();
 
     const theme = createTheme({
         palette: {
@@ -44,7 +44,7 @@ export const App: React.FC = () => {
                     root: {
                         borderRadius: 20,
                         border: '1px solid rgba(255, 255, 255, 0.1)',
-                        backdropFilter: 'blur(12px)',
+                        backdrop: 'blur(12px)',
                     },
                 },
             },
