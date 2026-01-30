@@ -24,33 +24,33 @@ import static java.util.Arrays.stream;
 @ConfigurationPropertiesScan
 public class GenesysApplication {
 
-    enum DotEnv {
-        PORT,
-        CLIENT_ORIGIN_URL,
-        OKTA_OAUTH2_ISSUER,
-        OKTA_OAUTH2_AUDIENCE
-    }
+//    enum DotEnv {
+//        PORT,
+//        CLIENT_ORIGIN_URL,
+//        OKTA_OAUTH2_ISSUER,
+//        OKTA_OAUTH2_AUDIENCE
+//    }
 
 	public static void main(final String[] args) {
-        dotEnvSafeCheck();
+//        dotEnvSafeCheck();
 
 		SpringApplication.run(GenesysApplication.class, args);
 	}
 
-    private static void dotEnvSafeCheck() {
-        final var dotenv = Dotenv.configure()
-            .ignoreIfMissing()
-            .load();
-
-        stream(DotEnv.values())
-            .map(DotEnv::name)
-            .filter(varName -> dotenv.get(varName, "").isEmpty())
-            .findFirst()
-            .ifPresent(varName -> {
-                log.error("[Fatal] Missing or empty environment variable: {}", varName);
-
-                System.exit(1);
-            });
-    }
+//    private static void dotEnvSafeCheck() {
+//        final var dotenv = Dotenv.configure()
+//            .ignoreIfMissing()
+//            .load();
+//
+//        stream(DotEnv.values())
+//            .map(DotEnv::name)
+//            .filter(varName -> dotenv.get(varName, "").isEmpty())
+//            .findFirst()
+//            .ifPresent(varName -> {
+//                log.error("[Fatal] Missing or empty environment variable: {}", varName);
+//
+//                System.exit(1);
+//            });
+//    }
 
 }
