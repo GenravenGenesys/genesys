@@ -39,4 +39,10 @@ public class Skill {
     @Builder.Default
     @NotNull
     private boolean initiative = false;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private String summary;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private String description;
 }

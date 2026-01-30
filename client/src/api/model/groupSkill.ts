@@ -16,5 +16,7 @@ export interface GroupSkill {
   characteristic: GroupSkillCharacteristic;
   type: SkillType;
   initiative: boolean;
+  summary: string;
+  description: string;
   group: boolean;
 }

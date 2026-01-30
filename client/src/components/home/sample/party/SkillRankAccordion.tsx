@@ -38,17 +38,17 @@ export default function SkillRankAccordion(props: Props) {
 
     const getCharacteristicValue = (characteristic: SkillCharacteristic): number => {
         switch (characteristic) {
-            case "Brawn":
+            case SkillCharacteristic.Brawn:
                 return characteristics.brawn;
-            case "Agility":
+            case SkillCharacteristic.Agility:
                 return characteristics.agility;
-            case "Intellect":
+            case SkillCharacteristic.Intellect:
                 return characteristics.intellect;
-            case "Cunning":
+            case SkillCharacteristic.Cunning:
                 return characteristics.cunning;
-            case "Willpower":
+            case SkillCharacteristic.Willpower:
                 return characteristics.willpower;
-            case "Presence":
+            case SkillCharacteristic.Presence:
                 return characteristics.presence;
             default:
                 return 0;

@@ -19,6 +19,8 @@ export interface OldPlayerSkill {
   characteristic: OldPlayerSkillCharacteristic;
   type: SkillType;
   initiative: boolean;
+  summary: string;
+  description: string;
   /** @minimum 0 */
   ranks: number;
   career: boolean;

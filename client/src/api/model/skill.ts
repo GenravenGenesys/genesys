@@ -19,4 +19,6 @@ export interface Skill {
   characteristic: SkillCharacteristic;
   type: SkillType;
   initiative: boolean;
+  summary: string;
+  description: string;
 }

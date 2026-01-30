@@ -2,15 +2,11 @@ import {useState} from "react";
 import type {PlayerCharacter, PlayerSkill} from "../../../../api/model";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
 import {Box, Card, CardContent, CircularProgress, Stack, Typography} from "@mui/material";
-import Paper from "@mui/material/Paper";
-import {SkillXpSpender} from "./SkillXpSpender.tsx";
-import {useParams} from "react-router-dom";
-import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 import SkillRankAccordion from "./SkillRankAccordion.tsx";
 
 interface Props {
     player: PlayerCharacter;
-    onSkillSpend: (experience: number, skillRanks: Record<Skill, number>) => void;
+    onSkillSpend: (experience: number, skillRanks: Record<PlayerSkill, number>) => void;
 }
 
 export default function PurchaseSkillRanksTab(props: Props) {
@@ -22,7 +18,7 @@ export default function PurchaseSkillRanksTab(props: Props) {
     }
 
     const handleRankChange = (skill: PlayerSkill, newRank: number) => {
-        if (newRank < getPlayerSkillRank(skillId)) {
+        if (newRank < skill.ranks) {
             onSkillSpend(-experienceCost, {
                 ...characteristics,
                 [label]: newRank,

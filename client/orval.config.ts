@@ -1,6 +1,6 @@
 module.exports = {
     genesysApi: {
-        input: 'http://localhost:8080/v3/api-docs',
+        input: process.env.VITE_API_URL || 'http://localhost:8080/v3/api-docs',
         output: {
             mode: 'tags-split',
             target: 'src/api/generated',
