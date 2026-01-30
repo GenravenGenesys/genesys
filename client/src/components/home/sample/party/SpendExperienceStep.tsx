@@ -1,4 +1,10 @@
-import {type PlayerCharacter, type Skill, SkillCharacteristic, type Talent} from "../../../../api/model";
+import {
+    type Archetype,
+    type PlayerCharacter,
+    type Skill,
+    SkillCharacteristic,
+    type Talent
+} from "../../../../api/model";
 import {Box, Tab, Tabs, Typography} from "@mui/material";
 import {useState} from "react";
 import PurchaseCharacteristicsTab from "./PurchaseCharacteristicsTab.tsx";
@@ -16,8 +22,43 @@ export default function SpendExperienceStep(props: Props) {
     const {player, onSpendExperience, skills, talents} = props;
     const [tabValue, setTabValue] = useState(0);
     const [characteristicSpend, setCharacteristicSpend] = useState(0);
+    const [characteristics, setCharacteristics] = useState({
+        [SkillCharacteristic.Brawn]: player.characteristics.brawn.base,
+        [SkillCharacteristic.Agility]: player.characteristics.agility.base,
+        [SkillCharacteristic.Intellect]: player.characteristics.intellect.base,
+        [SkillCharacteristic.Cunning]: player.characteristics.cunning.base,
+        [SkillCharacteristic.Willpower]: player.characteristics.willpower.base,
+        [SkillCharacteristic.Presence]: player.characteristics.presence.base,
+    } as Record<SkillCharacteristic, number>);
+    const [skillRanks, setSkillRanks] = useState<Record<string, number>>({});
     const [skillSpend, setSkillSpend] = useState(0);
     const [talentSpend, setTalentSpend] = useState(0);
+
+    const handleCharacteristicSpend = (experience: number, updatedCharacteristics: Record<SkillCharacteristic, number>) => {
+        const diff = experience - characteristicSpend;
+        setCharacteristicSpend(diff);
+        setCharacteristics(updatedCharacteristics);
+        onSpendExperience(diff);
+    }
+
+    const getValueromArchetype = (archetype: Archetype, label: SkillCharacteristic): number => {
+        switch (label) {
+            case SkillCharacteristic.Brawn:
+                return archetype.brawn;
+            case SkillCharacteristic.Agility:
+                return archetype.agility;
+            case SkillCharacteristic.Intellect:
+                return archetype.intellect;
+            case SkillCharacteristic.Cunning:
+                return archetype.cunning;
+            case SkillCharacteristic.Willpower:
+                return archetype.willpower;
+            case SkillCharacteristic.Presence:
+                return archetype.presence;
+            default:
+                return 1;
+        }
+    }
 
     return (
         <Box sx={{mt: 3}}>
@@ -27,30 +68,34 @@ export default function SpendExperienceStep(props: Props) {
                 <Tab label="Talents"/>
             </Tabs>
 
-            {tabValue === 0 && <PurchaseCharacteristicsTab player={player} onCharacteristicSpend={onSpendExperience}/>}
+            {tabValue === 0 &&
+                <PurchaseCharacteristicsTab archetype={player.archetype} characteristics={characteristics}
+                                            onCharacteristicSpend={handleCharacteristicSpend}
+                                            experience={player.experience.initial}/>}
             {tabValue === 1 && <PurchaseSkillRanksTab player={player} onCharacteristicSpend={onSpendExperience}
                                                       skillRanks={{}}/>}
             {/* Debug Info */}
-            <Paper sx={{ p: 2, mt: 3, backgroundColor: "grey.100" }}>
-                {/*<Typography variant="caption" color="text.secondary">*/}
-                {/*    <strong>Purchased Characteristics:</strong>{" "}*/}
-                {/*    {Object.values(SkillCharacteristic)*/}
-                {/*        .map(characteristic => {*/}
-
-                {/*            return `${skill?.name} +${ranks}`;*/}
-                {/*        })*/}
-                {/*        .join(", ") || "None"}*/}
-                {/*</Typography>*/}
-                {/*<Typography variant="caption" color="text.secondary">*/}
-                {/*    <strong>Purchased Skills:</strong>{" "}*/}
-                {/*    {Object.entries(skillRanks)*/}
-                {/*        .filter(([_, ranks]) => ranks > 0)*/}
-                {/*        .map(([skillId, ranks]) => {*/}
-                {/*            const skill = skills.find((s) => s.id === skillId);*/}
-                {/*            return `${skill?.name} +${ranks}`;*/}
-                {/*        })*/}
-                {/*        .join(", ") || "None"}*/}
-                {/*</Typography>*/}
+            <Paper sx={{p: 2, mt: 3, backgroundColor: "grey.100"}}>
+                <Typography variant="caption" color="text.secondary">
+                    <strong>Purchased Characteristics:</strong>{" "}
+                    {Object.entries(characteristics)
+                        .filter(([char, value]) => value > getValueromArchetype(player.archetype, char as SkillCharacteristic))
+                        .map(([char, value]) => {
+                            const baseValue = getValueromArchetype(player.archetype, char as SkillCharacteristic);
+                            return `${char} ${baseValue}→${value}`;
+                        })
+                        .join(", ") || "None"}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                    <strong>Purchased Skills:</strong>{" "}
+                    {Object.entries(skillRanks)
+                        .filter(([_, ranks]) => ranks > 0)
+                        .map(([skillId, ranks]) => {
+                            const skill = skills.find((s) => s.id === skillId);
+                            return `${skill?.name} +${ranks}`;
+                        })
+                        .join(", ") || "None"}
+                </Typography>
             </Paper>
         </Box>
     );

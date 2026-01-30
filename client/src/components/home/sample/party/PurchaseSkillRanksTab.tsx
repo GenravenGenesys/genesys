@@ -1,5 +1,5 @@
 import {useState} from "react";
-import type {PlayerCharacter} from "../../../../api/model";
+import type {PlayerCharacter, PlayerSkill} from "../../../../api/model";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
 import {Box, Card, CardContent, CircularProgress, Stack, Typography} from "@mui/material";
 import Paper from "@mui/material/Paper";
@@ -10,15 +10,29 @@ import SkillRankAccordion from "./SkillRankAccordion.tsx";
 
 interface Props {
     player: PlayerCharacter;
-    onCharacteristicSpend: (experience: number) => void;
-    skillRanks: Record<string, number>;
+    onSkillSpend: (experience: number, skillRanks: Record<Skill, number>) => void;
 }
 
 export default function PurchaseSkillRanksTab(props: Props) {
-    const {player, onCharacteristicSpend} = props;
+    const {player, onSkillSpend} = props;
     const [skillRanks, setSkillRanks] = useState<Record<string, number>>({});
 
-    const handleRankChange = (skillId: string, newRank: number) => {
+    const getPlayerSkillRank = (skillId: string): number => {
+        return skillRanks[skillId] ?? 0;
+    }
+
+    const handleRankChange = (skill: PlayerSkill, newRank: number) => {
+        if (newRank < getPlayerSkillRank(skillId)) {
+            onSkillSpend(-experienceCost, {
+                ...characteristics,
+                [label]: newRank,
+            });
+        } else {
+            onSkillSpend(experienceCost, {
+                ...characteristics,
+                [label]: newRank,
+            });
+        }
         setSkillRanks((prev) => ({
             ...prev,
             [skillId]: newRank,

@@ -20,7 +20,7 @@ interface Props {
     skills: PlayerSkill[];
     careerSkills: Skill[];
     skillRanks: Record<string, number>;
-    onRankChange: (skillId: string, newRank: number) => void;
+    onRankChange: (skill: PlayerSkill, newRank: number) => void;
     availableXp: number;
     maxSkillRanks: number;
     characteristics: {
@@ -90,14 +90,14 @@ export default function SkillRankAccordion(props: Props) {
     const handleIncrease = (skill: PlayerSkill) => {
         if (canIncrease(skill)) {
             const currentPurchased = skillRanks[skill.id] || 0;
-            onRankChange(skill.id, currentPurchased + 1);
+            onRankChange(skill, currentPurchased + 1);
         }
     };
 
     const handleDecrease = (skill: PlayerSkill) => {
         if (canDecrease(skill)) {
             const currentPurchased = skillRanks[skill.id] || 0;
-            onRankChange(skill.id, currentPurchased - 1);
+            onRankChange(skill, currentPurchased - 1);
         }
     };
 
