@@ -35,14 +35,13 @@ export default function PurchaseCharacteristicsTab(props: Props) {
     }
 
     const onCharacteristicChange = (label: SkillCharacteristic, newValue: number) => {
-        const experienceCost = newValue * 10;
         if (newValue < characteristics[label]) {
-            onCharacteristicSpend(-experienceCost, {
+            onCharacteristicSpend(-characteristics[label] * 10, {
                 ...characteristics,
                 [label]: newValue,
             });
         } else {
-            onCharacteristicSpend(experienceCost, {
+            onCharacteristicSpend(newValue * 10, {
                 ...characteristics,
                 [label]: newValue,
             });

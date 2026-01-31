@@ -5,7 +5,7 @@ import {
     SkillCharacteristic,
     type Talent
 } from "../../../../api/model";
-import {Box, Tab, Tabs, Typography} from "@mui/material";
+import {Alert, Box, Button, Tab, Tabs, Typography} from "@mui/material";
 import {useState} from "react";
 import PurchaseCharacteristicsTab from "./PurchaseCharacteristicsTab.tsx";
 import Paper from "@mui/material/Paper";
@@ -36,7 +36,8 @@ export default function SpendExperienceStep(props: Props) {
 
     const handleCharacteristicSpend = (experience: number, updatedCharacteristics: Record<SkillCharacteristic, number>) => {
         const diff = experience - characteristicSpend;
-        setCharacteristicSpend(diff);
+        console.log(experience, diff);
+        setCharacteristicSpend(characteristicSpend + diff);
         setCharacteristics(updatedCharacteristics);
         onSpendExperience(diff);
     }
@@ -62,6 +63,48 @@ export default function SpendExperienceStep(props: Props) {
 
     return (
         <Box sx={{mt: 3}}>
+            <Paper sx={{p: 3, mb: 3}}>
+                <Box sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+                    <Box sx={{textAlign: 'center'}}>
+                        <Typography variant="h4" fontWeight="bold" color="primary">
+                            {player.experience.initial}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Available XP
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{textAlign: 'center'}}>
+                        <Typography variant="h4" fontWeight="bold">
+                            {characteristicSpend + skillSpend + talentSpend}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Spent XP
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{textAlign: 'center'}}>
+                        <Typography variant="h4" fontWeight="bold">
+                            {player.experience.initial}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Starting XP
+                        </Typography>
+                    </Box>
+
+                    {/*<Button variant="outlined" onClick={handleReset}>*/}
+                    {/*    Reset All*/}
+                    {/*</Button>*/}
+                </Box>
+            </Paper>
+
+            {player.experience.initial < 0 && (
+                <Alert severity="error" sx={{mb: 3}}>
+                    <Typography variant="body2">
+                        You've overspent by {Math.abs(player.experience.initial)} XP! Remove some skill ranks.
+                    </Typography>
+                </Alert>
+            )}
             <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                 <Tab label="Characteristics"/>
                 <Tab label="Skill Ranks"/>
