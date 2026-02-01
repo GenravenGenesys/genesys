@@ -176,7 +176,7 @@ export default function PlayerCreationDialog(props: Props) {
             fullScreen={fullScreen}
             maxWidth="md"
             scroll="paper"
-            slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
+            slotProps={{paper: {sx: {borderRadius: 4}}}}
         >
             <Container maxWidth="md" sx={{py: 8}}>
                 <Paper elevation={3} sx={{p: 6, borderRadius: 4}}>
