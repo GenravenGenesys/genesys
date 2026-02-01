@@ -12,6 +12,7 @@ interface CharacteristicBadgeProps {
     color?: string;
     onChange?: (delta: number) => void;
     experience?: number;
+    costToIncrease?: number;
 }
 
 const HexagonBox = styled(Box)<{ bgColor?: string }>(({theme, bgColor}) => ({
@@ -55,14 +56,14 @@ export const CharacteristicBadge: React.FC<CharacteristicBadgeProps> = ({
                                                                             min,
                                                                             color,
                                                                             onChange,
-                                                                            experience
+                                                                            experience,
+                                                                            costToIncrease
                                                                         }) => {
 
     const disabledByExperience = () => {
         if (value >= 5) return true;
-        if (experience) {
-            const requiredExp = (value + 1) * 10;
-            return experience < requiredExp;
+        if (experience !== undefined && costToIncrease !== undefined) {
+            return experience < costToIncrease;
         }
         return false;
     }

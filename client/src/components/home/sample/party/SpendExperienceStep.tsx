@@ -34,12 +34,10 @@ export default function SpendExperienceStep(props: Props) {
     const [skillSpend, setSkillSpend] = useState(0);
     const [talentSpend, setTalentSpend] = useState(0);
 
-    const handleCharacteristicSpend = (experience: number, updatedCharacteristics: Record<SkillCharacteristic, number>) => {
-        const diff = experience - characteristicSpend;
-        console.log(experience, diff);
-        setCharacteristicSpend(characteristicSpend + diff);
+    const handleCharacteristicSpend = (experienceDiff: number, updatedCharacteristics: Record<SkillCharacteristic, number>) => {
+        setCharacteristicSpend(characteristicSpend + experienceDiff);
         setCharacteristics(updatedCharacteristics);
-        onSpendExperience(diff);
+        onSpendExperience(experienceDiff);
     }
 
     const getValueromArchetype = (archetype: Archetype, label: SkillCharacteristic): number => {
