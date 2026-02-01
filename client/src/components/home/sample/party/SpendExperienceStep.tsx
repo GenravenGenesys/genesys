@@ -5,7 +5,7 @@ import {
     SkillCharacteristic,
     type Talent
 } from "../../../../api/model";
-import {Alert, Box, Button, Tab, Tabs, Typography} from "@mui/material";
+import {Alert, Box, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {useState} from "react";
 import PurchaseCharacteristicsTab from "./PurchaseCharacteristicsTab.tsx";
 import Paper from "@mui/material/Paper";
@@ -40,7 +40,7 @@ export default function SpendExperienceStep(props: Props) {
         onSpendExperience(experienceDiff);
     }
 
-    const getValueromArchetype = (archetype: Archetype, label: SkillCharacteristic): number => {
+    const getValueFromArchetype = (archetype: Archetype, label: SkillCharacteristic): number => {
         switch (label) {
             case SkillCharacteristic.Brawn:
                 return archetype.brawn;
@@ -89,10 +89,6 @@ export default function SpendExperienceStep(props: Props) {
                             Starting XP
                         </Typography>
                     </Box>
-
-                    {/*<Button variant="outlined" onClick={handleReset}>*/}
-                    {/*    Reset All*/}
-                    {/*</Button>*/}
                 </Box>
             </Paper>
 
@@ -115,28 +111,39 @@ export default function SpendExperienceStep(props: Props) {
                                             experience={player.experience.initial}/>}
             {tabValue === 1 && <PurchaseSkillRanksTab player={player} onCharacteristicSpend={onSpendExperience}
                                                       skillRanks={{}}/>}
-            {/* Debug Info */}
-            <Paper sx={{p: 2, mt: 3, backgroundColor: "grey.100"}}>
-                <Typography variant="caption" color="text.secondary">
-                    <strong>Purchased Characteristics:</strong>{" "}
-                    {Object.entries(characteristics)
-                        .filter(([char, value]) => value > getValueromArchetype(player.archetype, char as SkillCharacteristic))
-                        .map(([char, value]) => {
-                            const baseValue = getValueromArchetype(player.archetype, char as SkillCharacteristic);
-                            return `${char} ${baseValue}→${value}`;
-                        })
-                        .join(", ") || "None"}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                    <strong>Purchased Skills:</strong>{" "}
-                    {Object.entries(skillRanks)
-                        .filter(([_, ranks]) => ranks > 0)
-                        .map(([skillId, ranks]) => {
-                            const skill = skills.find((s) => s.id === skillId);
-                            return `${skill?.name} +${ranks}`;
-                        })
-                        .join(", ") || "None"}
-                </Typography>
+            <Paper sx={{p: 2, mt: 3}}>
+                <Stack spacing={2}>
+                    <Typography variant="caption" color="text.secondary">
+                        <strong>Purchased Characteristics:</strong>{" "}
+                        {Object.entries(characteristics)
+                            .filter(([char, value]) => value > getValueFromArchetype(player.archetype, char as SkillCharacteristic))
+                            .map(([char, value]) => {
+                                const baseValue = getValueFromArchetype(player.archetype, char as SkillCharacteristic);
+                                return `${char} ${baseValue}→${value}`;
+                            })
+                            .join(", ") || "None"}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                        <strong>Purchased Skills:</strong>{" "}
+                        {Object.entries(skillRanks)
+                            .filter(([_, ranks]) => ranks > 0)
+                            .map(([skillId, ranks]) => {
+                                const skill = skills.find((s) => s.id === skillId);
+                                return `${skill?.name} +${ranks}`;
+                            })
+                            .join(", ") || "None"}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                        <strong>Purchased Talents:</strong>{" "}
+                        {/*{Object.entries(skillRanks)*/}
+                        {/*    .filter(([_, ranks]) => ranks > 0)*/}
+                        {/*    .map(([skillId, ranks]) => {*/}
+                        {/*        const skill = skills.find((s) => s.id === skillId);*/}
+                        {/*        return `${skill?.name} +${ranks}`;*/}
+                        {/*    })*/}
+                        {/*    .join(", ") || "None"}*/}
+                    </Typography>
+                </Stack>
             </Paper>
         </Box>
     );

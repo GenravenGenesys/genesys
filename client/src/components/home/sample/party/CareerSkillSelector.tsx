@@ -39,7 +39,6 @@ export const CareerSkillSelector: React.FC<CareerSkillSelectorProps> = ({
 
     return (
         <Box>
-            {/* Header with Progress */}
             <Box sx={{mb: 3}}>
                 <Box
                     sx={{
@@ -84,14 +83,12 @@ export const CareerSkillSelector: React.FC<CareerSkillSelectorProps> = ({
                 </Typography>
             </Box>
 
-            {/* Validation Alert */}
             {selectedSkills.length === 4 && (
                 <Alert severity="success" sx={{mb: 2}}>
                     All career skills selected!
                 </Alert>
             )}
 
-            {/* Skill Grid */}
             <Grid container spacing={2}>
                 {careerSkills.map((skill) => {
                     const selected = isSelected(skill);

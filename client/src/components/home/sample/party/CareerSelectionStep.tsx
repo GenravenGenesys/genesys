@@ -76,10 +76,13 @@ export default function CareerSelectionStep(props: Props) {
                         selectedSkills={selectedSkills}
                         onSkillToggle={handleSkillToggle}
                     />
-                    <Paper sx={{p: 2, mt: 3, backgroundColor: "grey.100"}}>
+                    <Paper sx={{p: 2, mt: 3}}>
                         <Typography variant="caption" color="text.secondary">
                             Selected Skills:{" "}
-                            {selectedSkills.length > 0 ? selectedSkills.join(", ") : "None"}
+                            {selectedSkills.map((skill) => {
+                                    return `${skill.name}`;
+                                })
+                                .join(", ") || "None"}
                         </Typography>
                     </Paper>
                 </CardContent>

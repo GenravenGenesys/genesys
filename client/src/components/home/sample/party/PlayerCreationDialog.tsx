@@ -10,7 +10,6 @@ import {
     type CampaignCompendium,
     type Career,
     type PlayerCharacter,
-    type PlayerSkill,
     type Skill
 } from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
@@ -95,6 +94,10 @@ export default function PlayerCreationDialog(props: Props) {
                 current: archetype.presence
             }
         };
+        handleChange('skills', compendium.skills.map(skill => ({
+            ...skill,
+            ranks: 0
+        })));
         handleChange('characteristics', characteristics);
         handleChange('experience', {
             initial: archetype.experience,
@@ -105,11 +108,17 @@ export default function PlayerCreationDialog(props: Props) {
 
     const handleCareerSkillSelection = (career: Career, skills: Skill[]) => {
         handleChange('career', career);
-        const playerSkills = [] as PlayerSkill[];
-        for (const skill of skills) {
-            playerSkills.push({...skill, ranks: 1});
-        }
-        handleChange('skills', playerSkills);
+        const careerSkillNames = new Set(skills.map(skill => skill.name));
+        const updatedSkills = formData.skills.map(playerSkill => {
+            if (careerSkillNames.has(playerSkill.name)) {
+                return {
+                    ...playerSkill,
+                    ranks: playerSkill.ranks + 1
+                };
+            }
+            return playerSkill;
+        });
+        handleChange('skills', updatedSkills);
     };
 
     const renderStepContent = (step: number) => {
