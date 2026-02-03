@@ -31,7 +31,11 @@ export default function SpendExperienceStep(props: Props) {
         [SkillCharacteristic.Willpower]: player.characteristics.willpower.base,
         [SkillCharacteristic.Presence]: player.characteristics.presence.base,
     } as Record<SkillCharacteristic, number>);
-    const [skillRanks, setSkillRanks] = useState<Record<string, number>>({});
+    const initialPurchasedSkills: Record<string, number> = {};
+    player.skills.forEach((skill: PlayerSkill) => {
+        initialPurchasedSkills[skill.name] = 0;
+    });
+    const [purchasedSkills, setPurchasedSkills] = useState<Record<string, number>>(initialPurchasedSkills);
     const [skillSpend, setSkillSpend] = useState(0);
     const [talentSpend, setTalentSpend] = useState(0);
 
@@ -42,8 +46,8 @@ export default function SpendExperienceStep(props: Props) {
     }
 
     const handleSkillSpend = (experienceDiff: number, updatedSkills: Record<string, number>) => {
-        setCharacteristicSpend(skillSpend + experienceDiff);
-        setSkillRanks(updatedSkills);
+        setSkillSpend(skillSpend + experienceDiff);
+        setPurchasedSkills(updatedSkills);
         onSpendExperience(experienceDiff);
     }
 
@@ -119,7 +123,7 @@ export default function SpendExperienceStep(props: Props) {
             {tabValue === 1 &&
                 <PurchaseSkillRanksTab playerSkills={player.skills} careerSkills={player.career.skills}
                                        characteristics={characteristics} experience={player.experience.initial}
-                                       onSkillSpend={handleSkillSpend}/>}
+                                       onSkillSpend={handleSkillSpend} skills={purchasedSkills}/>}
             <Paper sx={{p: 2, mt: 3}}>
                 <Stack spacing={2}>
                     <Typography variant="caption" color="text.secondary">
@@ -134,11 +138,11 @@ export default function SpendExperienceStep(props: Props) {
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
                         <strong>Purchased Skills:</strong>{" "}
-                        {Object.entries(skillRanks)
+                        {Object.entries(purchasedSkills)
                             .filter(([_, ranks]) => ranks > 0)
-                            .map(([skillId, ranks]) => {
-                                const skill = skills.find((s) => s.id === skillId);
-                                return `${skill?.name} +${ranks}`;
+                            .map(([name, ranks]) => {
+                                const baseValue = player.skills.find((s) => s.name === name)?.ranks || 0;
+                                return `${name} ${baseValue}→${ranks}`;
                             })
                             .join(", ") || "None"}
                     </Typography>

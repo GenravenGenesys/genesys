@@ -1,11 +1,11 @@
-import {useState} from "react";
-import {type PlayerCharacter, type PlayerSkill, type Skill, SkillCharacteristic} from "../../../../api/model";
+import {type PlayerSkill, type Skill, SkillCharacteristic} from "../../../../api/model";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
-import {Box, Card, CardContent, CircularProgress, Stack, Typography} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import SkillRankAccordion from "./SkillRankAccordion.tsx";
 
 interface Props {
     skills: Record<string, number>;
+    playerSkills: PlayerSkill[];
     careerSkills: Skill[];
     characteristics: Record<SkillCharacteristic, number>;
     experience: number;
@@ -13,36 +13,38 @@ interface Props {
 }
 
 export default function PurchaseSkillRanksTab(props: Props) {
-    const {skills, careerSkills, characteristics, experience, onSkillSpend} = props;
-    const [skillRanks, setSkillRanks] = useState<Record<string, number>>({});
+    const {skills, playerSkills, careerSkills, characteristics, experience, onSkillSpend} = props;
 
-    const calculateCumulativeCost = (value: number, baseValue: number, career: boolean): number => {
+    const calculateCumulativeCost = (value: number, baseValue: number): number => {
         let cost = 0;
         for (let i = baseValue + 1; i <= value; i++) {
-            cost += i * 10;
+            cost += i * 5;
         }
-        return career ? cost : (cost + 5);
+        return cost;
     };
 
-    const handleRankChange = (skill: PlayerSkill, newRank: number) => {
-        const oldValue = characteristics[label];
-        const baseValue = skills.find(ps => ps.name === skill.name)?.ranks || 0;
-        //
-        // const oldCost = calculateCumulativeCost(oldValue, baseValue);
-        // const newCost = calculateCumulativeCost(newValue, baseValue);
-        // const costDifference = newCost - oldCost;
-        //
-        // onCharacteristicSpend(costDifference, {
-        //     ...characteristics,
-        //     [label]: newValue,
-        // });
+    const handleRankChange = (name: string, newTotalRank: number) => {
+        const baseRank = playerSkills.find(ps => ps.name === name)?.ranks || 0;
+
+        const oldCost = calculateCumulativeCost(baseRank + skills[name], baseRank);
+        const newCost = calculateCumulativeCost(newTotalRank, baseRank);
+        let costDifference = newCost - oldCost;
+
+        if (!careerSkills.some(cs => cs.name === name)) {
+            costDifference += costDifference > 0 ? 5 : -5;
+        }
+
+        onSkillSpend(costDifference, {
+            ...skills,
+            [name]: newTotalRank - baseRank,
+        });
     };
 
     return (
         <Card>
             <CenteredCardHeader title={'Increase Skill Ranks'}/>
             <CardContent>
-                <SkillRankAccordion playerSkills={skills} careerSkills={careerSkills} skills={skillRanks}
+                <SkillRankAccordion playerSkills={playerSkills} careerSkills={careerSkills} skills={skills}
                                     onRankChange={handleRankChange} availableXp={experience}
                                     characteristics={characteristics} maxSkillRanks={2}/>
             </CardContent>

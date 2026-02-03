@@ -20,7 +20,7 @@ interface Props {
     playerSkills: PlayerSkill[];
     careerSkills: Skill[];
     skills: Record<string, number>;
-    onRankChange: (skill: PlayerSkill, newRank: number) => void;
+    onRankChange: (name: string, newRank: number) => void;
     availableXp: number;
     maxSkillRanks: number;
     characteristics: Record<SkillCharacteristic, number>;
@@ -36,7 +36,7 @@ export default function SkillRankAccordion(props: Props) {
     ): number => {
         let cost = 0;
         for (let rank = fromRank + 1; rank <= toRank; rank++) {
-            if (skill) {
+            if (isCareerSkill(skill)) {
                 cost += rank * 5;
             } else {
                 cost += rank * 5 + 5;
@@ -46,7 +46,7 @@ export default function SkillRankAccordion(props: Props) {
     };
 
     const getTotalRank = (skill: PlayerSkill): number => {
-        return skill.ranks + (skills[skill.id] || 0);
+        return skill.ranks + skills[skill.name] || 0;
     };
 
     const canIncrease = (skill: PlayerSkill): boolean => {
@@ -58,20 +58,18 @@ export default function SkillRankAccordion(props: Props) {
     };
 
     const canDecrease = (skill: PlayerSkill): boolean => {
-        return (skills[skill.id] || 0) > 0;
+        return (skills[skill.name] || 0) > 0;
     };
 
     const handleIncrease = (skill: PlayerSkill) => {
         if (canIncrease(skill)) {
-            const currentPurchased = skills[skill.id] || 0;
-            onRankChange(skill, currentPurchased + 1);
+            onRankChange(skill.name, getTotalRank(skill) + 1);
         }
     };
 
     const handleDecrease = (skill: PlayerSkill) => {
         if (canDecrease(skill)) {
-            const currentPurchased = skills[skill.id] || 0;
-            onRankChange(skill, currentPurchased - 1);
+            onRankChange(skill.name, getTotalRank(skill) - 1);
         }
     };
 
@@ -81,7 +79,7 @@ export default function SkillRankAccordion(props: Props) {
     };
 
     const isCareerSkill = (skill: PlayerSkill): boolean => {
-        return careerSkills.some(careerSkill => careerSkill.id === skill.id);
+        return careerSkills.some(careerSkill => careerSkill.name === skill.name);
     };
 
     return (
@@ -101,9 +99,9 @@ export default function SkillRankAccordion(props: Props) {
 
             {Object.values(SkillCharacteristic).map((characteristic) => {
                 const filteredSkills = playerSkills.filter(skill => skill.characteristic === characteristic);
-                const skillsWithRanks = filteredSkills.filter(skill => (props.skills[skill.id] || 0) > 0).length;
+                const skillsWithCareer = filteredSkills.filter(skill => isCareerSkill(skill)).length;
                 return (
-                    <Accordion key={characteristic} defaultExpanded={skillsWithRanks > 0}>
+                    <Accordion key={characteristic}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
                             <Box
                                 sx={{
@@ -124,7 +122,7 @@ export default function SkillRankAccordion(props: Props) {
                                         {characteristic} Skills
                                     </Typography>
                                     <Typography variant="caption" color="text.secondary">
-                                        {filteredSkills.length} skills • {skillsWithRanks} trained
+                                        {filteredSkills.length} skills • {skillsWithCareer} career
                                     </Typography>
                                 </Box>
                             </Box>
@@ -134,7 +132,7 @@ export default function SkillRankAccordion(props: Props) {
                             <Grid container spacing={2}>
                                 {filteredSkills.map((skill) => {
                                     const totalRank = getTotalRank(skill);
-                                    const purchasedRanks = skills[skill.id] || 0;
+                                    const purchasedRanks = skills[skill.name] || 0;
                                     const nextCost = getNextRankCost(skill);
 
                                     return (

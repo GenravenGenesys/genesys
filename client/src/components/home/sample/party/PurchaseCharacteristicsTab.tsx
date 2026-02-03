@@ -14,7 +14,6 @@ interface Props {
 export default function PurchaseCharacteristicsTab(props: Props) {
     const {archetype, characteristics, onCharacteristicSpend, experience} = props;
 
-
     const getMinimumFromArchetype = (label: SkillCharacteristic): number => {
         switch (label) {
             case SkillCharacteristic.Brawn:
