@@ -17,43 +17,17 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 
 interface Props {
-    skills: PlayerSkill[];
+    playerSkills: PlayerSkill[];
     careerSkills: Skill[];
-    skillRanks: Record<string, number>;
+    skills: Record<string, number>;
     onRankChange: (skill: PlayerSkill, newRank: number) => void;
     availableXp: number;
     maxSkillRanks: number;
-    characteristics: {
-        brawn: number;
-        agility: number;
-        intellect: number;
-        cunning: number;
-        willpower: number;
-        presence: number;
-    };
+    characteristics: Record<SkillCharacteristic, number>;
 }
 
 export default function SkillRankAccordion(props: Props) {
-    const {skills, careerSkills, skillRanks, onRankChange, availableXp, maxSkillRanks, characteristics} = props;
-
-    const getCharacteristicValue = (characteristic: SkillCharacteristic): number => {
-        switch (characteristic) {
-            case SkillCharacteristic.Brawn:
-                return characteristics.brawn;
-            case SkillCharacteristic.Agility:
-                return characteristics.agility;
-            case SkillCharacteristic.Intellect:
-                return characteristics.intellect;
-            case SkillCharacteristic.Cunning:
-                return characteristics.cunning;
-            case SkillCharacteristic.Willpower:
-                return characteristics.willpower;
-            case SkillCharacteristic.Presence:
-                return characteristics.presence;
-            default:
-                return 0;
-        }
-    }
+    const {playerSkills, careerSkills, skills, onRankChange, availableXp, maxSkillRanks, characteristics} = props;
 
     const calculateCost = (
         skill: PlayerSkill,
@@ -72,7 +46,7 @@ export default function SkillRankAccordion(props: Props) {
     };
 
     const getTotalRank = (skill: PlayerSkill): number => {
-        return skill.ranks + (skillRanks[skill.id] || 0);
+        return skill.ranks + (skills[skill.id] || 0);
     };
 
     const canIncrease = (skill: PlayerSkill): boolean => {
@@ -84,19 +58,19 @@ export default function SkillRankAccordion(props: Props) {
     };
 
     const canDecrease = (skill: PlayerSkill): boolean => {
-        return (skillRanks[skill.id] || 0) > 0;
+        return (skills[skill.id] || 0) > 0;
     };
 
     const handleIncrease = (skill: PlayerSkill) => {
         if (canIncrease(skill)) {
-            const currentPurchased = skillRanks[skill.id] || 0;
+            const currentPurchased = skills[skill.id] || 0;
             onRankChange(skill, currentPurchased + 1);
         }
     };
 
     const handleDecrease = (skill: PlayerSkill) => {
         if (canDecrease(skill)) {
-            const currentPurchased = skillRanks[skill.id] || 0;
+            const currentPurchased = skills[skill.id] || 0;
             onRankChange(skill, currentPurchased - 1);
         }
     };
@@ -119,13 +93,15 @@ export default function SkillRankAccordion(props: Props) {
                     <br/>
                     <strong>Non-Career Skills</strong> cost more: New Rank * 5 + 5 XP per
                     rank
-                    <strong>Skills cannot be increase above rank {maxSkillRanks}</strong>
+                    <br/>
+                    {maxSkillRanks === 2 ? <strong>Skills cannot be increase above rank {maxSkillRanks} during Character
+                        Creation</strong> : <strong>Skills cannot be increase above rank {maxSkillRanks}</strong>}
                 </Typography>
             </Alert>
 
             {Object.values(SkillCharacteristic).map((characteristic) => {
-                const filteredSkills = skills.filter(skill => skill.characteristic === characteristic);
-                const skillsWithRanks = filteredSkills.filter(skill => (props.skillRanks[skill.id] || 0) > 0).length;
+                const filteredSkills = playerSkills.filter(skill => skill.characteristic === characteristic);
+                const skillsWithRanks = filteredSkills.filter(skill => (props.skills[skill.id] || 0) > 0).length;
                 return (
                     <Accordion key={characteristic} defaultExpanded={skillsWithRanks > 0}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
@@ -139,7 +115,7 @@ export default function SkillRankAccordion(props: Props) {
                             >
                                 <Box sx={{minWidth: 80, transform: "scale(0.8)"}}>
                                     <CharacteristicBadge
-                                        value={getCharacteristicValue(characteristic)}
+                                        value={characteristics[characteristic]}
                                         label={characteristic}
                                     />
                                 </Box>
@@ -158,7 +134,7 @@ export default function SkillRankAccordion(props: Props) {
                             <Grid container spacing={2}>
                                 {filteredSkills.map((skill) => {
                                     const totalRank = getTotalRank(skill);
-                                    const purchasedRanks = skillRanks[skill.id] || 0;
+                                    const purchasedRanks = skills[skill.id] || 0;
                                     const nextCost = getNextRankCost(skill);
 
                                     return (
@@ -166,13 +142,7 @@ export default function SkillRankAccordion(props: Props) {
                                             <Paper
                                                 variant="outlined"
                                                 sx={{
-                                                    p: 2,
-                                                    backgroundColor: skill
-                                                        ? "success.light"
-                                                        : "background.paper",
-                                                    borderColor:
-                                                        totalRank > 0 ? "primary.main" : "divider",
-                                                    borderWidth: totalRank > 0 ? 2 : 1,
+                                                    p: 2
                                                 }}
                                             >
                                                 <Grid container spacing={2} alignItems="center">

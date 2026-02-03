@@ -1,54 +1,50 @@
 import {useState} from "react";
-import type {PlayerCharacter, PlayerSkill} from "../../../../api/model";
+import {type PlayerCharacter, type PlayerSkill, type Skill, SkillCharacteristic} from "../../../../api/model";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
 import {Box, Card, CardContent, CircularProgress, Stack, Typography} from "@mui/material";
 import SkillRankAccordion from "./SkillRankAccordion.tsx";
 
 interface Props {
-    player: PlayerCharacter;
-    onSkillSpend: (experience: number, skillRanks: Record<PlayerSkill, number>) => void;
+    skills: Record<string, number>;
+    careerSkills: Skill[];
+    characteristics: Record<SkillCharacteristic, number>;
+    experience: number;
+    onSkillSpend: (experience: number, skills: Record<string, number>) => void;
 }
 
 export default function PurchaseSkillRanksTab(props: Props) {
-    const {player, onSkillSpend} = props;
+    const {skills, careerSkills, characteristics, experience, onSkillSpend} = props;
     const [skillRanks, setSkillRanks] = useState<Record<string, number>>({});
 
-    const getPlayerSkillRank = (skillId: string): number => {
-        return skillRanks[skillId] ?? 0;
-    }
+    const calculateCumulativeCost = (value: number, baseValue: number, career: boolean): number => {
+        let cost = 0;
+        for (let i = baseValue + 1; i <= value; i++) {
+            cost += i * 10;
+        }
+        return career ? cost : (cost + 5);
+    };
 
     const handleRankChange = (skill: PlayerSkill, newRank: number) => {
-        if (newRank < skill.ranks) {
-            onSkillSpend(-experienceCost, {
-                ...characteristics,
-                [label]: newRank,
-            });
-        } else {
-            onSkillSpend(experienceCost, {
-                ...characteristics,
-                [label]: newRank,
-            });
-        }
-        setSkillRanks((prev) => ({
-            ...prev,
-            [skillId]: newRank,
-        }));
+        const oldValue = characteristics[label];
+        const baseValue = skills.find(ps => ps.name === skill.name)?.ranks || 0;
+        //
+        // const oldCost = calculateCumulativeCost(oldValue, baseValue);
+        // const newCost = calculateCumulativeCost(newValue, baseValue);
+        // const costDifference = newCost - oldCost;
+        //
+        // onCharacteristicSpend(costDifference, {
+        //     ...characteristics,
+        //     [label]: newValue,
+        // });
     };
 
     return (
         <Card>
             <CenteredCardHeader title={'Increase Skill Ranks'}/>
             <CardContent>
-                <SkillRankAccordion skills={player.skills} careerSkills={player.career.skills} skillRanks={skillRanks}
-                                    onRankChange={handleRankChange} availableXp={player.experience.initial}
-                                    characteristics={{
-                                        brawn: player.characteristics.brawn.base,
-                                        agility: player.characteristics.agility.base,
-                                        intellect: player.characteristics.intellect.base,
-                                        cunning: player.characteristics.cunning.base,
-                                        willpower: player.characteristics.willpower.base,
-                                        presence: player.characteristics.presence.base
-                                    }} maxSkillRanks={2}/>
+                <SkillRankAccordion playerSkills={skills} careerSkills={careerSkills} skills={skillRanks}
+                                    onRankChange={handleRankChange} availableXp={experience}
+                                    characteristics={characteristics} maxSkillRanks={2}/>
             </CardContent>
         </Card>
     );

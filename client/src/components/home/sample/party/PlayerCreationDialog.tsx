@@ -31,6 +31,7 @@ export default function PlayerCreationDialog(props: Props) {
     const {open, player, compendium, onClose, onSave} = props;
     const [formData, setFormData] = useState<PlayerCharacter>(player || {});
     const [activeStep, setActiveStep] = useState(0);
+    const [selectedCareerSkills, setSelectedCareerSkills] = useState<>(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const steps = ['Character Concept', 'Select Archetype', 'Select Career', 'Spend Initial XP', 'Choose Motivations', 'Select Gear', 'Final Review'];
@@ -46,7 +47,7 @@ export default function PlayerCreationDialog(props: Props) {
             case 1:
                 return formData.archetype !== emptyArchetype;
             case 2:
-                return formData.career !== emptyCareer && formData.skills.length === 4;
+                return formData.career !== emptyCareer && selectedCareerSkills;
             case 3:
                 return formData.experience.initial === 0;
             default:
@@ -119,6 +120,14 @@ export default function PlayerCreationDialog(props: Props) {
             return playerSkill;
         });
         handleChange('skills', updatedSkills);
+        setSelectedCareerSkills(true);
+    };
+
+    const handleExperienceSpend = (spent: number) => {
+        handleChange('experience', {
+            ...formData.experience,
+            initial: formData.experience.initial - spent
+        });
     };
 
     const renderStepContent = (step: number) => {
@@ -140,10 +149,7 @@ export default function PlayerCreationDialog(props: Props) {
                                             onSave={handleCareerSkillSelection}/>
             case 3:
                 return <SpendExperienceStep player={formData} skills={compendium.skills} talents={compendium.talents}
-                                            onSpendExperience={(value) => handleChange('experience', {
-                                                ...formData.experience,
-                                                initial: formData.experience.initial - value
-                                            })}/>;
+                                            onSpendExperience={handleExperienceSpend}/>;
             case 4:
                 return <Typography sx={{mt: 4}}>Player Motivation Selection would go here...</Typography>;
             case 5:

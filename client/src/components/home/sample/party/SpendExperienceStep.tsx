@@ -1,6 +1,7 @@
 import {
     type Archetype,
     type PlayerCharacter,
+    type PlayerSkill,
     type Skill,
     SkillCharacteristic,
     type Talent
@@ -37,6 +38,12 @@ export default function SpendExperienceStep(props: Props) {
     const handleCharacteristicSpend = (experienceDiff: number, updatedCharacteristics: Record<SkillCharacteristic, number>) => {
         setCharacteristicSpend(characteristicSpend + experienceDiff);
         setCharacteristics(updatedCharacteristics);
+        onSpendExperience(experienceDiff);
+    }
+
+    const handleSkillSpend = (experienceDiff: number, updatedSkills: Record<string, number>) => {
+        setCharacteristicSpend(skillSpend + experienceDiff);
+        setSkillRanks(updatedSkills);
         onSpendExperience(experienceDiff);
     }
 
@@ -109,8 +116,10 @@ export default function SpendExperienceStep(props: Props) {
                 <PurchaseCharacteristicsTab archetype={player.archetype} characteristics={characteristics}
                                             onCharacteristicSpend={handleCharacteristicSpend}
                                             experience={player.experience.initial}/>}
-            {tabValue === 1 && <PurchaseSkillRanksTab player={player} onCharacteristicSpend={onSpendExperience}
-                                                      skillRanks={{}}/>}
+            {tabValue === 1 &&
+                <PurchaseSkillRanksTab playerSkills={player.skills} careerSkills={player.career.skills}
+                                       characteristics={characteristics} experience={player.experience.initial}
+                                       onSkillSpend={handleSkillSpend}/>}
             <Paper sx={{p: 2, mt: 3}}>
                 <Stack spacing={2}>
                     <Typography variant="caption" color="text.secondary">
