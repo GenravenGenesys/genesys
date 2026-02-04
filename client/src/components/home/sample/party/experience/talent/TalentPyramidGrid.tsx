@@ -2,6 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import { TalentSlotCard } from "./TalentSlotCard";
 import type {Talent} from "../../../../../../api/model";
+import type {PyramidSlot, SlotAssignment} from "./PurchaseTalentTab.tsx";
 
 
 

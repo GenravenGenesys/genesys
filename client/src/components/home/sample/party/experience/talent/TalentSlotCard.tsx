@@ -22,8 +22,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import LockIcon from "@mui/icons-material/Lock";
 import StarIcon from "@mui/icons-material/Star";
 import DeleteIcon from "@mui/icons-material/Delete";
-import type {PyramidSlot, SlotAssignment} from "../../sample/TalentSampleApp.tsx";
 import type {Talent} from "../../../../../../api/model";
+import type {PyramidSlot, SlotAssignment} from "./PurchaseTalentTab.tsx";
 
 
 interface TalentSlotCardProps {
@@ -40,14 +40,6 @@ interface TalentSlotCardProps {
     onRefund: () => void;
     onClearSlot: () => void;
 }
-
-const tierColors: Record<number, string> = {
-    1: "#90CAF9",
-    2: "#81C784",
-    3: "#FFD54F",
-    4: "#FFB74D",
-    5: "#E57373",
-};
 
 const activationColors: Record<string, string> = {
     Passive: "#9E9E9E",
@@ -72,7 +64,6 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                                                               }) => {
     const [selectorOpen, setSelectorOpen] = useState(false);
 
-    const tierColor = tierColors[slot.tier];
     const activationColor = talent ? activationColors[talent.activation] : "";
 
     const isEmpty = !assignment;
@@ -82,7 +73,7 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
     const canChange = !isEmpty && !isPurchased;
 
     // Get talents available for this tier
-    const availableTalents = talents.filter((t) => t.baseTier === slot.tier);
+    const availableTalents = talents.filter((t) => t.tier === slot.tier);
 
     return (
         <>
@@ -94,17 +85,13 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                     flexDirection: "column",
                     border: 3,
                     borderColor: isPurchased
-                        ? tierColor
-                        : isUnlocked
-                            ? "divider"
-                            : "grey.400",
+                        ? "divider"
+                        : "grey.400",
                     backgroundColor: isPurchased
-                        ? `${tierColor}44`
-                        : !isUnlocked
-                            ? "grey.100"
-                            : isEmpty
-                                ? "grey.50"
-                                : "background.paper",
+                        ? "grey.100"
+                        : isEmpty
+                            ? "grey.50"
+                            : "background.paper",
                     opacity: !isUnlocked ? 0.6 : 1,
                     position: "relative",
                     cursor: isEmpty && isUnlocked ? "pointer" : "default",
@@ -137,7 +124,6 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                             label={`Tier ${slot.tier}`}
                             size="small"
                             sx={{
-                                backgroundColor: tierColor,
                                 color: "white",
                                 fontWeight: "bold",
                             }}
@@ -292,7 +278,7 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                     <Chip
                         label={`Tier ${slot.tier}`}
                         size="small"
-                        sx={{ml: 1, backgroundColor: tierColor, color: "white"}}
+                        sx={{ml: 1, color: "white"}}
                     />
                 </DialogTitle>
                 <DialogContent>

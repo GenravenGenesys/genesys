@@ -11,7 +11,6 @@ import {useState} from "react";
 import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHeader.tsx";
 import {Card, CardContent} from "@mui/material";
 import {TalentPyramidGrid} from "./TalentPyramidGrid.tsx";
-import type {TalentDefinition} from "../../sample/TalentSampleApp.tsx";
 import {emptySkill} from "../../../../../../models/Template.ts";
 
 interface Props {
@@ -24,7 +23,7 @@ interface Props {
 export interface PyramidSlot {
     row: number;
     column: number;
-    tier: 1 | 2 | 3 | 4 | 5;
+    tier: TalentTier;
 }
 
 export interface SlotAssignment {
@@ -36,36 +35,36 @@ export interface SlotAssignment {
 
 const pyramidStructure: PyramidSlot[] = [
     // Row 1: 1 slot - Tier 1
-    {row: 1, column: 1, tier: 1},
+    {row: 1, column: 1, tier: TalentTier.First},
 
     // Row 2: 2 slots - T1, T2
-    {row: 2, column: 1, tier: 1},
-    {row: 2, column: 2, tier: 2},
+    {row: 2, column: 1, tier: TalentTier.First},
+    {row: 2, column: 2, tier: TalentTier.Second},
 
     // Row 3: 3 slots - T1, T2, T3
-    {row: 3, column: 1, tier: 1},
-    {row: 3, column: 2, tier: 2},
-    {row: 3, column: 3, tier: 3},
+    {row: 3, column: 1, tier: TalentTier.First},
+    {row: 3, column: 2, tier: TalentTier.Second},
+    {row: 3, column: 3, tier: TalentTier.Third},
 
     // Row 4: 4 slots - T1, T2, T3, T4
-    {row: 4, column: 1, tier: 1},
-    {row: 4, column: 2, tier: 2},
-    {row: 4, column: 3, tier: 3},
-    {row: 4, column: 4, tier: 4},
+    {row: 4, column: 1, tier: TalentTier.First},
+    {row: 4, column: 2, tier: TalentTier.Second},
+    {row: 4, column: 3, tier: TalentTier.Third},
+    {row: 4, column: 4, tier: TalentTier.Fourth},
 
     // Row 5: 5 slots - T1, T2, T3, T4, T5
-    {row: 5, column: 1, tier: 1},
-    {row: 5, column: 2, tier: 2},
-    {row: 5, column: 3, tier: 3},
-    {row: 5, column: 4, tier: 4},
-    {row: 5, column: 5, tier: 5},
+    {row: 5, column: 1, tier: TalentTier.First},
+    {row: 5, column: 2, tier: TalentTier.Second},
+    {row: 5, column: 3, tier: TalentTier.Third},
+    {row: 5, column: 4, tier: TalentTier.Fourth},
+    {row: 5, column: 5, tier: TalentTier.Fifth},
 
     // Row 6: 5 slots - T1, T2, T3, T4, T5
-    {row: 6, column: 1, tier: 1},
-    {row: 6, column: 2, tier: 2},
-    {row: 6, column: 3, tier: 3},
-    {row: 6, column: 4, tier: 4},
-    {row: 6, column: 5, tier: 5},
+    {row: 6, column: 1, tier: TalentTier.First},
+    {row: 6, column: 2, tier: TalentTier.Second},
+    {row: 6, column: 3, tier: TalentTier.Third},
+    {row: 6, column: 4, tier: TalentTier.Fourth},
+    {row: 6, column: 5, tier: TalentTier.Fifth},
 ];
 
 const mockTalents: Talent[] = [
@@ -514,7 +513,6 @@ export default function PurchaseTalentTab(props: Props) {
     const [slotAssignments, setSlotAssignments] = useState<
         Record<string, SlotAssignment>
     >({});
-    const [startingXp] = useState(110);
 
     const getSlotKey = (row: number, column: number) => `${row}-${column}`;
 
