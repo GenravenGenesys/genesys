@@ -10,17 +10,17 @@ import {Alert, Box, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {useState} from "react";
 import PurchaseCharacteristicsTab from "./PurchaseCharacteristicsTab.tsx";
 import Paper from "@mui/material/Paper";
-import PurchaseSkillRanksTab from "./PurchaseSkillRanksTab.tsx";
+import PurchaseSkillRanksTab from "./skill/PurchaseSkillRanksTab.tsx";
+import PurchaseTalentTab from "./talent/PurchaseTalentTab.tsx";
 
 interface Props {
     player: PlayerCharacter;
     onSpendExperience: (experience: number) => void;
-    skills: Skill[];
     talents: Talent[];
 }
 
 export default function SpendExperienceStep(props: Props) {
-    const {player, onSpendExperience, skills, talents} = props;
+    const {player, onSpendExperience, talents} = props;
     const [tabValue, setTabValue] = useState(0);
     const [characteristicSpend, setCharacteristicSpend] = useState(0);
     const [characteristics, setCharacteristics] = useState({
@@ -37,19 +37,26 @@ export default function SpendExperienceStep(props: Props) {
     });
     const [purchasedSkills, setPurchasedSkills] = useState<Record<string, number>>(initialPurchasedSkills);
     const [skillSpend, setSkillSpend] = useState(0);
+    const [purchasedTalents, setPurchasedTalents] = useState<Record<string, number>>({});
     const [talentSpend, setTalentSpend] = useState(0);
 
     const handleCharacteristicSpend = (experienceDiff: number, updatedCharacteristics: Record<SkillCharacteristic, number>) => {
         setCharacteristicSpend(characteristicSpend + experienceDiff);
         setCharacteristics(updatedCharacteristics);
         onSpendExperience(experienceDiff);
-    }
+    };
 
     const handleSkillSpend = (experienceDiff: number, updatedSkills: Record<string, number>) => {
         setSkillSpend(skillSpend + experienceDiff);
         setPurchasedSkills(updatedSkills);
         onSpendExperience(experienceDiff);
-    }
+    };
+
+    const handleTalentSpend = (experienceDiff: number, updatedTalents: Record<string, number>) => {
+        setTalentSpend(talentSpend + experienceDiff);
+        setPurchasedTalents(updatedTalents);
+        onSpendExperience(experienceDiff);
+    };
 
     const getValueFromArchetype = (archetype: Archetype, label: SkillCharacteristic): number => {
         switch (label) {
@@ -124,6 +131,9 @@ export default function SpendExperienceStep(props: Props) {
                 <PurchaseSkillRanksTab playerSkills={player.skills} careerSkills={player.career.skills}
                                        characteristics={characteristics} experience={player.experience.initial}
                                        onSkillSpend={handleSkillSpend} skills={purchasedSkills}/>}
+            {tabValue === 2 && <PurchaseTalentTab campaignTalents={talents} talents={purchasedTalents}
+                                                  experience={player.experience.initial}
+                                                  onTalentSpend={handleTalentSpend}/>}
             <Paper sx={{p: 2, mt: 3}}>
                 <Stack spacing={2}>
                     <Typography variant="caption" color="text.secondary">

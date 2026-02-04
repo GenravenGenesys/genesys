@@ -1,5 +1,5 @@
-import {type PlayerSkill, type Skill, SkillCharacteristic} from "../../../../../api/model";
-import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader.tsx";
+import {type PlayerSkill, type Skill, SkillCharacteristic} from "../../../../../../api/model";
+import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHeader.tsx";
 import {Card, CardContent} from "@mui/material";
 import SkillRankAccordion from "./SkillRankAccordion.tsx";
 

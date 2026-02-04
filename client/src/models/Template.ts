@@ -70,7 +70,6 @@ export const emptyTalent = {
     talentRollModifiers: [],
     talentSkills: {
         potentialCareerSkills: [],
-        potentialNonCareerSkills: [],
     },
     statModifiers: {
         wounds: 0,
