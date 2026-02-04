@@ -1,8 +1,8 @@
-import {type Career, type Skill} from "../../../../api/model";
+import {type Career, type Skill} from "../../../../../api/model";
 import {useEffect, useState} from "react";
 import {Alert, Autocomplete, Box, Card, CardContent, Paper, TextField, Typography} from "@mui/material";
-import {emptyCareer} from "../../../../models/Template.ts";
-import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
+import {emptyCareer} from "../../../../../models/Template.ts";
+import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader.tsx";
 import {CareerSkillSelector} from "./CareerSkillSelector.tsx";
 
 interface Props {

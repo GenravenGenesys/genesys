@@ -1,8 +1,8 @@
-import {type Archetype, SkillCharacteristic} from "../../../../api/model";
+import {type Archetype, SkillCharacteristic} from "../../../../../api/model";
 import {Alert, Card, CardContent, Grid, Stack, Typography} from "@mui/material";
-import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
-import GridContainer from "../../../common/grid/GridContainer.tsx";
-import {CharacteristicBadge} from "./CharacteristicBadge.tsx";
+import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader.tsx";
+import GridContainer from "../../../../common/grid/GridContainer.tsx";
+import {CharacteristicBadge} from "../CharacteristicBadge.tsx";
 
 interface Props {
     archetype: Archetype;

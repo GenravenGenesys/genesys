@@ -1,4 +1,4 @@
-import {type PlayerSkill, type Skill, SkillCharacteristic} from "../../../../api/model";
+import {type PlayerSkill, type Skill, SkillCharacteristic} from "../../../../../api/model";
 import {
     Accordion,
     AccordionDetails,
@@ -11,7 +11,7 @@ import {
     Typography
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {CharacteristicBadge} from "./CharacteristicBadge.tsx";
+import {CharacteristicBadge} from "../CharacteristicBadge.tsx";
 import StarIcon from "@mui/icons-material/Star";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";

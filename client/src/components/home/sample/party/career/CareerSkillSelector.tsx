@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import type {Skill} from "../../../../api/model";
+import type {Skill} from "../../../../../api/model";
 
 interface CareerSkillSelectorProps {
     careerSkills: Skill[];

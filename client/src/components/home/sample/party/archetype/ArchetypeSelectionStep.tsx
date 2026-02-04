@@ -1,10 +1,10 @@
-import {type Archetype, SkillCharacteristic} from "../../../../api/model";
+import {type Archetype, SkillCharacteristic} from "../../../../../api/model";
 import {Autocomplete, Box, Card, CardContent, Grid, Paper, Stack, TextField, Typography} from "@mui/material";
 import {useState} from "react";
-import GridContainer from "../../../common/grid/GridContainer.tsx";
-import {CharacteristicBadge} from "./CharacteristicBadge.tsx";
-import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
-import {emptyArchetype} from "../../../../models/Template.ts";
+import GridContainer from "../../../../common/grid/GridContainer.tsx";
+import {CharacteristicBadge} from "../CharacteristicBadge.tsx";
+import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader.tsx";
+import {emptyArchetype} from "../../../../../models/Template.ts";
 
 interface Props {
     archetype: Archetype;

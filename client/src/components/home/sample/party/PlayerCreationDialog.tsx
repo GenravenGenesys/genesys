@@ -15,9 +15,9 @@ import {
 import SaveIcon from "@mui/icons-material/Save";
 import {useEffect, useState} from "react";
 import {emptyArchetype, emptyCareer, emptyPlayerCharacter} from "../../../../models/Template.ts";
-import ArchetypeSelectionStep from "./ArchetypeSelectionStep.tsx";
-import CareerSelectionStep from "./CareerSelectionStep.tsx";
-import SpendExperienceStep from "./SpendExperienceStep.tsx";
+import ArchetypeSelectionStep from "./archetype/ArchetypeSelectionStep.tsx";
+import CareerSelectionStep from "./career/CareerSelectionStep.tsx";
+import SpendExperienceStep from "./experience/SpendExperienceStep.tsx";
 
 interface Props {
     open: boolean;

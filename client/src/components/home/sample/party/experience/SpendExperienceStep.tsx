@@ -5,7 +5,7 @@ import {
     type Skill,
     SkillCharacteristic,
     type Talent
-} from "../../../../api/model";
+} from "../../../../../api/model";
 import {Alert, Box, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {useState} from "react";
 import PurchaseCharacteristicsTab from "./PurchaseCharacteristicsTab.tsx";
