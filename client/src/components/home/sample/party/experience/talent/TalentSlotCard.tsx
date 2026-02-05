@@ -35,6 +35,8 @@ interface TalentSlotCardProps {
     canAfford: boolean;
     onAssignTalent: (talentId: string) => void;
     onRemoveTalent: () => void;
+    slotAssignments: Record<string, SlotAssignment>;
+    getTalentRank: (talentId: string) => number;
 }
 
 const activationColors: Record<string, string> = {
@@ -55,6 +57,8 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                                                                   canAfford,
                                                                   onAssignTalent,
                                                                   onRemoveTalent,
+                                                                  slotAssignments,
+                                                                  getTalentRank,
                                                               }) => {
     const [selectorOpen, setSelectorOpen] = useState(false);
 
@@ -63,8 +67,51 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
     const isEmpty = !assignment;
     const isPurchased = assignment?.purchased || false;
 
+    // Helper to convert TalentTier enum to number
+    const tierToNumber = (tier: typeof slot.tier): number => {
+        const tierMap: Record<string, number> = {
+            'First': 1,
+            'Second': 2,
+            'Third': 3,
+            'Fourth': 4,
+            'Fifth': 5
+        };
+        return tierMap[tier] || 1;
+    };
+
+    // Helper to get all purchased talent IDs
+    const getPurchasedTalentIds = (): Set<string> => {
+        const purchased = new Set<string>();
+        Object.values(slotAssignments).forEach((assignment) => {
+            if (assignment.purchased) {
+                purchased.add(assignment.talentId);
+            }
+        });
+        return purchased;
+    };
+
+    const purchasedTalentIds = getPurchasedTalentIds();
+    const currentSlotTierNumber = tierToNumber(slot.tier);
+
     // Get talents available for this tier
-    const availableTalents = talents.filter((t) => t.tier === slot.tier);
+    const availableTalents = talents.filter((t) => {
+        const talentBaseTier = tierToNumber(t.tier);
+        const talentCurrentRank = getTalentRank(t.id);
+
+        // Calculate what tier this talent should appear in based on its rank
+        // Base tier + current rank = effective tier
+        const effectiveTier = talentBaseTier + talentCurrentRank;
+
+        // Only show talents that match this slot's tier
+        if (effectiveTier !== currentSlotTierNumber) {
+            return false;
+        }
+
+        // If unranked and already purchased, don't show it
+        return !(!t.ranked && purchasedTalentIds.has(t.id));
+
+
+    });
 
     return (
         <>
@@ -76,19 +123,21 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                     flexDirection: "column",
                     border: 3,
                     borderColor: isPurchased
-                        ? "divider"
-                        : "grey.400",
+                        ? "success.main"
+                        : isEmpty
+                            ? "grey.400"
+                            : "grey.400",
                     backgroundColor: isPurchased
-                        ? "grey.100"
+                        ? "action.hover"
                         : isEmpty
                             ? "grey.50"
-                            : "background.paper",
+                            : "action.hover",
                     opacity: !isUnlocked ? 0.6 : 1,
                     position: "relative",
-                    cursor: isEmpty && isUnlocked ? "pointer" : "default",
+                    cursor: isEmpty && isUnlocked && canAfford ? "pointer" : "default",
                 }}
                 onClick={() => {
-                    if (isEmpty && isUnlocked) {
+                    if (isEmpty && isUnlocked && canAfford) {
                         setSelectorOpen(true);
                     }
                 }}
@@ -148,7 +197,7 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                                 +
                             </Typography>
                             <Typography variant="caption" color="text.secondary">
-                                {isUnlocked ? "Click to Select" : "Locked"}
+                                {!isUnlocked ? "Locked" : !canAfford ? "Not Enough XP" : "Click to Select"}
                             </Typography>
                         </Box>
                     ) : (
@@ -204,20 +253,25 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                         size="small"
                         sx={{ml: 1, color: "white"}}
                     />
+                    <Chip
+                        label={`Cost: ${slotCost} XP`}
+                        size="small"
+                        color="primary"
+                        sx={{ml: 1}}
+                    />
                 </DialogTitle>
                 <DialogContent>
                     <List>
                         {availableTalents.map((t) => {
+                            const talentCurrentRank = getTalentRank(t.id);
+
                             return (
                                 <ListItem key={t.id} disablePadding>
                                     <ListItemButton
                                         onClick={() => {
-                                            if (canAfford) {
-                                                onAssignTalent(t.id);
-                                                setSelectorOpen(false);
-                                            }
+                                            onAssignTalent(t.id);
+                                            setSelectorOpen(false);
                                         }}
-                                        disabled={!canAfford}
                                     >
                                         <ListItemText
                                             primary={
@@ -229,7 +283,7 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                                                     </Typography>
                                                     {t.ranked && (
                                                         <Chip
-                                                            label={`Ranked`}
+                                                            label={talentCurrentRank > 0 ? `Rank ${talentCurrentRank + 1}` : "Ranked"}
                                                             size="small"
                                                             icon={<StarIcon sx={{fontSize: 14}}/>}
                                                         />
@@ -240,14 +294,6 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                                                         sx={{
                                                             backgroundColor: activationColors[t.activation],
                                                             color: "white",
-                                                            fontSize: "0.7rem",
-                                                        }}
-                                                    />
-                                                    <Chip
-                                                        label={`${slotCost} XP${t.ranked ? ` (Rank ${currentRank + 1})` : ''}`}
-                                                        size="small"
-                                                        color={canAfford ? "success" : "error"}
-                                                        sx={{
                                                             fontSize: "0.7rem",
                                                         }}
                                                     />

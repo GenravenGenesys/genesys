@@ -123,6 +123,8 @@ export const TalentPyramidGrid: React.FC<TalentPyramidGridProps> = ({
                                         onAssignTalent(slot.row, slot.column, talentId)
                                     }
                                     onRemoveTalent={() => onRemoveTalent(slot.row, slot.column)}
+                                    slotAssignments={slotAssignments}
+                                    getTalentRank={getTalentRank}
                                 />
                             );
                         })}
