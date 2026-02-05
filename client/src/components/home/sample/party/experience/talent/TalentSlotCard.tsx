@@ -21,21 +21,19 @@ import LockIcon from "@mui/icons-material/Lock";
 import StarIcon from "@mui/icons-material/Star";
 import DeleteIcon from "@mui/icons-material/Delete";
 import type {Talent} from "../../../../../../api/model";
-import type {PyramidSlot, SlotAssignment} from "./PurchaseTalentTab.tsx";
+import type {PyramidSlot} from "./PurchaseTalentTab.tsx";
 
 
 interface TalentSlotCardProps {
     slot: PyramidSlot;
-    assignment?: SlotAssignment;
     talent?: Talent;
     talents: Talent[];
     isUnlocked: boolean;
-    currentRank: number;
     slotCost: number;
     canAfford: boolean;
     onAssignTalent: (talentId: string) => void;
     onRemoveTalent: () => void;
-    slotAssignments: Record<string, SlotAssignment>;
+    pyramidSlots: PyramidSlot[];
     getTalentRank: (talentId: string) => number;
 }
 
@@ -48,24 +46,22 @@ const activationColors: Record<string, string> = {
 
 export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                                                                   slot,
-                                                                  assignment,
                                                                   talent,
                                                                   talents,
                                                                   isUnlocked,
-                                                                  currentRank,
                                                                   slotCost,
                                                                   canAfford,
                                                                   onAssignTalent,
                                                                   onRemoveTalent,
-                                                                  slotAssignments,
+                                                                  pyramidSlots,
                                                                   getTalentRank,
                                                               }) => {
     const [selectorOpen, setSelectorOpen] = useState(false);
 
     const activationColor = talent ? activationColors[talent.activation] : "";
 
-    const isEmpty = !assignment;
-    const isPurchased = !isEmpty; // If there's an assignment, it's purchased
+    const isEmpty = !slot.talentId;
+    const isPurchased = !isEmpty; // If there's a talentId, it's purchased
 
     // Helper to convert TalentTier enum to number
     const tierToNumber = (tier: typeof slot.tier): number => {
@@ -79,11 +75,13 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
         return tierMap[tier] || 1;
     };
 
-    // Helper to get all purchased talent IDs (all assignments are purchased)
+    // Helper to get all purchased talent IDs (all slots with talentId are purchased)
     const getPurchasedTalentIds = (): Set<string> => {
         const purchased = new Set<string>();
-        Object.values(slotAssignments).forEach((assignment) => {
-            purchased.add(assignment.talentId);
+        pyramidSlots.forEach((slot) => {
+            if (slot.talentId) {
+                purchased.add(slot.talentId);
+            }
         });
         return purchased;
     };

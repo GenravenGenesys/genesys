@@ -7,7 +7,7 @@ import {
     type Talent,
     TalentTier
 } from "../../../../../../api/model";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHeader.tsx";
 import {Card, CardContent} from "@mui/material";
 import {TalentPyramidGrid} from "./TalentPyramidGrid.tsx";
@@ -24,12 +24,7 @@ export interface PyramidSlot {
     row: number;
     column: number;
     tier: TalentTier;
-}
-
-export interface SlotAssignment {
-    row: number;
-    column: number;
-    talentId: string;
+    talentId: string | null;
 }
 
 // Helper function to generate pyramid structure for a given row
@@ -50,6 +45,7 @@ const generateRowStructure = (row: number): PyramidSlot[] => {
             row,
             column,
             tier: tierMapping[column] || TalentTier.First,
+            talentId: null,
         });
     }
 
@@ -500,94 +496,77 @@ const mockTalents: Talent[] = [
 
 export default function PurchaseTalentTab(props: Props) {
     const {campaignTalents, talents, experience, onTalentSpend} = props;
-    const [slotAssignments, setSlotAssignments] = useState<
-        Record<string, SlotAssignment>
-    >({});
+    const [pyramidSlots, setPyramidSlots] = useState<PyramidSlot[]>([]);
 
-    const getSlotKey = (row: number, column: number) => `${row}-${column}`;
+    // Helper to find a slot by row and column
+    const findSlot = (row: number, column: number): PyramidSlot | undefined => {
+        return pyramidSlots.find(s => s.row === row && s.column === column);
+    };
 
     // Helper function to check if a row should be visible
     // Row 1 is always visible. Subsequent rows are visible if the first slot of the previous row is assigned.
     const isRowUnlocked = (row: number): boolean => {
         if (row === 1) return true;
 
-        const previousRowFirstSlotKey = getSlotKey(row - 1, 1);
-        const previousRowFirstSlot = slotAssignments[previousRowFirstSlotKey];
+        const previousRowFirstSlot = findSlot(row - 1, 1);
 
-        return !!previousRowFirstSlot;
+        return !!previousRowFirstSlot?.talentId;
     };
 
     // Generate dynamic pyramid structure based on unlocked rows
-    const getDynamicPyramidStructure = (): PyramidSlot[] => {
-        const structure: PyramidSlot[] = [];
+    useEffect(() => {
         let row = 1;
+        const newSlots: PyramidSlot[] = [];
 
         // Keep adding rows as long as they are unlocked
         while (isRowUnlocked(row)) {
-            structure.push(...generateRowStructure(row));
+            // Check if this row already exists
+            const rowExists = pyramidSlots.some(s => s.row === row);
+            if (!rowExists) {
+                newSlots.push(...generateRowStructure(row));
+            }
             row++;
         }
 
-        return structure;
-    };
+        if (newSlots.length > 0) {
+            setPyramidSlots(prev => [...prev, ...newSlots]);
+        }
+    }, [pyramidSlots]);
 
-    const pyramidStructure = getDynamicPyramidStructure();
 
     const handleAssignTalent = (
         row: number,
         column: number,
         talentId: string
     ) => {
-        const key = getSlotKey(row, column);
-        // Assign and immediately purchase the talent
-        setSlotAssignments((prev) => ({
-            ...prev,
-            [key]: {row, column, talentId},
-        }));
+        setPyramidSlots(prev =>
+            prev.map(slot =>
+                slot.row === row && slot.column === column
+                    ? { ...slot, talentId }
+                    : slot
+            )
+        );
     };
 
     const handleRemoveTalent = (row: number, column: number) => {
-        const key = getSlotKey(row, column);
-        // Remove the talent from the slot (refund and clear)
-        setSlotAssignments((prev) => {
-            const newState = {...prev};
-            delete newState[key];
-            return newState;
-        });
+        setPyramidSlots(prev =>
+            prev.map(slot =>
+                slot.row === row && slot.column === column
+                    ? { ...slot, talentId: null }
+                    : slot
+            )
+        );
     };
 
     const handleReset = () => {
-        setSlotAssignments({});
+        setPyramidSlots(prev =>
+            prev.map(slot => ({ ...slot, talentId: null }))
+        );
     };
-
-    // Calculate spent XP
-    // const calculateSpentXp = (): number => {
-    //     let spent = 0;
-    //     const tierCosts = {1: 5, 2: 10, 3: 15, 4: 20, 5: 25};
-    //
-    //     Object.values(slotAssignments).forEach((assignment) => {
-    //         if (assignment.purchased) {
-    //             const talent = mockTalents.find((t) => t.id === assignment.talentId);
-    //             if (talent) {
-    //                 // Calculate effective cost based on talent rank
-    //                 const currentRank = getTalentRank(assignment.talentId);
-    //                 const effectiveTier = Math.min(
-    //                     5,
-    //                     talent.tier + currentRank - 1
-    //                 ) as 1 | 2 | 3 | 4 | 5;
-    //                 spent += tierCosts[effectiveTier];
-    //             }
-    //         }
-    //     });
-    //
-    //     return spent;
-    // };
 
     // Get current rank of a talent (count slots with this talent)
     const getTalentRank = (talentId: string): number => {
-        return Object.values(slotAssignments).filter(
-            (a) => a.talentId === talentId
-        ).length;
+        return pyramidSlots.filter(slot => slot.talentId === talentId).length;
     };
 
     return (
@@ -595,13 +574,11 @@ export default function PurchaseTalentTab(props: Props) {
             <CenteredCardHeader title={'Purchase Talents'}/>
             <CardContent>
                 <TalentPyramidGrid
-                    pyramidStructure={pyramidStructure}
+                    pyramidSlots={pyramidSlots}
                     talents={mockTalents}
-                    slotAssignments={slotAssignments}
                     onAssignTalent={handleAssignTalent}
                     onRemoveTalent={handleRemoveTalent}
                     availableXp={experience}
-                    getSlotKey={getSlotKey}
                     getTalentRank={getTalentRank}
                 />
             </CardContent>
