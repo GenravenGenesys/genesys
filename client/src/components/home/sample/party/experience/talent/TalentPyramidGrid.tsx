@@ -31,7 +31,8 @@ export const TalentPyramidGrid: React.FC<TalentPyramidGridProps> = ({
                                                                         getSlotKey,
                                                                         getTalentRank,
                                                                     }) => {
-    const rows = [1, 2, 3, 4, 5, 6];
+    // Get unique row numbers from pyramid structure
+    const rows = Array.from(new Set(pyramidStructure.map(slot => slot.row))).sort((a, b) => a - b);
 
     // Check if slot is unlocked (has connection to purchased talents above)
     const isSlotUnlocked = (row: number, column: number): boolean => {
@@ -54,20 +55,28 @@ export const TalentPyramidGrid: React.FC<TalentPyramidGridProps> = ({
         const talent = talents.find((t) => t.id === talentId);
         if (!talent) return 0;
 
-        const tierCosts = { 1: 5, 2: 10, 3: 15, 4: 20, 5: 25 };
+        const tierCosts: Record<number, number> = { 1: 5, 2: 10, 3: 15, 4: 20, 5: 25 };
+
+        // Convert TalentTier enum to numeric value
+        const tierToNumber = (tier: typeof slot.tier): number => {
+            const tierMap: Record<string, number> = {
+                'First': 1,
+                'Second': 2,
+                'Third': 3,
+                'Fourth': 4,
+                'Fifth': 5
+            };
+            return tierMap[tier] || 1;
+        };
 
         if (!talent.ranked) {
-            return tierCosts[slot.tier];
+            return tierCosts[tierToNumber(slot.tier)];
         }
 
         // For ranked talents, calculate cost based on current rank
         const currentRank = getTalentRank(talentId);
-        const effectiveTier = Math.min(5, talent.baseTier + currentRank) as
-            | 1
-            | 2
-            | 3
-            | 4
-            | 5;
+        const baseTierNum = tierToNumber(talent.tier);
+        const effectiveTier = Math.min(5, baseTierNum + currentRank);
 
         return tierCosts[effectiveTier];
     };

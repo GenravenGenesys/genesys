@@ -33,39 +33,30 @@ export interface SlotAssignment {
     purchased: boolean;
 }
 
-const pyramidStructure: PyramidSlot[] = [
-    // Row 1: 1 slot - Tier 1
-    {row: 1, column: 1, tier: TalentTier.First},
+// Helper function to generate pyramid structure for a given row
+const generateRowStructure = (row: number): PyramidSlot[] => {
+    const slots: PyramidSlot[] = [];
+    const numSlots = Math.min(row, 5); // Max 5 slots per row
 
-    // Row 2: 2 slots - T1, T2
-    {row: 2, column: 1, tier: TalentTier.First},
-    {row: 2, column: 2, tier: TalentTier.Second},
+    const tierMapping: Record<number, TalentTier> = {
+        1: TalentTier.First,
+        2: TalentTier.Second,
+        3: TalentTier.Third,
+        4: TalentTier.Fourth,
+        5: TalentTier.Fifth,
+    };
 
-    // Row 3: 3 slots - T1, T2, T3
-    {row: 3, column: 1, tier: TalentTier.First},
-    {row: 3, column: 2, tier: TalentTier.Second},
-    {row: 3, column: 3, tier: TalentTier.Third},
+    for (let column = 1; column <= numSlots; column++) {
+        slots.push({
+            row,
+            column,
+            tier: tierMapping[column] || TalentTier.First,
+        });
+    }
 
-    // Row 4: 4 slots - T1, T2, T3, T4
-    {row: 4, column: 1, tier: TalentTier.First},
-    {row: 4, column: 2, tier: TalentTier.Second},
-    {row: 4, column: 3, tier: TalentTier.Third},
-    {row: 4, column: 4, tier: TalentTier.Fourth},
+    return slots;
+};
 
-    // Row 5: 5 slots - T1, T2, T3, T4, T5
-    {row: 5, column: 1, tier: TalentTier.First},
-    {row: 5, column: 2, tier: TalentTier.Second},
-    {row: 5, column: 3, tier: TalentTier.Third},
-    {row: 5, column: 4, tier: TalentTier.Fourth},
-    {row: 5, column: 5, tier: TalentTier.Fifth},
-
-    // Row 6: 5 slots - T1, T2, T3, T4, T5
-    {row: 6, column: 1, tier: TalentTier.First},
-    {row: 6, column: 2, tier: TalentTier.Second},
-    {row: 6, column: 3, tier: TalentTier.Third},
-    {row: 6, column: 4, tier: TalentTier.Fourth},
-    {row: 6, column: 5, tier: TalentTier.Fifth},
-];
 
 const mockTalents: Talent[] = [
     // Tier 1 Talents
@@ -515,6 +506,33 @@ export default function PurchaseTalentTab(props: Props) {
     >({});
 
     const getSlotKey = (row: number, column: number) => `${row}-${column}`;
+
+    // Helper function to check if a row should be visible
+    // Row 1 is always visible. Subsequent rows are visible if the first slot of the previous row is purchased.
+    const isRowUnlocked = (row: number): boolean => {
+        if (row === 1) return true;
+
+        const previousRowFirstSlotKey = getSlotKey(row - 1, 1);
+        const previousRowFirstSlot = slotAssignments[previousRowFirstSlotKey];
+
+        return previousRowFirstSlot?.purchased || false;
+    };
+
+    // Generate dynamic pyramid structure based on unlocked rows
+    const getDynamicPyramidStructure = (): PyramidSlot[] => {
+        const structure: PyramidSlot[] = [];
+        let row = 1;
+
+        // Keep adding rows as long as they are unlocked
+        while (isRowUnlocked(row)) {
+            structure.push(...generateRowStructure(row));
+            row++;
+        }
+
+        return structure;
+    };
+
+    const pyramidStructure = getDynamicPyramidStructure();
 
     const handleAssignTalent = (
         row: number,
