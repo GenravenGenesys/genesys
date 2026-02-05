@@ -65,7 +65,7 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
     const activationColor = talent ? activationColors[talent.activation] : "";
 
     const isEmpty = !assignment;
-    const isPurchased = assignment?.purchased || false;
+    const isPurchased = !isEmpty; // If there's an assignment, it's purchased
 
     // Helper to convert TalentTier enum to number
     const tierToNumber = (tier: typeof slot.tier): number => {
@@ -79,13 +79,11 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
         return tierMap[tier] || 1;
     };
 
-    // Helper to get all purchased talent IDs
+    // Helper to get all purchased talent IDs (all assignments are purchased)
     const getPurchasedTalentIds = (): Set<string> => {
         const purchased = new Set<string>();
         Object.values(slotAssignments).forEach((assignment) => {
-            if (assignment.purchased) {
-                purchased.add(assignment.talentId);
-            }
+            purchased.add(assignment.talentId);
         });
         return purchased;
     };
@@ -109,8 +107,6 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
 
         // If unranked and already purchased, don't show it
         return !(!t.ranked && purchasedTalentIds.has(t.id));
-
-
     });
 
     return (

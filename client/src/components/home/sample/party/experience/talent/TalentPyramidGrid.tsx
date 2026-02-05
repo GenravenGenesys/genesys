@@ -30,18 +30,18 @@ export const TalentPyramidGrid: React.FC<TalentPyramidGridProps> = ({
     // Get unique row numbers from pyramid structure
     const rows = Array.from(new Set(pyramidStructure.map(slot => slot.row))).sort((a, b) => a - b);
 
-    // Check if slot is unlocked (all talents to the left in the same row must be purchased)
+    // Check if slot is unlocked (all talents to the left in the same row must be assigned)
     const isSlotUnlocked = (row: number, column: number): boolean => {
         // First column of any row is always unlocked
         if (column === 1) return true;
 
-        // Check if all talents to the left in this row are purchased
+        // Check if all talents to the left in this row are assigned
         for (let col = 1; col < column; col++) {
             const leftSlotKey = getSlotKey(row, col);
             const leftSlot = slotAssignments[leftSlotKey];
 
-            // If any slot to the left is not purchased, this slot is locked
-            if (!leftSlot?.purchased) {
+            // If any slot to the left is not assigned, this slot is locked
+            if (!leftSlot) {
                 return false;
             }
         }

@@ -30,7 +30,6 @@ export interface SlotAssignment {
     row: number;
     column: number;
     talentId: string;
-    purchased: boolean;
 }
 
 // Helper function to generate pyramid structure for a given row
@@ -508,14 +507,14 @@ export default function PurchaseTalentTab(props: Props) {
     const getSlotKey = (row: number, column: number) => `${row}-${column}`;
 
     // Helper function to check if a row should be visible
-    // Row 1 is always visible. Subsequent rows are visible if the first slot of the previous row is purchased.
+    // Row 1 is always visible. Subsequent rows are visible if the first slot of the previous row is assigned.
     const isRowUnlocked = (row: number): boolean => {
         if (row === 1) return true;
 
         const previousRowFirstSlotKey = getSlotKey(row - 1, 1);
         const previousRowFirstSlot = slotAssignments[previousRowFirstSlotKey];
 
-        return previousRowFirstSlot?.purchased || false;
+        return !!previousRowFirstSlot;
     };
 
     // Generate dynamic pyramid structure based on unlocked rows
@@ -540,10 +539,10 @@ export default function PurchaseTalentTab(props: Props) {
         talentId: string
     ) => {
         const key = getSlotKey(row, column);
-        // Immediately purchase the talent when it's assigned
+        // Assign and immediately purchase the talent
         setSlotAssignments((prev) => ({
             ...prev,
-            [key]: {row, column, talentId, purchased: true},
+            [key]: {row, column, talentId},
         }));
     };
 
@@ -584,10 +583,10 @@ export default function PurchaseTalentTab(props: Props) {
     //     return spent;
     // };
 
-    // Get current rank of a talent (count purchased slots with this talent)
+    // Get current rank of a talent (count slots with this talent)
     const getTalentRank = (talentId: string): number => {
         return Object.values(slotAssignments).filter(
-            (a) => a.talentId === talentId && a.purchased
+            (a) => a.talentId === talentId
         ).length;
     };
 
