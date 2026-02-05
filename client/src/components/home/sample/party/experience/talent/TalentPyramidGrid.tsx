@@ -11,9 +11,7 @@ interface TalentPyramidGridProps {
     talents: Talent[];
     slotAssignments: Record<string, SlotAssignment>;
     onAssignTalent: (row: number, column: number, talentId: string) => void;
-    onPurchase: (row: number, column: number) => void;
-    onRefund: (row: number, column: number) => void;
-    onClearSlot: (row: number, column: number) => void;
+    onRemoveTalent: (row: number, column: number) => void;
     availableXp: number;
     getSlotKey: (row: number, column: number) => string;
     getTalentRank: (talentId: string) => number;
@@ -24,9 +22,7 @@ export const TalentPyramidGrid: React.FC<TalentPyramidGridProps> = ({
                                                                         talents,
                                                                         slotAssignments,
                                                                         onAssignTalent,
-                                                                        onPurchase,
-                                                                        onRefund,
-                                                                        onClearSlot,
+                                                                        onRemoveTalent,
                                                                         availableXp,
                                                                         getSlotKey,
                                                                         getTalentRank,
@@ -34,18 +30,23 @@ export const TalentPyramidGrid: React.FC<TalentPyramidGridProps> = ({
     // Get unique row numbers from pyramid structure
     const rows = Array.from(new Set(pyramidStructure.map(slot => slot.row))).sort((a, b) => a - b);
 
-    // Check if slot is unlocked (has connection to purchased talents above)
+    // Check if slot is unlocked (all talents to the left in the same row must be purchased)
     const isSlotUnlocked = (row: number, column: number): boolean => {
-        if (row === 1) return true;
+        // First column of any row is always unlocked
+        if (column === 1) return true;
 
-        const aboveRow = row - 1;
-        const leftParentKey = getSlotKey(aboveRow, column);
-        const rightParentKey = getSlotKey(aboveRow, column + 1);
+        // Check if all talents to the left in this row are purchased
+        for (let col = 1; col < column; col++) {
+            const leftSlotKey = getSlotKey(row, col);
+            const leftSlot = slotAssignments[leftSlotKey];
 
-        const leftParent = slotAssignments[leftParentKey];
-        const rightParent = slotAssignments[rightParentKey];
+            // If any slot to the left is not purchased, this slot is locked
+            if (!leftSlot?.purchased) {
+                return false;
+            }
+        }
 
-        return leftParent?.purchased || false || rightParent?.purchased || false;
+        return true;
     };
 
     // Calculate effective cost for this slot
@@ -121,9 +122,7 @@ export const TalentPyramidGrid: React.FC<TalentPyramidGridProps> = ({
                                     onAssignTalent={(talentId) =>
                                         onAssignTalent(slot.row, slot.column, talentId)
                                     }
-                                    onPurchase={() => onPurchase(slot.row, slot.column)}
-                                    onRefund={() => onRefund(slot.row, slot.column)}
-                                    onClearSlot={() => onClearSlot(slot.row, slot.column)}
+                                    onRemoveTalent={() => onRemoveTalent(slot.row, slot.column)}
                                 />
                             );
                         })}

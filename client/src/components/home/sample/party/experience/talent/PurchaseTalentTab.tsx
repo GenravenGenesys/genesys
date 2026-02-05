@@ -540,30 +540,16 @@ export default function PurchaseTalentTab(props: Props) {
         talentId: string
     ) => {
         const key = getSlotKey(row, column);
+        // Immediately purchase the talent when it's assigned
         setSlotAssignments((prev) => ({
             ...prev,
-            [key]: {row, column, talentId, purchased: false},
+            [key]: {row, column, talentId, purchased: true},
         }));
     };
 
-    const handlePurchase = (row: number, column: number) => {
+    const handleRemoveTalent = (row: number, column: number) => {
         const key = getSlotKey(row, column);
-        setSlotAssignments((prev) => ({
-            ...prev,
-            [key]: {...prev[key], purchased: true},
-        }));
-    };
-
-    const handleRefund = (row: number, column: number) => {
-        const key = getSlotKey(row, column);
-        setSlotAssignments((prev) => ({
-            ...prev,
-            [key]: {...prev[key], purchased: false},
-        }));
-    };
-
-    const handleClearSlot = (row: number, column: number) => {
-        const key = getSlotKey(row, column);
+        // Remove the talent from the slot (refund and clear)
         setSlotAssignments((prev) => {
             const newState = {...prev};
             delete newState[key];
@@ -614,9 +600,7 @@ export default function PurchaseTalentTab(props: Props) {
                     talents={mockTalents}
                     slotAssignments={slotAssignments}
                     onAssignTalent={handleAssignTalent}
-                    onPurchase={handlePurchase}
-                    onRefund={handleRefund}
-                    onClearSlot={handleClearSlot}
+                    onRemoveTalent={handleRemoveTalent}
                     availableXp={experience}
                     getSlotKey={getSlotKey}
                     getTalentRank={getTalentRank}

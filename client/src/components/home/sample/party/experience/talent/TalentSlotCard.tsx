@@ -17,8 +17,6 @@ import {
     ListItemText,
     Tooltip,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import LockIcon from "@mui/icons-material/Lock";
 import StarIcon from "@mui/icons-material/Star";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -36,9 +34,7 @@ interface TalentSlotCardProps {
     slotCost: number;
     canAfford: boolean;
     onAssignTalent: (talentId: string) => void;
-    onPurchase: () => void;
-    onRefund: () => void;
-    onClearSlot: () => void;
+    onRemoveTalent: () => void;
 }
 
 const activationColors: Record<string, string> = {
@@ -58,9 +54,7 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                                                                   slotCost,
                                                                   canAfford,
                                                                   onAssignTalent,
-                                                                  onPurchase,
-                                                                  onRefund,
-                                                                  onClearSlot,
+                                                                  onRemoveTalent,
                                                               }) => {
     const [selectorOpen, setSelectorOpen] = useState(false);
 
@@ -68,9 +62,6 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
 
     const isEmpty = !assignment;
     const isPurchased = assignment?.purchased || false;
-    const canPurchase = !isEmpty && isUnlocked && !isPurchased && canAfford;
-    const canRefund = isPurchased;
-    const canChange = !isEmpty && !isPurchased;
 
     // Get talents available for this tier
     const availableTalents = talents.filter((t) => t.tier === slot.tier);
@@ -129,14 +120,14 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                             }}
                         />
 
-                        {canChange && (
+                        {isPurchased && (
                             <Box>
-                                <Tooltip title="Clear Slot">
+                                <Tooltip title="Remove Talent">
                                     <IconButton
                                         size="small"
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            onClearSlot();
+                                            onRemoveTalent();
                                         }}
                                         sx={{p: 0}}
                                     >
@@ -197,73 +188,6 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                         </>
                     )}
                 </CardContent>
-
-                {/* Purchase Section */}
-                {!isEmpty && (
-                    <Box
-                        sx={{
-                            p: 1,
-                            borderTop: 1,
-                            borderColor: "divider",
-                            backgroundColor: "background.paper",
-                        }}
-                    >
-                        {isPurchased ? (
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <IconButton
-                                    size="small"
-                                    onClick={onRefund}
-                                    color="error"
-                                    sx={{border: 1, borderColor: "error.main"}}
-                                >
-                                    <RemoveIcon fontSize="small"/>
-                                </IconButton>
-
-                                <Typography
-                                    variant="caption"
-                                    fontWeight="bold"
-                                    color="success.main"
-                                >
-                                    OWNED
-                                </Typography>
-
-                                <Box sx={{width: 32}}/>
-                            </Box>
-                        ) : (
-                            <Box sx={{textAlign: "center"}}>
-                                <Typography
-                                    variant="caption"
-                                    color="text.secondary"
-                                    gutterBottom
-                                    display="block"
-                                >
-                                    Cost: {slotCost} XP
-                                    {talent?.ranked && ` (Rank ${currentRank + 1})`}
-                                </Typography>
-                                <Button
-                                    fullWidth
-                                    size="small"
-                                    variant="contained"
-                                    onClick={onPurchase}
-                                    disabled={!canPurchase}
-                                    startIcon={<AddIcon/>}
-                                >
-                                    {!isUnlocked
-                                        ? "Locked"
-                                        : !canAfford
-                                            ? "Not Enough XP"
-                                            : "Purchase"}
-                                </Button>
-                            </Box>
-                        )}
-                    </Box>
-                )}
             </Card>
 
             {/* Talent Selector Dialog */}
@@ -284,17 +208,16 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                 <DialogContent>
                     <List>
                         {availableTalents.map((t) => {
-                            const talentRank = talents.filter(
-                                (talent) => talent.id === t.id
-                            ).length;
-
                             return (
                                 <ListItem key={t.id} disablePadding>
                                     <ListItemButton
                                         onClick={() => {
-                                            onAssignTalent(t.id);
-                                            setSelectorOpen(false);
+                                            if (canAfford) {
+                                                onAssignTalent(t.id);
+                                                setSelectorOpen(false);
+                                            }
                                         }}
+                                        disabled={!canAfford}
                                     >
                                         <ListItemText
                                             primary={
@@ -317,6 +240,14 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                                                         sx={{
                                                             backgroundColor: activationColors[t.activation],
                                                             color: "white",
+                                                            fontSize: "0.7rem",
+                                                        }}
+                                                    />
+                                                    <Chip
+                                                        label={`${slotCost} XP${t.ranked ? ` (Rank ${currentRank + 1})` : ''}`}
+                                                        size="small"
+                                                        color={canAfford ? "success" : "error"}
+                                                        sx={{
                                                             fontSize: "0.7rem",
                                                         }}
                                                     />
