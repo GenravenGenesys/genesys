@@ -53,4 +53,8 @@ public class PlayerCharacter {
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Experience points")
     private Experience experience;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player talents")
+    private List<PlayerTalent> talents;
 }
