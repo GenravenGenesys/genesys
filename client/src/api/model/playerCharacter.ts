@@ -12,6 +12,7 @@ import type { DerivedStats } from './derivedStats';
 import type { Experience } from './experience';
 import type { PlayerEquipment } from './playerEquipment';
 import type { PlayerSkill } from './playerSkill';
+import type { PlayerTalent } from './playerTalent';
 
 /**
  * Setting-specific Player for a specific Campaign
@@ -35,4 +36,6 @@ export interface PlayerCharacter {
   skills: PlayerSkill[];
   /** Experience points */
   experience: Experience;
+  /** Player talents */
+  talents: PlayerTalent[];
 }

@@ -16,7 +16,10 @@ import type { TalentSkillCheck } from './talentSkillCheck';
 import type { TalentSkills } from './talentSkills';
 import type { Tier } from './tier';
 
-export interface ActorTalent {
+/**
+ * Setting-specific talents on player
+ */
+export interface PlayerTalent {
   id: string;
   /** @minLength 1 */
   name: string;
@@ -33,5 +36,6 @@ export interface ActorTalent {
   action: Action;
   talentRollModifiers: TalentRollModifiers[];
   modifiers: Modifier[];
+  /** @minimum 0 */
   ranks: number;
 }

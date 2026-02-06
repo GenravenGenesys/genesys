@@ -14,7 +14,7 @@ import type { StatModifiers } from './statModifiers';
 import type { TalentRollModifiers } from './talentRollModifiers';
 import type { TalentSkillCheck } from './talentSkillCheck';
 import type { TalentSkills } from './talentSkills';
-import type { TalentTier } from './talentTier';
+import type { Tier } from './tier';
 
 /**
  * Setting-specific talents
@@ -24,7 +24,7 @@ export interface Talent {
   /** @minLength 1 */
   name: string;
   activation: Activation;
-  tier: TalentTier;
+  tier: Tier;
   ranked: boolean;
   summary: string;
   description: string;

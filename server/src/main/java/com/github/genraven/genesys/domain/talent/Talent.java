@@ -1,6 +1,5 @@
 package com.github.genraven.genesys.domain.talent;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.Activation;
 import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
@@ -82,17 +81,4 @@ public class Talent {
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<Modifier> modifiers = List.of();
-
-    @AllArgsConstructor
-    @Getter
-    public enum Tier {
-        FIRST("First"),
-        SECOND("Second"),
-        THIRD("Third"),
-        FOURTH("Fourth"),
-        FIFTH("Fifth");
-
-        @JsonValue
-        private final String label;
-    }
 }

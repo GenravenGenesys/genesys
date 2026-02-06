@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ActorTalentTier = typeof ActorTalentTier[keyof typeof ActorTalentTier];
+export type Tier = typeof Tier[keyof typeof Tier];
 
 
-export const ActorTalentTier = {
+export const Tier = {
   First: 'First',
   Second: 'Second',
   Third: 'Third',
