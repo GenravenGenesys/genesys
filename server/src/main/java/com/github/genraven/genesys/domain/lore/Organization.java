@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain.lore;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.genraven.genesys.domain.enums.LoreType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class Organization extends Lore {
 
     public Organization(final Lore lore) {
         this.setName(lore.getName());
-        this.setType(Type.ORGANIZATION);
+        this.setType(LoreType.ORGANIZATION);
     }
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)

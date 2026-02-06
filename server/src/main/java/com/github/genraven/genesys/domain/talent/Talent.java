@@ -1,9 +1,10 @@
 package com.github.genraven.genesys.domain.talent;
 
-import com.github.genraven.genesys.domain.Activation;
+import com.github.genraven.genesys.domain.enums.Activation;
 import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
 import com.github.genraven.genesys.domain.common.Action;
+import com.github.genraven.genesys.domain.enums.Tier;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import com.github.genraven.genesys.domain.modifier.StatModifiers;
 import com.github.genraven.genesys.validator.EnumValidator;

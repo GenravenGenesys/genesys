@@ -9,10 +9,10 @@
 /**
  * The type of Characteristic
  */
-export type ActorSkillCharacteristic = typeof ActorSkillCharacteristic[keyof typeof ActorSkillCharacteristic];
+export type CharacteristicType = typeof CharacteristicType[keyof typeof CharacteristicType];
 
 
-export const ActorSkillCharacteristic = {
+export const CharacteristicType = {
   Brawn: 'Brawn',
   Agility: 'Agility',
   Intellect: 'Intellect',

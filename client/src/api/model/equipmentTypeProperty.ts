@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ItemTemplateType = typeof ItemTemplateType[keyof typeof ItemTemplateType];
+export type EquipmentTypeProperty = typeof EquipmentTypeProperty[keyof typeof EquipmentTypeProperty];
 
 
-export const ItemTemplateType = {
+export const EquipmentTypeProperty = {
   Weapon: 'Weapon',
   Armor: 'Armor',
   Gear: 'Gear',

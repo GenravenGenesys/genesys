@@ -1,5 +1,6 @@
 package com.github.genraven.genesys.domain;
 
+import com.github.genraven.genesys.domain.enums.Difficulty;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;

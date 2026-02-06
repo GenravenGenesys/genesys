@@ -5,7 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { PlayerSkillCharacteristic } from './playerSkillCharacteristic';
+import type { CharacteristicType } from './characteristicType';
 import type { SkillType } from './skillType';
 
 /**
@@ -15,8 +15,7 @@ export interface PlayerSkill {
   id: string;
   /** @minLength 1 */
   name: string;
-  /** The type of Characteristic */
-  characteristic: PlayerSkillCharacteristic;
+  characteristic: CharacteristicType;
   type: SkillType;
   initiative: boolean;
   /** @minimum 0 */

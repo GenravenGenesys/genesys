@@ -5,18 +5,17 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { Lore } from './lore';
+import type { LoreType } from './loreType';
+import type { OrganizationOrgType } from './organizationOrgType';
 
-export type Organization = Lore & ({
-  orgType?: 'Political' | 'Social' | 'Religious' | 'Military' | 'Academic';
-  founded?: number;
-  disbanded?: number;
-  nickname?: string;
-  membersName?: string;
-}) & Required<Pick<Lore & ({
-  orgType?: 'Political' | 'Social' | 'Religious' | 'Military' | 'Academic';
-  founded?: number;
-  disbanded?: number;
-  nickname?: string;
-  membersName?: string;
-}), 'disbanded' | 'founded' | 'membersName' | 'nickname' | 'orgType'>>;
+export interface Organization {
+  id: string;
+  name: string;
+  type: LoreType;
+  description: string;
+  orgType: OrganizationOrgType;
+  founded: number;
+  disbanded: number;
+  nickname: string;
+  membersName: string;
+}

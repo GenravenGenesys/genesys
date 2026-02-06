@@ -7,7 +7,7 @@
  */
 import type { ArmorStats } from './armorStats';
 import type { EquipmentQuality } from './equipmentQuality';
-import type { ItemTemplateType } from './itemTemplateType';
+import type { EquipmentType } from './equipmentType';
 import type { WeaponStats } from './weaponStats';
 
 /**
@@ -17,7 +17,7 @@ export interface ItemTemplate {
   id: string;
   /** @minLength 1 */
   name: string;
-  type: ItemTemplateType;
+  type: EquipmentType;
   description: string;
   /** @minimum 0 */
   price: number;

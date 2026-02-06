@@ -1,5 +1,6 @@
 package com.github.genraven.genesys.domain.equipment;
 
+import com.github.genraven.genesys.domain.enums.EquipmentType;
 import com.github.genraven.genesys.domain.quality.EquipmentQuality;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;

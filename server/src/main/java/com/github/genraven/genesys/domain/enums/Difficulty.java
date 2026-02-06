@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain;
+package com.github.genraven.genesys.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,13 +8,12 @@ import lombok.Getter;
 @Schema(enumAsRef = true)
 @Getter
 @AllArgsConstructor
-public enum RangeBand {
-    ENGAGED("Engaged"),
-    SHORT("Short"),
-    MEDIUM("Medium"),
-    LONG("Long"),
-    EXTREME("Extreme"),
-    STRATEGIC("Strategic");
+public enum Difficulty {
+    EASY("Easy"),
+    AVERAGE("Average"),
+    HARD("Hard"),
+    DAUNTING("Daunting"),
+    FORMIDABLE("Formidable");
 
     @JsonValue
     private final String label;

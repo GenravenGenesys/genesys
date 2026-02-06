@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain;
+package com.github.genraven.genesys.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;

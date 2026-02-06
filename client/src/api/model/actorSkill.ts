@@ -5,15 +5,14 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { ActorSkillCharacteristic } from './actorSkillCharacteristic';
+import type { CharacteristicType } from './characteristicType';
 import type { SkillType } from './skillType';
 
 export interface ActorSkill {
   id: string;
   /** @minLength 1 */
   name: string;
-  /** The type of Characteristic */
-  characteristic: ActorSkillCharacteristic;
+  characteristic: CharacteristicType;
   type: SkillType;
   initiative: boolean;
   summary: string;

@@ -5,7 +5,7 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { AdversarySkillCharacteristic } from './adversarySkillCharacteristic';
+import type { CharacteristicType } from './characteristicType';
 import type { SkillType } from './skillType';
 
 /**
@@ -15,8 +15,7 @@ export interface AdversarySkill {
   id: string;
   /** @minLength 1 */
   name: string;
-  /** The type of Characteristic */
-  characteristic: AdversarySkillCharacteristic;
+  characteristic: CharacteristicType;
   type: SkillType;
   initiative: boolean;
   /** @minimum 0 */

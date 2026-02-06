@@ -5,15 +5,14 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { GroupSkillCharacteristic } from './groupSkillCharacteristic';
+import type { CharacteristicType } from './characteristicType';
 import type { SkillType } from './skillType';
 
 export interface GroupSkill {
   id: string;
   /** @minLength 1 */
   name: string;
-  /** The type of Characteristic */
-  characteristic: GroupSkillCharacteristic;
+  characteristic: CharacteristicType;
   type: SkillType;
   initiative: boolean;
   summary: string;

@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain;
 
 import com.github.genraven.genesys.domain.common.Action;
+import com.github.genraven.genesys.domain.enums.Activation;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

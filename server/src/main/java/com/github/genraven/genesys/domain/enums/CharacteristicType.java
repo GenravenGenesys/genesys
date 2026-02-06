@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain.actor;
+package com.github.genraven.genesys.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-@Schema(description = "The type of Characteristic", example = "BRAWN")
+@Schema(description = "The type of Characteristic", example = "BRAWN", enumAsRef = true)
 public enum CharacteristicType {
     BRAWN("Brawn"),
     AGILITY("Agility"),

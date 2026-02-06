@@ -6,14 +6,14 @@
  * OpenAPI spec version: 1.0
  */
 import type { EquipmentQuality } from './equipmentQuality';
-import type { EquipmentType } from './equipmentType';
+import type { EquipmentTypeProperty } from './equipmentTypeProperty';
 import type { Modifier } from './modifier';
 
 export interface Equipment {
   id: string;
   /** @minLength 1 */
   name: string;
-  type: EquipmentType;
+  type: EquipmentTypeProperty;
   description: string;
   /** @minimum 0 */
   price: number;
