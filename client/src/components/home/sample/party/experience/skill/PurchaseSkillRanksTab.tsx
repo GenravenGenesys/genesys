@@ -1,4 +1,4 @@
-import {type PlayerSkill, type Skill, SkillCharacteristic} from "../../../../../../api/model";
+import {type PlayerSkill, type Skill, CharacteristicType} from "../../../../../../api/model";
 import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHeader.tsx";
 import {Card, CardContent} from "@mui/material";
 import SkillRankAccordion from "./SkillRankAccordion.tsx";
@@ -7,7 +7,7 @@ interface Props {
     skills: Record<string, number>;
     playerSkills: PlayerSkill[];
     careerSkills: Skill[];
-    characteristics: Record<SkillCharacteristic, number>;
+    characteristics: Record<CharacteristicType, number>;
     experience: number;
     onSkillSpend: (experience: number, skills: Record<string, number>) => void;
 }

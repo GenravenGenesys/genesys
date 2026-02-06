@@ -3,11 +3,11 @@ import {Box, Typography, IconButton} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import type {SkillCharacteristic} from "../../../../api/model";
+import {CharacteristicType} from "../../../../api/model";
 
 interface CharacteristicBadgeProps {
     value: number;
-    label: SkillCharacteristic;
+    label: CharacteristicType;
     min?: number
     color?: string;
     onChange?: (delta: number) => void;

@@ -1,4 +1,4 @@
-import {type PlayerSkill, type Skill, SkillCharacteristic} from "../../../../../../api/model";
+import {CharacteristicType, type PlayerSkill, type Skill} from "../../../../../../api/model";
 import {
     Accordion,
     AccordionDetails,
@@ -23,7 +23,7 @@ interface Props {
     onRankChange: (name: string, newRank: number) => void;
     availableXp: number;
     maxSkillRanks: number;
-    characteristics: Record<SkillCharacteristic, number>;
+    characteristics: Record<CharacteristicType, number>;
 }
 
 export default function SkillRankAccordion(props: Props) {
@@ -97,7 +97,7 @@ export default function SkillRankAccordion(props: Props) {
                 </Typography>
             </Alert>
 
-            {Object.values(SkillCharacteristic).map((characteristic) => {
+            {Object.values(CharacteristicType).map((characteristic) => {
                 const filteredSkills = playerSkills.filter(skill => skill.characteristic === characteristic);
                 const skillsWithCareer = filteredSkills.filter(skill => isCareerSkill(skill)).length;
                 return (

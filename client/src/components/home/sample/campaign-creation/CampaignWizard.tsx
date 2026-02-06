@@ -11,7 +11,7 @@ import {
     type Archetype,
     type Career,
     type Skill,
-    SkillCharacteristic,
+    CharacteristicType,
     SkillType
 } from "../../../../api/model";
 import InlineTextField from "../../../common/InlineTextField.tsx";
@@ -68,7 +68,7 @@ export default function CampaignWizard() {
         setNewSkill(blankSkill);
     };
 
-    const onCharacteristicChange = (value: SkillCharacteristic) => {
+    const onCharacteristicChange = (value: CharacteristicType) => {
         setNewSkill({...newSkill, characteristic: value});
     };
 
@@ -83,7 +83,7 @@ export default function CampaignWizard() {
                 <InlineTextField defaultValue={newSkill.name} onCommit={(e) => setNewSkill({...newSkill, name: e})}
                                  label={"Skill Name"} fullWidth/>
                 <GenesysSelectField value={newSkill.characteristic} label={'Skill Type'}
-                                    onChange={onCharacteristicChange} options={SkillCharacteristic}/>
+                                    onChange={onCharacteristicChange} options={CharacteristicType}/>
                 <GenesysSelectField value={newSkill.type} label={'Skill Type'} onChange={onSkillTypeChange}
                                     options={SkillType}/>
                 <Button onClick={addSkill} variant="contained" startIcon={<AddIcon/>}>Add</Button>

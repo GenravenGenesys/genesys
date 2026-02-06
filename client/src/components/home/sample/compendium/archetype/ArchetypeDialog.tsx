@@ -1,4 +1,4 @@
-import {type Archetype, OldStatsType, SkillCharacteristic} from "../../../../../api/model";
+import {type Archetype, OldStatsType, CharacteristicType} from "../../../../../api/model";
 import {useEffect, useState} from "react";
 import {
     Box, Button, Dialog, DialogActions,
@@ -84,31 +84,31 @@ export default function ArchetypeDialog(props: Props) {
                         <GridContainer>
                             <Grid size={4}>
                                 <GenesysNumberField value={formData.brawn}
-                                                    label={SkillCharacteristic.Brawn}
+                                                    label={CharacteristicType.Brawn}
                                                     onChange={(e) => handleChange('brawn', e)} min={1} max={5}
                                                     fullwidth/>
                                 <GenesysNumberField value={formData.cunning}
-                                                    label={SkillCharacteristic.Cunning}
+                                                    label={CharacteristicType.Cunning}
                                                     onChange={(e) => handleChange('cunning', e)} min={1} max={5}
                                                     fullwidth/>
                             </Grid>
                             <Grid size={4}>
                                 <GenesysNumberField value={formData.agility}
-                                                    label={SkillCharacteristic.Agility}
+                                                    label={CharacteristicType.Agility}
                                                     onChange={(e) => handleChange('agility', e)} min={1} max={5}
                                                     fullwidth/>
                                 <GenesysNumberField value={formData.willpower}
-                                                    label={SkillCharacteristic.Willpower}
+                                                    label={CharacteristicType.Willpower}
                                                     onChange={(e) => handleChange('willpower', e)} min={1} max={5}
                                                     fullwidth/>
                             </Grid>
                             <Grid size={4}>
                                 <GenesysNumberField value={formData.intellect}
-                                                    label={SkillCharacteristic.Intellect}
+                                                    label={CharacteristicType.Intellect}
                                                     onChange={(e) => handleChange('intellect', e)} min={1} max={5}
                                                     fullwidth/>
                                 <GenesysNumberField value={formData.presence}
-                                                    label={SkillCharacteristic.Presence}
+                                                    label={CharacteristicType.Presence}
                                                     onChange={(e) => handleChange('presence', e)} min={1} max={5}
                                                     fullwidth/>
                             </Grid>

@@ -1,4 +1,4 @@
-import {type Characteristics, SkillCharacteristic} from "../../../../../api/model";
+import {type Characteristics, CharacteristicType} from "../../../../../api/model";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import {Grid} from "@mui/material";
@@ -39,26 +39,26 @@ export default function AdversaryCharacteristics(props: Props) {
         <GridContainer>
             <Grid size={4}>
                 <GenesysNumberField value={characteristics.brawn.base}
-                                    label={SkillCharacteristic.Brawn}
+                                    label={CharacteristicType.Brawn}
                                     onChange={handleBrawnUpdate} min={1} max={5} fullwidth/>
                 <GenesysNumberField value={characteristics.cunning.base}
-                                    label={SkillCharacteristic.Cunning}
+                                    label={CharacteristicType.Cunning}
                                     onChange={handleCunningUpdate} min={1} max={5} fullwidth/>
             </Grid>
             <Grid size={4}>
                 <GenesysNumberField value={characteristics.agility.base}
-                                    label={SkillCharacteristic.Agility}
+                                    label={CharacteristicType.Agility}
                                     onChange={handleAgilityUpdate} min={1} max={5} fullwidth/>
                 <GenesysNumberField value={characteristics.willpower.base}
-                                    label={SkillCharacteristic.Willpower}
+                                    label={CharacteristicType.Willpower}
                                     onChange={handleWillpowerUpdate} min={1} max={5} fullwidth/>
             </Grid>
             <Grid size={4}>
                 <GenesysNumberField value={characteristics.intellect.base}
-                                    label={SkillCharacteristic.Intellect}
+                                    label={CharacteristicType.Intellect}
                                     onChange={handleIntellectUpdate} min={1} max={5} fullwidth/>
                 <GenesysNumberField value={characteristics.presence.base}
-                                    label={SkillCharacteristic.Presence}
+                                    label={CharacteristicType.Presence}
                                     onChange={handlePresenceUpdate} min={1} max={5} fullwidth/>
             </Grid>
         </GridContainer>

@@ -1,4 +1,4 @@
-import {type Archetype, SkillCharacteristic} from "../../../../../api/model";
+import {type Archetype, CharacteristicType} from "../../../../../api/model";
 import {Alert, Card, CardContent, Grid, Stack, Typography} from "@mui/material";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader.tsx";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
@@ -6,27 +6,27 @@ import {CharacteristicBadge} from "../CharacteristicBadge.tsx";
 
 interface Props {
     archetype: Archetype;
-    characteristics: Record<SkillCharacteristic, number>;
-    onCharacteristicSpend: (experience: number, characteristics: Record<SkillCharacteristic, number>) => void;
+    characteristics: Record<CharacteristicType, number>;
+    onCharacteristicSpend: (experience: number, characteristics: Record<CharacteristicType, number>) => void;
     experience: number;
 }
 
 export default function PurchaseCharacteristicsTab(props: Props) {
     const {archetype, characteristics, onCharacteristicSpend, experience} = props;
 
-    const getMinimumFromArchetype = (label: SkillCharacteristic): number => {
+    const getMinimumFromArchetype = (label: CharacteristicType): number => {
         switch (label) {
-            case SkillCharacteristic.Brawn:
+            case CharacteristicType.Brawn:
                 return archetype.brawn;
-            case SkillCharacteristic.Agility:
+            case CharacteristicType.Agility:
                 return archetype.agility;
-            case SkillCharacteristic.Intellect:
+            case CharacteristicType.Intellect:
                 return archetype.intellect;
-            case SkillCharacteristic.Cunning:
+            case CharacteristicType.Cunning:
                 return archetype.cunning;
-            case SkillCharacteristic.Willpower:
+            case CharacteristicType.Willpower:
                 return archetype.willpower;
-            case SkillCharacteristic.Presence:
+            case CharacteristicType.Presence:
                 return archetype.presence;
             default:
                 return 1;
@@ -43,7 +43,7 @@ export default function PurchaseCharacteristicsTab(props: Props) {
         return cost;
     };
 
-    const onCharacteristicChange = (label: SkillCharacteristic, newValue: number) => {
+    const onCharacteristicChange = (label: CharacteristicType, newValue: number) => {
         const oldValue = characteristics[label];
         const baseValue = getMinimumFromArchetype(label);
 
@@ -71,7 +71,7 @@ export default function PurchaseCharacteristicsTab(props: Props) {
             <CardContent>
                 <Stack spacing={3}>
                     <GridContainer spacing={2} centered>
-                        {Object.values(SkillCharacteristic).map((characteristic) => {
+                        {Object.values(CharacteristicType).map((characteristic) => {
                             const currentValue = characteristics[characteristic];
                             const costToIncrease = currentValue < 5 ? (currentValue + 1) * 10 : 0;
 

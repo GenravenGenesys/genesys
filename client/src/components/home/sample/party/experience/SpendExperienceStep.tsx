@@ -3,7 +3,7 @@ import {
     type PlayerCharacter,
     type PlayerSkill,
     type Skill,
-    SkillCharacteristic,
+    CharacteristicType,
     type Talent
 } from "../../../../../api/model";
 import {Alert, Box, Stack, Tab, Tabs, Typography} from "@mui/material";
@@ -24,13 +24,13 @@ export default function SpendExperienceStep(props: Props) {
     const [tabValue, setTabValue] = useState(0);
     const [characteristicSpend, setCharacteristicSpend] = useState(0);
     const [characteristics, setCharacteristics] = useState({
-        [SkillCharacteristic.Brawn]: player.characteristics.brawn.base,
-        [SkillCharacteristic.Agility]: player.characteristics.agility.base,
-        [SkillCharacteristic.Intellect]: player.characteristics.intellect.base,
-        [SkillCharacteristic.Cunning]: player.characteristics.cunning.base,
-        [SkillCharacteristic.Willpower]: player.characteristics.willpower.base,
-        [SkillCharacteristic.Presence]: player.characteristics.presence.base,
-    } as Record<SkillCharacteristic, number>);
+        [CharacteristicType.Brawn]: player.characteristics.brawn.base,
+        [CharacteristicType.Agility]: player.characteristics.agility.base,
+        [CharacteristicType.Intellect]: player.characteristics.intellect.base,
+        [CharacteristicType.Cunning]: player.characteristics.cunning.base,
+        [CharacteristicType.Willpower]: player.characteristics.willpower.base,
+        [CharacteristicType.Presence]: player.characteristics.presence.base,
+    } as Record<CharacteristicType, number>);
     const initialPurchasedSkills: Record<string, number> = {};
     player.skills.forEach((skill: PlayerSkill) => {
         initialPurchasedSkills[skill.name] = 0;
@@ -40,7 +40,7 @@ export default function SpendExperienceStep(props: Props) {
     const [purchasedTalents, setPurchasedTalents] = useState<Record<string, number>>({});
     const [talentSpend, setTalentSpend] = useState(0);
 
-    const handleCharacteristicSpend = (experienceDiff: number, updatedCharacteristics: Record<SkillCharacteristic, number>) => {
+    const handleCharacteristicSpend = (experienceDiff: number, updatedCharacteristics: Record<CharacteristicType, number>) => {
         setCharacteristicSpend(characteristicSpend + experienceDiff);
         setCharacteristics(updatedCharacteristics);
         onSpendExperience(experienceDiff);
@@ -58,19 +58,19 @@ export default function SpendExperienceStep(props: Props) {
         onSpendExperience(experienceDiff);
     };
 
-    const getValueFromArchetype = (archetype: Archetype, label: SkillCharacteristic): number => {
+    const getValueFromArchetype = (archetype: Archetype, label: CharacteristicType): number => {
         switch (label) {
-            case SkillCharacteristic.Brawn:
+            case CharacteristicType.Brawn:
                 return archetype.brawn;
-            case SkillCharacteristic.Agility:
+            case CharacteristicType.Agility:
                 return archetype.agility;
-            case SkillCharacteristic.Intellect:
+            case CharacteristicType.Intellect:
                 return archetype.intellect;
-            case SkillCharacteristic.Cunning:
+            case CharacteristicType.Cunning:
                 return archetype.cunning;
-            case SkillCharacteristic.Willpower:
+            case CharacteristicType.Willpower:
                 return archetype.willpower;
-            case SkillCharacteristic.Presence:
+            case CharacteristicType.Presence:
                 return archetype.presence;
             default:
                 return 1;
@@ -139,9 +139,9 @@ export default function SpendExperienceStep(props: Props) {
                     <Typography variant="caption" color="text.secondary">
                         <strong>Purchased Characteristics:</strong>{" "}
                         {Object.entries(characteristics)
-                            .filter(([char, value]) => value > getValueFromArchetype(player.archetype, char as SkillCharacteristic))
+                            .filter(([char, value]) => value > getValueFromArchetype(player.archetype, char as CharacteristicType))
                             .map(([char, value]) => {
-                                const baseValue = getValueFromArchetype(player.archetype, char as SkillCharacteristic);
+                                const baseValue = getValueFromArchetype(player.archetype, char as CharacteristicType);
                                 return `${char} ${baseValue}→${value}`;
                             })
                             .join(", ") || "None"}

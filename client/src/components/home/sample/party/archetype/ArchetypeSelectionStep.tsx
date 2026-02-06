@@ -1,4 +1,4 @@
-import {type Archetype, SkillCharacteristic} from "../../../../../api/model";
+import {type Archetype, CharacteristicType} from "../../../../../api/model";
 import {Autocomplete, Box, Card, CardContent, Grid, Paper, Stack, TextField, Typography} from "@mui/material";
 import {useState} from "react";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
@@ -30,7 +30,7 @@ export default function ArchetypeSelectionStep(props: Props) {
                 <Autocomplete
                     sx={{mb: 2}}
                     options={archetypes}
-                    getOptionLabel={(option) => option.name  || ""}
+                    getOptionLabel={(option) => option.name || ""}
                     value={selectedArchetype}
                     onChange={(_, newValue) => onChangeArchetype(newValue as Archetype)}
                     renderInput={(params) => (
@@ -44,27 +44,27 @@ export default function ArchetypeSelectionStep(props: Props) {
                     <Stack spacing={3}>
                         <GridContainer spacing={2} centered>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={selectedArchetype.brawn} label={SkillCharacteristic.Brawn}/>
+                                <CharacteristicBadge value={selectedArchetype.brawn} label={CharacteristicType.Brawn}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
                                 <CharacteristicBadge value={selectedArchetype.agility}
-                                                     label={SkillCharacteristic.Agility}/>
+                                                     label={CharacteristicType.Agility}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
                                 <CharacteristicBadge value={selectedArchetype.intellect}
-                                                     label={SkillCharacteristic.Intellect}/>
+                                                     label={CharacteristicType.Intellect}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
                                 <CharacteristicBadge value={selectedArchetype.cunning}
-                                                     label={SkillCharacteristic.Cunning}/>
+                                                     label={CharacteristicType.Cunning}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
                                 <CharacteristicBadge value={selectedArchetype.willpower}
-                                                     label={SkillCharacteristic.Willpower}/>
+                                                     label={CharacteristicType.Willpower}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
                                 <CharacteristicBadge value={selectedArchetype.presence}
-                                                     label={SkillCharacteristic.Presence}/>
+                                                     label={CharacteristicType.Presence}/>
                             </Grid>
                         </GridContainer>
                         <GridContainer spacing={3} centered>

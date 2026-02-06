@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
-import {type Skill, SkillCharacteristic, SkillType} from "../../../../../api/model";
+import {type Skill, CharacteristicType, SkillType} from "../../../../../api/model";
 import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
 import GenesysBooleanField from "../../../../common/field/GenesysBooleanField.tsx";
 import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
@@ -62,7 +62,7 @@ export default function SkillDrawer(props: Props) {
                     <Grid size={6}>
                         <GenesysSelectField value={formData.characteristic} label={"Characteristic"}
                                             onChange={(e) => handleChange("characteristic", e)}
-                                            options={SkillCharacteristic}/>
+                                            options={CharacteristicType}/>
                     </Grid>
                     <Grid size={6}>
                         <GenesysSelectField value={formData.type} label={"Type"}

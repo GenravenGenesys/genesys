@@ -1,14 +1,13 @@
 import {
     Activation, type AdversaryTemplate, AdversaryTemplateType, type Archetype, type Attribute, type Career,
     CostType,
-    Difficulty,
-    type ItemTemplate, ItemTemplateType,
-    LimitType, type PlayerCharacter, type PlayerSkill,
+    Difficulty, EquipmentType,
+    type ItemTemplate,
+    LimitType, type PlayerCharacter, type PlayerSkill, type PlayerTalent,
     RangeBand,
     type Skill,
     SkillType,
-    type Talent,
-    TalentTier
+    type Talent, Tier,
 } from "../api/model";
 
 export const emptySkill = {
@@ -23,7 +22,7 @@ export const emptyItemTemplate = {
     id: '',
     name: '',
     description: '',
-    type: ItemTemplateType.Weapon,
+    type: EquipmentType.Weapon,
     price: 0,
     restricted: false,
     encumbrance: 0,
@@ -50,7 +49,7 @@ export const emptyTalent = {
     description: '',
     summary: '',
     activation: Activation.Passive,
-    tier: TalentTier.First,
+    tier: Tier.First,
     ranked: false,
     action: {
         skill: {...emptySkill, ranks: 0},
@@ -213,7 +212,7 @@ export const emptyPlayerCharacter = {
         },
     },
     skills: [] as PlayerSkill[],
-    talents: [] as Talent[],
+    talents: [] as PlayerTalent[],
     equipment: {
         weapons: [] as ItemTemplate[],
         equippedArmor: emptyItemTemplate,
