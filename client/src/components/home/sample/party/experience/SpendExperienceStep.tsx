@@ -2,7 +2,6 @@ import {
     type Archetype,
     type PlayerCharacter,
     type PlayerSkill,
-    type Skill,
     CharacteristicType,
     type Talent
 } from "../../../../../api/model";
