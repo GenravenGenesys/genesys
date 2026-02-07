@@ -15,13 +15,14 @@ import {
     ListItem,
     ListItemButton,
     ListItemText,
-    Tooltip,
+    Tooltip, Stack,
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import StarIcon from "@mui/icons-material/Star";
 import DeleteIcon from "@mui/icons-material/Delete";
 import type {Talent} from "../../../../../../api/model";
 import type {PyramidSlot} from "./PurchaseTalentTab.tsx";
+import AddIcon from "@mui/icons-material/Add";
 
 
 interface TalentSlotCardProps {
@@ -124,7 +125,7 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                     backgroundColor: isPurchased
                         ? "action.hover"
                         : isEmpty
-                            ? "grey.50"
+                            ? "grey.40"
                             : "action.hover",
                     opacity: !isUnlocked ? 0.6 : 1,
                     position: "relative",
@@ -147,7 +148,10 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                             zIndex: 10,
                         }}
                     >
-                        <LockIcon sx={{fontSize: 48, color: "grey.500"}}/>
+                        <Stack direction="column" alignItems="center" gap={1}>
+                            <LockIcon sx={{fontSize: 48, color: "grey.500"}}/>
+                            <Typography variant="body2">Locked</Typography>
+                        </Stack>
                     </Box>
                 )}
 
@@ -181,23 +185,19 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                         )}
                     </Box>
 
-                    {isEmpty ? (
+                    {isEmpty && isUnlocked ? (
                         <Box sx={{textAlign: "center", mt: 4}}>
-                            <Typography
-                                variant="h1"
-                                color="text.disabled"
-                                sx={{fontSize: 48}}
-                            >
-                                +
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                                {!isUnlocked ? "Locked" : !canAfford ? "Not Enough XP" : "Click to Select"}
-                            </Typography>
+                            <Stack direction="column" alignItems="center" gap={1}>
+                                <AddIcon sx={{fontSize: 48, color: "grey.500"}}/>
+                                <Typography variant="body2">
+                                    {!canAfford ? "Not Enough XP" : "Click to Select"}
+                                </Typography>
+                            </Stack>
                         </Box>
                     ) : (
                         <>
                             {/* Talent Name */}
-                            <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
+                            <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
                                 {talent?.name}
                             </Typography>
 
@@ -209,7 +209,7 @@ export const TalentSlotCard: React.FC<TalentSlotCardProps> = ({
                                     sx={{
                                         backgroundColor: activationColor,
                                         color: "white",
-                                        fontSize: "0.65rem",
+                                        fontSize: "0.75rem",
                                         mb: 1,
                                     }}
                                 />

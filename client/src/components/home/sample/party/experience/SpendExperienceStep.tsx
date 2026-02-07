@@ -157,13 +157,13 @@ export default function SpendExperienceStep(props: Props) {
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
                         <strong>Purchased Talents:</strong>{" "}
-                        {/*{Object.entries(skillRanks)*/}
-                        {/*    .filter(([_, ranks]) => ranks > 0)*/}
-                        {/*    .map(([skillId, ranks]) => {*/}
-                        {/*        const skill = skills.find((s) => s.id === skillId);*/}
-                        {/*        return `${skill?.name} +${ranks}`;*/}
-                        {/*    })*/}
-                        {/*    .join(", ") || "None"}*/}
+                        {Object.entries(purchasedTalents)
+                            .filter(([_, ranks]) => ranks > 0)
+                            .map(([id, ranks]) => {
+                                const talent = talents.find((t) => t.id === id);
+                                return `${talent?.name} +${ranks}`;
+                            })
+                            .join(", ") || "None"}
                     </Typography>
                 </Stack>
             </Paper>

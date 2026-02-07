@@ -636,9 +636,26 @@ export default function PurchaseTalentTab(props: Props) {
                     : slot
             )
         );
+
+        // Calculate experience cost: column value * 5
+        const experienceCost = column * 5;
+        const newExperience = experience - experienceCost;
+
+        // Update talents record - increment rank for this talent
+        const updatedTalents = {
+            ...talents,
+            [talentId]: (talents[talentId] || 0) + 1,
+        };
+
+        // Invoke callback with updated values
+        onTalentSpend(newExperience, updatedTalents);
     };
 
     const handleRemoveTalent = (row: number, column: number) => {
+        // Get the talent being removed
+        const slotToRemove = pyramidSlots.find(s => s.row === row && s.column === column);
+        const removedTalentId = slotToRemove?.talentId;
+
         setPyramidSlots(prev =>
             prev.map(slot =>
                 slot.row === row && slot.column === column
@@ -646,6 +663,26 @@ export default function PurchaseTalentTab(props: Props) {
                     : slot
             )
         );
+
+        if (removedTalentId) {
+            // Refund experience: column value * 5
+            const experienceRefund = column * 5;
+            const newExperience = experience + experienceRefund;
+
+            // Update talents record - decrement rank for this talent
+            const currentRank = talents[removedTalentId] || 0;
+            const updatedTalents = { ...talents };
+
+            if (currentRank > 1) {
+                updatedTalents[removedTalentId] = currentRank - 1;
+            } else {
+                // Remove talent from record if rank would be 0
+                delete updatedTalents[removedTalentId];
+            }
+
+            // Invoke callback with updated values
+            onTalentSpend(newExperience, updatedTalents);
+        }
     };
 
     const handleReset = () => {
