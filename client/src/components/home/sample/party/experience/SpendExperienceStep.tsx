@@ -112,7 +112,8 @@ export default function SpendExperienceStep(props: Props) {
             {player.experience.initial < 0 && (
                 <Alert severity="error" sx={{mb: 3}}>
                     <Typography variant="body2">
-                        You've overspent by {Math.abs(player.experience.initial)} XP! Remove some skill ranks.
+                        You've overspent by {Math.abs(player.experience.initial)} XP! Please adjust your purchases to
+                        not exceed your available XP.
                     </Typography>
                 </Alert>
             )}

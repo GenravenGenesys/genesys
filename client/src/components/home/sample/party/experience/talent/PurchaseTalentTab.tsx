@@ -1,17 +1,8 @@
-import {
-    Activation,
-    CostType,
-    Difficulty,
-    LimitType,
-    RangeBand,
-    type Talent,
-    Tier
-} from "../../../../../../api/model";
+import {type Talent, Tier} from "../../../../../../api/model";
 import {useState, useEffect, useMemo} from "react";
 import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHeader.tsx";
 import {Card, CardContent} from "@mui/material";
 import {TalentPyramidGrid} from "./TalentPyramidGrid.tsx";
-import {emptySkill} from "../../../../../../models/Template.ts";
 
 interface Props {
     campaignTalents: Talent[];
@@ -51,448 +42,6 @@ const generateRowStructure = (row: number): PyramidSlot[] => {
 
     return slots;
 };
-
-
-const mockTalents: Talent[] = [
-    // Tier 1 Talents
-    {
-        id: "grit",
-        name: "Grit",
-        tier: Tier.First,
-        ranked: true,
-        activation: Activation.Passive,
-        description: "Gain +1 strain threshold per rank",
-        summary: "",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-    },
-    {
-        id: "toughened",
-        name: "Toughened",
-        tier: Tier.First,
-        ranked: false,
-        activation: Activation.Passive,
-        description: "Gain +2 wound threshold per rank",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-
-    // Tier 2 Talents
-    {
-        id: "side-step",
-        name: "Side Step",
-        tier: Tier.Second,
-        ranked: true,
-        activation: Activation["Active_(Maneuver)"],
-        description: "Suffer strain to upgrade difficulty of incoming ranged attack",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-    {
-        id: "lethal-blows",
-        name: "Lethal Blows",
-        tier: Tier.Second,
-        ranked: true,
-        activation: Activation.Passive,
-        description: "Add +10 per rank to critical injury results",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-    {
-        id: "point-blank",
-        name: "Point Blank",
-        tier: Tier.Second,
-        ranked: false,
-        activation: Activation.Passive,
-        description: "Add 1 damage per rank at short range or closer",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-
-    // Tier 3 Talents
-    {
-        id: "dedication",
-        name: "Dedication",
-        tier: Tier.Third,
-        ranked: true,
-        activation: Activation.Passive,
-        description: "Gain +1 to a single characteristic (max 6)",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-    {
-        id: "expert-tracker",
-        name: "Expert Tracker",
-        tier: Tier.Third,
-        ranked: false,
-        activation: Activation.Passive,
-        description: "Remove setback from tracking checks",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-
-    // Tier 4 Talents
-    {
-        id: "deadly-accuracy",
-        name: "Deadly Accuracy",
-        tier: Tier.Fourth,
-        ranked: false,
-        activation: Activation.Passive,
-        description: "Use Agility instead of Brawn for ranged damage",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-    {
-        id: "defensive-stance",
-        name: "Defensive Stance",
-        tier: Tier.Fourth,
-        ranked: true,
-        activation: Activation["Active_(Maneuver)"],
-        description: "Suffer setback to increase defense by ranks",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-
-    // Tier 5 Talents
-    {
-        id: "true-aim",
-        name: "True Aim",
-        tier: Tier.Fifth,
-        ranked: true,
-        activation: Activation["Active_(Maneuver)"],
-        description: "Upgrade ability or enemy difficulty for next ranged attack",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-    {
-        id: "improved-dodge",
-        name: "Improved Dodge",
-        tier: Tier.Fifth,
-        ranked: false,
-        activation: Activation["Active_(Incidental)"],
-        description: "Spend Story Point to upgrade attack difficulty",
-        action: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0},
-            rangeBand: RangeBand.Engaged
-        },
-        cost: {
-            type: CostType.None,
-            amount: 0,
-        },
-        limit: {
-            type: LimitType.None,
-            limit: 0,
-        },
-        modifiers: [],
-        talentRollModifiers: [],
-        talentSkills: {
-            potentialCareerSkills: [],
-        },
-        statModifiers: {
-            wounds: 0,
-            strain: 0,
-            soak: 0,
-            defense: 0,
-        },
-        talentSkillCheck: {
-            skill: {...emptySkill, ranks: 0},
-            difficulty: Difficulty.Easy,
-            opposedSkill: {...emptySkill, ranks: 0}
-        },
-        summary: '',
-    },
-];
 
 export default function PurchaseTalentTab(props: Props) {
     const {campaignTalents, talents, experience, onTalentSpend} = props;
@@ -637,10 +186,6 @@ export default function PurchaseTalentTab(props: Props) {
             )
         );
 
-        // Calculate experience cost: column value * 5
-        const experienceCost = column * 5;
-        const newExperience = experience - experienceCost;
-
         // Update talents record - increment rank for this talent
         const updatedTalents = {
             ...talents,
@@ -648,7 +193,7 @@ export default function PurchaseTalentTab(props: Props) {
         };
 
         // Invoke callback with updated values
-        onTalentSpend(newExperience, updatedTalents);
+        onTalentSpend(column * 5, updatedTalents);
     };
 
     const handleRemoveTalent = (row: number, column: number) => {
@@ -665,10 +210,6 @@ export default function PurchaseTalentTab(props: Props) {
         );
 
         if (removedTalentId) {
-            // Refund experience: column value * 5
-            const experienceRefund = column * 5;
-            const newExperience = experience + experienceRefund;
-
             // Update talents record - decrement rank for this talent
             const currentRank = talents[removedTalentId] || 0;
             const updatedTalents = { ...talents };
@@ -680,15 +221,8 @@ export default function PurchaseTalentTab(props: Props) {
                 delete updatedTalents[removedTalentId];
             }
 
-            // Invoke callback with updated values
-            onTalentSpend(newExperience, updatedTalents);
+            onTalentSpend(column * -5, updatedTalents);
         }
-    };
-
-    const handleReset = () => {
-        setPyramidSlots(prev =>
-            prev.map(slot => ({ ...slot, talentId: null }))
-        );
     };
 
     // Get current rank of a talent (count slots with this talent)
@@ -702,7 +236,7 @@ export default function PurchaseTalentTab(props: Props) {
             <CardContent>
                 <TalentPyramidGrid
                     pyramidSlots={pyramidSlots}
-                    talents={mockTalents}
+                    talents={campaignTalents}
                     onAssignTalent={handleAssignTalent}
                     onRemoveTalent={handleRemoveTalent}
                     availableXp={experience}

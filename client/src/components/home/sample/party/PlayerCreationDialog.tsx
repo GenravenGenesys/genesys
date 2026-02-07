@@ -31,7 +31,7 @@ export default function PlayerCreationDialog(props: Props) {
     const {open, player, compendium, onClose, onSave} = props;
     const [formData, setFormData] = useState<PlayerCharacter>(player || {});
     const [activeStep, setActiveStep] = useState(0);
-    const [selectedCareerSkills, setSelectedCareerSkills] = useState<>(false);
+    const [selectedCareerSkills, setSelectedCareerSkills] = useState<boolean>(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const steps = ['Character Concept', 'Select Archetype', 'Select Career', 'Spend Initial XP', 'Choose Motivations', 'Select Gear', 'Final Review'];
