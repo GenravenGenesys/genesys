@@ -13,7 +13,7 @@ import {
 import WorkIcon from '@mui/icons-material/Work';
 import type {Career} from "../../../../../api/model";
 import RouterLinkButton from "../../../../common/RouterLink.tsx";
-import {RootPath} from "../../../../../services/RootPath.ts";
+import {RootPath} from "../../../../../app/RootPath.ts";
 
 interface Props {
     careers: Career[];

@@ -4,7 +4,7 @@ import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../common/table/TypographyTableCell.tsx";
 import BooleanTableCell from "../common/table/BooleanTableCell.tsx";
 import ActionsTableCell from "../common/table/actions/ActionsTableCell.tsx";
-import {RootPath} from "../../services/RootPath.ts";
+import {RootPath} from "../../app/RootPath.ts";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography.tsx";

@@ -3,7 +3,7 @@ import {useState} from "react";
 import CreateActorDialog from "../campaign/actor/common/CreateActorDialog";
 import ExpansionList from "../navigation/ExpansionList";
 import CenteredCardHeader from "../common/card/header/CenteredCardHeader";
-import {ActorPath} from "../../services/RootPath";
+import {ActorPath} from "../../app/RootPath.ts";
 import GridContainer from "../common/grid/GridContainer";
 import {ActorType} from "../../api/model";
 

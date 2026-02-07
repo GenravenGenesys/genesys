@@ -14,7 +14,7 @@ import SkillIcon from "@mui/icons-material/Psychology";
 import type {Skill} from "../../../../../api/model";
 import {renderBasicSkillName} from "../../../../common/skill/SkillRenders.tsx";
 import RouterLinkButton from "../../../../common/RouterLink.tsx";
-import {RootPath} from "../../../../../services/RootPath.ts";
+import {RootPath} from "../../../../../app/RootPath.ts";
 
 interface Props {
     skills: Skill[];

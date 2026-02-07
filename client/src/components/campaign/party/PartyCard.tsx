@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
-import {ActorPath} from "../../../services/RootPath";
+import {ActorPath} from "../../../app/RootPath.ts";
 import GenesysDescriptionTypography from "../../common/typography/GenesysDescriptionTypography";
 import type {Party, Player} from "../../../api/model";
 

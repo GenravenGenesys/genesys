@@ -11,7 +11,7 @@ import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCe
 import TableRow from "@mui/material/TableRow";
 import CenteredCardHeaderWithButton from "../../../common/card/header/CenteredCardHeaderWithButton";
 import {useNavigate} from "react-router";
-import {CampaignPath} from "../../../../services/RootPath";
+import {CampaignPath} from "../../../../app/RootPath.ts";
 
 interface Props {
     sceneId: string;

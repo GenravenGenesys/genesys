@@ -6,7 +6,7 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import CustomTableCell from "../common/CustomTableCell";
 import type CampaignSession from "../../../../models/campaign/CampaignSession";
 import type Scene from "../../../../models/campaign/Scene";
-import { CampaignPath } from "../../../../services/RootPath";
+import { CampaignPath } from "../../../../app/RootPath.ts";
 import SessionService from "../../../../services/SessionService";
 
 type Props = {

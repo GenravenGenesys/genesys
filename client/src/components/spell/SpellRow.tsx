@@ -3,7 +3,7 @@ import {Fragment, useState} from "react";
 import TableRow from "@mui/material/TableRow";
 import {GenesysDifficultyCenterTableCell, TypographyCenterTableCell} from "../common/table/TypographyTableCell.tsx";
 import ActionsTableCell from "../common/table/actions/ActionsTableCell.tsx";
-import {RootPath} from "../../services/RootPath.ts";
+import {RootPath} from "../../app/RootPath.ts";
 import TableCell from "@mui/material/TableCell";
 import Collapse from "@mui/material/Collapse";
 import Table from "@mui/material/Table";

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import type {Talent} from "../../../../../api/model";
 import RouterLinkButton from "../../../../common/RouterLink.tsx";
-import {RootPath} from "../../../../../services/RootPath.ts";
+import {RootPath} from "../../../../../app/RootPath.ts";
 import TalentIcon from "@mui/icons-material/AutoStories";
 
 interface Props {

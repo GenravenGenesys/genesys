@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import {IconButton, ListItemIcon, Menu, MenuItem} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
-import {RootPath} from "../../services/RootPath";
+import {RootPath} from "../../app/RootPath.ts";
 import {useNavigate} from "react-router-dom";
 import DiceRollerDialog from "../roll/DiceRollerDialog";
 import {Home, Casino, List} from "@mui/icons-material";

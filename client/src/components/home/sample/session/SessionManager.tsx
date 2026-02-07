@@ -19,7 +19,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AdjustIcon from "@mui/icons-material/Adjust";
 import {CampaignSessionStatus} from "../../../../api/model";
 import {useGetSessions} from "../../../../hooks/campaign/useGetSessions.ts";
-import {RootPath} from "../../../../services/RootPath.ts";
+import {RootPath} from "../../../../app/RootPath.ts";
 
 export default function SessionManager() {
     const {id} = useParams<{ id: string }>();

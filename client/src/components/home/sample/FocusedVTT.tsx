@@ -11,7 +11,7 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {useNavigate} from "react-router";
 import type {Campaign} from "../../../api/model";
-import {RootPath} from "../../../services/RootPath.ts";
+import {RootPath} from "../../../app/RootPath.ts";
 import CampaignWizard from "./campaign-creation/CampaignWizard.tsx";
 
 interface Props {

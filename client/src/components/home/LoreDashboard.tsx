@@ -1,4 +1,4 @@
-import {CampaignPath, LorePath} from "../../services/RootPath";
+import {CampaignPath, LorePath} from "../../app/RootPath.ts";
 import {Button, Card, CardContent} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import GridContainer from "../common/grid/GridContainer";

@@ -6,7 +6,7 @@ import ExpansionList from "../navigation/ExpansionList";
 import CenteredCardHeader from "../common/card/header/CenteredCardHeader";
 import CreateInjuryDialog from "../injuries/CreateInjuryDialog";
 import CreateSpellDialog from "../spell/CreateSpellDialog";
-import {RootPath} from "../../services/RootPath";
+import {RootPath} from "../../app/RootPath.ts";
 import TalentDialog from "../talents/CreateTalentDialog";
 import QualityDialog from "../qualities/CreateQualityDialog";
 import GridContainer from "../common/grid/GridContainer";

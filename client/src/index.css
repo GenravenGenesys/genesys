@@ -14,7 +14,7 @@ code {
 
 @font-face {
   font-family: 'genesys';
-  src: url("/src/fonts/genesys.woff") format("woff");
+  src: url("/src/assests/genesys.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
 

@@ -13,7 +13,7 @@ import {
 import ArchetypeIcon from '@mui/icons-material/PersonAdd';
 import type {Archetype} from "../../../../../api/model";
 import RouterLinkButton from "../../../../common/RouterLink.tsx";
-import {RootPath} from "../../../../../services/RootPath.ts";
+import {RootPath} from "../../../../../app/RootPath.ts";
 
 interface Props {
     archetypes: Archetype[];
