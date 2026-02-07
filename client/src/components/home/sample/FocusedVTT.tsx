@@ -6,13 +6,13 @@ import {
     Paper
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import AddIcon from '@mui/icons-material/Add';
 import PeopleIcon from '@mui/icons-material/People';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {useNavigate} from "react-router";
 import type {Campaign} from "../../../api/model";
 import {RootPath} from "../../../services/RootPath.ts";
+import CampaignWizard from "./campaign-creation/CampaignWizard.tsx";
 
 interface Props {
     campaigns: Campaign[];
@@ -23,7 +23,11 @@ export default function FocusedVTT(props: Props) {
     const [selectedCampaign, setSelectedCampaign] = useState(0);
     const navigate = useNavigate();
 
-    const current = campaigns[selectedCampaign];
+    //
+
+    const handleTabChange = (_: any, value: number) => {
+        setSelectedCampaign(value);
+    };
 
     return (
         <Box sx={{flexGrow: 1, minHeight: '100vh', pb: 10}}>
@@ -33,25 +37,21 @@ export default function FocusedVTT(props: Props) {
                 backdropFilter: 'blur(20px)',
                 borderBottom: '1px solid rgba(255,255,255,0.1)'
             }}>
-                <Toolbar sx={{justifyContent: 'space-between'}}>
-                    <Typography variant="h6" sx={{fontWeight: 800, color: 'primary.main'}}>GENESYS ENGINE</Typography>
-
+                <Toolbar>
                     <Tabs
                         value={selectedCampaign}
-                        onChange={(_, v) => setSelectedCampaign(v)}
+                        onChange={handleTabChange}
                         textColor="primary"
                         indicatorColor="primary"
                         sx={{'& .MuiTab-root': {fontWeight: 'bold', px: 4}}}
                     >
-                        {campaigns.map((c) => <Tab key={c.id} label={c.name}/>)}
+                        {campaigns.map((c, index) => <Tab key={c.id} label={c.name} value={index}/>)}
+                        <Tab label="+ New Campaign" value={campaigns.length} sx={{fontStyle: 'italic', opacity: 0.8}}/>
                     </Tabs>
-
-                    <Button variant="outlined" startIcon={<AddIcon/>} size="small">New</Button>
                 </Toolbar>
             </AppBar>
 
-            <Box sx={{p: {xs: 2, md: 6}, maxWidth: 1200, mx: 'auto'}}>
-
+            {selectedCampaign !== campaigns.length && <Box sx={{p: {xs: 2, md: 6}, maxWidth: 1200, mx: 'auto'}}>
                 <Grid container spacing={4}>
                     <Grid size={{xs: 12}}>
                         <Paper sx={{
@@ -61,7 +61,8 @@ export default function FocusedVTT(props: Props) {
                             textAlign: 'center',
                             border: '1px solid rgba(0, 229, 255, 0.2)'
                         }}>
-                            <Typography variant="h2" sx={{fontWeight: 900, mb: 2}}>{current.name}</Typography>
+                            <Typography variant="h2"
+                                        sx={{fontWeight: 900, mb: 2}}>{campaigns[selectedCampaign].name}</Typography>
                             <Typography variant="h6" color="text.secondary" sx={{mb: 4}}>Active Session
                                 Ready</Typography>
 
@@ -79,9 +80,10 @@ export default function FocusedVTT(props: Props) {
                             <CardContent sx={{textAlign: 'center', py: 4}}>
                                 <PeopleIcon sx={{fontSize: 40, color: 'primary.main', mb: 1}}/>
                                 <Typography variant="h5">
-                                    {current.party.players.length}
+                                    {campaigns[selectedCampaign].party.players.length}
                                 </Typography>
-                                <Button sx={{mt: 2}} onClick={() => navigate(RootPath.Campaign + current.id + "/party")}>
+                                <Button sx={{mt: 2}}
+                                        onClick={() => navigate(RootPath.Campaign + campaigns[selectedCampaign].id + "/party")}>
                                     Party Management
                                 </Button>
                             </CardContent>
@@ -96,7 +98,7 @@ export default function FocusedVTT(props: Props) {
                                     {"Custom Compendium"}
                                 </Typography>
                                 <Button sx={{mt: 2}}
-                                        onClick={() => navigate(RootPath.Campaign + current.id + "/compendium")}>
+                                        onClick={() => navigate(RootPath.Campaign + campaigns[selectedCampaign].id + "/compendium")}>
                                     Open Compendium
                                 </Button>
                             </CardContent>
@@ -117,7 +119,8 @@ export default function FocusedVTT(props: Props) {
                         </Card>
                     </Grid>
                 </Grid>
-            </Box>
+            </Box>}
+            {selectedCampaign === campaigns.length && <CampaignWizard/>}
         </Box>
     );
 }
