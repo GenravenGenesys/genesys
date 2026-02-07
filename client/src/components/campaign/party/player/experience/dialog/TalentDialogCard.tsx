@@ -7,12 +7,12 @@ import * as React from "react";
 import {useState} from "react";
 import GridContainer from "../../../../../common/grid/GridContainer";
 import GridItem from "../../../../../common/grid/GridItem";
-import type {Player, TalentTier, ActorTalent} from "../../../../../../api/model";
+import type {Player, Tier, ActorTalent} from "../../../../../../api/model";
 
 interface Props {
     player: Player;
     size: number;
-    tier: TalentTier;
+    tier: Tier;
     updatePlayer: (player: Player) => void;
 }
 

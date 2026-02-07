@@ -5,7 +5,7 @@ import {
     DialogContent, FormControlLabel, Tabs, FormControl, FormGroup, Checkbox
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import {Activation, type Talent, TalentTier} from "../../../../../api/model";
+import {Activation, type Talent, Tier} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
@@ -89,7 +89,7 @@ export default function TalentDialog(props: Props) {
                         <GridContainer spacing={2}>
                             <Grid size={6}>
                                 <GenesysSelectField value={formData.tier} label={"Tier"}
-                                                    onChange={(e) => handleChange('tier', e)} options={TalentTier}/>
+                                                    onChange={(e) => handleChange('tier', e)} options={Tier}/>
                             </Grid>
                             <Grid size={6}>
                                 <GenesysBooleanField value={formData.ranked} onChange={(e) => handleChange('ranked', e)}

@@ -5,7 +5,7 @@ import {
     LimitType,
     RangeBand,
     type Talent,
-    TalentTier
+    Tier
 } from "../../../../../../api/model";
 import {useState, useEffect, useMemo} from "react";
 import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHeader.tsx";
@@ -23,7 +23,7 @@ interface Props {
 export interface PyramidSlot {
     row: number;
     column: number;
-    tier: TalentTier;
+    tier: Tier;
     talentId: string | null;
 }
 
@@ -32,19 +32,19 @@ const generateRowStructure = (row: number): PyramidSlot[] => {
     const slots: PyramidSlot[] = [];
     const numSlots = Math.min(row, 5); // Max 5 slots per row
 
-    const tierMapping: Record<number, TalentTier> = {
-        1: TalentTier.First,
-        2: TalentTier.Second,
-        3: TalentTier.Third,
-        4: TalentTier.Fourth,
-        5: TalentTier.Fifth,
+    const tierMapping: Record<number, Tier> = {
+        1: Tier.First,
+        2: Tier.Second,
+        3: Tier.Third,
+        4: Tier.Fourth,
+        5: Tier.Fifth,
     };
 
     for (let column = 1; column <= numSlots; column++) {
         slots.push({
             row,
             column,
-            tier: tierMapping[column] || TalentTier.First,
+            tier: tierMapping[column] || Tier.First,
             talentId: null,
         });
     }
@@ -58,7 +58,7 @@ const mockTalents: Talent[] = [
     {
         id: "grit",
         name: "Grit",
-        tier: TalentTier.First,
+        tier: Tier.First,
         ranked: true,
         activation: Activation.Passive,
         description: "Gain +1 strain threshold per rank",
@@ -97,7 +97,7 @@ const mockTalents: Talent[] = [
     {
         id: "toughened",
         name: "Toughened",
-        tier: TalentTier.First,
+        tier: Tier.First,
         ranked: false,
         activation: Activation.Passive,
         description: "Gain +2 wound threshold per rank",
@@ -138,7 +138,7 @@ const mockTalents: Talent[] = [
     {
         id: "side-step",
         name: "Side Step",
-        tier: TalentTier.Second,
+        tier: Tier.Second,
         ranked: true,
         activation: Activation["Active_(Maneuver)"],
         description: "Suffer strain to upgrade difficulty of incoming ranged attack",
@@ -177,7 +177,7 @@ const mockTalents: Talent[] = [
     {
         id: "lethal-blows",
         name: "Lethal Blows",
-        tier: TalentTier.Second,
+        tier: Tier.Second,
         ranked: true,
         activation: Activation.Passive,
         description: "Add +10 per rank to critical injury results",
@@ -216,7 +216,7 @@ const mockTalents: Talent[] = [
     {
         id: "point-blank",
         name: "Point Blank",
-        tier: TalentTier.Second,
+        tier: Tier.Second,
         ranked: false,
         activation: Activation.Passive,
         description: "Add 1 damage per rank at short range or closer",
@@ -257,7 +257,7 @@ const mockTalents: Talent[] = [
     {
         id: "dedication",
         name: "Dedication",
-        tier: TalentTier.Third,
+        tier: Tier.Third,
         ranked: true,
         activation: Activation.Passive,
         description: "Gain +1 to a single characteristic (max 6)",
@@ -296,7 +296,7 @@ const mockTalents: Talent[] = [
     {
         id: "expert-tracker",
         name: "Expert Tracker",
-        tier: TalentTier.Third,
+        tier: Tier.Third,
         ranked: false,
         activation: Activation.Passive,
         description: "Remove setback from tracking checks",
@@ -337,7 +337,7 @@ const mockTalents: Talent[] = [
     {
         id: "deadly-accuracy",
         name: "Deadly Accuracy",
-        tier: TalentTier.Fourth,
+        tier: Tier.Fourth,
         ranked: false,
         activation: Activation.Passive,
         description: "Use Agility instead of Brawn for ranged damage",
@@ -376,7 +376,7 @@ const mockTalents: Talent[] = [
     {
         id: "defensive-stance",
         name: "Defensive Stance",
-        tier: TalentTier.Fourth,
+        tier: Tier.Fourth,
         ranked: true,
         activation: Activation["Active_(Maneuver)"],
         description: "Suffer setback to increase defense by ranks",
@@ -417,7 +417,7 @@ const mockTalents: Talent[] = [
     {
         id: "true-aim",
         name: "True Aim",
-        tier: TalentTier.Fifth,
+        tier: Tier.Fifth,
         ranked: true,
         activation: Activation["Active_(Maneuver)"],
         description: "Upgrade ability or enemy difficulty for next ranged attack",
@@ -456,7 +456,7 @@ const mockTalents: Talent[] = [
     {
         id: "improved-dodge",
         name: "Improved Dodge",
-        tier: TalentTier.Fifth,
+        tier: Tier.Fifth,
         ranked: false,
         activation: Activation["Active_(Incidental)"],
         description: "Spend Story Point to upgrade attack difficulty",
@@ -501,12 +501,12 @@ export default function PurchaseTalentTab(props: Props) {
     const initialPyramidSlots = useMemo(() => {
         const slots: PyramidSlot[] = [];
 
-        const tierMapping: Record<number, TalentTier> = {
-            1: TalentTier.First,
-            2: TalentTier.Second,
-            3: TalentTier.Third,
-            4: TalentTier.Fourth,
-            5: TalentTier.Fifth,
+        const tierMapping: Record<number, Tier> = {
+            1: Tier.First,
+            2: Tier.Second,
+            3: Tier.Third,
+            4: Tier.Fourth,
+            5: Tier.Fifth,
         };
 
         // Track which talents need to be placed and in which columns they can go
@@ -551,7 +551,7 @@ export default function PurchaseTalentTab(props: Props) {
                     slots.push({
                         row: currentRow,
                         column,
-                        tier: tierMapping[column] || TalentTier.First,
+                        tier: tierMapping[column] || Tier.First,
                         talentId: availableTalent.talentId,
                     });
 
@@ -578,7 +578,7 @@ export default function PurchaseTalentTab(props: Props) {
             slots.push({
                 row: 1,
                 column: 1,
-                tier: TalentTier.First,
+                tier: Tier.First,
                 talentId: null,
             });
         }
