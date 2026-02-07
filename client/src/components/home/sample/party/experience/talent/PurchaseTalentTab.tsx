@@ -7,7 +7,7 @@ import {
     type Talent,
     TalentTier
 } from "../../../../../../api/model";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useMemo} from "react";
 import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHeader.tsx";
 import {Card, CardContent} from "@mui/material";
 import {TalentPyramidGrid} from "./TalentPyramidGrid.tsx";
@@ -496,7 +496,97 @@ const mockTalents: Talent[] = [
 
 export default function PurchaseTalentTab(props: Props) {
     const {campaignTalents, talents, experience, onTalentSpend} = props;
-    const [pyramidSlots, setPyramidSlots] = useState<PyramidSlot[]>([]);
+
+    // Compute initial pyramid structure from talents prop
+    const initialPyramidSlots = useMemo(() => {
+        const slots: PyramidSlot[] = [];
+
+        const tierMapping: Record<number, TalentTier> = {
+            1: TalentTier.First,
+            2: TalentTier.Second,
+            3: TalentTier.Third,
+            4: TalentTier.Fourth,
+            5: TalentTier.Fifth,
+        };
+
+        // Track which talents need to be placed and in which columns they can go
+        // Each talent can only appear once per column
+        interface TalentNeed {
+            talentId: string;
+            allowedColumns: Set<number>; // Columns where this talent can still be placed
+        }
+
+        const talentNeeds: TalentNeed[] = [];
+
+        // Process talents and create entries for each rank
+        Object.entries(talents).forEach(([talentId, ranks]) => {
+            const count = ranks > 0 ? ranks : 1;
+
+            // This talent needs to be placed 'count' times, each in a different column
+            const allowedColumns = new Set<number>();
+            for (let i = 1; i <= Math.min(count, 5); i++) {
+                allowedColumns.add(i);
+            }
+
+            talentNeeds.push({
+                talentId,
+                allowedColumns,
+            });
+        });
+
+        // Build pyramid by filling left-to-right, row-by-row
+        let currentRow = 1;
+
+        while (talentNeeds.some(need => need.allowedColumns.size > 0)) {
+            const numSlotsInRow = Math.min(currentRow, 5);
+            let slotsFilledInRow = 0;
+
+            // Try to fill each column in this row from left to right
+            for (let column = 1; column <= numSlotsInRow; column++) {
+                // Find a talent that can be placed in this column
+                const availableTalent = talentNeeds.find(need => need.allowedColumns.has(column));
+
+                if (availableTalent) {
+                    // Place this talent
+                    slots.push({
+                        row: currentRow,
+                        column,
+                        tier: tierMapping[column] || TalentTier.First,
+                        talentId: availableTalent.talentId,
+                    });
+
+                    // Mark this column as used for this talent
+                    availableTalent.allowedColumns.delete(column);
+                    slotsFilledInRow++;
+                } else {
+                    // No talent available for this column, stop filling this row
+                    // (must fill left-to-right with no gaps)
+                    break;
+                }
+            }
+
+            // If we didn't fill any slots, we're done
+            if (slotsFilledInRow === 0) {
+                break;
+            }
+
+            currentRow++;
+        }
+
+        // If no talents, at least create the first row
+        if (slots.length === 0) {
+            slots.push({
+                row: 1,
+                column: 1,
+                tier: TalentTier.First,
+                talentId: null,
+            });
+        }
+
+        return slots;
+    }, [talents]);
+
+    const [pyramidSlots, setPyramidSlots] = useState<PyramidSlot[]>(initialPyramidSlots);
 
     // Helper to find a slot by row and column
     const findSlot = (row: number, column: number): PyramidSlot | undefined => {
