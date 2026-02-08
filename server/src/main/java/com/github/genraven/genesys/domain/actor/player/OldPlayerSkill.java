@@ -21,7 +21,7 @@ public class OldPlayerSkill extends Skill {
         this.setName(skill.getName());
         this.setCharacteristic(skill.getCharacteristic());
         this.setType(skill.getType());
-        this.setInitiative(skill.isInitiative());
+        this.setInitiative(skill.getInitiative());
     }
 
     @Min(value = 0)

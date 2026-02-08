@@ -20,4 +20,8 @@ export interface PlayerSkill {
   initiative: boolean;
   /** @minimum 0 */
   ranks: number;
+  /** A short summary of the skill */
+  summary: string;
+  /** A detailed description of the skill */
+  description: string;
 }

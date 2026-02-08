@@ -71,6 +71,12 @@ export default function SkillDrawer(props: Props) {
                 </GridContainer>
                 <GenesysBooleanField value={formData.initiative} onChange={(e) => handleChange("initiative", e)}
                                      label={"Used for Initiative"}/>
+                <GenesysTextField text={formData.summary || ''} label={"Summary"}
+                                  placeholder={"A short one-line description of the skill."}
+                                  onChange={(e) => handleChange("summary", e)} fullwidth/>
+                <GenesysTextField text={formData.description || ''} label={"Description"} rows={3}
+                                  placeholder={"A longer description of the skill."}
+                                  onChange={(e) => handleChange("description", e)} fullwidth/>
                 <Box sx={{mt: 'auto', pt: 4, display: 'flex', gap: 2}}>
                     <Button
                         variant="contained"

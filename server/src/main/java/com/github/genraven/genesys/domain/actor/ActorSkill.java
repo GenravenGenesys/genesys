@@ -17,7 +17,7 @@ public class ActorSkill extends Skill {
         this.setName(skill.getName());
         this.setCharacteristic(skill.getCharacteristic());
         this.setType(skill.getType());
-        this.setInitiative(skill.isInitiative());
+        this.setInitiative(skill.getInitiative());
     }
 
     public ActorSkill(final OldPlayerSkill skill) {
@@ -25,7 +25,7 @@ public class ActorSkill extends Skill {
         this.setName(skill.getName());
         this.setCharacteristic(skill.getCharacteristic());
         this.setType(skill.getType());
-        this.setInitiative(skill.isInitiative());
+        this.setInitiative(skill.getInitiative());
         this.setRanks(skill.getRanks());
     }
 

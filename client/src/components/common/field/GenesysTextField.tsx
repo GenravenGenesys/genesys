@@ -8,15 +8,16 @@ interface Props {
     disabled?: boolean;
     fullwidth?: boolean;
     rows?: number;
+    placeholder?: string;
 }
 
-const GenesysTextField: React.FC<Props> = ({text, label, onChange, disabled, fullwidth, rows}) => {
+const GenesysTextField: React.FC<Props> = ({text, label, onChange, disabled, fullwidth, rows, placeholder}) => {
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange(event.target.value);
     };
 
     return <TextField value={text} fullWidth={fullwidth} multiline={rows !== 1} rows={rows ? rows : 1}
-                      disabled={disabled} label={label} onChange={handleChange}/>;
+                      placeholder={placeholder} disabled={disabled} label={label} onChange={handleChange}/>;
 };
 
 export default GenesysTextField;

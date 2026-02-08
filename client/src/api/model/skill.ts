@@ -18,6 +18,8 @@ export interface Skill {
   characteristic: CharacteristicType;
   type: SkillType;
   initiative: boolean;
+  /** A short summary of the skill */
   summary: string;
+  /** A detailed description of the skill */
   description: string;
 }

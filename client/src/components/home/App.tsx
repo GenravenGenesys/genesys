@@ -28,7 +28,6 @@ import ViewCompendiumArchetypes from "./sample/compendium/archetype/ViewCompendi
 import ViewCompendiumCareers from "./sample/compendium/career/ViewCompendiumCareers.tsx";
 import PartyPage from "./sample/party/PartyPage.tsx";
 import {useOptionalAuth0} from "../../hooks/useOptionalAuth0";
-import TalentSampleApp from "./sample/party/sample/TalentSampleApp.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useOptionalAuth0();
@@ -109,7 +108,6 @@ export const App: React.FC = () => {
                 <Route path={"/genesys/session"} element={<GenesysSessionManager/>}/>
                 <Route path={"/genesys/session/manager"} element={<SampleSessionManagementPage/>}/>
                 <Route path={"/sample/creation"} element={<CharacterCreator/>}/>
-                <Route path={"/sample/talentpyramid"} element={<TalentSampleApp/>}/>
             </Routes>
         </ThemeProvider>
     )

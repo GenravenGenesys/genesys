@@ -39,11 +39,11 @@ public class Skill {
 
     @Builder.Default
     @NotNull
-    private boolean initiative = false;
+    private Boolean initiative = false;
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "A short summary of the skill")
     private String summary;
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "A detailed description of the skill")
     private String description;
 }

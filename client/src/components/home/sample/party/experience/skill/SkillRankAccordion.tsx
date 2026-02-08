@@ -1,4 +1,3 @@
-import {CharacteristicType, type PlayerSkill, type Skill} from "../../../../../../api/model";
 import {
     Accordion,
     AccordionDetails,
@@ -15,6 +14,8 @@ import {CharacteristicBadge} from "../../CharacteristicBadge.tsx";
 import StarIcon from "@mui/icons-material/Star";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import type {PlayerSkill, Skill} from "../../../../../../api/model";
+import {CharacteristicType} from "../../../../../../api/model";
 
 interface Props {
     playerSkills: PlayerSkill[];
@@ -164,14 +165,14 @@ export default function SkillRankAccordion(props: Props) {
                                                                 </Tooltip>
                                                             )}
                                                         </Box>
-                                                        {/*{skill.description && (*/}
-                                                        {/*    <Typography*/}
-                                                        {/*        variant="caption"*/}
-                                                        {/*        color="text.secondary"*/}
-                                                        {/*    >*/}
-                                                        {/*        {skill.description}*/}
-                                                        {/*    </Typography>*/}
-                                                        {/*)}*/}
+                                                        {skill.summary && (
+                                                            <Typography
+                                                                variant="caption"
+                                                                color="text.secondary"
+                                                            >
+                                                                {skill.summary}
+                                                            </Typography>
+                                                        )}
                                                     </Grid>
 
                                                     {/* Current Ranks Display */}
