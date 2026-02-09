@@ -1,9 +1,9 @@
 import {
     Activation, type AdversaryTemplate, AdversaryTemplateType, type Archetype, type Attribute, type Career,
-    CostType,
+    CostType, type CriticalInjury,
     Difficulty, EquipmentType,
     type ItemTemplate,
-    LimitType, type PlayerCharacter, type PlayerSkill, type PlayerTalent,
+    LimitType, type PlayerCharacter, type PlayerSkill, type PlayerTalent, type Quality,
     RangeBand,
     type Skill,
     SkillType,
@@ -225,3 +225,18 @@ export const emptyPlayerCharacter = {
         available: 0
     },
 } as PlayerCharacter;
+
+export const emptyCriticalInjury = {
+    id: '',
+    name: '',
+    description: '',
+    severity: Difficulty.Easy,
+    min: 0,
+    max: 0,
+} as CriticalInjury;
+
+export const emptyQuality = {
+    id: '',
+    name: '',
+    description: '',
+} as Quality;
