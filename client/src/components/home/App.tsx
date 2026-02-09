@@ -28,6 +28,7 @@ import ViewCompendiumArchetypes from "./sample/compendium/archetype/ViewCompendi
 import ViewCompendiumCareers from "./sample/compendium/career/ViewCompendiumCareers.tsx";
 import PartyPage from "./sample/party/PartyPage.tsx";
 import {useOptionalAuth0} from "../../hooks/useOptionalAuth0";
+import SystemSettingsHome from "./sample/system/SystemSettingsHome.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useOptionalAuth0();
@@ -80,6 +81,7 @@ export const App: React.FC = () => {
                 <Route path="/callback" element={<CallbackPage/>}/>
                 <Route path="/" element={<Navigate replace to={"/" + RootPath.Home}/>}/>
                 <Route path={RootPath.Home} element={<CampaignDashboardPage/>}/>
+                <Route path={RootPath.System} element={<SystemSettingsHome/>}/>
 
                 <Route path={RootPath.Campaign + ":id/party"} element={<PartyPage/>}/>
 

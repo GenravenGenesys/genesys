@@ -9,6 +9,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PeopleIcon from '@mui/icons-material/People';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {useNavigate} from "react-router";
 import type {Campaign} from "../../../api/model";
 import {RootPath} from "../../../services/RootPath.ts";
@@ -22,8 +23,6 @@ export default function FocusedVTT(props: Props) {
     const {campaigns} = props;
     const [selectedCampaign, setSelectedCampaign] = useState(0);
     const navigate = useNavigate();
-
-    //
 
     const handleTabChange = (_: any, value: number) => {
         setSelectedCampaign(value);
@@ -51,7 +50,7 @@ export default function FocusedVTT(props: Props) {
                 </Toolbar>
             </AppBar>
 
-            {selectedCampaign !== campaigns.length && <Box sx={{p: {xs: 2, md: 6}, maxWidth: 1200, mx: 'auto'}}>
+            {selectedCampaign !== campaigns.length && <Box sx={{p: {xs: 2, md: 6}, mx: 'auto'}}>
                 <Grid container spacing={4}>
                     <Grid size={{xs: 12}}>
                         <Paper sx={{
@@ -114,6 +113,21 @@ export default function FocusedVTT(props: Props) {
                                 </Typography>
                                 <Button sx={{mt: 2}} disabled>
                                     Schedule
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+
+                    <Grid size={{xs: 12, md: 4}}>
+                        <Card>
+                            <CardContent sx={{textAlign: 'center', py: 4}}>
+                                <SettingsIcon sx={{fontSize: 40, color: 'primary.main', mb: 1}}/>
+                                <Typography variant="h5">
+                                    Default Genesys System Settings
+                                </Typography>
+                                <Button sx={{mt: 2}}
+                                        onClick={() => navigate(RootPath.System)}>
+                                    Add System Settings
                                 </Button>
                             </CardContent>
                         </Card>

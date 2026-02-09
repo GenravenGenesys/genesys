@@ -45,48 +45,6 @@ export default function CompendiumHome() {
                 <AdversaryCompendiumCard adversaries={campaign.compendium.adversaries} campaignId={id}/>
                 <ArchetypeCompendiumCard archetypes={campaign.compendium.archetypes} campaignId={id}/>
                 <CareerCompendiumCard careers={campaign.compendium.careers} campaignId={id}/>
-
-                {/* Setting Rules & Formatting Section */}
-                {/*<Grid size={{ xs: 12, md: 8 }}>*/}
-                {/*    <Paper sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 4 }}>*/}
-                {/*        <Typography variant="h6" fontWeight="bold" gutterBottom>*/}
-                {/*            Campaign Settings & Rules*/}
-                {/*        </Typography>*/}
-                {/*        <Typography variant="body2" color="text.secondary" paragraph>*/}
-                {/*            The following custom rules and characteristics are defined for this setting.*/}
-                {/*            Changes here will affect all characters linked to this campaign.*/}
-                {/*        </Typography>*/}
-
-                {/*        <Grid container spacing={2} sx={{ mt: 2 }}>*/}
-                {/*            {["Custom Magic System", "Vehicle Combat Mods", "Radiation Rules"].map(rule => (*/}
-                {/*                <Grid size={{ xs: 12, sm: 4 }} key={rule}>*/}
-                {/*                    <Button fullWidth variant="text" sx={{ justifyContent: 'flex-start', bgcolor: 'rgba(255,255,255,0.03)' }}>*/}
-                {/*                        {rule}*/}
-                {/*                    </Button>*/}
-                {/*                </Grid>*/}
-                {/*            ))}*/}
-                {/*        </Grid>*/}
-                {/*    </Paper>*/}
-                {/*</Grid></>*/}
-
-                {/*<Grid size={{ xs: 12, md: 4 }}>*/}
-                {/*    <Card sx={{ bgcolor: 'primary.main', color: 'background.default' }}>*/}
-                {/*        <CardContent>*/}
-                {/*            <Typography variant="h6" fontWeight="bold">Quick Librarian</Typography>*/}
-                {/*            <Typography variant="body2" sx={{ mb: 2, opacity: 0.8 }}>*/}
-                {/*                Import items from your Global Vault into this campaign.*/}
-                {/*            </Typography>*/}
-                {/*            <Button*/}
-                {/*                variant="contained"*/}
-                {/*                fullWidth*/}
-                {/*                sx={{ bgcolor: 'background.default', color: 'primary.main', fontWeight: 'bold' }}*/}
-                {/*            >*/}
-                {/*                Import from Vault*/}
-                {/*            </Button>*/}
-                {/*        </CardContent>*/}
-                {/*    </Card>*/}
-                {/*</Grid>*/}
-
             </Grid>
         </Box>
     );
