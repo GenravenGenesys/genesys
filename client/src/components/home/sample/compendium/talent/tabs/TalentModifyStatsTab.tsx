@@ -6,11 +6,6 @@ import * as React from "react";
 import {useState} from "react";
 import GridContainer from "../../../../../common/grid/GridContainer.tsx";
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel} from "@mui/material";
-import CostCard from "../../../../../common/card/select/CostCard.tsx";
-import LimitCard from "../../../../../common/card/select/LimitCard.tsx";
-import TalentCareerSkillsCard from "../../../../../talents/skill/TalentCareerSkillsCard.tsx";
-import NumberTextFieldCard from "../../../../../common/card/NumberTextFieldCard.tsx";
-import TalentModifierCard from "../../../../../talents/modifier/TalentModifierCard.tsx";
 import GenesysNumberField from "../../../../../common/field/GenesysNumberField.tsx";
 import {StatsType} from "../../../../../../models/StatsType.ts";
 

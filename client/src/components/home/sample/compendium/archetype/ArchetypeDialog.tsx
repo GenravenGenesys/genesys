@@ -15,6 +15,7 @@ import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
 import SaveIcon from "@mui/icons-material/Save";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
+import {StatsType} from "../../../../../models/StatsType.ts";
 
 interface Props {
     open: boolean;
@@ -116,12 +117,12 @@ export default function ArchetypeDialog(props: Props) {
                         <GridContainer>
                             <Grid size={6}>
                                 <GenesysNumberField value={formData.wounds || 0} fullwidth
-                                                    label={OldStatsType.Wounds + ' Threshold'}
+                                                    label={StatsType.Wounds + ' Threshold'}
                                                     onChange={(e) => handleChange('wounds', e)}/>
                             </Grid>
                             <Grid size={6}>
                                 <GenesysNumberField value={formData.strain || 0} fullwidth
-                                                    label={OldStatsType.Strain + ' Threshold'}
+                                                    label={StatsType.Strain + ' Threshold'}
                                                     onChange={(e) => handleChange('strain', e)}/>
                             </Grid>
                         </GridContainer>
