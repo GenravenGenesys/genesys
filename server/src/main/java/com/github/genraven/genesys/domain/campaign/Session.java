@@ -29,7 +29,6 @@ public class Session {
     private Party party;
 
     @NotNull
-    @AssertTrue(groups = ValidationGroups.SceneStartValidation.class, message = "Session must be active in order to start the scene.")
     private Boolean active = false;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)

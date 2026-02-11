@@ -6,39 +6,15 @@ import com.github.genraven.genesys.domain.actor.*;
 import com.github.genraven.genesys.domain.actor.npc.MinionGroup;
 import com.github.genraven.genesys.domain.actor.npc.Nemesis;
 import com.github.genraven.genesys.domain.actor.npc.Rival;
-import com.github.genraven.genesys.domain.actor.player.Player;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class Character {
 
     protected Character() {
-    }
-
-    public Character(final Player player) {
-        this.setId(player.getId());
-        this.setName(player.getName());
-        this.setType(player.getType());
-        this.setBrawn(player.getBrawn());
-        this.setAgility(player.getAgility());
-        this.setIntellect(player.getIntellect());
-        this.setCunning(player.getCunning());
-        this.setWillpower(player.getWillpower());
-        this.setPresence(player.getPresence());
-        this.setWounds(player.getWounds());
-        this.setStrain(player.getStrain());
-        this.setMelee(new Defense(player.getMelee(), player.getMelee(), Defense.Type.MELEE));
-        this.setRanged(new Defense(player.getRanged(), player.getRanged(), Defense.Type.RANGED));
-        this.setWeapons(player.getWeapons());
-        this.setArmors(player.getArmors());
-        this.setTalents(player.getTalents());
-        this.setInjuries(player.getInjuries());
-        this.setAbilities(player.getArchetype().getAbilities());
-        this.setSkills(player.getSkills().stream().map(ActorSkill::new).collect(Collectors.toList()));
     }
 
     public Character(final Nemesis nemesis) {

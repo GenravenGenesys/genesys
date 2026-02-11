@@ -23,20 +23,20 @@ public class SceneStartValidator {
 
     private final Validator validator;
 
-    public Mono<SessionStartSceneContext> validateSessionStartSceneContext(final SessionStartSceneContext context) {
-        log.info("Validating SessionStartScene");
-        final Set<ConstraintViolation<SessionStartSceneContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.SceneStartValidation.class);
-        final List<String> errorMessages = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(constraintViolations)) {
-            constraintViolations.forEach(error ->
-                errorMessages.add(error.getMessage()));
-        }
-
-        if (!CollectionUtils.isEmpty(errorMessages)) {
-            final List<Error> errors = new ArrayList<>();
-            errorMessages.forEach(message -> errors.add(Error.builder().message(message).build()));
-            return Mono.error(new SceneValidationException(errors));
-        }
-        return Mono.just(context);
-    }
+//    public Mono<SessionStartSceneContext> validateSessionStartSceneContext(final SessionStartSceneContext context) {
+//        log.info("Validating SessionStartScene");
+//        final Set<ConstraintViolation<SessionStartSceneContext>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.SceneStartValidation.class);
+//        final List<String> errorMessages = new ArrayList<>();
+//        if (!CollectionUtils.isEmpty(constraintViolations)) {
+//            constraintViolations.forEach(error ->
+//                errorMessages.add(error.getMessage()));
+//        }
+//
+//        if (!CollectionUtils.isEmpty(errorMessages)) {
+//            final List<Error> errors = new ArrayList<>();
+//            errorMessages.forEach(message -> errors.add(Error.builder().message(message).build()));
+//            return Mono.error(new SceneValidationException(errors));
+//        }
+//        return Mono.just(context);
+//    }
 }
