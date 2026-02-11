@@ -28,6 +28,8 @@ import ViewCompendiumArchetypes from "./sample/compendium/archetype/ViewCompendi
 import ViewCompendiumCareers from "./sample/compendium/career/ViewCompendiumCareers.tsx";
 import PartyPage from "./sample/party/PartyPage.tsx";
 import {useOptionalAuth0} from "../../hooks/useOptionalAuth0";
+import ViewCompendiumInjuries from "./sample/compendium/injury/ViewCriticalInjuries.tsx";
+import ViewCompendiumQualities from "./sample/compendium/quality/ViewCompendiumQualities.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useOptionalAuth0();
@@ -95,6 +97,10 @@ export const App: React.FC = () => {
                        element={<ViewCompendiumArchetypes/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Career}
                        element={<ViewCompendiumCareers/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Injury}
+                       element={<ViewCompendiumInjuries/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Qualities}
+                       element={<ViewCompendiumQualities/>}/>
 
                 <Route path={RootPath.Campaign + ":id"} element={<SessionManager/>}/>
                 <Route path={RootPath.Campaign + ":id" + RootPath.Session + ":sessionId"}
