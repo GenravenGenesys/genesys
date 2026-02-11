@@ -8,6 +8,9 @@
 import type { Difficulty } from './difficulty';
 import type { Modifier } from './modifier';
 
+/**
+ * Setting-specific Critical Injuries
+ */
 export interface CriticalInjury {
   id: string;
   name: string;

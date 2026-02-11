@@ -9,7 +9,6 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PeopleIcon from '@mui/icons-material/People';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import SettingsIcon from '@mui/icons-material/Settings';
 import {useNavigate} from "react-router";
 import type {Campaign} from "../../../api/model";
 import {RootPath} from "../../../services/RootPath.ts";
@@ -62,12 +61,14 @@ export default function FocusedVTT(props: Props) {
                         }}>
                             <Typography variant="h2"
                                         sx={{fontWeight: 900, mb: 2}}>{campaigns[selectedCampaign].name}</Typography>
-                            <Typography variant="h6" color="text.secondary" sx={{mb: 4}}>Active Session
-                                Ready</Typography>
+                            <Typography variant="h6" color="text.secondary" sx={{mb: 4}}>
+                                {campaigns[selectedCampaign].status}
+                            </Typography>
 
                             <Box sx={{display: 'flex', justifyContent: 'center', gap: 2}}>
                                 <Button variant="contained" size="large" startIcon={<PlayArrowIcon/>}
-                                        sx={{px: 8, py: 2, borderRadius: 4, fontWeight: 'bold'}}>
+                                        sx={{px: 8, py: 2, borderRadius: 4, fontWeight: 'bold'}}
+                                        onClick={() => navigate(RootPath.Campaign + campaigns[selectedCampaign].id)}>
                                     Launch VTT
                                 </Button>
                             </Box>
@@ -113,21 +114,6 @@ export default function FocusedVTT(props: Props) {
                                 </Typography>
                                 <Button sx={{mt: 2}} disabled>
                                     Schedule
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-
-                    <Grid size={{xs: 12, md: 4}}>
-                        <Card>
-                            <CardContent sx={{textAlign: 'center', py: 4}}>
-                                <SettingsIcon sx={{fontSize: 40, color: 'primary.main', mb: 1}}/>
-                                <Typography variant="h5">
-                                    Default Genesys System Settings
-                                </Typography>
-                                <Button sx={{mt: 2}}
-                                        onClick={() => navigate(RootPath.System)}>
-                                    Add System Settings
                                 </Button>
                             </CardContent>
                         </Card>

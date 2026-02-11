@@ -7,6 +7,9 @@
  */
 import type { QualityStats } from './qualityStats';
 
+/**
+ * Setting-specific Qualities
+ */
 export interface Quality {
   id: string;
   name: string;
