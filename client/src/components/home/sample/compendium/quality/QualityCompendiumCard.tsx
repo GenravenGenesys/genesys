@@ -1,10 +1,8 @@
 import {
-    Alert,
     Box,
     Card,
     CardContent,
     Chip,
-    CircularProgress,
     Divider,
     Grid,
     List,
@@ -12,29 +10,22 @@ import {
     ListItemText,
     Typography
 } from "@mui/material";
-import TalentIcon from "@mui/icons-material/AutoStories";
-import RouterLinkButton from "../../../common/RouterLink.tsx";
-import {RootPath} from "../../../../services/RootPath.ts";
-import {useFetchAllInjuries} from "../../../../hooks/injuries/useFetchAllInjuries.ts";
+import ExtensionIcon from '@mui/icons-material/Extension';
+import type {Quality} from "../../../../../api/model";
+import RouterLinkButton from "../../../../common/RouterLink.tsx";
+import {RootPath} from "../../../../../services/RootPath.ts";
 
-export default function SystemSettingCard() {
-    const {injuries, loading, error} = useFetchAllInjuries();
+interface Props {
+    qualities: Quality[];
+    campaignId: string;
+}
+
+export default function QualityCompendiumCard(props: Props) {
+    const {qualities, campaignId} = props;
     const color = "#00e5ff";
 
-    if (loading) {
-        return <CircularProgress/>;
-    }
-
-    if (error) {
-        return (
-            <Alert severity="error">
-                {error}
-            </Alert>
-        );
-    }
-
     return (
-        <Grid size={{xs: 12, md: 6, lg: 3}} key={"Talents"}>
+        <Grid size={{xs: 12, md: 6, lg: 3}} key={"Qualities"}>
             <Card sx={{
                 height: '100%',
                 display: 'flex',
@@ -52,19 +43,19 @@ export default function SystemSettingCard() {
                             color: color,
                             display: 'flex'
                         }}>
-                            <TalentIcon/>
+                            <ExtensionIcon/>
                         </Box>
-                        <Chip label={`${injuries.length} Items`} size="small"/>
+                        <Chip label={`${qualities.length} Items`} size="small"/>
                     </Box>
 
                     <Typography variant="h5" fontWeight="bold" gutterBottom>
-                        Talents
+                        Qualities
                     </Typography>
 
                     <Divider sx={{my: 1.5, opacity: 0.1}}/>
 
                     <List dense>
-                        {injuries.map(item => (
+                        {qualities.map(item => (
                             <ListItem key={item.id} disablePadding sx={{py: 0.5}}>
                                 <ListItemText
                                     primary={item.name}
@@ -75,8 +66,7 @@ export default function SystemSettingCard() {
                 </CardContent>
 
                 <Box sx={{p: 2, display: 'flex', gap: 1}}>
-                    <RouterLinkButton to={RootPath.Injury}
-                                      text={"View All"}/>
+                    <RouterLinkButton to={RootPath.Campaign + campaignId + "/compendium" + RootPath.Qualities} text={"View All"}/>
                 </Box>
             </Card>
         </Grid>

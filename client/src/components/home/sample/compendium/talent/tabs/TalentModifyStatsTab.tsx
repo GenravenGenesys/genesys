@@ -1,7 +1,6 @@
 import {
-    OldStatsType,
+    type StatModifiers,
     type Talent,
-    type TalentStats
 } from "../../../../../../api/model";
 import * as React from "react";
 import {useState} from "react";
@@ -13,17 +12,18 @@ import TalentCareerSkillsCard from "../../../../../talents/skill/TalentCareerSki
 import NumberTextFieldCard from "../../../../../common/card/NumberTextFieldCard.tsx";
 import TalentModifierCard from "../../../../../talents/modifier/TalentModifierCard.tsx";
 import GenesysNumberField from "../../../../../common/field/GenesysNumberField.tsx";
+import {StatsType} from "../../../../../../models/StatsType.ts";
 
 interface Props {
     talent: Talent;
-    updateTalentStats: (stats: TalentStats) => void;
+    updateTalentStats: (stats: StatModifiers) => void;
 }
 
 const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
     const [state, setState] = useState({
         // cost: !(talent.cost.type === CostType.None && talent.limit.type === LimitType.None),
         // careerSkill: talent.talentSkills.potentialCareerSkills.length > 0,
-        stats: talent.talentStats.wounds > 0 || talent.talentStats.strain > 0 || talent.talentStats.soak > 0 || talent.talentStats.defense > 0
+        stats: talent.statModifiers.wounds > 0 || talent.statModifiers.strain > 0 || talent.statModifiers.soak > 0 || talent.statModifiers.defense > 0
     });
 
     const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +54,7 @@ const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
     const handleWoundsChange = async (value: number) => {
         if (talent) {
             updateTalentStats({
-                ...talent.talentStats,
+                ...talent.statModifiers,
                 wounds: value,
             });
         }
@@ -63,7 +63,7 @@ const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
     const handleStrainChange = async (value: number) => {
         if (talent) {
             updateTalentStats({
-                ...talent.talentStats,
+                ...talent.statModifiers,
                 strain: value,
             });
         }
@@ -72,7 +72,7 @@ const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
     const handleSoakChange = async (value: number) => {
         if (talent) {
             updateTalentStats({
-                ...talent.talentStats,
+                ...talent.statModifiers,
                 soak: value,
             });
         }
@@ -81,7 +81,7 @@ const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
     const handleDefenseChange = async (value: number) => {
         if (talent) {
             updateTalentStats({
-                ...talent.talentStats,
+                ...talent.statModifiers,
                 defense: value,
             });
         }
@@ -115,15 +115,15 @@ const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
                 </FormControl>
             </GridContainer>
             {state.stats && <GridContainer spacing={2}>
-                <GenesysNumberField value={talent.talentStats.wounds}
-                                    label={'Increase ' + OldStatsType.Wounds + ' Threshold'}
+                <GenesysNumberField value={talent.statModifiers.wounds}
+                                    label={'Increase ' + StatsType.Wounds + ' Threshold'}
                                     onChange={handleWoundsChange} min={0} max={5} fullwidth/>
-                <GenesysNumberField value={talent.talentStats.strain}
-                                    label={'Increase ' + OldStatsType.Strain + ' Threshold'}
+                <GenesysNumberField value={talent.statModifiers.strain}
+                                    label={'Increase ' + StatsType.Strain + ' Threshold'}
                                     onChange={handleStrainChange} min={0} max={5} fullwidth/>
-                <GenesysNumberField value={talent.talentStats.soak} label={'Increase Soak'}
+                <GenesysNumberField value={talent.statModifiers.soak} label={'Increase Soak'}
                                     onChange={handleSoakChange} min={0} max={5} fullwidth/>
-                <GenesysNumberField value={talent.talentStats.defense} label={'Increase Defense'}
+                <GenesysNumberField value={talent.statModifiers.defense} label={'Increase Defense'}
                                     onChange={handleDefenseChange} min={0} max={5} fullwidth/>
             </GridContainer>}
         </GridContainer>

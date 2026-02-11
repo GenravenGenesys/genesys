@@ -1,16 +1,23 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {
-    Box, Typography, Stack, Button,
-    Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
-    DialogContent, Tabs, ToggleButton,
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    Grid,
+    Stack,
+    Tabs,
+    ToggleButton,
     ToggleButtonGroup,
+    Typography,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import {
-    type AdversaryTemplate,
-    AdversaryTemplateType,
-    OldStatsType,
-} from "../../../../../api/model";
+import {type AdversaryTemplate, AdversaryTemplateType,} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
 import Tab from "@mui/material/Tab";
@@ -18,6 +25,7 @@ import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx"
 import AdversaryCharacteristics from "./AdversaryCharacteristics.tsx";
 import AdversaryRatings from "./AdversaryRatings.tsx";
 import AdversarySkillManager from "./AdversarySkillManager.tsx";
+import {StatsType} from "../../../../../models/StatsType.ts";
 
 interface Props {
     open: boolean;
@@ -42,13 +50,13 @@ export default function AdversaryDialog(props: Props) {
         setFormData((prev: AdversaryTemplate) => ({...prev, [field]: value}));
     };
 
-    const handleThresholdChange = <K extends OldStatsType>(field: K, value: number) => {
+    const handleThresholdChange = <K extends StatsType>(field: K, value: number) => {
         setFormData((prev: AdversaryTemplate) => ({
             ...prev,
             derivedStats: {
                 ...prev.derivedStats,
-                [field === OldStatsType.Wounds ? 'woundThreshold' : 'strainThreshold']: {
-                    ...prev.derivedStats[field === OldStatsType.Wounds ? 'woundThreshold' : 'strainThreshold'],
+                [field === StatsType.Wounds ? 'woundThreshold' : 'strainThreshold']: {
+                    ...prev.derivedStats[field === StatsType.Wounds ? 'woundThreshold' : 'strainThreshold'],
                     total: value
                 }
             }
@@ -122,13 +130,13 @@ export default function AdversaryDialog(props: Props) {
                         <GridContainer>
                             <Grid size={formData.type === AdversaryTemplateType.Nemesis ? 6 : 12}>
                                 <GenesysNumberField value={formData.derivedStats.woundThreshold.total || 0} fullwidth
-                                                    label={OldStatsType.Wounds + ' Threshold'}
-                                                    onChange={(e) => handleThresholdChange('Wounds', e)}/>
+                                                    label={StatsType.Wounds + ' Threshold'}
+                                                    onChange={(e) => handleThresholdChange(StatsType.Wounds, e)}/>
                             </Grid>
                             {formData.type === AdversaryTemplateType.Nemesis && <Grid size={6}>
                                 <GenesysNumberField value={formData.derivedStats.strainThreshold.total || 0} fullwidth
-                                                    label={OldStatsType.Strain + ' Threshold'}
-                                                    onChange={(e) => handleThresholdChange('Strain', e)}/>
+                                                    label={StatsType.Strain + ' Threshold'}
+                                                    onChange={(e) => handleThresholdChange(StatsType.Strain, e)}/>
                             </Grid>}
                         </GridContainer>
                     </Stack>

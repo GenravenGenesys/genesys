@@ -7,6 +7,8 @@ import AdversaryCompendiumCard from "./adversary/AdversaryCompendiumCard.tsx";
 import ItemCompendiumCard from './equipment/ItemCompendiumCard.tsx';
 import ArchetypeCompendiumCard from "./archetype/ArchetypeCompendiumCard.tsx";
 import CareerCompendiumCard from "./career/CareerCompendiumCard.tsx";
+import InjuryCompendiumCard from "./injury/InjuryCompendiumCard.tsx";
+import QualityCompendiumCard from "./quality/QualityCompendiumCard.tsx";
 
 export default function CompendiumHome() {
     const {id} = useParams<{ id: string }>();
@@ -45,6 +47,8 @@ export default function CompendiumHome() {
                 <AdversaryCompendiumCard adversaries={campaign.compendium.adversaries} campaignId={id}/>
                 <ArchetypeCompendiumCard archetypes={campaign.compendium.archetypes} campaignId={id}/>
                 <CareerCompendiumCard careers={campaign.compendium.careers} campaignId={id}/>
+                <InjuryCompendiumCard injuries={campaign.compendium.criticalInjuries} campaignId={id}/>
+                <QualityCompendiumCard qualities={campaign.compendium.qualities} campaignId={id}/>
             </Grid>
         </Box>
     );

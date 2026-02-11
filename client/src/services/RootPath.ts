@@ -12,7 +12,6 @@ export enum RootPath {
     Campaign = '/campaigns/',
     Adversary = '/adversaries/',
     Equipment = '/equipment/',
-    System = '/system/',
 }
 
 export enum EquipmentPath {

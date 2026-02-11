@@ -7,9 +7,7 @@
  */
 
 export * from './ability';
-export * from './action';
 export * from './activation';
-export * from './actorSkill';
 export * from './adversaryEquipment';
 export * from './adversaryRatings';
 export * from './adversarySkill';
@@ -20,6 +18,12 @@ export * from './armorStats';
 export * from './attribute';
 export * from './campaign';
 export * from './campaignCompendium';
+export * from './campaignEncounter';
+export * from './campaignEncounterEncounterStatus';
+export * from './campaignEncounterEncounterType';
+export * from './campaignScene';
+export * from './campaignSession';
+export * from './campaignSessionStatus';
 export * from './career';
 export * from './characteristic';
 export * from './characteristics';

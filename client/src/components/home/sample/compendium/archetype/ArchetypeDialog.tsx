@@ -1,4 +1,4 @@
-import {type Archetype, OldStatsType, CharacteristicType} from "../../../../../api/model";
+import {type Archetype, CharacteristicType} from "../../../../../api/model";
 import {useEffect, useState} from "react";
 import {
     Box, Button, Dialog, DialogActions,

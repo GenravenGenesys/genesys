@@ -9,7 +9,6 @@ import lombok.Getter;
 public class InitiativeSlot {
 
     private Type type;
-    private Character character;
 
     @Getter
     @AllArgsConstructor

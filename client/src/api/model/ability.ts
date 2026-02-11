@@ -5,7 +5,6 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { Action } from './action';
 import type { Activation } from './activation';
 import type { Cost } from './cost';
 import type { Limit } from './limit';
@@ -17,6 +16,5 @@ export interface Ability {
   activation: Activation;
   cost: Cost;
   limit: Limit;
-  action: Action;
   modifiers: Modifier[];
 }

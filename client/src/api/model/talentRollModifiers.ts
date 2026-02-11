@@ -5,8 +5,8 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { ActorSkill } from './actorSkill';
+import type { PlayerSkill } from './playerSkill';
 
 export interface TalentRollModifiers {
-  skill: ActorSkill;
+  skill: PlayerSkill;
 }

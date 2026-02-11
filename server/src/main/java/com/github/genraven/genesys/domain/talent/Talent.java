@@ -3,7 +3,6 @@ package com.github.genraven.genesys.domain.talent;
 import com.github.genraven.genesys.domain.enums.Activation;
 import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
-import com.github.genraven.genesys.domain.common.Action;
 import com.github.genraven.genesys.domain.enums.Tier;
 import com.github.genraven.genesys.domain.modifier.Modifier;
 import com.github.genraven.genesys.domain.modifier.StatModifiers;
@@ -71,9 +70,9 @@ public class Talent {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private TalentSkillCheck talentSkillCheck = new TalentSkillCheck();
 
-    @Builder.Default
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Action action = new Action();
+//    @Builder.Default
+//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+//    private Action action = new Action();
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)

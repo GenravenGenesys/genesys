@@ -1,4 +1,4 @@
-import type {AdversaryTemplate, Talent} from "../../../../../api/model";
+import type {AdversaryTemplate} from "../../../../../api/model";
 import {
     Box,
     Button,

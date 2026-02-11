@@ -5,11 +5,12 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { ActorSkill } from './actorSkill';
+import type { AdversarySkill } from './adversarySkill';
 import type { Difficulty } from './difficulty';
+import type { PlayerSkill } from './playerSkill';
 
 export interface TalentSkillCheck {
-  skill: ActorSkill;
+  skill: PlayerSkill;
   difficulty: Difficulty;
-  opposedSkill: ActorSkill;
+  opposedSkill: AdversarySkill;
 }
