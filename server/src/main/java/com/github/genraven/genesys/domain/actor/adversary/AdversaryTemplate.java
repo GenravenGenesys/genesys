@@ -54,5 +54,8 @@ public class AdversaryTemplate {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Adversary Ratings")
     private AdversaryRatings ratings;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private Integer size = 1;
+
     private List<Error> errors;
 }

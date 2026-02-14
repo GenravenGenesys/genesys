@@ -34,5 +34,6 @@ export interface AdversaryTemplate {
   skills: AdversarySkill[];
   /** Adversary Ratings */
   ratings: AdversaryRatings;
+  size: number;
   errors?: Error[];
 }

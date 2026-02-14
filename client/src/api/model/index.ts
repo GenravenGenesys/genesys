@@ -40,6 +40,8 @@ export * from './equipmentType';
 export * from './error';
 export * from './experience';
 export * from './getModifiers200Item';
+export * from './initiativeSlot';
+export * from './initiativeSlotType';
 export * from './itemTemplate';
 export * from './limit';
 export * from './limitType';

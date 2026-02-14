@@ -94,11 +94,10 @@ export default function ActiveSessionView() {
 
     if (activeEncounter) {
         return (
-            <Fragment/>
-            // <EncounterManager
-            //     encounter={activeEncounter}
-            //     onEnd={() => setActiveEncounter(null)}
-            // />
+            <EncounterManager
+                encounter={activeEncounter}
+                onEnd={() => setActiveEncounter(null)}
+            />
         );
     }
 

@@ -5,8 +5,10 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { AdversaryTemplate } from './adversaryTemplate';
 import type { CampaignEncounterEncounterStatus } from './campaignEncounterEncounterStatus';
 import type { CampaignEncounterEncounterType } from './campaignEncounterEncounterType';
+import type { InitiativeSlot } from './initiativeSlot';
 import type { Party } from './party';
 
 export interface CampaignEncounter {
@@ -14,8 +16,8 @@ export interface CampaignEncounter {
   encounterStatus: CampaignEncounterEncounterStatus;
   encounterId: string;
   name: string;
-  npcIds: string[];
-  initiativeOrder: string[];
+  npcIds: AdversaryTemplate[];
+  initiativeOrder: InitiativeSlot[];
   /** Party state during Encounter */
   party: Party;
 }

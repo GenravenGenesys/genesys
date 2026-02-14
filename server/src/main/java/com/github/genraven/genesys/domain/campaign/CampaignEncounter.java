@@ -1,6 +1,8 @@
 package com.github.genraven.genesys.domain.campaign;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.genraven.genesys.domain.actor.adversary.AdversaryTemplate;
+import com.github.genraven.genesys.domain.campaign.encounter.InitiativeSlot;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -28,11 +30,13 @@ public class CampaignEncounter {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
+    @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<String> npcIds;
+    private List<AdversaryTemplate> npcIds;
 
+    @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<String> initiativeOrder;
+    private List<InitiativeSlot> initiativeOrder;
 
     @Valid
     @Schema(description = "Party state during Encounter", requiredMode = Schema.RequiredMode.REQUIRED)
