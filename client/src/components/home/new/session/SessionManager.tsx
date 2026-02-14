@@ -6,10 +6,10 @@ import {
     Card, CardActions,
     CardContent,
     Chip,
-    CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider,
+    CircularProgress, Divider,
     Grid,
     List, ListItem, ListItemText, Paper,
-    Stack, TextField,
+    Stack,
     Typography
 } from "@mui/material";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
@@ -17,9 +17,11 @@ import AddIcon from "@mui/icons-material/Add";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AdjustIcon from "@mui/icons-material/Adjust";
-import {CampaignSessionStatus} from "../../../../api/model";
+import {type CampaignSession, CampaignSessionStatus} from "../../../../api/model";
 import {useGetSessions} from "../../../../hooks/campaign/useGetSessions.ts";
 import {RootPath} from "../../../../services/RootPath.ts";
+import {useCreateCampaignSession} from "../../../../api/generated/sessions/sessions.ts";
+import CreateSessionDialog from "./CreateSessionDialog.tsx";
 
 export default function SessionManager() {
     const {id} = useParams<{ id: string }>();
@@ -30,6 +32,7 @@ export default function SessionManager() {
     const {campaign, isLoading: isCampaignLoading} = useCampaignLive(id || '');
     const {data: response, isLoading: isSessionsLoading} = useGetSessions(campaign?.id || '');
     // const {data: response, isLoading: isSessionsLoading} = useGetAllCampaignSessions(campaign?.id || '');
+    const createSessionMutation = useCreateCampaignSession();
 
     if (!id || !campaign) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
@@ -42,8 +45,19 @@ export default function SessionManager() {
     // const sessions = response?.data || [];
     const sessions = response || [];
 
-    const handleCreateSession = () => {
-        // TODO: Implement session creation logic
+    const handleCreateSession = async (name: string) => {
+        await createSessionMutation.mutateAsync({
+            data: {
+                id: name,
+                campaignId: campaign.id,
+                sessionDate: new Date().toISOString().split('T')[0], // Default to today's date
+                status: CampaignSessionStatus.Planning,
+                party: campaign.party,
+                scenes: [],
+                player: campaign.party.players.length,
+                gm: 1,
+            }
+        });
         setOpen(false);
     };
 
@@ -153,33 +167,7 @@ export default function SessionManager() {
                     </Paper>
                 </Grid>
             </Grid>
-
-            <Dialog open={open} onClose={() => setOpen(false)}
-                    slotProps={{paper: {sx: {bgcolor: '#1a1a1a', color: 'white'}}}}
-            >
-                <DialogTitle>Plan New Session</DialogTitle>
-                <DialogContent>
-                    <Stack spacing={3} sx={{mt: 1, minWidth: 400}}>
-                        <TextField fullWidth label="Session Title" variant="filled"
-                                   sx={{bgcolor: '#333', borderRadius: 1}}
-                                   slotProps={{
-                                       inputLabel: {style: {color: 'gray'}},
-                                       input: {style: {color: 'white'}}
-                                   }}/>
-                        <TextField fullWidth label="Target Date" type="date" variant="filled" defaultValue="2026-01-14"
-                                   sx={{bgcolor: '#333', borderRadius: 1}}
-                                   slotProps={{
-                                       inputLabel: {shrink: true, style: {color: 'gray'}},
-                                       input: {style: {color: 'white'}}
-                                   }}
-                        />
-                    </Stack>
-                </DialogContent>
-                <DialogActions sx={{p: 3}}>
-                    <Button onClick={() => setOpen(false)} sx={{color: 'gray'}}>Cancel</Button>
-                    <Button variant="contained" onClick={handleCreateSession}>Save Plan</Button>
-                </DialogActions>
-            </Dialog>
+            <CreateSessionDialog open={open} setOpen={setOpen} onCreate={handleCreateSession}/>
         </Box>
     );
 }

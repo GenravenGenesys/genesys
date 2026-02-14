@@ -4,6 +4,7 @@ import {
     CampaignEncounterEncounterType, type CampaignScene, type CampaignSession,
     CampaignSessionStatus
 } from "../../api/model";
+import {emptyAdversary} from "../../models/Template.ts";
 
 export function useGetSessions(campaignId: string) {
     console.log("useGetSessions called for " + campaignId);
@@ -100,7 +101,7 @@ export function useGetSessions(campaignId: string) {
                         {
                             encounterId: "encounter1",
                             name: "Encounter 1",
-                            npcIds: ["npc1", "npc2"],
+                            npcIds: [emptyAdversary],
                             initiativeOrder: [],
                             encounterType: CampaignEncounterEncounterType.Combat,
                             encounterStatus: CampaignEncounterEncounterStatus.Ready,

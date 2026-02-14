@@ -5,9 +5,11 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { AdversaryTemplate } from './adversaryTemplate';
 import type { PlayerCharacter } from './playerCharacter';
 
 export interface Party {
   /** @minItems 1 */
   players: PlayerCharacter[];
+  adversaryTemplates: AdversaryTemplate[];
 }

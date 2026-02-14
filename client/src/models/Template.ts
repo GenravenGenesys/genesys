@@ -79,7 +79,7 @@ export const emptyTalent = {
     talentSkillCheck: {
         skill: {...emptySkill, ranks: 0},
         difficulty: Difficulty.Easy,
-        opposedSkill: {...emptySkill, ranks: 0}
+        opposedSkill: {...emptySkill, ranks: 0, group: false}
     },
 } as Talent;
 
@@ -142,10 +142,35 @@ export const emptyAdversary = {
         combat: 1,
         social: 1,
         general: 1
-    }
+    },
+    size: 1
 } as AdversaryTemplate;
 
-export const emptyArchetype = {} as Archetype;
+export const emptyArchetype = {
+    id: '',
+    name: '',
+    description: '',
+    brawn: 1,
+    agility: 1,
+    intellect: 1,
+    cunning: 1,
+    willpower: 1,
+    presence: 1,
+    wounds: 1,
+    strain: 1,
+    abilities: [],
+    skills: [
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+        emptySkill,
+    ] as Skill[],
+    experience: 0
+} as Archetype;
 
 export const emptyCareer = {
     skills: [
