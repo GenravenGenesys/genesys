@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     Box, Typography, Paper, Grid, Button,
-    Chip, Avatar, IconButton, Stack, Divider, LinearProgress
+    Chip, Avatar, Stack, Divider, LinearProgress
 } from '@mui/material';
 
 // Icons
 import ShieldIcon from '@mui/icons-material/Security';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
-import CasinoIcon from '@mui/icons-material/Casino'; // For Dice Pool
+import CasinoIcon from '@mui/icons-material/Casino';
+import type {CampaignEncounter} from "../../../../api/model"; // For Dice Pool
 
-export default function EncounterManager({ encounter, onEnd }) {
+interface Props {
+    encounter: CampaignEncounter,
+    onEnd: () => void
+}
+
+export default function EncounterManager(props: Props) {
+    const {encounter, onEnd} = props;
     const [activeSlot, setActiveSlot] = useState(0);
 
     // Mock Active Participants
@@ -136,7 +143,6 @@ export default function EncounterManager({ encounter, onEnd }) {
                         </Stack>
                     </Paper>
                 </Grid>
-
             </Grid>
         </Box>
     );

@@ -22,7 +22,7 @@ import {
     type CampaignEncounter, CampaignEncounterEncounterStatus,
     CampaignEncounterEncounterType,
     type CampaignScene,
-    type CampaignSession, CampaignSessionStatus
+    type CampaignSession, CampaignSessionStatus, type Threshold
 } from "../../../../api/model";
 import {useGetSessions} from "../../../../hooks/campaign/useGetSessions.ts";
 import GM_SP from '../../../../assests/GM_SP.png';
@@ -30,41 +30,11 @@ import PC_SP from '../../../../assests/PC_SP.png';
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography.tsx";
 import SceneNavigator from "./SceneNavigator.tsx";
 
-// --- Sub-Component: Roster Item ---
-const RosterItem = ({name, wounds, strain, isNpc = false}) => (
-    <ListItem sx={{px: 0, mb: 0.5}}>
-        <ListItemIcon sx={{minWidth: 42}}>
-            <Badge
-                overlap="circular"
-                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-                badgeContent={isNpc ? <StarIcon sx={{fontSize: 10, color: 'warning.main'}}/> : null}
-            >
-                <Avatar sx={{
-                    bgcolor: isNpc ? 'secondary.dark' : 'primary.dark',
-                    width: 32, height: 32, fontSize: '0.8rem'
-                }}>
-                    {name.substring(0, 2).toUpperCase()}
-                </Avatar>
-            </Badge>
-        </ListItemIcon>
-        <ListItemText
-            primary={<Typography variant="body2" fontWeight="bold">{name}</Typography>}
-            secondary={
-                <Stack direction="row" spacing={1}>
-                    <Typography variant="caption" color="error.light">W: {wounds}</Typography>
-                    <Typography variant="caption" color="info.light">S: {strain}</Typography>
-                </Stack>
-            }
-        />
-        <IconButton size="small"><MoreVertIcon fontSize="inherit"/></IconButton>
-    </ListItem>
-);
-
 // --- Main Session Manager ---
 export default function ActiveSessionView() {
     const {id} = useParams<{ id: string }>();
     const [activeSceneIndex, setActiveSceneIndex] = useState(0);
-    const [activeEncounter, setActiveEncounter] = useState(null);
+    const [activeEncounter, setActiveEncounter] = useState<CampaignEncounter | null>(null);
 
     if (!id) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
@@ -88,7 +58,7 @@ export default function ActiveSessionView() {
     // const currentScene = sessionData.scenes[activeSceneIndex];
     const currentScene = sampleSession.scenes[activeSceneIndex];
 
-    const launchEncounter = (encounter) => {
+    const launchEncounter = (encounter: CampaignEncounter) => {
         setActiveEncounter(encounter);
     };
 
@@ -218,13 +188,29 @@ export default function ActiveSessionView() {
                         <Box sx={{mt: 2, flexGrow: 1, overflowY: 'auto'}}>
                             <Typography variant="caption" fontWeight="bold" sx={{opacity: 0.5, letterSpacing: 1}}>THE
                                 PARTY</Typography>
-                            {/*<List dense>*/}
-                            {/*    {sampleSession.party.map(pc => (*/}
-                            {/*        <RosterItem key={pc.id} name={pc.name} wounds={pc.wounds} strain={pc.strain}/>*/}
-                            {/*    ))}*/}
-                            {/*</List>*/}
+                            <List dense>
+                                {sampleSession.party.players.map(pc => (
+                                    // <RosterItem key={pc.id} name={pc.name} wounds={pc.derivedStats.woundThreshold}
+                                    //                                     //             strain={pc.derivedStats.strainThreshold}/>
+                                    <ListItem sx={{px: 0, mb: 0.5}}>
+                                        <ListItemText
+                                            primary={<Typography variant="body2"
+                                                                 fontWeight="bold">{pc.name}</Typography>}
+                                            secondary={
+                                                <Stack direction="row" spacing={1}>
+                                                    <Typography variant="caption"
+                                                                color="error.light">W: {pc.derivedStats.woundThreshold.total}</Typography>
+                                                    <Typography variant="caption"
+                                                                color="info.light">S: {pc.derivedStats.strainThreshold.total}</Typography>
+                                                </Stack>
+                                            }
+                                        />
+                                        <IconButton size="small"><MoreVertIcon fontSize="inherit"/></IconButton>
+                                    </ListItem>
+                                ))}
+                            </List>
 
-                            {/*<Divider sx={{my: 2, opacity: 0.1}}/>*/}
+                            <Divider sx={{my: 2, opacity: 0.1}}/>
 
                             {/*<Typography variant="caption" fontWeight="bold" sx={{opacity: 0.5, letterSpacing: 1}}>STORY*/}
                             {/*    NPCs</Typography>*/}

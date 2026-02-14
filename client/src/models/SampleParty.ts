@@ -59,11 +59,11 @@ export const AriaSwiftwind = {
             base: 2
         },
         woundThreshold: {
-            current: 12,
+            current: 0,
             total: 12,
         },
         strainThreshold: {
-            current: 12,
+            current: 0,
             total: 12,
         },
         defense: {
