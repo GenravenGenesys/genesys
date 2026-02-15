@@ -170,7 +170,7 @@ export const RangeTracker: React.FC<RangeTrackerProps> = ({
 
                 {/* Current Range Display */}
                 {selectedParticipant && selectedTarget && (
-                    <Paper sx={{ p: 2, mb: 3, backgroundColor: "grey.100" }}>
+                    <Paper sx={{ p: 2, mb: 3, backgroundColor: "grey.25" }}>
                         <Typography variant="body2" color="text.secondary" gutterBottom>
                             Current Range:
                         </Typography>
@@ -287,7 +287,7 @@ export const RangeTracker: React.FC<RangeTrackerProps> = ({
                                                         }`}
                                                         size="small"
                                                         sx={{
-                                                            backgroundColor: rangeOption?.color || "grey.300",
+                                                            backgroundColor: rangeOption?.color || "grey.25",
                                                             color: range ? "white" : "text.primary",
                                                         }}
                                                     />

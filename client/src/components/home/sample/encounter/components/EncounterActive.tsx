@@ -506,7 +506,7 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                         </List>
 
                         <Box
-                            sx={{ mt: 2, p: 1, backgroundColor: "grey.100", borderRadius: 1 }}
+                            sx={{ mt: 2, p: 1, backgroundColor: "grey.25", borderRadius: 1 }}
                         >
                             <Typography variant="caption" color="text.secondary">
                                 PC Slots: {pcSlots.length} | NPC Slots: {npcSlots.length}
@@ -630,7 +630,7 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                                                     sx={{
                                                         height: 10,
                                                         borderRadius: 5,
-                                                        backgroundColor: "grey.300",
+                                                        backgroundColor: "grey.25",
                                                         "& .MuiLinearProgress-bar": {
                                                             backgroundColor:
                                                                 woundPercent > 75
