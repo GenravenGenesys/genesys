@@ -1,9 +1,6 @@
-import React, {useState} from "react";
-import {ThemeProvider, createTheme} from "@mui/material/styles";
+import {useState} from "react";
 import {
-    CssBaseline,
     Container,
-    Box,
     Typography,
     Button,
     Paper,
@@ -507,20 +504,22 @@ const mockNPCs: Participant[] = [
     },
 ];
 
+const encounterStateTemplate: EncounterState = {
+    id: "enc-1",
+    name: "New Encounter",
+    type: "combat",
+    status: "setup",
+    currentRound: 1,
+    currentSlotIndex: 0,
+    participants: [],
+    initiativeSlots: [],
+    combatLog: [],
+    turnActions: [],
+    rangeBands: [],
+};
+
 function SampleEncounterManager() {
-    const [encounter, setEncounter] = useState<EncounterState>({
-        id: "enc-1",
-        name: "New Encounter",
-        type: "combat",
-        status: "setup",
-        currentRound: 1,
-        currentSlotIndex: 0,
-        participants: [],
-        initiativeSlots: [],
-        combatLog: [],
-        turnActions: [],
-        rangeBands: [],
-    });
+    const [encounter, setEncounter] = useState<EncounterState>(encounterStateTemplate);
 
     const handleUpdateEncounter = (updates: Partial<EncounterState>) => {
         setEncounter((prev) => ({...prev, ...updates}));
@@ -741,25 +740,13 @@ function SampleEncounterManager() {
     };
 
     const handleReset = () => {
-        setEncounter({
-            id: "enc-1",
-            name: "New Encounter",
-            type: "combat",
-            status: "setup",
-            currentRound: 1,
-            currentSlotIndex: 0,
-            participants: [],
-            initiativeSlots: [],
-            combatLog: [],
-            turnActions: [],
-            rangeBands: [],
-        });
+        setEncounter(encounterStateTemplate);
     };
 
     return (
         <Container maxWidth="xl" sx={{py: 4}}>
             <Typography variant="h3" gutterBottom align="center" sx={{mb: 2}}>
-                Encounter Manager
+                {encounter.name}
             </Typography>
 
             {encounter.status === "setup" && (
