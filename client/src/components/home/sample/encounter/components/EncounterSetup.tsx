@@ -111,38 +111,38 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
 
     return (
         <Box>
-            <Paper sx={{ p: 3, mb: 3 }}>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid size={{xs: 12, md: 6}} sx={{mt: 4}}>
-                        <TextField
-                            fullWidth
-                            label="Encounter Name"
-                            value={encounter.name}
-                            onChange={(e) => onUpdateEncounter({ name: e.target.value })}
-                        />
-                    </Grid>
+            {/*<Paper sx={{ p: 3, mb: 3 }}>*/}
+            {/*    <Grid container spacing={2} alignItems="center">*/}
+            {/*        <Grid size={{xs: 12, md: 6}} sx={{mt: 4}}>*/}
+            {/*            <TextField*/}
+            {/*                fullWidth*/}
+            {/*                label="Encounter Name"*/}
+            {/*                value={encounter.name}*/}
+            {/*                onChange={(e) => onUpdateEncounter({ name: e.target.value })}*/}
+            {/*            />*/}
+            {/*        </Grid>*/}
 
-                    <Grid size={{xs: 12, md: 6}} sx={{mt: 4}}>
-                        <ToggleButtonGroup
-                            fullWidth
-                            exclusive
-                            value={encounter.type}
-                            onChange={(_, value) =>
-                                value && onUpdateEncounter({ type: value as EncounterType })
-                            }
-                        >
-                            <ToggleButton value="combat">
-                                <GroupIcon sx={{ mr: 1 }} />
-                                Combat
-                            </ToggleButton>
-                            <ToggleButton value="social">
-                                <PersonIcon sx={{ mr: 1 }} />
-                                Social
-                            </ToggleButton>
-                        </ToggleButtonGroup>
-                    </Grid>
-                </Grid>
-            </Paper>
+            {/*        <Grid size={{xs: 12, md: 6}} sx={{mt: 4}}>*/}
+            {/*            <ToggleButtonGroup*/}
+            {/*                fullWidth*/}
+            {/*                exclusive*/}
+            {/*                value={encounter.type}*/}
+            {/*                onChange={(_, value) =>*/}
+            {/*                    value && onUpdateEncounter({ type: value as EncounterType })*/}
+            {/*                }*/}
+            {/*            >*/}
+            {/*                <ToggleButton value="combat">*/}
+            {/*                    <GroupIcon sx={{ mr: 1 }} />*/}
+            {/*                    Combat*/}
+            {/*                </ToggleButton>*/}
+            {/*                <ToggleButton value="social">*/}
+            {/*                    <PersonIcon sx={{ mr: 1 }} />*/}
+            {/*                    Social*/}
+            {/*                </ToggleButton>*/}
+            {/*            </ToggleButtonGroup>*/}
+            {/*        </Grid>*/}
+            {/*    </Grid>*/}
+            {/*</Paper>*/}
 
             <Grid container spacing={3}>
                 <Grid size={{xs: 12, md: 5}} sx={{mt: 4}}>

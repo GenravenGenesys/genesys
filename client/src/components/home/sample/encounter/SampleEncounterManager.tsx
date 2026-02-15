@@ -506,7 +506,7 @@ const mockNPCs: Participant[] = [
 
 const encounterStateTemplate: EncounterState = {
     id: "enc-1",
-    name: "New Encounter",
+    name: "Battle at Echo Ridge",
     type: "combat",
     status: "setup",
     currentRound: 1,
