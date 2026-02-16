@@ -288,7 +288,7 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
     return (
         <Box>
             {/* Header */}
-            <Paper sx={{ p: 2, mb: 3, backgroundColor: "primary.light" }}>
+            <Paper sx={{ p: 2, mb: 3 }}>
                 <Box
                     sx={{
                         display: "flex",
@@ -311,6 +311,7 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                     <Box sx={{ display: "flex", gap: 1 }}>
                         <Button
                             variant="outlined"
+                            color="primary"
                             startIcon={<SettingsIcon />}
                             onClick={() => setRangeTrackerOpen(true)}
                         >
@@ -319,6 +320,7 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
 
                         <Button
                             variant="outlined"
+                            color="secondary"
                             startIcon={<HistoryIcon />}
                             onClick={() => setLogDrawerOpen(true)}
                         >
