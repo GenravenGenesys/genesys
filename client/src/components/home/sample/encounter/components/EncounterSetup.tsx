@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
     Box,
     Paper,
     Typography,
-    TextField,
     Button,
     Grid,
     Card,
@@ -20,17 +19,14 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import PersonIcon from "@mui/icons-material/Person";
-import GroupIcon from "@mui/icons-material/Group";
 import CasinoIcon from "@mui/icons-material/Casino";
-import { DiceRoller } from "./DiceRoller";
-import type {EncounterState, EncounterType, InitiativeSlot, Participant} from "../SampleEncounterManager.tsx";
+import {DiceRoller} from "./DiceRoller";
+import type {EncounterState, InitiativeSlot, Participant} from "../SampleEncounterManager.tsx";
 
 interface EncounterSetupProps {
     encounter: EncounterState;
     availablePlayers: Participant[];
     availableNPCs: Participant[];
-    onUpdateEncounter: (updates: Partial<EncounterState>) => void;
     onAddParticipant: (participant: Participant) => void;
     onRemoveParticipant: (participantId: string) => void;
     onAddInitiativeSlot: (
@@ -44,7 +40,6 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                                   encounter,
                                                                   availablePlayers,
                                                                   availableNPCs,
-                                                                  onUpdateEncounter,
                                                                   onAddParticipant,
                                                                   onRemoveParticipant,
                                                                   onAddInitiativeSlot,
@@ -111,47 +106,14 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
 
     return (
         <Box>
-            {/*<Paper sx={{ p: 3, mb: 3 }}>*/}
-            {/*    <Grid container spacing={2} alignItems="center">*/}
-            {/*        <Grid size={{xs: 12, md: 6}} sx={{mt: 4}}>*/}
-            {/*            <TextField*/}
-            {/*                fullWidth*/}
-            {/*                label="Encounter Name"*/}
-            {/*                value={encounter.name}*/}
-            {/*                onChange={(e) => onUpdateEncounter({ name: e.target.value })}*/}
-            {/*            />*/}
-            {/*        </Grid>*/}
-
-            {/*        <Grid size={{xs: 12, md: 6}} sx={{mt: 4}}>*/}
-            {/*            <ToggleButtonGroup*/}
-            {/*                fullWidth*/}
-            {/*                exclusive*/}
-            {/*                value={encounter.type}*/}
-            {/*                onChange={(_, value) =>*/}
-            {/*                    value && onUpdateEncounter({ type: value as EncounterType })*/}
-            {/*                }*/}
-            {/*            >*/}
-            {/*                <ToggleButton value="combat">*/}
-            {/*                    <GroupIcon sx={{ mr: 1 }} />*/}
-            {/*                    Combat*/}
-            {/*                </ToggleButton>*/}
-            {/*                <ToggleButton value="social">*/}
-            {/*                    <PersonIcon sx={{ mr: 1 }} />*/}
-            {/*                    Social*/}
-            {/*                </ToggleButton>*/}
-            {/*            </ToggleButtonGroup>*/}
-            {/*        </Grid>*/}
-            {/*    </Grid>*/}
-            {/*</Paper>*/}
-
             <Grid container spacing={3}>
                 <Grid size={{xs: 12, md: 5}} sx={{mt: 4}}>
-                    <Paper sx={{ p: 3 }}>
+                    <Paper sx={{p: 3}}>
                         <Typography variant="h6" gutterBottom>
                             Initiative Order
                         </Typography>
 
-                        <Alert severity="info" sx={{ mb: 2 }}>
+                        <Alert severity="info" sx={{mb: 2}}>
                             Each participant rolls initiative once to create a slot. During
                             the encounter, players can choose which PC acts in PC slots, and
                             GM chooses for NPC slots.
@@ -185,7 +147,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                 mb: 1,
                                             }}
                                         >
-                                            <Box sx={{ mr: 2, textAlign: "center", minWidth: 40 }}>
+                                            <Box sx={{mr: 2, textAlign: "center", minWidth: 40}}>
                                                 <Typography variant="h6" fontWeight="bold">
                                                     #{index + 1}
                                                 </Typography>
@@ -206,7 +168,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                             color={
                                                                 slot.slotType === "pc" ? "primary" : "error"
                                                             }
-                                                            sx={{ fontWeight: "bold" }}
+                                                            sx={{fontWeight: "bold"}}
                                                         />
                                                         <Typography variant="body2">
                                                             Rolled by: {rolledByParticipant?.name}
@@ -226,7 +188,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                     color="error"
                                                     onClick={() => onRemoveInitiativeSlot(slot.id)}
                                                 >
-                                                    <DeleteIcon />
+                                                    <DeleteIcon/>
                                                 </IconButton>
                                             </ListItemSecondaryAction>
                                         </ListItem>
@@ -236,15 +198,15 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                         )}
 
                         <Box
-                            sx={{ mt: 2, p: 2, backgroundColor: "grey.25", borderRadius: 1 }}
+                            sx={{mt: 2, p: 2, backgroundColor: "grey.25", borderRadius: 1}}
                         >
                             <Typography variant="body2" color="text.secondary">
                                 <strong>Summary:</strong>
-                                <br />
+                                <br/>
                                 PC Slots: {pcSlots.length}
-                                <br />
+                                <br/>
                                 NPC Slots: {npcSlots.length}
-                                <br />
+                                <br/>
                                 Total: {encounter.initiativeSlots.length}
                             </Typography>
                         </Box>
@@ -252,7 +214,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                 </Grid>
 
                 <Grid size={{xs: 12, md: 7}} sx={{mt: 4}}>
-                    <Paper sx={{ p: 3, mb: 3 }}>
+                    <Paper sx={{p: 3, mb: 3}}>
                         <Typography variant="h6" gutterBottom>
                             Participants ({encounter.participants.length})
                         </Typography>
@@ -305,7 +267,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                                         label="Initiative Rolled"
                                                                         size="small"
                                                                         color="success"
-                                                                        icon={<CasinoIcon />}
+                                                                        icon={<CasinoIcon/>}
                                                                     />
                                                                 )}
                                                             </Box>
@@ -319,11 +281,11 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                             </Typography>
                                                         </Box>
 
-                                                        <Box sx={{ display: "flex", gap: 1 }}>
+                                                        <Box sx={{display: "flex", gap: 1}}>
                                                             <Button
                                                                 variant="contained"
                                                                 size="small"
-                                                                startIcon={<CasinoIcon />}
+                                                                startIcon={<CasinoIcon/>}
                                                                 onClick={() =>
                                                                     handleRollInitiative(participant)
                                                                 }
@@ -339,7 +301,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                                     onRemoveParticipant(participant.id)
                                                                 }
                                                             >
-                                                                <DeleteIcon />
+                                                                <DeleteIcon/>
                                                             </IconButton>
                                                         </Box>
                                                     </Box>
@@ -352,7 +314,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                         )}
                     </Paper>
 
-                    <Paper sx={{ p: 3 }}>
+                    <Paper sx={{p: 3}}>
                         <Typography variant="h6" gutterBottom>
                             Add Participants
                         </Typography>
@@ -362,7 +324,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                             exclusive
                             value={selectedTab}
                             onChange={(_, value) => value && setSelectedTab(value)}
-                            sx={{ mb: 2 }}
+                            sx={{mb: 2}}
                         >
                             <ToggleButton value="pcs">Player Characters</ToggleButton>
                             <ToggleButton value="npcs">NPCs / Adversaries</ToggleButton>
@@ -388,7 +350,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                 <Button
                                                     fullWidth
                                                     variant="outlined"
-                                                    startIcon={<AddIcon />}
+                                                    startIcon={<AddIcon/>}
                                                     onClick={() => handleAddPlayer(player)}
                                                 >
                                                     Add to Encounter
@@ -416,7 +378,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                 <Button
                                                     fullWidth
                                                     variant="outlined"
-                                                    startIcon={<AddIcon />}
+                                                    startIcon={<AddIcon/>}
                                                     onClick={() => handleAddNPC(npc)}
                                                 >
                                                     Add to Encounter
@@ -430,9 +392,9 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                 </Grid>
             </Grid>
 
-            <Paper sx={{ p: 3, mt: 3, textAlign: "center" }}>
+            <Paper sx={{p: 3, mt: 3, textAlign: "center"}}>
                 {!canStart && (
-                    <Alert severity="warning" sx={{ mb: 2 }}>
+                    <Alert severity="warning" sx={{mb: 2}}>
                         {encounter.participants.length < 2
                             ? "Add at least 2 participants to start"
                             : "All participants must roll initiative before starting"}

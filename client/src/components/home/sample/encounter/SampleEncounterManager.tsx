@@ -7,6 +7,8 @@ import {
 } from "@mui/material";
 import {EncounterSetup} from "./components/EncounterSetup";
 import {EncounterActive} from "./components/EncounterActive";
+import {sampleParty} from "../../../../models/SampleParty.ts";
+import type {Party} from "../../../../api/model";
 
 export type EncounterType = "combat" | "social";
 export type SlotType = "pc" | "npc";
@@ -126,6 +128,7 @@ export interface EncounterState {
     currentRound: number;
     currentSlotIndex: number;
     participants: Participant[];
+    party: Party
     initiativeSlots: InitiativeSlot[];
     combatLog: CombatLogEntry[];
     turnActions: TurnAction[];
@@ -512,6 +515,7 @@ const encounterStateTemplate: EncounterState = {
     currentRound: 1,
     currentSlotIndex: 0,
     participants: [],
+    party: sampleParty,
     initiativeSlots: [],
     combatLog: [],
     turnActions: [],
@@ -520,10 +524,6 @@ const encounterStateTemplate: EncounterState = {
 
 function SampleEncounterManager() {
     const [encounter, setEncounter] = useState<EncounterState>(encounterStateTemplate);
-
-    const handleUpdateEncounter = (updates: Partial<EncounterState>) => {
-        setEncounter((prev) => ({...prev, ...updates}));
-    };
 
     const handleAddParticipant = (participant: Participant) => {
         setEncounter((prev) => ({
@@ -754,7 +754,6 @@ function SampleEncounterManager() {
                     encounter={encounter}
                     availablePlayers={mockPlayers}
                     availableNPCs={mockNPCs}
-                    onUpdateEncounter={handleUpdateEncounter}
                     onAddParticipant={handleAddParticipant}
                     onRemoveParticipant={handleRemoveParticipant}
                     onAddInitiativeSlot={handleAddInitiativeSlot}
