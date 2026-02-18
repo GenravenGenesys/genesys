@@ -16,13 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class CampaignEncounter {
 
-    @EnumValidator(enumClass = EncounterType.class)
+    @EnumValidator(enumClass = Type.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private EncounterType encounterType;
+    private Type type;
 
-    @EnumValidator(enumClass = EncounterStatus.class)
+    @EnumValidator(enumClass = Status.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private EncounterStatus encounterStatus;
+    private Status status;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String encounterId;
@@ -44,7 +44,7 @@ public class CampaignEncounter {
 
     @Getter
     @AllArgsConstructor
-    public enum EncounterType {
+    public enum Type {
         COMBAT("Combat"),
         SOCIAL("Social"),
         GENERAL("General");
@@ -55,7 +55,8 @@ public class CampaignEncounter {
 
     @Getter
     @AllArgsConstructor
-    public enum EncounterStatus {
+    public enum Status {
+        BUILDING("Building"),
         READY("Ready"),
         ACTIVE("Active"),
         RESOLVED("Resolved");

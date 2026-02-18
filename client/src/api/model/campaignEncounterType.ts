@@ -6,13 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type SkillType = typeof SkillType[keyof typeof SkillType];
+export type CampaignEncounterType = typeof CampaignEncounterType[keyof typeof CampaignEncounterType];
 
 
-export const SkillType = {
-  General: 'General',
-  Magic: 'Magic',
+export const CampaignEncounterType = {
   Combat: 'Combat',
   Social: 'Social',
-  Knowledge: 'Knowledge',
+  General: 'General',
 } as const;

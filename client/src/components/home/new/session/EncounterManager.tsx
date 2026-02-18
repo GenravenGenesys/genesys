@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {Fragment, useState} from 'react';
 import {
     Box, Typography, Paper, Grid, Button,
     Chip, Avatar, Stack, Divider, LinearProgress, Container
@@ -9,7 +9,8 @@ import ShieldIcon from '@mui/icons-material/Security';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import CasinoIcon from '@mui/icons-material/Casino';
-import type {CampaignEncounter} from "../../../../api/model"; // For Dice Pool
+import {type CampaignEncounter, CampaignEncounterEncounterStatus} from "../../../../api/model";
+import {EncounterSetup} from "../../sample/encounter/components/EncounterSetup.tsx"; // For Dice Pool
 
 interface Props {
     encounter: CampaignEncounter,
@@ -25,6 +26,21 @@ export default function EncounterManager(props: Props) {
                 {encounter.name}
             </Typography>
 
+            {encounter.encounterStatus === CampaignEncounterEncounterStatus.Building && (
+                <Fragment/>
+            )}
+
+            {encounter.encounterStatus === CampaignEncounterEncounterStatus.Ready && (
+                <Fragment/>
+            )}
+
+            {encounter.encounterStatus === CampaignEncounterEncounterStatus.Active && (
+                <Fragment/>
+            )}
+
+            {encounter.encounterStatus === CampaignEncounterEncounterStatus.Resolved && (
+                <Fragment/>
+            )}
 
         </Container>
     );

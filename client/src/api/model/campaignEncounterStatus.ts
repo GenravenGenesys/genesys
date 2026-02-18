@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CampaignStatus = typeof CampaignStatus[keyof typeof CampaignStatus];
+export type CampaignEncounterStatus = typeof CampaignEncounterStatus[keyof typeof CampaignEncounterStatus];
 
 
-export const CampaignStatus = {
+export const CampaignEncounterStatus = {
   Building: 'Building',
   Ready: 'Ready',
   Active: 'Active',
