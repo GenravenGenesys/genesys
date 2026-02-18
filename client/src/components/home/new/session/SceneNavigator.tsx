@@ -2,7 +2,7 @@ import {Box, Button, List, ListItem, Paper, Typography} from "@mui/material";
 import MapIcon from "@mui/icons-material/Map";
 import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography.tsx";
 import AddIcon from "@mui/icons-material/Add";
-import {type CampaignEncounter, CampaignEncounterEncounterType, type CampaignScene} from "../../../../api/model";
+import {type CampaignEncounter, CampaignEncounterType, type CampaignScene} from "../../../../api/model";
 
 interface Props {
     scenes: CampaignScene[],
@@ -14,11 +14,11 @@ export default function SceneNavigator(props: Props) {
     const {scenes, activeSceneIndex, setActiveSceneIndex} = props;
 
     const generateCombatEncounterText = (encounters: CampaignEncounter[]) => {
-        return encounters.filter((e) => e.encounterType === CampaignEncounterEncounterType.Combat).length + " [combat] Encounters";
+        return encounters.filter((e) => e.type === CampaignEncounterType.Combat).length + " [combat] Encounters";
     };
 
     const generateSocialEncounterText = (encounters: CampaignEncounter[]) => {
-        return encounters.filter((e) => e.encounterType === CampaignEncounterEncounterType.Social).length + " [social] Encounters";
+        return encounters.filter((e) => e.type === CampaignEncounterType.Social).length + " [social] Encounters";
     };
 
     return (

@@ -1,4 +1,4 @@
-import {GenesysSymbols} from "../../roll/GenesysSymbols";
+
 import Character from "./Character";
 import Action from "./Action";
 import Maneuver from "./Maneuver";

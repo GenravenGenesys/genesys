@@ -19,15 +19,12 @@ import {useParams} from "react-router-dom";
 import {useCampaignLive} from "../../../../hooks/campaign/useCampaginLive.ts";
 import {useGetCampaignSession} from "../../../../api/generated/sessions/sessions.ts";
 import {
-    type CampaignEncounter, CampaignEncounterEncounterStatus,
-    CampaignEncounterEncounterType,
-    type CampaignScene,
-    type CampaignSession, CampaignSessionStatus, type Threshold
+    type CampaignEncounter, CampaignEncounterStatus, CampaignEncounterType,
+    type CampaignSession,
 } from "../../../../api/model";
 import {useGetSessions} from "../../../../hooks/campaign/useGetSessions.ts";
 import GM_SP from '../../../../assests/GM_SP.png';
 import PC_SP from '../../../../assests/PC_SP.png';
-import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography.tsx";
 import SceneNavigator from "./SceneNavigator.tsx";
 
 // --- Main Session Manager ---
@@ -152,24 +149,24 @@ export default function ActiveSessionView() {
                                                 <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 2}}>
                                                     <Typography variant="subtitle1"
                                                                 fontWeight="bold">{enc.name}</Typography>
-                                                    {enc.encounterType === CampaignEncounterEncounterType.Combat ?
+                                                    {enc.type === CampaignEncounterType.Combat ?
                                                         <GavelIcon color="error"/> :
                                                         <ForumIcon color="info"/>}
                                                 </Box>
                                                 <Stack direction="row" spacing={1} mb={2}>
-                                                    <Chip label={enc.encounterType} size="small" variant="outlined"/>
-                                                    <Chip label={enc.encounterStatus} size="small"
+                                                    <Chip label={enc.type} size="small" variant="outlined"/>
+                                                    <Chip label={enc.status} size="small"
                                                         // color={enc.status === "READY" ? "success" : "default"}
                                                     />
                                                 </Stack>
                                                 <Button
                                                     fullWidth
                                                     variant="contained"
-                                                    disabled={enc.encounterStatus === CampaignEncounterEncounterStatus.Resolved}
+                                                    disabled={enc.status === CampaignEncounterStatus.Resolved}
                                                     startIcon={<PlayArrowIcon/>}
                                                     onClick={() => launchEncounter(enc)}
                                                 >
-                                                    {enc.encounterStatus === CampaignEncounterEncounterStatus.Resolved ? "Resolved" : "Launch Encounter"}
+                                                    {enc.status === CampaignEncounterStatus.Resolved ? "Resolved" : "Launch Encounter"}
                                                 </Button>
                                             </CardContent>
                                         </Card>

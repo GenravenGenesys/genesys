@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { AdversaryTemplate } from './adversaryTemplate';
+import type { InitiativeSlotResults } from './initiativeSlotResults';
 import type { InitiativeSlotType } from './initiativeSlotType';
 import type { PlayerCharacter } from './playerCharacter';
 
@@ -13,5 +14,6 @@ export interface InitiativeSlot {
   type: InitiativeSlotType;
   adversaryTemplate: AdversaryTemplate;
   playerCharacter: PlayerCharacter;
+  results: InitiativeSlotResults;
   initiative?: string;
 }

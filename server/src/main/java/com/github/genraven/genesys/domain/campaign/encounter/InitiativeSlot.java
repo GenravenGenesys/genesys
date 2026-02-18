@@ -6,11 +6,12 @@ import com.github.genraven.genesys.domain.actor.player.PlayerCharacter;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class InitiativeSlot {
 
     @EnumValidator(enumClass = Type.class)
@@ -24,6 +25,9 @@ public class InitiativeSlot {
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private PlayerCharacter playerCharacter;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private InitiativeSlotResults results;
 
     private String initiative;
 

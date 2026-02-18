@@ -1,7 +1,11 @@
 import {
     type CampaignEncounter,
     CampaignEncounterEncounterStatus,
-    CampaignEncounterEncounterType, type CampaignScene, type CampaignSession,
+    CampaignEncounterEncounterType,
+    CampaignEncounterStatus,
+    CampaignEncounterType,
+    type CampaignScene,
+    type CampaignSession,
     CampaignSessionStatus
 } from "../../api/model";
 import {emptyAdversary} from "../../models/Template.ts";
@@ -135,11 +139,11 @@ export function useGetSessions(campaignId: string) {
                     encounters: [
                         {
                             encounterId: "encounter1",
-                            name: "Encounter 1",
+                            name: "Prison Break",
                             npcIds: [emptyAdversary],
                             initiativeOrder: [],
-                            encounterType: CampaignEncounterEncounterType.Combat,
-                            encounterStatus: CampaignEncounterEncounterStatus.Ready,
+                            type: CampaignEncounterType.Combat,
+                            status: CampaignEncounterStatus.Ready,
                             party: sampleParty
                         } as CampaignEncounter
                     ]
