@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
-import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../home/common/typography/GenesysDescriptionTypography.tsx";
 import {GenesysSymbols} from "../../models/roll/GenesysSymbols";
 import handleDiceRoll from "../../models/roll/DiceRoll";
 import GridContainer from "../common/grid/GridContainer";

@@ -1,6 +1,6 @@
 import {Fragment} from 'react';
 import {Typography} from '@mui/material';
-import {Difficulty} from "../../../api/model";
+import {Difficulty} from "../../../../api/model";
 
 interface Props {
     difficulty: Difficulty
@@ -59,7 +59,8 @@ export default function GenesysDifficultyDiceTypography(props: Props) {
 
     return (
         <Fragment>
-            <Typography style={{ wordWrap: 'break-word', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: generateDifficultyDice()}}/>
-    </Fragment>
-)
+            <Typography style={{wordWrap: 'break-word', textAlign: 'center'}}
+                        dangerouslySetInnerHTML={{__html: generateDifficultyDice()}}/>
+        </Fragment>
+    )
 }

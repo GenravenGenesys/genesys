@@ -1,4 +1,4 @@
-import GenesysDescriptionTypography from "../../common/typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../../home/common/typography/GenesysDescriptionTypography.tsx";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {GenesysDifficultyCenterTableCell, TypographyCenterTableCell} from "../../common/table/TypographyTableCell";

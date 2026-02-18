@@ -1,17 +1,13 @@
-import type {CampaignEncounter,} from "../../../../../api/model";
-import {CampaignEncounterStatus, CampaignEncounterType} from "../../../../../api/model";
+import type {CampaignEncounter} from "../../../../../api/model";
 import {
     Alert,
-    Box, Button, Card, CardContent,
-    Chip,
-    Grid, IconButton,
+    Box,
+    Grid,
     List,
-    ListItem,
-    ListItemText,
-    Paper, ToggleButton, ToggleButtonGroup,
+    Paper,
     Typography
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import InitiativeOrderListItem from "./InitiativeOrderListItem";
 
 interface Props {
     encounter: CampaignEncounter;
@@ -42,13 +38,7 @@ export default function StartEncounterView(props: Props) {
                         ) : (
                             <List>
                                 {encounter.initiativeOrder.map((slot, index) => {
-                                    const rolledByParticipant = encounter.participants.find(
-                                        (p) => p.id === slot.rolledBy
-                                    );
-
-                                    return (
-
-                                    );
+                                    <InitiativeOrderListItem slot={slot} index={index} onRemoveInitiativeSlot={}/>
                                 })}
                             </List>
                         )}

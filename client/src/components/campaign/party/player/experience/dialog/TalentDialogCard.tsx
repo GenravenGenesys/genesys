@@ -2,7 +2,7 @@ import {Button, Card, CardContent, Stack} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import TierTalentDialog from "./TierTalentDialog";
 import CenteredCardHeader from "../../../../../common/card/header/CenteredCardHeader";
-import GenesysDescriptionTypography from "../../../../../common/typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../../../../../home/common/typography/GenesysDescriptionTypography.tsx";
 import * as React from "react";
 import {useState} from "react";
 import GridContainer from "../../../../../common/grid/GridContainer";

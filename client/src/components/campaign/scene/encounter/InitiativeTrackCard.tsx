@@ -8,7 +8,7 @@ import handleDicePoolRoll from "../../../../models/roll/DicePoolRoll";
 import { GenesysSymbols } from "../../../../models/roll/GenesysSymbols";
 import { convertResultsToString } from "../../../../models/roll/DiceRoll";
 import GridContainer from "../../../common/grid/GridContainer";
-import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../../../home/common/typography/GenesysDescriptionTypography.tsx";
 import { ActorSkill } from "../../../../models/actor/Actor";
 import Party from "../../../../models/campaign/Party";
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";

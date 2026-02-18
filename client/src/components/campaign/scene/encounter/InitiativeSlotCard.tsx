@@ -1,7 +1,7 @@
 import InitiativeSlot from "../../../../models/campaign/encounter/InitiativeSlot";
 import {Autocomplete, Card, CardContent, TextField} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
-import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../../../home/common/typography/GenesysDescriptionTypography.tsx";
 import {convertResultsToString} from "../../../../models/roll/DiceRoll";
 import Character from "../../../../models/campaign/encounter/Character";
 import React from "react";

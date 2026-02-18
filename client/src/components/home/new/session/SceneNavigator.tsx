@@ -1,6 +1,6 @@
 import {Box, Button, List, ListItem, Paper, Typography} from "@mui/material";
 import MapIcon from "@mui/icons-material/Map";
-import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography.tsx";
+import GenesysDescriptionTypography from "../../common/typography/GenesysDescriptionTypography.tsx";
 import AddIcon from "@mui/icons-material/Add";
 import {type CampaignEncounter, CampaignEncounterType, type CampaignScene} from "../../../../api/model";
 

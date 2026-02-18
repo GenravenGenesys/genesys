@@ -1,31 +1,32 @@
-import type {InitiativeSlot} from "../../../../../api/model";
+import {type InitiativeSlot, InitiativeSlotType} from "../../../../../api/model";
 import {Box, Chip, IconButton, ListItem, ListItemText, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import GenesysResultsTypography from "../../../common/typography/GenesysResultsTypography.tsx";
 
 interface Props {
     slot: InitiativeSlot,
     index: number,
-    onRemoveInitiativeSlot: (slotId: string) => void,
+    onRemoveInitiativeSlot: (index: number) => void,
 }
 
 export default function EncounterSetup(props: Props) {
     const {slot, index, onRemoveInitiativeSlot} = props;
 
-    const rolledByParticipant = encounter.participants.find(
-        (p) => p.id === slot.rolledBy
-    );
+    // const rolledByParticipant = encounter.participants.find(
+    //     (p) => p.id === slot.rolledBy
+    // );
 
     return (
         <ListItem
-            key={slot.id}
+            key={index}
             sx={{
                 border: 2,
                 borderColor:
-                    slot.slotType === "pc"
+                    slot.type === InitiativeSlotType.Player
                         ? "primary.main"
                         : "error.main",
                 backgroundColor:
-                    slot.slotType === "pc"
+                    slot.type === InitiativeSlotType.Player
                         ? "primary.light"
                         : "error.light",
                 borderRadius: 1,
@@ -48,22 +49,20 @@ export default function EncounterSetup(props: Props) {
                         }}
                     >
                         <Chip
-                            label={slot.slotType.toUpperCase()}
+                            label={slot.type.toUpperCase()}
                             size="small"
                             color={
-                                slot.slotType === "pc" ? "primary" : "error"
+                                slot.type === InitiativeSlotType.Player ? "primary" : "error"
                             }
                             sx={{fontWeight: "bold"}}
                         />
-                        <Typography variant="body2">
-                            Rolled by: {rolledByParticipant?.name}
-                        </Typography>
+                        {/*<Typography variant="body2">*/}
+                        {/*    Rolled by: {rolledByParticipant?.name}*/}
+                        {/*</Typography>*/}
                     </Box>
                 }
                 secondary={
-                    <Typography variant="h6" component="span">
-                        {slot.success} Success, {slot.advantage} Advantage
-                    </Typography>
+                    <GenesysResultsTypography result={slot.results} variant={"h6"}/>
                 }
             />
 
@@ -71,7 +70,7 @@ export default function EncounterSetup(props: Props) {
             <IconButton
                 edge="end"
                 color="error"
-                onClick={() => onRemoveInitiativeSlot(slot.id)}
+                onClick={() => onRemoveInitiativeSlot(index)}
             >
                 <DeleteIcon/>
             </IconButton>
