@@ -680,7 +680,9 @@ function TestEncounter() {
             {encounter.status === CampaignEncounterStatus.Building && (
                 <Paper sx={{p: 3, mb: 3}}>
                     <TestEncounterBuilder encounter={encounter} numberOfParticipants={getAllParticipants().length}
-                                          onRemovePartyMember={handleRemovePlayer} onRemovePartyNPC={handleRemovePartyNPC}/>
+                                          onRemovePartyMember={handleRemovePlayer}
+                                          onRemovePartyNPC={handleRemovePartyNPC} onRemoveNPC={handleRemoveNPC}
+                                          onReadyEncounter={handleReadyEncounter}/>
                 </Paper>
             )}
 
@@ -815,7 +817,8 @@ function TestEncounter() {
                     </Typography>
 
                     <Typography variant="body1" sx={{mb: 2}}>
-                        Current initiative slot type: {encounter.initiativeOrder[encounter.currentSlotIndex]?.type || 'N/A'}
+                        Current initiative slot
+                        type: {encounter.initiativeOrder[encounter.currentSlotIndex]?.type || 'N/A'}
                     </Typography>
 
                     <Button variant="contained" onClick={handlePreviousSlot} sx={{mr: 1}}>

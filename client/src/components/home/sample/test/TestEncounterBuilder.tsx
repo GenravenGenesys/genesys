@@ -1,29 +1,31 @@
 import {type CampaignEncounter, InitiativeSlotType} from "../../../../api/model";
 import {
     Alert,
-    Box,
-    Grid,
+    Box, Button,
     Paper, Tabs,
     Typography
 } from "@mui/material";
 import {useState} from "react";
 import Tab from "@mui/material/Tab";
 import EncounterPartyTab from "./EncounterPartyTab.tsx";
+import EncounterNPCTab from "./EncounterNPCTab.tsx";
 
 interface Props {
     encounter: CampaignEncounter;
     numberOfParticipants: number;
     onRemovePartyMember: (id: string) => void;
     onRemovePartyNPC: (id: string) => void;
+    onRemoveNPC: (id: string) => void;
+    onReadyEncounter: () => void;
 }
 
 export default function TestEncounterBuilder(props: Props) {
-    const {encounter, numberOfParticipants, onRemovePartyMember, onRemovePartyNPC} = props;
+    const {encounter, numberOfParticipants, onRemovePartyMember, onRemovePartyNPC, onRemoveNPC, onReadyEncounter} = props;
     const [tabValue, setTabValue] = useState(0);
 
     return (
-        <Grid>
-            <Paper>
+        <Box sx={{ width: '100%' }}>
+            <Paper sx={{ width: '100%', p: 2 }}>
                 <Typography variant="h6" gutterBottom>
                     Participants ({numberOfParticipants})
                 </Typography>
@@ -33,8 +35,8 @@ export default function TestEncounterBuilder(props: Props) {
                         Add participants from the sections below
                     </Alert>
                 ) : (
-                    <Grid container spacing={2}>
-                        <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
+                    <Box sx={{ width: '100%' }}>
+                        <Box sx={{borderBottom: 1, borderColor: 'divider', width: '100%'}}>
                             <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                                 {Object.values(InitiativeSlotType).map((type) => (
                                     <Tab key={type} label={type}/>
@@ -44,9 +46,19 @@ export default function TestEncounterBuilder(props: Props) {
                         {tabValue === 0 &&
                             <EncounterPartyTab party={encounter.party} onRemovePartyMember={onRemovePartyMember}
                                                onRemovePartyNPC={onRemovePartyNPC}/>}
-                    </Grid>
+                        {tabValue === 1 &&
+                            <EncounterNPCTab adversaries={encounter.npcIds} onRemoveNPC={onRemoveNPC}/>}
+                    </Box>
                 )}
+                <Button
+                    variant="contained"
+                    size="large"
+                    onClick={onReadyEncounter}
+                    disabled={numberOfParticipants === 0}
+                >
+                    Start Encounter
+                </Button>
             </Paper>
-        </Grid>
+        </Box>
     );
 }
