@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {
     Container,
     Typography,
@@ -6,10 +6,9 @@ import {
     Paper, Alert, Grid, Card, CardContent, Box, Chip, IconButton, ToggleButtonGroup, ToggleButton,
 } from "@mui/material";
 import {
-    CampaignEncounterType,
     CampaignEncounterStatus,
     InitiativeSlotType,
-} from "../../../api/model";
+} from "../../../../api/model";
 import type {
     CampaignEncounter,
     InitiativeSlot,
@@ -17,21 +16,12 @@ import type {
     RangeBand as RangeBandEnum,
     PlayerCharacter,
     AdversaryTemplate,
-} from "../../../api/model";
-import {sampleParty} from "../../../models/SampleParty.ts";
+} from "../../../../api/model";
 import CasinoIcon from "@mui/icons-material/Casino";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-
-// UI-specific extensions for encounter state not in the API model
-export interface ExtendedCampaignEncounter extends CampaignEncounter {
-    encounterId: string;
-    currentRound: number;
-    currentSlotIndex: number;
-    combatLog: CombatLogEntry[];
-    turnActions: TurnAction[];
-    rangeBands: EncounterRangeBand[];
-}
+import {encounterTemplate, type ExtendedCampaignEncounter} from "../../../../models/SampleEncounter.ts";
+import TestEncounterBuilder from "./TestEncounterBuilder.tsx";
 
 // UI-specific types
 export interface Action {
@@ -406,192 +396,12 @@ const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
     },
 ];
 
-// Mock data - in a real app, these would come from the backend
-const mockPlayerCharacters: PlayerCharacter[] = [
-    {
-        id: "pc-1",
-        name: "Kael Starwind",
-        background: "Former smuggler turned hero",
-        archetype: {} as any, // Mock
-        career: {} as any, // Mock
-        characteristics: {
-            brawn: {current: 2, base: 2},
-            agility: {current: 3, base: 3},
-            intellect: {current: 3, base: 3},
-            cunning: {current: 2, base: 2},
-            willpower: {current: 2, base: 2},
-            presence: {current: 3, base: 3},
-        },
-        derivedStats: {
-            woundThreshold: {current: 0, total: 15},
-            strainThreshold: {current: 0, total: 12},
-            defense: {current: 2, base: 0},
-            soak: {current: 4, base: 4},
-        },
-        equipment: {weapons: [], armor: [], gear: []},
-        skills: [],
-        experience: {total: 100, available: 0},
-        talents: [],
-    },
-    {
-        id: "pc-2",
-        name: "Mira Shadowstep",
-        background: "Stealthy operative",
-        archetype: {} as any,
-        career: {} as any,
-        characteristics: {
-            brawn: {current: 2, base: 2},
-            agility: {current: 4, base: 4},
-            intellect: {current: 2, base: 2},
-            cunning: {current: 3, base: 3},
-            willpower: {current: 2, base: 2},
-            presence: {current: 2, base: 2},
-        },
-        derivedStats: {
-            woundThreshold: {current: 0, total: 12},
-            strainThreshold: {current: 0, total: 14},
-            defense: {current: 1, base: 0},
-            soak: {current: 3, base: 3},
-        },
-        equipment: {weapons: [], armor: [], gear: []},
-        skills: [],
-        experience: {total: 100, available: 0},
-        talents: [],
-    },
-    {
-        id: "pc-3",
-        name: "Grax the Mighty",
-        background: "Warrior",
-        archetype: {} as any,
-        career: {} as any,
-        characteristics: {
-            brawn: {current: 4, base: 4},
-            agility: {current: 2, base: 2},
-            intellect: {current: 2, base: 2},
-            cunning: {current: 2, base: 2},
-            willpower: {current: 3, base: 3},
-            presence: {current: 2, base: 2},
-        },
-        derivedStats: {
-            woundThreshold: {current: 0, total: 18},
-            strainThreshold: {current: 0, total: 10},
-            defense: {current: 0, base: 0},
-            soak: {current: 6, base: 6},
-        },
-        equipment: {weapons: [], armor: [], gear: []},
-        skills: [],
-        experience: {total: 100, available: 0},
-        talents: [],
-    },
-];
-
-const stormTrooper: AdversaryTemplate = {
-    id: "npc-1",
-    name: "Stormtrooper",
-    description: "Standard Imperial Stormtrooper",
-    type: "Minion" as any,
-    characteristics: {
-        brawn: {current: 2, base: 2},
-        agility: {current: 2, base: 2},
-        intellect: {current: 2, base: 2},
-        cunning: {current: 2, base: 2},
-        willpower: {current: 2, base: 2},
-        presence: {current: 1, base: 1},
-    },
-    derivedStats: {
-        woundThreshold: {current: 0, total: 5},
-        strainThreshold: {current: 0, total: 5},
-        defense: {current: 0, base: 0},
-        soak: {current: 5, base: 5},
-    },
-    equipment: {weapons: [], armor: [], gear: []},
-    skills: [],
-    ratings: {combat: 0, social: 0, general: 0},
-    size: 1,
-}
-
-const imperialOfficer: AdversaryTemplate = {
-    id: "npc-2",
-    name: "Imperial Officer",
-    description: "Imperial Officer",
-    type: "Rival" as any,
-    characteristics: {
-        brawn: {current: 2, base: 2},
-        agility: {current: 2, base: 2},
-        intellect: {current: 3, base: 3},
-        cunning: {current: 3, base: 3},
-        willpower: {current: 3, base: 3},
-        presence: {current: 3, base: 3},
-    },
-    derivedStats: {
-        woundThreshold: {current: 0, total: 10},
-        strainThreshold: {current: 0, total: 10},
-        defense: {current: 0, base: 0},
-        soak: {current: 3, base: 3},
-    },
-    equipment: {weapons: [], armor: [], gear: []},
-    skills: [],
-    ratings: {combat: 0, social: 0, general: 0},
-    size: 1,
-}
-
-const eliteGuard: AdversaryTemplate = {
-    id: "npc-3",
-    name: "Elite Guard",
-    description: "Elite Imperial Guard",
-    type: "Rival" as any,
-    characteristics: {
-        brawn: {current: 3, base: 3},
-        agility: {current: 3, base: 3},
-        intellect: {current: 2, base: 2},
-        cunning: {current: 2, base: 2},
-        willpower: {current: 3, base: 3},
-        presence: {current: 2, base: 2},
-    },
-    derivedStats: {
-        woundThreshold: {current: 0, total: 12},
-        strainThreshold: {current: 0, total: 8},
-        defense: {current: 0, base: 0},
-        soak: {current: 4, base: 4},
-    },
-    equipment: {weapons: [], armor: [], gear: []},
-    skills: [],
-    ratings: {combat: 0, social: 0, general: 0},
-    size: 1,
-}
-
-const mockAdversaries: AdversaryTemplate[] = [
-    stormTrooper,
-    imperialOfficer,
-    eliteGuard,
-];
-
-const encounterTemplate: ExtendedCampaignEncounter = {
-    encounterId: "t",
-    name: "Battle at Echo Ridge",
-    type: CampaignEncounterType.Combat,
-    status: CampaignEncounterStatus.Building,
-    party: {
-        players: mockPlayerCharacters,
-        adversaryTemplates: []
-    },
-    npcIds: mockAdversaries,
-    initiativeOrder: [
-
-    ],
-    currentRound: 1,
-    currentSlotIndex: 0,
-    combatLog: [],
-    turnActions: [],
-    rangeBands: [],
-};
-
 function TestEncounter() {
     const [encounter, setEncounter] = useState<ExtendedCampaignEncounter>(encounterTemplate);
 
     // Helper function to get all participants (players + NPCs) from the encounter
     const getAllParticipants = (): Array<PlayerCharacter | AdversaryTemplate> => {
-        return [...encounter.party.players, ...encounter.npcIds];
+        return [...encounter.party.players, ...encounter.party.adversaryTemplates, ...encounter.npcIds];
     };
 
     const handleAddPlayer = (player: PlayerCharacter) => {
@@ -605,6 +415,15 @@ function TestEncounter() {
     };
 
     const handleRemovePlayer = (playerId: string) => {
+        if (encounter.status === CampaignEncounterStatus.Building) {
+            setEncounter((prev) => ({
+                ...prev,
+                party: {
+                    ...prev.party,
+                    players: prev.party.players.filter((p) => p.id !== playerId),
+                },
+            }));
+        }
         setEncounter((prev) => ({
             ...prev,
             party: {
@@ -618,6 +437,18 @@ function TestEncounter() {
                 (r) => r.participantId !== playerId && r.targetId !== playerId
             ),
         }));
+    };
+
+    const handleRemovePartyNPC = (npcId: string) => {
+        if (encounter.status === CampaignEncounterStatus.Building) {
+            setEncounter((prev) => ({
+                ...prev,
+                party: {
+                    ...prev.party,
+                    adversaryTemplates: prev.party.adversaryTemplates.filter((npc) => npc.id !== npcId),
+                },
+            }));
+        }
     };
 
     const handleAddNPC = (npc: AdversaryTemplate) => {
@@ -848,302 +679,8 @@ function TestEncounter() {
 
             {encounter.status === CampaignEncounterStatus.Building && (
                 <Paper sx={{p: 3, mb: 3}}>
-                    <Grid size={{xs: 12, md: 7}} sx={{mt: 4}}>
-                        <Paper sx={{p: 3, mb: 3}}>
-                            <Typography variant="h6" gutterBottom>
-                                Participants ({getAllParticipants().length})
-                            </Typography>
-
-                            {encounter.participants.length === 0 ? (
-                                <Alert severity="info">
-                                    Add participants from the sections below
-                                </Alert>
-                            ) : (
-                                <Grid container spacing={2}>
-                                    {encounter.participants.map((participant) => {
-                                        const hasSlot = participantHasSlot(participant.id);
-
-                                        return (
-                                            <Grid size={{xs: 12}} sx={{mt: 4}}>
-                                                <Card variant="outlined">
-                                                    <CardContent>
-                                                        <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                justifyContent: "space-between",
-                                                                alignItems: "center",
-                                                            }}
-                                                        >
-                                                            <Box>
-                                                                <Box
-                                                                    sx={{
-                                                                        display: "flex",
-                                                                        alignItems: "center",
-                                                                        gap: 1,
-                                                                        mb: 1,
-                                                                    }}
-                                                                >
-                                                                    <Typography variant="h6">
-                                                                        {participant.name}
-                                                                    </Typography>
-                                                                    <Chip
-                                                                        label={
-                                                                            participant.type === "pc" ? "Player" : "NPC"
-                                                                        }
-                                                                        size="small"
-                                                                        color={
-                                                                            participant.type === "pc"
-                                                                                ? "primary"
-                                                                                : "default"
-                                                                        }
-                                                                    />
-                                                                    {hasSlot && (
-                                                                        <Chip
-                                                                            label="Initiative Rolled"
-                                                                            size="small"
-                                                                            color="success"
-                                                                            icon={<CasinoIcon/>}
-                                                                        />
-                                                                    )}
-                                                                </Box>
-
-                                                                <Typography
-                                                                    variant="body2"
-                                                                    color="text.secondary"
-                                                                >
-                                                                    Wounds: {participant.wounds.threshold} | Strain:{" "}
-                                                                    {participant.strain.threshold}
-                                                                </Typography>
-                                                            </Box>
-
-                                                            <Box sx={{display: "flex", gap: 1}}>
-                                                                <Button
-                                                                    variant="contained"
-                                                                    size="small"
-                                                                    startIcon={<CasinoIcon/>}
-                                                                    onClick={() =>
-                                                                        handleRollInitiative(participant)
-                                                                    }
-                                                                    disabled={hasSlot}
-                                                                >
-                                                                    {hasSlot ? "Rolled" : "Roll"}
-                                                                </Button>
-
-                                                                <IconButton
-                                                                    size="small"
-                                                                    color="error"
-                                                                    onClick={() =>
-                                                                        onRemoveParticipant(participant.id)
-                                                                    }
-                                                                >
-                                                                    <DeleteIcon/>
-                                                                </IconButton>
-                                                            </Box>
-                                                        </Box>
-                                                    </CardContent>
-                                                </Card>
-                                            </Grid>
-                                        );
-                                    })}
-                                </Grid>
-                            )}
-                        </Paper>
-
-                        <Paper sx={{p: 3}}>
-                            <Typography variant="h6" gutterBottom>
-                                Add Participants
-                            </Typography>
-
-                            <ToggleButtonGroup
-                                fullWidth
-                                exclusive
-                                value={selectedTab}
-                                onChange={(_, value) => value && setSelectedTab(value)}
-                                sx={{mb: 2}}
-                            >
-                                <ToggleButton value="pcs">Player Characters</ToggleButton>
-                                <ToggleButton value="npcs">NPCs / Adversaries</ToggleButton>
-                            </ToggleButtonGroup>
-
-                            <Grid container spacing={2}>
-                                {selectedTab === "pcs" &&
-                                    availablePlayers.map((player) => (
-                                        <Grid size={{xs: 12, sm: 6}} sx={{mt: 4}}>
-                                            <Card>
-                                                <CardContent>
-                                                    <Typography variant="h6" gutterBottom>
-                                                        {player.name}
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                        gutterBottom
-                                                    >
-                                                        Wounds: {player.wounds.threshold} | Strain:{" "}
-                                                        {player.strain.threshold}
-                                                    </Typography>
-                                                    <Button
-                                                        fullWidth
-                                                        variant="outlined"
-                                                        startIcon={<AddIcon/>}
-                                                        onClick={() => handleAddPlayer(player)}
-                                                    >
-                                                        Add to Encounter
-                                                    </Button>
-                                                </CardContent>
-                                            </Card>
-                                        </Grid>
-                                    ))}
-
-                                {selectedTab === "npcs" &&
-                                    availableNPCs.map((npc) => (
-                                        <Grid size={{xs: 12, sm: 6}} sx={{mt: 4}}>
-                                            <Card>
-                                                <CardContent>
-                                                    <Typography variant="h6" gutterBottom>
-                                                        {npc.name}
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                        gutterBottom
-                                                    >
-                                                        Wounds: {npc.wounds.threshold} | Soak: {npc.soak || 0}
-                                                    </Typography>
-                                                    <Button
-                                                        fullWidth
-                                                        variant="outlined"
-                                                        startIcon={<AddIcon/>}
-                                                        onClick={() => handleAddNPC(npc)}
-                                                    >
-                                                        Add to Encounter
-                                                    </Button>
-                                                </CardContent>
-                                            </Card>
-                                        </Grid>
-                                    ))}
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                    <Typography variant="h5" gutterBottom>
-                        Setup Encounter
-                    </Typography>
-
-                    <Typography variant="h6" sx={{mt: 2}}>
-                        Available Players
-                    </Typography>
-                    {mockPlayerCharacters.map((player) => (
-                        <Paper key={player.id} sx={{p: 2, mb: 1}}>
-                            <Typography variant="body1">{player.name}</Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Wounds: {player.derivedStats.woundThreshold.total} |
-                                Strain: {player.derivedStats.strainThreshold.total}
-                            </Typography>
-                            <Button
-                                size="small"
-                                variant="contained"
-                                onClick={() => handleAddPlayer(player)}
-                                disabled={encounter.party.players.some(p => p.id === player.id)}
-                            >
-                                Add to Encounter
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        Available NPCs
-                    </Typography>
-                    {mockAdversaries.map((npc) => (
-                        <Paper key={npc.id} sx={{p: 2, mb: 1}}>
-                            <Typography variant="body1">{npc.name}</Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Wounds: {npc.derivedStats.woundThreshold.total} |
-                                Soak: {npc.derivedStats.soak.current}
-                            </Typography>
-                            <Button
-                                size="small"
-                                variant="contained"
-                                onClick={() => handleAddNPC(npc)}
-                            >
-                                Add to Encounter
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        Current Party ({encounter.party.players.length} players)
-                    </Typography>
-                    {encounter.party.players.map((player) => (
-                        <Paper key={player.id} sx={{p: 2, mb: 1, bgcolor: 'primary.light'}}>
-                            <Typography variant="body1">{player.name}</Typography>
-                            <Button
-                                size="small"
-                                variant="outlined"
-                                color="error"
-                                onClick={() => handleRemovePlayer(player.id)}
-                            >
-                                Remove
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        NPCs in Encounter ({encounter.npcIds.length})
-                    </Typography>
-                    {encounter.npcIds.map((npc) => (
-                        <Paper key={npc.id} sx={{p: 2, mb: 1, bgcolor: 'error.light'}}>
-                            <Typography variant="body1">{npc.name}</Typography>
-                            <Button
-                                size="small"
-                                variant="outlined"
-                                color="error"
-                                onClick={() => handleRemoveNPC(npc.id)}
-                            >
-                                Remove
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        Initiative Order ({encounter.initiativeOrder.length} slots)
-                    </Typography>
-                    {encounter.initiativeOrder.map((slot, idx) => (
-                        <Paper key={idx} sx={{p: 2, mb: 1}}>
-                            <Typography variant="body1">
-                                Slot {idx + 1}: {slot.type} |
-                                Success: {slot.results.success} |
-                                Advantage: {slot.results.advantage}
-                            </Typography>
-                            {slot.playerCharacter && (
-                                <Typography variant="body2" color="text.secondary">
-                                    Player: {slot.playerCharacter.name}
-                                </Typography>
-                            )}
-                            {slot.adversaryTemplate && (
-                                <Typography variant="body2" color="text.secondary">
-                                    NPC: {slot.adversaryTemplate.name}
-                                </Typography>
-                            )}
-                            <Button
-                                size="small"
-                                variant="outlined"
-                                color="error"
-                                onClick={() => handleRemoveInitiativeSlot(idx)}
-                            >
-                                Remove Slot
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Button
-                        variant="contained"
-                        size="large"
-                        sx={{mt: 3}}
-                        onClick={handleReadyEncounter}
-                        disabled={encounter.party.players.length === 0 || encounter.initiativeOrder.length === 0}
-                    >
-                        Start Encounter
-                    </Button>
+                    <TestEncounterBuilder encounter={encounter} numberOfParticipants={getAllParticipants().length}
+                                          onRemovePartyMember={handleRemovePlayer} onRemovePartyNPC={handleRemovePartyNPC}/>
                 </Paper>
             )}
 
