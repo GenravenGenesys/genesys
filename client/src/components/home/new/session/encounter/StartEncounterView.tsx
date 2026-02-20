@@ -8,6 +8,7 @@ import {
     Typography
 } from "@mui/material";
 import InitiativeOrderListItem from "./InitiativeOrderListItem";
+import {Fragment} from "react";
 
 interface Props {
     encounter: CampaignEncounter;
@@ -36,11 +37,12 @@ export default function StartEncounterView(props: Props) {
                                 No initiative rolled yet. Add participants and roll for each.
                             </Alert>
                         ) : (
-                            <List>
-                                {encounter.initiativeOrder.map((slot, index) => {
-                                    <InitiativeOrderListItem slot={slot} index={index} onRemoveInitiativeSlot={}/>
-                                })}
-                            </List>
+                            <Fragment/>
+                            // <List>
+                            //     {encounter.initiativeOrder.map((slot, index) => {
+                            //         <InitiativeOrderListItem slot={slot} index={index} onRemoveInitiativeSlot={}/>
+                            //     })}
+                            // </List>
                         )}
 
                         <Box
@@ -49,9 +51,9 @@ export default function StartEncounterView(props: Props) {
                             <Typography variant="body2" color="text.secondary">
                                 <strong>Summary:</strong>
                                 <br/>
-                                PC Slots: {pcSlots.length}
+                                {/*PC Slots: {pcSlots.length}*/}
                                 <br/>
-                                NPC Slots: {npcSlots.length}
+                                {/*NPC Slots: {npcSlots.length}*/}
                                 <br/>
                                 Total: {encounter.initiativeOrder.length}
                             </Typography>

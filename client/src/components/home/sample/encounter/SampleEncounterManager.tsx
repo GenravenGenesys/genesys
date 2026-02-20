@@ -128,7 +128,6 @@ export interface EncounterState {
     currentRound: number;
     currentSlotIndex: number;
     participants: Participant[];
-    party: Party
     initiativeSlots: InitiativeSlot[];
     combatLog: CombatLogEntry[];
     turnActions: TurnAction[];

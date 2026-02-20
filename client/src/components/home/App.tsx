@@ -31,6 +31,7 @@ import ViewCompendiumCareers from "./new/compendium/career/ViewCompendiumCareers
 import ViewCompendiumInjuries from "./new/compendium/injury/ViewCriticalInjuries.tsx";
 import ViewCompendiumQualities from "./new/compendium/quality/ViewCompendiumQualities.tsx";
 import SampleEncounterManager from "./sample/encounter/SampleEncounterManager.tsx";
+import TestEncounter from "./sample/TestEncounter.tsx";
 
 export const App: React.FC = () => {
     const {isLoading} = useOptionalAuth0();
@@ -116,6 +117,7 @@ export const App: React.FC = () => {
                 <Route path={"/genesys/session/manager"} element={<SampleSessionManagementPage/>}/>
                 <Route path={"/sample/creation"} element={<CharacterCreator/>}/>
                 <Route path={"/sample/encounter"} element={<SampleEncounterManager/>}/>
+                <Route path={"/test"} element={<TestEncounter/>}/>
             </Routes>
         </ThemeProvider>
     )

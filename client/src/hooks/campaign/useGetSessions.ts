@@ -124,7 +124,7 @@ export function useGetSessions(campaignId: string) {
 
     const data = [
         {
-            id: 'Rescue Mission at Dawn',
+            id: '1234',
             campaignId: '9596',
             sessionDate: 'January 19, 2026',
             party: sampleParty,
