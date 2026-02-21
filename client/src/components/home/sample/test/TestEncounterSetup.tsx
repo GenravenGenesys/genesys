@@ -6,7 +6,7 @@ import {
     CardContent,
     Chip,
     Grid,
-    IconButton,
+    IconButton, List, ListItem, ListItemSecondaryAction, ListItemText,
     Paper, ToggleButton,
     ToggleButtonGroup,
     Typography
@@ -14,8 +14,9 @@ import {
 import CasinoIcon from "@mui/icons-material/Casino";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import {useState} from "react";
-import type {CampaignEncounter} from "../../../../api/model";
+import React, {useState} from "react";
+import {type CampaignEncounter, InitiativeSlotType} from "../../../../api/model";
+import {DiceRoller} from "../encounter/components/DiceRoller.tsx";
 
 interface Props {
     encounter: CampaignEncounter;
@@ -26,300 +27,231 @@ export default function TestEncounterSetup(props: Props) {
     const {encounter, numberOfParticipants} = props;
     const [selectedTab, setSelectedTab] = useState<"pcs" | "npcs">("pcs");
 
+    const canStart = encounter.initiativeOrder.length === numberOfParticipants;
 
     return (
-        <Paper sx={{p: 3, mb: 3}}>
-            <Grid size={{xs: 12, md: 7}} sx={{mt: 4}}>
-                <Paper sx={{p: 3, mb: 3}}>
-                    <Typography variant="h6" gutterBottom>
-                        Participants ({numberOfParticipants})
-                    </Typography>
+        <Box>
+            <Grid container spacing={3}>
+                <Grid size={{xs: 12, md: 5}} sx={{mt: 4}}>
+                    <Paper sx={{p: 3}}>
+                        <Typography variant="h6" gutterBottom>
+                            Initiative Order
+                        </Typography>
 
-                    <Grid container spacing={2}>
-                        {encounter.participants.map((participant) => {
-                            const hasSlot = participantHasSlot(participant.id);
+                        <Alert severity="info" sx={{mb: 2}}>
+                            Each participant rolls initiative once to create a slot. During
+                            the encounter, players can choose which PC acts in PC slots, and
+                            GM chooses for NPC slots.
+                        </Alert>
 
-                            return (
-                                <Grid size={{xs: 12}} sx={{mt: 4}}>
-                                    <Card variant="outlined">
-                                        <CardContent>
-                                            <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    justifyContent: "space-between",
-                                                    alignItems: "center",
-                                                }}
-                                            >
-                                                <Box>
+                        {encounter.initiativeOrder.length === 0 ? (
+                            <Alert severity="warning">
+                                No initiative rolled yet. Add participants and roll for each.
+                            </Alert>
+                        ) : (
+                            <List>
+                                {encounter.initiativeOrder.map((slot, index) => {
+
+
+                                    const rolledByParticipant = slot.type === InitiativeSlotType.Player ? encounter.party.players.find((p) => p.id === slot.rolledBy) || encounter.party.adversaryTemplates.find((a) => a.id === slot.rolledBy) : encounter.npcIds.find((p) => p.id === slot.rolledBy);
+
+                                    return (
+                                        <ListItem
+                                            key={slot.id}
+                                            sx={{
+                                                border: 2,
+                                                borderColor:
+                                                    slot.type === InitiativeSlotType.Player
+                                                        ? "primary.main"
+                                                        : "error.main",
+                                                backgroundColor:
+                                                    slot.type === InitiativeSlotType.Player
+                                                        ? "primary.light"
+                                                        : "error.light",
+                                                borderRadius: 1,
+                                                mb: 1,
+                                            }}
+                                        >
+                                            <Box sx={{mr: 2, textAlign: "center", minWidth: 40}}>
+                                                <Typography variant="h6" fontWeight="bold">
+                                                    #{index + 1}
+                                                </Typography>
+                                            </Box>
+
+                                            <ListItemText
+                                                primary={
                                                     <Box
                                                         sx={{
                                                             display: "flex",
                                                             alignItems: "center",
                                                             gap: 1,
-                                                            mb: 1,
                                                         }}
                                                     >
-                                                        <Typography variant="h6">
-                                                            {participant.name}
-                                                        </Typography>
                                                         <Chip
-                                                            label={
-                                                                participant.type === "pc" ? "Player" : "NPC"
-                                                            }
+                                                            label={slot.slotType.toUpperCase()}
                                                             size="small"
                                                             color={
-                                                                participant.type === "pc"
-                                                                    ? "primary"
-                                                                    : "default"
+                                                                slot.type === InitiativeSlotType.Player ? "primary" : "error"
                                                             }
+                                                            sx={{fontWeight: "bold"}}
                                                         />
-                                                        {hasSlot && (
+                                                        <Typography variant="body2">
+                                                            Rolled by: {rolledByParticipant?.name}
+                                                        </Typography>
+                                                    </Box>
+                                                }
+                                                secondary={
+                                                    <Typography variant="h6" component="span">
+                                                        {slot.success} Success, {slot.advantage} Advantage
+                                                    </Typography>
+                                                }
+                                            />
+                                            secondaryAction={
+                                            <IconButton
+                                                edge="end"
+                                                color="error"
+                                                onClick={() => onRemoveInitiativeSlot(slot.id)}
+                                            >
+                                                <DeleteIcon/>
+                                            </IconButton>
+                                        }
+                                        </ListItem>
+                                    );
+                                })}
+                            </List>
+                        )}
+
+                        <Box
+                            sx={{mt: 2, p: 2, backgroundColor: "grey.25", borderRadius: 1}}
+                        >
+                            <Typography variant="body2" color="text.secondary">
+                                <strong>Summary:</strong>
+                                <br/>
+                                PC Slots: {encounter.party.players.length + encounter.party.adversaryTemplates.length}
+                                <br/>
+                                NPC Slots: {encounter.npcIds.length}
+                                <br/>
+                                Total: {encounter.initiativeOrder.length}
+                            </Typography>
+                        </Box>
+                    </Paper>
+                </Grid>
+
+                <Grid size={{xs: 12, md: 7}} sx={{mt: 4}}>
+                    <Paper sx={{p: 3, mb: 3}}>
+                        <Typography variant="h6" gutterBottom>
+                            Participants ({numberOfParticipants})
+                        </Typography>
+
+                        <Grid container spacing={2}>
+                            {encounter.participants.map((participant) => {
+                                const hasSlot = participantHasSlot(participant.id);
+
+                                return (
+                                    <Grid size={{xs: 12}} sx={{mt: 4}}>
+                                        <Card variant="outlined">
+                                            <CardContent>
+                                                <Box
+                                                    sx={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <Box>
+                                                        <Box
+                                                            sx={{
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                gap: 1,
+                                                                mb: 1,
+                                                            }}
+                                                        >
+                                                            <Typography variant="h6">
+                                                                {participant.name}
+                                                            </Typography>
                                                             <Chip
-                                                                label="Initiative Rolled"
+                                                                label={
+                                                                    participant.type === "pc" ? "Player" : "NPC"
+                                                                }
                                                                 size="small"
-                                                                color="success"
-                                                                icon={<CasinoIcon/>}
+                                                                color={
+                                                                    participant.type === "pc"
+                                                                        ? "primary"
+                                                                        : "default"
+                                                                }
                                                             />
-                                                        )}
+                                                            {hasSlot && (
+                                                                <Chip
+                                                                    label="Initiative Rolled"
+                                                                    size="small"
+                                                                    color="success"
+                                                                    icon={<CasinoIcon/>}
+                                                                />
+                                                            )}
+                                                        </Box>
+
+                                                        <Typography
+                                                            variant="body2"
+                                                            color="text.secondary"
+                                                        >
+                                                            Wounds: {participant.wounds.threshold} | Strain:{" "}
+                                                            {participant.strain.threshold}
+                                                        </Typography>
                                                     </Box>
 
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        Wounds: {participant.wounds.threshold} | Strain:{" "}
-                                                        {participant.strain.threshold}
-                                                    </Typography>
+                                                    <Box sx={{display: "flex", gap: 1}}>
+                                                        <Button
+                                                            variant="contained"
+                                                            size="small"
+                                                            startIcon={<CasinoIcon/>}
+                                                            onClick={() =>
+                                                                handleRollInitiative(participant)
+                                                            }
+                                                            disabled={hasSlot}
+                                                        >
+                                                            {hasSlot ? "Rolled" : "Roll"}
+                                                        </Button>
+                                                    </Box>
                                                 </Box>
-
-                                                <Box sx={{display: "flex", gap: 1}}>
-                                                    <Button
-                                                        variant="contained"
-                                                        size="small"
-                                                        startIcon={<CasinoIcon/>}
-                                                        onClick={() =>
-                                                            handleRollInitiative(participant)
-                                                        }
-                                                        disabled={hasSlot}
-                                                    >
-                                                        {hasSlot ? "Rolled" : "Roll"}
-                                                    </Button>
-
-                                                    <IconButton
-                                                        size="small"
-                                                        color="error"
-                                                        onClick={() =>
-                                                            onRemoveParticipant(participant.id)
-                                                        }
-                                                    >
-                                                        <DeleteIcon/>
-                                                    </IconButton>
-                                                </Box>
-                                            </Box>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            );
-                        })}
-                    </Grid>
-                    }
-                </Paper>
-
-                <Paper sx={{p: 3}}>
-                    <Typography variant="h6" gutterBottom>
-                        Add Participants
-                    </Typography>
-
-                    <ToggleButtonGroup
-                        fullWidth
-                        exclusive
-                        value={selectedTab}
-                        onChange={(_, value) => value && setSelectedTab(value)}
-                        sx={{mb: 2}}
-                    >
-                        <ToggleButton value="pcs">Player Characters</ToggleButton>
-                        <ToggleButton value="npcs">NPCs / Adversaries</ToggleButton>
-                    </ToggleButtonGroup>
-
-                    <Grid container spacing={2}>
-                        {selectedTab === "pcs" &&
-                            availablePlayers.map((player) => (
-                                <Grid size={{xs: 12, sm: 6}} sx={{mt: 4}}>
-                                    <Card>
-                                        <CardContent>
-                                            <Typography variant="h6" gutterBottom>
-                                                {player.name}
-                                            </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                color="text.secondary"
-                                                gutterBottom
-                                            >
-                                                Wounds: {player.wounds.threshold} | Strain:{" "}
-                                                {player.strain.threshold}
-                                            </Typography>
-                                            <Button
-                                                fullWidth
-                                                variant="outlined"
-                                                startIcon={<AddIcon/>}
-                                                onClick={() => handleAddPlayer(player)}
-                                            >
-                                                Add to Encounter
-                                            </Button>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-
-                        {selectedTab === "npcs" &&
-                            availableNPCs.map((npc) => (
-                                <Grid size={{xs: 12, sm: 6}} sx={{mt: 4}}>
-                                    <Card>
-                                        <CardContent>
-                                            <Typography variant="h6" gutterBottom>
-                                                {npc.name}
-                                            </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                color="text.secondary"
-                                                gutterBottom
-                                            >
-                                                Wounds: {npc.wounds.threshold} | Soak: {npc.soak || 0}
-                                            </Typography>
-                                            <Button
-                                                fullWidth
-                                                variant="outlined"
-                                                startIcon={<AddIcon/>}
-                                                onClick={() => handleAddNPC(npc)}
-                                            >
-                                                Add to Encounter
-                                            </Button>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                    </Grid>
-                </Paper>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                );
+                            })}
+                        </Grid>
+                    </Paper>
+                </Grid>
             </Grid>
-            <Typography variant="h5" gutterBottom>
-                Setup Encounter
-            </Typography>
 
-            <Typography variant="h6" sx={{mt: 2}}>
-                Available Players
-            </Typography>
-            {mockPlayerCharacters.map((player) => (
-                <Paper key={player.id} sx={{p: 2, mb: 1}}>
-                    <Typography variant="body1">{player.name}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Wounds: {player.derivedStats.woundThreshold.total} |
-                        Strain: {player.derivedStats.strainThreshold.total}
-                    </Typography>
-                    <Button
-                        size="small"
-                        variant="contained"
-                        onClick={() => handleAddPlayer(player)}
-                        disabled={encounter.party.players.some(p => p.id === player.id)}
-                    >
-                        Add to Encounter
-                    </Button>
-                </Paper>
-            ))}
+            <Paper sx={{p: 3, mt: 3, textAlign: "center"}}>
+                {!canStart && (
+                    <Alert severity="warning" sx={{mb: 2}}>
+                        {numberOfParticipants < 2
+                            ? "Add at least 2 participants to start"
+                            : "All participants must roll initiative before starting"}
+                    </Alert>
+                )}
 
-            <Typography variant="h6" sx={{mt: 3}}>
-                Available NPCs
-            </Typography>
-            {mockAdversaries.map((npc) => (
-                <Paper key={npc.id} sx={{p: 2, mb: 1}}>
-                    <Typography variant="body1">{npc.name}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Wounds: {npc.derivedStats.woundThreshold.total} |
-                        Soak: {npc.derivedStats.soak.current}
-                    </Typography>
-                    <Button
-                        size="small"
-                        variant="contained"
-                        onClick={() => handleAddNPC(npc)}
-                    >
-                        Add to Encounter
-                    </Button>
-                </Paper>
-            ))}
+                <Button
+                    variant="contained"
+                    size="large"
+                    onClick={onStartEncounter}
+                    disabled={!canStart}
+                >
+                    Start Encounter
+                </Button>
+            </Paper>
 
-            <Typography variant="h6" sx={{mt: 3}}>
-                Current Party ({encounter.party.players.length} players)
-            </Typography>
-            {encounter.party.players.map((player) => (
-                <Paper key={player.id} sx={{p: 2, mb: 1, bgcolor: 'primary.light'}}>
-                    <Typography variant="body1">{player.name}</Typography>
-                    <Button
-                        size="small"
-                        variant="outlined"
-                        color="error"
-                        onClick={() => handleRemovePlayer(player.id)}
-                    >
-                        Remove
-                    </Button>
-                </Paper>
-            ))}
-
-            <Typography variant="h6" sx={{mt: 3}}>
-                NPCs in Encounter ({encounter.npcIds.length})
-            </Typography>
-            {encounter.npcIds.map((npc) => (
-                <Paper key={npc.id} sx={{p: 2, mb: 1, bgcolor: 'error.light'}}>
-                    <Typography variant="body1">{npc.name}</Typography>
-                    <Button
-                        size="small"
-                        variant="outlined"
-                        color="error"
-                        onClick={() => handleRemoveNPC(npc.id)}
-                    >
-                        Remove
-                    </Button>
-                </Paper>
-            ))}
-
-            <Typography variant="h6" sx={{mt: 3}}>
-                Initiative Order ({encounter.initiativeOrder.length} slots)
-            </Typography>
-            {encounter.initiativeOrder.map((slot, idx) => (
-                <Paper key={idx} sx={{p: 2, mb: 1}}>
-                    <Typography variant="body1">
-                        Slot {idx + 1}: {slot.type} |
-                        Success: {slot.results.success} |
-                        Advantage: {slot.results.advantage}
-                    </Typography>
-                    {slot.playerCharacter && (
-                        <Typography variant="body2" color="text.secondary">
-                            Player: {slot.playerCharacter.name}
-                        </Typography>
-                    )}
-                    {slot.adversaryTemplate && (
-                        <Typography variant="body2" color="text.secondary">
-                            NPC: {slot.adversaryTemplate.name}
-                        </Typography>
-                    )}
-                    <Button
-                        size="small"
-                        variant="outlined"
-                        color="error"
-                        onClick={() => handleRemoveInitiativeSlot(idx)}
-                    >
-                        Remove Slot
-                    </Button>
-                </Paper>
-            ))}
-
-            <Button
-                variant="contained"
-                size="large"
-                sx={{mt: 3}}
-                onClick={handleReadyEncounter}
-                disabled={encounter.party.players.length === 0 || encounter.initiativeOrder.length === 0}
-            >
-                Start Encounter
-            </Button>
-        </Paper>
+            {rollerOpen && rollingFor && (
+                <DiceRoller
+                    open={rollerOpen}
+                    participantName={rollingFor.name}
+                    rollType="initiative"
+                    onClose={() => setRollerOpen(false)}
+                    onRollComplete={handleInitiativeRolled}
+                />
+            )}
+        </Box>
     );
 }

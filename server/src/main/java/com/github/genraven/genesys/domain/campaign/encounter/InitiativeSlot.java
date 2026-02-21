@@ -29,7 +29,8 @@ public class InitiativeSlot {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private InitiativeSlotResults results;
 
-    private String initiative;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private String rolledBy;
 
     @Getter
     @AllArgsConstructor

@@ -20,12 +20,19 @@ interface Props {
 }
 
 export default function TestEncounterBuilder(props: Props) {
-    const {encounter, numberOfParticipants, onRemovePartyMember, onRemovePartyNPC, onRemoveNPC, onReadyEncounter} = props;
+    const {
+        encounter,
+        numberOfParticipants,
+        onRemovePartyMember,
+        onRemovePartyNPC,
+        onRemoveNPC,
+        onReadyEncounter
+    } = props;
     const [tabValue, setTabValue] = useState(0);
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', p: 2 }}>
+        <Box sx={{width: '100%'}}>
+            <Paper sx={{width: '100%', p: 2}}>
                 <Typography variant="h6" gutterBottom>
                     Participants ({numberOfParticipants})
                 </Typography>
@@ -35,7 +42,7 @@ export default function TestEncounterBuilder(props: Props) {
                         Add participants from the sections below
                     </Alert>
                 ) : (
-                    <Box sx={{ width: '100%' }}>
+                    <Box sx={{width: '100%'}}>
                         <Box sx={{borderBottom: 1, borderColor: 'divider', width: '100%'}}>
                             <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                                 {Object.values(InitiativeSlotType).map((type) => (

@@ -140,7 +140,7 @@ export function useGetSessions(campaignId: string) {
                         {
                             encounterId: "encounter1",
                             name: "Prison Break",
-                            npcIds: [emptyAdversary],
+                            npcIds: [],
                             initiativeOrder: [],
                             type: CampaignEncounterType.Combat,
                             status: CampaignEncounterStatus.Ready,
