@@ -1,7 +1,7 @@
 import {
     type AdversaryTemplate, type CampaignEncounter,
     CampaignEncounterStatus,
-    CampaignEncounterType,
+    CampaignEncounterType, CharacteristicType,
     type PlayerCharacter
 } from "../api/model";
 import type {
@@ -113,7 +113,22 @@ const mockPlayerCharacters: PlayerCharacter[] = [
             soak: {current: 4, base: 4},
         },
         equipment: {weapons: [], armor: [], gear: []},
-        skills: [],
+        skills: [
+            {
+                id: "piloting-1", name: "Viligance", ranks: 2, characteristic: CharacteristicType.Willpower,
+                type: "General",
+                initiative: true,
+                summary: "",
+                description: ""
+            },
+            {
+                id: "piloting-2", name: "Cool", ranks: 2, characteristic: CharacteristicType.Presence,
+                type: "General",
+                initiative: true,
+                summary: "",
+                description: ""
+            }
+        ],
         experience: {total: 100, available: 0},
         talents: [],
     },

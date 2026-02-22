@@ -22,6 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import {encounterTemplate, type ExtendedCampaignEncounter} from "../../../../models/SampleEncounter.ts";
 import TestEncounterBuilder from "./TestEncounterBuilder.tsx";
+import TestEncounterSetup from "./TestEncounterSetup.tsx";
 
 // UI-specific types
 export interface Action {
@@ -688,125 +689,7 @@ function TestEncounter() {
 
             {encounter.status === CampaignEncounterStatus.Ready && (
                 <Paper sx={{p: 3, mb: 3}}>
-                    <Typography variant="h5" gutterBottom>
-                        Setup Encounter
-                    </Typography>
-
-                    <Typography variant="h6" sx={{mt: 2}}>
-                        Available Players
-                    </Typography>
-                    {mockPlayerCharacters.map((player) => (
-                        <Paper key={player.id} sx={{p: 2, mb: 1}}>
-                            <Typography variant="body1">{player.name}</Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Wounds: {player.derivedStats.woundThreshold.total} |
-                                Strain: {player.derivedStats.strainThreshold.total}
-                            </Typography>
-                            <Button
-                                size="small"
-                                variant="contained"
-                                onClick={() => handleAddPlayer(player)}
-                                disabled={encounter.party.players.some(p => p.id === player.id)}
-                            >
-                                Add to Encounter
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        Available NPCs
-                    </Typography>
-                    {mockAdversaries.map((npc) => (
-                        <Paper key={npc.id} sx={{p: 2, mb: 1}}>
-                            <Typography variant="body1">{npc.name}</Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Wounds: {npc.derivedStats.woundThreshold.total} |
-                                Soak: {npc.derivedStats.soak.current}
-                            </Typography>
-                            <Button
-                                size="small"
-                                variant="contained"
-                                onClick={() => handleAddNPC(npc)}
-                            >
-                                Add to Encounter
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        Current Party ({encounter.party.players.length} players)
-                    </Typography>
-                    {encounter.party.players.map((player) => (
-                        <Paper key={player.id} sx={{p: 2, mb: 1, bgcolor: 'primary.light'}}>
-                            <Typography variant="body1">{player.name}</Typography>
-                            <Button
-                                size="small"
-                                variant="outlined"
-                                color="error"
-                                onClick={() => handleRemovePlayer(player.id)}
-                            >
-                                Remove
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        NPCs in Encounter ({encounter.npcIds.length})
-                    </Typography>
-                    {encounter.npcIds.map((npc) => (
-                        <Paper key={npc.id} sx={{p: 2, mb: 1, bgcolor: 'error.light'}}>
-                            <Typography variant="body1">{npc.name}</Typography>
-                            <Button
-                                size="small"
-                                variant="outlined"
-                                color="error"
-                                onClick={() => handleRemoveNPC(npc.id)}
-                            >
-                                Remove
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        Initiative Order ({encounter.initiativeOrder.length} slots)
-                    </Typography>
-                    {encounter.initiativeOrder.map((slot, idx) => (
-                        <Paper key={idx} sx={{p: 2, mb: 1}}>
-                            <Typography variant="body1">
-                                Slot {idx + 1}: {slot.type} |
-                                Success: {slot.results.success} |
-                                Advantage: {slot.results.advantage}
-                            </Typography>
-                            {slot.playerCharacter && (
-                                <Typography variant="body2" color="text.secondary">
-                                    Player: {slot.playerCharacter.name}
-                                </Typography>
-                            )}
-                            {slot.adversaryTemplate && (
-                                <Typography variant="body2" color="text.secondary">
-                                    NPC: {slot.adversaryTemplate.name}
-                                </Typography>
-                            )}
-                            <Button
-                                size="small"
-                                variant="outlined"
-                                color="error"
-                                onClick={() => handleRemoveInitiativeSlot(idx)}
-                            >
-                                Remove Slot
-                            </Button>
-                        </Paper>
-                    ))}
-
-                    <Button
-                        variant="contained"
-                        size="large"
-                        sx={{mt: 3}}
-                        onClick={handleStartEncounter}
-                        disabled={encounter.party.players.length === 0 || encounter.initiativeOrder.length === 0}
-                    >
-                        Start Encounter
-                    </Button>
+                    <TestEncounterSetup encounter={encounter} numberOfParticipants={getAllParticipants().length}/>
                 </Paper>
             )}
 

@@ -2,21 +2,17 @@ import {
     Alert,
     Box,
     Button,
-    Card,
-    CardContent,
-    Chip,
+    Chip, Divider,
     Grid,
-    IconButton, List, ListItem, ListItemSecondaryAction, ListItemText,
-    Paper, ToggleButton,
-    ToggleButtonGroup,
+    IconButton, List, ListItem, ListItemText,
+    Paper,
     Typography
 } from "@mui/material";
-import CasinoIcon from "@mui/icons-material/Casino";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
-import React, {useState} from "react";
+import {useState} from "react";
 import {type CampaignEncounter, InitiativeSlotType} from "../../../../api/model";
 import {DiceRoller} from "../encounter/components/DiceRoller.tsx";
+import PlayerInitiativeCard from "./PlayerInitiativeCard.tsx";
 
 interface Props {
     encounter: CampaignEncounter;
@@ -28,6 +24,11 @@ export default function TestEncounterSetup(props: Props) {
     const [selectedTab, setSelectedTab] = useState<"pcs" | "npcs">("pcs");
 
     const canStart = encounter.initiativeOrder.length === numberOfParticipants;
+    const participantHasSlot = (participantId: string) => {
+        return encounter.initiativeOrder.some(
+            (slot) => slot.rolledBy === participantId
+        );
+    };
 
     return (
         <Box>
@@ -51,13 +52,10 @@ export default function TestEncounterSetup(props: Props) {
                         ) : (
                             <List>
                                 {encounter.initiativeOrder.map((slot, index) => {
-
-
                                     const rolledByParticipant = slot.type === InitiativeSlotType.Player ? encounter.party.players.find((p) => p.id === slot.rolledBy) || encounter.party.adversaryTemplates.find((a) => a.id === slot.rolledBy) : encounter.npcIds.find((p) => p.id === slot.rolledBy);
 
                                     return (
                                         <ListItem
-                                            key={slot.id}
                                             sx={{
                                                 border: 2,
                                                 borderColor:
@@ -88,11 +86,9 @@ export default function TestEncounterSetup(props: Props) {
                                                         }}
                                                     >
                                                         <Chip
-                                                            label={slot.slotType.toUpperCase()}
+                                                            label={InitiativeSlotType.Player}
                                                             size="small"
-                                                            color={
-                                                                slot.type === InitiativeSlotType.Player ? "primary" : "error"
-                                                            }
+                                                            color={"primary"}
                                                             sx={{fontWeight: "bold"}}
                                                         />
                                                         <Typography variant="body2">
@@ -102,7 +98,7 @@ export default function TestEncounterSetup(props: Props) {
                                                 }
                                                 secondary={
                                                     <Typography variant="h6" component="span">
-                                                        {slot.success} Success, {slot.advantage} Advantage
+                                                        {/*{slot.success} Success, {slot.advantage} Advantage*/}
                                                     </Typography>
                                                 }
                                             />
@@ -110,7 +106,7 @@ export default function TestEncounterSetup(props: Props) {
                                             <IconButton
                                                 edge="end"
                                                 color="error"
-                                                onClick={() => onRemoveInitiativeSlot(slot.id)}
+                                                // onClick={() => onRemoveInitiativeSlot(slot.id)}
                                             >
                                                 <DeleteIcon/>
                                             </IconButton>
@@ -144,81 +140,12 @@ export default function TestEncounterSetup(props: Props) {
                         </Typography>
 
                         <Grid container spacing={2}>
-                            {encounter.participants.map((participant) => {
-                                const hasSlot = participantHasSlot(participant.id);
-
-                                return (
-                                    <Grid size={{xs: 12}} sx={{mt: 4}}>
-                                        <Card variant="outlined">
-                                            <CardContent>
-                                                <Box
-                                                    sx={{
-                                                        display: "flex",
-                                                        justifyContent: "space-between",
-                                                        alignItems: "center",
-                                                    }}
-                                                >
-                                                    <Box>
-                                                        <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                gap: 1,
-                                                                mb: 1,
-                                                            }}
-                                                        >
-                                                            <Typography variant="h6">
-                                                                {participant.name}
-                                                            </Typography>
-                                                            <Chip
-                                                                label={
-                                                                    participant.type === "pc" ? "Player" : "NPC"
-                                                                }
-                                                                size="small"
-                                                                color={
-                                                                    participant.type === "pc"
-                                                                        ? "primary"
-                                                                        : "default"
-                                                                }
-                                                            />
-                                                            {hasSlot && (
-                                                                <Chip
-                                                                    label="Initiative Rolled"
-                                                                    size="small"
-                                                                    color="success"
-                                                                    icon={<CasinoIcon/>}
-                                                                />
-                                                            )}
-                                                        </Box>
-
-                                                        <Typography
-                                                            variant="body2"
-                                                            color="text.secondary"
-                                                        >
-                                                            Wounds: {participant.wounds.threshold} | Strain:{" "}
-                                                            {participant.strain.threshold}
-                                                        </Typography>
-                                                    </Box>
-
-                                                    <Box sx={{display: "flex", gap: 1}}>
-                                                        <Button
-                                                            variant="contained"
-                                                            size="small"
-                                                            startIcon={<CasinoIcon/>}
-                                                            onClick={() =>
-                                                                handleRollInitiative(participant)
-                                                            }
-                                                            disabled={hasSlot}
-                                                        >
-                                                            {hasSlot ? "Rolled" : "Roll"}
-                                                        </Button>
-                                                    </Box>
-                                                </Box>
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
-                                );
-                            })}
+                            <Divider>Player Characters</Divider>
+                            {encounter.party.players.map((participant) => (
+                                <PlayerInitiativeCard player={participant}
+                                                      participantHasSlot={participantHasSlot(participant.id)}/>
+                            ))}
+                            <Divider>Party NPCs</Divider>
                         </Grid>
                     </Paper>
                 </Grid>
@@ -236,22 +163,22 @@ export default function TestEncounterSetup(props: Props) {
                 <Button
                     variant="contained"
                     size="large"
-                    onClick={onStartEncounter}
+                    // onClick={onStartEncounter}
                     disabled={!canStart}
                 >
                     Start Encounter
                 </Button>
             </Paper>
 
-            {rollerOpen && rollingFor && (
-                <DiceRoller
-                    open={rollerOpen}
-                    participantName={rollingFor.name}
-                    rollType="initiative"
-                    onClose={() => setRollerOpen(false)}
-                    onRollComplete={handleInitiativeRolled}
-                />
-            )}
+            {/*{rollerOpen && rollingFor && (*/}
+            {/*    <DiceRoller*/}
+            {/*        open={rollerOpen}*/}
+            {/*        participantName={rollingFor.name}*/}
+            {/*        rollType="initiative"*/}
+            {/*        onClose={() => setRollerOpen(false)}*/}
+            {/*        onRollComplete={handleInitiativeRolled}*/}
+            {/*    />*/}
+            {/*)}*/}
         </Box>
     );
 }
