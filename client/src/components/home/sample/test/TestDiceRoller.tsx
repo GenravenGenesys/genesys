@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import CasinoIcon from "@mui/icons-material/Casino";
 import type {GenesysSymbolResults, PlayerCharacter, PlayerSkill} from "../../../../api/model";
+import GenesysNumberField from "../../common/field/GenesysNumberField.tsx";
 
 
 interface Props {
