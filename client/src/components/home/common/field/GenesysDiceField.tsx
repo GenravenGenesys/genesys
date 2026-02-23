@@ -14,7 +14,7 @@ interface Props {
     inputProps?: InputHTMLAttributes<HTMLInputElement>;
 }
 
-const GenesysNumberField: React.FC<Props> = ({
+const GenesysDiceField: React.FC<Props> = ({
                                                  value,
                                                  label,
                                                  onChange,
