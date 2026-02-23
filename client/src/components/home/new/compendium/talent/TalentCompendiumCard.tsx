@@ -11,7 +11,7 @@ import {
     Typography
 } from "@mui/material";
 import type {Talent} from "../../../../../api/model";
-import RouterLinkButton from "../../../../common/RouterLink.tsx";
+import RouterLinkButton from "../../../common/RouterLink.tsx";
 import {RootPath} from "../../../../../services/RootPath.ts";
 import TalentIcon from "@mui/icons-material/AutoStories";
 

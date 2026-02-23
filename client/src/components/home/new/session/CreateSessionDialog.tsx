@@ -1,6 +1,6 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack} from "@mui/material";
 import {useState} from "react";
-import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
+import GenesysTextField from "../../common/field/GenesysTextField.tsx";
 
 interface Props {
     open: boolean;

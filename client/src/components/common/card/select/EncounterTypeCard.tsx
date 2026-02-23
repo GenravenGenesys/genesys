@@ -3,7 +3,7 @@ import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import {Type} from "../../../../models/campaign/encounter/Encounter";
 import GridItem from "../../grid/GridItem";
-import GenesysSelectField from "../../field/GenesysSelectField";
+import GenesysSelectField from "../../../home/common/field/GenesysSelectField";
 
 type Props = {
     value: Type;

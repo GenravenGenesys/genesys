@@ -10,7 +10,7 @@ import {
     ListItemText,
     Typography
 } from "@mui/material";
-import RouterLinkButton from "../../../../common/RouterLink.tsx";
+import RouterLinkButton from "../../../common/RouterLink.tsx";
 import {RootPath} from "../../../../../services/RootPath.ts";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import type {ItemTemplate} from "../../../../../api/model";

@@ -7,6 +7,7 @@ interface Target {
 }
 
 interface Props {
+    name?: string
     characteristicRanks: number
     skillRanks: number
     difficulty?: number
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export default function GenesysSkillDiceTypography(props: Props) {
-    let {characteristicRanks, skillRanks, difficulty, target} = props;
+    let {name, characteristicRanks, skillRanks, difficulty, target} = props;
 
     const generateSkillDice = () => {
         let text = ''
@@ -97,7 +98,7 @@ export default function GenesysSkillDiceTypography(props: Props) {
                 final += `${word} `;
             }
         });
-        return final;
+        return name + ': ' + final;
     };
 
     return (

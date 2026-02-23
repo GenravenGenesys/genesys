@@ -7,9 +7,9 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import {Activation, type Talent, Tier} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
-import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
-import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
-import GenesysBooleanField from "../../../../common/field/GenesysBooleanField.tsx";
+import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
+import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
+import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
 import Tab from "@mui/material/Tab";
 import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
 import * as React from "react";

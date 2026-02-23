@@ -12,7 +12,7 @@ import {
     type Quality, type CriticalInjury
 } from "../../../../api/model";
 import {useCreateCampaign} from "../../../../api/generated/campaign-controller/campaign-controller.ts";
-import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
+import GenesysTextField from "../../common/field/GenesysTextField.tsx";
 
 export default function CampaignWizard() {
     const createCampaignMutation = useCreateCampaign();

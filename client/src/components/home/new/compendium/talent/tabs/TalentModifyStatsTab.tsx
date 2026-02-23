@@ -6,7 +6,7 @@ import * as React from "react";
 import {useState} from "react";
 import GridContainer from "../../../../../common/grid/GridContainer.tsx";
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel} from "@mui/material";
-import GenesysNumberField from "../../../../../common/field/GenesysNumberField.tsx";
+import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import {StatsType} from "../../../../../../models/StatsType.ts";
 
 interface Props {

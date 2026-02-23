@@ -6,7 +6,7 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import {type Career, type Skill} from "../../../../../api/model";
-import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
+import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import CareerSkillSelectField from "./CareerSkillSelectField.tsx";
 import {emptyCareer} from "../../../../../models/Template.ts";
 

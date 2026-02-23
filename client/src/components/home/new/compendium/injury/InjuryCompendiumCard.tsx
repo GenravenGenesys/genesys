@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import type {CriticalInjury} from "../../../../../api/model";
-import RouterLinkButton from "../../../../common/RouterLink.tsx";
+import RouterLinkButton from "../../../common/RouterLink.tsx";
 import {RootPath} from "../../../../../services/RootPath.ts";
 
 interface Props {

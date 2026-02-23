@@ -19,9 +19,9 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import {type AdversaryTemplate, AdversaryTemplateType,} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
-import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
+import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import Tab from "@mui/material/Tab";
-import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
+import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import AdversaryCharacteristics from "./AdversaryCharacteristics.tsx";
 import AdversaryRatings from "./AdversaryRatings.tsx";
 import AdversarySkillManager from "./AdversarySkillManager.tsx";

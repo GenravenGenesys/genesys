@@ -3,7 +3,7 @@ import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
-import GenesysSelectField from "../../field/GenesysSelectField";
+import GenesysSelectField from "../../../home/common/field/GenesysSelectField";
 import {Tier} from "../../../../api/model";
 
 interface Props {

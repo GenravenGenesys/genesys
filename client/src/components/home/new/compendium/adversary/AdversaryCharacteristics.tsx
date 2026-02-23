@@ -1,5 +1,5 @@
 import {type Characteristics, CharacteristicType} from "../../../../../api/model";
-import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
+import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import {Grid} from "@mui/material";
 

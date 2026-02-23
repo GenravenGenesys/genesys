@@ -27,8 +27,8 @@ import {
     SkillType
 } from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
-import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
-import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
+import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
+import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import SelectSkillField from "../SelectSkillField.tsx";
 
 interface Props {

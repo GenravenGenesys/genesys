@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import WorkIcon from '@mui/icons-material/Work';
 import type {Career} from "../../../../../api/model";
-import RouterLinkButton from "../../../../common/RouterLink.tsx";
+import RouterLinkButton from "../../../common/RouterLink.tsx";
 import {RootPath} from "../../../../../services/RootPath.ts";
 
 interface Props {

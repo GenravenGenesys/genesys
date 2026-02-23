@@ -35,9 +35,7 @@ export default function TestEncounterSetup(props: Props) {
             <Grid container spacing={3}>
                 <Grid size={{xs: 12, md: 5}} sx={{mt: 4}}>
                     <Paper sx={{p: 3}}>
-                        <Typography variant="h6" gutterBottom>
-                            Initiative Order
-                        </Typography>
+                        <Typography variant="h6" gutterBottom>Initiative Order</Typography>
 
                         <Alert severity="info" sx={{mb: 2}}>
                             Each participant rolls initiative once to create a slot. During
@@ -57,8 +55,7 @@ export default function TestEncounterSetup(props: Props) {
                                     return (
                                         <ListItem
                                             sx={{
-                                                border: 2,
-                                                borderColor:
+                                                border: 2, borderColor:
                                                     slot.type === InitiativeSlotType.Player
                                                         ? "primary.main"
                                                         : "error.main",
@@ -66,34 +63,20 @@ export default function TestEncounterSetup(props: Props) {
                                                     slot.type === InitiativeSlotType.Player
                                                         ? "primary.light"
                                                         : "error.light",
-                                                borderRadius: 1,
-                                                mb: 1,
+                                                borderRadius: 1, mb: 1,
                                             }}
                                         >
                                             <Box sx={{mr: 2, textAlign: "center", minWidth: 40}}>
-                                                <Typography variant="h6" fontWeight="bold">
-                                                    #{index + 1}
-                                                </Typography>
+                                                <Typography variant="h6" fontWeight="bold">#{index + 1}</Typography>
                                             </Box>
 
                                             <ListItemText
                                                 primary={
-                                                    <Box
-                                                        sx={{
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            gap: 1,
-                                                        }}
-                                                    >
-                                                        <Chip
-                                                            label={InitiativeSlotType.Player}
-                                                            size="small"
-                                                            color={"primary"}
-                                                            sx={{fontWeight: "bold"}}
-                                                        />
-                                                        <Typography variant="body2">
-                                                            Rolled by: {rolledByParticipant?.name}
-                                                        </Typography>
+                                                    <Box sx={{display: "flex", alignItems: "center", gap: 1,}}>
+                                                        <Chip label={InitiativeSlotType.Player} size="small"
+                                                              color={"primary"} sx={{fontWeight: "bold"}}/>
+                                                        <Typography variant="body2">Rolled
+                                                            by: {rolledByParticipant?.name}</Typography>
                                                     </Box>
                                                 }
                                                 secondary={
@@ -103,9 +86,7 @@ export default function TestEncounterSetup(props: Props) {
                                                 }
                                             />
                                             secondaryAction={
-                                            <IconButton
-                                                edge="end"
-                                                color="error"
+                                            <IconButton edge="end" color="error"
                                                 // onClick={() => onRemoveInitiativeSlot(slot.id)}
                                             >
                                                 <DeleteIcon/>
@@ -117,9 +98,7 @@ export default function TestEncounterSetup(props: Props) {
                             </List>
                         )}
 
-                        <Box
-                            sx={{mt: 2, p: 2, backgroundColor: "grey.25", borderRadius: 1}}
-                        >
+                        <Box sx={{mt: 2, p: 2, backgroundColor: "grey.25", borderRadius: 1}}>
                             <Typography variant="body2" color="text.secondary">
                                 <strong>Summary:</strong>
                                 <br/>
@@ -135,9 +114,7 @@ export default function TestEncounterSetup(props: Props) {
 
                 <Grid size={{xs: 12, md: 7}} sx={{mt: 4}}>
                     <Paper sx={{p: 3, mb: 3}}>
-                        <Typography variant="h6" gutterBottom>
-                            Participants ({numberOfParticipants})
-                        </Typography>
+                        <Typography variant="h6" gutterBottom>Participants ({numberOfParticipants})</Typography>
 
                         <Grid container spacing={2}>
                             <Divider>Player Characters</Divider>
@@ -160,12 +137,9 @@ export default function TestEncounterSetup(props: Props) {
                     </Alert>
                 )}
 
-                <Button
-                    variant="contained"
-                    size="large"
+                <Button variant="contained" size="large"
                     // onClick={onStartEncounter}
-                    disabled={!canStart}
-                >
+                        disabled={!canStart}>
                     Start Encounter
                 </Button>
             </Paper>

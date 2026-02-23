@@ -6,9 +6,9 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import {type Skill, CharacteristicType, SkillType} from "../../../../../api/model";
-import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
-import GenesysBooleanField from "../../../../common/field/GenesysBooleanField.tsx";
-import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
+import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
+import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
+import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 
 interface Props {

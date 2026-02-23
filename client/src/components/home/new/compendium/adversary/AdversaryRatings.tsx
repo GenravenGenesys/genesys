@@ -1,7 +1,7 @@
 import {type AdversaryRatings} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import {Grid} from "@mui/material";
-import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
+import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import {RatingType} from "../../../../../models/actor/npc/NonPlayerActor.ts";
 
 interface Props {

@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 import {emptyArchetype} from "../../../../../models/Template.ts";
 import Tab from "@mui/material/Tab";
-import GenesysTextField from "../../../../common/field/GenesysTextField.tsx";
+import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import SaveIcon from "@mui/icons-material/Save";
-import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
+import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import {StatsType} from "../../../../../models/StatsType.ts";
 

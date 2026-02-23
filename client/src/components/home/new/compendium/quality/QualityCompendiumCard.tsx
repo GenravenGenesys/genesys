@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import ExtensionIcon from '@mui/icons-material/Extension';
 import type {Quality} from "../../../../../api/model";
-import RouterLinkButton from "../../../../common/RouterLink.tsx";
+import RouterLinkButton from "../../../common/RouterLink.tsx";
 import {RootPath} from "../../../../../services/RootPath.ts";
 
 interface Props {

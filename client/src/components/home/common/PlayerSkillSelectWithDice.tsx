@@ -1,4 +1,4 @@
-import {MenuItem, Select, Typography} from "@mui/material";
+import {MenuItem, Select} from "@mui/material";
 import GenesysSkillDiceTypography from "./typography/GenesysSkillDiceTypography.tsx";
 import type {PlayerCharacter, PlayerSkill} from "../../../api/model";
 import React from "react";
@@ -17,16 +17,11 @@ const PlayerSkillSelectWithDice: React.FC<Props> = ({player, onChange}) => {
     }
 
     return (
-        <Select
-            onChange={(e) => onCommit(String(e.target.value))}
-            fullWidth
-            label={'Skill'}
-        >
+        <Select onChange={(e) => onCommit(String(e.target.value))} fullWidth label={'Skill'}>
             {player.skills.filter(skill => skill.initiative).map(skill => (
                 <MenuItem value={skill.name}>
-                    <Typography>{skill.name}</Typography>
                     <GenesysSkillDiceTypography characteristicRanks={getPlayerSkillCharacteristicRanks(player, skill)}
-                                                skillRanks={skill.ranks}/>
+                                                skillRanks={skill.ranks} name={skill.name}/>
                 </MenuItem>
             ))}
         </Select>

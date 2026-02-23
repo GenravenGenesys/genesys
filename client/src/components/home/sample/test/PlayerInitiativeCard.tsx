@@ -32,7 +32,7 @@ const PlayerInitiativeCard: React.FC<Props> = ({player, participantHasSlot}) => 
                             </Typography>
                         </Box>
 
-                        <Box>
+                        <Box sx={{display: "flex", gap: 1}}>
                             <PlayerSkillSelectWithDice player={player} onChange={(sk) => setSkill(sk)}/>
                         </Box>
 
