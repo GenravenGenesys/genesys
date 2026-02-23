@@ -682,14 +682,15 @@ function TestEncounter() {
                 <Paper sx={{p: 3, mb: 3}}>
                     <TestEncounterBuilder encounter={encounter} numberOfParticipants={getAllParticipants().length}
                                           onRemovePartyMember={handleRemovePlayer}
-                                          onRemovePartyNPC={handleRemovePartyNPC} onRemoveNPC={handleRemoveNPC}
-                                          onReadyEncounter={handleReadyEncounter}/>
+                                          onRemovePartyNPC={handleRemovePartyNPC}
+                                          onRemoveNPC={handleRemoveNPC} onReadyEncounter={handleReadyEncounter}/>
                 </Paper>
             )}
 
             {encounter.status === CampaignEncounterStatus.Ready && (
                 <Paper sx={{p: 3, mb: 3}}>
-                    <TestEncounterSetup encounter={encounter} numberOfParticipants={getAllParticipants().length}/>
+                    <TestEncounterSetup encounter={encounter} numberOfParticipants={getAllParticipants().length}
+                                        onStartEncounter={handleStartEncounter}/>
                 </Paper>
             )}
 

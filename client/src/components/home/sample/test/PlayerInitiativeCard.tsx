@@ -3,13 +3,15 @@ import {Box, Button, Card, CardContent, Chip, Grid, Typography} from "@mui/mater
 import CasinoIcon from "@mui/icons-material/Casino";
 import type {PlayerCharacter, PlayerSkill} from "../../../../api/model";
 import PlayerSkillSelectWithDice from "../../common/PlayerSkillSelectWithDice.tsx";
+import {getPlayerSkillCharacteristicRanks} from "../../../../util/SkillHelper.ts";
 
 interface Props {
     player: PlayerCharacter;
     participantHasSlot: boolean;
+    handleRollInitiative: (characteristicRanks: number, skillRanks: number) => void;
 }
 
-const PlayerInitiativeCard: React.FC<Props> = ({player, participantHasSlot}) => {
+const PlayerInitiativeCard: React.FC<Props> = ({player, participantHasSlot, handleRollInitiative}) => {
     const [skill, setSkill] = React.useState<PlayerSkill | null>(null);
 
     return (
@@ -32,13 +34,13 @@ const PlayerInitiativeCard: React.FC<Props> = ({player, participantHasSlot}) => 
                             </Typography>
                         </Box>
 
-                        <Box sx={{display: "flex", gap: 1}}>
+                        <Box sx={{display: "flex", gap: 1, flex: "1 1 auto", maxWidth: "50%"}}>
                             <PlayerSkillSelectWithDice player={player} onChange={(sk) => setSkill(sk)}/>
                         </Box>
 
                         <Box sx={{display: "flex", gap: 1}}>
                             <Button variant="contained" size="small" startIcon={<CasinoIcon/>}
-                                // onClick={() => handleRollInitiative(player)}
+                                    onClick={() => handleRollInitiative(getPlayerSkillCharacteristicRanks(player, skill!), skill!.ranks)}
                                     disabled={skill === null || participantHasSlot}>
                                 {participantHasSlot ? "Rolled" : "Roll"}
                             </Button>

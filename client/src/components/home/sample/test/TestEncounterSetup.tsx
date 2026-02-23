@@ -10,25 +10,38 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useState} from "react";
-import {type CampaignEncounter, InitiativeSlotType} from "../../../../api/model";
+import {
+    type CampaignEncounter, type InitiativeSlot,
+    InitiativeSlotType,
+    type PlayerCharacter,
+    type PlayerSkill
+} from "../../../../api/model";
 import {DiceRoller} from "../encounter/components/DiceRoller.tsx";
 import PlayerInitiativeCard from "./PlayerInitiativeCard.tsx";
 
 interface Props {
     encounter: CampaignEncounter;
     numberOfParticipants: number;
+    onStartEncounter: () => void;
 }
 
 export default function TestEncounterSetup(props: Props) {
-    const {encounter, numberOfParticipants} = props;
+    const {encounter, numberOfParticipants, onStartEncounter} = props;
     const [selectedTab, setSelectedTab] = useState<"pcs" | "npcs">("pcs");
+    const [rollerOpen, setRollerOpen] = useState(false);
 
     const canStart = encounter.initiativeOrder.length === numberOfParticipants;
     const participantHasSlot = (participantId: string) => {
-        return encounter.initiativeOrder.some(
-            (slot) => slot.rolledBy === participantId
-        );
+        return encounter.initiativeOrder.some((slot) => slot.rolledBy === participantId);
     };
+
+    const rolledByParticipant = (id: string, slot: InitiativeSlot) => {
+        if (slot.type === InitiativeSlotType.Player) {
+            return encounter.party.players.find((p) => p.id === id) || encounter.party.adversaryTemplates.find((a) => a.id === id);
+        } else {
+            return encounter.npcIds.find((p) => p.id === id);
+        }
+    }
 
     return (
         <Box>
@@ -50,8 +63,6 @@ export default function TestEncounterSetup(props: Props) {
                         ) : (
                             <List>
                                 {encounter.initiativeOrder.map((slot, index) => {
-                                    const rolledByParticipant = slot.type === InitiativeSlotType.Player ? encounter.party.players.find((p) => p.id === slot.rolledBy) || encounter.party.adversaryTemplates.find((a) => a.id === slot.rolledBy) : encounter.npcIds.find((p) => p.id === slot.rolledBy);
-
                                     return (
                                         <ListItem
                                             sx={{
@@ -120,7 +131,10 @@ export default function TestEncounterSetup(props: Props) {
                             <Divider>Player Characters</Divider>
                             {encounter.party.players.map((participant) => (
                                 <PlayerInitiativeCard player={participant}
-                                                      participantHasSlot={participantHasSlot(participant.id)}/>
+                                                      participantHasSlot={participantHasSlot(participant.id)}
+                                                      handleRollInitiative={function (player: PlayerCharacter, skill: PlayerSkill): void {
+                                                          throw new Error("Function not implemented.");
+                                                      }}/>
                             ))}
                             <Divider>Party NPCs</Divider>
                         </Grid>
@@ -137,22 +151,20 @@ export default function TestEncounterSetup(props: Props) {
                     </Alert>
                 )}
 
-                <Button variant="contained" size="large"
-                    // onClick={onStartEncounter}
-                        disabled={!canStart}>
+                <Button variant="contained" size="large" onClick={onStartEncounter} disabled={!canStart}>
                     Start Encounter
                 </Button>
             </Paper>
 
-            {/*{rollerOpen && rollingFor && (*/}
-            {/*    <DiceRoller*/}
-            {/*        open={rollerOpen}*/}
-            {/*        participantName={rollingFor.name}*/}
-            {/*        rollType="initiative"*/}
-            {/*        onClose={() => setRollerOpen(false)}*/}
-            {/*        onRollComplete={handleInitiativeRolled}*/}
-            {/*    />*/}
-            {/*)}*/}
+            {rollerOpen && (
+                <DiceRoller
+                    open={rollerOpen}
+                    participantName={rollingFor.name}
+                    rollType="initiative"
+                    onClose={() => setRollerOpen(false)}
+                    onRollComplete={handleInitiativeRolled}
+                />
+            )}
         </Box>
     );
 }
