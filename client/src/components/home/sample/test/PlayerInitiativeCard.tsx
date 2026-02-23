@@ -8,7 +8,7 @@ import {getPlayerSkillCharacteristicRanks} from "../../../../util/SkillHelper.ts
 interface Props {
     player: PlayerCharacter;
     participantHasSlot: boolean;
-    handleRollInitiative: (characteristicRanks: number, skillRanks: number) => void;
+    handleRollInitiative: (player: PlayerCharacter, skill: PlayerSkill) => void;
 }
 
 const PlayerInitiativeCard: React.FC<Props> = ({player, participantHasSlot, handleRollInitiative}) => {
@@ -40,7 +40,7 @@ const PlayerInitiativeCard: React.FC<Props> = ({player, participantHasSlot, hand
 
                         <Box sx={{display: "flex", gap: 1}}>
                             <Button variant="contained" size="small" startIcon={<CasinoIcon/>}
-                                    onClick={() => handleRollInitiative(getPlayerSkillCharacteristicRanks(player, skill!), skill!.ranks)}
+                                    onClick={() => handleRollInitiative(player, skill!)}
                                     disabled={skill === null || participantHasSlot}>
                                 {participantHasSlot ? "Rolled" : "Roll"}
                             </Button>

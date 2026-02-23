@@ -27,7 +27,7 @@ public class InitiativeSlot {
     private PlayerCharacter playerCharacter;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private InitiativeSlotResults results;
+    private GenesysSymbolResults results;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String rolledBy;

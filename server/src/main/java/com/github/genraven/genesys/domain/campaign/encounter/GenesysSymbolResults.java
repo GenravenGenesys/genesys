@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InitiativeSlotResults {
+public class GenesysSymbolResults {
     @Schema(description = "Number of Success symbols rolled", requiredMode =  Schema.RequiredMode.REQUIRED)
     private Integer success = 0;
 

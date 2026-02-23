@@ -18,6 +18,7 @@ import {
 } from "../../../../api/model";
 import {DiceRoller} from "../encounter/components/DiceRoller.tsx";
 import PlayerInitiativeCard from "./PlayerInitiativeCard.tsx";
+import {TestDiceRoller} from "./TestDiceRoller.tsx";
 
 interface Props {
     encounter: CampaignEncounter;
@@ -28,9 +29,12 @@ interface Props {
 export default function TestEncounterSetup(props: Props) {
     const {encounter, numberOfParticipants, onStartEncounter} = props;
     const [selectedTab, setSelectedTab] = useState<"pcs" | "npcs">("pcs");
-    const [rollerOpen, setRollerOpen] = useState(false);
+    const [player, setPlayer] = useState<PlayerCharacter | null>(null);
+    const [selectedPlayerSkill, setSelectedPlayerSkill] = useState<PlayerSkill | null>(null);
+    const [openPlayerDiceRoller, setOpenPlayerDiceRoller] = useState(false);
 
     const canStart = encounter.initiativeOrder.length === numberOfParticipants;
+
     const participantHasSlot = (participantId: string) => {
         return encounter.initiativeOrder.some((slot) => slot.rolledBy === participantId);
     };
@@ -41,7 +45,13 @@ export default function TestEncounterSetup(props: Props) {
         } else {
             return encounter.npcIds.find((p) => p.id === id);
         }
-    }
+    };
+
+    const handlePlayerDicePool = (player: PlayerCharacter, skill: PlayerSkill) => {
+        setPlayer(player);
+        setSelectedPlayerSkill(skill);
+        setOpenPlayerDiceRoller(true);
+    };
 
     return (
         <Box>
@@ -132,9 +142,7 @@ export default function TestEncounterSetup(props: Props) {
                             {encounter.party.players.map((participant) => (
                                 <PlayerInitiativeCard player={participant}
                                                       participantHasSlot={participantHasSlot(participant.id)}
-                                                      handleRollInitiative={function (player: PlayerCharacter, skill: PlayerSkill): void {
-                                                          throw new Error("Function not implemented.");
-                                                      }}/>
+                                                      handleRollInitiative={handlePlayerDicePool}/>
                             ))}
                             <Divider>Party NPCs</Divider>
                         </Grid>
@@ -156,13 +164,13 @@ export default function TestEncounterSetup(props: Props) {
                 </Button>
             </Paper>
 
-            {rollerOpen && (
-                <DiceRoller
-                    open={rollerOpen}
-                    participantName={rollingFor.name}
-                    rollType="initiative"
-                    onClose={() => setRollerOpen(false)}
-                    onRollComplete={handleInitiativeRolled}
+            {openPlayerDiceRoller && (
+                <TestDiceRoller
+                    open={openPlayerDiceRoller}
+                    player={player}
+                    skill={selectedPlayerSkill}
+                    onClose={handlePlayerClose}
+                    onRollComplete={handlePlayerInitiativeRolled}
                 />
             )}
         </Box>
