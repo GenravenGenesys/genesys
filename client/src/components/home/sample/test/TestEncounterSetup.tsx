@@ -11,12 +11,11 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useState} from "react";
 import {
-    type CampaignEncounter, type InitiativeSlot,
+    type CampaignEncounter, type GenesysSymbolResults, type InitiativeSlot,
     InitiativeSlotType,
     type PlayerCharacter,
     type PlayerSkill
 } from "../../../../api/model";
-import {DiceRoller} from "../encounter/components/DiceRoller.tsx";
 import PlayerInitiativeCard from "./PlayerInitiativeCard.tsx";
 import {TestDiceRoller} from "./TestDiceRoller.tsx";
 
@@ -51,6 +50,16 @@ export default function TestEncounterSetup(props: Props) {
         setPlayer(player);
         setSelectedPlayerSkill(skill);
         setOpenPlayerDiceRoller(true);
+    };
+
+    const handlePlayerClose = () => {
+        setOpenPlayerDiceRoller(false);
+        setPlayer(null);
+        setSelectedPlayerSkill(null);
+    };
+
+    const handlePlayerInitiativeRolled = (results: GenesysSymbolResults) => {
+
     };
 
     return (
@@ -164,7 +173,7 @@ export default function TestEncounterSetup(props: Props) {
                 </Button>
             </Paper>
 
-            {openPlayerDiceRoller && (
+            {openPlayerDiceRoller && player && selectedPlayerSkill && (
                 <TestDiceRoller
                     open={openPlayerDiceRoller}
                     player={player}

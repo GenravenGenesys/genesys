@@ -14,7 +14,7 @@ import {
     Alert,
 } from "@mui/material";
 import CasinoIcon from "@mui/icons-material/Casino";
-import type {InitiativeSlotResults, PlayerCharacter, PlayerSkill} from "../../../../api/model";
+import type {GenesysSymbolResults, PlayerCharacter, PlayerSkill} from "../../../../api/model";
 
 
 interface Props {
@@ -22,11 +22,11 @@ interface Props {
     player: PlayerCharacter;
     skill: PlayerSkill;
     onClose: () => void;
-    onRollComplete: (result: InitiativeSlotResults) => void;
+    onRollComplete: (result: GenesysSymbolResults) => void;
 }
 
 export const TestDiceRoller: React.FC<Props> = ({open, player, skill, onClose, onRollComplete}) => {
-    const [result, setResult] = useState<InitiativeSlotResults>({
+    const [result, setResult] = useState<GenesysSymbolResults>({
         success: 0,
         advantage: 0,
         triumph: 0,
@@ -56,8 +56,8 @@ export const TestDiceRoller: React.FC<Props> = ({open, player, skill, onClose, o
         setRolled(true);
     };
 
-    const handleManualUpdate = (field: keyof InitiativeSlotResults, value: number) => {
-        setResult((prev) => ({
+    const handleManualUpdate = (field: keyof GenesysSymbolResults, value: number) => {
+        setResult((prev: any) => ({
             ...prev,
             [field]: Math.max(0, value),
         }));
@@ -85,7 +85,7 @@ export const TestDiceRoller: React.FC<Props> = ({open, player, skill, onClose, o
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
             <DialogTitle>
-
+                Roll {skill.type} Check for {player.name}
             </DialogTitle>
 
             <DialogContent>
@@ -102,7 +102,7 @@ export const TestDiceRoller: React.FC<Props> = ({open, player, skill, onClose, o
                         onClick={handleAutoRoll}
                         sx={{mb: 2}}
                     >
-                        Auto Roll (Simulate)
+                        Roll {skill.name} Check
                     </Button>
 
                     <Typography

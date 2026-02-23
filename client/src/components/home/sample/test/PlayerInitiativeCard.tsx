@@ -3,7 +3,6 @@ import {Box, Button, Card, CardContent, Chip, Grid, Typography} from "@mui/mater
 import CasinoIcon from "@mui/icons-material/Casino";
 import type {PlayerCharacter, PlayerSkill} from "../../../../api/model";
 import PlayerSkillSelectWithDice from "../../common/PlayerSkillSelectWithDice.tsx";
-import {getPlayerSkillCharacteristicRanks} from "../../../../util/SkillHelper.ts";
 
 interface Props {
     player: PlayerCharacter;
