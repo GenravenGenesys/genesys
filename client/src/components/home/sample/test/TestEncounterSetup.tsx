@@ -17,7 +17,7 @@ import {
     type PlayerSkill
 } from "../../../../api/model";
 import PlayerInitiativeCard from "./PlayerInitiativeCard.tsx";
-import {TestDiceRoller} from "./TestDiceRoller.tsx";
+import {TestPlayerDiceRoller} from "./TestPlayerDiceRoller.tsx";
 
 interface Props {
     encounter: CampaignEncounter;
@@ -31,6 +31,7 @@ export default function TestEncounterSetup(props: Props) {
     const [player, setPlayer] = useState<PlayerCharacter | null>(null);
     const [selectedPlayerSkill, setSelectedPlayerSkill] = useState<PlayerSkill | null>(null);
     const [openPlayerDiceRoller, setOpenPlayerDiceRoller] = useState(false);
+    const [baseInitiativeResult, setBaseInitiativeResult] = useState<GenesysSymbolResults | null>(null);
 
     const canStart = encounter.initiativeOrder.length === numberOfParticipants;
 
@@ -50,16 +51,20 @@ export default function TestEncounterSetup(props: Props) {
         setPlayer(player);
         setSelectedPlayerSkill(skill);
         setOpenPlayerDiceRoller(true);
+        console.log(player);
+        console.log(skill);
+        console.log(openPlayerDiceRoller);
     };
 
     const handlePlayerClose = () => {
         setOpenPlayerDiceRoller(false);
         setPlayer(null);
         setSelectedPlayerSkill(null);
+        setBaseInitiativeResult(null);
     };
 
     const handlePlayerInitiativeRolled = (results: GenesysSymbolResults) => {
-
+        setBaseInitiativeResult(results);
     };
 
     return (
@@ -174,12 +179,20 @@ export default function TestEncounterSetup(props: Props) {
             </Paper>
 
             {openPlayerDiceRoller && player && selectedPlayerSkill && (
-                <TestDiceRoller
+                <TestPlayerDiceRoller
                     open={openPlayerDiceRoller}
                     player={player}
                     skill={selectedPlayerSkill}
                     onClose={handlePlayerClose}
                     onRollComplete={handlePlayerInitiativeRolled}
+                    baseResult={baseInitiativeResult ?? {
+                        success: 0,
+                        advantage: 0,
+                        triumph: 0,
+                        failure: 0,
+                        threat: 0,
+                        despair: 0,
+                    }}
                 />
             )}
         </Box>

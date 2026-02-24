@@ -98,7 +98,10 @@ export default function GenesysSkillDiceTypography(props: Props) {
                 final += `${word} `;
             }
         });
-        return name + ': ' + final;
+        if (name) {
+            return name + ': ' + final;
+        }
+        return final;
     };
 
     return (

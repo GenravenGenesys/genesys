@@ -13,46 +13,31 @@ import {
     Chip,
     Alert,
 } from "@mui/material";
-import CasinoIcon from "@mui/icons-material/Casino";
 import type {GenesysSymbolResults, PlayerCharacter, PlayerSkill} from "../../../../api/model";
-import GenesysNumberField from "../../common/field/GenesysNumberField.tsx";
-import GenesysSkillDiceTypography from "../../common/typography/GenesysSkillDiceTypography.tsx";
+import GenesysPlayerDicePoolButton from "../../common/GenesysPlayerDicePoolButton.tsx";
 
 
 interface Props {
     open: boolean;
     player: PlayerCharacter;
     skill: PlayerSkill;
+    baseResult: GenesysSymbolResults;
     onClose: () => void;
     onRollComplete: (result: GenesysSymbolResults) => void;
 }
 
-export const TestDiceRoller: React.FC<Props> = ({open, player, skill, onClose, onRollComplete}) => {
-    const [result, setResult] = useState<GenesysSymbolResults>({
-        success: 0,
-        advantage: 0,
-        triumph: 0,
-        failure: 0,
-        threat: 0,
-        despair: 0,
-    });
+export const TestPlayerDiceRoller: React.FC<Props> = ({open, player, skill, baseResult, onClose, onRollComplete}) => {
+    const [result, setResult] = useState<GenesysSymbolResults>(baseResult);
     const [rolled, setRolled] = useState(false);
 
-    const handleAutoRoll = () => {
-        const rollSuccess = Math.floor(Math.random() * 4);
-        const rollAdvantage = Math.floor(Math.random() * 5);
-        const rollTriumph = Math.random() > 0.9 ? 1 : 0;
-        const rollFailure = Math.floor(Math.random() * 2);
-        const rollThreat = Math.floor(Math.random() * 3);
-        const rollDespair = Math.random() > 0.95 ? 1 : 0;
-
+    const handleAutoRoll = (results: GenesysSymbolResults) => {
         setResult({
-            success: rollSuccess,
-            advantage: rollAdvantage,
-            triumph: rollTriumph,
-            failure: rollFailure,
-            threat: rollThreat,
-            despair: rollDespair,
+            success: results.success,
+            advantage: results.advantage,
+            triumph: results.triumph,
+            failure: results.failure,
+            threat: results.threat,
+            despair: results.despair,
         });
 
         setRolled(true);
@@ -97,22 +82,12 @@ export const TestDiceRoller: React.FC<Props> = ({open, player, skill, onClose, o
                         rolled physical dice. Remember to include any Triumphs or Despairs!
                     </Alert>
 
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        size="large"
-                        onClick={handleAutoRoll}
-                        sx={{mb: 2}}
-                    >
-                        <GenesysSkillDiceTypography characteristicRanks={} skillRanks={}/>
-                    </Button>
+                    <Box sx={{display: "flex", justifyContent: "center", gap: 1, flexWrap: "wrap",}}>
+                        <GenesysPlayerDicePoolButton player={player} skill={skill} onRollComplete={handleAutoRoll}
+                                                 baseResult={result}/>
+                    </Box>
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        align="center"
-                        sx={{mb: 2}}
-                    >
+                    <Typography variant="body2" color="text.secondary" align="center" sx={{mb: 2}}>
                         Or enter results manually:
                     </Typography>
                 </Box>
@@ -200,32 +175,14 @@ export const TestDiceRoller: React.FC<Props> = ({open, player, skill, onClose, o
                 </Grid>
 
                 {rolled && (
-                    <Paper
-                        sx={{
-                            p: 2,
-                            mt: 2,
-                            backgroundColor: isSuccess ? "success.light" : "error.light",
-                        }}
-                    >
+                    <Paper sx={{p: 2, mt: 2, backgroundColor: isSuccess ? "success.light" : "error.light",}}>
                         <Typography variant="h6" align="center" gutterBottom>
                             Result: {isSuccess ? "SUCCESS" : "FAILURE"}
                         </Typography>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                gap: 1,
-                                flexWrap: "wrap",
-                            }}
-                        >
-                            <Chip
-                                label={`Net Success: ${netSuccess}`}
-                                color={netSuccess > 0 ? "success" : "error"}
-                            />
-                            <Chip
-                                label={`Net Advantage: ${netAdvantage}`}
-                                color={netAdvantage > 0 ? "info" : "warning"}
-                            />
+                        <Box sx={{display: "flex", justifyContent: "center", gap: 1, flexWrap: "wrap",}}>
+                            <Chip label={`Net Success: ${netSuccess}`} color={netSuccess > 0 ? "success" : "error"}/>
+                            <Chip label={`Net Advantage: ${netAdvantage}`}
+                                  color={netAdvantage > 0 ? "info" : "warning"}/>
                             {result.triumph > 0 && (
                                 <Chip label={`Triumph: ${result.triumph}`} color="success"/>
                             )}

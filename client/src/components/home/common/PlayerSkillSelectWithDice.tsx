@@ -1,8 +1,8 @@
 import {MenuItem, TextField} from "@mui/material";
 import GenesysSkillDiceTypography from "./typography/GenesysSkillDiceTypography.tsx";
-import type {PlayerCharacter, PlayerSkill} from "../../../api/model";
 import React from "react";
 import {getPlayerSkillCharacteristicRanks} from "../../../util/SkillHelper.ts";
+import type {PlayerCharacter, PlayerSkill} from "../../../api/model";
 
 interface Props {
     player: PlayerCharacter
