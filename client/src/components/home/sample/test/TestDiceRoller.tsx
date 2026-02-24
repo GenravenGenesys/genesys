@@ -16,6 +16,7 @@ import {
 import CasinoIcon from "@mui/icons-material/Casino";
 import type {GenesysSymbolResults, PlayerCharacter, PlayerSkill} from "../../../../api/model";
 import GenesysNumberField from "../../common/field/GenesysNumberField.tsx";
+import GenesysSkillDiceTypography from "../../common/typography/GenesysSkillDiceTypography.tsx";
 
 
 interface Props {
@@ -86,24 +87,24 @@ export const TestDiceRoller: React.FC<Props> = ({open, player, skill, onClose, o
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
             <DialogTitle>
-                Roll {skill.type} Check for {player.name}
+                Roll {skill.name} Check for {player.name}
             </DialogTitle>
 
             <DialogContent>
                 <Box sx={{mb: 3}}>
                     <Alert severity="info" sx={{mb: 2}}>
-                        Roll for your action check
+                        Roll for your {skill.type} Check using the button below, or enter the results manually if you
+                        rolled physical dice. Remember to include any Triumphs or Despairs!
                     </Alert>
 
                     <Button
                         fullWidth
                         variant="contained"
                         size="large"
-                        startIcon={<CasinoIcon/>}
                         onClick={handleAutoRoll}
                         sx={{mb: 2}}
                     >
-                        Roll {skill.name} Check
+                        <GenesysSkillDiceTypography characteristicRanks={} skillRanks={}/>
                     </Button>
 
                     <Typography
