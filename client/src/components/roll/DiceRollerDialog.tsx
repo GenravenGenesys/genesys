@@ -63,7 +63,7 @@ export default function DiceRollerDialog(props: Props) {
     };
 
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} fullWidth>
             <DialogTitle style={{textAlign: 'center'}}>Genesys Dice Roller</DialogTitle>
             <DialogContent>
                 <GridContainer spacing={2}>

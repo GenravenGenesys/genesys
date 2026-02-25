@@ -9,19 +9,17 @@ interface Props {
     onChange: (value: number) => void;
     disabled?: boolean;
     fullwidth?: boolean;
-    max?: number;
-    step?: number;
     inputProps?: InputHTMLAttributes<HTMLInputElement>;
 }
 
 const GenesysDiceField: React.FC<Props> = ({
-                                                 value,
-                                                 label,
-                                                 onChange,
-                                                 disabled,
-                                                 fullwidth,
-                                                 inputProps
-                                             }) => {
+                                               value,
+                                               label,
+                                               onChange,
+                                               disabled,
+                                               fullwidth,
+                                               inputProps
+                                           }) => {
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange(Number(event.target.value));
     };
@@ -29,8 +27,8 @@ const GenesysDiceField: React.FC<Props> = ({
     return <TextField
         type="number"
         value={value}
-        fullWidth={fullwidth}
-        disabled={disabled}
+        fullWidth={fullwidth ?? true}
+        disabled={disabled ?? false}
         label={<GenesysDescriptionTypography text={label}/>}
         onChange={handleChange}
         slotProps={{
@@ -45,4 +43,4 @@ const GenesysDiceField: React.FC<Props> = ({
     />;
 };
 
-export default GenesysNumberField;
+export default GenesysDiceField;

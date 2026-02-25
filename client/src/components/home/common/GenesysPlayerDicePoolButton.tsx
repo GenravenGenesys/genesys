@@ -95,11 +95,11 @@ const GenesysPlayerDicePoolButton: React.FC<Props> = ({
                 )}
             </Button>
 
-            {openCustomRollBackDrop && (
-                <TestPlayerDiceRoller open={openCustomRollBackDrop} player={player} skill={skill}
-                                      onClose={() => setOpenCustomRollBackDrop(false)}
-                                      onRollComplete={onRollComplete} baseResult={baseResult}/>
-            )}
+            {/*{openCustomRollBackDrop && (*/}
+            {/*    <TestPlayerDiceRoller open={openCustomRollBackDrop} player={player} skill={skill}*/}
+            {/*                          onClose={() => setOpenCustomRollBackDrop(false)}*/}
+            {/*                          onRollComplete={onRollComplete} baseResult={baseResult}/>*/}
+            {/*)}*/}
         </Box>
     );
 };
