@@ -51,9 +51,6 @@ export default function TestEncounterSetup(props: Props) {
         setPlayer(player);
         setSelectedPlayerSkill(skill);
         setOpenPlayerDiceRoller(true);
-        console.log(player);
-        console.log(skill);
-        console.log(openPlayerDiceRoller);
     };
 
     const handlePlayerClose = () => {
@@ -65,6 +62,7 @@ export default function TestEncounterSetup(props: Props) {
 
     const handlePlayerInitiativeRolled = (results: GenesysSymbolResults) => {
         setBaseInitiativeResult(results);
+        console.log("Player rolled initiative with results:", results);
     };
 
     return (
@@ -114,19 +112,7 @@ export default function TestEncounterSetup(props: Props) {
                                                             by: {rolledByParticipant?.name}</Typography>
                                                     </Box>
                                                 }
-                                                secondary={
-                                                    <Typography variant="h6" component="span">
-                                                        {/*{slot.success} Success, {slot.advantage} Advantage*/}
-                                                    </Typography>
-                                                }
                                             />
-                                            secondaryAction={
-                                            <IconButton edge="end" color="error"
-                                                // onClick={() => onRemoveInitiativeSlot(slot.id)}
-                                            >
-                                                <DeleteIcon/>
-                                            </IconButton>
-                                        }
                                         </ListItem>
                                     );
                                 })}
