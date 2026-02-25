@@ -3,6 +3,7 @@ package com.github.genraven.genesys.domain.campaign.encounter;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.actor.adversary.AdversaryTemplate;
 import com.github.genraven.genesys.domain.actor.player.PlayerCharacter;
+import com.github.genraven.genesys.domain.common.GenesysSymbolResults;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;

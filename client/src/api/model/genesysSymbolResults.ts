@@ -7,10 +7,16 @@
  */
 
 export interface GenesysSymbolResults {
+  /** Number of Success symbols rolled */
   success: number;
+  /** Number of Advantage symbols rolled */
   advantage: number;
+  /** Number of Triumph symbols rolled */
   triumph: number;
+  /** Number of Failure symbols rolled */
   failure: number;
+  /** Number of Threat symbols rolled */
   threat: number;
+  /** Number of Despair symbols rolled */
   despair: number;
 }
