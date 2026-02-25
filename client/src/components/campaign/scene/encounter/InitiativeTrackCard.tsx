@@ -5,7 +5,6 @@ import { useState } from "react";
 import InitiativeSlot, { Type } from "../../../../models/campaign/encounter/InitiativeSlot";
 import { characterSkillDicePool } from "../../../../models/roll/dice/DicePool";
 import handleDicePoolRoll from "../../../../models/roll/DicePoolRoll";
-import { GenesysSymbols } from "../../../../models/roll/GenesysSymbols";
 import { convertResultsToString } from "../../../../models/roll/DiceRoll";
 import GridContainer from "../../../common/grid/GridContainer";
 import GenesysDescriptionTypography from "../../../home/common/typography/GenesysDescriptionTypography.tsx";
@@ -16,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import CharacterService from "../../../../services/encounter/CharacterService";
 import { getEmptyAction } from "../../../../models/campaign/encounter/Action";
 import InitiativeSelectSkillCard from "./InitiativeSelectSkillCard";
+import type {GenesysSymbolResults} from "../../../../api/model";
 
 interface Props {
     party: Party;
@@ -53,14 +53,13 @@ const InitiativeTrackCard: React.FC<Props> = ({ party, enemies, updateSlots }) =
     if (isEnemyError) return <div>Failed to convert enemy data.</div>;
 
 
-    const initSymbols = (): Record<GenesysSymbols, number> => ({
-        [GenesysSymbols.Success]: 0,
-        [GenesysSymbols.Advantage]: 0,
-        [GenesysSymbols.Triumph]: 0,
-        [GenesysSymbols.Failure]: 0,
-        [GenesysSymbols.Threat]: 0,
-        [GenesysSymbols.Despair]: 0,
-        [GenesysSymbols.Blank]: 0,
+    const initSymbols = (): GenesysSymbolResults => ({
+        success: 0,
+        advantage: 0,
+        triumph: 0,
+        failure: 0,
+        threat: 0,
+        despair: 0,
     });
 
     const handleSkillChange = (id: string, skill: ActorSkill,) => { setSkllls(prev => ({ ...prev, [id]: skill })) };
@@ -120,10 +119,10 @@ const InitiativeTrackCard: React.FC<Props> = ({ party, enemies, updateSlots }) =
         });
 
         const sorted = allSlots.sort((a, b) => {
-            const diff = b.results[GenesysSymbols.Success] - a.results[GenesysSymbols.Success];
+            const diff = b.results.success - a.results.success;
             return diff !== 0
                 ? diff
-                : b.results[GenesysSymbols.Advantage] - a.results[GenesysSymbols.Advantage];
+                : b.results.advantage - a.results.advantage;
         });
 
         setSlots(sorted);

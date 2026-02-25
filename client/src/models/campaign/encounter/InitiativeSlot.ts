@@ -3,10 +3,11 @@ import Character from "./Character";
 import Action from "./Action";
 import Maneuver from "./Maneuver";
 import Incidental from "./Incidental";
+import type {GenesysSymbolResults} from "../../../api/model";
 
 export default interface InitiativeSlot {
     type: Type
-    results: Record<GenesysSymbols, number>
+    results: GenesysSymbolResults
     character: Character
     action: Action
     maneuvers: Maneuver[]

@@ -18,6 +18,7 @@ import {
 } from "../../../../api/model";
 import PlayerInitiativeCard from "./PlayerInitiativeCard.tsx";
 import {TestPlayerDiceRoller} from "./TestPlayerDiceRoller.tsx";
+import PlayerInitiativeDiceRollDialog from "../../../roll/PlayerInitiativeDiceRollDialog.tsx";
 
 interface Props {
     encounter: CampaignEncounter;
@@ -165,21 +166,30 @@ export default function TestEncounterSetup(props: Props) {
             </Paper>
 
             {openPlayerDiceRoller && player && selectedPlayerSkill && (
-                <TestPlayerDiceRoller
-                    open={openPlayerDiceRoller}
-                    player={player}
-                    skill={selectedPlayerSkill}
-                    onClose={handlePlayerClose}
-                    onRollComplete={handlePlayerInitiativeRolled}
-                    baseResult={baseInitiativeResult ?? {
-                        success: 0,
-                        advantage: 0,
-                        triumph: 0,
-                        failure: 0,
-                        threat: 0,
-                        despair: 0,
-                    }}
-                />
+                <PlayerInitiativeDiceRollDialog open={openPlayerDiceRoller} onClose={handlePlayerClose} player={player}
+                                                skill={selectedPlayerSkill} results={baseInitiativeResult ?? {
+                    success: 0,
+                    advantage: 0,
+                    triumph: 0,
+                    failure: 0,
+                    threat: 0,
+                    despair: 0,
+                }}/>
+                // <TestPlayerDiceRoller
+                //     open={openPlayerDiceRoller}
+                //     player={player}
+                //     skill={selectedPlayerSkill}
+                //     onClose={handlePlayerClose}
+                //     onRollComplete={handlePlayerInitiativeRolled}
+                //     baseResult={baseInitiativeResult ?? {
+                //         success: 0,
+                //         advantage: 0,
+                //         triumph: 0,
+                //         failure: 0,
+                //         threat: 0,
+                //         despair: 0,
+                //     }}
+                // />
             )}
         </Box>
     );
