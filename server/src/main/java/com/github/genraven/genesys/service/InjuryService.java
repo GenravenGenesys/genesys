@@ -1,40 +1,47 @@
 package com.github.genraven.genesys.service;
 
 import com.github.genraven.genesys.domain.CriticalInjury;
-import com.github.genraven.genesys.repository.InjuryRepository;
+import com.github.genraven.genesys.domain.campaign.Campaign;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class InjuryService {
 
-    private final InjuryRepository injuryRepository;
+    private final ReactiveMongoTemplate reactiveMongoTemplate;
 
-    public Flux<CriticalInjury> getAllInjuries() {
-        return injuryRepository.findAll();
+    public Flux<CriticalInjury> findAllByCampaignId(final String campaignId) {
+        return reactiveMongoTemplate.findById(campaignId, Campaign.class)
+                .flatMapMany(campaign -> Flux.fromIterable(campaign.getCompendium().getCriticalInjuries()));
     }
 
-    public Mono<CriticalInjury> getInjury(final String id) {
-        return injuryRepository.findById(id);
+    public Mono<CriticalInjury> addCriticalInjury(final String campaignId, final CriticalInjury injury) {
+        injury.setId(UUID.randomUUID().toString());
+
+        Query query = new Query(Criteria.where("id").is(campaignId));
+        Update update = new Update().push("compendium.injury", injury);
+
+        return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(injury);
     }
 
-    public Mono<CriticalInjury> createInjury(final String name) {
-        return injuryRepository.save(new CriticalInjury(name));
-    }
+    public Mono<CriticalInjury> updateCriticalInjury(final String campaignId, final String injuryId, final CriticalInjury updatedCriticalInjury) {
+        Query query = new Query(Criteria.where("id").is(campaignId).and("compendium.injury.id").is(injuryId));
 
-    public Mono<CriticalInjury> updateInjury(final String id, final CriticalInjury criticalInjury) {
-        return getInjury(id).map(injury -> {
-            injury.setSeverity(criticalInjury.getSeverity());
-            injury.setDescription(criticalInjury.getDescription());
-            injury.setMin(criticalInjury.getMin());
-            injury.setMax(criticalInjury.getMax());
-            injury.setModifiers(criticalInjury.getModifiers());
-            return injury;
-        }).flatMap(injuryRepository::save);
+        Update update = new Update().set("compendium.injury.$", updatedCriticalInjury);
+
+        return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(updatedCriticalInjury);
     }
 }

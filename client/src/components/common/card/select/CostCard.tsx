@@ -5,7 +5,7 @@ import {useState} from "react";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
 import GridContainer from "../../grid/GridContainer";
-import GenesysSelectField from "../../field/GenesysSelectField";
+import GenesysSelectField from "../../../home/common/field/GenesysSelectField";
 import NumberTextField from "../../text/NumberTextField";
 import {type Cost, CostType} from "../../../../api/model";
 

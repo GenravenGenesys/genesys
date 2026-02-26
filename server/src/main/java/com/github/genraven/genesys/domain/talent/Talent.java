@@ -1,35 +1,28 @@
 package com.github.genraven.genesys.domain.talent;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.github.genraven.genesys.domain.Activation;
+import com.github.genraven.genesys.domain.enums.Activation;
 import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
-import com.github.genraven.genesys.domain.common.Action;
+import com.github.genraven.genesys.domain.enums.Tier;
 import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.domain.modifier.StatModifiers;
 import com.github.genraven.genesys.validator.EnumValidator;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Document(collection = "talents")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(description = "Setting-specific talents")
 public class Talent {
-
-    public Talent(final String name) {
-        this.name = name;
-    }
-
-    protected Talent() {
-    }
 
     @Id
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -55,40 +48,37 @@ public class Talent {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
+    @Valid
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Cost cost = new Cost();
 
+    @Valid
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Limit limit = new Limit();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private TalentSkills talentSkills = new TalentSkills();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private TalentStats talentStats = new TalentStats();
+    private StatModifiers statModifiers = new StatModifiers();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private TalentSkillCheck talentSkillCheck = new TalentSkillCheck();
 
+//    @Builder.Default
+//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+//    private Action action = new Action();
+
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Action action = new Action();
+    private List<TalentRollModifiers> talentRollModifiers = List.of();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<TalentRollModifiers> talentRollModifiers = new ArrayList<>();
-
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Modifier> modifiers = new ArrayList<>();
-
-    @AllArgsConstructor
-    @Getter
-    public enum Tier {
-        FIRST("First"),
-        SECOND("Second"),
-        THIRD("Third"),
-        FOURTH("Fourth"),
-        FIFTH("Fifth");
-
-        @JsonValue
-        private final String label;
-    }
+    private List<Modifier> modifiers = List.of();
 }

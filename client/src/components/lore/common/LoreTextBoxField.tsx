@@ -1,5 +1,5 @@
 import React from "react";
-import GenesysTextField from "../../common/field/GenesysTextField";
+import GenesysTextField from "../../home/common/field/GenesysTextField";
 
 type Props = {
     value: string;

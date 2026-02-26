@@ -9,7 +9,7 @@ import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
 import {ActorPath} from "../../../services/RootPath";
-import GenesysDescriptionTypography from "../../common/typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../../home/common/typography/GenesysDescriptionTypography.tsx";
 import type {Party, Player} from "../../../api/model";
 
 interface Props {

@@ -1,14 +1,12 @@
-import type {ActorType} from "../../actor/Actor.ts";
 import type {
     Ability,
     ActorArmor,
     ActorSkill,
-    ActorTalent,
+    ActorTalent, ActorType,
     ActorWeapon,
     Characteristic, CriticalInjury,
     Stats, StatusEffect
 } from "../../../api/model";
-import type {ActorGear} from "../../equipment/Gear.ts";
 
 
 export default interface Character {
@@ -27,7 +25,7 @@ export default interface Character {
     ranged: number,
     weapons: ActorWeapon[],
     armors: ActorArmor[],
-    gear: ActorGear[],
+    // gear: ActorGear[],
     abilities: Ability[],
     talents: ActorTalent[],
     skills: ActorSkill[],

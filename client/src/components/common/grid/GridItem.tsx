@@ -1,5 +1,5 @@
 import React from "react";
-import {Grid2} from "@mui/material";
+import {Grid} from "@mui/material";
 
 type GridItemProps = {
     children: React.ReactNode;
@@ -7,7 +7,7 @@ type GridItemProps = {
 };
 
 const GridItem: React.FC<GridItemProps> = ({ children, width }) => {
-    return <Grid2 sx={{ flexGrow: 1, width: width }}>{children}</Grid2>;
+    return <Grid sx={{ flexGrow: 1, width: width }}>{children}</Grid>;
 };
 
 export default GridItem;

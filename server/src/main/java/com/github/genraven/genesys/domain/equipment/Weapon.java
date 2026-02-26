@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.domain.equipment;
 
-import com.github.genraven.genesys.domain.RangeBand;
+import com.github.genraven.genesys.domain.enums.RangeBand;
 import com.github.genraven.genesys.domain.skill.Skill;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;

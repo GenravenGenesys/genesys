@@ -7,5 +7,4 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface CampaignRepository extends ReactiveMongoRepository<Campaign, String> {
-    Mono<Campaign> findByCurrent(boolean current);
 }

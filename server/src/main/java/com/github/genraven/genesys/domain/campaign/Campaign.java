@@ -1,25 +1,20 @@
 package com.github.genraven.genesys.domain.campaign;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "campaigns")
+@Schema(description = "The root entity for a VTT Campaign setting")
 public class Campaign {
-
-    protected Campaign() {
-    }
-
-    public Campaign(final String name) {
-        this.name = name;
-    }
 
     @Id
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -28,24 +23,26 @@ public class Campaign {
     @NotEmpty
     private String name;
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Party party = new Party();
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "GM-defined setting bible")
+    private CampaignCompendium compendium;
+
+    @EnumValidator(enumClass = Status.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Session> sessions = new ArrayList<>();
+    private Status status;
 
-    @NotNull
-    private boolean current = false;
+    @Getter
+    @AllArgsConstructor
+    public enum Status {
+        Building("Building"),
+        Ready("Ready"),
+        ACTIVE("Active"),
+        RESOLVED("Resolved");
 
-    @NotNull
-    private boolean active = false;
-
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<String> talentIds = new ArrayList<>();
-
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<String> skillIds = new ArrayList<>();
-
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<String> sceneIds = new ArrayList<>();
+        @JsonValue
+        private final String label;
+    }
 }

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import {
     Box, Typography, Drawer, TextField, Stack,
-    Button, MenuItem, Grid2 as Grid, Divider, InputAdornment
+    Button, MenuItem, Grid, Divider
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function EquipmentEditDrawer({ open, item, onClose, onSave }) {
+export default function EquipmentEditDrawer({open, item, onClose, onSave}) {
     // Local state initialized with the weapon's current stats
     const [formData, setFormData] = useState(item || {});
     const isNew = item?.isNew;
@@ -16,7 +16,7 @@ export default function EquipmentEditDrawer({ open, item, onClose, onSave }) {
     }, [item]);
 
     const handleChange = (field, value) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormData(prev => ({...prev, [field]: value}));
     };
 
     return (
@@ -24,13 +24,13 @@ export default function EquipmentEditDrawer({ open, item, onClose, onSave }) {
             anchor="right"
             open={open}
             onClose={onClose}
-            PaperProps={{ sx: { width: { xs: '100%', sm: 450 }, p: 3, bgcolor: '#0a1929' } }}
+            slotProps={{paper: {sx: {width: {xs: '100%', sm: 450}, p: 3, bgcolor: '#0a1929'}}}}
         >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+            <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 3}}>
                 <Typography variant="h5" fontWeight="bold">
                     {isNew ? "Create New Weapon" : "Edit Weapon"}
                 </Typography>
-                <Button onClick={onClose}><CloseIcon /></Button>
+                <Button onClick={onClose}><CloseIcon/></Button>
             </Box>
 
             <Stack spacing={3}>
@@ -106,11 +106,11 @@ export default function EquipmentEditDrawer({ open, item, onClose, onSave }) {
                     onChange={(e) => handleChange('qualities', e.target.value.split(', '))}
                 />
 
-                <Box sx={{ mt: 'auto', pt: 4, display: 'flex', gap: 2 }}>
+                <Box sx={{mt: 'auto', pt: 4, display: 'flex', gap: 2}}>
                     <Button
                         variant="contained"
                         fullWidth
-                        startIcon={<SaveIcon />}
+                        startIcon={<SaveIcon/>}
                         onClick={() => onSave(formData)}
                     >
                         Save Changes

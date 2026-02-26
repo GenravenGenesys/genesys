@@ -1,4 +1,4 @@
-import {Box, Typography, Card, CardContent, Grid2 as Grid, Divider, Stack, Avatar, Button} from '@mui/material';
+import {Box, Typography, Card, CardContent, Grid, Divider, Stack, Avatar, Button} from '@mui/material';
 
 const StatBox = ({label, value, color}) => (
     <Box sx={{textAlign: 'center', flex: 1, bgcolor: `${color}11`, p: 1, borderRadius: 1}}>
@@ -7,9 +7,9 @@ const StatBox = ({label, value, color}) => (
     </Box>
 );
 
-const CharCircle = ({ label, value }) => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 45 }}>
-        <Typography variant="caption" sx={{ fontSize: '0.65rem', fontWeight: 800, mb: 0.5, color: 'text.secondary' }}>
+const CharCircle = ({label, value}) => (
+    <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: 45}}>
+        <Typography variant="caption" sx={{fontSize: '0.65rem', fontWeight: 800, mb: 0.5, color: 'text.secondary'}}>
             {label}
         </Typography>
         <Avatar
@@ -71,7 +71,7 @@ export default function DetailedNpcCard({npc, onEdit}) {
                                     color="info.main">{npc.derived.strain || '-'}</Typography>
                     </Grid>
                 </Grid>
-                <Box sx={{ p: 2, pt: 0, display: 'flex', justifyContent: 'flex-end' }}>
+                <Box sx={{p: 2, pt: 0, display: 'flex', justifyContent: 'flex-end'}}>
                     <Button size="small" variant="outlined" onClick={onEdit}>
                         Edit Stats
                     </Button>

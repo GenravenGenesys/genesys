@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    Box, Typography, Grid2 as Grid, Card, CardContent,
+    Box, Typography, Grid, Card, CardContent,
     TextField, InputAdornment, Chip, Button, Divider,
     Stack, Tooltip, IconButton
 } from '@mui/material';
@@ -144,16 +144,16 @@ export default function EquipmentListView() {
                     New Item
                 </Button>
             </Box>
-
             <TextField
                 fullWidth
                 placeholder="Search weapons, gear, and armor..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 sx={{ mb: 4 }}
-                InputProps={{ startAdornment: (<InputAdornment position="start"><SearchIcon /></InputAdornment>) }}
+                slotProps={{
+                    input: { startAdornment: (<InputAdornment position="start"><SearchIcon /></InputAdornment>) }
+                }}
             />
-
             <Grid container spacing={3}>
                 {equipment.map(item => (
                     <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={item.id}>

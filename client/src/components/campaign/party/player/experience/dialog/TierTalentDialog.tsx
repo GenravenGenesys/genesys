@@ -12,15 +12,15 @@ import {
 } from "../../../../../common/table/TypographyTableCell";
 import TableContainer from "@mui/material/TableContainer";
 import {useFetchCampaignTalents} from "../../../../../../hooks/useFetchCampaignTalents.ts";
-import {type ActorTalent, type Player, type Talent, TalentTier} from "../../../../../../api/model";
+import {type ActorTalent, type Player, type Talent, Tier} from "../../../../../../api/model";
 import type {FC} from "react";
-import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
+// import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
 
 interface Props {
     open: boolean;
     onClose: () => void;
     currentPlayer: Player;
-    tier: TalentTier;
+    tier: Tier;
     updatePlayer: (player: Player) => void;
 }
 
@@ -30,7 +30,7 @@ const TierTalentDialog: FC<Props> = ({open, onClose, currentPlayer, tier, update
     const headers = ['Name', 'Activation', 'Summary', 'Purchase'];
 
     const addTalent = async (talent: Talent) => {
-        updatePlayer(await getPlayerController().updatePlayerTalent(currentPlayer.id, talent));
+        // updatePlayer(await getPlayerController().updatePlayerTalent(currentPlayer.id, talent));
         onClose();
     };
 
@@ -41,15 +41,15 @@ const TierTalentDialog: FC<Props> = ({open, onClose, currentPlayer, tier, update
 
     const renderExperienceCost = () => {
         switch (tier) {
-            case TalentTier.First:
+            case Tier.First:
                 return '5XP';
-            case TalentTier.Second:
+            case Tier.Second:
                 return '10XP';
-            case TalentTier.Third:
+            case Tier.Third:
                 return '15XP';
-            case TalentTier.Fourth:
+            case Tier.Fourth:
                 return '20XP';
-            case TalentTier.Fifth:
+            case Tier.Fifth:
                 return '25XP';
         }
     };

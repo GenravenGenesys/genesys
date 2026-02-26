@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import GenesysSelectField from "../../common/field/GenesysSelectField";
+import GenesysSelectField from "../../home/common/field/GenesysSelectField";
 
 
 interface Props<T extends Record<string, string | number>> {

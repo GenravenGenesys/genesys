@@ -4,7 +4,7 @@ import TierCard from "../common/card/select/TierCard";
 import * as React from "react";
 import TextFieldCard from "../common/card/TextFieldCard";
 import GridContainer from "../common/grid/GridContainer";
-import type {Activation, Talent, TalentTier} from "../../api/model";
+import type {Activation, Talent, Tier} from "../../api/model";
 
 interface Props {
     talent: Talent;
@@ -26,7 +26,7 @@ const TalentBaseTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
         }
     };
 
-    const handleTierChange = async (value: TalentTier) => {
+    const handleTierChange = async (value: Tier) => {
         if (talent) {
             updateTalent({...talent, tier: value});
         }
