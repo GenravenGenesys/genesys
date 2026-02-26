@@ -16,7 +16,7 @@ import GridContainer from "../common/grid/GridContainer.tsx";
 import GridItem from "../common/grid/GridItem.tsx";
 import GenesysDescriptionTypography from "../home/common/typography/GenesysDescriptionTypography.tsx";
 import {getPlayerSkillCharacteristicRanks} from "../../util/SkillHelper.ts";
-import GenesysPlayerDicePoolButton from "../home/common/GenesysPlayerDicePoolButton.tsx";
+import SkillRollDisplayButton from "../home/common/SkillRollDisplayButton.tsx";
 
 interface Props {
     open: boolean;
@@ -24,6 +24,7 @@ interface Props {
     player: PlayerCharacter;
     skill: PlayerSkill;
     results: GenesysSymbolResults;
+    onRollComplete: (result: GenesysSymbolResults) => void;
 }
 
 export default function PlayerInitiativeDiceRollDialog(props: Props) {
@@ -63,6 +64,8 @@ export default function PlayerInitiativeDiceRollDialog(props: Props) {
         }));
     };
 
+
+
     return (
         <Dialog open={open} onClose={handleClose} fullWidth>
             <DialogTitle>
@@ -76,7 +79,7 @@ export default function PlayerInitiativeDiceRollDialog(props: Props) {
                     </Alert>
 
                     <Box sx={{display: "flex", justifyContent: "center", gap: 1, flexWrap: "wrap",}}>
-                        <GenesysPlayerDicePoolButton player={player} skill={skill} onRollComplete={handleRoll}
+                        <SkillRollDisplayButton player={player} skill={skill} onClick={handleRoll}
                                                      baseResult={results}/>
                     </Box>
 
@@ -85,7 +88,7 @@ export default function PlayerInitiativeDiceRollDialog(props: Props) {
                     </Typography>
                 </Box>
                 <GridContainer spacing={2}>
-                    {(['[success]', '[advantage]', 'triumph', 'failure', 'threat', 'despair'] as Array<keyof GenesysSymbolResults>).map((field) => (
+                    {(['[success]', '[advantage]', '[triumph]', '[failure]', '[threat]', '[despair]'] as unknown as Array<keyof GenesysSymbolResults>).map((field) => (
                         <GridItem key={field}>
                             <TextField margin="dense" label={<GenesysDescriptionTypography
                                 text={field.charAt(0).toUpperCase() + field.slice(1)}/>}
