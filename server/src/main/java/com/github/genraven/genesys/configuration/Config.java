@@ -28,8 +28,6 @@ import java.util.List;
 @EnableWebFlux
 public class Config extends AbstractReactiveMongoConfiguration {
 
-    private final ApplicationProperties applicationProps;
-
     @Value("${spring.data.mongodb.uri}")
     private String connectionString;
 
@@ -47,7 +45,7 @@ public class Config extends AbstractReactiveMongoConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         final var source = new UrlBasedCorsConfigurationSource();
         final var config = new CorsConfiguration();
-        final var origins = List.of(applicationProps.clientOriginUrl());
+        final var origins = List.of("http://localhost:5173");
         final var headers = List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE);
         final var methods = List.of(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name());
         final var maxAge = Duration.ofSeconds(86400);

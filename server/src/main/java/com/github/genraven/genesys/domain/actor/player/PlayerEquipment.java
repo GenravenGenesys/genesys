@@ -1,8 +1,8 @@
 package com.github.genraven.genesys.domain.actor.player;
 
-import com.github.genraven.genesys.domain.actor.equipment.ArmorInstance;
-import com.github.genraven.genesys.domain.actor.equipment.GearInstance;
-import com.github.genraven.genesys.domain.actor.equipment.WeaponInstance;
+import com.github.genraven.genesys.domain.equipment.ItemTemplate;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,9 +11,16 @@ import java.util.List;
 @Data
 @Builder
 public class PlayerEquipment {
-    private List<WeaponInstance> weapons;
 
-    private ArmorInstance equippedArmor;
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private List<ItemTemplate> weapons;
 
-    private List<GearInstance> otherGear;
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private ItemTemplate equippedArmor;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private List<ItemTemplate> otherGear;
 }

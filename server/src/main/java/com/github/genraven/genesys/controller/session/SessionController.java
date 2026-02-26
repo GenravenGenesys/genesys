@@ -27,29 +27,29 @@ public class SessionController extends AbstractController {
     @Operation(summary = "Get all sessions for a campaign", description = "Retrieve a list of all sessions for a specific campaign.")
     public Mono<ResponseEntity<List<CampaignSession>>> getAllCampaignSessions(@PathVariable final String campaignId) {
         return sessionService.getAllCampaignSessions(campaignId)
-            .collectList()
-            .map(sessions -> {
-                if (CollectionUtils.isEmpty(sessions)) {
-                    return ResponseEntity.noContent().build();
-                }
-                return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(sessions);
-            });
+                .collectList()
+                .map(sessions -> {
+                    if (CollectionUtils.isEmpty(sessions)) {
+                        return ResponseEntity.noContent().build();
+                    }
+                    return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(sessions);
+                });
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get  campaign session by id", description = "Retrieve a specific  campaign session by its id.")
     public Mono<ResponseEntity<CampaignSession>> getCampaignSession(@PathVariable final String id) {
         return sessionService.getCampaignSession(id)
-            .map(campaign -> ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(campaign))
-            .defaultIfEmpty(ResponseEntity.notFound().build());
+                .map(campaign -> ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(campaign))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new  campaign session", description = "Create a new  campaign session.")
     public Mono<ResponseEntity<CampaignSession>> createCampaignSession(@RequestBody final CampaignSession campaignSession) {
         return sessionService.createCampaignSession(campaignSession)
-            .map(newCampaign -> ResponseEntity.created(getURI(newCampaign.getCampaignId())).body(newCampaign));
+                .map(newCampaign -> ResponseEntity.created(getURI(newCampaign.getCampaignId())).body(newCampaign));
     }
 }

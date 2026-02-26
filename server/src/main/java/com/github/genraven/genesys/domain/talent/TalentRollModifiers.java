@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.domain.talent;
 
-import com.github.genraven.genesys.domain.actor.ActorSkill;
+import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -8,5 +8,5 @@ import lombok.Data;
 public class TalentRollModifiers {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private ActorSkill skill;
+    private PlayerSkill skill;
 }

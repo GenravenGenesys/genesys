@@ -2,7 +2,7 @@ import {type FC, useEffect } from "react";
 import GridItem from "../../grid/GridItem";
 import { Card, CardContent, Select, MenuItem, Typography } from "@mui/material";
 import { ActorSkill, getActorCharacteristicRanks } from "../../../../models/actor/Actor";
-import GenesysSkillDiceTypography from "../../typography/GenesysSkillDiceTypography";
+import GenesysSkillDiceTypography from "../../../home/common/typography/GenesysSkillDiceTypography.tsx";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import type {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor.ts";
 

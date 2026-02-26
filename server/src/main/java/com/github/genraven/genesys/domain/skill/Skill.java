@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain.skill;
 
-import com.github.genraven.genesys.domain.actor.CharacteristicType;
+import com.github.genraven.genesys.domain.enums.CharacteristicType;
+import com.github.genraven.genesys.domain.enums.SkillType;
 import com.github.genraven.genesys.validator.EnumValidator;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -38,5 +39,11 @@ public class Skill {
 
     @Builder.Default
     @NotNull
-    private boolean initiative = false;
+    private Boolean initiative = false;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "A short summary of the skill")
+    private String summary;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "A detailed description of the skill")
+    private String description;
 }

@@ -2,7 +2,6 @@ package com.github.genraven.genesys.domain.actor.player;
 
 import com.github.genraven.genesys.domain.actor.Characteristics;
 import com.github.genraven.genesys.domain.actor.DerivedStats;
-import com.github.genraven.genesys.domain.actor.adversary.AdversarySkill;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,6 +25,15 @@ public class PlayerCharacter {
     @NotEmpty
     private String name;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private String background;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player archetype")
+    private Archetype archetype;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player career")
+    private Career career;
+
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "The characteristics of the player")
     private Characteristics characteristics;
@@ -39,6 +47,14 @@ public class PlayerCharacter {
     private PlayerEquipment equipment;
 
     @Valid
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Adversary Skills")
-    private List<AdversarySkill> skills;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player Skills")
+    private List<PlayerSkill> skills;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Experience points")
+    private Experience experience;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player talents")
+    private List<PlayerTalent> talents;
 }

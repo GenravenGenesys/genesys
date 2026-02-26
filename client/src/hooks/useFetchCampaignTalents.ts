@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import type {Talent, TalentTier} from "../api/model";
+import type {Talent, Tier} from "../api/model";
 import {getCampaignTalentController} from "../api/generated/campaign-talent-controller/campaign-talent-controller.ts";
 
-export const useFetchCampaignTalents = (type?: TalentTier) => {
+export const useFetchCampaignTalents = (type?: Tier) => {
     const [talents, setTalents] = useState<Talent[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

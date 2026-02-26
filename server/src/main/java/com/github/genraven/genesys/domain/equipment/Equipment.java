@@ -1,9 +1,8 @@
 package com.github.genraven.genesys.domain.equipment;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.domain.quality.EquipmentQuality;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
@@ -19,17 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type"
-)
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = Weapon.class, name = "Weapon"),
-    @JsonSubTypes.Type(value = Armor.class, name = "Armor"),
-    @JsonSubTypes.Type(value = Gear.class, name = "Gear")
-})
-@Schema(subTypes = { Weapon.class, Armor.class, Gear.class })
 public class Equipment {
 
     protected Equipment() {

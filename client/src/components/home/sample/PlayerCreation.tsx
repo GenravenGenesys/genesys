@@ -1,24 +1,34 @@
 import React, {useState} from 'react';
 import {
     Box, Stepper, Step, StepLabel, Button, Typography,
-    TextField, MenuItem, Grid, Paper, Divider, Stack
+    TextField, MenuItem, Grid, Paper, Divider, Stack, CircularProgress
 } from '@mui/material';
+import {emptyPlayerCharacter} from "../../../models/Template.ts";
+import {useParams} from "react-router-dom";
+import {useCampaignLive} from "../../../hooks/campaign/useCampaginLive.ts";
+import type {Archetype} from "../../../api/model";
 
 const steps = [
     'Background', 'Archetype', 'Career',
     'Invest XP', 'Motivations', 'Starting Gear'
 ];
 
-export default function CharacterCreator({campaignCompendium}) {
+export default function CharacterCreator() {
+    // const {id} = useParams<{ id: string }>();
+    const id = "695e9ce4dcbe9bcbb04d09a4"
     const [activeStep, setActiveStep] = useState(0);
-    const [character, setCharacter] = useState({
-        name: '', background: '',
-        archetypeId: '', careerId: '',
-        characteristics: {BR: 2, AG: 2, INT: 2, CUN: 2, WIL: 2, PR: 2},
-        skills: [], motivations: {strength: '', flaw: '', desire: '', fear: ''},
-        xp: 0, // Available XP from Archetype
-        items: []
-    });
+    const [character, setCharacter] = useState(emptyPlayerCharacter);
+    const {campaign, isLoading: isCampaignLoading} = useCampaignLive(id || '');
+
+    if (!id || !campaign) {
+        return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
+    }
+
+    if (isCampaignLoading) {
+        return <CircularProgress/>;
+    }
+
+    const compendium = campaign?.compendium;
 
     const handleNext = () => setActiveStep((prev) => prev + 1);
     const handleBack = () => setActiveStep((prev) => prev - 1);
@@ -36,23 +46,27 @@ export default function CharacterCreator({campaignCompendium}) {
     // --- Step 2: Archetype (Sets Base Stats & XP) ---
     const StepArchetype = () => (
         <Grid container spacing={2} sx={{mt: 3}}>
-            {campaignCompendium.archetypes.map((arch) => (
+            {compendium.archetypes.map((arch: Archetype) => (
                 <Grid size={{xs: 12, md: 6}} key={arch.id}>
                     <Paper
                         onClick={() => setCharacter({
                             ...character,
-                            archetypeId: arch.id,
-                            xp: arch.startingXp,
-                            characteristics: arch.baseCharacteristics
+                            archetype: arch,
+                            experience: {
+                                initial: arch.experience,
+                                total: arch.experience,
+                                available: arch.experience
+                            },
+                            // characteristics: arch.baseCharacteristics
                         })}
                         sx={{
                             p: 2,
                             cursor: 'pointer',
-                            border: character.archetypeId === arch.id ? '2px solid #00e5ff' : 'none'
+                            border: character.archetype === arch ? '2px solid #00e5ff' : 'none'
                         }}
                     >
                         <Typography variant="h6">{arch.name}</Typography>
-                        <Typography variant="caption">Starting XP: {arch.startingXp}</Typography>
+                        {/*<Typography variant="caption">Starting XP: {arch.startingXp}</Typography>*/}
                     </Paper>
                 </Grid>
             ))}
@@ -62,12 +76,12 @@ export default function CharacterCreator({campaignCompendium}) {
     // --- Step 3: Career (Determines Career Skills) ---
     const StepCareer = () => (
         <Stack spacing={2} sx={{mt: 3}}>
-            <TextField select label="Select Career" fullWidth value={character.careerId}
-                       onChange={(e) => setCharacter({...character, careerId: e.target.value})}>
-                {campaignCompendium.careers.map((c) => (
-                    <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>
-                ))}
-            </TextField>
+            {/*<TextField select label="Select Career" fullWidth value={character.career}*/}
+            {/*           onChange={(e) => setCharacter({...character, career: e.target.value})}>*/}
+            {/*    {compendium.careers.map((c) => (*/}
+            {/*        <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>*/}
+            {/*    ))}*/}
+            {/*</TextField>*/}
             <Typography variant="caption">Choosing a career will mark specific skills as 'Career Skills' for cheaper
                 advancement.</Typography>
         </Stack>
@@ -76,11 +90,11 @@ export default function CharacterCreator({campaignCompendium}) {
     // --- Step 4: Invest Initial Experience (Point Buy) ---
     const StepXP = () => (
         <Box sx={{mt: 3}}>
-            <Typography variant="h6" gutterBottom>Available XP: {character.xp}</Typography>
+            <Typography variant="h6" gutterBottom>Available XP: {character.experience.initial}</Typography>
             <Grid container spacing={2}>
                 {Object.keys(character.characteristics).map((stat) => (
                     <Grid size={4} key={stat} sx={{textAlign: 'center'}}>
-                        <Typography variant="h4">{character.characteristics[stat]}</Typography>
+                        {/*<Typography variant="h4">{character.characteristics[stat]}</Typography>*/}
                         <Typography variant="caption">{stat}</Typography>
                         <Box>
                             <Button size="small" onClick={() => {/* Logic to decrease XP and increase stat */
@@ -97,10 +111,10 @@ export default function CharacterCreator({campaignCompendium}) {
         <Grid container spacing={2} sx={{mt: 3}}>
             {['Strength', 'Flaw', 'Desire', 'Fear'].map((m) => (
                 <Grid size={6} key={m}>
-                    <TextField label={m} fullWidth onChange={(e) => setCharacter({
-                        ...character,
-                        motivations: {...character.motivations, [m.toLowerCase()]: e.target.value}
-                    })}/>
+                    {/*<TextField label={m} fullWidth onChange={(e) => setCharacter({*/}
+                    {/*    ...character,*/}
+                    {/*    motivations: {...character.motivations, [m.toLowerCase()]: e.target.value}*/}
+                    {/*})}/>*/}
                 </Grid>
             ))}
         </Grid>

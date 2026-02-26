@@ -27,14 +27,14 @@ public class SkillCompendiumController {
         return skillService.findAllByCampaignId(campaignId);
     }
 
-    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new skill", description = "Adds a custom skill definition to the campaign library")
     public Mono<ResponseEntity<Skill>> createSkill(@PathVariable final String campaignId, @RequestBody final Skill newSkill) {
         return skillService.addSkill(campaignId, newSkill)
             .map(saved -> ResponseEntity.status(HttpStatus.CREATED).body(saved));
     }
 
-    @PatchMapping(value = "/{skillId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{skillId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Update a skill", description = "Performs a partial update on a specific skill template")
     public Mono<ResponseEntity<Skill>> updateSkill(@PathVariable final String campaignId, @PathVariable final String skillId,
                                                    @RequestBody final Skill updatedSkill) {

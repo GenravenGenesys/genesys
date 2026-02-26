@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, TableCell, Typography } from "@mui/material";
-import GenesysDescriptionTypography from "../typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../../home/common/typography/GenesysDescriptionTypography.tsx";
 import { getActorCharacteristicRanks } from "../../../models/actor/Actor";
-import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography";
-import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
+import GenesysSkillDiceTypography from "../../home/common/typography/GenesysSkillDiceTypography.tsx";
+import GenesysDifficultyDiceTypography from "../../home/common/typography/GenesysDifficultyDiceTypography.tsx";
 // import { GenesysSymbols } from "../../../models/roll/GenesysSymbols";
 import DiceRollerDialog from "../../roll/DiceRollerDialog";
 import {

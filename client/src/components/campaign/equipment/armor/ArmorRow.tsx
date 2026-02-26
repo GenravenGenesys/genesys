@@ -8,7 +8,7 @@ import {renderPrice, renderSoak} from "../../../../util/EquipmentHelper.ts";
 import ActionsTableCell from "../../../common/table/actions/ActionsTableCell.tsx";
 import TableCell from "@mui/material/TableCell";
 import {EquipmentPath} from "../../../../services/RootPath.ts";
-import GenesysDescriptionTypography from "../../../common/typography/GenesysDescriptionTypography.tsx";
+import GenesysDescriptionTypography from "../../../home/common/typography/GenesysDescriptionTypography.tsx";
 import type {Armor} from "../../../../api/model";
 
 interface Props {

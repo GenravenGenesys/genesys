@@ -1,6 +1,6 @@
 module.exports = {
     genesysApi: {
-        input: 'http://localhost:8080/v3/api-docs',
+        input: process.env.VITE_API_URL || 'http://localhost:8080/v3/api-docs',
         output: {
             mode: 'tags-split',
             target: 'src/api/generated',
@@ -11,8 +11,8 @@ module.exports = {
             prettier: true,
             override: {
                 mutator: {
-                    path: 'src/api/axios-instance.ts',
-                    name: 'customInstance',
+                    path: 'src/api/fetch-instance.ts',
+                    name: 'customFetch',
                 },
             },
         },

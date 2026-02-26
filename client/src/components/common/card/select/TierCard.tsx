@@ -3,12 +3,12 @@ import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
-import GenesysSelectField from "../../field/GenesysSelectField";
-import {TalentTier} from "../../../../api/model";
+import GenesysSelectField from "../../../home/common/field/GenesysSelectField";
+import {Tier} from "../../../../api/model";
 
 interface Props {
-    value: TalentTier;
-    onChange: (value: TalentTier) => void;
+    value: Tier;
+    onChange: (value: Tier) => void;
     disabled: boolean;
 }
 
@@ -18,7 +18,7 @@ const TierCard: React.FC<Props> = ({value, onChange, disabled}) => {
             <Card>
                 <CenteredCardHeader title={'Tier'}/>
                 <CardContent>
-                    <GenesysSelectField value={value} label={'Tier'} onChange={onChange} options={TalentTier}
+                    <GenesysSelectField value={value} label={'Tier'} onChange={onChange} options={Tier}
                                         disabled={disabled}/>
                 </CardContent>
             </Card>

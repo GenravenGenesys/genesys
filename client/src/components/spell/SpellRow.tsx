@@ -8,7 +8,7 @@ import TableCell from "@mui/material/TableCell";
 import Collapse from "@mui/material/Collapse";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography.tsx";
+import GenesysDescriptionTypography from "../home/common/typography/GenesysDescriptionTypography.tsx";
 
 interface Props {
     spell: Spell;

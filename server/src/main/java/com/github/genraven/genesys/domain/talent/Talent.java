@@ -1,11 +1,11 @@
 package com.github.genraven.genesys.domain.talent;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.github.genraven.genesys.domain.Activation;
+import com.github.genraven.genesys.domain.enums.Activation;
 import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
-import com.github.genraven.genesys.domain.common.Action;
+import com.github.genraven.genesys.domain.enums.Tier;
 import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.domain.modifier.StatModifiers;
 import com.github.genraven.genesys.validator.EnumValidator;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,9 +14,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -66,15 +64,15 @@ public class Talent {
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private TalentStats talentStats = new TalentStats();
+    private StatModifiers statModifiers = new StatModifiers();
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private TalentSkillCheck talentSkillCheck = new TalentSkillCheck();
 
-    @Builder.Default
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Action action = new Action();
+//    @Builder.Default
+//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+//    private Action action = new Action();
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -83,17 +81,4 @@ public class Talent {
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<Modifier> modifiers = List.of();
-
-    @AllArgsConstructor
-    @Getter
-    public enum Tier {
-        FIRST("First"),
-        SECOND("Second"),
-        THIRD("Third"),
-        FOURTH("Fourth"),
-        FIFTH("Fifth");
-
-        @JsonValue
-        private final String label;
-    }
 }

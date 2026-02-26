@@ -7,7 +7,7 @@ import ActionsTableCell from "../common/table/actions/ActionsTableCell.tsx";
 import {RootPath} from "../../services/RootPath.ts";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import GenesysDescriptionTypography from "../common/typography/GenesysDescriptionTypography.tsx";
+import GenesysDescriptionTypography from "../home/common/typography/GenesysDescriptionTypography.tsx";
 import type {Talent} from "../../api/model";
 
 interface Props {

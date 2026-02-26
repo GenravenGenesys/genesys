@@ -1,32 +1,8 @@
 import {Navigate, Route, Routes} from 'react-router-dom';
 import NavBar from '../navigation/NavBar';
 import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
-import {ActorPath, CampaignPath, EquipmentPath, LorePath, RootPath} from '../../services/RootPath';
-// import AllNemesesView from '../campaign/npc/nemesis/CampaignNemeses';
+import {RootPath} from '../../services/RootPath';
 import * as React from 'react';
-// import {ViewAllLore} from "../lore/common/ViewAllLore";
-// import OrganizationWorkflow from "../lore/organization/OrganizationWorkflow";
-// import TalentWorkflow from "../talents/TalentWorkflow";
-// import SkillWorkflow from "../skills/SkillWorkflow";
-// import NemesisWorkflow from "../campaign/npc/nemesis/NemesisWorkflow";
-// import RivalWorkflow from "../campaign/npc/rival/RivalWorkflow";
-// import MinionWorkflow from "../campaign/npc/minion/MinionWorkflow";
-// import QualityWorkflow from "../qualities/QualityWorkflow";
-// import InjuryWorkflow from "../injuries/InjuryWorkflow";
-// import SpellWorkflow from "../spell/SpellWorkflow";
-// import CareerWorkflow from "../campaign/career/CareerWorkflow";
-// import ArchetypeWorkflow from "../campaign/archetype/ArchetypeWorkflow";
-// import CampaignWorkflow from "../campaign/CampaignWorkflow";
-// import HomeCampaignDashboard from "./HomeCampaignDashboard";
-// import PlayerWorkflow from "../campaign/party/player/PlayerWorkflow";
-// import ArmorWorkflow from "../campaign/equipment/armor/ArmorWorkflow";
-// import WeaponWorkflow from "../campaign/equipment/weapon/WeaponWorkflow";
-// import GearWorkflow from '../campaign/equipment/gear/GearWorkflow';
-// import SessionPage from "../campaign/session/SessionPage";
-// import EditableScenePage from "../campaign/scene/EditableScenePage";
-// import ScenePage from "../campaign/scene/ScenePage";
-// import EncounterPage from "../campaign/scene/encounter/EncounterPage";
-import {useAuth0} from "@auth0/auth0-react";
 import {PageLoader} from "../../auth/PageLoader";
 import {AuthenticationGuard} from "../../auth/AuthenticationGuard";
 import {AdminPage} from "../../auth/AdminPage";
@@ -38,18 +14,27 @@ import EquipmentListView from "./sample/EquipmentList.tsx";
 import AdversaryCompendium from "./sample/ViewAllAdvesaries.tsx";
 import SampleSessionManager from "./sample/SampleSessionManager.tsx";
 import CharacterCreator from "./sample/PlayerCreation.tsx";
-import CampaignDashboardPage from "./sample/HomeDashboard.tsx";
-import CompendiumHome from "./sample/compendium/CompendiumHome.tsx";
-import ViewCompendiumSkills from "./sample/compendium/skill/ViewCompendiumSkills.tsx";
-import ViewCompendiumTalents from "./sample/compendium/talent/ViewCompendiumTalents.tsx";
-import ViewCompendiumAdversaries from "./sample/compendium/adversary/ViewCompendiumAdversaries.tsx";
-import ActiveSessionView from "./sample/session/ActiveSessionView.tsx";
+import CampaignDashboardPage from "./new/HomeDashboard.tsx";
+import ActiveSessionView from "./new/session/ActiveSessionView.tsx";
 import GenesysSessionManager from "./sample/GenesysSessionManager.tsx";
-import SessionManager from "./sample/session/SessionManager.tsx";
+import SessionManager from "./new/session/SessionManager.tsx";
 import SampleSessionManagementPage from "./sample/SampleSessionManagementPage.tsx";
+import {useOptionalAuth0} from "../../hooks/useOptionalAuth0";
+import PartyPage from "./new/party/PartyPage.tsx";
+import CompendiumHome from "./new/compendium/CompendiumHome.tsx";
+import ViewCompendiumSkills from "./new/compendium/skill/ViewCompendiumSkills.tsx";
+import ViewCompendiumTalents from "./new/compendium/talent/ViewCompendiumTalents.tsx";
+import ViewCompendiumAdversaries from "./new/compendium/adversary/ViewCompendiumAdversaries.tsx";
+import ViewCompendiumItems from "./new/compendium/equipment/ViewCompendiumItems.tsx";
+import ViewCompendiumArchetypes from "./new/compendium/archetype/ViewCompendiumArchetypes.tsx";
+import ViewCompendiumCareers from "./new/compendium/career/ViewCompendiumCareers.tsx";
+import ViewCompendiumInjuries from "./new/compendium/injury/ViewCriticalInjuries.tsx";
+import ViewCompendiumQualities from "./new/compendium/quality/ViewCompendiumQualities.tsx";
+import SampleEncounterManager from "./sample/encounter/SampleEncounterManager.tsx";
+import TestEncounter from "./sample/test/TestEncounter.tsx";
 
 export const App: React.FC = () => {
-    const {isLoading} = useAuth0();
+    const {isLoading} = useOptionalAuth0();
 
     const theme = createTheme({
         palette: {
@@ -63,7 +48,7 @@ export const App: React.FC = () => {
                     root: {
                         borderRadius: 20,
                         border: '1px solid rgba(255, 255, 255, 0.1)',
-                        backdropFilter: 'blur(12px)',
+                        backdrop: 'blur(12px)',
                     },
                 },
             },
@@ -99,13 +84,29 @@ export const App: React.FC = () => {
                 <Route path="/callback" element={<CallbackPage/>}/>
                 <Route path="/" element={<Navigate replace to={"/" + RootPath.Home}/>}/>
                 <Route path={RootPath.Home} element={<CampaignDashboardPage/>}/>
+
+                <Route path={RootPath.Campaign + ":id/party"} element={<PartyPage/>}/>
+
                 <Route path={RootPath.Campaign + ":id/compendium"} element={<CompendiumHome/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Skills} element={<ViewCompendiumSkills/>}/>
-                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Talent} element={<ViewCompendiumTalents/>}/>
-                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Adversary} element={<ViewCompendiumAdversaries/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Talent}
+                       element={<ViewCompendiumTalents/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Adversary}
+                       element={<ViewCompendiumAdversaries/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Equipment}
+                       element={<ViewCompendiumItems/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Archetype}
+                       element={<ViewCompendiumArchetypes/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Career}
+                       element={<ViewCompendiumCareers/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Injury}
+                       element={<ViewCompendiumInjuries/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Qualities}
+                       element={<ViewCompendiumQualities/>}/>
 
                 <Route path={RootPath.Campaign + ":id"} element={<SessionManager/>}/>
-                <Route path={RootPath.Campaign + ":id" + RootPath.Session + ":sessionId"} element={<ActiveSessionView/>}/>
+                <Route path={RootPath.Campaign + ":id" + RootPath.Session + ":sessionId"}
+                       element={<ActiveSessionView/>}/>
 
                 <Route path={"/sample/comp"} element={<SampleCompendiumHome/>}/>
                 <Route path={"/sample/talents"} element={<TalentListView/>}/>
@@ -114,84 +115,9 @@ export const App: React.FC = () => {
                 <Route path={"/sample/session"} element={<SampleSessionManager/>}/>
                 <Route path={"/genesys/session"} element={<GenesysSessionManager/>}/>
                 <Route path={"/genesys/session/manager"} element={<SampleSessionManagementPage/>}/>
-                <Route path={"/sample/creation"} element={<CharacterCreator campaignCompendium={undefined}/>}/>
-
-                {/*<Route path={RootPath.Injury} element={<InjuryWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Injury + ':id/view'} element={<InjuryWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Injury + ':id/edit'} element={<InjuryWorkflow/>}/>*/}
-
-                {/*<Route path={RootPath.Spell} element={<SpellWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Spell + ':id/view'} element={<SpellWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Spell + ':id/edit'} element={<SpellWorkflow/>}/>*/}
-
-                {/*<Route path={RootPath.Talent} element={<TalentWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Talent + ':id/view'} element={<TalentWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Talent + ':id/edit'} element={<TalentWorkflow/>}/>*/}
-
-                {/*<Route path={RootPath.Qualities} element={<QualityWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Qualities + ':id/view'} element={<QualityWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Qualities + ':id/edit'} element={<QualityWorkflow/>}/>*/}
-
-                {/*<Route path={RootPath.Skills} element={<SkillWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Skills + ':id/edit'} element={<SkillWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Skills + ':id/view'} element={<SkillWorkflow/>}/>*/}
-
-                {/*<Route path={RootPath.Career} element={<CareerWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Career + ':id/edit'} element={<CareerWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Career + ':id/view'} element={<CareerWorkflow/>}/>*/}
-
-                {/*<Route path={RootPath.Archetype} element={<ArchetypeWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Archetype + ':id/edit'} element={<ArchetypeWorkflow/>}/>*/}
-                {/*<Route path={RootPath.Archetype + ':id/view'} element={<ArchetypeWorkflow/>}/>*/}
-
-                {/*/!*Actor Routes*!/*/}
-                {/*<Route path={ActorPath.Player} element={<PlayerWorkflow/>}/>*/}
-                {/*<Route path={ActorPath.Player + ':id/edit'} element={<PlayerWorkflow/>}/>*/}
-                {/*<Route path={ActorPath.Player + ':id/view'} element={<PlayerWorkflow/>}/>*/}
-
-                {/*<Route path={ActorPath.Nemesis} element={<AllNemesesView/>}/>*/}
-                {/*<Route path={ActorPath.Nemesis + ':id/edit'} element={<NemesisWorkflow/>}/>*/}
-                {/*<Route path={ActorPath.Nemesis + ':id/view'} element={<NemesisWorkflow/>}/>*/}
-
-                {/*<Route path={ActorPath.Rival} element={<RivalWorkflow/>}/>*/}
-                {/*<Route path={ActorPath.Rival + ':id/edit'} element={<RivalWorkflow/>}/>*/}
-                {/*<Route path={ActorPath.Rival + ':id/view'} element={<RivalWorkflow/>}/>*/}
-
-                {/*<Route path={ActorPath.Minion} element={<MinionWorkflow/>}/>*/}
-                {/*<Route path={ActorPath.Minion + ':id/edit'} element={<MinionWorkflow/>}/>*/}
-                {/*<Route path={ActorPath.Minion + ':id/view'} element={<MinionWorkflow/>}/>*/}
-
-                {/*/!*Equipment Routes*!/*/}
-                {/*<Route path={EquipmentPath.Armor} element={<ArmorWorkflow/>}/>*/}
-                {/*<Route path={EquipmentPath.Armor + ':id/edit'} element={<ArmorWorkflow/>}/>*/}
-                {/*<Route path={EquipmentPath.Armor + ':id/view'} element={<ArmorWorkflow/>}/>*/}
-
-                {/*<Route path={EquipmentPath.Weapon} element={<WeaponWorkflow/>}/>*/}
-                {/*<Route path={EquipmentPath.Weapon + ':id/edit'} element={<WeaponWorkflow/>}/>*/}
-                {/*<Route path={EquipmentPath.Weapon + ':id/view'} element={<WeaponWorkflow/>}/>*/}
-
-                {/*<Route path={EquipmentPath.Gear} element={<GearWorkflow/>}/>*/}
-                {/*<Route path={EquipmentPath.Gear + ':id/edit'} element={<GearWorkflow/>}/>*/}
-                {/*<Route path={EquipmentPath.Gear + ':id/view'} element={<GearWorkflow/>}/>*/}
-
-                {/*<Route path={RootPath.Scenes + ':id/edit'} element={<EditableScenePage/>}/>*/}
-                {/*<Route path={RootPath.Scenes + ':id/view'} element={<EditableScenePage/>}/>*/}
-
-                {/*/!*Lore Routes*!/*/}
-                {/*<Route path={CampaignPath.Lore} element={<ViewAllLore/>}/>*/}
-
-                {/*<Route path={LorePath.Organization} element={<OrganizationWorkflow/>}/>*/}
-                {/*<Route path={LorePath.Organization + ':id/view'} element={<OrganizationWorkflow/>}/>*/}
-                {/*<Route path={LorePath.Organization + ':id/edit'} element={<OrganizationWorkflow/>}/>*/}
-
-                {/*/!*Campaign Routes*!/*/}
-                {/*<Route path={CampaignPath.Campaign} element={<CampaignWorkflow/>}/>*/}
-                {/*<Route path={CampaignPath.Campaign + ':id'} element={<CampaignWorkflow/>}/>*/}
-
-                {/*<Route path={RootPath.Session + ':name'} element={<SessionPage/>}/>*/}
-
-                {/*<Route path={CampaignPath.Scene + ':id'} element={<ScenePage/>}/>*/}
-                {/*<Route path={CampaignPath.Scene + ':id/encounter/:type'} element={<EncounterPage/>}/>*/}
+                <Route path={"/sample/creation"} element={<CharacterCreator/>}/>
+                <Route path={"/sample/encounter"} element={<SampleEncounterManager/>}/>
+                <Route path={"/test"} element={<TestEncounter/>}/>
             </Routes>
         </ThemeProvider>
     )

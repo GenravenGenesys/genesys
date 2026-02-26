@@ -1,6 +1,8 @@
 package com.github.genraven.genesys.domain.campaign;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.genraven.genesys.domain.actor.adversary.AdversaryTemplate;
+import com.github.genraven.genesys.domain.campaign.encounter.InitiativeSlot;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -14,13 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class CampaignEncounter {
 
-    @EnumValidator(enumClass = EncounterType.class)
+    @EnumValidator(enumClass = Type.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private EncounterType encounterType;
+    private Type type;
 
-    @EnumValidator(enumClass = EncounterStatus.class)
+    @EnumValidator(enumClass = Status.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private EncounterStatus encounterStatus;
+    private Status status;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String encounterId;
@@ -28,11 +30,13 @@ public class CampaignEncounter {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
+    @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<String> npcIds;
+    private List<AdversaryTemplate> npcIds;
 
+    @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<String> initiativeOrder;
+    private List<InitiativeSlot> initiativeOrder;
 
     @Valid
     @Schema(description = "Party state during Encounter", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -40,7 +44,7 @@ public class CampaignEncounter {
 
     @Getter
     @AllArgsConstructor
-    public enum EncounterType {
+    public enum Type {
         COMBAT("Combat"),
         SOCIAL("Social"),
         GENERAL("General");
@@ -51,7 +55,8 @@ public class CampaignEncounter {
 
     @Getter
     @AllArgsConstructor
-    public enum EncounterStatus {
+    public enum Status {
+        BUILDING("Building"),
         READY("Ready"),
         ACTIVE("Active"),
         RESOLVED("Resolved");

@@ -6,23 +6,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Document(collection = "archetypes")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(description = "Setting-specific archetype for player characters")
 public class Archetype {
-
-    protected Archetype() {
-    }
-
-    public Archetype(final String name) {
-        this.name = name;
-    }
 
     @Id
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -75,7 +73,7 @@ public class Archetype {
     private int experience = 100;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Skill skill;
+    private List<Skill> skills;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<Ability> abilities = new ArrayList<>();

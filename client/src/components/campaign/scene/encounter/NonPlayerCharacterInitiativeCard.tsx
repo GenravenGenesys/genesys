@@ -3,7 +3,7 @@ import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import {Card, CardContent, MenuItem, Select} from "@mui/material";
 import * as React from "react";
 import {ActorSkill, getActorCharacteristicRanks} from "../../../../models/actor/Actor";
-import GenesysSkillDiceTypography from "../../../common/typography/GenesysSkillDiceTypography";
+import GenesysSkillDiceTypography from "../../../home/common/typography/GenesysSkillDiceTypography.tsx";
 import Typography from "@mui/material/Typography";
 
 interface Props {

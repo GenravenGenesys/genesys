@@ -1,7 +1,6 @@
 package com.github.genraven.genesys.domain.spell;
 
-import com.github.genraven.genesys.domain.Difficulty;
-import com.github.genraven.genesys.domain.actor.Characteristic;
+import com.github.genraven.genesys.domain.enums.Difficulty;
 import com.github.genraven.genesys.domain.skill.Skill;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;

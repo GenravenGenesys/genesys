@@ -1,7 +1,7 @@
 import {Card, CardContent, MenuItem, Select} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
-import GenesysDifficultyDiceTypography from "../../typography/GenesysDifficultyDiceTypography";
+import GenesysDifficultyDiceTypography from "../../../home/common/typography/GenesysDifficultyDiceTypography.tsx";
 import GridItem from "../../grid/GridItem";
 import {Difficulty} from "../../../../api/model";
 
