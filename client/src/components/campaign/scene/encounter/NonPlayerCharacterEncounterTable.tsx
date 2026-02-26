@@ -1,5 +1,4 @@
 import {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor";
-import React from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
@@ -8,7 +7,7 @@ import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
 import EditableBooleanTableCell from "../../../common/table/EditableBooleanTableCell";
-import {ActorType} from "../../../../models/actor/Actor";
+import {ActorType} from "../../../../api/model";
 
 type RowProps<T extends SingleNonPlayerCharacter> = {
     npcs: SingleNonPlayerCharacter[];

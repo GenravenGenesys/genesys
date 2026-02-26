@@ -7,12 +7,11 @@ import TabPanel from '@mui/lab/TabPanel';
 import {useState} from "react";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import ArmorTable from "./armor/ArmorTable";
-import {ActorArmor} from "../../../../models/equipment/Armor";
 import Actor from "../../../../models/actor/Actor";
 import WeaponTable from "./weapon/WeaponTable";
-import {ActorWeapon} from "../../../../models/equipment/Weapon";
 import GridContainer from "../../../common/grid/GridContainer";
 import FullGrid from "../../../common/grid/FullGrid";
+import type {ActorArmor, ActorWeapon} from "../../../../api/model";
 
 interface Props {
     actor: Actor
@@ -24,7 +23,7 @@ export default function EquipmentCard(props: Props) {
     const {actor, updateArmors, updateWeapons} = props;
     const [value, setValue] = useState('1');
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (_: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
 

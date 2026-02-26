@@ -1,13 +1,13 @@
-import {CharacteristicType} from "../../../models/actor/Characteristic";
 import * as React from "react";
 import NumberTextFieldCard from "./NumberTextFieldCard";
+import type {CharacteristicType} from "../../../api/model";
 
-type Props = {
+interface Props {
     type: CharacteristicType;
     value: number;
     handleCharacteristicChange: (type: CharacteristicType, value: number) => void;
     disabled: boolean;
-};
+}
 
 const CharacteristicCard: React.FC<Props> = ({type, value, handleCharacteristicChange, disabled}) => {
 

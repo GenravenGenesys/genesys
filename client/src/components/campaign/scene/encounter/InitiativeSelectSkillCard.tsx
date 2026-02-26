@@ -2,7 +2,7 @@ import { Card, CardContent, Select, MenuItem, Typography } from "@mui/material";
 import { ActorSkill, getActorCharacteristicRanks } from "../../../../models/actor/Actor"
 import Character from "../../../../models/campaign/encounter/Character"
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
-import GenesysSkillDiceTypography from "../../../common/typography/GenesysSkillDiceTypography";
+import GenesysSkillDiceTypography from "../../../home/common/typography/GenesysSkillDiceTypography.tsx";
 
 type Props = {
     character: Character;

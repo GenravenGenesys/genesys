@@ -1,7 +1,4 @@
 import {Card, CardContent} from "@mui/material";
-import * as React from "react";
-import {Armor} from "../../../../../models/equipment/Armor";
-import {EquipmentQuality} from "../../../../../models/Quality";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -12,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import NumberTextFieldIndexTableCell from "../../../../common/table/NumberTextFieldIndexTableCell";
 import QualityAutocompleteTableCell from "../../../../common/table/QualityAutocompleteTableCell";
 import QualityTableFooter from "../../../../common/table/QualityTableFooter";
-
+import type {Armor, EquipmentQuality} from "../../../../../api/model";
 
 interface Props {
     armor: Armor
@@ -29,14 +26,14 @@ export default function ArmorQualityCard(props: Props) {
     };
 
     const handleQualityChange = async (index: number, value: EquipmentQuality) => {
-        const updatedQualities = armor.qualities.map((row, i) =>
+        const updatedQualities = armor.qualities.map((row: EquipmentQuality, i: number) =>
             i === index ? {...value} : row
         );
         updateArmor({...armor, qualities: updatedQualities});
     };
 
     const handleRanksChange = async (index: number, value: number) => {
-        const updatedQualities = armor.qualities.map((row, i) =>
+        const updatedQualities = armor.qualities.map((row: EquipmentQuality, i: number) =>
             i === index ? {...row, ranks: Number(value)} : row
         );
         updateArmor({...armor, qualities: updatedQualities});
@@ -50,7 +47,7 @@ export default function ArmorQualityCard(props: Props) {
                     <Table>
                         {renderSingleRowTableHeader(headers)}
                         <TableBody>
-                            {armor.qualities.map((quality, index) => (
+                            {armor.qualities.map((quality: EquipmentQuality, index: number) => (
                                 <TableRow key={index}>
                                     <QualityAutocompleteTableCell disabled={disabled}
                                                                   onChange={handleQualityChange} quality={quality}

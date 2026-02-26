@@ -1,4 +1,4 @@
-import {useAuth0} from "@auth0/auth0-react";
+import {useOptionalAuth0} from "../../hooks/useOptionalAuth0";
 import React, {Fragment} from "react";
 import {Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip} from "@mui/material";
 import {AccountBox, Login, Logout, Person, PersonAdd} from "@mui/icons-material";
@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 
 const AccountMenu: React.FC = () => {
     const navigate = useNavigate();
-    const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
+    const {isAuthenticated, loginWithRedirect, logout} = useOptionalAuth0();
     const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<null | HTMLElement>(null);
     const open = Boolean(accountMenuAnchor);
 

@@ -1,6 +1,4 @@
-import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import {Armor} from "../../../../models/equipment/Armor";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import {Card, CardContent, Divider} from "@mui/material";
 import ViewFieldCard from "../../../common/ViewFieldCard";
@@ -11,8 +9,9 @@ import {renderSingleRowTableHeader} from "../../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TypographyCenterTableCell} from "../../../common/table/TypographyTableCell";
-import {renderPrice, renderSoak} from "../../../../models/equipment/EquipmentHelper";
+import {renderPrice, renderSoak} from "../../../../util/EquipmentHelper.ts";
 import GridContainer from "../../../common/grid/GridContainer";
+import type {Armor} from "../../../../api/model";
 
 interface Props {
     armor: Armor

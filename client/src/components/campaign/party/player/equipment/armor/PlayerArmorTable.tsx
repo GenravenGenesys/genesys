@@ -3,11 +3,10 @@ import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import * as React from "react";
 import {TypographyCenterTableCell, TypographyLeftTableCell} from "../../../../../common/table/TypographyTableCell";
-import {ActorArmor, ArmorSlot} from "../../../../../../models/equipment/Armor";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
-import {renderQualities, renderSoak} from "../../../../../../models/equipment/EquipmentHelper";
+import {renderQualities, renderSoak} from "../../../../../../util/EquipmentHelper.ts";
+import {type ActorArmor, ActorArmorSlot} from "../../../../../../api/model";
 
 interface Props {
     armor: ActorArmor[]
@@ -47,7 +46,7 @@ function Row(props: RowProps) {
     const {armor} = props
 
     const renderEquipped = (): string => {
-        return armor.slot === ArmorSlot.Body ? 'True' : 'False';
+        return armor.slot === ActorArmorSlot.Body ? 'True' : 'False';
     }
 
     return (

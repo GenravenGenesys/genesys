@@ -2,25 +2,22 @@ import {Card, CardContent, FormControlLabel, Switch} from "@mui/material";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
 import * as React from "react";
 import SkillAutocompleteCard from "../../common/card/SkillAutocompleteCard";
-import Talent from "../../../models/Talent";
-import {useFetchAllSkills} from "../../skills/SkillWorkflow";
-import Skill from "../../../models/actor/Skill";
-import {ActorSkill} from "../../../models/actor/Actor";
 import DifficultyCard from "../../common/card/select/DifficultyCard";
-import {Difficulty} from "../../../models/common/Difficulty";
 import {useState} from "react";
 import GridItem from "../../common/grid/GridItem";
 import GridContainer from "../../common/grid/GridContainer";
+import type {ActorSkill, Difficulty, Skill, Talent} from "../../../api/model";
+import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.ts";
 
-type Props = {
+interface Props {
     talent: Talent;
     updateTalent: (talent: Talent) => void;
     disabled: boolean;
-};
+}
 
 const TalentSkillCheckCard: React.FC<Props> = ({talent, updateTalent, disabled}) => {
     const [opposed, setOpposed] = useState<boolean>(!talent.action.difficulty);
-    const skills = useFetchAllSkills();
+    const {skills} = useFetchAllSkills();
 
     const handleChange = () => {
         setOpposed(!opposed);

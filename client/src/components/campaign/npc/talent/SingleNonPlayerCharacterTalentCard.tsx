@@ -3,7 +3,6 @@ import { Fragment, useState } from "react";
 import { useLocation } from "react-router";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import TableRow from "@mui/material/TableRow";
-import Talent, { ActorTalent } from "../../../../models/Talent";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +13,7 @@ import {
 import TableContainer from "@mui/material/TableContainer";
 import { renderSingleRowTableHeader } from "../../../common/table/TableRenders";
 import CharacterTalentSelectionDialog from "./CharacterTalentSelectionDialog";
+import type {ActorTalent, Talent} from "../../../../api/model";
 
 interface Props {
     talents: ActorTalent[]

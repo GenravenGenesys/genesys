@@ -4,10 +4,10 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import {ActorArmor, ArmorSlot} from "../../../../../models/equipment/Armor";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import {TypographyLeftTableCell} from "../../../../common/table/TypographyTableCell";
 import {ArmorSlotTableCell} from "../../../../common/table/EquipmentSlotTableCell";
+import {type ActorArmor, ActorArmorSlot} from "../../../../../api/model";
 
 interface Props {
     armors: ActorArmor[]
@@ -22,9 +22,9 @@ export default function ArmorEquipDialog(props: Props) {
 
     const onChange = async (value: ActorArmor) => {
         switch (value.slot) {
-            case ArmorSlot.Body:
+            case ActorArmorSlot.Body:
                 armors.forEach((armor) => {
-                    armor.slot = armor.name === value.name ? value.slot : ArmorSlot.None;
+                    armor.slot = armor.name === value.name ? value.slot : ActorArmorSlot.None;
                 })
                 break;
             default:

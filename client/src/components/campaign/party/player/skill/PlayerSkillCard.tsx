@@ -1,13 +1,10 @@
-import Player, {PlayerSkill} from "../../../../../models/actor/player/Player";
 import {Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import {SkillType} from "../../../../../models/actor/Skill";
-import * as React from "react";
-import {renderDoubleRowTableHeader, renderSkillName} from "../../../../common/table/TableRenders";
+import {renderDoubleRowTableHeader, renderSkillNameTableCell} from "../../../../common/table/TableRenders";
 import TableRow from "@mui/material/TableRow";
 import {
     GenesysDicePoolCenterTableCellButton,
@@ -16,6 +13,7 @@ import {
 import BooleanTableCell from "../../../../common/table/BooleanTableCell";
 import GridItem from "../../../../common/grid/GridItem";
 import GridContainer from "../../../../common/grid/GridContainer";
+import {type Player, type PlayerSkill, SkillType} from "../../../../../api/model";
 
 interface Props {
     player: Player
@@ -32,7 +30,7 @@ export default function PlayerSkillCard(props: Props) {
                 <TableBody>
                     {(player.skills || []).filter((skill) => skill.type === type).map((skill: PlayerSkill) => (
                         <TableRow key={skill.name}>
-                            {renderSkillName(skill)}
+                            {renderSkillNameTableCell(skill)}
                             <BooleanTableCell bool={skill.career}/>
                             <TypographyCenterTableCell value={String(skill.ranks)}/>
                             <GenesysDicePoolCenterTableCellButton actor={player} skill={skill}/>

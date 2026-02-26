@@ -1,18 +1,19 @@
-import { FC, useEffect } from "react";
+import {type FC, useEffect } from "react";
 import GridItem from "../../grid/GridItem";
 import { Card, CardContent, Select, MenuItem, Typography } from "@mui/material";
 import { ActorSkill, getActorCharacteristicRanks } from "../../../../models/actor/Actor";
-import GenesysSkillDiceTypography from "../../typography/GenesysSkillDiceTypography";
+import GenesysSkillDiceTypography from "../../../home/common/typography/GenesysSkillDiceTypography.tsx";
 import CenteredCardHeader from "../header/CenteredCardHeader";
-import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
+import type {SingleNonPlayerCharacter} from "../../../../models/actor/npc/NonPlayerActor.ts";
 
-type Props = {
+
+interface Props {
     npc: SingleNonPlayerCharacter;
     skills: ActorSkill[];
     handleSkillChange: (newValue: ActorSkill) => void;
     startingSkill: ActorSkill;
     disabled: boolean;
-};
+}
 
 const SingleNonPlayerCharacterSkillSelectCard: FC<Props> = ({ npc, skills, handleSkillChange, startingSkill, disabled }) => {
 

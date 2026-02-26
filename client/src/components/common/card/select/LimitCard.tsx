@@ -1,12 +1,12 @@
 import {Card, CardContent} from "@mui/material";
-import Limit, {LimitType} from "../../../../models/common/Limit";
 import React, {useState} from "react";
 import ViewFieldCard from "../../ViewFieldCard";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import GridItem from "../../grid/GridItem";
 import GridContainer from "../../grid/GridContainer";
 import NumberTextField from "../../text/NumberTextField";
-import GenesysSelectField from "../../field/GenesysSelectField";
+import GenesysSelectField from "../../../home/common/field/GenesysSelectField";
+import {type Limit, LimitType} from "../../../../api/model";
 
 type Props = {
     initialLimit: Limit;

@@ -5,30 +5,23 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import AddIcon from '@mui/icons-material/Add';
-import {Fragment, useEffect, useState} from "react";
-import * as React from "react";
+import {Fragment} from "react";
 import TableCell from "@mui/material/TableCell";
-import {Armor} from "../../../../../models/equipment/Armor";
-import ModifierService from "../../../../../services/ModifierService";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
+import {useFetchAllModifierTypes} from "../../../../../hooks/useFetchAllModifierTypes.ts";
+import type {Armor, ModifierType} from "../../../../../api/model";
 
 interface Props {
-    armor: Armor
-    updateArmor: (armor: Armor) => void
-    disabled: boolean
+    armor: Armor;
+    updateArmor: (armor: Armor) => void;
+    disabled: boolean;
 }
 
 export default function ArmorModifierCard(props: Props) {
     const {armor, updateArmor, disabled} = props;
     const headers = ['Type', 'Ranks'];
-    const [typeOptions, setTypeOptions] = useState<string[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            setTypeOptions(await ModifierService.getModifiers());
-        })()
-    }, [])
+    const {modifiers} = useFetchAllModifierTypes();
 
     const renderTableFooter = () => {
         if (!disabled) {
@@ -43,9 +36,9 @@ export default function ArmorModifierCard(props: Props) {
         } else {
             return <Fragment/>
         }
-    }
+    };
 
-    const handleTypeChange = async (index: number, value: string) => {
+    const handleTypeChange = async (index: number, value: ModifierType) => {
         const updatedModifiers = armor.modifiers.map((row, i) =>
             i === index ? {...row, type: value} : row
         );
@@ -75,10 +68,10 @@ export default function ArmorModifierCard(props: Props) {
                                 <TableRow key={index}>
                                     <TableCell>
                                         <Autocomplete
-                                            options={typeOptions}
+                                            options={modifiers}
                                             getOptionLabel={(option) => option}
                                             value={modifier.type}
-                                            onChange={(e, newValue) => handleTypeChange(index, newValue as string)}
+                                            onChange={(_, newValue) => handleTypeChange(index, newValue as ModifierType)}
                                             renderInput={(params) => <TextField {...params} label="Type"
                                                                                 variant="outlined"/>}
                                             disabled={disabled}
@@ -90,7 +83,14 @@ export default function ArmorModifierCard(props: Props) {
                                             value={modifier.ranks}
                                             label="Ranks"
                                             onChange={(e) => handleRanksChange(index, e.target.value)}
-                                            inputProps={{min: 1, max: 10}}
+                                            slotProps={{
+                                                htmlInput: {
+                                                    min: 1,
+                                                    max: 10,
+                                                    step: 1,
+                                                    autoFocus: true
+                                                }
+                                            }}
                                             disabled={disabled}
                                         />
                                     </TableCell>
@@ -102,5 +102,5 @@ export default function ArmorModifierCard(props: Props) {
                 </TableContainer>
             </CardContent>
         </Card>
-    )
+    );
 }

@@ -1,6 +1,4 @@
-import Spell from "../../models/spell/Spell";
-import * as React from "react";
-import {Fragment, useEffect, useState} from "react";
+import {Fragment} from "react";
 import {useLocation} from "react-router";
 import {TypographyCenterTableCell} from "../common/table/TypographyTableCell";
 import TableBody from "@mui/material/TableBody";
@@ -11,29 +9,19 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import CheckboxTableCell from "../common/table/CheckboxTableCell";
-import SkillService from "../../services/SkillService";
-import Skill, {SkillType} from "../../models/actor/Skill";
+import {useFetchAllSkills} from "../../hooks/useFetchAllSkills.ts";
+import {type Skill, SkillType, type Spell} from "../../api/model";
 
 interface Props {
-    spell: Spell
-    onSkillAddition: (name: string) => void
-    onSkillRemoval: (name: string) => void
+    spell: Spell;
+    onSkillAddition: (name: string) => void;
+    onSkillRemoval: (name: string) => void;
 }
 
 export default function SpellSkillCard(props: Props) {
-    const {spell, onSkillAddition, onSkillRemoval} = props
-    const [skills, setSkills] = useState<Skill[]>([])
-    const pathname = useLocation().pathname
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            const skillList = await SkillService.getSkills()
-            if (!skillList) {
-                return
-            }
-            setSkills(skillList.filter((skill) => skill.type === SkillType.Magic))
-        })()
-    }, [])
+    const {spell, onSkillAddition, onSkillRemoval} = props;
+    const {skills} = useFetchAllSkills(SkillType.Magic);
+    const pathname = useLocation().pathname;
 
     const renderTableBody = () => {
         return (

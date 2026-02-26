@@ -20,7 +20,14 @@ export default function SkillRanksTextFieldTableCell(props: Props) {
                 label={'Ranks'}
                 fullWidth
                 onChange={(e) => onChange({...skill, ranks: Number(e.target.value)})}
-                inputProps={{min: 0, max: 5}}
+                slotProps={{
+                    htmlInput: {
+                        min: 1,
+                        max: 5,
+                        step: 1,
+                        autoFocus: true
+                    }
+                }}
                 disabled={disabled}
             />
         </TableCell>

@@ -1,15 +1,14 @@
 import {Button, Checkbox, Dialog, DialogActions, DialogContent} from "@mui/material";
 import CenteredDialogTitle from "../../common/dialog/CenteredDialogTitle";
-import {useEffect, useState} from "react";
-import Skill from "../../../models/actor/Skill";
-import SkillService from "../../../services/SkillService";
+import {useState} from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import * as React from "react";
+import {useFetchAllSkills} from "../../../hooks/useFetchAllSkills.ts";
+import type {Skill} from "../../../api/model";
 
 interface Props {
     open: boolean
@@ -20,14 +19,8 @@ interface Props {
 
 export default function TalentCareerSkillDialog(props: Props) {
     const {open, onClose, updateSkills, initialSkills} = props;
-    const [skills, setSkills] = useState<Skill[]>([]);
+    const {skills} = useFetchAllSkills();
     const [selectedSkills, setSelectedSkills] = useState<Skill[]>(initialSkills);
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setSkills(await SkillService.getSkills());
-        })()
-    }, [setSkills]);
 
     const handleSkillChange = (skill: Skill) => {
         const isSelected = selectedSkills.some(selectedSkill => selectedSkill.name === skill.name);
@@ -37,7 +30,6 @@ export default function TalentCareerSkillDialog(props: Props) {
             setSelectedSkills([...selectedSkills, skill]);
         }
     };
-
 
     const isSelected = (skill: Skill) => selectedSkills.some(selectedSkill => selectedSkill.name === skill.name);
 
@@ -53,7 +45,7 @@ export default function TalentCareerSkillDialog(props: Props) {
                 <TableContainer component={Paper}>
                     <Table>
                         <TableBody>
-                            {skills.map((skill, index) => (
+                            {skills.map((skill) => (
                                 <TableRow key={skill.name}>
                                     <TableCell>{skill.name}</TableCell>
                                     <TableCell sx={{"width": .5}}>

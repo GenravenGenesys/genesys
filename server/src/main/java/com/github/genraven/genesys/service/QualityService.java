@@ -1,40 +1,45 @@
 package com.github.genraven.genesys.service;
 
-import com.github.genraven.genesys.domain.equipment.Quality;
-import com.github.genraven.genesys.repository.QualityRepository;
+import com.github.genraven.genesys.domain.campaign.Campaign;
+import com.github.genraven.genesys.domain.quality.Quality;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class QualityService {
 
-    private final QualityRepository qualityRepository;
+    private final ReactiveMongoTemplate reactiveMongoTemplate;
 
-    public Flux<Quality> getAllQualities() {
-        return qualityRepository.findAll();
+    public Flux<Quality> findAllByCampaignId(final String campaignId) {
+        return reactiveMongoTemplate.findById(campaignId, Campaign.class)
+            .flatMapMany(campaign -> Flux.fromIterable(campaign.getCompendium().getQualities()));
     }
 
-    public Mono<Quality> getQuality(final String name) {
-        return qualityRepository.findById(name);
+    public Mono<Quality> addQuality(final String campaignId, final Quality quality) {
+        quality.setId(UUID.randomUUID().toString());
+
+        Query query = new Query(Criteria.where("id").is(campaignId));
+        Update update = new Update().push("compendium.quality", quality);
+
+        return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(quality);
     }
 
-    public Mono<Quality> createQuality(final String name) {
-        return qualityRepository.save(new Quality(name));
-    }
+    public Mono<Quality> updateQuality(final String campaignId, final String qualityId, final Quality updatedQuality) {
+        Query query = new Query(Criteria.where("id").is(campaignId).and("compendium.quality.id").is(qualityId));
 
-    public Mono<Quality> updateQuality(final String name, final Quality quality) {
-        return getQuality(name).map(qual -> {
-            qual.setDescription(quality.getDescription());
-            qual.setCost(quality.getCost());
-            qual.setWeapon(quality.isWeapon());
-            qual.setArmor(quality.isArmor());
-            qual.setModifiers(quality.getModifiers());
-            return qual;
-        }).flatMap(qualityRepository::save);
+        Update update = new Update().set("compendium.quality.$", updatedQuality);
+
+        return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(updatedQuality);
     }
 }

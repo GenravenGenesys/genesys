@@ -1,8 +1,5 @@
 import { ActorSkill } from "../../actor/Actor"
-import { CharacteristicType } from "../../actor/Characteristic"
-import { SkillType } from "../../actor/Skill"
-import { Difficulty } from "../../common/Difficulty"
-import { RangeBand } from "../../common/RangeBand"
+import {CharacteristicType, Difficulty, RangeBand, SkillType} from "../../../api/model";
 
 export default interface Action {
     skill: ActorSkill
