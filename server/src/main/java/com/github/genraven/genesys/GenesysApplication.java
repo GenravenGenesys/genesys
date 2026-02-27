@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @Log4j2
 @OpenAPIDefinition(
@@ -19,6 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 )
 @SpringBootApplication(exclude={MongoAutoConfiguration.class})
 @ConfigurationPropertiesScan
+@EnableMongoAuditing
 public class GenesysApplication {
 
 	public static void main(final String[] args) {

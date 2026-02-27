@@ -5,7 +5,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Data
 @Document(collection = "dice_rolls")
+@TypeAlias("DiceRoll")
 public class DiceRoll {
 
     @Id
@@ -56,6 +59,7 @@ public class DiceRoll {
     private String actionId;
     private String notes;
 
-    @Indexed
+    @CreatedDate
+    @Indexed(expireAfter = "7d")
     private Instant createdAt = Instant.now();
 }

@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -47,7 +48,7 @@ public class DiceRollService {
         roll.setNotes(request.getNotes());
 
         return diceRollRepository.save(roll)
-                .doOnNext(saved -> log.debug("Saved dice roll: {}", saved.getId()));
+            .doOnNext(saved -> log.debug("Saved dice roll: {}", saved.getId()));
     }
 
     public Flux<DiceRoll> getRollsByEncounter(final String encounterId) {
@@ -89,28 +90,27 @@ public class DiceRollService {
                              final int count,
                              final List<List<DiceSymbol>> faces,
                              final List<RawDieResult> results) {
-        for (int i = 0; i < count; i++) {
-            final int faceIndex = SECURE_RANDOM.nextInt(faces.size());
-            results.add(new RawDieResult(type, faceIndex + 1, faces.get(faceIndex)));
-        }
+        IntStream.range(0, count).map(i -> SECURE_RANDOM.nextInt(faces.size()))
+            .mapToObj(faceIndex -> new RawDieResult(type, faceIndex + 1, faces.get(faceIndex)))
+            .forEach(results::add);
     }
 
     private RollTotals calculateTotals(final List<RawDieResult> rawResults) {
         final var totals = new RollTotals();
 
         rawResults.stream()
-                .flatMap(r -> r.getSymbols().stream())
-                .forEach(symbol -> {
-                    switch (symbol) {
-                        case SUCCESS  -> totals.setSuccess(totals.getSuccess() + 1);
-                        case ADVANTAGE -> totals.setAdvantage(totals.getAdvantage() + 1);
-                        case TRIUMPH  -> totals.setTriumph(totals.getTriumph() + 1);
-                        case FAILURE  -> totals.setFailure(totals.getFailure() + 1);
-                        case THREAT   -> totals.setThreat(totals.getThreat() + 1);
-                        case DESPAIR  -> totals.setDespair(totals.getDespair() + 1);
-                        default       -> { /* BLANK - no action */ }
-                    }
-                });
+            .flatMap(r -> r.getSymbols().stream())
+            .forEach(symbol -> {
+                switch (symbol) {
+                    case SUCCESS -> totals.setSuccess(totals.getSuccess() + 1);
+                    case ADVANTAGE -> totals.setAdvantage(totals.getAdvantage() + 1);
+                    case TRIUMPH -> totals.setTriumph(totals.getTriumph() + 1);
+                    case FAILURE -> totals.setFailure(totals.getFailure() + 1);
+                    case THREAT -> totals.setThreat(totals.getThreat() + 1);
+                    case DESPAIR -> totals.setDespair(totals.getDespair() + 1);
+                    default -> { /* BLANK - no action */ }
+                }
+            });
 
         return totals;
     }
@@ -120,7 +120,7 @@ public class DiceRollService {
 
         // Triumph counts as success, Despair counts as failure
         final int netSuccess = (totals.getSuccess() + totals.getTriumph())
-                - (totals.getFailure() + totals.getDespair());
+            - (totals.getFailure() + totals.getDespair());
         final int netAdvantage = totals.getAdvantage() - totals.getThreat();
 
         net.setNetSuccess(netSuccess);

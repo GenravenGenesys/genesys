@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class DiceRollRequest {
 
-    @NotBlank
     private String encounterId;
 
     @NotBlank
@@ -31,6 +30,8 @@ public class DiceRollRequest {
     private DicePool dicePool;
 
     private String skillUsed;
+
     private String actionId;
+
     private String notes;
 }
