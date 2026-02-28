@@ -1,5 +1,5 @@
 import {useOptionalAuth0} from "../../hooks/useOptionalAuth0";
-import React, {Fragment} from "react";
+import React from "react";
 import {Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip} from "@mui/material";
 import {AccountBox, Login, Logout, Person, PersonAdd} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
@@ -37,7 +37,6 @@ const AccountMenu: React.FC = () => {
             },
             authorizationParams: {
                 prompt: "login",
-                screen_hint: "signup",
             },
         });
         setAccountMenuAnchor(null);
@@ -87,34 +86,34 @@ const AccountMenu: React.FC = () => {
                 transformOrigin={{horizontal: 'right', vertical: 'top'}}
                 anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             >
-                {!isAuthenticated && (<Fragment>
-                    <MenuItem onClick={handleLoginClick}>
+                {!isAuthenticated && [
+                    <MenuItem key="login" onClick={handleLoginClick}>
                         <ListItemIcon>
                             <Login fontSize="small"/>
                         </ListItemIcon>
                         Login
-                    </MenuItem>
-                    <MenuItem onClick={handleSignupClick}>
+                    </MenuItem>,
+                    <MenuItem key="signup" onClick={handleSignupClick}>
                         <ListItemIcon>
                             <PersonAdd fontSize="small"/>
                         </ListItemIcon>
                         Signup
                     </MenuItem>
-                </Fragment>)}
-                {isAuthenticated && (<Fragment>
-                    <MenuItem onClick={handleProfileClick}>
+                ]}
+                {isAuthenticated && [
+                    <MenuItem key="profile" onClick={handleProfileClick}>
                         <ListItemIcon>
                             <Person fontSize="small"/>
                         </ListItemIcon>
                         Profile
-                    </MenuItem>
-                    <MenuItem onClick={handleLogoutClick}>
+                    </MenuItem>,
+                    <MenuItem key="logout" onClick={handleLogoutClick}>
                         <ListItemIcon>
                             <Logout fontSize="small"/>
                         </ListItemIcon>
                         Logout
                     </MenuItem>
-                </Fragment>)}
+                ]}
             </Menu>
         </React.Fragment>
     );
