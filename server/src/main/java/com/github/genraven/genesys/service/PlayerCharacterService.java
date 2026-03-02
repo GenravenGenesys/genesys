@@ -2,7 +2,7 @@ package com.github.genraven.genesys.service;
 
 import com.github.genraven.genesys.domain.actor.player.PlayerCharacter;
 import com.github.genraven.genesys.domain.campaign.Campaign;
-import com.github.genraven.genesys.domain.equipment.ItemTemplate;
+import com.github.genraven.genesys.validator.PlayerCharacterValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -20,10 +20,10 @@ import java.util.UUID;
 public class PlayerCharacterService {
 
     private final ReactiveMongoTemplate reactiveMongoTemplate;
+    private final PlayerCharacterValidator playerCharacterValidator;
 
     public Mono<PlayerCharacter> validatePlayerCharacter(final PlayerCharacter character) {
-
-        return Mono.just(character);
+        return playerCharacterValidator.validate(character);
     }
 
     public Mono<PlayerCharacter> findById(final String campaignId, final String playerId) {

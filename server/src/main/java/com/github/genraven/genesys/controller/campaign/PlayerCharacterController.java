@@ -1,8 +1,8 @@
 package com.github.genraven.genesys.controller.campaign;
 
-import com.github.genraven.genesys.domain.actor.player.Career;
 import com.github.genraven.genesys.domain.actor.player.PlayerCharacter;
-import com.github.genraven.genesys.service.CareerService;
+import com.github.genraven.genesys.domain.error.GenesysError;
+import com.github.genraven.genesys.exceptions.PlayerValidationException;
 import com.github.genraven.genesys.service.PlayerCharacterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,8 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/campaigns/{campaignId}/party/players")
@@ -27,6 +28,11 @@ public class PlayerCharacterController {
     @Operation(summary = "Validates a new Player Character", description = "Confirms that a new Player Character is set up correctly before being added to the campaign. This includes checks for required fields, valid career choices, and adherence to campaign-specific rules.")
     public Mono<ResponseEntity<PlayerCharacter>> validatePlayerCharacter(@PathVariable final String campaignId, @RequestBody final PlayerCharacter character) {
         return playerCharacterService.validatePlayerCharacter(character).map(ResponseEntity::ok);
+    }
+
+    @ExceptionHandler(PlayerValidationException.class)
+    public ResponseEntity<List<GenesysError>> handlePlayerValidationException(final PlayerValidationException ex) {
+        return ResponseEntity.badRequest().body(ex.getErrors());
     }
 
     @PatchMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
