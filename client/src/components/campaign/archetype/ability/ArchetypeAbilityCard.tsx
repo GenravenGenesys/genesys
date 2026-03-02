@@ -1,9 +1,8 @@
 import {Button, Card, CardContent} from "@mui/material";
-import * as React from "react";
 import Typography from "@mui/material/Typography";
 import {Fragment, useState} from "react";
 import {useLocation} from "react-router";
-import Archetype from "../../../../models/actor/player/Archetype";
+import type {Archetype} from "../../../../api/model";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import ArchetypeAbilityTable from "./ArchetypeAbilityTable";
 import CreateArchetypeAbilityDialog from "./CreateArchetypeAbilityDialog";

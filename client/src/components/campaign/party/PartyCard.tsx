@@ -4,15 +4,13 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
-import * as React from "react";
 import TableRow from "@mui/material/TableRow";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
-import Player from "../../../models/actor/player/Player";
 import {TypographyCenterTableCell} from "../../common/table/TypographyTableCell";
 import ActionsTableCell from "../../common/table/actions/ActionsTableCell";
 import {ActorPath} from "../../../services/RootPath";
-import Party from "../../../models/campaign/Party";
-import GenesysDescriptionTypography from "../../common/typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../../home/common/typography/GenesysDescriptionTypography.tsx";
+import type {Party, Player} from "../../../api/model";
 
 interface Props {
     party: Party

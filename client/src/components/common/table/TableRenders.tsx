@@ -1,11 +1,11 @@
 import TableRow from "@mui/material/TableRow";
-import {TypographyCenterTableCell, TypographyLeftTableCell} from "./TypographyTableCell";
-import Skill from "../../../models/actor/Skill";
+import {TypographyCenterTableCell} from "./TypographyTableCell";
 import TableHead from "@mui/material/TableHead";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
+import type {Skill} from "../../../api/model";
 
 const renderHeaders = (headers: string[], columns: number) => {
     return (
@@ -17,9 +17,9 @@ const renderHeaders = (headers: string[], columns: number) => {
     )
 }
 
-export const renderSingleRowTableHeader = (headers: string[]) => {
+export const renderSingleRowTableHeader = (headers: string[], sx?: {}) => {
     return (
-        <TableHead>
+        <TableHead sx={sx}>
             {renderHeaders(headers, 1)}
         </TableHead>
     )
@@ -44,8 +44,8 @@ export const renderDoubleRowTableHeader = (headers: string[], value: string, col
     )
 }
 
-export const renderSkillName = (skill: Skill) => {
-    return <TypographyLeftTableCell value={skill.name + '(' + skill.characteristic + ')'}/>
+export const renderSkillNameTableCell = (skill: Skill) => {
+    return <TypographyCenterTableCell value={skill.name + '(' + skill.characteristic + ')'}/>
 }
 
 export const renderBooleanTableCell = (value: boolean) => {

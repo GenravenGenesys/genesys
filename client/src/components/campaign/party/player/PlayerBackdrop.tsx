@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import Player from "../../../../models/actor/player/Player";
 import PlayerView from "./PlayerView";
+import type {Player} from "../../../../api/model";
 
 interface Props {
     player: Player;

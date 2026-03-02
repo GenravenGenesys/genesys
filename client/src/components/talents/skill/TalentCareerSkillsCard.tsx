@@ -1,11 +1,9 @@
 import {Button, Card, CardContent, Typography} from "@mui/material";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
-import {TalentSkills} from "../../../models/Talent";
 import {useState} from "react";
-import Skill from "../../../models/actor/Skill";
 import {renderSkillNames} from "../../common/skill/SkillRenders";
-import * as React from "react";
 import TalentCareerSkillDialog from "./TalentCareerSkillDialog";
+import type {Skill, TalentSkills} from "../../../api/model";
 
 interface Props {
     talentSkills: TalentSkills

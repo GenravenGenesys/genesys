@@ -15,9 +15,7 @@ server/.env
 .dockerignore
 .git
 .gitignore
-Dockerfile
 docker-compose.yml
 README.md
 LICENSE.txt
 .vscode
-.github

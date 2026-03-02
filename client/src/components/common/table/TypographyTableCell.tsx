@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import { Button, TableCell, Typography } from "@mui/material";
-import GenesysDescriptionTypography from "../typography/GenesysDescriptionTypography";
-import Actor, { ActorSkill, getActorCharacteristicRanks } from "../../../models/actor/Actor";
-import GenesysSkillDiceTypography from "../typography/GenesysSkillDiceTypography";
-import { Difficulty, getDifficultyDice } from "../../../models/common/Difficulty";
-import GenesysDifficultyDiceTypography from "../typography/GenesysDifficultyDiceTypography";
-import Cost, { CostType } from "../../../models/common/Cost";
-import Limit, { LimitType } from "../../../models/common/Limit";
+import GenesysDescriptionTypography from "../../home/common/typography/GenesysDescriptionTypography.tsx";
+import { getActorCharacteristicRanks } from "../../../models/actor/Actor";
+import GenesysSkillDiceTypography from "../../home/common/typography/GenesysSkillDiceTypography.tsx";
+import GenesysDifficultyDiceTypography from "../../home/common/typography/GenesysDifficultyDiceTypography.tsx";
 // import { GenesysSymbols } from "../../../models/roll/GenesysSymbols";
 import DiceRollerDialog from "../../roll/DiceRollerDialog";
+import {
+    type ActorSkill,
+    type Cost,
+    CostType,
+    type Difficulty,
+    type Limit,
+    LimitType,
+    type PlayerSkill,
+    Actor
+} from "../../../api/model";
+import {getDifficultyDice} from "../../../util/DiceHelper.ts";
 
 interface LeftProps {
     value: string;
@@ -56,7 +64,7 @@ const CostTableCell: React.FC<CostProps> = ({ cost, span }) => {
                 return 'None';
             case CostType.Strain:
                 return cost.amount + ' Strain';
-            case CostType.StoryPoint:
+            case CostType.Story_Point:
                 return cost.amount + ' Story Point';
         }
     };
@@ -76,11 +84,11 @@ interface LimitProps {
 const LimitTableCell: React.FC<LimitProps> = ({ limit, span }) => {
     const renderLimit = () => {
         switch (limit.type) {
-            case LimitType.PerRound:
+            case LimitType.Per_Round:
                 return limit.limit + ' Per Round';
-            case LimitType.PerEncounter:
+            case LimitType.Per_Encounter:
                 return limit.limit + ' Per Encounter';
-            case LimitType.PerSession:
+            case LimitType.Per_Session:
                 return limit.limit + ' Per Session';
             case LimitType.None:
                 return 'None';
@@ -112,7 +120,7 @@ interface Target {
 
 interface DiceRollProps {
     actor: Actor;
-    skill: ActorSkill;
+    skill: ActorSkill | PlayerSkill;
     difficulty?: Difficulty;
     target?: Target;
 }

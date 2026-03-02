@@ -7,18 +7,18 @@ import {
     TableBody,
     Box,
 } from "@mui/material";
-import Ability from "../../../../models/Ability";
 import { TypographyLeftTableCell, TypographyCenterTableCell, GenesysDescriptionTypographyCenterTableCell, GenesysDicePoolCenterTableCellButton, GenesysDifficultyCenterTableCell } from "../../../common/table/TypographyTableCell";
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
 import { getActorSkill } from "../../../common/skill/SkillRenders";
+import type {Ability} from "../../../../api/model";
 
-type Props = {
+interface Props {
     npc: SingleNonPlayerCharacter;
     ability: Ability;
     columns: number;
     isOpen: boolean;
     onToggle: () => void;
-};
+}
 
 const AbilityTableRow: React.FC<Props> = ({ npc, ability, columns, isOpen, onToggle, }) => {
     return (

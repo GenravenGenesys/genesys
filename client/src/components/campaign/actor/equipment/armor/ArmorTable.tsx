@@ -3,11 +3,9 @@ import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import * as React from "react";
 import {Fragment, useState} from "react";
 import {TypographyCenterTableCell, TypographyLeftTableCell} from "../../../../common/table/TypographyTableCell";
-import {renderQualities, renderSoak} from "../../../../../models/equipment/EquipmentHelper";
-import {ActorArmor, Armor, ArmorSlot} from "../../../../../models/equipment/Armor";
+import {renderQualities, renderSoak} from "../../../../../util/EquipmentHelper.ts";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import {Button, TableFooter} from "@mui/material";
 import {useLocation} from "react-router";
@@ -15,6 +13,7 @@ import ArmorSelectionDialog from "./ArmorSelectionDialog";
 import ArmorEquipDialog from "./ArmorEquipDialog";
 import BooleanTableCell from "../../../../common/table/BooleanTableCell";
 import CreateArmorDialog from "./CreateArmorDialog";
+import {type ActorArmor, ActorArmorSlot, type Armor} from "../../../../../api/model";
 
 interface Props {
     armors: ActorArmor[]
@@ -38,7 +37,7 @@ export default function ArmorTable(props: Props) {
                     {armors.map((armor: ActorArmor) => (
                         <TableRow key={armor.id}>
                             <TypographyLeftTableCell value={armor.name}/>
-                            <BooleanTableCell bool={armor.slot === ArmorSlot.Body}/>
+                            <BooleanTableCell bool={armor.slot === ActorArmorSlot.Body}/>
                             <TypographyCenterTableCell value={String(armor.defense)}/>
                             <TypographyCenterTableCell value={renderSoak(armor)}/>
                             <TypographyCenterTableCell value={renderQualities(armor)}/>
@@ -55,7 +54,7 @@ export default function ArmorTable(props: Props) {
 
     const addArmor = async (armor: Armor) => {
         updateArmors([...armors, {
-            slot: ArmorSlot.None,
+            slot: ActorArmorSlot.None,
             ...armor
         }]);
     };

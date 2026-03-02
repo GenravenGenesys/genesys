@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import {TypographyLeftTableCell} from "../../../../common/table/TypographyTableCell";
 import {WeaponSlotTableCell} from "../../../../common/table/EquipmentSlotTableCell";
-import {ActorWeapon, WeaponSlot} from "../../../../../models/equipment/Weapon";
+import {type ActorWeapon, ActorWeaponSlot} from "../../../../../api/model";
 
 interface Props {
     weapons: ActorWeapon[]
@@ -22,31 +22,31 @@ export default function WeaponEquipDialog(props: Props) {
 
     const onChange = async (value: ActorWeapon) => {
         switch (value.slot) {
-            case WeaponSlot.Main:
+            case ActorWeaponSlot.Main_Hand:
                 weapons.forEach((weapon) => {
                     if (weapon.name === value.name) {
                         weapon.slot = value.slot;
                     } else {
-                        if (weapon.slot !== WeaponSlot.Off) {
-                            weapon.slot = WeaponSlot.None;
+                        if (weapon.slot !== ActorWeaponSlot.Off_Hand) {
+                            weapon.slot = ActorWeaponSlot.None;
                         }
                     }
                 })
                 break;
-            case WeaponSlot.Off:
+            case ActorWeaponSlot.Off_Hand:
                 weapons.forEach((weapon) => {
                     if (weapon.name === value.name) {
                         weapon.slot = value.slot;
                     } else {
-                        if (weapon.slot !== WeaponSlot.Main) {
-                            weapon.slot = WeaponSlot.None;
+                        if (weapon.slot !== ActorWeaponSlot.Main_Hand) {
+                            weapon.slot = ActorWeaponSlot.None;
                         }
                     }
                 })
                 break;
-            case WeaponSlot.Both:
+            case ActorWeaponSlot.Both_Hands:
                 weapons.forEach((weapon) => {
-                    weapon.slot = weapon.name === value.name ? value.slot : WeaponSlot.None;
+                    weapon.slot = weapon.name === value.name ? value.slot : ActorWeaponSlot.None;
                 })
                 break;
             default:

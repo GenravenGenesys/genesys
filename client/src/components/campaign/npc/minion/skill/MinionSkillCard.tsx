@@ -1,19 +1,19 @@
-import * as React from "react";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import {Card, CardContent} from "@mui/material";
-import {SkillType} from "../../../../../models/actor/Skill";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import {renderDoubleRowTableHeader,} from "../../../../common/table/TableRenders";
 import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell";
-import Minion, {GroupSkill} from "../../../../../models/actor/npc/Minion";
 import EditableBooleanTableCell from "../../../../common/table/EditableBooleanTableCell";
 import {useLocation} from "react-router";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import GridContainer from "../../../../common/grid/GridContainer";
 import GridItem from "../../../../common/grid/GridItem";
+import type {SkillType} from "../../../../../api/model";
+import type Minion from "../../../../../models/actor/npc/Minion.ts";
+import type { GroupSkill } from "../../../../../models/actor/npc/Minion.ts";
 
 interface TableProps {
     minion: Minion
@@ -32,7 +32,7 @@ export default function MinionSkillCard(props: TableProps) {
                 <TableBody>
                     {(minion.skills || [])
                         .filter((skill) => skill.type === type)
-                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .sort((a ,b) => a.name.localeCompare(b.name))
                         .map((skill: GroupSkill) => (
                             <TableRow key={skill.name}>
                                 <TypographyCenterTableCell value={skill.name}/>

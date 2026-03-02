@@ -1,8 +1,5 @@
 import {Card, CardContent} from "@mui/material";
-import * as React from "react";
-import {Weapon} from "../../../../../models/equipment/Weapon";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
-import {EquipmentQuality} from "../../../../../models/Quality";
 import TableRow from "@mui/material/TableRow";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -12,6 +9,7 @@ import TableBody from "@mui/material/TableBody";
 import NumberTextFieldIndexTableCell from "../../../../common/table/NumberTextFieldIndexTableCell";
 import QualityAutocompleteTableCell from "../../../../common/table/QualityAutocompleteTableCell";
 import QualityTableFooter from "../../../../common/table/QualityTableFooter";
+import type {EquipmentQuality, Weapon} from "../../../../../api/model";
 
 interface Props {
     weapon: Weapon

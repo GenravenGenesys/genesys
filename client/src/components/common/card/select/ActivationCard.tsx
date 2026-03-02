@@ -1,16 +1,16 @@
-import {Activation} from "../../../../models/Talent";
 import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
 import ViewFieldCard from "../../ViewFieldCard";
 import GridItem from "../../grid/GridItem";
-import GenesysSelectField from "../../field/GenesysSelectField";
+import GenesysSelectField from "../../../home/common/field/GenesysSelectField";
+import {Activation} from "../../../../api/model";
 
-type Props = {
+interface Props {
     value: Activation;
     onChange: (value: Activation) => void;
     disabled: boolean;
-};
+}
 
 const ActivationCard: React.FC<Props> = ({value, onChange, disabled}) => {
     return disabled ? <ViewFieldCard name={'Activation'} value={value}/> :

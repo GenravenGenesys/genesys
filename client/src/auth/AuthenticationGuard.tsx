@@ -1,22 +1,16 @@
-import {withAuthenticationRequired} from "@auth0/auth0-react";
 import React, {ComponentType} from "react";
-import {PageLoader} from "./PageLoader";
-
 
 interface AuthenticationGuardProps {
     component: ComponentType;
 }
 
+/**
+ * Simple pass-through guard. Auth0 has been removed from the project.
+ * All routes are now accessible without authentication.
+ */
 export const AuthenticationGuard: React.FC<AuthenticationGuardProps> = ({
                                                                             component,
                                                                         }) => {
-    const Component = withAuthenticationRequired(component, {
-        onRedirecting: () => (
-            <div className="page-layout">
-                <PageLoader/>
-            </div>
-        ),
-    });
-
-    return <Component/>;
+    const Component = component;
+    return <Component />;
 };

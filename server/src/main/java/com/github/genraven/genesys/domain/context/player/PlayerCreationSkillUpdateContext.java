@@ -1,9 +1,0 @@
-package com.github.genraven.genesys.domain.context.player;
-
-import com.github.genraven.genesys.domain.actor.player.Player;
-import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
-import jakarta.validation.Valid;
-
-public record PlayerCreationSkillUpdateContext(@Valid Player player,
-                                               @Valid PlayerSkill playerSkill) implements BasePlayerContext {
-}

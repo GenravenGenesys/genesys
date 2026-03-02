@@ -5,45 +5,42 @@ import Table from "@mui/material/Table";
 import {useLocation} from "react-router";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
-import {useState} from "react";
-import * as React from "react";
-import Injury from "../../../models/Injury";
 import {renderSingleRowTableHeader} from "../../common/table/TableRenders";
 import CenteredCardHeader from "../../common/card/header/CenteredCardHeader";
-import InjuryService from "../../../services/InjuryService";
 import ModifierAutocompleteTableCell from "../../common/table/ModifierAutocompleteTableCell";
 import NumberTextFieldIndexTableCell from "../../common/table/NumberTextFieldIndexTableCell";
 import ModifierTableFooter from "../../common/table/ModifierTableFooter";
+import type {CriticalInjury, ModifierType} from "../../../api/model";
 
 interface Props {
-    crit: Injury
+    injury: CriticalInjury;
+    updateInjury: (injury: CriticalInjury) => void;
 }
 
 export default function CriticalInjuryModifierCard(props: Props) {
-    const {crit} = props;
+    const {injury, updateInjury} = props;
     const headers = ['Type', 'Ranks'];
-    const [injury, setInjury] = useState(crit);
     const disabled = !useLocation().pathname.endsWith(injury.id + '/edit');
 
-    const handleTypeChange = async (index: number, value: string) => {
-        const updatedModifiers = injury.modifiers.map((row, i) =>
+    const handleTypeChange = async (index: number, value: ModifierType) => {
+        const updatedModifiers = injury.modifiers!.map((row, i) =>
             i === index ? {...row, type: value} : row
         );
-        setInjury(await InjuryService.updateInjury({...injury, modifiers: updatedModifiers}));
+        updateInjury({...injury, modifiers: updatedModifiers});
     };
 
     const handleRanksChange = async (index: number, value: number) => {
-        const updatedModifiers = injury.modifiers.map((row, i) =>
+        const updatedModifiers = injury.modifiers!.map((row, i) =>
             i === index ? {...row, ranks: value} : row
         );
-        setInjury(await InjuryService.updateInjury({...injury, modifiers: updatedModifiers}));
+        updateInjury({...injury, modifiers: updatedModifiers});
     };
 
     const addRow = async () => {
-        setInjury(await InjuryService.updateInjury({
+        updateInjury({
             ...injury,
-            modifiers: [...injury.modifiers, {type: "Default", ranks: 1}]
-        }));
+            modifiers: [...injury.modifiers!, {type: "Default", ranks: 1}]
+        });
     };
 
     return (
@@ -64,10 +61,10 @@ export default function CriticalInjuryModifierCard(props: Props) {
                                 </TableRow>
                             ))}
                         </TableBody>
-                        <ModifierTableFooter addRow={addRow} id={injury.id}/>
+                        <ModifierTableFooter addRow={addRow} id={injury.id!}/>
                     </Table>
                 </TableContainer>
             </CardContent>
         </Card>
-    )
+    );
 }

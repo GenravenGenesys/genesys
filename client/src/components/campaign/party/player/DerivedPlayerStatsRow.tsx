@@ -1,9 +1,7 @@
-import Player from "../../../../models/actor/player/Player";
-import {StatsType} from "../../../../models/actor/Stats";
 import ViewFieldCard from "../../../common/ViewFieldCard";
-import {DefenseType} from "../../../../models/actor/Defense";
 import React from "react";
 import GridContainer from "../../../common/grid/GridContainer";
+import {type Player, StatsType} from "../../../../api/model";
 
 interface Props {
     player: Player;

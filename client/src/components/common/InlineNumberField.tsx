@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, InputHTMLAttributes, useState } from "react";
 import EditField from "./EditField";
-import GenesysDescriptionTypography from "./typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../home/common/typography/GenesysDescriptionTypography.tsx";
 import { ClickAwayListener, TextField } from "@mui/material";
 
 type Props = {

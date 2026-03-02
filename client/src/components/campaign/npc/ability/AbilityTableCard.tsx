@@ -4,14 +4,14 @@ import Table from "@mui/material/Table";
 import { renderSingleRowTableHeader } from "../../../common/table/TableRenders";
 import { Button, Card, CardContent, TableCell, TableFooter } from "@mui/material";
 import TableRow from "@mui/material/TableRow";
-import { FC, Fragment, useState } from "react";
+import {type FC, Fragment, useState } from "react";
 import { useLocation } from "react-router";
 import CreateAbilityDialog from "./CreateAbilityDialog";
-import Ability from "../../../../models/Ability";
 import TableBody from "@mui/material/TableBody";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader";
 import { SingleNonPlayerCharacter } from "../../../../models/actor/npc/NonPlayerActor";
 import AbilityTableRow from "./AbilityTableRow";
+import type {Ability} from "../../../../api/model";
 
 type Props = {
     abilities: Ability[];

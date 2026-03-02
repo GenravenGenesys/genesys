@@ -1,15 +1,15 @@
 import {Card, CardContent} from "@mui/material";
 import * as React from "react";
 import CenteredCardHeader from "../header/CenteredCardHeader";
-import {CharacteristicType} from "../../../../models/actor/Characteristic";
 import GridItem from "../../grid/GridItem";
-import GenesysSelectField from "../../field/GenesysSelectField";
+import GenesysSelectField from "../../../home/common/field/GenesysSelectField";
+import {CharacteristicType} from "../../../../api/model";
 
-type Props = {
+interface Props {
     value: CharacteristicType;
     onChange: (value: CharacteristicType) => void;
     disabled: boolean;
-};
+}
 
 const CharacteristicTypeCard: React.FC<Props> = ({value, onChange, disabled}) => {
     return (

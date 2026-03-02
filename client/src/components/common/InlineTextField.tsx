@@ -1,9 +1,9 @@
-import { ClickAwayListener, TextField } from "@mui/material";
-import { ChangeEvent, FC, InputHTMLAttributes, useState } from "react";
+import {ClickAwayListener, TextField} from "@mui/material";
+import {type ChangeEvent, type FC, type InputHTMLAttributes, useState} from "react";
 import EditField from "./EditField";
-import GenesysDescriptionTypography from "./typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../home/common/typography/GenesysDescriptionTypography.tsx";
 
-type Props = {
+interface Props {
     defaultValue: string;
     defaultEdit?: boolean;
     editable?: boolean;
@@ -16,9 +16,24 @@ type Props = {
     placeholder?: string;
     errorText?: string;
     inputProps?: InputHTMLAttributes<HTMLInputElement>;
-};
+    fullWidth?: boolean;
+}
 
-const InlineTextField: FC<Props> = ({ defaultValue, defaultEdit, editable, onChange, onCommit, helperText, label, rows, disabled, placeholder, errorText, inputProps }) => {
+const InlineTextField: FC<Props> = ({
+                                        defaultValue,
+                                        defaultEdit,
+                                        editable,
+                                        onChange,
+                                        onCommit,
+                                        helperText,
+                                        label,
+                                        rows,
+                                        disabled,
+                                        placeholder,
+                                        errorText,
+                                        inputProps,
+                                        fullWidth
+                                    }) => {
     const [textValue, setTextValue] = useState(defaultValue);
     const [edit, setEdit] = useState(defaultEdit ?? false);
     const [error, setError] = useState(false);
@@ -39,7 +54,7 @@ const InlineTextField: FC<Props> = ({ defaultValue, defaultEdit, editable, onCha
     };
 
     const inputOnChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const { value } = event.target;
+        const {value} = event.target;
         const isValid = value.trim() !== '';
 
         setError(!isValid);
@@ -52,16 +67,18 @@ const InlineTextField: FC<Props> = ({ defaultValue, defaultEdit, editable, onCha
 
     const editElement = (
         <ClickAwayListener onClickAway={handleOnCommit}>
-            <TextField defaultValue={textValue} onChange={inputOnChange} helperText={error ? errorText : helperText} label={label} rows={rows}
-                disabled={Boolean(disabled)} placeholder={placeholder} error={error} slotProps={{ htmlInput: { autoFocus: true, ...inputProps } }} fullWidth />
+            <TextField defaultValue={textValue} onChange={inputOnChange} helperText={error ? errorText : helperText}
+                       label={label} rows={rows}
+                       disabled={Boolean(disabled)} placeholder={placeholder} error={error}
+                       slotProps={{htmlInput: {autoFocus: true, ...inputProps}}} fullWidth={fullWidth}/>
         </ClickAwayListener>
     );
 
-    const viewElement = <GenesysDescriptionTypography text={textValue} />;
+    const viewElement = <GenesysDescriptionTypography text={textValue}/>;
 
     return (
         <EditField edit={edit} editable={editable} viewElement={viewElement} editElement={editElement}
-            onEdit={(): void => setEdit(!edit)} onCancel={handleOnCancel} onCommit={handleOnCommit} />
+                   onEdit={(): void => setEdit(!edit)} onCancel={handleOnCancel} onCommit={handleOnCommit}/>
     );
 };
 
