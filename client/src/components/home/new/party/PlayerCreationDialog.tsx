@@ -18,6 +18,7 @@ import {emptyArchetype, emptyCareer, emptyPlayerCharacter} from "../../../../mod
 import ArchetypeSelectionStep from "./archetype/ArchetypeSelectionStep.tsx";
 import CareerSelectionStep from "./career/CareerSelectionStep.tsx";
 import SpendExperienceStep from "./experience/SpendExperienceStep.tsx";
+import ValidatePlayerCharacter from "./ValidatePlayerCharacter.tsx";
 
 interface Props {
     open: boolean;
@@ -155,7 +156,7 @@ export default function PlayerCreationDialog(props: Props) {
             case 5:
                 return <Typography sx={{mt: 4}}>Gear Selection would go here...</Typography>;
             case 6:
-                return <Typography sx={{mt: 4}}>Player Final Review would go here...</Typography>;
+                return <ValidatePlayerCharacter player={formData}/>;
             default:
                 return null;
         }
