@@ -42,26 +42,26 @@ export default function ValidatePlayerCharacter(props: Props) {
                     {tabValue === 1 && <Stack spacing={3}>
                         <GridContainer spacing={2} centered>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.brawn.current} label={CharacteristicType.Brawn}/>
+                                <CharacteristicBadge value={player.characteristics.brawn.base} label={CharacteristicType.Brawn}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.agility.current}
+                                <CharacteristicBadge value={player.characteristics.agility.base}
                                                      label={CharacteristicType.Agility}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.intellect.current}
+                                <CharacteristicBadge value={player.characteristics.intellect.base}
                                                      label={CharacteristicType.Intellect}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.cunning.current}
+                                <CharacteristicBadge value={player.characteristics.cunning.base}
                                                      label={CharacteristicType.Cunning}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.willpower.current}
+                                <CharacteristicBadge value={player.characteristics.willpower.base}
                                                      label={CharacteristicType.Willpower}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.presence.current}
+                                <CharacteristicBadge value={player.characteristics.presence.base}
                                                      label={CharacteristicType.Presence}/>
                             </Grid>
                         </GridContainer>
