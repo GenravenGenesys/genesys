@@ -23,9 +23,9 @@ public class PlayerCharacterValidator {
 
     private final Validator validator;
 
-    public Mono<PlayerCharacter> validate(final PlayerCharacter context) {
-        log.info("Validating GearContext");
-        final Set<ConstraintViolation<PlayerCharacter>> constraintViolations = validator.validate(context, Default.class, ValidationGroups.PlayerCreationValidation.class);
+    public Mono<PlayerCharacter> validate(final PlayerCharacter player) {
+        log.info("Validating Player Character: {}", player.getName());
+        final Set<ConstraintViolation<PlayerCharacter>> constraintViolations = validator.validate(player, Default.class, ValidationGroups.PlayerCreationValidation.class);
         final List<String> errorMessages = new ArrayList<>();
         if (!CollectionUtils.isEmpty(constraintViolations)) {
             constraintViolations.forEach(error ->
@@ -37,6 +37,6 @@ public class PlayerCharacterValidator {
             errorMessages.forEach(message -> errors.add(GenesysError.builder().message(message).build()));
             return Mono.error(new PlayerValidationException(errors));
         }
-        return Mono.just(context);
+        return Mono.just(player);
     }
 }
