@@ -3,7 +3,7 @@ import {
     type PlayerCharacter,
     type PlayerSkill,
     CharacteristicType,
-    type Talent
+    type Talent, type Characteristics
 } from "../../../../../api/model";
 import {Alert, Box, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {useState} from "react";
@@ -15,11 +15,12 @@ import PurchaseTalentTab from "./talent/PurchaseTalentTab.tsx";
 interface Props {
     player: PlayerCharacter;
     onSpendExperience: (experience: number) => void;
+    onCharacteristicUpdate: (characteristics: Characteristics) => void;
     talents: Talent[];
 }
 
 export default function SpendExperienceStep(props: Props) {
-    const {player, onSpendExperience, talents} = props;
+    const {player, onSpendExperience, onCharacteristicUpdate, talents} = props;
     const [tabValue, setTabValue] = useState(0);
     const [characteristicSpend, setCharacteristicSpend] = useState(0);
     const [characteristics, setCharacteristics] = useState({
@@ -43,6 +44,23 @@ export default function SpendExperienceStep(props: Props) {
         setCharacteristicSpend(characteristicSpend + experienceDiff);
         setCharacteristics(updatedCharacteristics);
         onSpendExperience(experienceDiff);
+        onCharacteristicUpdate({
+            brawn: {
+                base: updatedCharacteristics[CharacteristicType.Brawn],
+                current: updatedCharacteristics[CharacteristicType.Brawn]
+            },
+            agility: {
+                base: updatedCharacteristics[CharacteristicType.Brawn],
+                current: updatedCharacteristics[CharacteristicType.Brawn]
+            },
+            intellect: {
+                base: updatedCharacteristics[CharacteristicType.Brawn],
+                current: updatedCharacteristics[CharacteristicType.Brawn]
+            },
+            cunning: updatedCharacteristics[CharacteristicType.Cunning],
+            willpower: updatedCharacteristics[CharacteristicType.Willpower],
+            presence: updatedCharacteristics[CharacteristicType.Presence],
+        } as Characteristics)
     };
 
     const handleSkillSpend = (experienceDiff: number, updatedSkills: Record<string, number>) => {

@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Error {
+public class GenesysError {
     private String message;
 }
