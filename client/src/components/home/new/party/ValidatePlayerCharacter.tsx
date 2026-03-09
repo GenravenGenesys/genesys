@@ -100,19 +100,27 @@ export default function ValidatePlayerCharacter(props: Props) {
                     </Stack>}
 
                     {tabValue === 2 && <Stack spacing={3}>
-                        // Skills would go here
+                        <GridContainer spacing={3} centered>
+                            <Typography sx={{mt: 4}}>Skill would go here...</Typography>
+                        </GridContainer>
                     </Stack>}
 
                     {tabValue === 3 && <Stack spacing={3}>
-                        // Talents would go here
+                        <GridContainer spacing={3} centered>
+                            <Typography sx={{mt: 4}}>Talents would go here...</Typography>
+                        </GridContainer>
                     </Stack>}
 
                     {tabValue === 4 && <Stack spacing={3}>
-                        // Motivations would go here
+                        <GridContainer spacing={3} centered>
+                            <Typography sx={{mt: 4}}>Motivations would go here...</Typography>
+                        </GridContainer>
                     </Stack>}
 
                     {tabValue === 4 && <Stack spacing={3}>
-                        // Gear would go here
+                        <GridContainer spacing={3} centered>
+                            <Typography sx={{mt: 4}}>Gear would go here...</Typography>
+                        </GridContainer>
                     </Stack>}
                 </CardContent>
             </Card>

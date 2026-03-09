@@ -3,7 +3,7 @@ import {
     type PlayerCharacter,
     type PlayerSkill,
     CharacteristicType,
-    type Talent, type Characteristics
+    type Talent, type Characteristics, type PlayerTalent
 } from "../../../../../api/model";
 import {Alert, Box, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {useState} from "react";
@@ -17,7 +17,7 @@ interface Props {
     onSpendExperience: (experience: number) => void;
     onCharacteristicUpdate: (characteristics: Characteristics) => void;
     onSkillUpdate: (skills: PlayerSkill[]) => void;
-    onTalentUpdate: (talents: Talent[]) => void;
+    onTalentUpdate: (talents: PlayerTalent[]) => void;
     talents: Talent[];
 }
 
