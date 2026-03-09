@@ -9,8 +9,11 @@ import {
     type Archetype,
     type CampaignCompendium,
     type Career,
+    type Characteristics,
     type PlayerCharacter,
-    type Skill
+    type PlayerSkill,
+    type Skill,
+    type Talent
 } from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
 import {useEffect, useState} from "react";
@@ -18,6 +21,7 @@ import {emptyArchetype, emptyCareer, emptyPlayerCharacter} from "../../../../mod
 import ArchetypeSelectionStep from "./archetype/ArchetypeSelectionStep.tsx";
 import CareerSelectionStep from "./career/CareerSelectionStep.tsx";
 import SpendExperienceStep from "./experience/SpendExperienceStep.tsx";
+import ValidatePlayerCharacter from "./ValidatePlayerCharacter.tsx";
 
 interface Props {
     open: boolean;
@@ -149,13 +153,16 @@ export default function PlayerCreationDialog(props: Props) {
                                             onSave={handleCareerSkillSelection}/>
             case 3:
                 return <SpendExperienceStep player={formData} talents={compendium.talents}
-                                            onSpendExperience={handleExperienceSpend}/>;
+                                            onSpendExperience={handleExperienceSpend}
+                                            onCharacteristicUpdate={(characteristics) => handleChange('characteristics', characteristics)}
+                                            onSkillUpdate={(skills) => handleChange('skills', skills)}
+                                            onTalentUpdate={(talents) => handleChange('talents', talents)}/>;
             case 4:
                 return <Typography sx={{mt: 4}}>Player Motivation Selection would go here...</Typography>;
             case 5:
                 return <Typography sx={{mt: 4}}>Gear Selection would go here...</Typography>;
             case 6:
-                return <Typography sx={{mt: 4}}>Player Final Review would go here...</Typography>;
+                return <ValidatePlayerCharacter player={formData}/>;
             default:
                 return null;
         }
