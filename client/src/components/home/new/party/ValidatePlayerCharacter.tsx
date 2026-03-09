@@ -117,7 +117,7 @@ export default function ValidatePlayerCharacter(props: Props) {
                         </GridContainer>
                     </Stack>}
 
-                    {tabValue === 4 && <Stack spacing={3}>
+                    {tabValue === 5 && <Stack spacing={3}>
                         <GridContainer spacing={3} centered>
                             <Typography sx={{mt: 4}}>Gear would go here...</Typography>
                         </GridContainer>
