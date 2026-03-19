@@ -20,13 +20,13 @@ import {StatsType} from "../../../../../models/StatsType.ts";
 
 // ─── Condition catalogue ────────────────────────────────────────────────────
 
+const ANY_SKILL_TYPE = 'Any' as const;
+
 const SkillCondition = {
-    TwoNonCareerOneRank:      'Two non-career skills of choice (1 rank each)',
-    OneSkillOneRank:          'One specific skill (1 rank)',
-    OneSkillTwoRanks:         'One specific skill (2 ranks)',
-    TwoSkillsOneRankEach:     'Two specific skills (1 rank each)',
-    TwoSkillsTwoRanksEach:    'Two specific skills (2 ranks each, max rank 2)',
-    OneKnowledgeChoiceTwoRanks: 'One knowledge skill of choice (2 ranks)',
+    TwoNonCareerOneRank:  'Two non-career skills of choice (1 rank each)',
+    OneSkill:             'One specific skill',
+    TwoSkills:            'Two specific skills',
+    OneSkillTypeChoice:   'One skill of choice',
 } as const;
 
 type SkillConditionType = typeof SkillCondition[keyof typeof SkillCondition];
@@ -38,42 +38,43 @@ const getSkillsForCondition = (condition: SkillConditionType): ArchetypeSkill[] 
                 {playerChoice: true, nonCareer: true, startingRanks: 1, maxRank: 2},
                 {playerChoice: true, nonCareer: true, startingRanks: 1, maxRank: 2},
             ];
-        case SkillCondition.OneSkillOneRank:
+        case SkillCondition.OneSkill:
             return [{playerChoice: false, startingRanks: 1, maxRank: 2}];
-        case SkillCondition.OneSkillTwoRanks:
-            return [{playerChoice: false, startingRanks: 2, maxRank: 3}];
-        case SkillCondition.TwoSkillsOneRankEach:
+        case SkillCondition.TwoSkills:
+            // Both slots default to 1 rank; maxRank is always 2 for two-skill grants
             return [
                 {playerChoice: false, startingRanks: 1, maxRank: 2},
                 {playerChoice: false, startingRanks: 1, maxRank: 2},
             ];
-        case SkillCondition.TwoSkillsTwoRanksEach:
-            return [
-                {playerChoice: false, startingRanks: 2, maxRank: 2},
-                {playerChoice: false, startingRanks: 2, maxRank: 2},
-            ];
-        case SkillCondition.OneKnowledgeChoiceTwoRanks:
-            return [{playerChoice: true, requiredSkillType: SkillType.Knowledge, startingRanks: 2, maxRank: 3}];
+        case SkillCondition.OneSkillTypeChoice:
+            // Default to Knowledge + 1 rank; admin can change both
+            return [{playerChoice: true, requiredSkillType: SkillType.Knowledge, startingRanks: 1, maxRank: 2}];
     }
 };
 
-/** Best-effort reverse-mapping of a saved skills array back to a condition label. */
+/**
+ * Best-effort reverse-mapping of a saved skills array back to a condition label.
+ * Two slots → TwoNonCareerOneRank (if nonCareer) else TwoSkills.
+ * One slot with playerChoice or requiredSkillType → OneSkillTypeChoice (covers overrides).
+ * One fixed slot → OneSkill.
+ */
 const detectCondition = (skills: ArchetypeSkill[]): SkillConditionType | '' => {
     if (!skills || skills.length === 0) return '';
-    if (skills.length === 2 && skills.every(s => s.nonCareer && s.startingRanks === 1 && s.maxRank === 2))
-        return SkillCondition.TwoNonCareerOneRank;
-    if (skills.length === 1 && !skills[0].requiredSkillType && skills[0].startingRanks === 1 && skills[0].maxRank === 2)
-        return SkillCondition.OneSkillOneRank;
-    if (skills.length === 1 && !skills[0].requiredSkillType && skills[0].startingRanks === 2 && skills[0].maxRank === 3)
-        return SkillCondition.OneSkillTwoRanks;
-    if (skills.length === 2 && skills.every(s => !s.nonCareer && s.startingRanks === 1 && s.maxRank === 2))
-        return SkillCondition.TwoSkillsOneRankEach;
-    if (skills.length === 2 && skills.every(s => s.startingRanks === 2 && s.maxRank === 2))
-        return SkillCondition.TwoSkillsTwoRanksEach;
-    if (skills.length === 1 && skills[0].requiredSkillType === SkillType.Knowledge && skills[0].startingRanks === 2 && skills[0].maxRank === 3)
-        return SkillCondition.OneKnowledgeChoiceTwoRanks;
+    if (skills.length === 2) {
+        return skills.every(s => s.nonCareer)
+            ? SkillCondition.TwoNonCareerOneRank
+            : SkillCondition.TwoSkills;
+    }
+    if (skills.length === 1) {
+        const s = skills[0];
+        return (s.playerChoice || s.requiredSkillType)
+            ? SkillCondition.OneSkillTypeChoice
+            : SkillCondition.OneSkill;
+    }
     return '';
 };
+
+// ─── Component ──────────────────────────────────────────────────────────────
 
 interface Props {
     open: boolean;
@@ -113,6 +114,20 @@ export default function ArchetypeDialog(props: Props) {
         handleChange('skills', newSkills);
     };
 
+    /**
+     * TwoSkills always caps maxRank at 2 regardless of startingRanks (rule: "may not be
+     * increased higher than rank 2 during character creation" even when starting at rank 2).
+     * All other conditions: 1 starting rank → maxRank 2, 2 starting ranks → maxRank 3.
+     */
+    const handleStartingRanksChange = (index: number, ranks: number) => {
+        const maxRank = selectedCondition === SkillCondition.TwoSkills ? 2 : (ranks === 1 ? 2 : 3);
+        handleSkillEntryChange(index, {
+            ...formData.skills[index],
+            startingRanks: ranks,
+            maxRank,
+        });
+    };
+
     const handleSave = () => {
         onSave(formData);
         setFormData(emptyArchetype);
@@ -126,7 +141,6 @@ export default function ArchetypeDialog(props: Props) {
         onClose();
     };
 
-    // Description shown inside a playerChoice=true card
     const getPlayerChoiceDescription = (entry: ArchetypeSkill): string => {
         const rankLabel = entry.startingRanks === 1 ? '1 starting rank' : '2 starting ranks';
         const maxLabel = `max rank ${entry.maxRank} during character creation`;
@@ -135,15 +149,19 @@ export default function ArchetypeDialog(props: Props) {
         return `Player chooses any skill — ${rankLabel}, ${maxLabel}`;
     };
 
-    // Respect requiredSkillType when offering skills in the autocomplete
     const getAvailableSkills = (entry: ArchetypeSkill): Skill[] =>
         entry.requiredSkillType ? skills.filter(s => s.type === entry.requiredSkillType) : skills;
 
-    // True when the original condition template for this slot had playerChoice=true
     const slotWasOriginallyPlayerChoice = (index: number): boolean =>
         selectedCondition
             ? (getSkillsForCondition(selectedCondition)[index]?.playerChoice ?? false)
             : false;
+
+    // The "2 ranks" MenuItem shows a different maxRank label depending on the condition
+    const maxRankLabelForTwoRanks = selectedCondition === SkillCondition.TwoSkills ? 2 : 3;
+
+    // TwoNonCareerOneRank slots have fixed ranks (1); no rank selector needed there
+    const showRankSelectorInFixedBranch = selectedCondition !== SkillCondition.TwoNonCareerOneRank;
 
     return (
         <Dialog
@@ -166,7 +184,7 @@ export default function ArchetypeDialog(props: Props) {
 
             <DialogContent sx={{minHeight: '500px', py: 3}} dividers>
 
-                {/* ── Tab 0: Basic Information (unchanged) ── */}
+                {/* ── Tab 0: Basic Information ── */}
                 {tabValue === 0 && (
                     <Stack spacing={3}>
                         <GenesysTextField text={formData.name || ''} label={"Archetype Name"}
@@ -250,7 +268,7 @@ export default function ArchetypeDialog(props: Props) {
                             ))}
                         </TextField>
 
-                        {/* One card per skill slot — only rendered once a condition is chosen */}
+                        {/* One card per skill slot */}
                         {selectedCondition && formData.skills?.map((entry, index) => {
                             const originalWasPlayerChoice = slotWasOriginallyPlayerChoice(index);
                             const availableSkills = getAvailableSkills(entry);
@@ -281,6 +299,45 @@ export default function ArchetypeDialog(props: Props) {
                                                     <Typography variant="body2" color="text.secondary">
                                                         {getPlayerChoiceDescription(entry)}
                                                     </Typography>
+
+                                                    {/* Type + rank selectors — only for OneSkillTypeChoice */}
+                                                    {selectedCondition === SkillCondition.OneSkillTypeChoice && (
+                                                        <>
+                                                            <TextField
+                                                                select
+                                                                fullWidth
+                                                                size="small"
+                                                                label="Required Skill Type"
+                                                                value={entry.requiredSkillType ?? ANY_SKILL_TYPE}
+                                                                onChange={(e) => {
+                                                                    const val = e.target.value;
+                                                                    handleSkillEntryChange(index, {
+                                                                        ...entry,
+                                                                        requiredSkillType: val === ANY_SKILL_TYPE
+                                                                            ? undefined
+                                                                            : val as SkillType,
+                                                                    });
+                                                                }}
+                                                            >
+                                                                <MenuItem value={ANY_SKILL_TYPE}>Any</MenuItem>
+                                                                {Object.values(SkillType).map(type => (
+                                                                    <MenuItem key={type} value={type}>{type}</MenuItem>
+                                                                ))}
+                                                            </TextField>
+                                                            <TextField
+                                                                select
+                                                                fullWidth
+                                                                size="small"
+                                                                label="Starting Ranks"
+                                                                value={entry.startingRanks}
+                                                                onChange={(e) => handleStartingRanksChange(index, Number(e.target.value))}
+                                                            >
+                                                                <MenuItem value={1}>1 rank — max rank 2 during character creation</MenuItem>
+                                                                <MenuItem value={2}>2 ranks — max rank 3 during character creation</MenuItem>
+                                                            </TextField>
+                                                        </>
+                                                    )}
+
                                                     <FormControlLabel
                                                         control={
                                                             <Switch
@@ -302,6 +359,21 @@ export default function ArchetypeDialog(props: Props) {
                                             ) : (
                                                 /* ── Fixed-skill slot ── */
                                                 <>
+                                                    {/* Rank selector hidden for TwoNonCareerOneRank (ranks are rule-fixed at 1) */}
+                                                    {showRankSelectorInFixedBranch && (
+                                                        <TextField
+                                                            select
+                                                            fullWidth
+                                                            size="small"
+                                                            label="Starting Ranks"
+                                                            value={entry.startingRanks}
+                                                            onChange={(e) => handleStartingRanksChange(index, Number(e.target.value))}
+                                                        >
+                                                            <MenuItem value={1}>1 rank — max rank 2 during character creation</MenuItem>
+                                                            <MenuItem value={2}>2 ranks — max rank {maxRankLabelForTwoRanks} during character creation</MenuItem>
+                                                        </TextField>
+                                                    )}
+
                                                     <Autocomplete
                                                         options={availableSkills}
                                                         getOptionLabel={(option) => option.name}
@@ -316,7 +388,8 @@ export default function ArchetypeDialog(props: Props) {
                                                             <TextField {...params} label="Skill" size="small" fullWidth/>
                                                         )}
                                                     />
-                                                    {/* Revert toggle — only shown when this slot was originally a player-choice */}
+
+                                                    {/* Revert toggle — only for slots that were originally player-choice */}
                                                     {originalWasPlayerChoice && (
                                                         <FormControlLabel
                                                             control={
