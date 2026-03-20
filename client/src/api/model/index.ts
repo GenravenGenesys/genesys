@@ -7,6 +7,7 @@
  */
 
 export * from './ability';
+export * from './abilityModifiers';
 export * from './activation';
 export * from './adversaryEquipment';
 export * from './adversaryRatings';
@@ -30,18 +31,28 @@ export * from './career';
 export * from './characteristic';
 export * from './characteristics';
 export * from './characteristicType';
+export * from './checkContext';
+export * from './checkTarget';
 export * from './cost';
 export * from './costType';
 export * from './criticalInjury';
 export * from './derivedStats';
+export * from './diceModifier';
+export * from './diceType';
 export * from './difficulty';
 export * from './effect';
+export * from './environmentEffect';
+export * from './environmentModifier';
+export * from './environmentType';
 export * from './equipmentQuality';
 export * from './equipmentType';
 export * from './experience';
 export * from './genesysError';
 export * from './genesysSymbolResults';
 export * from './getModifiers200Item';
+export * from './healEffect';
+export * from './healSource';
+export * from './healTarget';
 export * from './initiativeSlot';
 export * from './initiativeSlotType';
 export * from './itemTemplate';

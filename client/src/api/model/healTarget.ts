@@ -6,11 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface StatModifiers {
-  wounds: number;
-  strain: number;
-  soak: number;
-  defense: number;
-  meleeDefense: number;
-  rangedDefense: number;
-}
+export type HealTarget = typeof HealTarget[keyof typeof HealTarget];
+
+
+export const HealTarget = {
+  Wounds: 'Wounds',
+  Strain: 'Strain',
+} as const;
