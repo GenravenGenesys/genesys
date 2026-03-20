@@ -11,7 +11,7 @@ export default function ArchetypeCharacteristic(props: Props) {
     const {archetype} = props;
 
     return (
-        <GridContainer spacing={3} centered>
+        <GridContainer spacing={2} centered>
             <Grid sx={{xs: 6, md: 4}}>
                 <CharacteristicBadge value={archetype.brawn} label={CharacteristicType.Brawn}/>
             </Grid>
