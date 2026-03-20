@@ -17,4 +17,10 @@ public class StatModifiers {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int defense = 0;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private int meleeDefense = 0;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private int rangedDefense = 0;
 }

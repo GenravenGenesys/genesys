@@ -1,5 +1,5 @@
 import {CharacteristicType, type PlayerCharacter} from "../../../../api/model";
-import {Box, Card, CardContent, Grid, Paper, Stack, Tab, Tabs, TextField, Typography} from "@mui/material";
+import {Box, Card, CardContent, Grid, Paper, Stack, Tab, Tabs, Typography} from "@mui/material";
 import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.tsx";
 import GridContainer from "../../../common/grid/GridContainer.tsx";
 import {CharacteristicBadge} from "./CharacteristicBadge.tsx";

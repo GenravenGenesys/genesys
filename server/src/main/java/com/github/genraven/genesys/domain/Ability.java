@@ -1,12 +1,10 @@
 package com.github.genraven.genesys.domain;
 
 import com.github.genraven.genesys.domain.enums.Activation;
-import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.domain.modifier.AbilityModifiers;
+import com.github.genraven.genesys.domain.modifier.StatModifiers;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 public class Ability {
@@ -18,7 +16,7 @@ public class Ability {
     private String description;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Activation activation;
+    private Activation activation = Activation.PASSIVE;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Cost cost = new Cost();
@@ -26,9 +24,12 @@ public class Ability {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Limit limit = new Limit();
 
-//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-//    private Action action = new Action();
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private StatModifiers statModifiers = new StatModifiers();
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Modifier> modifiers = new ArrayList<>();
+    private AbilityModifiers abilityModifiers = new AbilityModifiers();
+
+//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+//    private Action action = new Action();
 }
