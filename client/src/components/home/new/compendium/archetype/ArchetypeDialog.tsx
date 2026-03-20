@@ -4,8 +4,8 @@ import {
     Autocomplete,
     Box, Button, Card, CardContent, Chip, Dialog, DialogActions,
     DialogContent,
-    DialogTitle, Divider, FormControlLabel, Grid,
-    MenuItem, Stack, Switch,
+    DialogTitle, Divider, Grid,
+    MenuItem, Stack,
     Tabs, TextField, Typography,
     useMediaQuery,
     useTheme
@@ -152,11 +152,6 @@ export default function ArchetypeDialog(props: Props) {
     const getAvailableSkills = (entry: ArchetypeSkill): Skill[] =>
         entry.requiredSkillType ? skills.filter(s => s.type === entry.requiredSkillType) : skills;
 
-    const slotWasOriginallyPlayerChoice = (index: number): boolean =>
-        selectedCondition
-            ? (getSkillsForCondition(selectedCondition)[index]?.playerChoice ?? false)
-            : false;
-
     // The "2 ranks" MenuItem shows a different maxRank label depending on the condition
     const maxRankLabelForTwoRanks = selectedCondition === SkillCondition.TwoSkills ? 2 : 3;
 
@@ -270,7 +265,6 @@ export default function ArchetypeDialog(props: Props) {
 
                         {/* One card per skill slot */}
                         {selectedCondition && formData.skills?.map((entry, index) => {
-                            const originalWasPlayerChoice = slotWasOriginallyPlayerChoice(index);
                             const availableSkills = getAvailableSkills(entry);
 
                             return (
@@ -337,24 +331,6 @@ export default function ArchetypeDialog(props: Props) {
                                                             </TextField>
                                                         </>
                                                     )}
-
-                                                    <FormControlLabel
-                                                        control={
-                                                            <Switch
-                                                                checked={false}
-                                                                size="small"
-                                                                onChange={() => handleSkillEntryChange(index, {
-                                                                    ...entry,
-                                                                    playerChoice: false,
-                                                                })}
-                                                            />
-                                                        }
-                                                        label={
-                                                            <Typography variant="body2">
-                                                                Override: assign a specific skill instead
-                                                            </Typography>
-                                                        }
-                                                    />
                                                 </>
                                             ) : (
                                                 /* ── Fixed-skill slot ── */
@@ -388,28 +364,6 @@ export default function ArchetypeDialog(props: Props) {
                                                             <TextField {...params} label="Skill" size="small" fullWidth/>
                                                         )}
                                                     />
-
-                                                    {/* Revert toggle — only for slots that were originally player-choice */}
-                                                    {originalWasPlayerChoice && (
-                                                        <FormControlLabel
-                                                            control={
-                                                                <Switch
-                                                                    checked={true}
-                                                                    size="small"
-                                                                    onChange={() => handleSkillEntryChange(index, {
-                                                                        ...entry,
-                                                                        playerChoice: true,
-                                                                        skill: undefined,
-                                                                    })}
-                                                                />
-                                                            }
-                                                            label={
-                                                                <Typography variant="body2">
-                                                                    Specific skill assigned — toggle off to restore player choice
-                                                                </Typography>
-                                                            }
-                                                        />
-                                                    )}
                                                 </>
                                             )}
                                         </Stack>
