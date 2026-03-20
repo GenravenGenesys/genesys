@@ -92,15 +92,13 @@ export default function ValidatePlayerCharacter(props: Props) {
                             </Paper>
                         </GridContainer>
                         {/*<GridContainer spacing={3} centered>*/}
-                        {/*    <Typography sx={{mt: 4}}>Starting Skill(s) would go here...</Typography>*/}
-                        {/*</GridContainer>*/}
-                        {/*<GridContainer spacing={3} centered>*/}
                         {/*    <Typography sx={{mt: 4}}>Abilities would go here...</Typography>*/}
                         {/*</GridContainer>*/}
                     </Stack>}
 
                     {tabValue === 2 && <Stack spacing={3}>
-                        <GridContainer spacing={3} centered>
+                        <GridContainer spacing={2} centered>
+                            
                             <Typography sx={{mt: 4}}>Skill would go here...</Typography>
                         </GridContainer>
                     </Stack>}
