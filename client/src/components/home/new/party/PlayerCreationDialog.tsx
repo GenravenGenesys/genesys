@@ -9,11 +9,8 @@ import {
     type Archetype, type ArchetypeSkill,
     type CampaignCompendium,
     type Career,
-    type Characteristics,
     type PlayerCharacter,
-    type PlayerSkill,
     type Skill,
-    type Talent
 } from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
 import {useEffect, useState} from "react";
@@ -109,6 +106,19 @@ export default function PlayerCreationDialog(props: Props) {
     }
 
     const handleArchetypeStartingSkills = (archetypeSkills: ArchetypeSkill[]) => {
+        for (const archetypeSkill of archetypeSkills) {
+            for (const skill of compendium.skills) {
+                if (skill.name === archetypeSkill.skill?.name) {
+                    return [{
+                        ...skill,
+                        ranks: archetypeSkill.startingRanks
+                    }, ...compendium.skills.filter(s => s.name !== archetypeSkill.skill?.name).map(skill => ({
+                        ...skill,
+                        ranks: 0
+                    }))];
+                }
+            }
+        }
         return compendium.skills.map(skill => ({
             ...skill,
             ranks: 0
