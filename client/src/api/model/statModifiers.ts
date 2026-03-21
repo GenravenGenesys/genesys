@@ -11,6 +11,4 @@ export interface StatModifiers {
   strain: number;
   soak: number;
   defense: number;
-  meleeDefense: number;
-  rangedDefense: number;
 }
