@@ -4,11 +4,11 @@ import {
     type PlayerSkill,
     type Skill,
     SkillType
-} from "../../../../api/model";
+} from "../../../../../api/model";
 import {Accordion, AccordionDetails, AccordionSummary, Box, Grid, Paper, Tooltip, Typography} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import StarIcon from "@mui/icons-material/Star";
-import GenesysSkillDiceTypography from "../../common/typography/GenesysSkillDiceTypography.tsx";
+import GenesysSkillDiceTypography from "../../../common/typography/GenesysSkillDiceTypography.tsx";
 
 interface Props {
     playerSkills: PlayerSkill[];

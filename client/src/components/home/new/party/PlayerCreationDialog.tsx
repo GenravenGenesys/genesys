@@ -18,7 +18,7 @@ import {emptyArchetype, emptyCareer, emptyPlayerCharacter} from "../../../../mod
 import ArchetypeSelectionStep from "./archetype/ArchetypeSelectionStep.tsx";
 import CareerSelectionStep from "./career/CareerSelectionStep.tsx";
 import SpendExperienceStep from "./experience/SpendExperienceStep.tsx";
-import ValidatePlayerCharacter from "./ValidatePlayerCharacter.tsx";
+import ValidatePlayerCharacter from "./validate/ValidatePlayerCharacter.tsx";
 
 interface Props {
     open: boolean;
