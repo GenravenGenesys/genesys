@@ -8,10 +8,13 @@
 import type { DiceModifier } from './diceModifier';
 import type { EnvironmentModifier } from './environmentModifier';
 import type { HealEffect } from './healEffect';
+import type { ResultsModifier } from './resultsModifier';
 
 export interface AbilityModifiers {
   /** Dice added to or removed from rolls based on check context */
   diceModifiers: DiceModifier[];
+  /** Results added to or removed from rolls based on check context */
+  resultsModifiers: ResultsModifier[];
   /** Healing applied to wounds or strain when the ability is used */
   healEffects: HealEffect[];
   /** Terrain or environmental effects ignored by this character */

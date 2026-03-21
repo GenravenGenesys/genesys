@@ -12,10 +12,8 @@ export type DiceType = typeof DiceType[keyof typeof DiceType];
 export const DiceType = {
   Boost: 'Boost',
   Setback: 'Setback',
-  Advantage: 'Advantage',
-  Threat: 'Threat',
-  Success: 'Success',
-  Failure: 'Failure',
-  Triumph: 'Triumph',
-  Despair: 'Despair',
+  Ability: 'Ability',
+  Difficulty: 'Difficulty',
+  Proficiency: 'Proficiency',
+  Challenge: 'Challenge',
 } as const;
