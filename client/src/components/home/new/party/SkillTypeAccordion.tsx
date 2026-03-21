@@ -1,53 +1,70 @@
-import {type PlayerSkill, type Skill, SkillType} from "../../../../api/model";
+import {
+    type Characteristics, type CharacteristicType,
+    type PlayerSkill,
+    type Skill,
+    SkillType
+} from "../../../../api/model";
 import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
     Box,
     Grid,
-    Paper,
+    Paper, Tooltip,
     Typography
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import StarIcon from "@mui/icons-material/Star";
+import GenesysSkillDiceTypography from "../../common/typography/GenesysSkillDiceTypography.tsx";
 
 interface Props {
     playerSkills: PlayerSkill[];
     careerSkills: Skill[];
+    characteristics: Characteristics;
 }
 
 export default function SkillTypeAccordion(props: Props) {
-    const {playerSkills, careerSkills} = props;
+    const {playerSkills, careerSkills, characteristics} = props;
 
     const isCareerSkill = (skill: PlayerSkill): boolean => {
         return careerSkills.some(careerSkill => careerSkill.name === skill.name);
     };
 
-    const getTotalRank = (skill: PlayerSkill): number => {
-        return skill.ranks;
-    };
+    const getCharacteristicRanks = (characteristicType: CharacteristicType): number => {
+        console.log(characteristicType);
+        switch (characteristicType) {
+            case "Brawn":
+                console.log(characteristics.brawn.base);
+                return characteristics.brawn.base;
+            case "Agility":
+                console.log(characteristics.agility.base);
+                return characteristics.agility.base;
+            case "Intellect":
+                console.log(characteristics.intellect.base);
+                return characteristics.intellect.base;
+            case "Cunning":
+                console.log(characteristics.cunning.base);
+                return characteristics.cunning.base;
+            case "Willpower":
+                console.log(characteristics.willpower.base);
+                return characteristics.willpower.base;
+            case "Presence":
+                console.log(characteristics.presence.base);
+                return characteristics.presence.base;
+        }
+    }
 
     return (
         <Box>
             {Object.values(SkillType).map((type) => {
                 const filteredSkills = playerSkills.filter(skill => skill.type === type);
                 const skillsWithCareer = filteredSkills.filter(skill => isCareerSkill(skill)).length;
+
+                if (filteredSkills.length === 0) return null;
                 return (
                     <Accordion key={type}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 2,
-                                    width: "100%",
-                                }}
-                            >
-                                {/*<Box sx={{minWidth: 80, transform: "scale(0.8)"}}>*/}
-                                {/*    <CharacteristicBadge*/}
-                                {/*        value={characteristics[characteristic]}*/}
-                                {/*        label={characteristic}*/}
-                                {/*    />*/}
-                                {/*</Box>*/}
+                            <Box sx={{display: "flex", alignItems: "center", gap: 2, width: "100%"}}>
                                 <Box sx={{flexGrow: 1}}>
                                     <Typography variant="h6" sx={{textTransform: "capitalize"}}>
                                         {type} Skills
@@ -62,38 +79,22 @@ export default function SkillTypeAccordion(props: Props) {
                         <AccordionDetails>
                             <Grid container spacing={2}>
                                 {filteredSkills.map((skill) => {
-                                    const totalRank = getTotalRank(skill);
-                                    // const purchasedRanks = skills[skill.name] || 0;
-                                    // const nextCost = getNextRankCost(skill);
-
                                     return (
                                         <Grid size={{xs: 12}} key={skill.id}>
-                                            <Paper
-                                                variant="outlined"
-                                                sx={{
-                                                    p: 2
-                                                }}
-                                            >
+                                            <Paper variant="outlined" sx={{p: 2}}>
                                                 <Grid container spacing={2} alignItems="center">
                                                     {/* Skill Name & Career Badge */}
                                                     <Grid size={{xs: 12, sm: 4}}>
-                                                        <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                gap: 1,
-                                                            }}
-                                                        >
+                                                        <Box sx={{display: "flex", alignItems: "center", gap: 1,}}>
                                                             <Typography variant="body1" fontWeight="bold">
                                                                 {skill.name}
                                                             </Typography>
-                                                            {/*{isCareerSkill(skill) && (*/}
-                                                            {/*    <Tooltip title="Career Skill - Reduced Cost">*/}
-                                                            {/*        <StarIcon*/}
-                                                            {/*            sx={{color: "warning.main", fontSize: 20}}*/}
-                                                            {/*        />*/}
-                                                            {/*    </Tooltip>*/}
-                                                            {/*)}*/}
+                                                            {isCareerSkill(skill) && (
+                                                                <Tooltip title="Career Skill">
+                                                                    <StarIcon
+                                                                        sx={{color: "warning.main", fontSize: 20}}/>
+                                                                </Tooltip>
+                                                            )}
                                                         </Box>
                                                         {skill.summary && (
                                                             <Typography
@@ -104,8 +105,6 @@ export default function SkillTypeAccordion(props: Props) {
                                                             </Typography>
                                                         )}
                                                     </Grid>
-
-                                                    {/* Current Ranks Display */}
                                                     <Grid size={{xs: 6, sm: 2}}>
                                                         <Box sx={{textAlign: "center"}}>
                                                             <Typography
@@ -115,86 +114,17 @@ export default function SkillTypeAccordion(props: Props) {
                                                                 Total Ranks
                                                             </Typography>
                                                             <Typography variant="h5" fontWeight="bold">
-                                                                {totalRank}
+                                                                {skill.ranks}
                                                             </Typography>
                                                         </Box>
                                                     </Grid>
-
-                                                    {/* Rank Controls */}
-                                                    {/*<Grid size={{xs: 6, sm: 3}}>*/}
-                                                    {/*    <Box*/}
-                                                    {/*        sx={{*/}
-                                                    {/*            display: "flex",*/}
-                                                    {/*            alignItems: "center",*/}
-                                                    {/*            justifyContent: "center",*/}
-                                                    {/*            gap: 1,*/}
-                                                    {/*        }}*/}
-                                                    {/*    >*/}
-                                                    {/*        <IconButton*/}
-                                                    {/*            size="small"*/}
-                                                    {/*            onClick={() => handleDecrease(skill)}*/}
-                                                    {/*            disabled={!canDecrease(skill)}*/}
-                                                    {/*            color="error"*/}
-                                                    {/*        >*/}
-                                                    {/*            <RemoveIcon/>*/}
-                                                    {/*        </IconButton>*/}
-
-                                                    {/*        <Chip*/}
-                                                    {/*            label={purchasedRanks}*/}
-                                                    {/*            color={*/}
-                                                    {/*                purchasedRanks > 0 ? "primary" : "default"*/}
-                                                    {/*            }*/}
-                                                    {/*            sx={{*/}
-                                                    {/*                minWidth: 50,*/}
-                                                    {/*                fontWeight: "bold",*/}
-                                                    {/*                fontSize: "1rem",*/}
-                                                    {/*            }}*/}
-                                                    {/*        />*/}
-
-                                                    {/*        <IconButton*/}
-                                                    {/*            size="small"*/}
-                                                    {/*            onClick={() => handleIncrease(skill)}*/}
-                                                    {/*            disabled={!canIncrease(skill)}*/}
-                                                    {/*            color="success"*/}
-                                                    {/*        >*/}
-                                                    {/*            <AddIcon/>*/}
-                                                    {/*        </IconButton>*/}
-                                                    {/*    </Box>*/}
-                                                    {/*    <Typography*/}
-                                                    {/*        variant="caption"*/}
-                                                    {/*        color="text.secondary"*/}
-                                                    {/*        sx={{*/}
-                                                    {/*            display: "block",*/}
-                                                    {/*            textAlign: "center",*/}
-                                                    {/*            mt: 0.5,*/}
-                                                    {/*        }}*/}
-                                                    {/*    >*/}
-                                                    {/*        Purchased*/}
-                                                    {/*    </Typography>*/}
-                                                    {/*</Grid>*/}
-
-                                                    {/* Cost Display */}
-                                                    {/*<Grid size={{xs: 12, sm: 3}}>*/}
-                                                    {/*    <Box sx={{textAlign: "center"}}>*/}
-                                                    {/*        <Typography*/}
-                                                    {/*            variant="caption"*/}
-                                                    {/*            color="text.secondary"*/}
-                                                    {/*        >*/}
-                                                    {/*            Next Rank Cost*/}
-                                                    {/*        </Typography>*/}
-                                                    {/*        <Typography*/}
-                                                    {/*            variant="h6"*/}
-                                                    {/*            fontWeight="bold"*/}
-                                                    {/*            color={*/}
-                                                    {/*                canIncrease(skill)*/}
-                                                    {/*                    ? "primary.main"*/}
-                                                    {/*                    : "text.disabled"*/}
-                                                    {/*            }*/}
-                                                    {/*        >*/}
-                                                    {/*            {totalRank >= 5 ? "MAX" : `${nextCost} XP`}*/}
-                                                    {/*        </Typography>*/}
-                                                    {/*    </Box>*/}
-                                                    {/*</Grid>*/}
+                                                    <Grid size={{xs: 6, sm: 2}}>
+                                                        <Box sx={{textAlign: "center"}}>
+                                                            <GenesysSkillDiceTypography
+                                                                characteristicRanks={getCharacteristicRanks(skill.characteristic)}
+                                                                skillRanks={skill.ranks}/>
+                                                        </Box>
+                                                    </Grid>
                                                 </Grid>
                                             </Paper>
                                         </Grid>

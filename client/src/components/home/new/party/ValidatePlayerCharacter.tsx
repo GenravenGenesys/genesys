@@ -4,6 +4,7 @@ import CenteredCardHeader from "../../../common/card/header/CenteredCardHeader.t
 import GridContainer from "../../../common/grid/GridContainer.tsx";
 import {CharacteristicBadge} from "./CharacteristicBadge.tsx";
 import {useState} from "react";
+import SkillTypeAccordion from "./SkillTypeAccordion.tsx";
 
 interface Props {
     player: PlayerCharacter;
@@ -42,7 +43,8 @@ export default function ValidatePlayerCharacter(props: Props) {
                     {tabValue === 1 && <Stack spacing={3}>
                         <GridContainer spacing={2} centered>
                             <Grid sx={{xs: 6, md: 4}}>
-                                <CharacteristicBadge value={player.characteristics.brawn.base} label={CharacteristicType.Brawn}/>
+                                <CharacteristicBadge value={player.characteristics.brawn.base}
+                                                     label={CharacteristicType.Brawn}/>
                             </Grid>
                             <Grid sx={{xs: 6, md: 4}}>
                                 <CharacteristicBadge value={player.characteristics.agility.base}
@@ -98,8 +100,8 @@ export default function ValidatePlayerCharacter(props: Props) {
 
                     {tabValue === 2 && <Stack spacing={3}>
                         <GridContainer spacing={2} centered>
-                            
-                            <Typography sx={{mt: 4}}>Skill would go here...</Typography>
+                            <SkillTypeAccordion playerSkills={player.skills} careerSkills={player.career.skills}
+                                                characteristics={player.characteristics}/>
                         </GridContainer>
                     </Stack>}
 
