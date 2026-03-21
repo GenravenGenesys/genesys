@@ -24,25 +24,18 @@ export default function SkillTypeAccordion(props: Props) {
     };
 
     const getCharacteristicRanks = (characteristicType: CharacteristicType): number => {
-        console.log(characteristicType);
         switch (characteristicType) {
             case "Brawn":
-                console.log(characteristics.brawn.base);
                 return characteristics.brawn.base;
             case "Agility":
-                console.log(characteristics.agility.base);
                 return characteristics.agility.base;
             case "Intellect":
-                console.log(characteristics.intellect.base);
                 return characteristics.intellect.base;
             case "Cunning":
-                console.log(characteristics.cunning.base);
                 return characteristics.cunning.base;
             case "Willpower":
-                console.log(characteristics.willpower.base);
                 return characteristics.willpower.base;
             case "Presence":
-                console.log(characteristics.presence.base);
                 return characteristics.presence.base;
         }
     }
