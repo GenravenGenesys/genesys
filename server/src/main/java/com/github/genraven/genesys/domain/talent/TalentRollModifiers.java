@@ -8,5 +8,5 @@ import lombok.Data;
 public class TalentRollModifiers {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private PlayerSkill skill;
+    private PlayerSkill skill = null;
 }
