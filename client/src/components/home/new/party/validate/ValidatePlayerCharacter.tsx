@@ -5,6 +5,7 @@ import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import {CharacteristicBadge} from "../CharacteristicBadge.tsx";
 import {useState} from "react";
 import SkillTypeAccordion from "./SkillTypeAccordion.tsx";
+import TalentAccordion from "./TalentAccordion.tsx";
 
 interface Props {
     player: PlayerCharacter;
@@ -107,7 +108,7 @@ export default function ValidatePlayerCharacter(props: Props) {
 
                     {tabValue === 3 && <Stack spacing={3}>
                         <GridContainer spacing={3} centered>
-                            <Typography sx={{mt: 4}}>Talents would go here...</Typography>
+                            <TalentAccordion talents={player.talents}/>
                         </GridContainer>
                     </Stack>}
 
