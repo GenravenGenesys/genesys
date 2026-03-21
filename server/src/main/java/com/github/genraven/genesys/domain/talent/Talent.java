@@ -60,19 +60,19 @@ public class Talent {
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private TalentSkills talentSkills = new TalentSkills();
+    private TalentSkills talentSkills = null;
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private StatModifiers statModifiers = new StatModifiers();
+    private StatModifiers statModifiers = null;
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private AbilityModifiers abilityModifiers = new AbilityModifiers();
+    private AbilityModifiers abilityModifiers = null;
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private TalentSkillCheck talentSkillCheck = new TalentSkillCheck();
+    private TalentSkillCheck talentSkillCheck = null;
 
 //    @Builder.Default
 //    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -80,5 +80,5 @@ public class Talent {
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<TalentRollModifiers> talentRollModifiers = List.of();
+    private List<TalentRollModifiers> talentRollModifiers = null;
 }
