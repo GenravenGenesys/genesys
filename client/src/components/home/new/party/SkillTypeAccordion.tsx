@@ -118,7 +118,7 @@ export default function SkillTypeAccordion(props: Props) {
                                                             </Typography>
                                                         </Box>
                                                     </Grid>
-                                                    <Grid size={{xs: 6, sm: 2}}>
+                                                    <Grid size={{xs: 24, sm: 6}}>
                                                         <Box sx={{textAlign: "center"}}>
                                                             <GenesysSkillDiceTypography
                                                                 characteristicRanks={getCharacteristicRanks(skill.characteristic)}
