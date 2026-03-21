@@ -6,14 +6,11 @@ import {
     Typography, useMediaQuery, useTheme
 } from "@mui/material";
 import {
-    type Archetype,
+    type Archetype, type ArchetypeSkill,
     type CampaignCompendium,
     type Career,
-    type Characteristics,
     type PlayerCharacter,
-    type PlayerSkill,
     type Skill,
-    type Talent
 } from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
 import {useEffect, useState} from "react";
@@ -99,16 +96,33 @@ export default function PlayerCreationDialog(props: Props) {
                 current: archetype.presence
             }
         };
-        handleChange('skills', compendium.skills.map(skill => ({
-            ...skill,
-            ranks: 0
-        })));
+        handleChange('skills', handleArchetypeStartingSkills(archetype.skills));
         handleChange('characteristics', characteristics);
         handleChange('experience', {
             initial: archetype.experience,
             total: archetype.experience,
             available: archetype.experience
         });
+    }
+
+    const handleArchetypeStartingSkills = (archetypeSkills: ArchetypeSkill[]) => {
+        for (const archetypeSkill of archetypeSkills) {
+            for (const skill of compendium.skills) {
+                if (skill.name === archetypeSkill.skill?.name) {
+                    return [{
+                        ...skill,
+                        ranks: archetypeSkill.startingRanks
+                    }, ...compendium.skills.filter(s => s.name !== archetypeSkill.skill?.name).map(skill => ({
+                        ...skill,
+                        ranks: 0
+                    }))];
+                }
+            }
+        }
+        return compendium.skills.map(skill => ({
+            ...skill,
+            ranks: 0
+        }))
     }
 
     const handleCareerSkillSelection = (career: Career, skills: Skill[]) => {
@@ -147,7 +161,7 @@ export default function PlayerCreationDialog(props: Props) {
                 );
             case 1:
                 return <ArchetypeSelectionStep archetype={formData.archetype} archetypes={compendium.archetypes}
-                                               onSave={handleArchetypeSelection}/>;
+                                               onSave={handleArchetypeSelection} skills={compendium.skills}/>;
             case 2:
                 return <CareerSelectionStep career={formData.career} careers={compendium.careers}
                                             onSave={handleCareerSkillSelection}/>
