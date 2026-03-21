@@ -1,7 +1,6 @@
 package com.github.genraven.genesys.domain.equipment;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.github.genraven.genesys.domain.modifier.Modifier;
 import com.github.genraven.genesys.domain.quality.EquipmentQuality;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -56,9 +55,6 @@ public class Equipment {
     @Min(0)
     @Max(10)
     private int rarity = 0;
-
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Modifier> modifiers = new ArrayList<>();
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<EquipmentQuality> qualities = new ArrayList<>();
