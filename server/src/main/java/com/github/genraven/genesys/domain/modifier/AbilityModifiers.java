@@ -13,11 +13,19 @@ public class AbilityModifiers {
      * General-purpose dice additions/removals scoped to a check context and direction.
      * Examples:
      *   - Forge Dwarf: SETBACK, amount=1, context=ALL, skillType=SOCIAL, target=OPPONENT
-     *   - Clone:       ADVANTAGE, amount=1, context=OPPOSED, skillType=null, target=SELF
      */
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
             description = "Dice added to or removed from rolls based on check context")
     private List<DiceModifier> diceModifiers = new ArrayList<>();
+
+    /**
+     * Results Modifier adds fixed results to a check
+     * Examples:
+     *   - Clone:       ADVANTAGE, amount=1, context=OPPOSED, skillType=null, target=SELF
+     */
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
+        description = "Results added to or removed from rolls based on check context")
+    private List<ResultsModifier> resultsModifiers = new ArrayList<>();
 
     /**
      * Healing effects triggered when this ability activates.
