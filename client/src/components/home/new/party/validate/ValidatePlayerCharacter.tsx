@@ -15,7 +15,9 @@ export default function ValidatePlayerCharacter(props: Props) {
     const {player} = props;
     const [tabValue, setTabValue] = useState(0);
 
-    console.log(player);
+    const calculateSoak = () => {
+        return player.characteristics.brawn.base;
+    }
 
     return (
         <Box sx={{mt: 3}}>
@@ -73,6 +75,14 @@ export default function ValidatePlayerCharacter(props: Props) {
                         <GridContainer spacing={3} centered>
                             <Paper sx={{p: 2, textAlign: "center"}}>
                                 <Typography variant="h3" fontWeight="bold" color="text.primary">
+                                    {calculateSoak()}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Soak
+                                </Typography>
+                            </Paper>
+                            <Paper sx={{p: 2, textAlign: "center"}}>
+                                <Typography variant="h3" fontWeight="bold" color="text.primary">
                                     {player.derivedStats.woundThreshold.total}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
@@ -89,7 +99,7 @@ export default function ValidatePlayerCharacter(props: Props) {
                             </Paper>
                             <Paper sx={{p: 2, textAlign: "center"}}>
                                 <Typography variant="h3" fontWeight="bold" color="text.primary">
-                                    {player.experience.available}
+                                    {player.experience.total}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
                                     XP

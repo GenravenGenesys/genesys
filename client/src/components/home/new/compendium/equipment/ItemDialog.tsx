@@ -22,7 +22,7 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import {
     type ItemTemplate,
-    type EquipmentType,
+    EquipmentType,
     type Skill,
     SkillType
 } from "../../../../../api/model";
@@ -43,7 +43,7 @@ export default function ItemDialog(props: Props) {
     const {open, item, onClose, onSave, isNew} = props;
     const [formData, setFormData] = useState<ItemTemplate>(item || {} as ItemTemplate);
     const [tabValue, setTabValue] = useState(0);
-    const [itemType, setItemType] = useState<string>('WEAPON');
+    const [itemType, setItemType] = useState<EquipmentType>(EquipmentType.Weapon);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -60,7 +60,7 @@ export default function ItemDialog(props: Props) {
         setFormData((prev: ItemTemplate) => ({...prev, [field]: value}));
     };
 
-    const handleTypeChange = (newType: string) => {
+    const handleTypeChange = (newType: EquipmentType) => {
         setItemType(newType);
         handleChange('type', newType as EquipmentType);
     };
@@ -127,7 +127,7 @@ export default function ItemDialog(props: Props) {
                         value={formData.armorStats.soak.base || 0}
                         fullwidth
                         label="Soak"
-                        onChange={(e) => handleChange('soak' as keyof ItemTemplate, {base: e, current: e} as any)}
+                        onChange={(e) => handleChange('armorStats', {...formData.armorStats, soak: {base: e, current: e}})}
                     />
                 </Grid>
                 <Grid size={6}>
@@ -135,7 +135,7 @@ export default function ItemDialog(props: Props) {
                         value={formData.armorStats.defense.base || 0}
                         fullwidth
                         label="Defense"
-                        onChange={(e) => handleChange('defense' as keyof ItemTemplate, {base: e, current: e} as any)}
+                        onChange={(e) => handleChange('armorStats', {...formData.armorStats, defense: {base: e, current: e}})}
                     />
                 </Grid>
             </GridContainer>
@@ -187,9 +187,9 @@ export default function ItemDialog(props: Props) {
                             value={itemType}
                             onChange={(_, val) => val && handleTypeChange(val)}
                         >
-                            <ToggleButton value="WEAPON">Weapon</ToggleButton>
-                            <ToggleButton value="ARMOR">Armor</ToggleButton>
-                            <ToggleButton value="GEAR">Gear</ToggleButton>
+                            <ToggleButton value={EquipmentType.Weapon}>Weapon</ToggleButton>
+                            <ToggleButton value={EquipmentType.Armor}>Armor</ToggleButton>
+                            <ToggleButton value={EquipmentType.Gear}>Gear</ToggleButton>
                         </ToggleButtonGroup>
 
                         <GenesysTextField
@@ -248,13 +248,13 @@ export default function ItemDialog(props: Props) {
                 {tabValue === 1 && (
                     <Stack spacing={3}>
                         <Typography variant="h6" color="primary">
-                            {itemType === 'WEAPON' && 'Weapon Statistics'}
-                            {itemType === 'ARMOR' && 'Armor Statistics'}
-                            {itemType === 'GEAR' && 'Gear Information'}
+                            {itemType === EquipmentType.Weapon && 'Weapon Statistics'}
+                            {itemType === EquipmentType.Armor && 'Armor Statistics'}
+                            {itemType === EquipmentType.Gear && 'Gear Information'}
                         </Typography>
-                        {itemType === 'WEAPON' && renderWeaponFields()}
-                        {itemType === 'ARMOR' && renderArmorFields()}
-                        {itemType === 'GEAR' && renderGearFields()}
+                        {itemType === EquipmentType.Weapon && renderWeaponFields()}
+                        {itemType === EquipmentType.Armor && renderArmorFields()}
+                        {itemType === EquipmentType.Gear && renderGearFields()}
                     </Stack>
                 )}
 

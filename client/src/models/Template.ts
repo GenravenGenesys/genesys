@@ -4,7 +4,6 @@ import {
     AdversaryTemplateType,
     type Archetype,
     type ArchetypeSkill,
-    type Attribute,
     type Career,
     CharacteristicType,
     CostType,
@@ -52,8 +51,14 @@ export const emptyItemTemplate = {
         skill: {...emptySkill, ranks: 0},
     },
     armorStats: {
-        soak: {} as Attribute,
-        defense: {} as Attribute,
+        soak: {
+            base: 0,
+            current: 0
+        },
+        defense: {
+            base: 0,
+            current: 0
+        },
     },
 } as ItemTemplate;
 
