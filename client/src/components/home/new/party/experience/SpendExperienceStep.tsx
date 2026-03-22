@@ -40,6 +40,7 @@ export default function SpendExperienceStep(props: Props) {
     });
     const [purchasedSkills, setPurchasedSkills] = useState<Record<string, number>>(initialPurchasedSkills);
     const [skillSpend, setSkillSpend] = useState(0);
+    const [initialPlayerTalents] = useState(() => [...player.talents]);
     const [purchasedTalents, setPurchasedTalents] = useState<Record<string, number>>({});
     const [talentSpend, setTalentSpend] = useState(0);
 
@@ -88,15 +89,27 @@ export default function SpendExperienceStep(props: Props) {
     };
 
     const handleTalentSpend = (experienceDiff: number, updatedTalents: Record<string, number>) => {
-        setTalentSpend(talentSpend + experienceDiff);
+        setTalentSpend(prev => prev + experienceDiff);
         setPurchasedTalents(updatedTalents);
         onSpendExperience(experienceDiff);
-        onTalentUpdate(
-            player.talents.map((talent) => ({
-                ...talent,
-                ranks: talent.ranks + (updatedTalents[talent.id] || 0)
-            }))
-        );
+
+        // Update ranks for talents the player already had before this session
+        const updatedExisting = initialPlayerTalents.map((talent) => ({
+            ...talent,
+            ranks: talent.ranks + (updatedTalents[talent.id] || 0)
+        }));
+
+        // Add talents purchased during this session that weren't in the initial list
+        const existingIds = new Set(initialPlayerTalents.map(t => t.id));
+        const newTalents: PlayerTalent[] = Object.entries(updatedTalents)
+            .filter(([id, ranks]) => !existingIds.has(id) && ranks > 0)
+            .flatMap(([id, ranks]) => {
+                const campaignTalent = talents.find(t => t.id === id);
+                if (!campaignTalent) return [];
+                return [{ ...campaignTalent, ranks } as PlayerTalent];
+            });
+
+        onTalentUpdate([...updatedExisting, ...newTalents]);
     };
 
     const getValueFromArchetype = (archetype: Archetype, label: CharacteristicType): number => {

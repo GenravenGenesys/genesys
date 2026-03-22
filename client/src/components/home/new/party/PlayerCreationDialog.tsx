@@ -8,7 +8,7 @@ import {
 import {
     type Archetype, type ArchetypeSkill,
     type CampaignCompendium,
-    type Career,
+    type Career, type Characteristics,
     type PlayerCharacter,
     type Skill,
 } from "../../../../api/model";
@@ -98,6 +98,17 @@ export default function PlayerCreationDialog(props: Props) {
         };
         handleChange('skills', handleArchetypeStartingSkills(archetype.skills));
         handleChange('characteristics', characteristics);
+        handleChange('derivedStats', {
+            ...formData.derivedStats,
+            woundThreshold: {
+                current: 0,
+                total: archetype.wounds + archetype.brawn
+            },
+            strainThreshold: {
+                current: 0,
+                total: archetype.strain + archetype.willpower
+            }
+        });
         handleChange('experience', {
             initial: archetype.experience,
             total: archetype.experience,
@@ -123,7 +134,7 @@ export default function PlayerCreationDialog(props: Props) {
             ...skill,
             ranks: 0
         }))
-    }
+    };
 
     const handleCareerSkillSelection = (career: Career, skills: Skill[]) => {
         handleChange('career', career);
@@ -140,6 +151,21 @@ export default function PlayerCreationDialog(props: Props) {
         handleChange('skills', updatedSkills);
         setSelectedCareerSkills(true);
     };
+
+    const handleCharacteristicPurchase = (characteristics: Characteristics) => {
+        handleChange('derivedStats', {
+            ...formData.derivedStats,
+            woundThreshold: {
+                current: 0,
+                total: formData.archetype.wounds + characteristics.brawn.base
+            },
+            strainThreshold: {
+                current: 0,
+                total: formData.archetype.strain + characteristics.willpower.base
+            }
+        });
+        handleChange('characteristics', characteristics);
+    }
 
     const handleExperienceSpend = (spent: number) => {
         handleChange('experience', {
@@ -168,7 +194,7 @@ export default function PlayerCreationDialog(props: Props) {
             case 3:
                 return <SpendExperienceStep player={formData} talents={compendium.talents}
                                             onSpendExperience={handleExperienceSpend}
-                                            onCharacteristicUpdate={(characteristics) => handleChange('characteristics', characteristics)}
+                                            onCharacteristicUpdate={handleCharacteristicPurchase}
                                             onSkillUpdate={(skills) => handleChange('skills', skills)}
                                             onTalentUpdate={(talents) => handleChange('talents', talents)}/>;
             case 4:

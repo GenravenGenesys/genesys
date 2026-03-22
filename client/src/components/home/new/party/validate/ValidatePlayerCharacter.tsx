@@ -15,6 +15,8 @@ export default function ValidatePlayerCharacter(props: Props) {
     const {player} = props;
     const [tabValue, setTabValue] = useState(0);
 
+    console.log(player);
+
     return (
         <Box sx={{mt: 3}}>
             <Card>
