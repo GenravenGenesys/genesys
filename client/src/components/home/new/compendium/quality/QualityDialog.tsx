@@ -4,7 +4,7 @@ import {
     Box,
     Button,
     Dialog, DialogActions, DialogContent,
-    DialogTitle, Divider, FormControl, FormGroup,
+    DialogTitle, Divider, FormControl, FormGroup, Grid,
     Stack,
     Tabs,
     Typography,
@@ -16,6 +16,8 @@ import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import SaveIcon from "@mui/icons-material/Save";
 import Tab from "@mui/material/Tab";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
+import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
+import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
 
 interface Props {
     open: boolean;
@@ -80,6 +82,21 @@ export default function QualityDialog(props: Props) {
                         {/*                    onChange={(e) => handleChange('activation', e)} options={Activation}/>*/}
                         <GenesysTextField text={formData.description || ''} label={"Description"}
                                           onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
+                        <GenesysNumberField value={formData.cost || 2} fullwidth
+                                            label="Number of Advantages to Activate"
+                                            onChange={(e) => handleChange('cost', e)}
+                                            min={0}
+                        />
+                        <GridContainer>
+                            <Grid size={6}>
+                                <GenesysBooleanField value={formData.weapon} onChange={(e) => handleChange('weapon', e)}
+                                                     label={"Applies to Weapons"}/>
+                            </Grid>
+                            <Grid size={6}>
+                                <GenesysBooleanField value={formData.armor} onChange={(e) => handleChange('armor', e)}
+                                                     label={"Applies to Armor"}/>
+                            </Grid>
+                        </GridContainer>
                         {/*<GenesysTextField text={formData.summary || ''} label={"Summary"}*/}
                         {/*                  onChange={(e) => handleChange("summary", e)} fullwidth={true} rows={3}/>*/}
                         {/*<Collapse in={formData.activation === Activation["Active_(Action)"]}>*/}

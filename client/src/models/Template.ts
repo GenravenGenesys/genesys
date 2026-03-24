@@ -39,7 +39,16 @@ export const emptyQuality = {
     armor: true,
     weapon: true,
     stats: {
-
+        criticalInjury: 0,
+        ignoreSoak: 0,
+        damageOverTime: 0,
+        areaDamage: 0,
+        soak: 0,
+        meleeDefense: 0,
+        rangedDefense: 0,
+        ensnare: false,
+        stun: false,
+        disorient: false,
     } as QualityStats,
 } as Quality;
 
