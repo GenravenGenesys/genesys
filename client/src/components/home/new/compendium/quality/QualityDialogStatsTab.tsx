@@ -1,5 +1,4 @@
 import type {QualityStats} from "../../../../../api/model";
-import GridContainer from "../../../../common/grid/GridContainer";
 import {Stack} from "@mui/material";
 import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 
@@ -19,13 +18,11 @@ export default function QualityDialogStatsTab(props: Props) {
     };
 
     return (
-        <GridContainer centered>
-            <Stack spacing={3}>
-                <GenesysNumberField value={stats.criticalInjury} fullwidth
-                                    label="Increase Critical Injury roll by amount"
-                                    onChange={(e) => handleChange('criticalInjury', e)}
-                />
-            </Stack>
-        </GridContainer>
+        <Stack spacing={3}>
+            <GenesysNumberField value={stats.criticalInjury} fullwidth
+                                label="Increase Critical Injury roll by amount"
+                                onChange={(e) => handleChange('criticalInjury', e)}
+            />
+        </Stack>
     );
 }

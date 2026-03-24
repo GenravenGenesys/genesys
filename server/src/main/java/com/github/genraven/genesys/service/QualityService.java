@@ -30,15 +30,15 @@ public class QualityService {
         quality.setId(UUID.randomUUID().toString());
 
         Query query = new Query(Criteria.where("id").is(campaignId));
-        Update update = new Update().push("compendium.quality", quality);
+        Update update = new Update().push("compendium.qualities", quality);
 
         return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(quality);
     }
 
     public Mono<Quality> updateQuality(final String campaignId, final String qualityId, final Quality updatedQuality) {
-        Query query = new Query(Criteria.where("id").is(campaignId).and("compendium.quality.id").is(qualityId));
+        Query query = new Query(Criteria.where("id").is(campaignId).and("compendium.qualities.id").is(qualityId));
 
-        Update update = new Update().set("compendium.quality.$", updatedQuality);
+        Update update = new Update().set("compendium.qualities.$", updatedQuality);
 
         return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(updatedQuality);
     }

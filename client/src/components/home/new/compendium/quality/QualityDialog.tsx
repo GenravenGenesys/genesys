@@ -4,10 +4,9 @@ import {
     Box,
     Button,
     Dialog, DialogActions, DialogContent,
-    DialogTitle, Divider, FormControl, FormGroup, Grid,
+    DialogTitle, Grid,
     Stack,
     Tabs,
-    Typography,
     useMediaQuery,
     useTheme
 } from "@mui/material";
@@ -81,10 +80,9 @@ export default function QualityDialog(props: Props) {
                                           onChange={(e) => handleChange("name", e)} fullwidth={true}/>
                         <GenesysTextField text={formData.description || ''} label={"Description"}
                                           onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
-                        <GenesysNumberField value={formData.cost || 2} fullwidth
+                        <GenesysNumberField value={formData.cost} fullwidth
                                             label="Number of Advantages to Activate"
                                             onChange={(e) => handleChange('cost', e)}
-                                            min={0}
                         />
                         <GridContainer>
                             <Grid size={6}>
@@ -111,43 +109,11 @@ export default function QualityDialog(props: Props) {
                     </Box>
                 )}
             </DialogContent>
-            <Divider sx={{my: 2}}>
-                <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                    MODIFICATION OPTIONS
-                </Typography>
-            </Divider>
-            <GridContainer centered>
-                <FormControl component="fieldset" variant="standard">
-                    {/*<FormControl sx={{m: 3}} component="fieldset" variant="standard">*/}
-                    {/*<FormLabel component="legend" sx={{textAlign: 'center'}}>Talent Modifiers</FormLabel>*/}
-                    <FormGroup row>
-                        {/*<FormControlLabel*/}
-                        {/*    control={*/}
-                        {/*        <Checkbox checked={state.cost} onChange={handleChange} name="cost"/>*/}
-                        {/*    }*/}
-                        {/*    label="Cost"*/}
-                        {/*/>*/}
-                        {/*<FormControlLabel*/}
-                        {/*    control={*/}
-                        {/*        <Checkbox checked={state.careerSkill} onChange={handleChange} name="careerSkill"/>*/}
-                        {/*    }*/}
-                        {/*    label="Career Skills"*/}
-                        {/*/>*/}
-                        {/*<FormControlLabel*/}
-                        {/*    control={*/}
-                        {/*        <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>*/}
-                        {/*    }*/}
-                        {/*    label="Stats"*/}
-                        {/*    labelPlacement={"top"}*/}
-                        {/*/>*/}
-                    </FormGroup>
-                </FormControl>
-            </GridContainer>
 
             <DialogActions sx={{p: 3}}>
                 <Button variant="outlined" onClick={onClose}>Cancel</Button>
                 <Button variant="contained" startIcon={<SaveIcon/>} onClick={handleSave}>
-                    Save Talent
+                    Save Quality
                 </Button>
             </DialogActions>
         </Dialog>
