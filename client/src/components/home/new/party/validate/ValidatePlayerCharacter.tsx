@@ -17,7 +17,7 @@ export default function ValidatePlayerCharacter(props: Props) {
 
     const calculateSoak = () => {
         return player.characteristics.brawn.base;
-    }
+    };
 
     return (
         <Box sx={{mt: 3}}>

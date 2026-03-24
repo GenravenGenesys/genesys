@@ -15,7 +15,7 @@ import {
     type PlayerCharacter,
     type PlayerSkill,
     type PlayerTalent,
-    type Quality,
+    type Quality, type QualityStats,
     RangeBand,
     type Skill,
     SkillType,
@@ -30,6 +30,18 @@ export const emptySkill = {
     type: SkillType.General,
     initiative: false,
 } as Skill;
+
+export const emptyQuality = {
+    id: '',
+    name: '',
+    description: '',
+    cost: 2,
+    armor: true,
+    weapon: true,
+    stats: {
+
+    } as QualityStats,
+} as Quality;
 
 export const emptyItemTemplate = {
     id: '',
@@ -277,9 +289,3 @@ export const emptyCriticalInjury = {
     min: 0,
     max: 0,
 } as CriticalInjury;
-
-export const emptyQuality = {
-    id: '',
-    name: '',
-    description: '',
-} as Quality;
