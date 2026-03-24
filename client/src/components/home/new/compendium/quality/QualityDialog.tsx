@@ -18,6 +18,7 @@ import Tab from "@mui/material/Tab";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
+import QualityDialogStatsTab from "./QualityDialogStatsTab.tsx";
 
 interface Props {
     open: boolean;
@@ -63,7 +64,7 @@ export default function QualityDialog(props: Props) {
             scroll="paper"
             slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
         >
-            <DialogTitle>{isNew ? "Create Custom Talent" : "Edit Talent"}</DialogTitle>
+            <DialogTitle>{isNew ? "Create Custom Quality" : "Edit Quality"}</DialogTitle>
 
             <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
@@ -76,10 +77,8 @@ export default function QualityDialog(props: Props) {
             <DialogContent sx={{minHeight: '500px', py: 3}} dividers>
                 {tabValue === 0 && (
                     <Stack spacing={3}>
-                        <GenesysTextField text={formData.name || ''} label={"Talent Name"}
+                        <GenesysTextField text={formData.name || ''} label={"Quality Name"}
                                           onChange={(e) => handleChange("name", e)} fullwidth={true}/>
-                        {/*<GenesysSelectField value={formData.activation} label={"Activation"}*/}
-                        {/*                    onChange={(e) => handleChange('activation', e)} options={Activation}/>*/}
                         <GenesysTextField text={formData.description || ''} label={"Description"}
                                           onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
                         <GenesysNumberField value={formData.cost || 2} fullwidth
@@ -97,30 +96,13 @@ export default function QualityDialog(props: Props) {
                                                      label={"Applies to Armor"}/>
                             </Grid>
                         </GridContainer>
-                        {/*<GenesysTextField text={formData.summary || ''} label={"Summary"}*/}
-                        {/*                  onChange={(e) => handleChange("summary", e)} fullwidth={true} rows={3}/>*/}
-                        {/*<Collapse in={formData.activation === Activation["Active_(Action)"]}>*/}
-                        {/*    <Divider sx={{my: 2}}>*/}
-                        {/*        <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>*/}
-                        {/*            ACTION LOGIC*/}
-                        {/*        </Typography>*/}
-                        {/*    </Divider>*/}
-                        {/*    <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>*/}
-                        {/*<SelectSkillField currentSkill={{...formData.action?.skill || null}}*/}
-                        {/*                  handleSkillSelect={(selectedSkill) => handleChange('action', {*/}
-                        {/*                      ...formData.action,*/}
-                        {/*                      skill: {...selectedSkill, ranks: 0}*/}
-                        {/*                  })}/>*/}
-                        {/*    </Stack>*/}
-                        {/*</Collapse>*/}
                     </Stack>
                 )}
 
                 {/* TAB 2: MECHANICS */}
-                {/*{tabValue === 1 && (*/}
-                {/*    <TalentModifyStatsTab talent={formData}*/}
-                {/*                          updateTalentStats={(stats) => handleChange('statModifiers', stats)}/>*/}
-                {/*)}*/}
+                {tabValue === 1 && (
+                    <QualityDialogStatsTab stats={formData.stats} updateStats={(e) => handleChange('stats', e)}/>
+                )}
 
                 {/* TAB 3: ACTION LOGIC */}
                 {tabValue === 2 && (
