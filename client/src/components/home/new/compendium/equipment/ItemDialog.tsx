@@ -98,7 +98,7 @@ export default function ItemDialog(props: Props) {
         >
             <DialogTitle>{isNew ? "Create New Equipment" : "Edit Equipment"}</DialogTitle>
             <GenesysTextField
-                text={formData.name || ''}
+                text={formData.name}
                 label="Equipment Name"
                 onChange={(e) => handleChange("name", e)}
                 fullwidth
@@ -126,7 +126,7 @@ export default function ItemDialog(props: Props) {
                         </ToggleButtonGroup>
 
                         <GenesysTextField
-                            text={formData.description || ''}
+                            text={formData.description}
                             label="Description"
                             onChange={(e) => handleChange("description", e)}
                             fullwidth
@@ -142,7 +142,7 @@ export default function ItemDialog(props: Props) {
                         <GridContainer>
                             <Grid size={4}>
                                 <GenesysNumberField
-                                    value={formData.price || 0}
+                                    value={formData.price}
                                     fullwidth
                                     label="Price (Credits)"
                                     onChange={(e) => handleChange('price', e)}
@@ -150,7 +150,7 @@ export default function ItemDialog(props: Props) {
                             </Grid>
                             <Grid size={4}>
                                 <GenesysNumberField
-                                    value={formData.encumbrance || 0}
+                                    value={formData.encumbrance}
                                     fullwidth
                                     label="Encumbrance"
                                     onChange={(e) => handleChange('encumbrance', e)}
@@ -158,7 +158,7 @@ export default function ItemDialog(props: Props) {
                             </Grid>
                             <Grid size={4}>
                                 <GenesysNumberField
-                                    value={formData.rarity || 0}
+                                    value={formData.rarity}
                                     fullwidth
                                     label="Rarity"
                                     onChange={(e) => handleChange('rarity', e)}
