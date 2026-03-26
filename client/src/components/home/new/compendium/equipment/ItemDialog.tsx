@@ -200,9 +200,15 @@ export default function ItemDialog(props: Props) {
                             {itemType === EquipmentType.Armor && 'Armor Modifiers'}
                             {itemType === EquipmentType.Gear && 'Gear Modifiers'}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Qualities and modifiers management will be added here.
-                        </Typography>
+                        <GearModifiersTab
+                            gearModifiers={formData.gearModifiers ?? {
+                                diceModifiers: [],
+                                resultsModifiers: [],
+                                upgradeModifiers: [],
+                                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                            }}
+                            updateGearModifiers={(e) => handleChange('gearModifiers', e)}
+                        />
                     </Stack>
                 )}
             </DialogContent>
