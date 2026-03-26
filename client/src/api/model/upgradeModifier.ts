@@ -7,21 +7,24 @@
  */
 import type { CheckContext } from './checkContext';
 import type { CheckTarget } from './checkTarget';
-import type { DiceType } from './diceType';
+import type { Duration } from './duration';
 import type { Skill } from './skill';
 import type { SkillType } from './skillType';
+import type { UpgradeType } from './upgradeType';
 
-export interface DiceModifier {
-  /** The type of die to add to the pool */
-  diceType: DiceType;
-  /** Number of dice to add */
+export interface UpgradeModifier {
+  /** The direction of the upgrade (ability→proficiency or difficulty→challenge) */
+  upgradeType: UpgradeType;
+  /** Number of dice to upgrade */
   amount: number;
   /** The kind of check that triggers this modifier */
   checkContext: CheckContext;
   /** Restricts this modifier to checks of a particular skill type; null means any skill type */
   skillType?: SkillType;
-  /** Whether this modifier applies to the character's own rolls or to rolls made against them */
-  checkTarget: CheckTarget;
   /** Restricts this modifier to a specific skill; null means any skill matching skillType */
   skill?: Skill;
+  /** Whether this modifier applies to the character's own rolls or to rolls made against them */
+  checkTarget: CheckTarget;
+  /** How long this upgrade effect lasts; PERMANENT means always active while equipped */
+  duration: Duration;
 }

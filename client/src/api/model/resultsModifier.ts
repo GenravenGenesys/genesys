@@ -8,6 +8,7 @@
 import type { CheckContext } from './checkContext';
 import type { CheckTarget } from './checkTarget';
 import type { GenesysSymbolResults } from './genesysSymbolResults';
+import type { Skill } from './skill';
 import type { SkillType } from './skillType';
 
 export interface ResultsModifier {
@@ -19,4 +20,6 @@ export interface ResultsModifier {
   skillType?: SkillType;
   /** Whether this modifier applies to the character's own rolls or to rolls made against them */
   checkTarget: CheckTarget;
+  /** Restricts this modifier to a specific skill; null means any skill matching skillType */
+  skill?: Skill;
 }

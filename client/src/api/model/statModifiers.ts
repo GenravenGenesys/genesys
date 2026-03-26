@@ -11,4 +11,6 @@ export interface StatModifiers {
   strain: number;
   soak: number;
   defense: number;
+  /** Amount added to the character's encumbrance threshold while this item is equipped */
+  encumbranceThreshold: number;
 }
