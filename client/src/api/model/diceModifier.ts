@@ -20,8 +20,8 @@ export interface DiceModifier {
   checkContext: CheckContext;
   /** Restricts this modifier to checks of a particular skill type; null means any skill type */
   skillType?: SkillType;
-  /** Whether this modifier applies to the character's own rolls or to rolls made against them */
-  checkTarget: CheckTarget;
   /** Restricts this modifier to a specific skill; null means any skill matching skillType */
   skill?: Skill;
+  /** Whether this modifier applies to the character's own rolls or to rolls made against them */
+  checkTarget: CheckTarget;
 }

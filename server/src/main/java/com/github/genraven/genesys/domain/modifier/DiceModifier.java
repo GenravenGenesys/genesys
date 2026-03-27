@@ -26,7 +26,7 @@ public class DiceModifier {
     @Schema(description = "Restricts this modifier to checks of a particular skill type; null means any skill type")
     private SkillType skillType;
 
-    @Schema(description = "Restricts this modifier to a specific skill; null means any skill matching skillType")
+    @Schema(description = "Restricts this modifier to a specific skill; null means any skill matching skill")
     private Skill skill;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
