@@ -30,6 +30,7 @@ import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import WeaponStatsTab from "./tabs/WeaponStatsTab.tsx";
 import ArmorStatsTab from "./tabs/ArmorStatsTab.tsx";
 import GearModifiersTab from "./tabs/GearModifiersTab.tsx";
+import WeaponModifiersTab from "./tabs/WeaponModifiersTab.tsx";
 
 interface Props {
     open: boolean;
@@ -201,7 +202,9 @@ export default function ItemDialog(props: Props) {
                             {itemType === EquipmentType.Armor && 'Armor Modifiers'}
                             {itemType === EquipmentType.Gear && 'Gear Modifiers'}
                         </Typography>
-                        <GearModifiersTab
+                        {itemType === EquipmentType.Weapon &&
+                            <WeaponModifiersTab item={item} updateItem={setFormData}/>}
+                        {itemType === EquipmentType.Gear && <GearModifiersTab
                             gearModifiers={formData.gearModifiers ?? {
                                 diceModifiers: [],
                                 resultsModifiers: [],
@@ -209,7 +212,7 @@ export default function ItemDialog(props: Props) {
                                 statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
                             }}
                             updateGearModifiers={(e) => handleChange('gearModifiers', e)}
-                        />
+                        />}
                     </Stack>
                 )}
             </DialogContent>
