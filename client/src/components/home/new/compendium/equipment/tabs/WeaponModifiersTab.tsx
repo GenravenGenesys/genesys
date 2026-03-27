@@ -60,10 +60,10 @@ export default function WeaponModifiersTab(props: Props) {
             )}
 
             {item.qualities.map((eq, index) => (
-                <Accordion key={eq.id} disableGutters sx={{bgcolor: "background.paper"}}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                        <Box sx={{display: "flex", alignItems: "center", width: "100%", gap: 1}}>
-                            <Typography variant="body2" sx={{flexGrow: 1}}>
+                <Box key={eq.id} sx={{position: "relative"}}>
+                    <Accordion disableGutters sx={{bgcolor: "background.paper"}}>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                            <Typography variant="body2" sx={{flexGrow: 1, pr: 4}}>
                                 {eq.name}
                                 {eq.ranks > 0 && (
                                     <Typography component="span" variant="caption" color="text.secondary" sx={{ml: 1}}>
@@ -71,37 +71,35 @@ export default function WeaponModifiersTab(props: Props) {
                                     </Typography>
                                 )}
                             </Typography>
-                            <Tooltip title="Remove Quality">
-                                <IconButton
-                                    size="small"
-                                    color="error"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleRemoveQuality(index);
-                                    }}
-                                >
-                                    <DeleteIcon fontSize="small"/>
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Stack spacing={2}>
-                            {eq.description && (
-                                <Typography variant="body2" color="text.secondary">
-                                    {eq.description}
-                                </Typography>
-                            )}
-                            <GenesysNumberField
-                                value={eq.ranks}
-                                fullwidth
-                                label="Ranks"
-                                min={1}
-                                onChange={(v) => handleRanksChange(index, v)}
-                            />
-                        </Stack>
-                    </AccordionDetails>
-                </Accordion>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Stack spacing={2}>
+                                {eq.description && (
+                                    <Typography variant="body2" color="text.secondary">
+                                        {eq.description}
+                                    </Typography>
+                                )}
+                                <GenesysNumberField
+                                    value={eq.ranks}
+                                    fullwidth
+                                    label="Ranks"
+                                    min={1}
+                                    onChange={(v) => handleRanksChange(index, v)}
+                                />
+                            </Stack>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Tooltip title="Remove Quality">
+                        <IconButton
+                            size="small"
+                            color="error"
+                            onClick={() => handleRemoveQuality(index)}
+                            sx={{position: "absolute", top: 6, right: 40}}
+                        >
+                            <DeleteIcon fontSize="small"/>
+                        </IconButton>
+                    </Tooltip>
+                </Box>
             ))}
 
             {/* ── Add Quality ──────────────────────────────────────── */}
