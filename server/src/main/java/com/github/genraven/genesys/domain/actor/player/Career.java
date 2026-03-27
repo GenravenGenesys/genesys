@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,4 +30,11 @@ public class Career {
     @Size(max = 8)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<Skill> skills = new ArrayList<>();
+
+    @Builder.Default
+    @Schema(description = "Optional starting gear entries for this career; each entry offers one or more items to choose from")
+    private List<StartingGearChoice> startingGear = new ArrayList<>();
+
+    @Schema(description = "Optional starting money awarded to characters of this career")
+    private StartingMoney startingMoney;
 }
