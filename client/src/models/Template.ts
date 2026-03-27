@@ -6,9 +6,12 @@ import {
     type ArchetypeSkill,
     type Career,
     CharacteristicType,
+    CheckContext,
+    CheckTarget,
     CostType,
     type CriticalInjury,
     Difficulty,
+    DiceType,
     EquipmentType,
     type ItemTemplate,
     LimitType,
@@ -49,6 +52,17 @@ export const emptyQuality = {
         ensnare: false,
         stun: false,
         disorient: false,
+        diceModifier: {
+            diceType: DiceType.Boost,
+            amount: 0,
+            checkContext: CheckContext.All,
+            checkTarget: CheckTarget.Self,
+        },
+        resultsModifier: {
+            results: {success: 0, advantage: 0, triumph: 0, failure: 0, threat: 0, despair: 0},
+            checkContext: CheckContext.All,
+            checkTarget: CheckTarget.Self,
+        },
     } as QualityStats,
 } as Quality;
 
@@ -123,6 +137,7 @@ export const emptyTalent = {
         strain: 0,
         soak: 0,
         defense: 0,
+        encumbranceThreshold: 0,
     },
     talentSkillCheck: {
         skill: {...emptySkill, ranks: 0},
