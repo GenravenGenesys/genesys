@@ -29,6 +29,7 @@ import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import WeaponStatsTab from "./tabs/WeaponStatsTab.tsx";
 import ArmorStatsTab from "./tabs/ArmorStatsTab.tsx";
+import GearModifiersTab from "./tabs/GearModifiersTab.tsx";
 
 interface Props {
     open: boolean;
