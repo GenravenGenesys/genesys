@@ -1,18 +1,12 @@
-import com.github.genraven.genesys.domain.enums.CheckTarget;
-import com.github.genraven.genesys.domain.enums.SkillType;
-import lombok.Getter;
-import lombok.AllArgsConstructor;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.github.genraven.genesys.domain.common.GenesysSymbolResults;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.github.genraven.genesys.domain.common.GenesysSymbolResults;
-import com.github.genraven.genesys.domain.skill.Skill;
+package com.github.genraven.genesys.domain.modifier;
+
 import com.github.genraven.genesys.domain.enums.CheckContext;
+import com.github.genraven.genesys.domain.enums.CheckTarget;
 import com.github.genraven.genesys.domain.enums.DiceType;
+import com.github.genraven.genesys.domain.enums.SkillType;
+import com.github.genraven.genesys.domain.skill.Skill;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class DiceModifier {
@@ -39,4 +33,3 @@ public class DiceModifier {
         description = "Whether this modifier applies to the character's own rolls or to rolls made against them")
     private CheckTarget checkTarget;
 }
-

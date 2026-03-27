@@ -65,7 +65,7 @@ public class ItemTemplate {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private ArmorStats armorStats;
-}
 
     @Schema(description = "Modifiers granted by this item when equipped or used; null means no modifiers")
     private GearModifiers gearModifiers;
+}
