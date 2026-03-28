@@ -1,4 +1,4 @@
-import SelectSkillField from "../../SelectSkillField.tsx";
+import SelectSkillAutocomplete from "../../../../common/SelectSkillAutocomplete.tsx";
 import {RangeBand, type Skill, SkillType, type WeaponStats} from "../../../../../../api/model";
 import GridContainer from "../../../../../common/grid/GridContainer.tsx";
 import {FormControlLabel, Grid, Stack, Switch} from "@mui/material";
@@ -22,7 +22,7 @@ export default function WeaponStatsTab(props: Props) {
 
     return (
         <Stack spacing={3}>
-            <SelectSkillField
+            <SelectSkillAutocomplete
                 currentSkill={weaponStats.skill}
                 handleSkillSelect={(skill: Skill) => handleWeaponStats('skill', skill)}
                 filterByType={SkillType.Combat}

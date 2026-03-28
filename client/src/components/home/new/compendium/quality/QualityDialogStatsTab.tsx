@@ -21,7 +21,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
-import SelectSkillField from "../SelectSkillField.tsx";
+import SelectSkillAutocomplete from "../../../common/SelectSkillAutocomplete.tsx";
 
 interface Props {
     stats: QualityStats;
@@ -158,7 +158,7 @@ export default function QualityDialogStatsTab(props: Props) {
                             </Grid>
                         </GridContainer>
                         {dm.skillType && (
-                            <SelectSkillField
+                            <SelectSkillAutocomplete
                                 currentSkill={dm.skill as Skill}
                                 handleSkillSelect={(skill: Skill) => updateDiceModifier({skill})}
                                 filterByType={dm.skillType}
@@ -225,7 +225,7 @@ export default function QualityDialogStatsTab(props: Props) {
                         </GridContainer>
 
                         {rm.skillType && (
-                            <SelectSkillField
+                            <SelectSkillAutocomplete
                                 currentSkill={rm.skill as Skill}
                                 handleSkillSelect={(skill: Skill) => updateResultsModifier({skill})}
                                 filterByType={rm.skillType}

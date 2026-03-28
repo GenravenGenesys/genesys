@@ -29,7 +29,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GridContainer from "../../../../../common/grid/GridContainer.tsx";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
-import SelectSkillField from "../../SelectSkillField.tsx";
+import SelectSkillAutocomplete from "../../../../common/SelectSkillAutocomplete.tsx";
 
 interface Props {
     gearModifiers: GearModifiers;
@@ -234,7 +234,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.diceType}
                                         label="Dice Type"
-                                        onChange={(v) => updateDiceModifier(index, {...mod, diceType: v as DiceModifier["diceType"]})}
+                                        onChange={(v) => updateDiceModifier(index, {
+                                            ...mod,
+                                            diceType: v as DiceModifier["diceType"]
+                                        })}
                                         options={DiceType}
                                     />
                                 </Grid>
@@ -251,7 +254,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.checkContext}
                                         label="Check Context"
-                                        onChange={(v) => updateDiceModifier(index, {...mod, checkContext: v as DiceModifier["checkContext"]})}
+                                        onChange={(v) => updateDiceModifier(index, {
+                                            ...mod,
+                                            checkContext: v as DiceModifier["checkContext"]
+                                        })}
                                         options={CheckContext}
                                     />
                                 </Grid>
@@ -259,7 +265,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.checkTarget}
                                         label="Check Target"
-                                        onChange={(v) => updateDiceModifier(index, {...mod, checkTarget: v as DiceModifier["checkTarget"]})}
+                                        onChange={(v) => updateDiceModifier(index, {
+                                            ...mod,
+                                            checkTarget: v as DiceModifier["checkTarget"]
+                                        })}
                                         options={CheckTarget}
                                     />
                                 </Grid>
@@ -267,18 +276,17 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.skillType ?? ""}
                                         label="Skill Type Filter (optional)"
-                                        onChange={(v) => updateDiceModifier(index, {...mod, skillType: v ? v as DiceModifier["skillType"] : undefined})}
+                                        onChange={(v) => updateDiceModifier(index, {
+                                            ...mod,
+                                            skillType: v ? v as DiceModifier["skillType"] : undefined
+                                        })}
                                         options={{Any: "", ...SkillType}}
                                     />
                                 </Grid>
+                                <Grid size={6}>
+
+                                </Grid>
                             </GridContainer>
-                            {mod.skillType && (
-                                <SelectSkillField
-                                    currentSkill={mod.skill as Skill}
-                                    handleSkillSelect={(skill: Skill) => updateDiceModifier(index, {...mod, skill})}
-                                    filterByType={mod.skillType}
-                                />
-                            )}
                         </Stack>
                     </AccordionDetails>
                 </Accordion>
@@ -328,7 +336,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.checkContext}
                                         label="Check Context"
-                                        onChange={(v) => updateResultsModifier(index, {...mod, checkContext: v as ResultsModifier["checkContext"]})}
+                                        onChange={(v) => updateResultsModifier(index, {
+                                            ...mod,
+                                            checkContext: v as ResultsModifier["checkContext"]
+                                        })}
                                         options={CheckContext}
                                     />
                                 </Grid>
@@ -336,7 +347,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.checkTarget}
                                         label="Check Target"
-                                        onChange={(v) => updateResultsModifier(index, {...mod, checkTarget: v as ResultsModifier["checkTarget"]})}
+                                        onChange={(v) => updateResultsModifier(index, {
+                                            ...mod,
+                                            checkTarget: v as ResultsModifier["checkTarget"]
+                                        })}
                                         options={CheckTarget}
                                     />
                                 </Grid>
@@ -344,7 +358,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.skillType ?? ""}
                                         label="Skill Type Filter (optional)"
-                                        onChange={(v) => updateResultsModifier(index, {...mod, skillType: v ? v as ResultsModifier["skillType"] : undefined})}
+                                        onChange={(v) => updateResultsModifier(index, {
+                                            ...mod,
+                                            skillType: v ? v as ResultsModifier["skillType"] : undefined
+                                        })}
                                         options={{Any: "", ...SkillType}}
                                     />
                                 </Grid>
@@ -375,7 +392,7 @@ export default function GearModifiersTab(props: Props) {
                             </GridContainer>
 
                             {mod.skillType && (
-                                <SelectSkillField
+                                <SelectSkillAutocomplete
                                     currentSkill={mod.skill as Skill}
                                     handleSkillSelect={(skill: Skill) => updateResultsModifier(index, {...mod, skill})}
                                     filterByType={mod.skillType}
@@ -430,7 +447,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.upgradeType}
                                         label="Upgrade Type"
-                                        onChange={(v) => updateUpgradeModifier(index, {...mod, upgradeType: v as UpgradeModifier["upgradeType"]})}
+                                        onChange={(v) => updateUpgradeModifier(index, {
+                                            ...mod,
+                                            upgradeType: v as UpgradeModifier["upgradeType"]
+                                        })}
                                         options={UpgradeType}
                                     />
                                 </Grid>
@@ -447,7 +467,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.checkContext}
                                         label="Check Context"
-                                        onChange={(v) => updateUpgradeModifier(index, {...mod, checkContext: v as UpgradeModifier["checkContext"]})}
+                                        onChange={(v) => updateUpgradeModifier(index, {
+                                            ...mod,
+                                            checkContext: v as UpgradeModifier["checkContext"]
+                                        })}
                                         options={CheckContext}
                                     />
                                 </Grid>
@@ -455,7 +478,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.checkTarget}
                                         label="Check Target"
-                                        onChange={(v) => updateUpgradeModifier(index, {...mod, checkTarget: v as UpgradeModifier["checkTarget"]})}
+                                        onChange={(v) => updateUpgradeModifier(index, {
+                                            ...mod,
+                                            checkTarget: v as UpgradeModifier["checkTarget"]
+                                        })}
                                         options={CheckTarget}
                                     />
                                 </Grid>
@@ -463,7 +489,10 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.duration}
                                         label="Duration"
-                                        onChange={(v) => updateUpgradeModifier(index, {...mod, duration: v as UpgradeModifier["duration"]})}
+                                        onChange={(v) => updateUpgradeModifier(index, {
+                                            ...mod,
+                                            duration: v as UpgradeModifier["duration"]
+                                        })}
                                         options={Duration}
                                     />
                                 </Grid>
@@ -471,13 +500,16 @@ export default function GearModifiersTab(props: Props) {
                                     <GenesysSelectField
                                         value={mod.skillType ?? ""}
                                         label="Skill Type Filter (optional)"
-                                        onChange={(v) => updateUpgradeModifier(index, {...mod, skillType: v ? v as UpgradeModifier["skillType"] : undefined})}
+                                        onChange={(v) => updateUpgradeModifier(index, {
+                                            ...mod,
+                                            skillType: v ? v as UpgradeModifier["skillType"] : undefined
+                                        })}
                                         options={{Any: "", ...SkillType}}
                                     />
                                 </Grid>
                             </GridContainer>
                             {mod.skillType && (
-                                <SelectSkillField
+                                <SelectSkillAutocomplete
                                     currentSkill={mod.skill as Skill}
                                     handleSkillSelect={(skill: Skill) => updateUpgradeModifier(index, {...mod, skill})}
                                     filterByType={mod.skillType}

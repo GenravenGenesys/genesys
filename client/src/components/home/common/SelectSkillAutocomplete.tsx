@@ -1,5 +1,5 @@
-import type {Skill, SkillType} from "../../../../api/model";
-import {useGetSkills} from "../../../../api/generated/skills/skills.ts";
+import type {Skill, SkillType} from "../../../api/model";
+import {useGetSkills} from "../../../api/generated/skills/skills.ts";
 import {useParams} from "react-router-dom";
 import {
     Autocomplete,
@@ -15,7 +15,7 @@ interface Props {
     filterByType?: SkillType;
 }
 
-export default function SelectSkillField(props: Props) {
+export default function SelectSkillAutocomplete(props: Props) {
     const {currentSkill, handleSkillSelect, filterByType} = props;
     const {id} = useParams<{ id: string }>();
 
