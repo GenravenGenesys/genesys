@@ -203,7 +203,7 @@ export default function ItemDialog(props: Props) {
                             {itemType === EquipmentType.Gear && 'Gear Modifiers'}
                         </Typography>
                         {itemType === EquipmentType.Weapon &&
-                            <WeaponModifiersTab item={item} updateItem={setFormData}/>}
+                            <WeaponModifiersTab item={formData} updateItem={setFormData}/>}
                         {itemType === EquipmentType.Gear && <GearModifiersTab
                             gearModifiers={formData.gearModifiers ?? {
                                 diceModifiers: [],

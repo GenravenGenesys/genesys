@@ -31,35 +31,36 @@ export default function WeaponModifiersTab(props: Props) {
     const {data, isLoading} = useGetQualities(id ?? "");
 
     const allQualities: Quality[] = data?.data ?? [];
+    const qualities: EquipmentQuality[] = item.qualities ?? [];
     const availableQualities = allQualities.filter(
-        (q) => q.weapon && !item.qualities.some((eq) => eq.id === q.id)
+        (q) => q.weapon && !qualities.some((eq) => eq.id === q.id)
     );
 
     const handleAddQuality = (quality: Quality | null) => {
         if (!quality) return;
         const newEntry: EquipmentQuality = {...quality, ranks: 1};
-        updateItem({...item, qualities: [...item.qualities, newEntry]});
+        updateItem({...item, qualities: [...qualities, newEntry]});
     };
 
     const handleRemoveQuality = (index: number) => {
-        updateItem({...item, qualities: item.qualities.filter((_, i) => i !== index)});
+        updateItem({...item, qualities: qualities.filter((_, i) => i !== index)});
     };
 
     const handleRanksChange = (index: number, ranks: number) => {
-        const updated = item.qualities.map((eq, i) => (i === index ? {...eq, ranks} : eq));
+        const updated = qualities.map((eq, i) => (i === index ? {...eq, ranks} : eq));
         updateItem({...item, qualities: updated});
     };
 
     return (
         <Stack spacing={2}>
             {/* ── Existing Qualities ──────────────────────────────── */}
-            {item.qualities.length === 0 && (
+            {qualities.length === 0 && (
                 <Typography variant="body2" color="text.secondary" sx={{textAlign: "center", py: 2}}>
                     No qualities added yet.
                 </Typography>
             )}
 
-            {item.qualities.map((eq, index) => (
+            {qualities.map((eq, index) => (
                 <Box key={eq.id} sx={{position: "relative"}}>
                     <Accordion disableGutters sx={{bgcolor: "background.paper"}}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
