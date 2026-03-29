@@ -30,6 +30,7 @@ import GridContainer from "../../../../../common/grid/GridContainer.tsx";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
 import SelectSkillAutocomplete from "../../../../common/SelectSkillAutocomplete.tsx";
+import SelectSkillField from "../../../../common/SelectSkillField.tsx";
 
 interface Props {
     gearModifiers: GearModifiers;
@@ -211,7 +212,7 @@ export default function GearModifiersTab(props: Props) {
                     <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
                         <Box sx={{display: "flex", alignItems: "center", width: "100%", gap: 1}}>
                             <Typography variant="body2" sx={{flexGrow: 1}}>
-                                {mod.amount}× {mod.diceType} — {mod.checkContext} / {mod.checkTarget}
+                                {mod.amount}× {mod.diceType} — {mod.checkContext} / {mod.checkTarget} — {mod.skillType || mod.skill?.name || "No Skill Filter"}
                             </Typography>
                             <Tooltip title="Remove">
                                 <IconButton
@@ -246,7 +247,6 @@ export default function GearModifiersTab(props: Props) {
                                         value={mod.amount}
                                         fullwidth
                                         label="Amount"
-                                        min={1}
                                         onChange={(v) => updateDiceModifier(index, {...mod, amount: v})}
                                     />
                                 </Grid>
@@ -284,7 +284,10 @@ export default function GearModifiersTab(props: Props) {
                                     />
                                 </Grid>
                                 <Grid size={6}>
-
+                                    <SelectSkillField skill={mod.skill!}
+                                                      updateSkill={(updatedSkill) => updateDiceModifier(index, {
+                                                          ...mod, skill: updatedSkill
+                                                      })}/>
                                 </Grid>
                             </GridContainer>
                         </Stack>
