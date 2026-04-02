@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -57,4 +58,8 @@ public class PlayerCharacter {
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player talents")
     private List<PlayerTalent> talents;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player motivations")
+    private List<PlayerMotivation> motivations = new ArrayList<>();
 }

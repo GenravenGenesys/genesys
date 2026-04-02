@@ -3,7 +3,7 @@ import {
     CostType, type CriticalInjury,
     Difficulty, EquipmentType,
     type ItemTemplate,
-    LimitType, type PlayerCharacter, type PlayerSkill, type PlayerTalent, type Quality,
+    LimitType, MotivationType, type PlayerCharacter, type PlayerMotivation, type PlayerSkill, type PlayerTalent, type Quality,
     RangeBand,
     type Skill,
     SkillType,
@@ -243,7 +243,7 @@ export const emptyPlayerCharacter = {
         equippedArmor: emptyItemTemplate,
         otherGear: [] as ItemTemplate[]
     },
-    motivations: [] as string[],
+    motivations: [] as PlayerMotivation[],
     experience: {
         initial: 0,
         total: 0,

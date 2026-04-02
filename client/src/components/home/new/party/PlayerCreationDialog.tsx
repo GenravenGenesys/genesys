@@ -10,6 +10,7 @@ import {
     type CampaignCompendium,
     type Career,
     type PlayerCharacter,
+    type PlayerMotivation,
     type Skill
 } from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
@@ -18,6 +19,7 @@ import {emptyArchetype, emptyCareer, emptyPlayerCharacter} from "../../../../mod
 import ArchetypeSelectionStep from "./archetype/ArchetypeSelectionStep.tsx";
 import CareerSelectionStep from "./career/CareerSelectionStep.tsx";
 import SpendExperienceStep from "./experience/SpendExperienceStep.tsx";
+import ChooseMotivationsStep from "./motivations/ChooseMotivationsStep.tsx";
 
 interface Props {
     open: boolean;
@@ -130,6 +132,10 @@ export default function PlayerCreationDialog(props: Props) {
         });
     };
 
+    const handleMotivationsSave = (motivations: PlayerMotivation[]) => {
+        handleChange('motivations', motivations);
+    };
+
     const renderStepContent = (step: number) => {
         switch (step) {
             case 0:
@@ -151,7 +157,8 @@ export default function PlayerCreationDialog(props: Props) {
                 return <SpendExperienceStep player={formData} talents={compendium.talents}
                                             onSpendExperience={handleExperienceSpend}/>;
             case 4:
-                return <Typography sx={{mt: 4}}>Player Motivation Selection would go here...</Typography>;
+                return <ChooseMotivationsStep motivations={formData.motivations}
+                                              onSave={handleMotivationsSave}/>;
             case 5:
                 return <Typography sx={{mt: 4}}>Gear Selection would go here...</Typography>;
             case 6:

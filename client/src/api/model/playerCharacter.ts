@@ -12,6 +12,7 @@ import type { DerivedStats } from './derivedStats';
 import type { Experience } from './experience';
 import type { PlayerEquipment } from './playerEquipment';
 import type { PlayerSkill } from './playerSkill';
+import type { PlayerMotivation } from './playerMotivation';
 import type { PlayerTalent } from './playerTalent';
 
 /**
@@ -38,4 +39,6 @@ export interface PlayerCharacter {
   experience: Experience;
   /** Player talents */
   talents: PlayerTalent[];
+  /** Player motivations */
+  motivations: PlayerMotivation[];
 }
