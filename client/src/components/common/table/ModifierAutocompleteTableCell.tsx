@@ -1,38 +1,30 @@
-import {Autocomplete} from "@mui/lab";
-import {TextField} from "@mui/material";
+import {Autocomplete, TextField} from "@mui/material";
 import TableCell from "@mui/material/TableCell";
-import * as React from "react";
-import {useEffect, useState} from "react";
-import ModifierService from "../../../services/ModifierService";
+import type {ModifierType} from "../../../api/model";
+import {useFetchAllModifierTypes} from "../../../hooks/useFetchAllModifierTypes.ts";
 
 interface Props {
     disabled: boolean
-    onChange: (index: number, newValue: string) => void
-    type: string
+    onChange: (index: number, newValue: ModifierType) => void
+    type: ModifierType
     index: number
 }
 
 export default function ModifierAutocompleteTableCell(props: Props) {
     const {disabled, onChange, type, index} = props;
-    const [typeOptions, setTypeOptions] = useState<string[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            setTypeOptions(await ModifierService.getModifiers());
-        })()
-    }, [])
+    const {modifiers} = useFetchAllModifierTypes();
 
     return (
         <TableCell sx={{"width": .75}}>
             <Autocomplete
-                options={typeOptions}
+                options={modifiers}
                 getOptionLabel={(option) => option}
                 value={type}
-                onChange={(e, newValue) => onChange(index, newValue as string)}
+                onChange={(_, newValue) => onChange(index, newValue as ModifierType)}
                 renderInput={(params) => <TextField {...params} label="Type"
                                                     variant="outlined"/>}
                 disabled={disabled}
             />
         </TableCell>
-    )
+    );
 }

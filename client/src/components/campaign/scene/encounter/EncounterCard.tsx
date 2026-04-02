@@ -24,8 +24,8 @@ const EncounterCard = ({sceneId, encounter}: Props) => {
         ...(encounter.enemyRivals ? encounter.enemyRivals.map(rival => ({...rival})) : []),
         ...(encounter.enemyNemeses ? encounter.enemyNemeses.map(nemesis => ({...nemesis})) : [])
     ];
-    let headers = ['Name', 'Type'];
-    let navigate = useNavigate();
+    const headers = ['Name', 'Type'];
+    const navigate = useNavigate();
 
     return (
         <Card>

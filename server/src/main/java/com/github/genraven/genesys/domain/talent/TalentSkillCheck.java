@@ -1,13 +1,20 @@
 package com.github.genraven.genesys.domain.talent;
 
-import com.github.genraven.genesys.domain.Difficulty;
-import com.github.genraven.genesys.domain.actor.ActorSkill;
+import com.github.genraven.genesys.domain.actor.adversary.AdversarySkill;
+import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
+import com.github.genraven.genesys.domain.enums.Difficulty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 public class TalentSkillCheck {
 
-    private ActorSkill skill;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private PlayerSkill skill;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Difficulty difficulty;
-    private ActorSkill opposedSkill;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private AdversarySkill opposedSkill;
 }

@@ -3,7 +3,7 @@ import * as React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import {useLocation, useNavigate} from "react-router";
-import GenesysDescriptionTypography from "../../typography/GenesysDescriptionTypography";
+import GenesysDescriptionTypography from "../../../home/common/typography/GenesysDescriptionTypography.tsx";
 
 type Props = {
     title: string;
@@ -12,8 +12,8 @@ type Props = {
 };
 
 const CenteredCardHeaderWithAction: React.FC<Props> = ({title, path, subheader}) => {
-    let pathname = useLocation().pathname;
-    let navigate = useNavigate();
+    const pathname = useLocation().pathname;
+    const navigate = useNavigate();
 
     const onPageChange = () => {
         if (pathname.endsWith('/view')) {

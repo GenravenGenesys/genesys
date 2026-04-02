@@ -5,13 +5,12 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import AddIcon from '@mui/icons-material/Add';
-import {Fragment, useEffect, useState} from "react";
-import * as React from "react";
+import {Fragment} from "react";
 import TableCell from "@mui/material/TableCell";
-import {Weapon} from "../../../../../models/equipment/Weapon";
-import ModifierService from "../../../../../services/ModifierService";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
+import {useFetchAllModifierTypes} from "../../../../../hooks/useFetchAllModifierTypes.ts";
+import type {Weapon} from "../../../../../api/model";
 
 interface Props {
     weapon: Weapon
@@ -22,13 +21,7 @@ interface Props {
 export default function WeaponModifierCard(props: Props) {
     const {weapon, updateWeapon, disabled} = props;
     const headers = ['Type', 'Ranks'];
-    const [typeOptions, setTypeOptions] = useState<string[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            setTypeOptions(await ModifierService.getModifiers())
-        })()
-    }, [])
+    const {modifiers} = useFetchAllModifierTypes();
 
     const renderTableFooter = () => {
         if (!disabled) {
@@ -78,10 +71,10 @@ export default function WeaponModifierCard(props: Props) {
                                 <TableRow key={index}>
                                     <TableCell>
                                         <Autocomplete
-                                            options={typeOptions}
+                                            options={modifiers}
                                             getOptionLabel={(option) => option}
                                             value={modifier.type}
-                                            onChange={(e, newValue) => handleTypeChange(index, newValue as string)}
+                                            onChange={(_, newValue) => handleTypeChange(index, newValue as string)}
                                             renderInput={(params) => <TextField {...params} label="Type"
                                                                                 variant="outlined"/>}
                                             disabled={disabled}
@@ -93,7 +86,14 @@ export default function WeaponModifierCard(props: Props) {
                                             value={modifier.ranks}
                                             label="Ranks"
                                             onChange={(e) => handleRanksChange(index, e.target.value)}
-                                            inputProps={{min: 1, max: 10}}
+                                            slotProps={{
+                                                htmlInput: {
+                                                    min: 1,
+                                                    max: 10,
+                                                    step: 1,
+                                                    autoFocus: true
+                                                }
+                                            }}
                                             disabled={disabled}
                                         />
                                     </TableCell>

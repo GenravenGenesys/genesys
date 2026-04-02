@@ -1,32 +1,32 @@
 import {useState} from "react";
-import {Dialog, DialogContent, DialogTitle} from "@mui/material";
+import {Dialog, DialogContent} from "@mui/material";
 import {InputTextFieldCard} from "../../common/InputTextFieldCard";
 import GenesysDialogActions from "../../common/dialog/GenesysDialogActions";
-import * as React from "react";
-import Spell, {Effect} from "../../../models/spell/Spell";
-import SpellService from "../../../services/SpellService";
 import NumberRangeSelectCard from "../../common/NumberRangeSelectCard";
 import GridContainer from "../../common/grid/GridContainer";
+import CenteredDialogTitle from "../../common/dialog/CenteredDialogTitle.tsx";
+import type {Effect, Spell} from "../../../api/model";
+import {getSpellController} from "../../../api/generated/spell-controller/spell-controller.ts";
 
 interface Props {
-    spell: Spell
-    open: boolean
-    onClose: () => void
+    spell: Spell;
+    open: boolean;
+    onClose: () => void;
 }
 
 export default function CreateSpellEffectDialog(props: Props) {
-    const {spell, open, onClose} = props
-    const [effect, setEffect] = useState<Effect>()
+    const {spell, open, onClose} = props;
+    const [effect, setEffect] = useState<Effect>();
 
     const onCreate = async (): Promise<void> => {
         if (effect) {
-            if (!spell.effects.some(spellEffects => spellEffects.name === effect.name)) {
-                spell.effects.push(effect)
-                await SpellService.updateSpell(spell)
+            if (!spell.effects!.some(spellEffects => spellEffects.name === effect.name)) {
+                spell.effects!.push(effect);
+                await getSpellController().updateSpell(spell.id!, spell);
             }
         }
-        onClose()
-    }
+        onClose();
+    };
 
     const onChange = async (key: keyof Effect, value: string) => {
         if (value === null) {
@@ -51,10 +51,10 @@ export default function CreateSpellEffectDialog(props: Props) {
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Add Spell Effect</DialogTitle>
+            <CenteredDialogTitle title={"Add Spell Effect"}/>
             <DialogContent>
                 <GridContainer spacing={10}>
-                    <InputTextFieldCard defaultValue={effect?.name!!} onCommit={(value: string): void => {
+                    <InputTextFieldCard defaultValue={effect?.name!} onCommit={(value: string): void => {
                         onChange('name', value)
                     }} title={'Name'} helperText={'Name'} placeholder={'Name'}/>
                 </GridContainer>

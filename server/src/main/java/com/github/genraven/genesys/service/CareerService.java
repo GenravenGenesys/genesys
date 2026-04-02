@@ -1,44 +1,45 @@
 package com.github.genraven.genesys.service;
 
 import com.github.genraven.genesys.domain.actor.player.Career;
-import com.github.genraven.genesys.domain.skill.Skill;
-import com.github.genraven.genesys.repository.CareerRepository;
+import com.github.genraven.genesys.domain.campaign.Campaign;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
+import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CareerService {
-    private final CareerRepository careerRepository;
-    private final SkillService skillService;
 
-    public Flux<Career> getAllCareers() {
-        return careerRepository.findAll();
+    private final ReactiveMongoTemplate reactiveMongoTemplate;
+
+    public Flux<Career> findAllByCampaignId(final String campaignId) {
+        return reactiveMongoTemplate.findById(campaignId, Campaign.class)
+            .flatMapMany(campaign -> Flux.fromIterable(campaign.getCompendium().getCareers()));
     }
 
-    public Mono<Career> getCareer(final String name) {
-        return careerRepository.findById(name);
+    public Mono<Career> addCareer(final String campaignId, final Career career) {
+        career.setId(UUID.randomUUID().toString());
+
+        Query query = new Query(Criteria.where("id").is(campaignId));
+        Update update = new Update().push("compendium.careers", career);
+
+        return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(career);
     }
 
-    public Mono<Career> createCareer(final String name) {
-        return skillService.getSkillsForCurrentCampaign()
-                .flatMap(skills -> {
-                    final List<Skill> careerSkills = skills.stream().limit(8).toList();
-                    final Career career = new Career(name);
-                    career.setSkills(careerSkills);
-                    return careerRepository.save(career);
-                });
-    }
+    public Mono<Career> updateCareer(final String campaignId, final String careerId, final Career updatedCareer) {
+        Query query = new Query(Criteria.where("id").is(campaignId).and("compendium.careers.id").is(careerId));
 
-    public Mono<Career> updateCareer(final String name, final Career career) {
-        return getCareer(name).map(car -> {
-            car.setSkills(career.getSkills());
-            return car;
-        }).flatMap(careerRepository::save);
+        Update update = new Update().set("compendium.careers.$", updatedCareer);
+
+        return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(updatedCareer);
     }
 }

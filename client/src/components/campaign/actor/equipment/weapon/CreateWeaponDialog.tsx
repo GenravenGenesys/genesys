@@ -1,12 +1,7 @@
 import {Dialog, DialogContent, Divider, TextField} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
-import {ActorWeapon, Weapon, WeaponSlot} from "../../../../../models/equipment/Weapon";
-import Skill, {SkillType} from "../../../../../models/actor/Skill";
-import {RangeBand} from "../../../../../models/common/RangeBand";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
-import {useFetchSkillsByType} from "../../../../skills/SkillWorkflow";
-import {ActorSkill} from "../../../../../models/actor/Actor";
 import {useLocation} from "react-router";
 import SkillAutocompleteCard from "../../../../common/card/SkillAutocompleteCard";
 import RangeBandCard from "../../../../common/card/select/RangeBandCard";
@@ -17,6 +12,15 @@ import WeaponQualityCard from "../../../equipment/weapon/quality/WeaponQualityCa
 import WeaponModifierCard from "../../../equipment/weapon/modifier/WeaponModifierCard";
 import CenteredDialogTitle from "../../../../common/dialog/CenteredDialogTitle";
 import GridContainer from "../../../../common/grid/GridContainer";
+import {useFetchAllSkills} from "../../../../../hooks/useFetchAllSkills.ts";
+import {
+    type ActorSkill,
+    type ActorWeapon,
+    ActorWeaponSlot,
+    RangeBand,
+    type Skill,
+    SkillType, type Weapon
+} from "../../../../../api/model";
 
 interface Props {
     open: boolean;
@@ -24,9 +28,9 @@ interface Props {
     onClose: () => void;
 }
 
-const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> {
+const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose}) => {
     const [weapon, setWeapon] = useState<ActorWeapon>({
-        slot: WeaponSlot.None,
+        slot: ActorWeaponSlot.None,
         id: 'custom',
         modifiers: [],
         name: 'Default',
@@ -43,10 +47,11 @@ const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> 
         range: RangeBand.Engaged,
         skill: {} as ActorSkill
     })
-    let pathname = useLocation().pathname;
+    const {skills} = useFetchAllSkills(SkillType.Combat)
+    const pathname = useLocation().pathname;
 
     const onCreate = async (): Promise<void> => {
-        onCreateWeapon({...weapon, slot: WeaponSlot.None} as ActorWeapon);
+        onCreateWeapon({...weapon, slot: ActorWeaponSlot.None} as ActorWeapon);
         onClose();
     };
 
@@ -79,7 +84,7 @@ const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> 
     };
 
     const updateWeapon = (updatedWeapon: Weapon) => {
-        setWeapon({...updatedWeapon, slot: WeaponSlot.None});
+        setWeapon({...updatedWeapon, slot: ActorWeaponSlot.None});
     };
 
     return (
@@ -98,7 +103,7 @@ const CreateWeaponDialog: React.FC<Props> = ({open, onCreateWeapon, onClose})=> 
                 <Divider/>
                 <GridContainer spacing={2}>
                     <SkillAutocompleteCard disabled={pathname.endsWith('/view')} handleSkillChange={handleSkillChange}
-                                           skills={useFetchSkillsByType(SkillType.Combat)}
+                                           skills={skills}
                                            startingSkill={weapon.skill} title={'Required Skill'}/>
                     <NumberTextFieldCard title={'Hands'} value={weapon.hands} onChange={handleHandsChange} min={1}
                                          max={2} disabled={pathname.endsWith('/view')}/>

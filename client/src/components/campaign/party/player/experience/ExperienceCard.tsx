@@ -1,4 +1,3 @@
-import Player from "../../../../../models/actor/player/Player";
 import {Card, CardContent} from "@mui/material";
 import ViewFieldCard from "../../../../common/ViewFieldCard";
 import * as React from "react";
@@ -7,6 +6,7 @@ import SpendExperienceMenuButton from "./SpendExperienceMenuButton";
 import {useLocation} from "react-router";
 import GridItem from "../../../../common/grid/GridItem";
 import GridContainer from "../../../../common/grid/GridContainer";
+import type {Player} from "../../../../../api/model";
 
 interface Props {
     player: Player;

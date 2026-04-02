@@ -1,4 +1,4 @@
-import {Grid2} from "@mui/material";
+import {Grid} from "@mui/material";
 import React from "react";
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
 };
 
 const FullGrid: React.FC<Props> = ({children}) => {
-    return <Grid2 sx={{width: 1}}>{children}</Grid2>
+    return <Grid sx={{width: 1}}>{children}</Grid>
 };
 
 export default FullGrid;

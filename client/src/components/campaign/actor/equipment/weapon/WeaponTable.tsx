@@ -3,24 +3,23 @@ import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import * as React from "react";
 import {Fragment, useState} from "react";
 import {
     GenesysDicePoolCenterTableCellButton,
     TypographyCenterTableCell,
     TypographyLeftTableCell
 } from "../../../../common/table/TypographyTableCell";
-import {renderQualities} from "../../../../../models/equipment/EquipmentHelper";
+import {renderQualities} from "../../../../../util/EquipmentHelper.ts";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import {Button, TableFooter} from "@mui/material";
 import {useLocation} from "react-router";
-import {ActorWeapon, Weapon, WeaponSlot} from "../../../../../models/equipment/Weapon";
 import Actor from "../../../../../models/actor/Actor";
 import CreateWeaponDialog from "./CreateWeaponDialog";
 import WeaponSelectionDialog from "./WeaponSelectionDialog";
 import WeaponEquipDialog from "./WeaponEquipDialog";
 import {getActorSkill} from "../../../../common/skill/SkillRenders";
 import NonPlayerActor from "../../../../../models/actor/npc/NonPlayerActor";
+import {type ActorWeapon, ActorWeaponSlot, type Weapon} from "../../../../../api/model";
 
 interface Props {
     actor: Actor
@@ -53,7 +52,7 @@ export default function WeaponTable(props: Props) {
                             <TypographyCenterTableCell value={weapon.range}/>
                             <TypographyCenterTableCell value={renderQualities(weapon)}/>
                             <GenesysDicePoolCenterTableCellButton actor={actor}
-                                                                  skill={getActorSkill(actor as NonPlayerActor, weapon)}/>
+                                                                  skill={getActorSkill(actor as NonPlayerActor, weapon.skill)}/>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -67,7 +66,7 @@ export default function WeaponTable(props: Props) {
 
     const addWeapon = async (weapon: Weapon) => {
         updateWeapons([...weapons, {
-            slot: WeaponSlot.None,
+            slot: ActorWeaponSlot.None,
             ...weapon
         }]);
     };

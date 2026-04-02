@@ -1,14 +1,13 @@
 import {Dialog, DialogContent, DialogTitle, TextField} from "@mui/material";
-import * as React from "react";
 import {useState} from "react";
 import GenesysDialogActions from "../../../../common/dialog/GenesysDialogActions";
-import {ActorArmor, Armor, ArmorSlot} from "../../../../../models/equipment/Armor";
 import SoakCard from "../../../../common/card/SoakCard";
 import DefenseCard from "../../../../common/card/DefenseCard";
 import {useLocation} from "react-router";
 import ArmorQualityCard from "../../../equipment/armor/quality/ArmorQualityCard";
 import ArmorModifierCard from "../../../equipment/armor/modifier/ArmorModifierCard";
 import GridContainer from "../../../../common/grid/GridContainer";
+import {type ActorArmor, ActorArmorSlot, type Armor} from "../../../../../api/model";
 
 interface Props {
     open: boolean
@@ -19,7 +18,7 @@ interface Props {
 export default function CreateArmorDialog(props: Props) {
     const {open, onCreateArmor, onClose} = props;
     const [armor, setArmor] = useState<ActorArmor>({
-        slot: ArmorSlot.None,
+        slot: ActorArmorSlot.None,
         id: 'custom',
         modifiers: [],
         soak: 0,
@@ -32,10 +31,10 @@ export default function CreateArmorDialog(props: Props) {
         description: '',
         qualities: []
     });
-    let pathname = useLocation().pathname;
+    const pathname = useLocation().pathname;
 
     const onCreate = () => {
-        onCreateArmor({...armor, slot: ArmorSlot.None} as ActorArmor);
+        onCreateArmor({...armor, slot: ActorArmorSlot.None} as ActorArmor);
         onClose();
     };
 
@@ -52,7 +51,7 @@ export default function CreateArmorDialog(props: Props) {
     };
 
     const updateArmor = (updatedArmor: Armor) => {
-        setArmor({...updatedArmor, slot: ArmorSlot.None});
+        setArmor({...updatedArmor, slot: ActorArmorSlot.None});
     };
 
     return (

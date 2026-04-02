@@ -1,14 +1,12 @@
 import {Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import {useState} from "react";
-import Skill from "../../../../../models/actor/Skill";
-import Player, {PlayerSkill} from "../../../../../models/actor/player/Player";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableContainer from "@mui/material/TableContainer";
-import * as React from "react";
 import TableCell from "@mui/material/TableCell";
+import type {Player, PlayerSkill, Skill} from "../../../../../api/model";
 
 interface Props {
     open: boolean
@@ -35,7 +33,7 @@ export default function CareerSkillSelectDialog(props: Props) {
 
     const handleSelect = async (): Promise<void> => {
         let playerSkills: PlayerSkill[] = [];
-        for (let skill of selectedSkills) {
+        for (const skill of selectedSkills) {
             playerSkills = playerSkills.concat({ ...skill, career: true, ranks: 1 });
         }
         onSelect(playerSkills);
@@ -49,7 +47,7 @@ export default function CareerSkillSelectDialog(props: Props) {
                 <TableContainer component={Paper}>
                     <Table>
                         <TableBody>
-                            {skills.map((skill, index) => (
+                            {skills.map((skill) => (
                                 <TableRow key={skill.name}>
                                     <TableCell>{skill.name}</TableCell>
                                     <TableCell sx={{"width": .5}}>

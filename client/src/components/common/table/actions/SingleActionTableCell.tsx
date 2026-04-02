@@ -1,5 +1,5 @@
 import {forwardRef, useMemo} from "react";
-import {Link, LinkProps} from "react-router";
+import {Link, type LinkProps} from "react-router-dom";
 import * as React from "react";
 import {IconButton} from "@mui/material";
 import PreviewIcon from "@mui/icons-material/Preview";

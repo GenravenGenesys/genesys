@@ -1,49 +1,41 @@
 import {Dialog, DialogContent} from "@mui/material";
-import Player from "../../../../../../models/actor/player/Player";
 import CenteredDialogTitle from "../../../../../common/dialog/CenteredDialogTitle";
-import Talent, {Tier} from "../../../../../../models/Talent";
-import {useEffect, useState} from "react";
-import CampaignService from "../../../../../../services/CampaignService";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import {renderSingleRowTableHeader} from "../../../../../common/table/TableRenders";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {
-    GenesysDescriptionTypographyCenterTableCell, TableCellButton,
+    GenesysDescriptionTypographyCenterTableCell,
+    TableCellButton,
     TypographyCenterTableCell
 } from "../../../../../common/table/TypographyTableCell";
 import TableContainer from "@mui/material/TableContainer";
-import * as React from "react";
-import PlayerService from "../../../../../../services/actor/PlayerService";
+import {useFetchCampaignTalents} from "../../../../../../hooks/useFetchCampaignTalents.ts";
+import {type ActorTalent, type Player, type Talent, Tier} from "../../../../../../api/model";
+import type {FC} from "react";
+// import {getPlayerController} from "../../../../../../api/generated/player-controller/player-controller.ts";
 
 interface Props {
-    open: boolean
-    onClose: () => void
-    currentPlayer: Player
-    tier: Tier
-    updatePlayer: (player: Player) => void
+    open: boolean;
+    onClose: () => void;
+    currentPlayer: Player;
+    tier: Tier;
+    updatePlayer: (player: Player) => void;
 }
 
-export default function TierTalentDialog(props: Props) {
-    const {open, onClose, currentPlayer, tier, updatePlayer} = props;
-    const [talents, setTalents] = useState<Talent[]>([]);
-    const playerTalents = currentPlayer.talents.filter(talent => talent.tier === tier);
-    let headers = ['Name', 'Activation', 'Summary', 'Purchase'];
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            setTalents(await CampaignService.getCampaignTierTalents(tier));
-        })();
-    }, [setTalents, tier]);
+const TierTalentDialog: FC<Props> = ({open, onClose, currentPlayer, tier, updatePlayer}) => {
+    const {talents} = useFetchCampaignTalents(tier);
+    const playerTalents = currentPlayer.talents.filter((talent: ActorTalent) => talent.tier === tier);
+    const headers = ['Name', 'Activation', 'Summary', 'Purchase'];
 
     const addTalent = async (talent: Talent) => {
-        updatePlayer(await PlayerService.purchaseTalentUpgrade(currentPlayer.id, talent));
+        // updatePlayer(await getPlayerController().updatePlayerTalent(currentPlayer.id, talent));
         onClose();
     };
 
     const filterTalents = (): Talent[] => {
-        const filteredPlayerTalents = new Set(playerTalents.map(talent => talent.id));
+        const filteredPlayerTalents = new Set(playerTalents.map((talent: ActorTalent) => talent.id));
         return talents.filter(talent => !filteredPlayerTalents.has(talent.id));
     };
 
@@ -75,7 +67,7 @@ export default function TierTalentDialog(props: Props) {
                                     <TypographyCenterTableCell value={talent.name}/>
                                     <TypographyCenterTableCell value={talent.activation}/>
                                     <GenesysDescriptionTypographyCenterTableCell value={talent.summary}/>
-                                    <TableCellButton value={renderExperienceCost()} onClick={() => addTalent(talent)}/>
+                                    <TableCellButton value={renderExperienceCost()!} onClick={() => addTalent(talent)}/>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -84,4 +76,6 @@ export default function TierTalentDialog(props: Props) {
             </DialogContent>
         </Dialog>
     );
-}
+};
+
+export default TierTalentDialog;

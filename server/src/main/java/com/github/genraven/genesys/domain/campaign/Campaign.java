@@ -1,31 +1,48 @@
 package com.github.genraven.genesys.domain.campaign;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.genraven.genesys.validator.EnumValidator;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "campaigns")
+@Schema(description = "The root entity for a VTT Campaign setting")
 public class Campaign {
 
-    protected Campaign() {
-    }
-
-    public Campaign(final String name) {
-        this.name = name;
-    }
-
     @Id
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String id;
+
+    @NotEmpty
     private String name;
+
+    @Builder.Default
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Party party = new Party();
-    private List<Session> sessions = new ArrayList<>();
-    private boolean current = false;
-    private boolean active = false;
-    private List<String> talentIds = new ArrayList<>();
-    private List<String> skillIds = new ArrayList<>();
-    private List<String> sceneIds = new ArrayList<>();
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "GM-defined setting bible")
+    private CampaignCompendium compendium;
+
+    @EnumValidator(enumClass = Status.class)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private Status status;
+
+    @Getter
+    @AllArgsConstructor
+    public enum Status {
+        Building("Building"),
+        Ready("Ready"),
+        ACTIVE("Active"),
+        RESOLVED("Resolved");
+
+        @JsonValue
+        private final String label;
+    }
 }

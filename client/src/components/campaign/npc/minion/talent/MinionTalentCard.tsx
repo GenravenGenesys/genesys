@@ -6,15 +6,14 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import * as React from "react";
 import {
     GenesysDescriptionTypographyCenterTableCell,
     TypographyCenterTableCell
 } from "../../../../common/table/TypographyTableCell";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader";
-import Talent, {ActorTalent} from "../../../../../models/Talent";
 import CharacterTalentSelectionDialog from "../../talent/CharacterTalentSelectionDialog";
+import type {ActorTalent, Talent} from "../../../../../api/model";
 
 interface Props {
     talents: ActorTalent[]

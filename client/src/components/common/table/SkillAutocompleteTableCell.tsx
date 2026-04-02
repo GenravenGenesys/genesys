@@ -1,9 +1,7 @@
-import {Autocomplete} from "@mui/lab";
-import {renderSkillName} from "../skill/SkillRenders";
-import Skill from "../../../models/actor/Skill";
-import {TextField} from "@mui/material";
+import {renderBasicSkillName} from "../skill/SkillRenders";
+import {Autocomplete, TextField} from "@mui/material";
 import TableCell from "@mui/material/TableCell";
-import * as React from "react";
+import type {Skill} from "../../../api/model";
 
 interface Props {
     skill: Skill
@@ -20,9 +18,9 @@ export default function SkillAutocompleteTableCell(props: Props) {
         <TableCell sx={{"width": .5}}>
             <Autocomplete
                 options={skills}
-                getOptionLabel={(option) => renderSkillName(option)}
+                getOptionLabel={(option) => renderBasicSkillName(option)}
                 value={skill}
-                onChange={(e, newValue) => onChange(index, newValue as Skill)}
+                onChange={(_, newValue) => onChange(index, newValue as Skill)}
                 renderInput={(params) => <TextField {...params} label="Skill"
                                                     variant="outlined"/>}
                 disabled={disabled}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Card, CardContent} from "@mui/material";
 import CenteredCardHeader from "./header/CenteredCardHeader";
-import GenesysTextField from "../field/GenesysTextField";
+import GenesysTextField from "../../home/common/field/GenesysTextField";
 import ViewFieldCard from "../ViewFieldCard";
 import GridItem from "../grid/GridItem";
 
@@ -18,7 +18,7 @@ const TextFieldCard: React.FC<Props> = ({title, value, disabled, onChange})=> {
             <Card>
                 <CenteredCardHeader title={title}/>
                 <CardContent>
-                    <GenesysTextField text={value} label={title} disabled={disabled} onChange={onChange}/>
+                    <GenesysTextField text={value} label={title} disabled={disabled} onChange={onChange} fullwidth/>
                 </CardContent>
             </Card>
         </GridItem>

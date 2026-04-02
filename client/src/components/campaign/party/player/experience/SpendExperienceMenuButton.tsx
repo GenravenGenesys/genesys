@@ -1,17 +1,16 @@
-import Player from "../../../../../models/actor/player/Player";
 import React, {useState} from "react";
 import {Collapse, List, ListItemButton, ListItemText} from "@mui/material";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import SpendCharacteristicDialog from "./dialog/SpendCharacteristicDialog";
 import SpendSkillDialog from "./dialog/SpendSkillDialog";
 import SpendTalentDialog from "./dialog/SpendTalentDialog";
+import type {Player} from "../../../../../api/model";
 
 interface Props {
-    player: Player
+    player: Player;
 }
 
-export default function SpendExperienceMenuButton(props: Props) {
-    const {player} = props;
+const SpendExperienceMenuButton: React.FC<Props> = ({player})=> {
     const [collapse, setCollapse] = useState(false);
     const [openCharacteristicDialog, setOpenCharacteristicDialog] = useState(false);
     const [openSkillDialog, setOpenSkillDialog] = useState(false);
@@ -47,4 +46,6 @@ export default function SpendExperienceMenuButton(props: Props) {
             </Collapse>
         </List>
     );
-}
+};
+
+export default SpendExperienceMenuButton;
