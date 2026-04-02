@@ -12,6 +12,7 @@ import type { AdversaryTemplateType } from './adversaryTemplateType';
 import type { Characteristics } from './characteristics';
 import type { DerivedStats } from './derivedStats';
 import type { Error } from './error';
+import type { Motivation } from './motivation';
 
 /**
  * Setting-specific adversaries such as Nemeses, Rivals, and Minions
@@ -35,5 +36,7 @@ export interface AdversaryTemplate {
   /** Adversary Ratings */
   ratings: AdversaryRatings;
   size: number;
+  /** Adversary motivations */
+  motivations: Motivation[];
   errors?: Error[];
 }

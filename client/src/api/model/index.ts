@@ -48,6 +48,7 @@ export * from './limit';
 export * from './limitType';
 export * from './modifier';
 export * from './modifierType';
+export * from './motivation';
 export * from './motivationType';
 export * from './party';
 export * from './playerCharacter';

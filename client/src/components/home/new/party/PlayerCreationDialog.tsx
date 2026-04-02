@@ -9,8 +9,8 @@ import {
     type Archetype,
     type CampaignCompendium,
     type Career,
+    type Motivation,
     type PlayerCharacter,
-    type PlayerMotivation,
     type Skill
 } from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
@@ -132,7 +132,7 @@ export default function PlayerCreationDialog(props: Props) {
         });
     };
 
-    const handleMotivationsSave = (motivations: PlayerMotivation[]) => {
+    const handleMotivationsSave = (motivations: Motivation[]) => {
         handleChange('motivations', motivations);
     };
 

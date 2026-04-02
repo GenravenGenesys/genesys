@@ -5,14 +5,6 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { MotivationType } from './motivationType';
 
-/**
- * A player motivation of a specific type
- */
-export interface PlayerMotivation {
-  /** The motivation type */
-  type: MotivationType;
-  /** Description of the motivation */
-  description: string;
-}
+/** @deprecated Use {@link Motivation} from './motivation' directly */
+export type { Motivation as PlayerMotivation } from './motivation';
