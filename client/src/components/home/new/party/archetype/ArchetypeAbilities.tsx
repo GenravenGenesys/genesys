@@ -18,7 +18,7 @@ export default function ArchetypeAbilities(props: Props) {
     return (
         <GridContainer spacing={3} centered>
             {archetype.abilities.map((ability, index) => (
-                <GridItem key={index}>
+                <GridItem key={`${ability.name}-${index}`}>
                     <Card variant="outlined">
                         <CenteredCardHeader title={ability.name || 'Unnamed Ability'}/>
                         <CardContent>

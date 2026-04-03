@@ -155,9 +155,16 @@ export default function ArchetypeDialog(props: Props) {
         handleChange('abilities', updated);
     };
 
-    const handleAbilityChange = (index: number, field: keyof Ability, value: string) => {
+    const handleAbilityChange = (index: number, field: 'name' | 'description', value: string) => {
         const updated = (formData.abilities ?? []).map((a, i) =>
             i === index ? {...a, [field]: value} : a
+        );
+        handleChange('abilities', updated);
+    };
+
+    const handleAbilityActivationChange = (index: number, value: Activation) => {
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === index ? {...a, activation: value} : a
         );
         handleChange('abilities', updated);
     };
@@ -412,7 +419,7 @@ export default function ArchetypeDialog(props: Props) {
                 {tabValue === 2 && (
                     <Stack spacing={3}>
                         {(formData.abilities ?? []).map((ability, index) => (
-                            <Card key={index} variant="outlined">
+                            <Card key={`${ability.name}-${index}`} variant="outlined">
                                 <CardContent>
                                     <Stack spacing={2}>
                                         <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -445,7 +452,7 @@ export default function ArchetypeDialog(props: Props) {
                                             size="small"
                                             label="Activation"
                                             value={ability.activation}
-                                            onChange={(e) => handleAbilityChange(index, 'activation', e.target.value)}
+                                            onChange={(e) => handleAbilityActivationChange(index, e.target.value as Activation)}
                                         >
                                             {Object.values(Activation).map((value) => (
                                                 <MenuItem key={value} value={value}>{value}</MenuItem>
