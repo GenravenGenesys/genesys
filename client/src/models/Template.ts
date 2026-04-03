@@ -1,22 +1,72 @@
 import {
-    Activation, type AdversaryTemplate, AdversaryTemplateType, type Archetype, type Attribute, type Career,
-    CostType, type CriticalInjury,
-    Difficulty, EquipmentType,
+    Activation,
+    type AdversaryTemplate,
+    AdversaryTemplateType,
+    type Archetype,
+    type ArchetypeSkill,
+    type Career,
+    CharacteristicType,
+    CheckContext,
+    CheckTarget,
+    CostType,
+    type CriticalInjury,
+    Difficulty,
+    DiceType,
+    EquipmentType,
     type ItemTemplate,
-    LimitType, type PlayerCharacter, type PlayerSkill, type PlayerTalent, type Quality,
+    LimitType,
+    type PlayerCharacter,
+    type PlayerSkill,
+    type PlayerTalent,
+    type Quality,
+    type QualityStats,
+    type Motivation,
     RangeBand,
     type Skill,
     SkillType,
-    type Talent, Tier,
+    type Talent,
+    Tier,
 } from "../api/model";
 
 export const emptySkill = {
     id: '',
     name: '',
-    characteristic: {},
+    characteristic: CharacteristicType.Brawn,
     type: SkillType.General,
     initiative: false,
 } as Skill;
+
+export const emptyQuality = {
+    id: '',
+    name: '',
+    description: '',
+    cost: 2,
+    armor: true,
+    weapon: true,
+    stats: {
+        criticalInjury: 0,
+        ignoreSoak: 0,
+        damageOverTime: 0,
+        areaDamage: 0,
+        soak: 0,
+        meleeDefense: 0,
+        rangedDefense: 0,
+        ensnare: false,
+        stun: false,
+        disorient: false,
+        diceModifier: {
+            diceType: DiceType.Boost,
+            amount: 0,
+            checkContext: CheckContext.All,
+            checkTarget: CheckTarget.Self,
+        },
+        resultsModifier: {
+            results: {success: 0, advantage: 0, triumph: 0, failure: 0, threat: 0, despair: 0},
+            checkContext: CheckContext.All,
+            checkTarget: CheckTarget.Self,
+        },
+    } as QualityStats,
+} as Quality;
 
 export const emptyItemTemplate = {
     id: '',
@@ -38,8 +88,14 @@ export const emptyItemTemplate = {
         skill: {...emptySkill, ranks: 0},
     },
     armorStats: {
-        soak: {} as Attribute,
-        defense: {} as Attribute,
+        soak: {
+            base: 0,
+            current: 0
+        },
+        defense: {
+            base: 0,
+            current: 0
+        },
     },
 } as ItemTemplate;
 
@@ -65,7 +121,15 @@ export const emptyTalent = {
         type: LimitType.None,
         limit: 0,
     },
-    modifiers: [],
+    abilityModifiers: {
+        diceModifiers: [],
+        resultsModifiers: [],
+        healEffects: [],
+        environmentModifiers: [],
+        freeMoveManeuver: false,
+        criticalInjuryCountAsOne: false,
+        moveStoryPoint: false,
+    },
     talentRollModifiers: [],
     talentSkills: {
         potentialCareerSkills: [],
@@ -75,6 +139,7 @@ export const emptyTalent = {
         strain: 0,
         soak: 0,
         defense: 0,
+        encumbranceThreshold: 0,
     },
     talentSkillCheck: {
         skill: {...emptySkill, ranks: 0},
@@ -143,7 +208,8 @@ export const emptyAdversary = {
         social: 1,
         general: 1
     },
-    size: 1
+    size: 1,
+    motivations: [] as Motivation[]
 } as AdversaryTemplate;
 
 export const emptyArchetype = {
@@ -159,16 +225,7 @@ export const emptyArchetype = {
     wounds: 1,
     strain: 1,
     abilities: [],
-    skills: [
-        emptySkill,
-        emptySkill,
-        emptySkill,
-        emptySkill,
-        emptySkill,
-        emptySkill,
-        emptySkill,
-        emptySkill,
-    ] as Skill[],
+    skills: [] as ArchetypeSkill[],
     experience: 0
 } as Archetype;
 
@@ -243,7 +300,7 @@ export const emptyPlayerCharacter = {
         equippedArmor: emptyItemTemplate,
         otherGear: [] as ItemTemplate[]
     },
-    motivations: [] as string[],
+    motivations: [] as Motivation[],
     experience: {
         initial: 0,
         total: 0,
@@ -259,9 +316,3 @@ export const emptyCriticalInjury = {
     min: 0,
     max: 0,
 } as CriticalInjury;
-
-export const emptyQuality = {
-    id: '',
-    name: '',
-    description: '',
-} as Quality;

@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain.equipment;
 
 import com.github.genraven.genesys.domain.enums.EquipmentType;
+import com.github.genraven.genesys.domain.modifier.GearModifiers;
 import com.github.genraven.genesys.domain.quality.EquipmentQuality;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -64,4 +65,7 @@ public class ItemTemplate {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private ArmorStats armorStats;
+
+    @Schema(description = "Modifiers granted by this item when equipped or used; null means no modifiers")
+    private GearModifiers gearModifiers;
 }

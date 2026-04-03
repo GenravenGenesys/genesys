@@ -8,13 +8,13 @@ export const useOptionalAuth0 = () => {
         isAuthenticated: false,
         user: undefined,
         error: undefined,
-        loginWithRedirect: async () => {
+        loginWithRedirect: async (p0: { appState: { returnTo: string; }; authorizationParams: { prompt: string; }; }) => {
             console.warn('Authentication is disabled. Login functionality not available.');
         },
         loginWithPopup: async () => {
             console.warn('Authentication is disabled. Login functionality not available.');
         },
-        logout: () => {
+        logout: (p0: { logoutParams: { returnTo: string; }; }) => {
             console.warn('Authentication is disabled. Logout functionality not available.');
         },
         getAccessTokenSilently: async () => {
