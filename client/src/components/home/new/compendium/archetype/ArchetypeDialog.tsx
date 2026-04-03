@@ -102,7 +102,8 @@ export default function ArchetypeDialog(props: Props) {
             setAbilityStatsEnabled(
                 (archetype.abilities ?? []).map(a =>
                     a.statModifiers.wounds > 0 || a.statModifiers.strain > 0 ||
-                    a.statModifiers.soak > 0 || a.statModifiers.defense > 0
+                    a.statModifiers.soak > 0 || a.statModifiers.defense > 0 ||
+                    a.statModifiers.encumbranceThreshold > 0
                 )
             );
         }
@@ -203,10 +204,13 @@ export default function ArchetypeDialog(props: Props) {
     const toggleAbilityStats = (index: number, enabled: boolean) => {
         setAbilityStatsEnabled(prev => prev.map((v, i) => i === index ? enabled : v));
         if (!enabled) {
-            handleAbilityStatChange(index, 'wounds', 0);
-            handleAbilityStatChange(index, 'strain', 0);
-            handleAbilityStatChange(index, 'soak', 0);
-            handleAbilityStatChange(index, 'defense', 0);
+            const updated = (formData.abilities ?? []).map((a, i) =>
+                i === index ? {
+                    ...a,
+                    statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0}
+                } : a
+            );
+            handleChange('abilities', updated);
         }
     };
 
