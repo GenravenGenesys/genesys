@@ -1,4 +1,22 @@
-import {Activation, type Ability, type AbilityModifiers, type Archetype, type ArchetypeSkill, CharacteristicType, CheckContext, CheckTarget, CostType, type DiceModifier, DiceType, LimitType, type Skill, SkillType, type Cost, type Limit, type StatModifiers} from "../../../../../api/model";
+import {
+    Activation,
+    type Ability,
+    type AbilityModifiers,
+    type Archetype,
+    type ArchetypeSkill,
+    CharacteristicType,
+    CheckContext,
+    CheckTarget,
+    CostType,
+    type DiceModifier,
+    DiceType,
+    LimitType,
+    type Skill,
+    SkillType,
+    type Cost,
+    type Limit,
+    type StatModifiers
+} from "../../../../../api/model";
 import {useEffect, useState} from "react";
 import {
     Autocomplete,
@@ -19,15 +37,13 @@ import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import {StatsType} from "../../../../../models/StatsType.ts";
 
-// ─── Condition catalogue ────────────────────────────────────────────────────
-
 const ANY_SKILL_TYPE = 'Any' as const;
 
 const SkillCondition = {
-    TwoNonCareerOneRank:  'Two non-career skills of choice (1 rank each)',
-    OneSkill:             'One specific skill',
-    TwoSkills:            'Two specific skills',
-    OneSkillTypeChoice:   'One skill of choice',
+    TwoNonCareerOneRank: 'Two non-career skills of choice (1 rank each)',
+    OneSkill: 'One specific skill',
+    TwoSkills: 'Two specific skills',
+    OneSkillTypeChoice: 'One skill of choice',
 } as const;
 
 type SkillConditionType = typeof SkillCondition[keyof typeof SkillCondition];
@@ -74,8 +90,6 @@ const detectCondition = (skills: ArchetypeSkill[]): SkillConditionType | '' => {
     }
     return '';
 };
-
-// ─── Component ──────────────────────────────────────────────────────────────
 
 interface Props {
     open: boolean;
@@ -166,10 +180,13 @@ export default function ArchetypeDialog(props: Props) {
         setAbilityStatsEnabled(prev => prev.filter((_, i) => i !== index));
     };
 
-    const handleAbilityChange = (index: number, field: 'name' | 'description', value: string) => {
-        const updated = (formData.abilities ?? []).map((a, i) =>
-            i === index ? {...a, [field]: value} : a
-        );
+    const handleAbilityNameChange = (index: number, value: string) => {
+        const updated = [...formData.abilities, {...formData.abilities[index], name: value}];
+        handleChange('abilities', updated);
+    };
+
+    const handleAbilityDescriptionChange = (index: number, value: string) => {
+        const updated = [...formData.abilities, {...formData.abilities[index], description: value}];
         handleChange('abilities', updated);
     };
 
@@ -230,7 +247,13 @@ export default function ArchetypeDialog(props: Props) {
         };
         const updated = (formData.abilities ?? []).map((a, i) =>
             i === abilityIndex
-                ? {...a, abilityModifiers: {...a.abilityModifiers, diceModifiers: [...a.abilityModifiers.diceModifiers, emptyDice]}}
+                ? {
+                    ...a,
+                    abilityModifiers: {
+                        ...a.abilityModifiers,
+                        diceModifiers: [...a.abilityModifiers.diceModifiers, emptyDice]
+                    }
+                }
                 : a
         );
         handleChange('abilities', updated);
@@ -410,7 +433,13 @@ export default function ArchetypeDialog(props: Props) {
                                         <Stack spacing={2}>
 
                                             {/* Slot header + metadata chips */}
-                                            <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 1}}>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                flexWrap: 'wrap',
+                                                gap: 1
+                                            }}>
                                                 <Typography variant="subtitle2" color="primary" fontWeight="bold">
                                                     Skill Slot {index + 1}
                                                 </Typography>
@@ -463,8 +492,10 @@ export default function ArchetypeDialog(props: Props) {
                                                                 value={entry.startingRanks}
                                                                 onChange={(e) => handleStartingRanksChange(index, Number(e.target.value))}
                                                             >
-                                                                <MenuItem value={1}>1 rank — max rank 2 during character creation</MenuItem>
-                                                                <MenuItem value={2}>2 ranks — max rank 3 during character creation</MenuItem>
+                                                                <MenuItem value={1}>1 rank — max rank 2 during character
+                                                                    creation</MenuItem>
+                                                                <MenuItem value={2}>2 ranks — max rank 3 during
+                                                                    character creation</MenuItem>
                                                             </TextField>
                                                         </>
                                                     )}
@@ -482,8 +513,11 @@ export default function ArchetypeDialog(props: Props) {
                                                             value={entry.startingRanks}
                                                             onChange={(e) => handleStartingRanksChange(index, Number(e.target.value))}
                                                         >
-                                                            <MenuItem value={1}>1 rank — max rank 2 during character creation</MenuItem>
-                                                            <MenuItem value={2}>2 ranks — max rank {maxRankLabelForTwoRanks} during character creation</MenuItem>
+                                                            <MenuItem value={1}>1 rank — max rank 2 during character
+                                                                creation</MenuItem>
+                                                            <MenuItem value={2}>2 ranks — max
+                                                                rank {maxRankLabelForTwoRanks} during character
+                                                                creation</MenuItem>
                                                         </TextField>
                                                     )}
 
@@ -498,7 +532,8 @@ export default function ArchetypeDialog(props: Props) {
                                                             })
                                                         }
                                                         renderInput={(params) => (
-                                                            <TextField {...params} label="Skill" size="small" fullWidth/>
+                                                            <TextField {...params} label="Skill" size="small"
+                                                                       fullWidth/>
                                                         )}
                                                     />
                                                 </>
@@ -517,30 +552,23 @@ export default function ArchetypeDialog(props: Props) {
                             <Card key={`${ability.name}-${index}`} variant="outlined">
                                 <CardContent>
                                     <Stack spacing={2}>
-                                        <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center'
+                                        }}>
                                             <Typography variant="subtitle2" color="primary" fontWeight="bold">
                                                 Ability {index + 1}
                                             </Typography>
-                                            <Button size="small" color="error" onClick={() => handleRemoveAbility(index)}>
+                                            <Button size="small" color="error"
+                                                    onClick={() => handleRemoveAbility(index)}>
                                                 Remove
                                             </Button>
                                         </Box>
-                                        <TextField
-                                            fullWidth
-                                            size="small"
-                                            label="Ability Name"
-                                            value={ability.name}
-                                            onChange={(e) => handleAbilityChange(index, 'name', e.target.value)}
-                                        />
-                                        <TextField
-                                            fullWidth
-                                            multiline
-                                            rows={3}
-                                            size="small"
-                                            label="Description"
-                                            value={ability.description}
-                                            onChange={(e) => handleAbilityChange(index, 'description', e.target.value)}
-                                        />
+                                        <GenesysTextField text={ability.name} label={"Ability Name"} fullwidth
+                                                          onChange={(e) => handleAbilityNameChange(index, e)}/>
+                                        <GenesysTextField text={ability.name} label={"Description"} fullwidth rows={3}
+                                                          onChange={(e) => handleAbilityDescriptionChange(index, e)}/>
                                         <GenesysSelectField
                                             value={ability.activation}
                                             label="Activation"
@@ -548,7 +576,8 @@ export default function ArchetypeDialog(props: Props) {
                                             options={Activation}
                                         />
                                         <Divider sx={{my: 1}}>
-                                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                            <Typography variant="caption"
+                                                        sx={{fontWeight: 'bold', color: 'primary.main'}}>
                                                 Cost &amp; Limit
                                             </Typography>
                                         </Divider>
@@ -609,7 +638,8 @@ export default function ArchetypeDialog(props: Props) {
                                             )}
                                         </Grid>
                                         <Divider sx={{my: 1}}>
-                                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                            <Typography variant="caption"
+                                                        sx={{fontWeight: 'bold', color: 'primary.main'}}>
                                                 Stat Modifiers
                                             </Typography>
                                         </Divider>
@@ -657,7 +687,8 @@ export default function ArchetypeDialog(props: Props) {
                                             </GridContainer>
                                         )}
                                         <Divider sx={{my: 1}}>
-                                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                            <Typography variant="caption"
+                                                        sx={{fontWeight: 'bold', color: 'primary.main'}}>
                                                 Ability Modifiers
                                             </Typography>
                                         </Divider>
