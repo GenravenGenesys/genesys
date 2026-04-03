@@ -1,4 +1,4 @@
-import {Activation, type Ability, type Archetype, type ArchetypeSkill, CharacteristicType, CostType, LimitType, type Skill, SkillType, type Cost, type Limit, type StatModifiers} from "../../../../../api/model";
+import {Activation, type Ability, type AbilityModifiers, type Archetype, type ArchetypeSkill, CharacteristicType, CheckContext, CheckTarget, CostType, type DiceModifier, DiceType, LimitType, type Skill, SkillType, type Cost, type Limit, type StatModifiers} from "../../../../../api/model";
 import {useEffect, useState} from "react";
 import {
     Autocomplete,
@@ -212,6 +212,54 @@ export default function ArchetypeDialog(props: Props) {
             );
             handleChange('abilities', updated);
         }
+    };
+
+    const handleAbilityModifierBoolChange = (index: number, field: keyof AbilityModifiers, value: boolean) => {
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === index ? {...a, abilityModifiers: {...a.abilityModifiers, [field]: value}} : a
+        );
+        handleChange('abilities', updated);
+    };
+
+    const handleAddDiceModifier = (abilityIndex: number) => {
+        const emptyDice: DiceModifier = {
+            diceType: DiceType.Setback,
+            amount: 1,
+            checkContext: CheckContext.All,
+            checkTarget: CheckTarget.Opponent,
+        };
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === abilityIndex
+                ? {...a, abilityModifiers: {...a.abilityModifiers, diceModifiers: [...a.abilityModifiers.diceModifiers, emptyDice]}}
+                : a
+        );
+        handleChange('abilities', updated);
+    };
+
+    const handleRemoveDiceModifier = (abilityIndex: number, diceIndex: number) => {
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === abilityIndex
+                ? {
+                    ...a,
+                    abilityModifiers: {
+                        ...a.abilityModifiers,
+                        diceModifiers: a.abilityModifiers.diceModifiers.filter((_, di) => di !== diceIndex),
+                    },
+                }
+                : a
+        );
+        handleChange('abilities', updated);
+    };
+
+    const handleDiceModifierChange = (abilityIndex: number, diceIndex: number, field: keyof DiceModifier, value: DiceModifier[keyof DiceModifier]) => {
+        const updated = (formData.abilities ?? []).map((a, i) => {
+            if (i !== abilityIndex) return a;
+            const diceModifiers = a.abilityModifiers.diceModifiers.map((dm, di) =>
+                di === diceIndex ? {...dm, [field]: value} : dm
+            );
+            return {...a, abilityModifiers: {...a.abilityModifiers, diceModifiers}};
+        });
+        handleChange('abilities', updated);
     };
 
     const handleSave = () => {
@@ -602,6 +650,103 @@ export default function ArchetypeDialog(props: Props) {
                                                 />
                                             </GridContainer>
                                         )}
+                                        <Divider sx={{my: 1}}>
+                                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                                Ability Modifiers
+                                            </Typography>
+                                        </Divider>
+                                        <Stack spacing={1}>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={ability.abilityModifiers.criticalInjuryCountAsOne}
+                                                        onChange={(e) => handleAbilityModifierBoolChange(index, 'criticalInjuryCountAsOne', e.target.checked)}
+                                                    />
+                                                }
+                                                label="Critical Injury counts as 01"
+                                            />
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={ability.abilityModifiers.freeMoveManeuver}
+                                                        onChange={(e) => handleAbilityModifierBoolChange(index, 'freeMoveManeuver', e.target.checked)}
+                                                    />
+                                                }
+                                                label="Free second move maneuver"
+                                            />
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={ability.abilityModifiers.moveStoryPoint}
+                                                        onChange={(e) => handleAbilityModifierBoolChange(index, 'moveStoryPoint', e.target.checked)}
+                                                    />
+                                                }
+                                                label="Move Story Point to players"
+                                            />
+                                        </Stack>
+                                        <Typography variant="caption" color="text.secondary" sx={{mt: 1}}>
+                                            Dice Modifiers
+                                        </Typography>
+                                        <Stack spacing={2}>
+                                            {ability.abilityModifiers.diceModifiers.map((dm, diceIndex) => (
+                                                <Card key={diceIndex} variant="outlined" sx={{p: 1}}>
+                                                    <Stack spacing={1}>
+                                                        <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                            <Button size="small" color="error"
+                                                                    onClick={() => handleRemoveDiceModifier(index, diceIndex)}>
+                                                                Remove
+                                                            </Button>
+                                                        </Box>
+                                                        <Grid container spacing={1}>
+                                                            <Grid size={6}>
+                                                                <GenesysSelectField
+                                                                    value={dm.diceType}
+                                                                    label="Dice Type"
+                                                                    onChange={(value) => handleDiceModifierChange(index, diceIndex, 'diceType', value as DiceType)}
+                                                                    options={DiceType}
+                                                                />
+                                                            </Grid>
+                                                            <Grid size={6}>
+                                                                <GenesysNumberField
+                                                                    value={dm.amount}
+                                                                    label="Amount"
+                                                                    onChange={(value) => handleDiceModifierChange(index, diceIndex, 'amount', value)}
+                                                                    min={1} max={5} fullwidth
+                                                                />
+                                                            </Grid>
+                                                            <Grid size={6}>
+                                                                <GenesysSelectField
+                                                                    value={dm.checkContext}
+                                                                    label="Check Context"
+                                                                    onChange={(value) => handleDiceModifierChange(index, diceIndex, 'checkContext', value as CheckContext)}
+                                                                    options={CheckContext}
+                                                                />
+                                                            </Grid>
+                                                            <Grid size={6}>
+                                                                <GenesysSelectField
+                                                                    value={dm.checkTarget}
+                                                                    label="Check Target"
+                                                                    onChange={(value) => handleDiceModifierChange(index, diceIndex, 'checkTarget', value as CheckTarget)}
+                                                                    options={CheckTarget}
+                                                                />
+                                                            </Grid>
+                                                            <Grid size={12}>
+                                                                <GenesysSelectField
+                                                                    value={dm.skillType ?? ''}
+                                                                    label="Skill Type (optional)"
+                                                                    onChange={(value) => handleDiceModifierChange(index, diceIndex, 'skillType', value === '' ? undefined : value as SkillType)}
+                                                                    options={{None: '', ...SkillType}}
+                                                                />
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Stack>
+                                                </Card>
+                                            ))}
+                                            <Button size="small" variant="outlined"
+                                                    onClick={() => handleAddDiceModifier(index)}>
+                                                Add Dice Modifier
+                                            </Button>
+                                        </Stack>
                                     </Stack>
                                 </CardContent>
                             </Card>
