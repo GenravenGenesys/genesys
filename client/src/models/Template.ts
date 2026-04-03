@@ -19,6 +19,7 @@ import {
     type PlayerSkill,
     type PlayerTalent,
     type Quality, type QualityStats,
+    LimitType, type Motivation, MotivationType, type PlayerCharacter, type PlayerSkill, type PlayerTalent, type Quality,
     RangeBand,
     type Skill,
     SkillType,
@@ -206,7 +207,8 @@ export const emptyAdversary = {
         social: 1,
         general: 1
     },
-    size: 1
+    size: 1,
+    motivations: [] as Motivation[]
 } as AdversaryTemplate;
 
 export const emptyArchetype = {
@@ -297,7 +299,7 @@ export const emptyPlayerCharacter = {
         equippedArmor: emptyItemTemplate,
         otherGear: [] as ItemTemplate[]
     },
-    motivations: [] as string[],
+    motivations: [] as Motivation[],
     experience: {
         initial: 0,
         total: 0,

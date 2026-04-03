@@ -59,6 +59,8 @@ export * from './initiativeSlotType';
 export * from './itemTemplate';
 export * from './limit';
 export * from './limitType';
+export * from './motivation';
+export * from './motivationType';
 export * from './party';
 export * from './playerCharacter';
 export * from './playerEquipment';

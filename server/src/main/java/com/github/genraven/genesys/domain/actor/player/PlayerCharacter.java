@@ -2,6 +2,7 @@ package com.github.genraven.genesys.domain.actor.player;
 
 import com.github.genraven.genesys.domain.actor.Characteristics;
 import com.github.genraven.genesys.domain.actor.DerivedStats;
+import com.github.genraven.genesys.domain.actor.Motivation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -10,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -59,4 +61,8 @@ public class PlayerCharacter {
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player talents")
     private List<PlayerTalent> talents;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player motivations")
+    private List<Motivation> motivations = new ArrayList<>();
 }
