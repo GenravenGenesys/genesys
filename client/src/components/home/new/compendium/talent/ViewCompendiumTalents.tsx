@@ -9,7 +9,6 @@ import AddIcon from '@mui/icons-material/Add';
 import {useParams} from "react-router-dom";
 import {useCampaignLive} from "../../../../../hooks/campaign/useCampaginLive.ts";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.tsx";
-import BooleanTableCell from "../../../../common/table/BooleanTableCell.tsx";
 import {TypographyCenterTableCell} from "../../../../common/table/TypographyTableCell.tsx";
 import CustomTableCell from "../../../../common/table/common/CustomTableCell.tsx";
 import {useCreateTalent, useUpdateTalent} from "../../../../../api/generated/talents/talents.ts";
@@ -32,8 +31,8 @@ function TalentRow(props: Props) {
     return (
         <TableRow>
             <TypographyCenterTableCell value={talent.name}/>
-            {/*{renderTalentNameTableCell(talent)}*/}
-            {/*<TypographyCenterTableCell value={talent.type}/>*/}
+            <TypographyCenterTableCell value={talent.tier}/>
+            <TypographyCenterTableCell value={talent.activation}/>
             {/*<BooleanTableCell bool={talent.initiative}/>*/}
             <CustomTableCell centered>
                 <Button variant="text" onClick={onEditClick}>
@@ -50,7 +49,7 @@ export default function ViewCompendiumTalents() {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [talent, setTalent] = useState<Talent>(emptyTalent);
     const [isNew, setIsNew] = useState(false);
-    const headers = ["Name", "Type", "Initiative", "Actions"];
+    const headers = ["Name", "Tier", "Activation", "Actions"];
 
     if (!id) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;

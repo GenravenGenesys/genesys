@@ -137,7 +137,7 @@ export default function ViewCompendiumArchetypes() {
                 </Table>
             </TableContainer>
             <ArchetypeDialog open={Boolean(openDrawer)} archetype={archetype} onClose={() => setOpenDrawer(false)}
-                             onSave={handleSave} isNew={isNew}/>
+                             onSave={handleSave} isNew={isNew} skills={campaign.compendium.skills}/>
         </Box>
     );
 }

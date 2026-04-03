@@ -109,7 +109,7 @@ export default function TalentDialog(props: Props) {
                         {/*        </Typography>*/}
                         {/*    </Divider>*/}
                         {/*    <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>*/}
-                        {/*<SelectSkillField currentSkill={{...formData.action?.skill || null}}*/}
+                        {/*<SelectSkillAutocomplete currentSkill={{...formData.action?.skill || null}}*/}
                         {/*                  handleSkillSelect={(selectedSkill) => handleChange('action', {*/}
                         {/*                      ...formData.action,*/}
                         {/*                      skill: {...selectedSkill, ranks: 0}*/}

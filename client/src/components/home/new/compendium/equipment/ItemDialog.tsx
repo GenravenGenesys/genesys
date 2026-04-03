@@ -22,14 +22,15 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import {
     type ItemTemplate,
-    type EquipmentType,
-    type Skill,
-    SkillType
+    EquipmentType,
 } from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysNumberField from "../../../common/field/GenesysNumberField.tsx";
-import SelectSkillField from "../SelectSkillField.tsx";
+import WeaponStatsTab from "./tabs/WeaponStatsTab.tsx";
+import ArmorStatsTab from "./tabs/ArmorStatsTab.tsx";
+import GearModifiersTab from "./tabs/GearModifiersTab.tsx";
+import WeaponModifiersTab from "./tabs/WeaponModifiersTab.tsx";
 
 interface Props {
     open: boolean;
@@ -43,7 +44,7 @@ export default function ItemDialog(props: Props) {
     const {open, item, onClose, onSave, isNew} = props;
     const [formData, setFormData] = useState<ItemTemplate>(item || {} as ItemTemplate);
     const [tabValue, setTabValue] = useState(0);
-    const [itemType, setItemType] = useState<string>('WEAPON');
+    const [itemType, setItemType] = useState<EquipmentType>(EquipmentType.Weapon);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -60,7 +61,7 @@ export default function ItemDialog(props: Props) {
         setFormData((prev: ItemTemplate) => ({...prev, [field]: value}));
     };
 
-    const handleTypeChange = (newType: string) => {
+    const handleTypeChange = (newType: EquipmentType) => {
         setItemType(newType);
         handleChange('type', newType as EquipmentType);
     };
@@ -76,76 +77,10 @@ export default function ItemDialog(props: Props) {
         onClose();
     };
 
-    const renderWeaponFields = () => (
-        <Stack spacing={3}>
-            <SelectSkillField
-                currentSkill={formData.weaponStats.skill || null}
-                handleSkillSelect={(skill: Skill | null) => handleChange('skill' as keyof ItemTemplate, skill as any)}
-                filterByType={SkillType.Combat}
-            />
-            <GridContainer>
-                <Grid size={6}>
-                    <GenesysNumberField
-                        value={formData.weaponStats.damage || 0}
-                        fullwidth
-                        label="Damage"
-                        onChange={(e) => handleChange('damage' as keyof ItemTemplate, e as any)}
-                    />
-                </Grid>
-                <Grid size={6}>
-                    <GenesysNumberField
-                        value={formData.weaponStats.critical || 3}
-                        fullwidth
-                        label="Critical"
-                        onChange={(e) => handleChange('critical' as keyof ItemTemplate, e as any)}
-                    />
-                </Grid>
-            </GridContainer>
-            <GenesysTextField
-                text={formData.weaponStats.range?.toString() || 'ENGAGED'}
-                label="Range"
-                onChange={(e) => handleChange('range' as keyof ItemTemplate, e as any)}
-                fullwidth
-            />
-            <FormControlLabel
-                control={
-                    <Switch
-                        checked={formData.weaponStats.brawn || false}
-                        onChange={(e) => handleChange('brawn' as keyof ItemTemplate, e.target.checked as any)}
-                    />
-                }
-                label="Add Brawn to Damage"
-            />
-        </Stack>
-    );
-
-    const renderArmorFields = () => (
-        <Stack spacing={3}>
-            <GridContainer>
-                <Grid size={6}>
-                    <GenesysNumberField
-                        value={formData.armorStats.soak.base || 0}
-                        fullwidth
-                        label="Soak"
-                        onChange={(e) => handleChange('soak' as keyof ItemTemplate, {base: e, current: e} as any)}
-                    />
-                </Grid>
-                <Grid size={6}>
-                    <GenesysNumberField
-                        value={formData.armorStats.defense.base || 0}
-                        fullwidth
-                        label="Defense"
-                        onChange={(e) => handleChange('defense' as keyof ItemTemplate, {base: e, current: e} as any)}
-                    />
-                </Grid>
-            </GridContainer>
-        </Stack>
-    );
-
     const renderGearFields = () => (
         <Stack spacing={3}>
             <GenesysNumberField
-                value={formData.amount || 1}
+                value={formData.amount}
                 fullwidth
                 label="Quantity"
                 onChange={(e) => handleChange('amount' as keyof ItemTemplate, e as any)}
@@ -165,7 +100,7 @@ export default function ItemDialog(props: Props) {
         >
             <DialogTitle>{isNew ? "Create New Equipment" : "Edit Equipment"}</DialogTitle>
             <GenesysTextField
-                text={formData.name || ''}
+                text={formData.name}
                 label="Equipment Name"
                 onChange={(e) => handleChange("name", e)}
                 fullwidth
@@ -187,13 +122,13 @@ export default function ItemDialog(props: Props) {
                             value={itemType}
                             onChange={(_, val) => val && handleTypeChange(val)}
                         >
-                            <ToggleButton value="WEAPON">Weapon</ToggleButton>
-                            <ToggleButton value="ARMOR">Armor</ToggleButton>
-                            <ToggleButton value="GEAR">Gear</ToggleButton>
+                            <ToggleButton value={EquipmentType.Weapon}>Weapon</ToggleButton>
+                            <ToggleButton value={EquipmentType.Armor}>Armor</ToggleButton>
+                            <ToggleButton value={EquipmentType.Gear}>Gear</ToggleButton>
                         </ToggleButtonGroup>
 
                         <GenesysTextField
-                            text={formData.description || ''}
+                            text={formData.description}
                             label="Description"
                             onChange={(e) => handleChange("description", e)}
                             fullwidth
@@ -209,7 +144,7 @@ export default function ItemDialog(props: Props) {
                         <GridContainer>
                             <Grid size={4}>
                                 <GenesysNumberField
-                                    value={formData.price || 0}
+                                    value={formData.price}
                                     fullwidth
                                     label="Price (Credits)"
                                     onChange={(e) => handleChange('price', e)}
@@ -217,7 +152,7 @@ export default function ItemDialog(props: Props) {
                             </Grid>
                             <Grid size={4}>
                                 <GenesysNumberField
-                                    value={formData.encumbrance || 0}
+                                    value={formData.encumbrance}
                                     fullwidth
                                     label="Encumbrance"
                                     onChange={(e) => handleChange('encumbrance', e)}
@@ -225,7 +160,7 @@ export default function ItemDialog(props: Props) {
                             </Grid>
                             <Grid size={4}>
                                 <GenesysNumberField
-                                    value={formData.rarity || 0}
+                                    value={formData.rarity}
                                     fullwidth
                                     label="Rarity"
                                     onChange={(e) => handleChange('rarity', e)}
@@ -236,7 +171,7 @@ export default function ItemDialog(props: Props) {
                         <FormControlLabel
                             control={
                                 <Switch
-                                    checked={formData.restricted || false}
+                                    checked={formData.restricted}
                                     onChange={(e) => handleChange('restricted', e.target.checked)}
                                 />
                             }
@@ -248,21 +183,36 @@ export default function ItemDialog(props: Props) {
                 {tabValue === 1 && (
                     <Stack spacing={3}>
                         <Typography variant="h6" color="primary">
-                            {itemType === 'WEAPON' && 'Weapon Statistics'}
-                            {itemType === 'ARMOR' && 'Armor Statistics'}
-                            {itemType === 'GEAR' && 'Gear Information'}
+                            {itemType === EquipmentType.Weapon && 'Weapon Statistics'}
+                            {itemType === EquipmentType.Armor && 'Armor Statistics'}
+                            {itemType === EquipmentType.Gear && 'Gear Information'}
                         </Typography>
-                        {itemType === 'WEAPON' && renderWeaponFields()}
-                        {itemType === 'ARMOR' && renderArmorFields()}
-                        {itemType === 'GEAR' && renderGearFields()}
+                        {itemType === EquipmentType.Weapon && <WeaponStatsTab weaponStats={formData.weaponStats}
+                                                                              updateWeaponStats={(e) => handleChange("weaponStats", e)}/>}
+                        {itemType === EquipmentType.Armor && <ArmorStatsTab armorStats={formData.armorStats}
+                                                                            updateArmorStats={(e) => handleChange('armorStats', e)}/>}
+                        {itemType === EquipmentType.Gear && renderGearFields()}
                     </Stack>
                 )}
 
                 {tabValue === 2 && (
                     <Stack spacing={3}>
-                        <Typography variant="body2" color="text.secondary">
-                            Qualities and modifiers management will be added here.
+                        <Typography variant="h6" color="primary">
+                            {itemType === EquipmentType.Weapon && 'Weapon Modifiers'}
+                            {itemType === EquipmentType.Armor && 'Armor Modifiers'}
+                            {itemType === EquipmentType.Gear && 'Gear Modifiers'}
                         </Typography>
+                        {itemType === EquipmentType.Weapon &&
+                            <WeaponModifiersTab item={formData} updateItem={setFormData}/>}
+                        {itemType === EquipmentType.Gear && <GearModifiersTab
+                            gearModifiers={formData.gearModifiers ?? {
+                                diceModifiers: [],
+                                resultsModifiers: [],
+                                upgradeModifiers: [],
+                                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                            }}
+                            updateGearModifiers={(e) => handleChange('gearModifiers', e)}
+                        />}
                     </Stack>
                 )}
             </DialogContent>

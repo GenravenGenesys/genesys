@@ -10,11 +10,11 @@ import lombok.Data;
 public class TalentSkillCheck {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private PlayerSkill skill;
+    private PlayerSkill skill = null;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Difficulty difficulty;
+    private Difficulty difficulty  = null;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private AdversarySkill opposedSkill;
+    private AdversarySkill opposedSkill = null;
 }

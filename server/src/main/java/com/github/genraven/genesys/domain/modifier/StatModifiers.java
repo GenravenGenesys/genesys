@@ -17,4 +17,8 @@ public class StatModifiers {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int defense = 0;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "Amount added to the character's encumbrance threshold while this item is equipped")
+    private int encumbranceThreshold = 0;
 }

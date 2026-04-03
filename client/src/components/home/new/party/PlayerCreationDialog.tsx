@@ -6,11 +6,12 @@ import {
     Typography, useMediaQuery, useTheme
 } from "@mui/material";
 import {
-    type Archetype,
+    type Archetype, type ArchetypeSkill,
     type CampaignCompendium,
     type Career,
+    type Motivation, type Characteristics,
     type PlayerCharacter,
-    type Skill
+    type Skill,
 } from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
 import {useEffect, useState} from "react";
@@ -18,6 +19,8 @@ import {emptyArchetype, emptyCareer, emptyPlayerCharacter} from "../../../../mod
 import ArchetypeSelectionStep from "./archetype/ArchetypeSelectionStep.tsx";
 import CareerSelectionStep from "./career/CareerSelectionStep.tsx";
 import SpendExperienceStep from "./experience/SpendExperienceStep.tsx";
+import ChooseMotivationsStep from "./motivations/ChooseMotivationsStep.tsx";
+import ValidatePlayerCharacter from "./validate/ValidatePlayerCharacter.tsx";
 
 interface Props {
     open: boolean;
@@ -50,6 +53,8 @@ export default function PlayerCreationDialog(props: Props) {
                 return formData.career !== emptyCareer && selectedCareerSkills;
             case 3:
                 return formData.experience.initial === 0;
+            case 4:
+                return formData.motivations.length === 4;
             default:
                 return true;
         }
@@ -95,17 +100,45 @@ export default function PlayerCreationDialog(props: Props) {
                 current: archetype.presence
             }
         };
-        handleChange('skills', compendium.skills.map(skill => ({
-            ...skill,
-            ranks: 0
-        })));
+        handleChange('skills', handleArchetypeStartingSkills(archetype.skills));
         handleChange('characteristics', characteristics);
+        handleChange('derivedStats', {
+            ...formData.derivedStats,
+            woundThreshold: {
+                current: 0,
+                total: archetype.wounds + archetype.brawn
+            },
+            strainThreshold: {
+                current: 0,
+                total: archetype.strain + archetype.willpower
+            }
+        });
         handleChange('experience', {
             initial: archetype.experience,
             total: archetype.experience,
             available: archetype.experience
         });
     }
+
+    const handleArchetypeStartingSkills = (archetypeSkills: ArchetypeSkill[]) => {
+        for (const archetypeSkill of archetypeSkills) {
+            for (const skill of compendium.skills) {
+                if (skill.name === archetypeSkill.skill?.name) {
+                    return [{
+                        ...skill,
+                        ranks: archetypeSkill.startingRanks
+                    }, ...compendium.skills.filter(s => s.name !== archetypeSkill.skill?.name).map(skill => ({
+                        ...skill,
+                        ranks: 0
+                    }))];
+                }
+            }
+        }
+        return compendium.skills.map(skill => ({
+            ...skill,
+            ranks: 0
+        }))
+    };
 
     const handleCareerSkillSelection = (career: Career, skills: Skill[]) => {
         handleChange('career', career);
@@ -123,11 +156,30 @@ export default function PlayerCreationDialog(props: Props) {
         setSelectedCareerSkills(true);
     };
 
+    const handleCharacteristicPurchase = (characteristics: Characteristics) => {
+        handleChange('derivedStats', {
+            ...formData.derivedStats,
+            woundThreshold: {
+                current: 0,
+                total: formData.archetype.wounds + characteristics.brawn.base
+            },
+            strainThreshold: {
+                current: 0,
+                total: formData.archetype.strain + characteristics.willpower.base
+            }
+        });
+        handleChange('characteristics', characteristics);
+    }
+
     const handleExperienceSpend = (spent: number) => {
         handleChange('experience', {
             ...formData.experience,
             initial: formData.experience.initial - spent
         });
+    };
+
+    const handleMotivationsSave = (motivations: Motivation[]) => {
+        handleChange('motivations', motivations);
     };
 
     const renderStepContent = (step: number) => {
@@ -143,19 +195,23 @@ export default function PlayerCreationDialog(props: Props) {
                 );
             case 1:
                 return <ArchetypeSelectionStep archetype={formData.archetype} archetypes={compendium.archetypes}
-                                               onSave={handleArchetypeSelection}/>;
+                                               onSave={handleArchetypeSelection} skills={compendium.skills}/>;
             case 2:
                 return <CareerSelectionStep career={formData.career} careers={compendium.careers}
                                             onSave={handleCareerSkillSelection}/>
             case 3:
                 return <SpendExperienceStep player={formData} talents={compendium.talents}
-                                            onSpendExperience={handleExperienceSpend}/>;
+                                            onSpendExperience={handleExperienceSpend}
+                                            onCharacteristicUpdate={handleCharacteristicPurchase}
+                                            onSkillUpdate={(skills) => handleChange('skills', skills)}
+                                            onTalentUpdate={(talents) => handleChange('talents', talents)}/>;
             case 4:
-                return <Typography sx={{mt: 4}}>Player Motivation Selection would go here...</Typography>;
+                return <ChooseMotivationsStep motivations={formData.motivations}
+                                              onSave={handleMotivationsSave}/>;
             case 5:
                 return <Typography sx={{mt: 4}}>Gear Selection would go here...</Typography>;
             case 6:
-                return <Typography sx={{mt: 4}}>Player Final Review would go here...</Typography>;
+                return <ValidatePlayerCharacter player={formData}/>;
             default:
                 return null;
         }

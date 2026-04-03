@@ -11,5 +11,5 @@ import java.util.List;
 public class TalentSkills {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Skill> potentialCareerSkills = new ArrayList<>();
+    private List<Skill> potentialCareerSkills = null;
 }

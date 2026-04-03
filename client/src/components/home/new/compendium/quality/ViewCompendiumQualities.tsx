@@ -20,6 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.tsx";
 import {emptyQuality} from "../../../../../models/Template.ts";
 import {useCreateQuality, useUpdateQuality} from "../../../../../api/generated/qualities/qualities.ts";
+import QualityDialog from "./QualityDialog.tsx";
 
 interface Props {
     quality: Quality;
@@ -36,9 +37,9 @@ function QualityRow(props: Props) {
     return (
         <TableRow>
             <TypographyCenterTableCell value={quality.name}/>
-            {/*{renderTalentNameTableCell(talent)}*/}
-            {/*<TypographyCenterTableCell value={talent.type}/>*/}
-            {/*<BooleanTableCell bool={talent.initiative}/>*/}
+            <TypographyCenterTableCell value={quality.cost > 0 ? "Yes" : "No"}/>
+            <TypographyCenterTableCell value={quality.weapon ? "Yes" : "No"}/>
+            <TypographyCenterTableCell value={quality.armor ? "Yes" : "No"}/>
             <CustomTableCell centered>
                 <Button variant="text" onClick={onEditClick}>
                     Edit
@@ -54,7 +55,7 @@ export default function ViewCompendiumQualities() {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [quality, setQuality] = useState<Quality>(emptyQuality);
     const [isNew, setIsNew] = useState(false);
-    const headers = ["Name", "Type", "Initiative", "Actions"];
+    const headers = ["Name", "Active", "Weapons", "Armor", "Actions"];
 
     if (!id) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
@@ -143,8 +144,8 @@ export default function ViewCompendiumQualities() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {/*<AdversaryDialog open={Boolean(openDrawer)} adversary={quality} onClose={() => setOpenDrawer(false)}*/}
-            {/*                 onSave={handleSave} isNew={isNew}/>*/}
+            <QualityDialog open={Boolean(openDrawer)} quality={quality} onClose={() => setOpenDrawer(false)}
+                           onSave={handleSave} isNew={isNew}/>
         </Box>
     );
 }

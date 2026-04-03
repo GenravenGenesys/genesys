@@ -27,8 +27,9 @@ public class Campaign {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Party party = new Party();
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "GM-defined setting bible")
-    private CampaignCompendium compendium;
+    private CampaignCompendium compendium = new CampaignCompendium();
 
     @EnumValidator(enumClass = Status.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
