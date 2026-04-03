@@ -11,8 +11,8 @@ import type { AdversarySkill } from './adversarySkill';
 import type { AdversaryTemplateType } from './adversaryTemplateType';
 import type { Characteristics } from './characteristics';
 import type { DerivedStats } from './derivedStats';
-import type { Motivation } from './motivation';
 import type { GenesysError } from './genesysError';
+import type { Motivation } from './motivation';
 
 /**
  * Setting-specific adversaries such as Nemeses, Rivals, and Minions

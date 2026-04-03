@@ -9,8 +9,7 @@ import {
     type Archetype, type ArchetypeSkill,
     type CampaignCompendium,
     type Career,
-    type Motivation,
-    type Career, type Characteristics,
+    type Motivation, type Characteristics,
     type PlayerCharacter,
     type Skill,
 } from "../../../../api/model";
