@@ -1,15 +1,16 @@
-import {Activation, type Ability, type Archetype, type ArchetypeSkill, CharacteristicType, CostType, LimitType, type Skill, SkillType} from "../../../../../api/model";
+import {Activation, type Ability, type Archetype, type ArchetypeSkill, CharacteristicType, CostType, LimitType, type Skill, SkillType, type Cost, type Limit, type StatModifiers} from "../../../../../api/model";
 import {useEffect, useState} from "react";
 import {
     Autocomplete,
-    Box, Button, Card, CardContent, Chip, Dialog, DialogActions,
+    Box, Button, Card, CardContent, Checkbox, Chip, Dialog, DialogActions,
     DialogContent,
-    DialogTitle, Divider, Grid,
+    DialogTitle, Divider, FormControlLabel, Grid,
     MenuItem, Stack,
     Tabs, TextField, Typography,
     useMediaQuery,
     useTheme
 } from "@mui/material";
+import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 import {emptyArchetype} from "../../../../../models/Template.ts";
 import Tab from "@mui/material/Tab";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
@@ -90,6 +91,7 @@ export default function ArchetypeDialog(props: Props) {
     const [formData, setFormData] = useState<Archetype>(archetype || {});
     const [tabValue, setTabValue] = useState(0);
     const [selectedCondition, setSelectedCondition] = useState<SkillConditionType | ''>('');
+    const [abilityStatsEnabled, setAbilityStatsEnabled] = useState<boolean[]>([]);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -97,6 +99,12 @@ export default function ArchetypeDialog(props: Props) {
         if (archetype) {
             setFormData(archetype);
             setSelectedCondition(detectCondition(archetype.skills ?? []));
+            setAbilityStatsEnabled(
+                (archetype.abilities ?? []).map(a =>
+                    a.statModifiers.wounds > 0 || a.statModifiers.strain > 0 ||
+                    a.statModifiers.soak > 0 || a.statModifiers.defense > 0
+                )
+            );
         }
     }, [archetype]);
 
@@ -148,11 +156,13 @@ export default function ArchetypeDialog(props: Props) {
 
     const handleAddAbility = () => {
         handleChange('abilities', [...(formData.abilities ?? []), emptyAbility()]);
+        setAbilityStatsEnabled(prev => [...prev, false]);
     };
 
     const handleRemoveAbility = (index: number) => {
         const updated = (formData.abilities ?? []).filter((_, i) => i !== index);
         handleChange('abilities', updated);
+        setAbilityStatsEnabled(prev => prev.filter((_, i) => i !== index));
     };
 
     const handleAbilityChange = (index: number, field: 'name' | 'description', value: string) => {
@@ -169,16 +179,49 @@ export default function ArchetypeDialog(props: Props) {
         handleChange('abilities', updated);
     };
 
+    const handleAbilityCostChange = (index: number, cost: Cost) => {
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === index ? {...a, cost} : a
+        );
+        handleChange('abilities', updated);
+    };
+
+    const handleAbilityLimitChange = (index: number, limit: Limit) => {
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === index ? {...a, limit} : a
+        );
+        handleChange('abilities', updated);
+    };
+
+    const handleAbilityStatChange = (index: number, field: keyof StatModifiers, value: number) => {
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === index ? {...a, statModifiers: {...a.statModifiers, [field]: value}} : a
+        );
+        handleChange('abilities', updated);
+    };
+
+    const toggleAbilityStats = (index: number, enabled: boolean) => {
+        setAbilityStatsEnabled(prev => prev.map((v, i) => i === index ? enabled : v));
+        if (!enabled) {
+            handleAbilityStatChange(index, 'wounds', 0);
+            handleAbilityStatChange(index, 'strain', 0);
+            handleAbilityStatChange(index, 'soak', 0);
+            handleAbilityStatChange(index, 'defense', 0);
+        }
+    };
+
     const handleSave = () => {
         onSave(formData);
         setFormData(emptyArchetype);
         setSelectedCondition('');
+        setAbilityStatsEnabled([]);
         onClose();
     };
 
     const handleClose = () => {
         setFormData(emptyArchetype);
         setSelectedCondition('');
+        setAbilityStatsEnabled([]);
         onClose();
     };
 
@@ -446,18 +489,115 @@ export default function ArchetypeDialog(props: Props) {
                                             value={ability.description}
                                             onChange={(e) => handleAbilityChange(index, 'description', e.target.value)}
                                         />
-                                        <TextField
-                                            select
-                                            fullWidth
-                                            size="small"
-                                            label="Activation"
+                                        <GenesysSelectField
                                             value={ability.activation}
-                                            onChange={(e) => handleAbilityActivationChange(index, e.target.value as Activation)}
-                                        >
-                                            {Object.values(Activation).map((value) => (
-                                                <MenuItem key={value} value={value}>{value}</MenuItem>
-                                            ))}
-                                        </TextField>
+                                            label="Activation"
+                                            onChange={(value) => handleAbilityActivationChange(index, value as Activation)}
+                                            options={Activation}
+                                        />
+                                        <Divider sx={{my: 1}}>
+                                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                                Cost &amp; Limit
+                                            </Typography>
+                                        </Divider>
+                                        <Grid container spacing={2}>
+                                            <Grid size={6}>
+                                                <GenesysSelectField
+                                                    value={ability.cost.type}
+                                                    label="Cost Type"
+                                                    onChange={(type) => handleAbilityCostChange(index, {
+                                                        type: type as CostType,
+                                                        amount: type === CostType.None ? 0 : ability.cost.amount,
+                                                    })}
+                                                    options={CostType}
+                                                />
+                                            </Grid>
+                                            {ability.cost.type !== CostType.None && (
+                                                <Grid size={6}>
+                                                    <GenesysNumberField
+                                                        value={ability.cost.amount}
+                                                        label="Cost Amount"
+                                                        onChange={(value) => handleAbilityCostChange(index, {
+                                                            ...ability.cost,
+                                                            amount: value,
+                                                        })}
+                                                        min={0}
+                                                        max={ability.cost.type === CostType.Strain ? 5 : 1}
+                                                        fullwidth
+                                                    />
+                                                </Grid>
+                                            )}
+                                        </Grid>
+                                        <Grid container spacing={2}>
+                                            <Grid size={6}>
+                                                <GenesysSelectField
+                                                    value={ability.limit.type}
+                                                    label="Limit Type"
+                                                    onChange={(type) => handleAbilityLimitChange(index, {
+                                                        type: type as LimitType,
+                                                        limit: type === LimitType.None ? 0 : ability.limit.limit,
+                                                    })}
+                                                    options={LimitType}
+                                                />
+                                            </Grid>
+                                            {ability.limit.type !== LimitType.None && (
+                                                <Grid size={6}>
+                                                    <GenesysNumberField
+                                                        value={ability.limit.limit}
+                                                        label="Limit Amount"
+                                                        onChange={(value) => handleAbilityLimitChange(index, {
+                                                            ...ability.limit,
+                                                            limit: value,
+                                                        })}
+                                                        min={0}
+                                                        max={1}
+                                                        fullwidth
+                                                    />
+                                                </Grid>
+                                            )}
+                                        </Grid>
+                                        <Divider sx={{my: 1}}>
+                                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                                Stat Modifiers
+                                            </Typography>
+                                        </Divider>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={abilityStatsEnabled[index] ?? false}
+                                                    onChange={(e) => toggleAbilityStats(index, e.target.checked)}
+                                                />
+                                            }
+                                            label="Modify Stats"
+                                        />
+                                        {abilityStatsEnabled[index] && (
+                                            <GridContainer spacing={2}>
+                                                <GenesysNumberField
+                                                    value={ability.statModifiers.wounds}
+                                                    label={'Increase ' + StatsType.Wounds + ' Threshold'}
+                                                    onChange={(value) => handleAbilityStatChange(index, 'wounds', value)}
+                                                    min={0} max={5} fullwidth
+                                                />
+                                                <GenesysNumberField
+                                                    value={ability.statModifiers.strain}
+                                                    label={'Increase ' + StatsType.Strain + ' Threshold'}
+                                                    onChange={(value) => handleAbilityStatChange(index, 'strain', value)}
+                                                    min={0} max={5} fullwidth
+                                                />
+                                                <GenesysNumberField
+                                                    value={ability.statModifiers.soak}
+                                                    label="Increase Soak"
+                                                    onChange={(value) => handleAbilityStatChange(index, 'soak', value)}
+                                                    min={0} max={5} fullwidth
+                                                />
+                                                <GenesysNumberField
+                                                    value={ability.statModifiers.defense}
+                                                    label="Increase Defense"
+                                                    onChange={(value) => handleAbilityStatChange(index, 'defense', value)}
+                                                    min={0} max={5} fullwidth
+                                                />
+                                            </GridContainer>
+                                        )}
                                     </Stack>
                                 </CardContent>
                             </Card>
