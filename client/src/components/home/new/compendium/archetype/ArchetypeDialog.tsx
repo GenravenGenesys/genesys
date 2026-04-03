@@ -1,4 +1,4 @@
-import {type Archetype, type ArchetypeSkill, CharacteristicType, type Skill, SkillType} from "../../../../../api/model";
+import {Activation, type Ability, type Archetype, type ArchetypeSkill, CharacteristicType, CostType, LimitType, type Skill, SkillType} from "../../../../../api/model";
 import {useEffect, useState} from "react";
 import {
     Autocomplete,
@@ -128,6 +128,40 @@ export default function ArchetypeDialog(props: Props) {
         });
     };
 
+    const emptyAbility = (): Ability => ({
+        name: '',
+        description: '',
+        activation: Activation.Passive,
+        cost: {type: CostType.None, amount: 0},
+        limit: {type: LimitType.None, limit: 0},
+        statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+        abilityModifiers: {
+            diceModifiers: [],
+            resultsModifiers: [],
+            healEffects: [],
+            environmentModifiers: [],
+            freeMoveManeuver: false,
+            criticalInjuryCountAsOne: false,
+            moveStoryPoint: false,
+        },
+    });
+
+    const handleAddAbility = () => {
+        handleChange('abilities', [...(formData.abilities ?? []), emptyAbility()]);
+    };
+
+    const handleRemoveAbility = (index: number) => {
+        const updated = (formData.abilities ?? []).filter((_, i) => i !== index);
+        handleChange('abilities', updated);
+    };
+
+    const handleAbilityChange = (index: number, field: keyof Ability, value: string) => {
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === index ? {...a, [field]: value} : a
+        );
+        handleChange('abilities', updated);
+    };
+
     const handleSave = () => {
         onSave(formData);
         setFormData(emptyArchetype);
@@ -174,6 +208,7 @@ export default function ArchetypeDialog(props: Props) {
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                     <Tab label="Basic Information"/>
                     <Tab label="Starting Skills"/>
+                    <Tab label="Abilities"/>
                 </Tabs>
             </Box>
 
@@ -371,6 +406,58 @@ export default function ArchetypeDialog(props: Props) {
                                 </Card>
                             );
                         })}
+                    </Stack>
+                )}
+                {/* ── Tab 2: Abilities ── */}
+                {tabValue === 2 && (
+                    <Stack spacing={3}>
+                        {(formData.abilities ?? []).map((ability, index) => (
+                            <Card key={index} variant="outlined">
+                                <CardContent>
+                                    <Stack spacing={2}>
+                                        <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <Typography variant="subtitle2" color="primary" fontWeight="bold">
+                                                Ability {index + 1}
+                                            </Typography>
+                                            <Button size="small" color="error" onClick={() => handleRemoveAbility(index)}>
+                                                Remove
+                                            </Button>
+                                        </Box>
+                                        <TextField
+                                            fullWidth
+                                            size="small"
+                                            label="Ability Name"
+                                            value={ability.name}
+                                            onChange={(e) => handleAbilityChange(index, 'name', e.target.value)}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            multiline
+                                            rows={3}
+                                            size="small"
+                                            label="Description"
+                                            value={ability.description}
+                                            onChange={(e) => handleAbilityChange(index, 'description', e.target.value)}
+                                        />
+                                        <TextField
+                                            select
+                                            fullWidth
+                                            size="small"
+                                            label="Activation"
+                                            value={ability.activation}
+                                            onChange={(e) => handleAbilityChange(index, 'activation', e.target.value)}
+                                        >
+                                            {Object.values(Activation).map((value) => (
+                                                <MenuItem key={value} value={value}>{value}</MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </Stack>
+                                </CardContent>
+                            </Card>
+                        ))}
+                        <Button variant="outlined" onClick={handleAddAbility}>
+                            Add Ability
+                        </Button>
                     </Stack>
                 )}
             </DialogContent>

@@ -1,12 +1,12 @@
 import {type Archetype, type ArchetypeSkill, type Skill} from "../../../../../api/model";
 import {Autocomplete, Box, Card, CardContent, Paper, Stack, TextField, Typography} from "@mui/material";
 import {useState} from "react";
-import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import CenteredCardHeader from "../../../../common/card/header/CenteredCardHeader.tsx";
 import {emptyArchetype} from "../../../../../models/Template.ts";
 import ArchetypeCharacteristic from "./ArchetypeCharacteristic.tsx";
 import ArchetypeStats from "./ArchetypeStats.tsx";
 import ArchetypeSkills from "./ArchetypeSkills.tsx";
+import ArchetypeAbilities from "./ArchetypeAbilities.tsx";
 
 interface Props {
     archetype: Archetype;
@@ -53,9 +53,7 @@ export default function ArchetypeSelectionStep(props: Props) {
                         <ArchetypeStats archetype={selectedArchetype}/>
                         <ArchetypeSkills archetype={selectedArchetype} skills={skills}
                                          updateArchetypeSkills={handleSkillUpdate}/>
-                        <GridContainer spacing={3} centered>
-                            <Typography sx={{mt: 4}}>Abilities would go here...</Typography>
-                        </GridContainer>
+                        <ArchetypeAbilities archetype={selectedArchetype}/>
                     </Stack>
                 </CardContent>
             </Card>}
