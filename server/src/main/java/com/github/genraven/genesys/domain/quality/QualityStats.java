@@ -1,5 +1,7 @@
 package com.github.genraven.genesys.domain.quality;
 
+import com.github.genraven.genesys.domain.modifier.DiceModifier;
+import com.github.genraven.genesys.domain.modifier.ResultsModifier;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -37,7 +39,10 @@ public class QualityStats {
     private boolean stun = false;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private boolean disorient = false;
+    private DiceModifier  diceModifier;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private ResultsModifier resultsModifier;
 
     // Narrative
     private String description = "";

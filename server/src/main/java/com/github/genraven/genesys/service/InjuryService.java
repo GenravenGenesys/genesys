@@ -32,15 +32,15 @@ public class InjuryService {
         injury.setId(UUID.randomUUID().toString());
 
         Query query = new Query(Criteria.where("id").is(campaignId));
-        Update update = new Update().push("compendium.injury", injury);
+        Update update = new Update().push("compendium.criticalInjuries", injury);
 
         return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(injury);
     }
 
     public Mono<CriticalInjury> updateCriticalInjury(final String campaignId, final String injuryId, final CriticalInjury updatedCriticalInjury) {
-        Query query = new Query(Criteria.where("id").is(campaignId).and("compendium.injury.id").is(injuryId));
+        Query query = new Query(Criteria.where("id").is(campaignId).and("compendium.criticalInjuries.id").is(injuryId));
 
-        Update update = new Update().set("compendium.injury.$", updatedCriticalInjury);
+        Update update = new Update().set("compendium.criticalInjuries.$", updatedCriticalInjury);
 
         return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(updatedCriticalInjury);
     }

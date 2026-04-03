@@ -1,7 +1,6 @@
 package com.github.genraven.genesys.domain.actor.player;
 
 import com.github.genraven.genesys.domain.Ability;
-import com.github.genraven.genesys.domain.skill.Skill;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -72,8 +71,9 @@ public class Archetype {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int experience = 100;
 
+    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Skill> skills;
+    private List<ArchetypeSkill> skills = new ArrayList<>();
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<Ability> abilities = new ArrayList<>();

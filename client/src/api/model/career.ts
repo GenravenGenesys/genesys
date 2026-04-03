@@ -6,6 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 import type { Skill } from './skill';
+import type { StartingGearChoice } from './startingGearChoice';
+import type { StartingMoney } from './startingMoney';
 
 /**
  * Setting-specific careers for player characters
@@ -19,4 +21,8 @@ export interface Career {
      * @maxItems 8
      */
   skills: Skill[];
+  /** Optional starting gear entries for this career; each entry offers one or more items to choose from */
+  startingGear?: StartingGearChoice[];
+  /** Optional starting money awarded to characters of this career */
+  startingMoney?: StartingMoney;
 }

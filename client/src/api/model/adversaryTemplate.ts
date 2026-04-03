@@ -11,8 +11,8 @@ import type { AdversarySkill } from './adversarySkill';
 import type { AdversaryTemplateType } from './adversaryTemplateType';
 import type { Characteristics } from './characteristics';
 import type { DerivedStats } from './derivedStats';
-import type { Error } from './error';
 import type { Motivation } from './motivation';
+import type { GenesysError } from './genesysError';
 
 /**
  * Setting-specific adversaries such as Nemeses, Rivals, and Minions
@@ -38,5 +38,5 @@ export interface AdversaryTemplate {
   size: number;
   /** Adversary motivations */
   motivations: Motivation[];
-  errors?: Error[];
+  errors?: GenesysError[];
 }

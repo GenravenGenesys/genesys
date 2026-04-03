@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { Ability } from './ability';
-import type { Skill } from './skill';
+import type { ArchetypeSkill } from './archetypeSkill';
 
 /**
  * Setting-specific archetype for player characters
@@ -50,6 +50,6 @@ export interface Archetype {
   strain: number;
   /** @minimum 65 */
   experience: number;
-  skills: Skill[];
+  skills: ArchetypeSkill[];
   abilities: Ability[];
 }

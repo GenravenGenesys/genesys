@@ -2,8 +2,8 @@ package com.github.genraven.genesys.domain.actor.adversary;
 
 import com.github.genraven.genesys.domain.actor.Characteristics;
 import com.github.genraven.genesys.domain.actor.DerivedStats;
+import com.github.genraven.genesys.domain.error.GenesysError;
 import com.github.genraven.genesys.domain.actor.Motivation;
-import com.github.genraven.genesys.domain.error.Error;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -63,5 +63,5 @@ public class AdversaryTemplate {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Adversary motivations")
     private List<Motivation> motivations = new ArrayList<>();
 
-    private List<Error> errors;
+    private List<GenesysError> errors;
 }

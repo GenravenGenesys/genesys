@@ -30,9 +30,11 @@ public class PlayerCharacter {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String background;
 
+    @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player archetype")
     private Archetype archetype;
 
+    @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player career")
     private Career career;
 

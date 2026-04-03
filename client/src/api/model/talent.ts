@@ -5,10 +5,10 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { AbilityModifiers } from './abilityModifiers';
 import type { Activation } from './activation';
 import type { Cost } from './cost';
 import type { Limit } from './limit';
-import type { Modifier } from './modifier';
 import type { StatModifiers } from './statModifiers';
 import type { TalentRollModifiers } from './talentRollModifiers';
 import type { TalentSkillCheck } from './talentSkillCheck';
@@ -31,7 +31,7 @@ export interface Talent {
   limit: Limit;
   talentSkills: TalentSkills;
   statModifiers: StatModifiers;
+  abilityModifiers: AbilityModifiers;
   talentSkillCheck: TalentSkillCheck;
   talentRollModifiers: TalentRollModifiers[];
-  modifiers: Modifier[];
 }

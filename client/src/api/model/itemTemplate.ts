@@ -8,6 +8,7 @@
 import type { ArmorStats } from './armorStats';
 import type { EquipmentQuality } from './equipmentQuality';
 import type { EquipmentType } from './equipmentType';
+import type { GearModifiers } from './gearModifiers';
 import type { WeaponStats } from './weaponStats';
 
 /**
@@ -34,4 +35,6 @@ export interface ItemTemplate {
   amount: number;
   weaponStats: WeaponStats;
   armorStats: ArmorStats;
+  /** Modifiers granted by this item when equipped or used; null means no modifiers */
+  gearModifiers?: GearModifiers;
 }

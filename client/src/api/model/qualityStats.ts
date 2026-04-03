@@ -5,6 +5,8 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { DiceModifier } from './diceModifier';
+import type { ResultsModifier } from './resultsModifier';
 
 export interface QualityStats {
   criticalInjury: number;
@@ -16,6 +18,7 @@ export interface QualityStats {
   rangedDefense: number;
   ensnare: boolean;
   stun: boolean;
-  disorient: boolean;
+  diceModifier: DiceModifier;
+  resultsModifier: ResultsModifier;
   description?: string;
 }

@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 import type { Difficulty } from './difficulty';
-import type { Modifier } from './modifier';
 
 /**
  * Setting-specific Critical Injuries
@@ -18,5 +17,4 @@ export interface CriticalInjury {
   severity: Difficulty;
   min: number;
   max: number;
-  modifiers: Modifier[];
 }

@@ -4,7 +4,7 @@ import com.github.genraven.genesys.domain.enums.Activation;
 import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
 import com.github.genraven.genesys.domain.enums.Tier;
-import com.github.genraven.genesys.domain.modifier.Modifier;
+import com.github.genraven.genesys.domain.modifier.AbilityModifiers;
 import com.github.genraven.genesys.domain.modifier.StatModifiers;
 import com.github.genraven.genesys.validator.EnumValidator;
 
@@ -60,15 +60,19 @@ public class Talent {
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private TalentSkills talentSkills = new TalentSkills();
+    private TalentSkills talentSkills = null;
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private StatModifiers statModifiers = new StatModifiers();
+    private StatModifiers statModifiers = null;
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private TalentSkillCheck talentSkillCheck = new TalentSkillCheck();
+    private AbilityModifiers abilityModifiers = null;
+
+    @Builder.Default
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private TalentSkillCheck talentSkillCheck = null;
 
 //    @Builder.Default
 //    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -76,9 +80,5 @@ public class Talent {
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<TalentRollModifiers> talentRollModifiers = List.of();
-
-    @Builder.Default
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Modifier> modifiers = List.of();
+    private List<TalentRollModifiers> talentRollModifiers = null;
 }

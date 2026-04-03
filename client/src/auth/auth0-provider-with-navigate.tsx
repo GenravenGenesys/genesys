@@ -1,4 +1,4 @@
-import React, {PropsWithChildren} from "react";
+import React, {type PropsWithChildren} from "react";
 
 interface Auth0ProviderWithNavigateProps {
     children: React.ReactNode;
@@ -10,6 +10,6 @@ interface Auth0ProviderWithNavigateProps {
  */
 export const Auth0ProviderWithNavigate = ({
                                               children,
-                                          }: PropsWithChildren<Auth0ProviderWithNavigateProps>): JSX.Element => {
+                                          }: PropsWithChildren<Auth0ProviderWithNavigateProps>) => {
     return <>{children}</>;
 };

@@ -8,7 +8,6 @@
 import type { Activation } from './activation';
 import type { Cost } from './cost';
 import type { Limit } from './limit';
-import type { Modifier } from './modifier';
 import type { StatModifiers } from './statModifiers';
 import type { TalentRollModifiers } from './talentRollModifiers';
 import type { TalentSkillCheck } from './talentSkillCheck';
@@ -33,7 +32,6 @@ export interface PlayerTalent {
   statModifiers: StatModifiers;
   talentSkillCheck: TalentSkillCheck;
   talentRollModifiers: TalentRollModifiers[];
-  modifiers: Modifier[];
   /** @minimum 0 */
   ranks: number;
 }
