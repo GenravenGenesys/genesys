@@ -181,12 +181,16 @@ export default function ArchetypeDialog(props: Props) {
     };
 
     const handleAbilityNameChange = (index: number, value: string) => {
-        const updated = [...formData.abilities, {...formData.abilities[index], name: value}];
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === index ? {...a, name: value} : a
+        );
         handleChange('abilities', updated);
     };
 
     const handleAbilityDescriptionChange = (index: number, value: string) => {
-        const updated = [...formData.abilities, {...formData.abilities[index], description: value}];
+        const updated = (formData.abilities ?? []).map((a, i) =>
+            i === index ? {...a, description: value} : a
+        );
         handleChange('abilities', updated);
     };
 
@@ -549,7 +553,7 @@ export default function ArchetypeDialog(props: Props) {
                 {tabValue === 2 && (
                     <Stack spacing={3}>
                         {(formData.abilities ?? []).map((ability, index) => (
-                            <Card key={`${ability.name}-${index}`} variant="outlined">
+                            <Card key={index} variant="outlined">
                                 <CardContent>
                                     <Stack spacing={2}>
                                         <Box sx={{
@@ -567,7 +571,7 @@ export default function ArchetypeDialog(props: Props) {
                                         </Box>
                                         <GenesysTextField text={ability.name} label={"Ability Name"} fullwidth
                                                           onChange={(e) => handleAbilityNameChange(index, e)}/>
-                                        <GenesysTextField text={ability.name} label={"Description"} fullwidth rows={3}
+                                        <GenesysTextField text={ability.description} label={"Description"} fullwidth rows={3}
                                                           onChange={(e) => handleAbilityDescriptionChange(index, e)}/>
                                         <GenesysSelectField
                                             value={ability.activation}
