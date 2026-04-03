@@ -52,6 +52,8 @@ export default function PlayerCreationDialog(props: Props) {
                 return formData.career !== emptyCareer && selectedCareerSkills;
             case 3:
                 return formData.experience.initial === 0;
+            case 4:
+                return formData.motivations.length === 4;
             default:
                 return true;
         }
