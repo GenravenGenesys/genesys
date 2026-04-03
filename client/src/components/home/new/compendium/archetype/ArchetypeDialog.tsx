@@ -648,6 +648,12 @@ export default function ArchetypeDialog(props: Props) {
                                                     onChange={(value) => handleAbilityStatChange(index, 'defense', value)}
                                                     min={0} max={5} fullwidth
                                                 />
+                                                <GenesysNumberField
+                                                    value={ability.statModifiers.encumbranceThreshold}
+                                                    label="Increase Encumbrance Threshold"
+                                                    onChange={(value) => handleAbilityStatChange(index, 'encumbranceThreshold', value)}
+                                                    min={0} max={5} fullwidth
+                                                />
                                             </GridContainer>
                                         )}
                                         <Divider sx={{my: 1}}>
