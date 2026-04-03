@@ -11,6 +11,7 @@ import {
     type Career,
     type Motivation, type Characteristics,
     type PlayerCharacter,
+    type PlayerEquipment,
     type Skill,
 } from "../../../../api/model";
 import SaveIcon from "@mui/icons-material/Save";
@@ -20,6 +21,7 @@ import ArchetypeSelectionStep from "./archetype/ArchetypeSelectionStep.tsx";
 import CareerSelectionStep from "./career/CareerSelectionStep.tsx";
 import SpendExperienceStep from "./experience/SpendExperienceStep.tsx";
 import ChooseMotivationsStep from "./motivations/ChooseMotivationsStep.tsx";
+import SelectGearStep from "./gear/SelectGearStep.tsx";
 import ValidatePlayerCharacter from "./validate/ValidatePlayerCharacter.tsx";
 
 interface Props {
@@ -182,6 +184,10 @@ export default function PlayerCreationDialog(props: Props) {
         handleChange('motivations', motivations);
     };
 
+    const handleEquipmentSave = (equipment: PlayerEquipment) => {
+        handleChange('equipment', equipment);
+    };
+
     const renderStepContent = (step: number) => {
         switch (step) {
             case 0:
@@ -209,7 +215,8 @@ export default function PlayerCreationDialog(props: Props) {
                 return <ChooseMotivationsStep motivations={formData.motivations}
                                               onSave={handleMotivationsSave}/>;
             case 5:
-                return <Typography sx={{mt: 4}}>Gear Selection would go here...</Typography>;
+                return <SelectGearStep career={formData.career} equipment={formData.equipment}
+                                       onSave={handleEquipmentSave}/>;
             case 6:
                 return <ValidatePlayerCharacter player={formData}/>;
             default:
