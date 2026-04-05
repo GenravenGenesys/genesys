@@ -15,8 +15,9 @@ export interface StartingMoney {
      * @minimum 0
      */
   base: number;
-  /** Optional dice expression added on top of the base amount (e.g. "1d100") */
-  diceExpression?: string;
-  /** Name of the currency (e.g. "silver coins") */
-  currency: string;
+  /**
+     * Optional dice expression added on top of the base amount (e.g. "1d100")
+     * @minLength 1
+     */
+  diceExpression: string;
 }
