@@ -61,7 +61,7 @@ export default function CareerDrawer(props: Props) {
             PaperProps={{sx: {bgcolor: '#0a1929', minHeight: '60vh'}}}
         >
             <DialogTitle sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 1}}>
-                <Typography variant="h5" fontWeight="bold">
+                <Typography variant="h5" component="span" fontWeight="bold">
                     {isNew ? "Create New Career" : "Edit Career"}
                 </Typography>
                 <IconButton onClick={handleClose} size="small">
