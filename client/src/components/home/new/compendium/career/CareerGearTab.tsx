@@ -1,7 +1,6 @@
 import {
     Box, Typography, Button, TextField, IconButton,
-    Divider, Autocomplete, CircularProgress, Stack, Paper,
-    FormControlLabel, Switch,
+    Autocomplete, CircularProgress, Stack, Paper,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,15 +18,11 @@ export default function CareerGearTab({formData, onChange}: Props) {
     const {data: itemsData, isLoading} = useGetItems(id ?? '');
 
     const items: ItemTemplate[] = itemsData?.data ?? [];
-    const money = formData.startingMoney ?? {};
+    const money = formData.startingMoney ?? {base: 0, diceExpression: "1d100"};
     const gear = formData.startingGear ?? [];
 
     const handleMoneyChange = (field: keyof StartingMoney, value: string | number) => {
         onChange('startingMoney', {...money, [field]: value} as StartingMoney);
-    };
-
-    const handleCurrencyToggle = (enabled: boolean) => {
-        onChange('startingMoney', enabled ? {base: 0, currency: ''} : undefined);
     };
 
     const addGearChoice = () => {
@@ -97,46 +92,7 @@ export default function CareerGearTab({formData, onChange}: Props) {
             </Box>
 
             <Stack spacing={1}>
-                {/* Shared currency name */}
-                <TextField
-                    label="Currency Name"
-                    size="small"
-                    placeholder="e.g. credits"
-                    value={money.currency}
-                    onChange={e => handleMoneyChange('currency', e.target.value)}
-                    sx={{width: 220, mb: 1}}
-                />
-
-                {/* Option A */}
                 <Paper variant="outlined" sx={{p: 2, bgcolor: 'rgba(255,255,255,0.03)'}}>
-                    <Typography variant="subtitle2" fontWeight="bold" color="primary" gutterBottom>
-                        Option A — Default Currency
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary" sx={{display: 'block', mb: 1.5}}>
-                        Player receives a fixed amount of currency instead of rolling for gear
-                    </Typography>
-                    <TextField
-                        label="Amount"
-                        type="number"
-                        size="small"
-                        value={money.base}
-                        onChange={e => handleMoneyChange('base', Number(e.target.value))}
-                        sx={{width: 150}}
-                    />
-                </Paper>
-
-                {/* OR divider */}
-                <Box sx={{display: 'flex', alignItems: 'center', gap: 1, py: 0.5}}>
-                    <Divider sx={{flex: 1}}/>
-                    <Typography variant="overline" color="text.secondary">or</Typography>
-                    <Divider sx={{flex: 1}}/>
-                </Box>
-
-                {/* Option B */}
-                <Paper variant="outlined" sx={{p: 2, bgcolor: 'rgba(255,255,255,0.03)'}}>
-                    <Typography variant="subtitle2" fontWeight="bold" color="primary" gutterBottom>
-                        Option B — Starting Gear + Rolled Currency
-                    </Typography>
                     <Typography variant="caption" color="text.secondary" sx={{display: 'block', mb: 1.5}}>
                         Player receives gear choices and a dice-rolled currency bonus
                     </Typography>
@@ -152,38 +108,38 @@ export default function CareerGearTab({formData, onChange}: Props) {
 
                     <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1}}>
                         <Typography variant="body2" fontWeight="bold">
-                            Gear Choices
+                            Start Gear
                         </Typography>
                         <Button size="small" startIcon={<AddIcon/>} onClick={addGearChoice}>
-                            Add Choice
+                            Add Gear Slot
                         </Button>
                     </Box>
 
                     {gear.length === 0 && (
                         <Typography variant="body2" color="text.secondary">
-                            No gear choices defined. Click "Add Choice" to add one.
+                            No gear slots defined. Click "Add Gear Slot" to add one.
                         </Typography>
                     )}
 
-                    {gear.map((choice, choiceIdx) => (
+                    {gear.map((slot, slotIndex) => (
                         <Paper
-                            key={choiceIdx}
+                            key={slotIndex}
                             variant="outlined"
                             sx={{p: 1.5, mb: 1.5, bgcolor: 'rgba(255,255,255,0.02)'}}
                         >
                             <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1}}>
                                 <Typography variant="subtitle2" fontWeight="bold">
-                                    Choice {choiceIdx + 1}&nbsp;
-                                    <Typography component="span" variant="caption" color="text.secondary">
+                                    Slot {slotIndex + 1}&nbsp;
+                                    {slot.options.length > 1 && <Typography component="span" variant="caption" color="text.secondary">
                                         (player picks one option)
-                                    </Typography>
+                                    </Typography>}
                                 </Typography>
-                                <IconButton size="small" color="error" onClick={() => removeGearChoice(choiceIdx)}>
+                                <IconButton size="small" color="error" onClick={() => removeGearChoice(slotIndex)}>
                                     <DeleteIcon fontSize="small"/>
                                 </IconButton>
                             </Box>
 
-                            {choice.options.map((opt, optIdx) => (
+                            {slot.options.map((opt, optIdx) => (
                                 <Box
                                     key={optIdx}
                                     sx={{mb: 1.5, pl: 1.5, borderLeft: '2px solid rgba(255,255,255,0.12)'}}
@@ -194,14 +150,14 @@ export default function CareerGearTab({formData, onChange}: Props) {
                                             size="small"
                                             placeholder="e.g. traveling gear"
                                             value={opt.description ?? ''}
-                                            onChange={e => updateOptionDescription(choiceIdx, optIdx, e.target.value)}
+                                            onChange={e => updateOptionDescription(slotIndex, optIdx, e.target.value)}
                                             sx={{flex: 1}}
                                         />
                                         <IconButton
                                             size="small"
                                             color="error"
-                                            onClick={() => removeOption(choiceIdx, optIdx)}
-                                            disabled={choice.options.length <= 1}
+                                            onClick={() => removeOption(slotIndex, optIdx)}
+                                            disabled={slot.options.length <= 1}
                                         >
                                             <DeleteIcon fontSize="small"/>
                                         </IconButton>
@@ -212,7 +168,7 @@ export default function CareerGearTab({formData, onChange}: Props) {
                                         getOptionLabel={item => item.name}
                                         value={opt.items}
                                         loading={isLoading}
-                                        onChange={(_, val) => updateOptionItems(choiceIdx, optIdx, val as ItemTemplate[])}
+                                        onChange={(_, val) => updateOptionItems(slotIndex, optIdx, val as ItemTemplate[])}
                                         isOptionEqualToValue={(a, b) => a.id === b.id}
                                         renderInput={params => (
                                             <TextField
@@ -237,7 +193,7 @@ export default function CareerGearTab({formData, onChange}: Props) {
                                 </Box>
                             ))}
 
-                            <Button size="small" startIcon={<AddIcon/>} onClick={() => addOption(choiceIdx)}>
+                            <Button size="small" startIcon={<AddIcon/>} onClick={() => addOption(slotIndex)}>
                                 Add Option
                             </Button>
                         </Paper>

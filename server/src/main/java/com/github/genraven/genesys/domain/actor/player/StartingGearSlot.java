@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "A single starting gear entry; the player must choose exactly one of the listed options")
-public class StartingGearChoice {
+public class StartingGearSlot {
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
