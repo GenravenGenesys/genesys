@@ -2,6 +2,8 @@ import {
     type ActorSkill,
     type AdversarySkill, type AdversaryTemplate,
     CharacteristicType,
+    CheckTarget,
+    DiceType,
     type PlayerCharacter,
     type PlayerSkill
 } from "../api/model";
@@ -25,6 +27,24 @@ export const getPlayerSkillCharacteristicRanks = (player: PlayerCharacter, skill
         default:
             return 0;
     }
+};
+
+export const getGearDiceModifierCount = (player: PlayerCharacter, skill: PlayerSkill, diceType: DiceType): number => {
+    const allGear = [
+        ...(player.equipment?.otherGear ?? []),
+        ...(player.equipment?.weapons ?? []),
+    ];
+    return allGear.reduce((total, item) => {
+        const modifiers = item.gearModifiers?.diceModifiers ?? [];
+        return total + modifiers
+            .filter(mod =>
+                mod.diceType === diceType &&
+                mod.checkTarget === CheckTarget.Self &&
+                (mod.skillType === null || mod.skillType === undefined || mod.skillType === skill.type) &&
+                (mod.skill === null || mod.skill === undefined || mod.skill.id === skill.id)
+            )
+            .reduce((sum, mod) => sum + mod.amount, 0);
+    }, 0);
 };
 
 export const getAdversaryCharacteristicRanks = (adversary: AdversaryTemplate, skill: AdversarySkill): number => {
