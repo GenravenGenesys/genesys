@@ -33,7 +33,7 @@ public class Career {
 
     @Builder.Default
     @Schema(description = "Optional starting gear entries for this career; each entry offers one or more items to choose from")
-    private List<StartingGearChoice> startingGear = new ArrayList<>();
+    private List<StartingGearSlot> startingGearSlot = new ArrayList<>();
 
     @Schema(description = "Optional starting money awarded to characters of this career")
     private StartingMoney startingMoney;
