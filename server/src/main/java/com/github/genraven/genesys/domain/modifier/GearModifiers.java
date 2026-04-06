@@ -1,5 +1,6 @@
 package com.github.genraven.genesys.domain.modifier;
 
+import com.github.genraven.genesys.domain.enums.RangeBand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -58,5 +59,14 @@ public class GearModifiers {
      */
     @Schema(description = "Overrides the item's encumbrance while worn; null means use the item's normal encumbrance")
     private Integer equippedEncumbranceOverride = null;
+
+    /**
+     * The effective range of this gear item's effect, if applicable.
+     * {@code null} means the item has no range limitation.
+     * Example:
+     *   - Lit lantern: SHORT (provides light out to short range)
+     */
+    @Schema(description = "The effective range of this gear item's effect; null means no range limitation")
+    private RangeBand range = null;
 }
 

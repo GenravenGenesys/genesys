@@ -8,6 +8,7 @@ import {
     CheckTarget,
     DiceType,
     Duration,
+    RangeBand,
     SkillType,
     UpgradeType,
 } from "../../../../../../api/model";
@@ -76,6 +77,13 @@ export default function GearModifiersTab(props: Props) {
         updateGearModifiers({
             ...gearModifiers,
             equippedEncumbranceOverride: value >= 0 ? value : undefined,
+        });
+    };
+
+    const handleRange = (value: string) => {
+        updateGearModifiers({
+            ...gearModifiers,
+            range: value ? value as GearModifiers["range"] : undefined,
         });
     };
 
@@ -196,6 +204,14 @@ export default function GearModifiersTab(props: Props) {
                         label="Equipped Encumbrance Override (−1 = none)"
                         onChange={handleEncumbranceOverride}
                         min={-1}
+                    />
+                </Grid>
+                <Grid size={6}>
+                    <GenesysSelectField
+                        value={gearModifiers.range ?? ""}
+                        label="Range (optional)"
+                        onChange={handleRange}
+                        options={{None: "", ...RangeBand}}
                     />
                 </Grid>
             </GridContainer>
