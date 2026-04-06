@@ -5,7 +5,7 @@ import {
     DialogContent, FormControlLabel, Tabs, FormControl, FormGroup, Checkbox
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import {Activation, type Talent, Tier} from "../../../../../api/model";
+import {Activation, LimitType, type Talent, Tier} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
@@ -38,6 +38,25 @@ export default function TalentDialog(props: Props) {
     useEffect(() => {
         if (talent) setFormData(talent);
     }, [talent]);
+
+    const handleDescriptionChange = (value: string) => {
+        const lowerDescription = value.toLowerCase();
+        const updates: Partial<Talent> = {description: value};
+
+        if (lowerDescription.includes('once per session')) {
+            updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Session, limit: 1};
+        } else if (lowerDescription.includes('once per encounter')) {
+            updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Encounter, limit: 1};
+        } else if (lowerDescription.includes('once per round')) {
+            updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Round, limit: 1};
+        }
+
+        if (lowerDescription.includes('use this talent')) {
+            updates.activation = Activation['Active_(Action)'];
+        }
+
+        setFormData((prev: Talent) => ({...prev, ...updates}));
+    };
 
     const handleChange = <K extends keyof Talent>(field: K, value: Talent[K]) => {
         setFormData((prev: Talent) => ({...prev, [field]: value}));
@@ -99,7 +118,7 @@ export default function TalentDialog(props: Props) {
                         <GenesysSelectField value={formData.activation} label={"Activation"}
                                             onChange={(e) => handleChange('activation', e)} options={Activation}/>
                         <GenesysTextField text={formData.description || ''} label={"Description"}
-                                          onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
+                                          onChange={(e) => handleDescriptionChange(e)} fullwidth={true} rows={3}/>
                         <GenesysTextField text={formData.summary || ''} label={"Summary"}
                                           onChange={(e) => handleChange("summary", e)} fullwidth={true} rows={3}/>
                         {/*<Collapse in={formData.activation === Activation["Active_(Action)"]}>*/}

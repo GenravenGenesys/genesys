@@ -4,7 +4,7 @@ import TierCard from "../common/card/select/TierCard";
 import * as React from "react";
 import TextFieldCard from "../common/card/TextFieldCard";
 import GridContainer from "../common/grid/GridContainer";
-import {Activation, LimitType, type Talent, type Tier} from "../../api/model";
+import type {Activation, Talent, Tier} from "../../api/model";
 
 interface Props {
     talent: Talent;
@@ -40,22 +40,7 @@ const TalentBaseTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
 
     const handleDescriptionChange = async (value: string) => {
         if (talent) {
-            const lowerDescription = value.toLowerCase();
-            const updates: Partial<Talent> = {description: value};
-
-            if (lowerDescription.includes('once per session')) {
-                updates.limit = {...(talent.limit ?? {}), type: LimitType.Per_Session, limit: 1};
-            } else if (lowerDescription.includes('once per encounter')) {
-                updates.limit = {...(talent.limit ?? {}), type: LimitType.Per_Encounter, limit: 1};
-            } else if (lowerDescription.includes('once per round')) {
-                updates.limit = {...(talent.limit ?? {}), type: LimitType.Per_Round, limit: 1};
-            }
-
-            if (lowerDescription.includes('use this talent')) {
-                updates.activation = Activation['Active_(Action)'];
-            }
-
-            updateTalent({...talent, ...updates});
+            updateTalent({...talent, description: value});
         }
     };
 
