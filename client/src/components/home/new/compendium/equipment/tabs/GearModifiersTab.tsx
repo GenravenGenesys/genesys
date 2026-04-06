@@ -1,9 +1,12 @@
 import {
+    type CharacteristicModifier,
     type DiceModifier,
     type GearModifiers,
     type ResultsModifier,
     type Skill,
+    type SkillRankModifier,
     type UpgradeModifier,
+    CharacteristicType,
     CheckContext,
     CheckTarget,
     DiceType,
@@ -57,6 +60,16 @@ const defaultUpgradeModifier = (): UpgradeModifier => ({
     checkContext: CheckContext.All,
     checkTarget: CheckTarget.Self,
     duration: Duration.Permanent,
+});
+
+const defaultCharacteristicModifier = (): CharacteristicModifier => ({
+    characteristic: CharacteristicType.Brawn,
+    amount: 1,
+});
+
+const defaultSkillRankModifier = (): SkillRankModifier => ({
+    skill: {id: '', name: '', characteristic: CharacteristicType.Brawn, type: SkillType.General, initiative: false},
+    ranks: 1,
 });
 
 export default function GearModifiersTab(props: Props) {
@@ -146,6 +159,47 @@ export default function GearModifiersTab(props: Props) {
             upgradeModifiers: gearModifiers.upgradeModifiers.filter((_, i) => i !== index),
         });
     };
+
+    // ── Characteristic Modifiers ──────────────────────────────────────────────
+    const updateCharacteristicModifier = (index: number, updated: CharacteristicModifier) => {
+        const updated_list = gearModifiers.characteristicModifiers.map((m, i) => (i === index ? updated : m));
+        updateGearModifiers({...gearModifiers, characteristicModifiers: updated_list});
+    };
+
+    const addCharacteristicModifier = () => {
+        updateGearModifiers({
+            ...gearModifiers,
+            characteristicModifiers: [...gearModifiers.characteristicModifiers, defaultCharacteristicModifier()],
+        });
+    };
+
+    const removeCharacteristicModifier = (index: number) => {
+        updateGearModifiers({
+            ...gearModifiers,
+            characteristicModifiers: gearModifiers.characteristicModifiers.filter((_, i) => i !== index),
+        });
+    };
+
+    // ── Skill Rank Modifiers ──────────────────────────────────────────────────
+    const updateSkillRankModifier = (index: number, updated: SkillRankModifier) => {
+        const updated_list = gearModifiers.skillRankModifiers.map((m, i) => (i === index ? updated : m));
+        updateGearModifiers({...gearModifiers, skillRankModifiers: updated_list});
+    };
+
+    const addSkillRankModifier = () => {
+        updateGearModifiers({
+            ...gearModifiers,
+            skillRankModifiers: [...gearModifiers.skillRankModifiers, defaultSkillRankModifier()],
+        });
+    };
+
+    const removeSkillRankModifier = (index: number) => {
+        updateGearModifiers({
+            ...gearModifiers,
+            skillRankModifiers: gearModifiers.skillRankModifiers.filter((_, i) => i !== index),
+        });
+    };
+
 
     return (
         <Stack spacing={2}>
@@ -545,6 +599,128 @@ export default function GearModifiersTab(props: Props) {
                 </IconButton>
                 <Typography variant="caption" color="text.secondary" sx={{ml: 1}}>
                     Add Upgrade Modifier
+                </Typography>
+            </Box>
+
+            {/* ── Characteristic Modifiers ──────────────────────────── */}
+            <Divider>
+                <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
+                    CHARACTERISTIC MODIFIERS
+                </Typography>
+            </Divider>
+
+            {gearModifiers.characteristicModifiers.map((mod, index) => (
+                <Accordion key={index} disableGutters sx={{bgcolor: "background.paper"}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                        <Box sx={{display: "flex", alignItems: "center", width: "100%", gap: 1}}>
+                            <Typography variant="body2" sx={{flexGrow: 1}}>
+                                {mod.characteristic} {mod.amount >= 0 ? `+${mod.amount}` : mod.amount}
+                            </Typography>
+                            <Tooltip title="Remove">
+                                <IconButton
+                                    size="small"
+                                    color="error"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeCharacteristicModifier(index);
+                                    }}
+                                >
+                                    <DeleteIcon fontSize="small"/>
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <GridContainer spacing={2}>
+                            <Grid size={6}>
+                                <GenesysSelectField
+                                    value={mod.characteristic}
+                                    label="Characteristic"
+                                    onChange={(v) => updateCharacteristicModifier(index, {
+                                        ...mod,
+                                        characteristic: v as CharacteristicModifier["characteristic"]
+                                    })}
+                                    options={CharacteristicType}
+                                />
+                            </Grid>
+                            <Grid size={6}>
+                                <GenesysNumberField
+                                    value={mod.amount}
+                                    fullwidth
+                                    label="Amount"
+                                    onChange={(v) => updateCharacteristicModifier(index, {...mod, amount: v})}
+                                />
+                            </Grid>
+                        </GridContainer>
+                    </AccordionDetails>
+                </Accordion>
+            ))}
+
+            <Box>
+                <IconButton color="primary" onClick={addCharacteristicModifier} size="small">
+                    <AddIcon fontSize="small"/>
+                </IconButton>
+                <Typography variant="caption" color="text.secondary" sx={{ml: 1}}>
+                    Add Characteristic Modifier
+                </Typography>
+            </Box>
+
+            {/* ── Skill Rank Modifiers ───────────────────────────────── */}
+            <Divider>
+                <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
+                    SKILL RANK MODIFIERS
+                </Typography>
+            </Divider>
+
+            {gearModifiers.skillRankModifiers.map((mod, index) => (
+                <Accordion key={index} disableGutters sx={{bgcolor: "background.paper"}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                        <Box sx={{display: "flex", alignItems: "center", width: "100%", gap: 1}}>
+                            <Typography variant="body2" sx={{flexGrow: 1}}>
+                                {mod.skill?.name || "Select skill"} {mod.ranks >= 0 ? `+${mod.ranks}` : mod.ranks} rank{Math.abs(mod.ranks) !== 1 ? "s" : ""}
+                            </Typography>
+                            <Tooltip title="Remove">
+                                <IconButton
+                                    size="small"
+                                    color="error"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeSkillRankModifier(index);
+                                    }}
+                                >
+                                    <DeleteIcon fontSize="small"/>
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Stack spacing={2}>
+                            <GridContainer spacing={2}>
+                                <Grid size={6}>
+                                    <GenesysNumberField
+                                        value={mod.ranks}
+                                        fullwidth
+                                        label="Ranks"
+                                        min={1}
+                                        onChange={(v) => updateSkillRankModifier(index, {...mod, ranks: v})}
+                                    />
+                                </Grid>
+                            </GridContainer>
+                            <SelectSkillAutocomplete
+                                currentSkill={mod.skill as Skill}
+                                handleSkillSelect={(skill: Skill) => updateSkillRankModifier(index, {...mod, skill})}
+                            />
+                        </Stack>
+                    </AccordionDetails>
+                </Accordion>
+            ))}
+
+            <Box>
+                <IconButton color="primary" onClick={addSkillRankModifier} size="small">
+                    <AddIcon fontSize="small"/>
+                </IconButton>
+                <Typography variant="caption" color="text.secondary" sx={{ml: 1}}>
+                    Add Skill Rank Modifier
                 </Typography>
             </Box>
         </Stack>

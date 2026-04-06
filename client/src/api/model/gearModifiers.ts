@@ -5,9 +5,11 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { CharacteristicModifier } from './characteristicModifier';
 import type { DiceModifier } from './diceModifier';
 import type { RangeBand } from './rangeBand';
 import type { ResultsModifier } from './resultsModifier';
+import type { SkillRankModifier } from './skillRankModifier';
 import type { StatModifiers } from './statModifiers';
 import type { UpgradeModifier } from './upgradeModifier';
 
@@ -18,6 +20,10 @@ export interface GearModifiers {
   resultsModifiers: ResultsModifier[];
   /** Dice upgrades applied to rolls, with optional duration limit */
   upgradeModifiers: UpgradeModifier[];
+  /** Characteristic bonuses applied while this item is equipped */
+  characteristicModifiers: CharacteristicModifier[];
+  /** Skill rank bonuses applied while this item is equipped */
+  skillRankModifiers: SkillRankModifier[];
   /** Flat stat bonuses applied while this item is equipped */
   statModifiers: StatModifiers;
   /** Overrides the item's encumbrance while worn; null means use the item's normal encumbrance */

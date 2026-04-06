@@ -42,6 +42,26 @@ public class GearModifiers {
     private List<UpgradeModifier> upgradeModifiers = new ArrayList<>();
 
     /**
+     * Characteristic bonuses while the item is equipped.
+     * Examples:
+     *   - Neuro-regulators: WILLPOWER, amount=+1
+     *   - Cyberlimb (Brawn): BRAWN, amount=+1
+     *   - Cyberlimb (Agility): AGILITY, amount=+1
+     */
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "Characteristic bonuses applied while this item is equipped")
+    private List<CharacteristicModifier> characteristicModifiers = new ArrayList<>();
+
+    /**
+     * Skill rank bonuses while the item is equipped.
+     * Example:
+     *   - Enhanced hearing: Vigilance, ranks=+1
+     */
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "Skill rank bonuses applied while this item is equipped")
+    private List<SkillRankModifier> skillRankModifiers = new ArrayList<>();
+
+    /**
      * Numeric stat bonuses while the item is equipped.
      * Example:
      *   - Backpack: encumbranceThreshold=+4
