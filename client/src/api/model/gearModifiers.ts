@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { DiceModifier } from './diceModifier';
+import type { RangeBand } from './rangeBand';
 import type { ResultsModifier } from './resultsModifier';
 import type { StatModifiers } from './statModifiers';
 import type { UpgradeModifier } from './upgradeModifier';
@@ -21,4 +22,6 @@ export interface GearModifiers {
   statModifiers: StatModifiers;
   /** Overrides the item's encumbrance while worn; null means use the item's normal encumbrance */
   equippedEncumbranceOverride?: number;
+  /** The effective range of this gear item's effect; null means no range limitation */
+  range?: RangeBand;
 }
