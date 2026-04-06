@@ -40,18 +40,18 @@ const TalentBaseTab: React.FC<Props> = ({talent, updateTalent, disabled})=> {
 
     const handleDescriptionChange = async (value: string) => {
         if (talent) {
-            const lower = value.toLowerCase();
+            const lowerDescription = value.toLowerCase();
             const updates: Partial<Talent> = {description: value};
 
-            if (lower.includes('once per session')) {
-                updates.limit = {...talent.limit, type: LimitType.Per_Session, limit: 1};
-            } else if (lower.includes('once per encounter')) {
-                updates.limit = {...talent.limit, type: LimitType.Per_Encounter, limit: 1};
-            } else if (lower.includes('once per round')) {
-                updates.limit = {...talent.limit, type: LimitType.Per_Round, limit: 1};
+            if (lowerDescription.includes('once per session')) {
+                updates.limit = {...(talent.limit ?? {}), type: LimitType.Per_Session, limit: 1};
+            } else if (lowerDescription.includes('once per encounter')) {
+                updates.limit = {...(talent.limit ?? {}), type: LimitType.Per_Encounter, limit: 1};
+            } else if (lowerDescription.includes('once per round')) {
+                updates.limit = {...(talent.limit ?? {}), type: LimitType.Per_Round, limit: 1};
             }
 
-            if (lower.includes('use this talent')) {
+            if (lowerDescription.includes('use this talent')) {
                 updates.activation = Activation['Active_(Action)'];
             }
 
