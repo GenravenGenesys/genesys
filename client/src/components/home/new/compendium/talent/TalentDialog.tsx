@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {
     Box, Typography, Stack, Button,
     Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
-    DialogContent, FormControlLabel, Tabs, FormControl, FormGroup, Checkbox
+    DialogContent, FormControlLabel, Tabs, FormControl, FormGroup, Checkbox, FormLabel
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import {Activation, LimitType, type Talent, Tier} from "../../../../../api/model";
@@ -38,6 +38,14 @@ export default function TalentDialog(props: Props) {
     useEffect(() => {
         if (talent) setFormData(talent);
     }, [talent]);
+
+    const handleActivationToggle = (activation: Activation) => {
+        const current = formData.activations ?? [];
+        const updated = current.includes(activation)
+            ? current.filter((a) => a !== activation)
+            : [...current, activation];
+        handleChange('activations', updated);
+    };
 
     const handleDescriptionChange = (value: string) => {
         const lowerDescription = value.toLowerCase();
@@ -178,6 +186,34 @@ export default function TalentDialog(props: Props) {
                                 <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>
                             }
                             label="Stats"
+                            labelPlacement={"top"}
+                        />
+                    </FormGroup>
+                </FormControl>
+            </GridContainer>
+
+            <GridContainer centered>
+                <FormControl component="fieldset" variant="standard">
+                    <FormLabel component="legend" sx={{textAlign: 'center'}}>Additional Activations</FormLabel>
+                    <FormGroup row>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={(formData.activations ?? []).includes(Activation['Active_(Action)'])}
+                                    onChange={() => handleActivationToggle(Activation['Active_(Action)'])}
+                                />
+                            }
+                            label="Action"
+                            labelPlacement={"top"}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={(formData.activations ?? []).includes(Activation['Active_(Maneuver)'])}
+                                    onChange={() => handleActivationToggle(Activation['Active_(Maneuver)'])}
+                                />
+                            }
+                            label="Maneuver"
                             labelPlacement={"top"}
                         />
                     </FormGroup>

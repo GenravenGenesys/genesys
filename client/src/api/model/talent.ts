@@ -23,6 +23,8 @@ export interface Talent {
   /** @minLength 1 */
   name: string;
   activation: Activation;
+  /** Additional activation types (e.g. talent usable as both Action and Maneuver) */
+  activations?: Activation[];
   tier: Tier;
   ranked: boolean;
   summary: string;
