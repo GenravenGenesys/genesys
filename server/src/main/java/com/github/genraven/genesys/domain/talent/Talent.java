@@ -15,6 +15,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -34,6 +35,10 @@ public class Talent {
     @EnumValidator(enumClass = Activation.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Activation activation = Activation.PASSIVE;
+
+    @Builder.Default
+    @Schema(description = "Additional activation types (e.g. talent usable as both Action and Maneuver)")
+    private List<Activation> activations = new ArrayList<>();
 
     @EnumValidator(enumClass = Tier.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -81,4 +86,8 @@ public class Talent {
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<TalentRollModifiers> talentRollModifiers = null;
+
+    @Builder.Default
+    @Schema(description = "Configuration for talents that function as a maneuver activation")
+    private ManeuverData maneuverData = null;
 }

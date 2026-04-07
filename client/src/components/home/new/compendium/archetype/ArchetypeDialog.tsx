@@ -6,7 +6,7 @@ import {
     type ArchetypeSkill,
     CharacteristicType,
     CheckContext,
-    CheckTarget,
+    Target,
     CostType,
     type DiceModifier,
     DiceType,
@@ -247,7 +247,7 @@ export default function ArchetypeDialog(props: Props) {
             diceType: DiceType.Setback,
             amount: 1,
             checkContext: CheckContext.All,
-            checkTarget: CheckTarget.Opponent,
+            checkTarget: Target.Opponent,
         };
         const updated = (formData.abilities ?? []).map((a, i) =>
             i === abilityIndex
@@ -767,8 +767,8 @@ export default function ArchetypeDialog(props: Props) {
                                                                 <GenesysSelectField
                                                                     value={dm.checkTarget}
                                                                     label="Check Target"
-                                                                    onChange={(value) => handleDiceModifierChange(index, diceIndex, 'checkTarget', value as CheckTarget)}
-                                                                    options={CheckTarget}
+                                                                    onChange={(value) => handleDiceModifierChange(index, diceIndex, 'checkTarget', value as Target)}
+                                                                    options={Target}
                                                                 />
                                                             </Grid>
                                                             <Grid size={12}>

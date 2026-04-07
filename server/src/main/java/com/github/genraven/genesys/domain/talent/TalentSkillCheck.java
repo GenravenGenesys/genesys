@@ -1,5 +1,6 @@
 package com.github.genraven.genesys.domain.talent;
 
+import com.github.genraven.genesys.domain.actor.StatusEffect;
 import com.github.genraven.genesys.domain.actor.adversary.AdversarySkill;
 import com.github.genraven.genesys.domain.actor.player.PlayerSkill;
 import com.github.genraven.genesys.domain.enums.Difficulty;
@@ -17,4 +18,7 @@ public class TalentSkillCheck {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private AdversarySkill opposedSkill = null;
+
+    @Schema(description = "Condition inflicted on the opponent when the check succeeds")
+    private StatusEffect onSuccessCondition = null;
 }

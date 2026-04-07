@@ -2,16 +2,18 @@ import {useState, useEffect} from 'react';
 import {
     Box, Typography, Stack, Button,
     Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
-    DialogContent, FormControlLabel, Tabs, FormControl, FormGroup, Checkbox
+    DialogContent, FormControlLabel, Tabs, FormControl, FormGroup, Checkbox, FormLabel
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import {Activation, type Talent, Tier} from "../../../../../api/model";
+import {Activation, LimitType, type Talent, Tier} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
 import Tab from "@mui/material/Tab";
 import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
+import TalentActionTab from "./tabs/TalentActionTab.tsx";
+import TalentManeuverTab from "./tabs/TalentManeuverTab.tsx";
 import * as React from "react";
 import {emptyTalent} from "../../../../../models/Template.ts";
 
@@ -39,6 +41,33 @@ export default function TalentDialog(props: Props) {
         if (talent) setFormData(talent);
     }, [talent]);
 
+    const handleActivationToggle = (activation: Activation) => {
+        const current = formData.activations ?? [];
+        const updated = current.includes(activation)
+            ? current.filter((a) => a !== activation)
+            : [...current, activation];
+        handleChange('activations', updated);
+    };
+
+    const handleDescriptionChange = (value: string) => {
+        const lowerDescription = value.toLowerCase();
+        const updates: Partial<Talent> = {description: value};
+
+        if (lowerDescription.includes('once per session')) {
+            updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Session, limit: 1};
+        } else if (lowerDescription.includes('once per encounter')) {
+            updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Encounter, limit: 1};
+        } else if (lowerDescription.includes('once per round')) {
+            updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Round, limit: 1};
+        }
+
+        if (lowerDescription.includes('use this talent')) {
+            updates.activation = Activation['Active_(Action)'];
+        }
+
+        setFormData((prev: Talent) => ({...prev, ...updates}));
+    };
+
     const handleChange = <K extends keyof Talent>(field: K, value: Talent[K]) => {
         setFormData((prev: Talent) => ({...prev, [field]: value}));
     };
@@ -61,6 +90,11 @@ export default function TalentDialog(props: Props) {
         onClose();
     };
 
+    const isAction = formData.activation === Activation['Active_(Action)'] ||
+        (formData.activations ?? []).includes(Activation['Active_(Action)']);
+    const isManeuver = formData.activation === Activation['Active_(Maneuver)'] ||
+        (formData.activations ?? []).includes(Activation['Active_(Maneuver)']);
+
     return (
         <Dialog
             open={open}
@@ -77,11 +111,13 @@ export default function TalentDialog(props: Props) {
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                     <Tab label="Basic Information"/>
                     <Tab label="Modify Stats"/>
-                    <Tab label="Action Logic" disabled={formData.activation !== Activation["Active_(Action)"]}/>
+                    <Tab label="Action" disabled={!isAction}/>
+                    <Tab label="Maneuver" disabled={!isManeuver}/>
                 </Tabs>
             </Box>
 
             <DialogContent sx={{minHeight: '500px', py: 3}} dividers>
+                {/* TAB 1: BASIC INFORMATION */}
                 {tabValue === 0 && (
                     <Stack spacing={3}>
                         <GenesysTextField text={formData.name || ''} label={"Talent Name"}
@@ -99,37 +135,26 @@ export default function TalentDialog(props: Props) {
                         <GenesysSelectField value={formData.activation} label={"Activation"}
                                             onChange={(e) => handleChange('activation', e)} options={Activation}/>
                         <GenesysTextField text={formData.description || ''} label={"Description"}
-                                          onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
+                                          onChange={(e) => handleDescriptionChange(e)} fullwidth={true} rows={3}/>
                         <GenesysTextField text={formData.summary || ''} label={"Summary"}
                                           onChange={(e) => handleChange("summary", e)} fullwidth={true} rows={3}/>
-                        {/*<Collapse in={formData.activation === Activation["Active_(Action)"]}>*/}
-                        {/*    <Divider sx={{my: 2}}>*/}
-                        {/*        <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>*/}
-                        {/*            ACTION LOGIC*/}
-                        {/*        </Typography>*/}
-                        {/*    </Divider>*/}
-                        {/*    <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>*/}
-                        {/*<SelectSkillAutocomplete currentSkill={{...formData.action?.skill || null}}*/}
-                        {/*                  handleSkillSelect={(selectedSkill) => handleChange('action', {*/}
-                        {/*                      ...formData.action,*/}
-                        {/*                      skill: {...selectedSkill, ranks: 0}*/}
-                        {/*                  })}/>*/}
-                        {/*    </Stack>*/}
-                        {/*</Collapse>*/}
                     </Stack>
                 )}
 
-                {/* TAB 2: MECHANICS */}
+                {/* TAB 2: MODIFY STATS */}
                 {tabValue === 1 && (
                     <TalentModifyStatsTab talent={formData}
                                           updateTalentStats={(stats) => handleChange('statModifiers', stats)}/>
                 )}
 
-                {/* TAB 3: ACTION LOGIC */}
-                {tabValue === 2 && (
-                    <Box>
-                        {/*<ActionLogicBuilder action={formData.action}/>*/}
-                    </Box>
+                {/* TAB 3: ACTION */}
+                {tabValue === 2 && isAction && (
+                    <TalentActionTab talent={formData} updateTalent={setFormData}/>
+                )}
+
+                {/* TAB 4: MANEUVER */}
+                {tabValue === 3 && isManeuver && (
+                    <TalentManeuverTab talent={formData} updateTalent={setFormData}/>
                 )}
             </DialogContent>
             <Divider sx={{my: 2}}>
@@ -159,6 +184,34 @@ export default function TalentDialog(props: Props) {
                                 <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>
                             }
                             label="Stats"
+                            labelPlacement={"top"}
+                        />
+                    </FormGroup>
+                </FormControl>
+            </GridContainer>
+
+            <GridContainer centered>
+                <FormControl component="fieldset" variant="standard">
+                    <FormLabel component="legend" sx={{textAlign: 'center'}}>Additional Activations</FormLabel>
+                    <FormGroup row>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={(formData.activations ?? []).includes(Activation['Active_(Action)'])}
+                                    onChange={() => handleActivationToggle(Activation['Active_(Action)'])}
+                                />
+                            }
+                            label="Action"
+                            labelPlacement={"top"}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={(formData.activations ?? []).includes(Activation['Active_(Maneuver)'])}
+                                    onChange={() => handleActivationToggle(Activation['Active_(Maneuver)'])}
+                                />
+                            }
+                            label="Maneuver"
                             labelPlacement={"top"}
                         />
                     </FormGroup>

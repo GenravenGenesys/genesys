@@ -8,15 +8,9 @@ import lombok.Getter;
 @Schema(enumAsRef = true)
 @AllArgsConstructor
 @Getter
-public enum CheckTarget {
-    /**
-     * Applies to the character's own rolls.
-     */
-    SELF("Self"),
-    /**
-     * Applies to rolls made against this character.
-     */
-    OPPONENT("Opponent");
+public enum DefenseType {
+    MELEE("Melee"),
+    RANGED("Ranged");
 
     @JsonValue
     private final String label;

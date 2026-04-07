@@ -2,9 +2,9 @@ package com.github.genraven.genesys.domain.modifier;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.enums.CheckContext;
-import com.github.genraven.genesys.domain.enums.CheckTarget;
 import com.github.genraven.genesys.domain.enums.Duration;
 import com.github.genraven.genesys.domain.enums.SkillType;
+import com.github.genraven.genesys.domain.enums.Target;
 import com.github.genraven.genesys.domain.skill.Skill;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class UpgradeModifier {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
             description = "Whether this modifier applies to the character's own rolls or to rolls made against them")
-    private CheckTarget checkTarget;
+    private Target checkTarget;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
             description = "How long this upgrade effect lasts; PERMANENT means always active while equipped")
@@ -55,6 +55,3 @@ public class UpgradeModifier {
         private final String label;
     }
 }
-
-
-
