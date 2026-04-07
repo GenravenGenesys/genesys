@@ -86,4 +86,8 @@ public class Talent {
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<TalentRollModifiers> talentRollModifiers = null;
+
+    @Builder.Default
+    @Schema(description = "Configuration for talents that function as a maneuver activation")
+    private ManeuverData maneuverData = null;
 }

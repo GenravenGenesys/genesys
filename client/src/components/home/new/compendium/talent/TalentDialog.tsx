@@ -154,7 +154,7 @@ export default function TalentDialog(props: Props) {
 
                 {/* TAB 4: MANEUVER */}
                 {tabValue === 3 && isManeuver && (
-                    <TalentManeuverTab/>
+                    <TalentManeuverTab talent={formData} updateTalent={setFormData}/>
                 )}
             </DialogContent>
             <Divider sx={{my: 2}}>
