@@ -1,14 +1,23 @@
 import {
+    type AfterEncounterEffect,
+    type CharacteristicModifier,
     type DiceModifier,
     type GearModifiers,
+    type HealEffect,
     type ResultsModifier,
     type Skill,
+    type SkillRankModifier,
     type UpgradeModifier,
+    CharacteristicType,
     CheckContext,
     CheckTarget,
     DiceType,
     Duration,
+    HealSource,
+    HealTarget,
+    RangeBand,
     SkillType,
+    StatusEffectType,
     UpgradeType,
 } from "../../../../../../api/model";
 import {
@@ -16,7 +25,9 @@ import {
     AccordionDetails,
     AccordionSummary,
     Box,
+    Checkbox,
     Divider,
+    FormControlLabel,
     Grid,
     IconButton,
     Stack,
@@ -58,6 +69,22 @@ const defaultUpgradeModifier = (): UpgradeModifier => ({
     duration: Duration.Permanent,
 });
 
+const defaultCharacteristicModifier = (): CharacteristicModifier => ({
+    characteristic: CharacteristicType.Brawn,
+    amount: 1,
+});
+
+const defaultSkillRankModifier = (): SkillRankModifier => ({
+    skill: {id: '', name: '', characteristic: CharacteristicType.Brawn, type: SkillType.General, initiative: false},
+    ranks: 1,
+});
+
+const defaultHealEffect = (): HealEffect => ({
+    target: HealTarget.Strain,
+    source: HealSource.Fixed,
+    amount: 0,
+});
+
 export default function GearModifiersTab(props: Props) {
     const {gearModifiers, updateGearModifiers} = props;
 
@@ -76,6 +103,13 @@ export default function GearModifiersTab(props: Props) {
         updateGearModifiers({
             ...gearModifiers,
             equippedEncumbranceOverride: value >= 0 ? value : undefined,
+        });
+    };
+
+    const handleRange = (value: string) => {
+        updateGearModifiers({
+            ...gearModifiers,
+            range: value ? value as GearModifiers["range"] : undefined,
         });
     };
 
@@ -139,6 +173,89 @@ export default function GearModifiersTab(props: Props) {
         });
     };
 
+    // ── Characteristic Modifiers ──────────────────────────────────────────────
+    const updateCharacteristicModifier = (index: number, updated: CharacteristicModifier) => {
+        const updated_list = gearModifiers.characteristicModifiers.map((m, i) => (i === index ? updated : m));
+        updateGearModifiers({...gearModifiers, characteristicModifiers: updated_list});
+    };
+
+    const addCharacteristicModifier = () => {
+        updateGearModifiers({
+            ...gearModifiers,
+            characteristicModifiers: [...gearModifiers.characteristicModifiers, defaultCharacteristicModifier()],
+        });
+    };
+
+    const removeCharacteristicModifier = (index: number) => {
+        updateGearModifiers({
+            ...gearModifiers,
+            characteristicModifiers: gearModifiers.characteristicModifiers.filter((_, i) => i !== index),
+        });
+    };
+
+    // ── Skill Rank Modifiers ──────────────────────────────────────────────────
+    const updateSkillRankModifier = (index: number, updated: SkillRankModifier) => {
+        const updated_list = gearModifiers.skillRankModifiers.map((m, i) => (i === index ? updated : m));
+        updateGearModifiers({...gearModifiers, skillRankModifiers: updated_list});
+    };
+
+    const addSkillRankModifier = () => {
+        updateGearModifiers({
+            ...gearModifiers,
+            skillRankModifiers: [...gearModifiers.skillRankModifiers, defaultSkillRankModifier()],
+        });
+    };
+
+    const removeSkillRankModifier = (index: number) => {
+        updateGearModifiers({
+            ...gearModifiers,
+            skillRankModifiers: gearModifiers.skillRankModifiers.filter((_, i) => i !== index),
+        });
+    };
+
+    // ── Heal Effects ──────────────────────────────────────────────────────────
+    const updateHealEffect = (index: number, updated: HealEffect) => {
+        const updated_list = (gearModifiers.healEffects ?? []).map((m, i) => (i === index ? updated : m));
+        updateGearModifiers({...gearModifiers, healEffects: updated_list});
+    };
+
+    const addHealEffect = () => {
+        updateGearModifiers({
+            ...gearModifiers,
+            healEffects: [...(gearModifiers.healEffects ?? []), defaultHealEffect()],
+        });
+    };
+
+    const removeHealEffect = (index: number) => {
+        updateGearModifiers({
+            ...gearModifiers,
+            healEffects: (gearModifiers.healEffects ?? []).filter((_, i) => i !== index),
+        });
+    };
+
+    // ── Applied Status Effects ────────────────────────────────────────────────
+    const toggleStatusEffect = (type: StatusEffectType) => {
+        const current = gearModifiers.appliedStatusEffects ?? [];
+        const updated = current.includes(type)
+            ? current.filter((s) => s !== type)
+            : [...current, type];
+        updateGearModifiers({...gearModifiers, appliedStatusEffects: updated});
+    };
+
+    // ── After Encounter Effect ────────────────────────────────────────────────
+    const handleAfterEncounterField = (field: keyof AfterEncounterEffect, value: number) => {
+        const base = gearModifiers.afterEncounterEffect ?? {wounds: 0, strain: 0};
+        updateGearModifiers({...gearModifiers, afterEncounterEffect: {...base, [field]: value}});
+    };
+
+    const clearAfterEncounterEffect = () => {
+        updateGearModifiers({...gearModifiers, afterEncounterEffect: undefined});
+    };
+
+    const enableAfterEncounterEffect = () => {
+        updateGearModifiers({...gearModifiers, afterEncounterEffect: {wounds: 0, strain: 0}});
+    };
+
     return (
         <Stack spacing={2}>
             {/* ── Stat Modifiers ─────────────────────────────────── */}
@@ -196,6 +313,14 @@ export default function GearModifiersTab(props: Props) {
                         label="Equipped Encumbrance Override (−1 = none)"
                         onChange={handleEncumbranceOverride}
                         min={-1}
+                    />
+                </Grid>
+                <Grid size={6}>
+                    <GenesysSelectField
+                        value={gearModifiers.range ?? ""}
+                        label="Range (optional)"
+                        onChange={handleRange}
+                        options={{None: "", ...RangeBand}}
                     />
                 </Grid>
             </GridContainer>
@@ -530,6 +655,301 @@ export default function GearModifiersTab(props: Props) {
                 <Typography variant="caption" color="text.secondary" sx={{ml: 1}}>
                     Add Upgrade Modifier
                 </Typography>
+            </Box>
+
+            {/* ── Characteristic Modifiers ──────────────────────────── */}
+            <Divider>
+                <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
+                    CHARACTERISTIC MODIFIERS
+                </Typography>
+            </Divider>
+
+            {gearModifiers.characteristicModifiers.map((mod, index) => (
+                <Accordion key={index} disableGutters sx={{bgcolor: "background.paper"}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                        <Box sx={{display: "flex", alignItems: "center", width: "100%", gap: 1}}>
+                            <Typography variant="body2" sx={{flexGrow: 1}}>
+                                {mod.characteristic} {mod.amount >= 0 ? `+${mod.amount}` : mod.amount}
+                            </Typography>
+                            <Tooltip title="Remove">
+                                <IconButton
+                                    size="small"
+                                    color="error"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeCharacteristicModifier(index);
+                                    }}
+                                >
+                                    <DeleteIcon fontSize="small"/>
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <GridContainer spacing={2}>
+                            <Grid size={6}>
+                                <GenesysSelectField
+                                    value={mod.characteristic}
+                                    label="Characteristic"
+                                    onChange={(v) => updateCharacteristicModifier(index, {
+                                        ...mod,
+                                        characteristic: v as CharacteristicModifier["characteristic"]
+                                    })}
+                                    options={CharacteristicType}
+                                />
+                            </Grid>
+                            <Grid size={6}>
+                                <GenesysNumberField
+                                    value={mod.amount}
+                                    fullwidth
+                                    label="Amount"
+                                    onChange={(v) => updateCharacteristicModifier(index, {...mod, amount: v})}
+                                />
+                            </Grid>
+                        </GridContainer>
+                    </AccordionDetails>
+                </Accordion>
+            ))}
+
+            <Box>
+                <IconButton color="primary" onClick={addCharacteristicModifier} size="small">
+                    <AddIcon fontSize="small"/>
+                </IconButton>
+                <Typography variant="caption" color="text.secondary" sx={{ml: 1}}>
+                    Add Characteristic Modifier
+                </Typography>
+            </Box>
+
+            {/* ── Skill Rank Modifiers ───────────────────────────────── */}
+            <Divider>
+                <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
+                    SKILL RANK MODIFIERS
+                </Typography>
+            </Divider>
+
+            {gearModifiers.skillRankModifiers.map((mod, index) => (
+                <Accordion key={index} disableGutters sx={{bgcolor: "background.paper"}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                        <Box sx={{display: "flex", alignItems: "center", width: "100%", gap: 1}}>
+                            <Typography variant="body2" sx={{flexGrow: 1}}>
+                                {mod.skill?.name || "Select skill"} {mod.ranks >= 0 ? `+${mod.ranks}` : mod.ranks} rank{Math.abs(mod.ranks) !== 1 ? "s" : ""}
+                            </Typography>
+                            <Tooltip title="Remove">
+                                <IconButton
+                                    size="small"
+                                    color="error"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeSkillRankModifier(index);
+                                    }}
+                                >
+                                    <DeleteIcon fontSize="small"/>
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Stack spacing={2}>
+                            <GridContainer spacing={2}>
+                                <Grid size={6}>
+                                    <GenesysNumberField
+                                        value={mod.ranks}
+                                        fullwidth
+                                        label="Ranks"
+                                        onChange={(v) => updateSkillRankModifier(index, {...mod, ranks: v})}
+                                    />
+                                </Grid>
+                            </GridContainer>
+                            <SelectSkillAutocomplete
+                                currentSkill={mod.skill as Skill}
+                                handleSkillSelect={(skill: Skill) => updateSkillRankModifier(index, {...mod, skill})}
+                            />
+                        </Stack>
+                    </AccordionDetails>
+                </Accordion>
+            ))}
+
+            <Box>
+                <IconButton color="primary" onClick={addSkillRankModifier} size="small">
+                    <AddIcon fontSize="small"/>
+                </IconButton>
+                <Typography variant="caption" color="text.secondary" sx={{ml: 1}}>
+                    Add Skill Rank Modifier
+                </Typography>
+            </Box>
+
+            {/* ── Drug / Consumable Effects ──────────────────────────── */}
+            <Divider>
+                <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
+                    DRUG / CONSUMABLE EFFECTS
+                </Typography>
+            </Divider>
+
+            {/* Heal Effects */}
+            {(gearModifiers.healEffects ?? []).map((mod, index) => (
+                <Accordion key={index} disableGutters sx={{bgcolor: "background.paper"}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                        <Box sx={{display: "flex", alignItems: "center", width: "100%", gap: 1}}>
+                            <Typography variant="body2" sx={{flexGrow: 1}}>
+                                Heal {mod.target} — {mod.source}{mod.source === HealSource.Fixed ? ` (${mod.amount})` : ''}
+                            </Typography>
+                            <Tooltip title="Remove">
+                                <IconButton
+                                    size="small"
+                                    color="error"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeHealEffect(index);
+                                    }}
+                                >
+                                    <DeleteIcon fontSize="small"/>
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <GridContainer spacing={2}>
+                            <Grid size={6}>
+                                <GenesysSelectField
+                                    value={mod.target}
+                                    label="Heal Target"
+                                    onChange={(v) => updateHealEffect(index, {
+                                        ...mod,
+                                        target: v as HealEffect["target"]
+                                    })}
+                                    options={HealTarget}
+                                />
+                            </Grid>
+                            <Grid size={6}>
+                                <GenesysSelectField
+                                    value={mod.source}
+                                    label="Heal Source"
+                                    onChange={(v) => updateHealEffect(index, {
+                                        ...mod,
+                                        source: v as HealEffect["source"]
+                                    })}
+                                    options={HealSource}
+                                />
+                            </Grid>
+                            {mod.source === HealSource.Fixed && (
+                                <Grid size={6}>
+                                    <GenesysNumberField
+                                        value={mod.amount ?? 0}
+                                        fullwidth
+                                        label="Amount"
+                                        min={0}
+                                        onChange={(v) => updateHealEffect(index, {...mod, amount: v})}
+                                    />
+                                </Grid>
+                            )}
+                        </GridContainer>
+                    </AccordionDetails>
+                </Accordion>
+            ))}
+
+            <Box>
+                <IconButton color="primary" onClick={addHealEffect} size="small">
+                    <AddIcon fontSize="small"/>
+                </IconButton>
+                <Typography variant="caption" color="text.secondary" sx={{ml: 1}}>
+                    Add Heal Effect
+                </Typography>
+            </Box>
+
+            {/* Applied Status Effects */}
+            <Box>
+                <Typography variant="caption" color="text.secondary" sx={{display: "block", mb: 0.5}}>
+                    Applied Status Effects
+                </Typography>
+                <Stack direction="row" flexWrap="wrap" gap={1}>
+                    {Object.values(StatusEffectType).map((type) => (
+                        <FormControlLabel
+                            key={type}
+                            control={
+                                <Checkbox
+                                    size="small"
+                                    checked={(gearModifiers.appliedStatusEffects ?? []).includes(type)}
+                                    onChange={() => toggleStatusEffect(type)}
+                                />
+                            }
+                            label={type}
+                        />
+                    ))}
+                </Stack>
+            </Box>
+
+            {/* Ignore Critical Injury Penalties */}
+            <Box>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={gearModifiers.ignoreCriticalInjuryPenalties ?? false}
+                            onChange={(e) => updateGearModifiers({
+                                ...gearModifiers,
+                                ignoreCriticalInjuryPenalties: e.target.checked,
+                            })}
+                        />
+                    }
+                    label="Ignore Critical Injury Penalties (for encounter)"
+                />
+            </Box>
+
+            {/* Diminishing Returns Healing */}
+            <Box>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={gearModifiers.diminishingReturnsHealing ?? false}
+                            onChange={(e) => updateGearModifiers({
+                                ...gearModifiers,
+                                diminishingReturnsHealing: e.target.checked,
+                            })}
+                        />
+                    }
+                    label="Diminishing Returns Healing (each use heals 1 fewer wounds)"
+                />
+            </Box>
+
+            {/* After Encounter Effect */}
+            <Box>
+                <Stack direction="row" alignItems="center" spacing={1} sx={{mb: 1}}>
+                    <Typography variant="caption" color="text.secondary">
+                        After Encounter Effect
+                    </Typography>
+                    {gearModifiers.afterEncounterEffect == null ? (
+                        <IconButton color="primary" onClick={enableAfterEncounterEffect} size="small">
+                            <AddIcon fontSize="small"/>
+                        </IconButton>
+                    ) : (
+                        <Tooltip title="Remove">
+                            <IconButton color="error" onClick={clearAfterEncounterEffect} size="small">
+                                <DeleteIcon fontSize="small"/>
+                            </IconButton>
+                        </Tooltip>
+                    )}
+                </Stack>
+                {gearModifiers.afterEncounterEffect != null && (
+                    <GridContainer spacing={2}>
+                        <Grid size={6}>
+                            <GenesysNumberField
+                                value={gearModifiers.afterEncounterEffect.wounds}
+                                fullwidth
+                                label="Wounds Suffered"
+                                min={0}
+                                onChange={(v) => handleAfterEncounterField("wounds", v)}
+                            />
+                        </Grid>
+                        <Grid size={6}>
+                            <GenesysNumberField
+                                value={gearModifiers.afterEncounterEffect.strain}
+                                fullwidth
+                                label="Strain Suffered"
+                                min={0}
+                                onChange={(v) => handleAfterEncounterField("strain", v)}
+                            />
+                        </Grid>
+                    </GridContainer>
+                )}
             </Box>
         </Stack>
     );
