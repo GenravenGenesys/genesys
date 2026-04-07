@@ -12,6 +12,8 @@ import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
 import Tab from "@mui/material/Tab";
 import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
+import TalentActionTab from "./tabs/TalentActionTab.tsx";
+import TalentManeuverTab from "./tabs/TalentManeuverTab.tsx";
 import * as React from "react";
 import {emptyTalent} from "../../../../../models/Template.ts";
 
@@ -88,6 +90,11 @@ export default function TalentDialog(props: Props) {
         onClose();
     };
 
+    const isAction = formData.activation === Activation['Active_(Action)'] ||
+        (formData.activations ?? []).includes(Activation['Active_(Action)']);
+    const isManeuver = formData.activation === Activation['Active_(Maneuver)'] ||
+        (formData.activations ?? []).includes(Activation['Active_(Maneuver)']);
+
     return (
         <Dialog
             open={open}
@@ -104,11 +111,13 @@ export default function TalentDialog(props: Props) {
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                     <Tab label="Basic Information"/>
                     <Tab label="Modify Stats"/>
-                    <Tab label="Action Logic" disabled={formData.activation !== Activation["Active_(Action)"]}/>
+                    <Tab label="Action" disabled={!isAction}/>
+                    <Tab label="Maneuver" disabled={!isManeuver}/>
                 </Tabs>
             </Box>
 
             <DialogContent sx={{minHeight: '500px', py: 3}} dividers>
+                {/* TAB 1: BASIC INFORMATION */}
                 {tabValue === 0 && (
                     <Stack spacing={3}>
                         <GenesysTextField text={formData.name || ''} label={"Talent Name"}
@@ -129,34 +138,23 @@ export default function TalentDialog(props: Props) {
                                           onChange={(e) => handleDescriptionChange(e)} fullwidth={true} rows={3}/>
                         <GenesysTextField text={formData.summary || ''} label={"Summary"}
                                           onChange={(e) => handleChange("summary", e)} fullwidth={true} rows={3}/>
-                        {/*<Collapse in={formData.activation === Activation["Active_(Action)"]}>*/}
-                        {/*    <Divider sx={{my: 2}}>*/}
-                        {/*        <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>*/}
-                        {/*            ACTION LOGIC*/}
-                        {/*        </Typography>*/}
-                        {/*    </Divider>*/}
-                        {/*    <Stack spacing={2} sx={{p: 2, mt: 1, bgcolor: 'rgba(0, 229, 255, 0.05)', borderRadius: 2}}>*/}
-                        {/*<SelectSkillAutocomplete currentSkill={{...formData.action?.skill || null}}*/}
-                        {/*                  handleSkillSelect={(selectedSkill) => handleChange('action', {*/}
-                        {/*                      ...formData.action,*/}
-                        {/*                      skill: {...selectedSkill, ranks: 0}*/}
-                        {/*                  })}/>*/}
-                        {/*    </Stack>*/}
-                        {/*</Collapse>*/}
                     </Stack>
                 )}
 
-                {/* TAB 2: MECHANICS */}
+                {/* TAB 2: MODIFY STATS */}
                 {tabValue === 1 && (
                     <TalentModifyStatsTab talent={formData}
                                           updateTalentStats={(stats) => handleChange('statModifiers', stats)}/>
                 )}
 
-                {/* TAB 3: ACTION LOGIC */}
-                {tabValue === 2 && (
-                    <Box>
-                        {/*<ActionLogicBuilder action={formData.action}/>*/}
-                    </Box>
+                {/* TAB 3: ACTION */}
+                {tabValue === 2 && isAction && (
+                    <TalentActionTab talent={formData} updateTalent={setFormData}/>
+                )}
+
+                {/* TAB 4: MANEUVER */}
+                {tabValue === 3 && isManeuver && (
+                    <TalentManeuverTab/>
                 )}
             </DialogContent>
             <Divider sx={{my: 2}}>
