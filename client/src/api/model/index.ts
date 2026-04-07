@@ -77,6 +77,8 @@ export * from './startingGearChoice';
 export * from './startingGearOption';
 export * from './startingMoney';
 export * from './statModifiers';
+export * from './statusEffect';
+export * from './statusEffectType';
 export * from './talent';
 export * from './talentRollModifiers';
 export * from './talentSkillCheck';
