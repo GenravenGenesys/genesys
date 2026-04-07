@@ -7,7 +7,7 @@ import {
     type Career,
     CharacteristicType,
     CheckContext,
-    CheckTarget,
+    Target,
     CostType,
     type CriticalInjury,
     Difficulty,
@@ -58,12 +58,12 @@ export const emptyQuality = {
             diceType: DiceType.Boost,
             amount: 0,
             checkContext: CheckContext.All,
-            checkTarget: CheckTarget.Self,
+            checkTarget: Target.Self,
         },
         resultsModifier: {
             results: {success: 0, advantage: 0, triumph: 0, failure: 0, threat: 0, despair: 0},
             checkContext: CheckContext.All,
-            checkTarget: CheckTarget.Self,
+            checkTarget: Target.Self,
         },
     } as QualityStats,
 } as Quality;

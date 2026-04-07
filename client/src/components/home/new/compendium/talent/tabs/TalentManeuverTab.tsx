@@ -28,11 +28,10 @@ import type {
 } from '../../../../../../api/model';
 import {
     CheckContext as CheckContextEnum,
-    CheckTarget,
     DefenseType,
     DiceType,
-    ManeuverDuration,
-    ManeuverTarget,
+    Duration,
+    Target,
 } from '../../../../../../api/model';
 import {useFetchAllSkills} from '../../../../../../hooks/useFetchAllSkills.ts';
 import SkillAutocompleteCard from '../../../../../common/card/SkillAutocompleteCard.tsx';
@@ -42,8 +41,8 @@ import GridContainer from '../../../../../common/grid/GridContainer.tsx';
 import GridItem from '../../../../../common/grid/GridItem.tsx';
 
 const emptyManeuverData = (): ManeuverData => ({
-    target: ManeuverTarget.Self,
-    duration: ManeuverDuration['End_of_Next_Turn'],
+    target: Target.Self,
+    duration: Duration['End_of_Next_Turn'],
     stackable: false,
     maxTargets: 1,
     rangeScalesWithRank: false,
@@ -56,19 +55,19 @@ const emptyDiceModifier = (): DiceModifier => ({
     diceType: DiceType.Boost,
     amount: 1,
     checkContext: CheckContextEnum.All,
-    checkTarget: CheckTarget.Opponent,
+    checkTarget: Target.Opponent,
 });
 
 const emptyResultsModifier = (): ResultsModifier => ({
     results: {success: 0, advantage: 1, triumph: 0, failure: 0, threat: 0, despair: 0},
     checkContext: CheckContextEnum.All,
-    checkTarget: CheckTarget.Opponent,
+    checkTarget: Target.Opponent,
 });
 
 const emptyDefenseModifier = (): DefenseModifier => ({
     defenseType: DefenseType.Melee,
     amount: 1,
-    appliesTo: CheckTarget.Self,
+    appliesTo: Target.Self,
 });
 
 interface Props {
@@ -117,12 +116,12 @@ const TalentManeuverTab: React.FC<Props> = ({talent, updateTalent}) => {
                     <Stack spacing={2}>
                         <GridContainer spacing={2}>
                             <GridItem>
-                                <GenesysSelectField value={data.target} label="Target" options={ManeuverTarget}
+                                <GenesysSelectField value={data.target} label="Target" options={Target}
                                                     onChange={(v) => patch({target: v})}/>
                             </GridItem>
                             <GridItem>
                                 <GenesysSelectField value={data.duration} label="Duration"
-                                                    options={ManeuverDuration}
+                                                    options={Duration}
                                                     onChange={(v) => patch({duration: v})}/>
                             </GridItem>
                         </GridContainer>
@@ -209,8 +208,8 @@ const TalentManeuverTab: React.FC<Props> = ({talent, updateTalent}) => {
                                     <GridItem>
                                         <TextField select fullWidth label="Applies To" value={mod.checkTarget}
                                                    onChange={(e) => updateDice(idx, {checkTarget: e.target.value as DiceModifier['checkTarget']})}>
-                                            <MenuItem value={CheckTarget.Self}>Performer (Self)</MenuItem>
-                                            <MenuItem value={CheckTarget.Opponent}>Target (Opponent)</MenuItem>
+                                            <MenuItem value={Target.Self}>Performer (Self)</MenuItem>
+                                            <MenuItem value={Target.Opponent}>Target (Opponent)</MenuItem>
                                         </TextField>
                                     </GridItem>
                                     <GridItem>
@@ -272,8 +271,8 @@ const TalentManeuverTab: React.FC<Props> = ({talent, updateTalent}) => {
                                     <GridItem>
                                         <TextField select fullWidth label="Applies To" value={mod.checkTarget}
                                                    onChange={(e) => updateResult(idx, {checkTarget: e.target.value as ResultsModifier['checkTarget']})}>
-                                            <MenuItem value={CheckTarget.Self}>Performer (Self)</MenuItem>
-                                            <MenuItem value={CheckTarget.Opponent}>Target (Opponent)</MenuItem>
+                                            <MenuItem value={Target.Self}>Performer (Self)</MenuItem>
+                                            <MenuItem value={Target.Opponent}>Target (Opponent)</MenuItem>
                                         </TextField>
                                     </GridItem>
                                     <GridItem>
@@ -324,8 +323,8 @@ const TalentManeuverTab: React.FC<Props> = ({talent, updateTalent}) => {
                                 <GridItem>
                                     <TextField select fullWidth label="Applies To" value={mod.appliesTo}
                                                onChange={(e) => updateDefense(idx, {appliesTo: e.target.value as DefenseModifier['appliesTo']})}>
-                                        <MenuItem value={CheckTarget.Self}>Performer (Self)</MenuItem>
-                                        <MenuItem value={CheckTarget.Opponent}>Target (Opponent)</MenuItem>
+                                        <MenuItem value={Target.Self}>Performer (Self)</MenuItem>
+                                        <MenuItem value={Target.Opponent}>Target (Opponent)</MenuItem>
                                     </TextField>
                                 </GridItem>
                                 <GridItem sx={{display: 'flex', alignItems: 'center'}}>

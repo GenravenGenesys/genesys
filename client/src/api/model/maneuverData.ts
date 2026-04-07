@@ -1,15 +1,15 @@
 import type { DefenseModifier } from './defenseModifier';
 import type { DiceModifier } from './diceModifier';
-import type { ManeuverDuration } from './maneuverDuration';
-import type { ManeuverTarget } from './maneuverTarget';
+import type { Duration } from './duration';
 import type { ResultsModifier } from './resultsModifier';
 import type { Skill } from './skill';
+import type { Target } from './target';
 
 export interface ManeuverData {
   /** Who this maneuver targets */
-  target: ManeuverTarget;
+  target: Target;
   /** How long the effects of this maneuver last */
-  duration: ManeuverDuration;
+  duration: Duration;
   /** Whether multiple uses of this maneuver stack (e.g., assist maneuver) */
   stackable: boolean;
   /** Maximum number of targets affected. Ignored when targetCountSkill is set. */

@@ -1,7 +1,8 @@
-export type ManeuverTarget = typeof ManeuverTarget[keyof typeof ManeuverTarget];
+export type Target = typeof Target[keyof typeof Target];
 
-export const ManeuverTarget = {
+export const Target = {
   Self: 'Self',
+  Opponent: 'Opponent',
   'Engaged_Ally': 'Engaged Ally',
   'Engaged_Enemy': 'Engaged Enemy',
   'Any_Ally': 'Any Ally',

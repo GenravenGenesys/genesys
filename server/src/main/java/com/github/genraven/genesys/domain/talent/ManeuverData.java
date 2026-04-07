@@ -1,7 +1,7 @@
 package com.github.genraven.genesys.domain.talent;
 
-import com.github.genraven.genesys.domain.enums.ManeuverDuration;
-import com.github.genraven.genesys.domain.enums.ManeuverTarget;
+import com.github.genraven.genesys.domain.enums.Duration;
+import com.github.genraven.genesys.domain.enums.Target;
 import com.github.genraven.genesys.domain.modifier.DefenseModifier;
 import com.github.genraven.genesys.domain.modifier.DiceModifier;
 import com.github.genraven.genesys.domain.modifier.ResultsModifier;
@@ -17,11 +17,11 @@ public class ManeuverData {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
             description = "Who this maneuver targets (Self, Engaged Ally, etc.)")
-    private ManeuverTarget target = ManeuverTarget.SELF;
+    private Target target = Target.SELF;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
             description = "How long the effects of this maneuver last")
-    private ManeuverDuration duration = ManeuverDuration.END_OF_NEXT_TURN;
+    private Duration duration = Duration.END_OF_NEXT_TURN;
 
     @Schema(description = "Whether multiple uses of this maneuver stack (e.g., assist maneuver)")
     private boolean stackable = false;
@@ -47,3 +47,4 @@ public class ManeuverData {
     @Schema(description = "Defense bonuses or penalties applied when this maneuver is performed.")
     private List<DefenseModifier> defenseModifiers = new ArrayList<>();
 }
+

@@ -4,7 +4,7 @@ import {
     type ResultsModifier,
     type Skill,
     CheckContext,
-    CheckTarget,
+    Target,
     DiceType,
     SkillType,
 } from "../../../../../api/model";
@@ -39,13 +39,13 @@ export default function QualityDialogStatsTab(props: Props) {
         diceType: DiceType.Boost,
         amount: 0,
         checkContext: CheckContext.All,
-        checkTarget: CheckTarget.Self,
+        checkTarget: Target.Self,
     };
 
     const defaultResultsModifier: ResultsModifier = {
         results: {success: 0, advantage: 0, triumph: 0, failure: 0, threat: 0, despair: 0},
         checkContext: CheckContext.All,
-        checkTarget: CheckTarget.Self,
+        checkTarget: Target.Self,
     };
 
     const dm: DiceModifier = stats.diceModifier ?? defaultDiceModifier;
@@ -145,7 +145,7 @@ export default function QualityDialogStatsTab(props: Props) {
                                     value={dm.checkTarget}
                                     label="Check Target"
                                     onChange={(v) => updateDiceModifier({checkTarget: v as DiceModifier["checkTarget"]})}
-                                    options={CheckTarget}
+                                    options={Target}
                                 />
                             </Grid>
                             <Grid size={6}>
@@ -190,7 +190,7 @@ export default function QualityDialogStatsTab(props: Props) {
                                     value={rm.checkTarget}
                                     label="Check Target"
                                     onChange={(v) => updateResultsModifier({checkTarget: v as ResultsModifier["checkTarget"]})}
-                                    options={CheckTarget}
+                                    options={Target}
                                 />
                             </Grid>
                             <Grid size={6}>

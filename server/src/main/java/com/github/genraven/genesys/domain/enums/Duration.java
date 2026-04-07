@@ -11,7 +11,10 @@ import lombok.Getter;
 public enum Duration {
     PERMANENT("Permanent"),
     SCENE("Scene"),
-    ENCOUNTER("Encounter");
+    ENCOUNTER("Encounter"),
+    END_OF_NEXT_TURN("End of Next Turn"),
+    NEXT_CHECK("Next Check"),
+    NEXT_TURN("Next Turn");
 
     @JsonValue
     private final String label;
