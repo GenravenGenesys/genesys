@@ -5,12 +5,15 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { AfterEncounterEffect } from './afterEncounterEffect';
 import type { CharacteristicModifier } from './characteristicModifier';
 import type { DiceModifier } from './diceModifier';
+import type { HealEffect } from './healEffect';
 import type { RangeBand } from './rangeBand';
 import type { ResultsModifier } from './resultsModifier';
 import type { SkillRankModifier } from './skillRankModifier';
 import type { StatModifiers } from './statModifiers';
+import type { StatusEffectType } from './statusEffectType';
 import type { UpgradeModifier } from './upgradeModifier';
 
 export interface GearModifiers {
@@ -26,6 +29,16 @@ export interface GearModifiers {
   skillRankModifiers: SkillRankModifier[];
   /** Flat stat bonuses applied while this item is equipped */
   statModifiers: StatModifiers;
+  /** Healing applied to wounds or strain when this item is used */
+  healEffects: HealEffect[];
+  /** Status effects applied to the character when this item is used */
+  appliedStatusEffects: StatusEffectType[];
+  /** Wounds and strain suffered at the end of the encounter; null means no after-encounter penalty */
+  afterEncounterEffect?: AfterEncounterEffect;
+  /** Character ignores Critical Injury penalties on skill checks for the encounter */
+  ignoreCriticalInjuryPenalties: boolean;
+  /** Each subsequent use of this item on the same day heals one fewer wound (min 0) */
+  diminishingReturnsHealing: boolean;
   /** Overrides the item's encumbrance while worn; null means use the item's normal encumbrance */
   equippedEncumbranceOverride?: number;
   /** The effective range of this gear item's effect; null means no range limitation */
