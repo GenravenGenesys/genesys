@@ -1,4 +1,4 @@
-import Character from '../campaign/encounter/Character';
+import type Character from '../campaign/encounter/Character';
 import {
     type ActorArmor, type ActorSkill, type ActorType,
     type ActorWeapon,

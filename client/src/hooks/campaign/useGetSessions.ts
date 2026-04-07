@@ -1,7 +1,5 @@
 import {
     type CampaignEncounter,
-    CampaignEncounterEncounterStatus,
-    CampaignEncounterEncounterType,
     CampaignEncounterStatus,
     CampaignEncounterType,
     type CampaignScene,

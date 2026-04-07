@@ -14,7 +14,6 @@ import {
     type Limit,
     LimitType,
     type PlayerSkill,
-    Actor
 } from "../../../api/model";
 import {getDifficultyDice} from "../../../util/DiceHelper.ts";
 

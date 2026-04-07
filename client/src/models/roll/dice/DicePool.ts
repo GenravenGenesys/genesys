@@ -5,7 +5,7 @@ import {difficultyDie} from "./Difficulty";
 import {proficiencyDie} from "./Proficiency";
 import {challengeDie} from "./Challenge";
 import {Die} from "./Die";
-import {ActorSkill, getActorCharacteristicRanks, getCharacteristicRanks} from "../../actor/Actor";
+import {getActorCharacteristicRanks, getCharacteristicRanks} from "../../actor/Actor";
 import {SingleNonPlayerCharacter} from "../../actor/npc/NonPlayerActor";
 import Character from "../../campaign/encounter/Character";
 
