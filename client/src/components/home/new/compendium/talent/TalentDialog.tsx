@@ -1,8 +1,8 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, ChangeEvent} from 'react';
 import {
     Box, Typography, Stack, Button,
     Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
-    DialogContent, FormControlLabel, Tabs, FormControl, FormGroup, Checkbox, FormLabel
+    DialogContent, FormControlLabel, Tabs, Tab, FormControl, FormGroup, Checkbox
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import {Activation, LimitType, type Talent, Tier} from "../../../../../api/model";
@@ -10,11 +10,9 @@ import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
-import Tab from "@mui/material/Tab";
 import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
 import TalentActionTab from "./tabs/TalentActionTab.tsx";
 import TalentManeuverTab from "./tabs/TalentManeuverTab.tsx";
-import * as React from "react";
 import {emptyTalent} from "../../../../../models/Template.ts";
 
 interface Props {
@@ -32,8 +30,6 @@ export default function TalentDialog(props: Props) {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [state, setState] = useState({
-        // cost: !(talent.cost.type === CostType.None && talent.limit.type === LimitType.None),
-        // careerSkill: talent.talentSkills.potentialCareerSkills.length > 0,
         stats: talent.statModifiers.wounds > 0 || talent.statModifiers.strain > 0 || talent.statModifiers.soak > 0 || talent.statModifiers.defense > 0
     });
 
@@ -72,7 +68,7 @@ export default function TalentDialog(props: Props) {
         setFormData((prev: Talent) => ({...prev, [field]: value}));
     };
 
-    const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleStateChange = (event: ChangeEvent<HTMLInputElement>) => {
         setState({
             ...state,
             [event.target.name]: event.target.checked,
@@ -106,6 +102,8 @@ export default function TalentDialog(props: Props) {
             slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
         >
             <DialogTitle>{isNew ? "Create Custom Talent" : "Edit Talent"}</DialogTitle>
+            <GenesysTextField text={formData.name || ''} label={"Talent Name"}
+                              onChange={(e) => handleChange("name", e)} fullwidth={true}/>
 
             <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
@@ -120,8 +118,6 @@ export default function TalentDialog(props: Props) {
                 {/* TAB 1: BASIC INFORMATION */}
                 {tabValue === 0 && (
                     <Stack spacing={3}>
-                        <GenesysTextField text={formData.name || ''} label={"Talent Name"}
-                                          onChange={(e) => handleChange("name", e)} fullwidth={true}/>
                         <GridContainer spacing={2}>
                             <Grid size={6}>
                                 <GenesysSelectField value={formData.tier} label={"Tier"}
@@ -138,6 +134,59 @@ export default function TalentDialog(props: Props) {
                                           onChange={(e) => handleDescriptionChange(e)} fullwidth={true} rows={3}/>
                         <GenesysTextField text={formData.summary || ''} label={"Summary"}
                                           onChange={(e) => handleChange("summary", e)} fullwidth={true} rows={3}/>
+
+                        <Divider sx={{my: 2}}>
+                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                MODIFICATION OPTIONS
+                            </Typography>
+                        </Divider>
+
+                        <GridContainer centered>
+                            <FormControl component="fieldset" variant="standard">
+                                <FormGroup row>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>
+                                        }
+                                        label="Stats"
+                                        labelPlacement={"top"}
+                                    />
+                                </FormGroup>
+                            </FormControl>
+                        </GridContainer>
+
+                        <Divider sx={{my: 2}}>
+                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                ADDITIONAL ACTIVATIONS
+                            </Typography>
+                        </Divider>
+
+                        <GridContainer centered>
+                            <FormControl component="fieldset" variant="standard">
+                                <FormGroup row>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={(formData.activations ?? []).includes(Activation['Active_(Action)'])}
+                                                onChange={() => handleActivationToggle(Activation['Active_(Action)'])}
+                                            />
+                                        }
+                                        label="Action"
+                                        labelPlacement={"top"}
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={(formData.activations ?? []).includes(Activation['Active_(Maneuver)'])}
+                                                onChange={() => handleActivationToggle(Activation['Active_(Maneuver)'])}
+                                            />
+                                        }
+                                        label="Maneuver"
+                                        labelPlacement={"top"}
+                                    />
+                                </FormGroup>
+                            </FormControl>
+                        </GridContainer>
                     </Stack>
                 )}
 
@@ -157,66 +206,6 @@ export default function TalentDialog(props: Props) {
                     <TalentManeuverTab talent={formData} updateTalent={setFormData}/>
                 )}
             </DialogContent>
-            <Divider sx={{my: 2}}>
-                <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                    MODIFICATION OPTIONS
-                </Typography>
-            </Divider>
-            <GridContainer centered>
-                <FormControl component="fieldset" variant="standard">
-                    {/*<FormControl sx={{m: 3}} component="fieldset" variant="standard">*/}
-                    {/*<FormLabel component="legend" sx={{textAlign: 'center'}}>Talent Modifiers</FormLabel>*/}
-                    <FormGroup row>
-                        {/*<FormControlLabel*/}
-                        {/*    control={*/}
-                        {/*        <Checkbox checked={state.cost} onChange={handleChange} name="cost"/>*/}
-                        {/*    }*/}
-                        {/*    label="Cost"*/}
-                        {/*/>*/}
-                        {/*<FormControlLabel*/}
-                        {/*    control={*/}
-                        {/*        <Checkbox checked={state.careerSkill} onChange={handleChange} name="careerSkill"/>*/}
-                        {/*    }*/}
-                        {/*    label="Career Skills"*/}
-                        {/*/>*/}
-                        <FormControlLabel
-                            control={
-                                <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>
-                            }
-                            label="Stats"
-                            labelPlacement={"top"}
-                        />
-                    </FormGroup>
-                </FormControl>
-            </GridContainer>
-
-            <GridContainer centered>
-                <FormControl component="fieldset" variant="standard">
-                    <FormLabel component="legend" sx={{textAlign: 'center'}}>Additional Activations</FormLabel>
-                    <FormGroup row>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={(formData.activations ?? []).includes(Activation['Active_(Action)'])}
-                                    onChange={() => handleActivationToggle(Activation['Active_(Action)'])}
-                                />
-                            }
-                            label="Action"
-                            labelPlacement={"top"}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={(formData.activations ?? []).includes(Activation['Active_(Maneuver)'])}
-                                    onChange={() => handleActivationToggle(Activation['Active_(Maneuver)'])}
-                                />
-                            }
-                            label="Maneuver"
-                            labelPlacement={"top"}
-                        />
-                    </FormGroup>
-                </FormControl>
-            </GridContainer>
 
             <DialogActions sx={{p: 3}}>
                 <Button variant="outlined" onClick={onClose}>Cancel</Button>
