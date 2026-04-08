@@ -9,7 +9,8 @@ import React, {useState} from "react";
 import {getDifficultyDice} from "../../../util/DiceHelper.ts";
 import {Box, Button} from "@mui/material";
 import GenesysSkillDiceTypography from "./typography/GenesysSkillDiceTypography.tsx";
-import {getAdversaryCharacteristicRanks, getPlayerSkillCharacteristicRanks} from "../../../util/SkillHelper.ts";
+import {getAdversaryCharacteristicRanks, getGearDiceModifierCount, getPlayerSkillCharacteristicRanks} from "../../../util/SkillHelper.ts";
+import {DiceType} from "../../../api/model";
 import {TestPlayerDiceRoller} from "../sample/test/TestPlayerDiceRoller.tsx";
 
 interface Target {
@@ -36,9 +37,9 @@ const GenesysPlayerDicePoolButton: React.FC<Props> = ({
                                                       }) => {
     const [openCustomRollBackDrop, setOpenCustomRollBackDrop] = useState(false);
 
-    const gatherBoostDice = () => 0;
+    const gatherBoostDice = () => getGearDiceModifierCount(player, skill, DiceType.Boost);
 
-    const gatherSetbackDice = () => 0;
+    const gatherSetbackDice = () => getGearDiceModifierCount(player, skill, DiceType.Setback);
 
     const gatherAbilityDice = () =>
         Math.max(getPlayerSkillCharacteristicRanks(player, skill), skill.ranks) -

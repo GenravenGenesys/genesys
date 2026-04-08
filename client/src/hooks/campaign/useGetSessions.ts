@@ -1,14 +1,11 @@
 import {
     type CampaignEncounter,
-    CampaignEncounterEncounterStatus,
-    CampaignEncounterEncounterType,
     CampaignEncounterStatus,
     CampaignEncounterType,
     type CampaignScene,
     type CampaignSession,
     CampaignSessionStatus
 } from "../../api/model";
-import {emptyAdversary} from "../../models/Template.ts";
 import {sampleParty} from "../../models/SampleParty.ts";
 
 export function useGetSessions(campaignId: string) {
