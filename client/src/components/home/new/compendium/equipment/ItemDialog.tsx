@@ -209,7 +209,13 @@ export default function ItemDialog(props: Props) {
                                 diceModifiers: [],
                                 resultsModifiers: [],
                                 upgradeModifiers: [],
+                                characteristicModifiers: [],
+                                skillRankModifiers: [],
                                 statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                                healEffects: [],
+                                appliedStatusEffects: [],
+                                ignoreCriticalInjuryPenalties: false,
+                                diminishingReturnsHealing: false,
                             }}
                             updateGearModifiers={(e) => handleChange('gearModifiers', e)}
                         />}
