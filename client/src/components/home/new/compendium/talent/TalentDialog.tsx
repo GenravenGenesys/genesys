@@ -1,8 +1,8 @@
-import {useState, useEffect, ChangeEvent} from 'react';
+import {useState, useEffect} from 'react';
 import {
-    Box, Typography, Stack, Button,
-    Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
-    DialogContent, FormControlLabel, Tabs, Tab, FormControl, FormGroup, Checkbox
+    Box, Stack, Button,
+    Grid, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
+    DialogContent, Tabs, Tab
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import {Activation, LimitType, type Talent, Tier} from "../../../../../api/model";
@@ -29,21 +29,10 @@ export default function TalentDialog(props: Props) {
     const [tabValue, setTabValue] = useState(0);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const [state, setState] = useState({
-        stats: talent.statModifiers.wounds > 0 || talent.statModifiers.strain > 0 || talent.statModifiers.soak > 0 || talent.statModifiers.defense > 0
-    });
 
     useEffect(() => {
         if (talent) setFormData(talent);
     }, [talent]);
-
-    const handleActivationToggle = (activation: Activation) => {
-        const current = formData.activations ?? [];
-        const updated = current.includes(activation)
-            ? current.filter((a) => a !== activation)
-            : [...current, activation];
-        handleChange('activations', updated);
-    };
 
     const handleDescriptionChange = (value: string) => {
         const lowerDescription = value.toLowerCase();
@@ -68,13 +57,6 @@ export default function TalentDialog(props: Props) {
         setFormData((prev: Talent) => ({...prev, [field]: value}));
     };
 
-    const handleStateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setState({
-            ...state,
-            [event.target.name]: event.target.checked,
-        });
-    };
-
     const handleSave = () => {
         onSave(formData);
         setFormData(emptyTalent);
@@ -86,10 +68,8 @@ export default function TalentDialog(props: Props) {
         onClose();
     };
 
-    const isAction = formData.activation === Activation['Active_(Action)'] ||
-        (formData.activations ?? []).includes(Activation['Active_(Action)']);
-    const isManeuver = formData.activation === Activation['Active_(Maneuver)'] ||
-        (formData.activations ?? []).includes(Activation['Active_(Maneuver)']);
+    const isAction = formData.activation === Activation['Active_(Action)'];
+    const isManeuver = formData.activation === Activation['Active_(Maneuver)'];
 
     return (
         <Dialog
@@ -134,59 +114,6 @@ export default function TalentDialog(props: Props) {
                                           onChange={(e) => handleDescriptionChange(e)} fullwidth={true} rows={3}/>
                         <GenesysTextField text={formData.summary || ''} label={"Summary"}
                                           onChange={(e) => handleChange("summary", e)} fullwidth={true} rows={3}/>
-
-                        <Divider sx={{my: 2}}>
-                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                                MODIFICATION OPTIONS
-                            </Typography>
-                        </Divider>
-
-                        <GridContainer centered>
-                            <FormControl component="fieldset" variant="standard">
-                                <FormGroup row>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>
-                                        }
-                                        label="Stats"
-                                        labelPlacement={"top"}
-                                    />
-                                </FormGroup>
-                            </FormControl>
-                        </GridContainer>
-
-                        <Divider sx={{my: 2}}>
-                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                                ADDITIONAL ACTIVATIONS
-                            </Typography>
-                        </Divider>
-
-                        <GridContainer centered>
-                            <FormControl component="fieldset" variant="standard">
-                                <FormGroup row>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={(formData.activations ?? []).includes(Activation['Active_(Action)'])}
-                                                onChange={() => handleActivationToggle(Activation['Active_(Action)'])}
-                                            />
-                                        }
-                                        label="Action"
-                                        labelPlacement={"top"}
-                                    />
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={(formData.activations ?? []).includes(Activation['Active_(Maneuver)'])}
-                                                onChange={() => handleActivationToggle(Activation['Active_(Maneuver)'])}
-                                            />
-                                        }
-                                        label="Maneuver"
-                                        labelPlacement={"top"}
-                                    />
-                                </FormGroup>
-                            </FormControl>
-                        </GridContainer>
                     </Stack>
                 )}
 

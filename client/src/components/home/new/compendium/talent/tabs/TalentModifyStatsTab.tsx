@@ -3,11 +3,17 @@ import {
     type Talent,
 } from "../../../../../../api/model";
 import * as React from "react";
-import {useState} from "react";
 import GridContainer from "../../../../../common/grid/GridContainer.tsx";
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel} from "@mui/material";
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Stack,
+    Typography
+} from "@mui/material";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import {StatsType} from "../../../../../../models/StatsType.ts";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface Props {
     talent: Talent;
@@ -15,37 +21,8 @@ interface Props {
 }
 
 const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
-    const [state, setState] = useState({
-        // cost: !(talent.cost.type === CostType.None && talent.limit.type === LimitType.None),
-        // careerSkill: talent.talentSkills.potentialCareerSkills.length > 0,
-        stats: talent.statModifiers.wounds > 0 || talent.statModifiers.strain > 0 || talent.statModifiers.soak > 0 || talent.statModifiers.defense > 0
-    });
+    const stats = talent.statModifiers;
 
-    const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({
-            ...state,
-            [event.target.name]: event.target.checked,
-        });
-    };
-
-    // const handleCostChange = async (value: Cost) => {
-    //     if (talent) {
-    //         updateTalent({...talent, cost: value});
-    //     }
-    // };
-    //
-    // const handleLimitChange = async (value: Limit) => {
-    //     if (talent) {
-    //         updateTalent({...talent, limit: value});
-    //     }
-    // };
-    //
-    // const handleTalentSkillsChange = async (value: TalentSkills) => {
-    //     if (talent) {
-    //         updateTalent({...talent, talentSkills: value});
-    //     }
-    // };
-    //
     const handleWoundsChange = async (value: number) => {
         if (talent) {
             updateTalentStats({
@@ -82,46 +59,34 @@ const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalentStats}) => {
         }
     };
 
+    const hadStatsModifier = stats.wounds > 0 || stats.strain > 0 || stats.soak > 0 || stats.defense > 0 || stats.encumbranceThreshold > 0;
+
     return (
-        <GridContainer centered>
-            <GridContainer centered>
-                <FormControl sx={{m: 3}} component="fieldset" variant="standard">
-                    <FormLabel component="legend" sx={{textAlign: 'center'}}>Talent Modifiers</FormLabel>
-                    <FormGroup row>
-                        {/*<FormControlLabel*/}
-                        {/*    control={*/}
-                        {/*        <Checkbox checked={state.cost} onChange={handleChange} name="cost"/>*/}
-                        {/*    }*/}
-                        {/*    label="Cost"*/}
-                        {/*/>*/}
-                        {/*<FormControlLabel*/}
-                        {/*    control={*/}
-                        {/*        <Checkbox checked={state.careerSkill} onChange={handleChange} name="careerSkill"/>*/}
-                        {/*    }*/}
-                        {/*    label="Career Skills"*/}
-                        {/*/>*/}
-                        <FormControlLabel
-                            control={
-                                <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>
-                            }
-                            label="Stats"
-                        />
-                    </FormGroup>
-                </FormControl>
-            </GridContainer>
-            {state.stats && <GridContainer spacing={2}>
-                <GenesysNumberField value={talent.statModifiers.wounds}
-                                    label={'Increase ' + StatsType.Wounds + ' Threshold'}
-                                    onChange={handleWoundsChange} min={0} max={5} fullwidth/>
-                <GenesysNumberField value={talent.statModifiers.strain}
-                                    label={'Increase ' + StatsType.Strain + ' Threshold'}
-                                    onChange={handleStrainChange} min={0} max={5} fullwidth/>
-                <GenesysNumberField value={talent.statModifiers.soak} label={'Increase Soak'}
-                                    onChange={handleSoakChange} min={0} max={5} fullwidth/>
-                <GenesysNumberField value={talent.statModifiers.defense} label={'Increase Defense'}
-                                    onChange={handleDefenseChange} min={0} max={5} fullwidth/>
-            </GridContainer>}
-        </GridContainer>
+        <Stack spacing={3}>
+            <Accordion defaultExpanded={hadStatsModifier} disableGutters sx={{bgcolor: "background.paper"}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                    <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
+                        STATS MODIFIER
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <GridContainer spacing={2}>
+                        <GenesysNumberField value={talent.statModifiers.wounds}
+                                            label={'Increase ' + StatsType.Wounds + ' Threshold'}
+                                            onChange={handleWoundsChange} min={0} max={5} fullwidth/>
+                        <GenesysNumberField value={talent.statModifiers.strain}
+                                            label={'Increase ' + StatsType.Strain + ' Threshold'}
+                                            onChange={handleStrainChange} min={0} max={5} fullwidth/>
+                        <GenesysNumberField value={talent.statModifiers.soak} label={'Increase Soak'}
+                                            onChange={handleSoakChange} min={0} max={5} fullwidth/>
+                        <GenesysNumberField value={talent.statModifiers.defense} label={'Increase Defense'}
+                                            onChange={handleDefenseChange} min={0} max={5} fullwidth/>
+                    </GridContainer>
+                </AccordionDetails>
+            </Accordion>
+
+
+        </Stack>
     );
 };
 

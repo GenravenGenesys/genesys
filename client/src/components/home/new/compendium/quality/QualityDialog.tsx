@@ -69,7 +69,6 @@ export default function QualityDialog(props: Props) {
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                     <Tab label="Basic Information"/>
                     <Tab label="Modify Stats"/>
-                    {/*<Tab label="Action Logic" disabled={formData.activation !== Activation["Active_(Action)"]}/>*/}
                 </Tabs>
             </Box>
 
@@ -97,16 +96,8 @@ export default function QualityDialog(props: Props) {
                     </Stack>
                 )}
 
-                {/* TAB 2: MECHANICS */}
                 {tabValue === 1 && (
                     <QualityDialogStatsTab stats={formData.stats} updateStats={(e) => handleChange('stats', e)}/>
-                )}
-
-                {/* TAB 3: ACTION LOGIC */}
-                {tabValue === 2 && (
-                    <Box>
-                        {/*<ActionLogicBuilder action={formData.action}/>*/}
-                    </Box>
                 )}
             </DialogContent>
 
