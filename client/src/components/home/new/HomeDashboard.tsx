@@ -16,7 +16,7 @@ export default function CampaignDashboardPage() {
     }
 
     if (error) {
-        return <div>Error loading campaigns</div>;
+        return <CampaignWizard/>;
     }
 
     const campaigns = response?.data || [];
