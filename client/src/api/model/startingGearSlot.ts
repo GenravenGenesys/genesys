@@ -10,7 +10,7 @@ import type { StartingGearOption } from './startingGearOption';
 /**
  * A single starting gear entry; the player must choose exactly one of the listed options
  */
-export interface StartingGearChoice {
+export interface StartingGearSlot {
   /** The selectable options for this entry; a list of one means the item is fixed with no choice */
   options: StartingGearOption[];
 }

@@ -6,9 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 import type { AbilityModifiers } from './abilityModifiers';
+import type { Action } from './action';
 import type { Activation } from './activation';
 import type { Cost } from './cost';
 import type { Limit } from './limit';
+import type { Maneuver } from './maneuver';
 import type { StatModifiers } from './statModifiers';
 
 export interface Ability {
@@ -19,4 +21,8 @@ export interface Ability {
   limit: Limit;
   statModifiers: StatModifiers;
   abilityModifiers: AbilityModifiers;
+  /** Configuration for abilities that function as a maneuver activation */
+  maneuver?: Maneuver;
+  /** Configuration for abilities that function as a action activation */
+  action?: Action;
 }

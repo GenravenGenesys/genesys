@@ -8,12 +8,12 @@
 import type { AfterEncounterEffect } from './afterEncounterEffect';
 import type { CharacteristicModifier } from './characteristicModifier';
 import type { DiceModifier } from './diceModifier';
+import type { GearModifiersAppliedStatusEffectsItem } from './gearModifiersAppliedStatusEffectsItem';
 import type { HealEffect } from './healEffect';
 import type { RangeBand } from './rangeBand';
 import type { ResultsModifier } from './resultsModifier';
 import type { SkillRankModifier } from './skillRankModifier';
 import type { StatModifiers } from './statModifiers';
-import type { StatusEffectType } from './statusEffectType';
 import type { UpgradeModifier } from './upgradeModifier';
 
 export interface GearModifiers {
@@ -32,7 +32,7 @@ export interface GearModifiers {
   /** Healing applied to wounds or strain when this item is used */
   healEffects: HealEffect[];
   /** Status effects applied to the character when this item is used */
-  appliedStatusEffects: StatusEffectType[];
+  appliedStatusEffects: GearModifiersAppliedStatusEffectsItem[];
   /** Wounds and strain suffered at the end of the encounter; null means no after-encounter penalty */
   afterEncounterEffect?: AfterEncounterEffect;
   /** Character ignores Critical Injury penalties on skill checks for the encounter */

@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain.talent;
+package com.github.genraven.genesys.domain.campaign.encounter;
 
 import com.github.genraven.genesys.domain.enums.Duration;
 import com.github.genraven.genesys.domain.enums.Target;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class ManeuverData {
+public class Maneuver {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED,
             description = "Who this maneuver targets (Self, Engaged Ally, etc.)")

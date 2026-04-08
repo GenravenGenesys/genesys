@@ -1,5 +1,7 @@
 package com.github.genraven.genesys.domain.talent;
 
+import com.github.genraven.genesys.domain.campaign.encounter.Action;
+import com.github.genraven.genesys.domain.campaign.encounter.Maneuver;
 import com.github.genraven.genesys.domain.enums.Activation;
 import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
@@ -35,10 +37,6 @@ public class Talent {
     @EnumValidator(enumClass = Activation.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Activation activation = Activation.PASSIVE;
-
-    @Builder.Default
-    @Schema(description = "Additional activation types (e.g. talent usable as both Action and Maneuver)")
-    private List<Activation> activations = new ArrayList<>();
 
     @EnumValidator(enumClass = Tier.class)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
@@ -79,15 +77,15 @@ public class Talent {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private TalentSkillCheck talentSkillCheck = null;
 
-//    @Builder.Default
-//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-//    private Action action = new Action();
-
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<TalentRollModifiers> talentRollModifiers = null;
 
     @Builder.Default
     @Schema(description = "Configuration for talents that function as a maneuver activation")
-    private ManeuverData maneuverData = null;
+    private Maneuver maneuver = null;
+
+    @Builder.Default
+    @Schema(description = "Configuration for talents that function as a action activation", requiredMode = Schema.RequiredMode.REQUIRED)
+    private Action action = null;
 }

@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { Skill } from './skill';
-import type { StartingGearChoice } from './startingGearChoice';
+import type { StartingGearSlot } from './startingGearSlot';
 import type { StartingMoney } from './startingMoney';
 
 /**
@@ -22,7 +22,7 @@ export interface Career {
      */
   skills: Skill[];
   /** Optional starting gear entries for this career; each entry offers one or more items to choose from */
-  startingGear?: StartingGearChoice[];
+  startingGearSlot?: StartingGearSlot[];
   /** Optional starting money awarded to characters of this career */
   startingMoney?: StartingMoney;
 }
