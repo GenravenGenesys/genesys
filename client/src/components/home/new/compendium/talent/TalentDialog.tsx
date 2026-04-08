@@ -119,8 +119,7 @@ export default function TalentDialog(props: Props) {
 
                 {/* TAB 2: MODIFY STATS */}
                 {tabValue === 1 && (
-                    <TalentModifyStatsTab talent={formData}
-                                          updateTalentStats={(stats) => handleChange('statModifiers', stats)}/>
+                    <TalentModifyStatsTab talent={formData} updateTalent={setFormData}/>
                 )}
 
                 {/* TAB 3: ACTION */}
