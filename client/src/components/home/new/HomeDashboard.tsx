@@ -1,25 +1,19 @@
 import {Box, CircularProgress} from '@mui/material';
 import FocusedVTT from "./FocusedVTT.tsx";
 import CampaignWizard from "./campaign-creation/CampaignWizard.tsx";
-import {useGetAllCampaigns} from "../../../api/generated/campaign-controller/campaign-controller.ts";
+import {useGetCampaigns} from "../../../hooks/campaign/useGetCampaigns.ts";
 
 
 export default function CampaignDashboardPage() {
-    const {data: response, isLoading, error, isFetching} = useGetAllCampaigns();
+    const {data: campaigns, isLoading} = useGetCampaigns();
 
-    if (isLoading || isFetching) {
+    if (isLoading) {
         return (
             <Box sx={{display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center'}}>
                 <CircularProgress/>
             </Box>
         );
     }
-
-    if (error) {
-        return <CampaignWizard/>;
-    }
-
-    const campaigns = response?.data || [];
 
     if (campaigns.length === 0) {
         return <CampaignWizard/>;
