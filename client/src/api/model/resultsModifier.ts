@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 import type { CheckContext } from './checkContext';
-import type { CheckTarget } from './checkTarget';
 import type { GenesysSymbolResults } from './genesysSymbolResults';
 import type { Skill } from './skill';
 import type { SkillType } from './skillType';
+import type { Target } from './target';
 
 export interface ResultsModifier {
   /** The fixed results added to the pool */
@@ -19,7 +19,7 @@ export interface ResultsModifier {
   /** Restricts this modifier to checks of a particular skill type; null means any skill type */
   skillType?: SkillType;
   /** Whether this modifier applies to the character's own rolls or to rolls made against them */
-  checkTarget: CheckTarget;
+  checkTarget: Target;
   /** Restricts this modifier to a specific skill; null means any skill matching skillType */
   skill?: Skill;
 }

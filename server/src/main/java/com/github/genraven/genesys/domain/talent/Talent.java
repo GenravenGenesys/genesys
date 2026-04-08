@@ -1,5 +1,7 @@
 package com.github.genraven.genesys.domain.talent;
 
+import com.github.genraven.genesys.domain.campaign.encounter.Action;
+import com.github.genraven.genesys.domain.campaign.encounter.Maneuver;
 import com.github.genraven.genesys.domain.enums.Activation;
 import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
@@ -15,6 +17,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -74,11 +77,15 @@ public class Talent {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private TalentSkillCheck talentSkillCheck = null;
 
-//    @Builder.Default
-//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-//    private Action action = new Action();
-
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<TalentRollModifiers> talentRollModifiers = null;
+
+    @Builder.Default
+    @Schema(description = "Configuration for talents that function as a maneuver activation")
+    private Maneuver maneuver = null;
+
+    @Builder.Default
+    @Schema(description = "Configuration for talents that function as a action activation", requiredMode = Schema.RequiredMode.REQUIRED)
+    private Action action = null;
 }

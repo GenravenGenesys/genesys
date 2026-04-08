@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 import type { CheckContext } from './checkContext';
-import type { CheckTarget } from './checkTarget';
 import type { DiceType } from './diceType';
 import type { Skill } from './skill';
 import type { SkillType } from './skillType';
+import type { Target } from './target';
 
 export interface DiceModifier {
   /** The type of die to add to the pool */
@@ -23,5 +23,5 @@ export interface DiceModifier {
   /** Restricts this modifier to a specific skill; null means any skill matching skill */
   skill?: Skill;
   /** Whether this modifier applies to the character's own rolls or to rolls made against them */
-  checkTarget: CheckTarget;
+  checkTarget: Target;
 }

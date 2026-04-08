@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 import type { CheckContext } from './checkContext';
-import type { CheckTarget } from './checkTarget';
 import type { Duration } from './duration';
 import type { Skill } from './skill';
 import type { SkillType } from './skillType';
+import type { Target } from './target';
 import type { UpgradeType } from './upgradeType';
 
 export interface UpgradeModifier {
@@ -24,7 +24,7 @@ export interface UpgradeModifier {
   /** Restricts this modifier to a specific skill; null means any skill matching skillType */
   skill?: Skill;
   /** Whether this modifier applies to the character's own rolls or to rolls made against them */
-  checkTarget: CheckTarget;
+  checkTarget: Target;
   /** How long this upgrade effect lasts; PERMANENT means always active while equipped */
   duration: Duration;
 }

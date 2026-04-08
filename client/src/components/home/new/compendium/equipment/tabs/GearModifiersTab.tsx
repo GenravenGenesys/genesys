@@ -10,7 +10,7 @@ import {
     type UpgradeModifier,
     CharacteristicType,
     CheckContext,
-    CheckTarget,
+    Target,
     DiceType,
     Duration,
     HealSource,
@@ -52,20 +52,20 @@ const defaultDiceModifier = (): DiceModifier => ({
     diceType: DiceType.Boost,
     amount: 1,
     checkContext: CheckContext.All,
-    checkTarget: CheckTarget.Self,
+    checkTarget: Target.Self,
 });
 
 const defaultResultsModifier = (): ResultsModifier => ({
     results: {success: 0, advantage: 0, triumph: 0, failure: 0, threat: 0, despair: 0},
     checkContext: CheckContext.All,
-    checkTarget: CheckTarget.Self,
+    checkTarget: Target.Self,
 });
 
 const defaultUpgradeModifier = (): UpgradeModifier => ({
     upgradeType: UpgradeType.Ability_to_Proficiency,
     amount: 1,
     checkContext: CheckContext.All,
-    checkTarget: CheckTarget.Self,
+    checkTarget: Target.Self,
     duration: Duration.Permanent,
 });
 
@@ -394,7 +394,7 @@ export default function GearModifiersTab(props: Props) {
                                             ...mod,
                                             checkTarget: v as DiceModifier["checkTarget"]
                                         })}
-                                        options={CheckTarget}
+                                        options={Target}
                                     />
                                 </Grid>
                                 <Grid size={6}>
@@ -479,7 +479,7 @@ export default function GearModifiersTab(props: Props) {
                                             ...mod,
                                             checkTarget: v as ResultsModifier["checkTarget"]
                                         })}
-                                        options={CheckTarget}
+                                        options={Target}
                                     />
                                 </Grid>
                                 <Grid size={6}>
@@ -610,7 +610,7 @@ export default function GearModifiersTab(props: Props) {
                                             ...mod,
                                             checkTarget: v as UpgradeModifier["checkTarget"]
                                         })}
-                                        options={CheckTarget}
+                                        options={Target}
                                     />
                                 </Grid>
                                 <Grid size={6}>

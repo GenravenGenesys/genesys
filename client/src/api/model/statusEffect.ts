@@ -5,11 +5,9 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { StatusEffectType } from './statusEffectType';
 
-export type CheckTarget = typeof CheckTarget[keyof typeof CheckTarget];
-
-
-export const CheckTarget = {
-  Self: 'Self',
-  Opponent: 'Opponent',
-} as const;
+export interface StatusEffect {
+  type: StatusEffectType;
+  rounds: number;
+}

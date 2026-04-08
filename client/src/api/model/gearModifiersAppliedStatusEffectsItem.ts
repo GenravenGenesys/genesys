@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type StatusEffectType = typeof StatusEffectType[keyof typeof StatusEffectType];
+export type GearModifiersAppliedStatusEffectsItem = typeof GearModifiersAppliedStatusEffectsItem[keyof typeof GearModifiersAppliedStatusEffectsItem];
 
 
-export const StatusEffectType = {
+export const GearModifiersAppliedStatusEffectsItem = {
   Disoriented: 'Disoriented',
   Immobilized: 'Immobilized',
   Staggered: 'Staggered',

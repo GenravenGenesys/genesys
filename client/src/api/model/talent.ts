@@ -6,9 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 import type { AbilityModifiers } from './abilityModifiers';
+import type { Action } from './action';
 import type { Activation } from './activation';
 import type { Cost } from './cost';
 import type { Limit } from './limit';
+import type { Maneuver } from './maneuver';
 import type { StatModifiers } from './statModifiers';
 import type { TalentRollModifiers } from './talentRollModifiers';
 import type { TalentSkillCheck } from './talentSkillCheck';
@@ -34,4 +36,8 @@ export interface Talent {
   abilityModifiers: AbilityModifiers;
   talentSkillCheck: TalentSkillCheck;
   talentRollModifiers: TalentRollModifiers[];
+  /** Configuration for talents that function as a maneuver activation */
+  maneuver?: Maneuver;
+  /** Configuration for talents that function as a action activation */
+  action: Action;
 }
