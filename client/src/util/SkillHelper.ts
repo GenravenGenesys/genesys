@@ -1,13 +1,10 @@
 import {
-    type ActorSkill,
     type AdversarySkill, type AdversaryTemplate,
     CharacteristicType,
-    CheckTarget,
     DiceType,
     type PlayerCharacter,
     type PlayerSkill
 } from "../api/model";
-import type Actor from "../models/actor/Actor.ts";
 
 
 export const getPlayerSkillCharacteristicRanks = (player: PlayerCharacter, skill: PlayerSkill): number => {

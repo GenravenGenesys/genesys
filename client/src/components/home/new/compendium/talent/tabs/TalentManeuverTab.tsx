@@ -4,7 +4,7 @@ import {
     Box,
     Button,
     Card,
-    CardContent,
+    CardContent, CircularProgress,
     Divider,
     FormControlLabel,
     IconButton,
@@ -33,12 +33,13 @@ import {
     Duration,
     Target,
 } from '../../../../../../api/model';
-import {useFetchAllSkills} from '../../../../../../hooks/useFetchAllSkills.ts';
 import SkillAutocompleteCard from '../../../../../common/card/SkillAutocompleteCard.tsx';
 import GenesysNumberField from '../../../../common/field/GenesysNumberField.tsx';
 import GenesysSelectField from '../../../../common/field/GenesysSelectField.tsx';
 import GridContainer from '../../../../../common/grid/GridContainer.tsx';
 import GridItem from '../../../../../common/grid/GridItem.tsx';
+import {useParams} from "react-router-dom";
+import {useCampaignLive} from "../../../../../../hooks/campaign/useCampaginLive.ts";
 
 const emptyManeuverData = (): ManeuverData => ({
     target: Target.Self,
@@ -76,7 +77,22 @@ interface Props {
 }
 
 const TalentManeuverTab: React.FC<Props> = ({talent, updateTalent}) => {
-    const {skills} = useFetchAllSkills();
+    const {id} = useParams<{ id: string }>();
+    if (!id) {
+        return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
+    }
+
+    const {campaign, isLoading} = useCampaignLive(id);
+
+    if (isLoading) {
+        return <CircularProgress/>;
+    }
+
+    if (!campaign) {
+        return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
+    }
+
+    const skills = campaign.compendium.skills;
     const data: ManeuverData = talent.maneuverData ?? emptyManeuverData();
     const [useSkillForCount, setUseSkillForCount] = useState<boolean>(!!data.targetCountSkill);
 
@@ -221,7 +237,7 @@ const TalentManeuverTab: React.FC<Props> = ({talent, updateTalent}) => {
                                                 <MenuItem key={t} value={t}>{t}</MenuItem>))}
                                         </TextField>
                                     </GridItem>
-                                    <GridItem sx={{display: 'flex', alignItems: 'center'}}>
+                                    <GridItem>
                                         <IconButton color="error" onClick={() => removeDice(idx)}>
                                             <DeleteIcon/>
                                         </IconButton>
@@ -284,7 +300,7 @@ const TalentManeuverTab: React.FC<Props> = ({talent, updateTalent}) => {
                                                 <MenuItem key={t} value={t}>{t}</MenuItem>))}
                                         </TextField>
                                     </GridItem>
-                                    <GridItem sx={{display: 'flex', alignItems: 'center'}}>
+                                    <GridItem>
                                         <IconButton color="error" onClick={() => removeResult(idx)}>
                                             <DeleteIcon/>
                                         </IconButton>
@@ -327,7 +343,7 @@ const TalentManeuverTab: React.FC<Props> = ({talent, updateTalent}) => {
                                         <MenuItem value={Target.Opponent}>Target (Opponent)</MenuItem>
                                     </TextField>
                                 </GridItem>
-                                <GridItem sx={{display: 'flex', alignItems: 'center'}}>
+                                <GridItem>
                                     <IconButton color="error" onClick={() => removeDefense(idx)}>
                                         <DeleteIcon/>
                                     </IconButton>

@@ -1,14 +1,26 @@
 import * as React from 'react';
 import {useState} from 'react';
-import {Box, Card, CardContent, FormControlLabel, MenuItem, Stack, Switch, TextField, Typography} from '@mui/material';
-import type {Difficulty, Skill, Talent, TalentSkillCheck} from '../../../../../../api/model';
+import {
+    Box,
+    Card,
+    CardContent,
+    CircularProgress,
+    FormControlLabel,
+    MenuItem,
+    Stack,
+    Switch,
+    TextField,
+    Typography
+} from '@mui/material';
+import type {AdversarySkill, Difficulty, Skill, Talent, TalentSkillCheck} from '../../../../../../api/model';
 import {StatusEffectType} from '../../../../../../api/model';
-import {useFetchAllSkills} from '../../../../../../hooks/useFetchAllSkills.ts';
 import SkillAutocompleteCard from '../../../../../common/card/SkillAutocompleteCard.tsx';
 import DifficultyCard from '../../../../../common/card/select/DifficultyCard.tsx';
 import GridContainer from '../../../../../common/grid/GridContainer.tsx';
 import GridItem from '../../../../../common/grid/GridItem.tsx';
 import GenesysNumberField from '../../../../common/field/GenesysNumberField.tsx';
+import {useParams} from "react-router-dom";
+import {useCampaignLive} from "../../../../../../hooks/campaign/useCampaginLive.ts";
 
 interface Props {
     talent: Talent;
@@ -16,7 +28,22 @@ interface Props {
 }
 
 const TalentActionTab: React.FC<Props> = ({talent, updateTalent}) => {
-    const {skills} = useFetchAllSkills();
+    const {id} = useParams<{ id: string }>();
+    if (!id) {
+        return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
+    }
+
+    const {campaign, isLoading} = useCampaignLive(id);
+
+    if (isLoading) {
+        return <CircularProgress/>;
+    }
+
+    if (!campaign) {
+        return <Typography variant="h6" color="error">Campaign Not Found</Typography>;
+    }
+
+    const skills = campaign.compendium.skills;
     const check: TalentSkillCheck = talent.talentSkillCheck ?? {skill: null, difficulty: null, opposedSkill: null};
     const [opposed, setOpposed] = useState<boolean>(!!check.opposedSkill);
 
@@ -28,9 +55,9 @@ const TalentActionTab: React.FC<Props> = ({talent, updateTalent}) => {
         const next = !opposed;
         setOpposed(next);
         if (!next) {
-            patchCheck({opposedSkill: null, onSuccessCondition: null});
+            patchCheck({opposedSkill: undefined, onSuccessCondition: undefined});
         } else {
-            patchCheck({difficulty: null});
+            patchCheck({difficulty: undefined});
         }
     };
 
@@ -72,7 +99,7 @@ const TalentActionTab: React.FC<Props> = ({talent, updateTalent}) => {
                                 skills={skills}
                                 startingSkill={check.opposedSkill as unknown as Skill}
                                 handleSkillChange={(value: Skill) =>
-                                    patchCheck({opposedSkill: value as TalentSkillCheck['opposedSkill']})
+                                    patchCheck({opposedSkill: value as unknown as AdversarySkill})
                                 }
                             />
                         )}
@@ -98,7 +125,7 @@ const TalentActionTab: React.FC<Props> = ({talent, updateTalent}) => {
                                         patchCheck({
                                             onSuccessCondition: type
                                                 ? {type, rounds: check.onSuccessCondition?.rounds ?? 1}
-                                                : null,
+                                                : undefined,
                                         });
                                     }}
                                 >
