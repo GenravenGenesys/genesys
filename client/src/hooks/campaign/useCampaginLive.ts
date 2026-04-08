@@ -2,13 +2,21 @@ import {useEffect} from 'react';
 import {useQueryClient} from '@tanstack/react-query';
 import {useGetCampaign} from "../../api/generated/campaign-controller/campaign-controller.ts";
 import type { AdversaryTemplate, Archetype, Campaign, Career, ItemTemplate, Skill, Talent } from '../../api/model/index.ts';
+import {useGetCampaigns} from "./useGetCampaigns.ts";
 
 export function useCampaignLive(campaignId: string) {
     const queryClient = useQueryClient();
-    
-    const { data, isLoading, error } = useGetCampaign(campaignId);
+
+    const {data: mockCampaigns} = useGetCampaigns();
+    const mockCampaign = mockCampaigns?.find(c => c.id === campaignId) ?? null;
+
+    const { data, isLoading, error } = useGetCampaign(campaignId, {
+        query: {enabled: !mockCampaign}
+    });
 
     useEffect(() => {
+        if (mockCampaign) return;
+
         const eventSource = new EventSource(`/api/campaigns/${campaignId}/stream`);
     
         eventSource.onmessage = (event) => {
@@ -17,9 +25,9 @@ export function useCampaignLive(campaignId: string) {
         };
     
         return () => eventSource.close();
-    }, [campaignId, queryClient]);
+    }, [campaignId, queryClient, mockCampaign]);
 
-    const campaign = data?.data;
+    const campaign = mockCampaign ?? data?.data;
     // const campaign =
     //     {
     //         "id": "695e9ce4dcbe9bcbb04d09a4",
