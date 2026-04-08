@@ -1,21 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, TableCell, Typography } from "@mui/material";
 import GenesysDescriptionTypography from "../../home/common/typography/GenesysDescriptionTypography.tsx";
-import { getActorCharacteristicRanks } from "../../../models/actor/Actor";
-import GenesysSkillDiceTypography from "../../home/common/typography/GenesysSkillDiceTypography.tsx";
 import GenesysDifficultyDiceTypography from "../../home/common/typography/GenesysDifficultyDiceTypography.tsx";
 // import { GenesysSymbols } from "../../../models/roll/GenesysSymbols";
-import DiceRollerDialog from "../../roll/DiceRollerDialog";
 import {
-    type ActorSkill,
     type Cost,
     CostType,
     type Difficulty,
     type Limit,
     LimitType,
-    type PlayerSkill,
 } from "../../../api/model";
-import {getDifficultyDice} from "../../../util/DiceHelper.ts";
 
 interface LeftProps {
     value: string;
@@ -112,95 +106,6 @@ const GenesysDescriptionTypographyCenterTableCell: React.FC<DescriptionCenterPro
     </TableCell>
 );
 
-interface Target {
-    actor: Actor;
-    skill: ActorSkill;
-}
-
-interface DiceRollProps {
-    actor: Actor;
-    skill: ActorSkill | PlayerSkill;
-    difficulty?: Difficulty;
-    target?: Target;
-}
-
-const GenesysDicePoolCenterTableCellButton: React.FC<DiceRollProps> = ({ actor, skill, difficulty, target }) => {
-    const [openCustomRollBackDrop, setOpenCustomRollBackDrop] = useState(false);
-
-    const gatherBoostDice = () => 0;
-
-    const gatherSetbackDice = () => 0;
-
-    const gatherAbilityDice = () =>
-        Math.max(getActorCharacteristicRanks(actor, skill), skill.ranks) -
-        Math.min(getActorCharacteristicRanks(actor, skill), skill.ranks);
-
-    const gatherDifficultyDice = () =>
-        difficulty
-            ? getDifficultyDice(difficulty)
-            : target
-                ? Math.max(getActorCharacteristicRanks(target.actor, target.skill), target.skill.ranks) -
-                Math.min(getActorCharacteristicRanks(target.actor, target.skill), target.skill.ranks)
-                : 0;
-
-    const gatherProficiencyDice = () =>
-        Math.min(getActorCharacteristicRanks(actor, skill), skill.ranks);
-
-    const gatherChallengeDice = () =>
-        target ? Math.min(getActorCharacteristicRanks(target.actor, target.skill), target.skill.ranks) : 0;
-
-    const dicePool = {
-        boost: gatherBoostDice(),
-        setback: gatherSetbackDice(),
-        ability: gatherAbilityDice(),
-        difficulty: gatherDifficultyDice(),
-        proficiency: gatherProficiencyDice(),
-        challenge: gatherChallengeDice(),
-    };
-
-    return (
-        <TableCell style={{ textAlign: 'center' }}>
-            <Button onClick={() => setOpenCustomRollBackDrop(true)}>
-                {!difficulty && !target && (
-                    <GenesysSkillDiceTypography
-                        characteristicRanks={getActorCharacteristicRanks(actor, skill)}
-                        skillRanks={skill.ranks}
-                    />
-                )}
-                {difficulty && (
-                    <GenesysSkillDiceTypography
-                        characteristicRanks={getActorCharacteristicRanks(actor, skill)}
-                        skillRanks={skill.ranks}
-                        difficulty={dicePool.difficulty}
-                    />
-                )}
-                {target && (
-                    <GenesysSkillDiceTypography
-                        characteristicRanks={getActorCharacteristicRanks(actor, skill)}
-                        skillRanks={skill.ranks}
-                        target={{
-                            characteristicRanks: getActorCharacteristicRanks(target.actor, target.skill),
-                            skillRanks: target.skill.ranks,
-                        }}
-                    />
-                )}
-            </Button>
-            {openCustomRollBackDrop && (
-                <DiceRollerDialog
-                    open={openCustomRollBackDrop}
-                    onClose={() => setOpenCustomRollBackDrop(false)}
-                    boost={dicePool.boost}
-                    setback={dicePool.setback}
-                    ability={dicePool.ability}
-                    difficulty={dicePool.difficulty}
-                    proficiency={dicePool.proficiency}
-                    challenge={dicePool.challenge}
-                />
-            )}
-        </TableCell>
-    );
-};
-
 interface DifficultyProps {
     difficulty: Difficulty;
 }
@@ -218,6 +123,5 @@ export {
     CostTableCell,
     LimitTableCell,
     GenesysDescriptionTypographyCenterTableCell,
-    GenesysDicePoolCenterTableCellButton,
     GenesysDifficultyCenterTableCell,
 };
