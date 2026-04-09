@@ -5,11 +5,14 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { AbilityModifiers } from './abilityModifiers';
+import type { Action } from './action';
 import type { Activation } from './activation';
 import type { Cost } from './cost';
+import type { DiceModifier } from './diceModifier';
 import type { Limit } from './limit';
+import type { Maneuver } from './maneuver';
 import type { StatModifiers } from './statModifiers';
-import type { TalentRollModifiers } from './talentRollModifiers';
 import type { TalentSkillCheck } from './talentSkillCheck';
 import type { TalentSkills } from './talentSkills';
 import type { Tier } from './tier';
@@ -30,8 +33,13 @@ export interface PlayerTalent {
   limit: Limit;
   talentSkills: TalentSkills;
   statModifiers: StatModifiers;
+  abilityModifiers: AbilityModifiers;
   talentSkillCheck: TalentSkillCheck;
-  talentRollModifiers: TalentRollModifiers[];
+  diceModifiers: DiceModifier[];
+  /** Configuration for talents that function as a maneuver activation */
+  maneuver?: Maneuver;
+  /** Configuration for talents that function as a action activation */
+  action?: Action;
   /** @minimum 0 */
   ranks: number;
 }

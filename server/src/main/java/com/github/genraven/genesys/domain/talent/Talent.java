@@ -7,6 +7,7 @@ import com.github.genraven.genesys.domain.Cost;
 import com.github.genraven.genesys.domain.Limit;
 import com.github.genraven.genesys.domain.enums.Tier;
 import com.github.genraven.genesys.domain.modifier.AbilityModifiers;
+import com.github.genraven.genesys.domain.modifier.DiceModifier;
 import com.github.genraven.genesys.domain.modifier.StatModifiers;
 import com.github.genraven.genesys.validator.EnumValidator;
 
@@ -79,13 +80,13 @@ public class Talent {
 
     @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<TalentRollModifiers> talentRollModifiers = null;
+    private List<DiceModifier> diceModifiers = null;
 
     @Builder.Default
     @Schema(description = "Configuration for talents that function as a maneuver activation")
     private Maneuver maneuver = null;
 
     @Builder.Default
-    @Schema(description = "Configuration for talents that function as a action activation", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Configuration for talents that function as a action activation")
     private Action action = null;
 }

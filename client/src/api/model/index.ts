@@ -88,7 +88,6 @@ export * from './statModifiers';
 export * from './statusEffect';
 export * from './statusEffectType';
 export * from './talent';
-export * from './talentRollModifiers';
 export * from './talentSkillCheck';
 export * from './talentSkills';
 export * from './target';

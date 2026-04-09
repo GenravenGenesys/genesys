@@ -1,6 +1,6 @@
 import {
     CheckContext,
-    type DiceModifier, DiceType, type QualityStats, type Skill, SkillType,
+    type DiceModifier, DiceType, type Skill, SkillType,
     type StatModifiers,
     type Talent, Target,
 } from "../../../../../../api/model";
@@ -27,6 +27,7 @@ interface Props {
 const TalentModifyStatsTab: React.FC<Props> = ({talent, updateTalent}) => {
     const stats = talent.statModifiers;
     const ability = talent.abilityModifiers;
+    const diceModifiers = talent.diceModifiers;
 
     const handleChange = <K extends keyof Talent>(field: K, value: Talent[K]) => {
         updateTalent({
