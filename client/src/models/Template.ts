@@ -1,4 +1,7 @@
 import {
+    type Ability,
+    type Action,
+    ActionType,
     Activation,
     type AdversaryTemplate,
     AdversaryTemplateType,
@@ -12,9 +15,11 @@ import {
     type CriticalInjury,
     Difficulty,
     DiceType,
+    Duration,
     EquipmentType,
     type ItemTemplate,
     LimitType,
+    type Maneuver,
     type PlayerCharacter,
     type PlayerSkill,
     type PlayerTalent,
@@ -107,12 +112,6 @@ export const emptyTalent = {
     activation: Activation.Passive,
     tier: Tier.First,
     ranked: false,
-    action: {
-        skill: {...emptySkill, ranks: 0},
-        difficulty: Difficulty.Easy,
-        opposedSkill: {...emptySkill, ranks: 0},
-        rangeBand: RangeBand.Engaged
-    },
     cost: {
         type: CostType.None,
         amount: 0,
@@ -130,7 +129,7 @@ export const emptyTalent = {
         criticalInjuryCountAsOne: false,
         moveStoryPoint: false,
     },
-    talentRollModifiers: [],
+    diceModifiers: [],
     talentSkills: {
         potentialCareerSkills: [],
     },
@@ -316,3 +315,58 @@ export const emptyCriticalInjury = {
     min: 0,
     max: 0,
 } as CriticalInjury;
+
+export const emptyAction = {
+    type: ActionType.Skill_Check,
+    opposed: false,
+    difficulty: Difficulty.Easy,
+    target: Target.Self,
+    range: RangeBand.Engaged,
+    damage: 0,
+    brawnBonus: false,
+    critical: 0,
+    diceModifiers: [],
+    resultsModifiers: [],
+} as Action;
+
+export const emptyManeuver = {
+    target: Target.Self,
+    duration: Duration.Scene,
+    stackable: false,
+    maxTargets: 1,
+    rangeScalesWithRank: false,
+    diceModifiers: [],
+    resultsModifiers: [],
+    defenseModifiers: [],
+} as Maneuver;
+
+export const emptyAbility = {
+    name: '',
+    description: '',
+    activation: Activation.Passive,
+    cost: {
+        type: CostType.None,
+        amount: 0,
+    },
+    limit: {
+        type: LimitType.None,
+        limit: 0,
+    },
+    statModifiers: {
+        wounds: 0,
+        strain: 0,
+        soak: 0,
+        defense: 0,
+        encumbranceThreshold: 0,
+    },
+    abilityModifiers: {
+        diceModifiers: [],
+        resultsModifiers: [],
+        healEffects: [],
+        environmentModifiers: [],
+        criticalInjuryCountAsOne: false,
+        freeMoveManeuver: false,
+        moveStoryPoint: false,
+    },
+} as Ability;
+

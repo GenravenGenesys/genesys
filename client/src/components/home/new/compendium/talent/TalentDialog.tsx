@@ -5,7 +5,7 @@ import {
     DialogContent, Tabs, Tab
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import {Activation, LimitType, type Talent, Tier} from "../../../../../api/model";
+import {Activation, LimitType, RangeBand, type Talent, Tier} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
@@ -13,7 +13,7 @@ import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
 import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
 import TalentActionTab from "./tabs/TalentActionTab.tsx";
 import TalentManeuverTab from "./tabs/TalentManeuverTab.tsx";
-import {emptyTalent} from "../../../../../models/Template.ts";
+import {emptyAction, emptyTalent} from "../../../../../models/Template.ts";
 
 interface Props {
     open: boolean;
@@ -25,7 +25,7 @@ interface Props {
 
 export default function TalentDialog(props: Props) {
     const {open, talent, onClose, onSave, isNew} = props;
-    const [formData, setFormData] = useState<Talent>(talent || {});
+    const [formData, setFormData] = useState<Talent>(talent || emptyTalent);
     const [tabValue, setTabValue] = useState(0);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -46,8 +46,24 @@ export default function TalentDialog(props: Props) {
             updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Round, limit: 1};
         }
 
-        if (lowerDescription.includes('use this talent')) {
+        if (lowerDescription.includes('opposed')) {
             updates.activation = Activation['Active_(Action)'];
+            updates.action = {...(updates.action ?? emptyAction), opposed: true};
+        }
+
+        const rangeMap: [string, RangeBand][] = [
+            ['engaged range', RangeBand.Engaged],
+            ['short range', RangeBand.Short],
+            ['medium range', RangeBand.Medium],
+            ['long range', RangeBand.Long],
+            ['extreme range', RangeBand.Extreme],
+            ['strategic range', RangeBand.Strategic],
+        ];
+        for (const [keyword, band] of rangeMap) {
+            if (lowerDescription.includes(keyword)) {
+                updates.action = {...(updates.action ?? emptyAction), range: band};
+                break;
+            }
         }
 
         setFormData((prev: Talent) => ({...prev, ...updates}));
