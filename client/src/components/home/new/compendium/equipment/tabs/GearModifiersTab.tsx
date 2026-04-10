@@ -11,7 +11,6 @@ import {
     CharacteristicType,
     CheckContext,
     Target,
-    DiceType,
     Duration,
     HealSource,
     HealTarget,
@@ -41,25 +40,13 @@ import GridContainer from "../../../../../common/grid/GridContainer.tsx";
 import GenesysNumberField from "../../../../common/field/GenesysNumberField.tsx";
 import GenesysSelectField from "../../../../common/field/GenesysSelectField.tsx";
 import SelectSkillAutocomplete from "../../../../common/SelectSkillAutocomplete.tsx";
-import SelectSkillField from "../../../../common/SelectSkillField.tsx";
+import DiceModifierAccordion from "../../common/DiceModifierAccordion.tsx";
+import ResultsModifierAccordion from "../../common/ResultsModifierAccordion.tsx";
 
 interface Props {
     gearModifiers: GearModifiers;
     updateGearModifiers: (gearModifiers: GearModifiers) => void;
 }
-
-const defaultDiceModifier = (): DiceModifier => ({
-    diceType: DiceType.Boost,
-    amount: 1,
-    checkContext: CheckContext.All,
-    checkTarget: Target.Self,
-});
-
-const defaultResultsModifier = (): ResultsModifier => ({
-    results: {success: 0, advantage: 0, triumph: 0, failure: 0, threat: 0, despair: 0},
-    checkContext: CheckContext.All,
-    checkTarget: Target.Self,
-});
 
 const defaultUpgradeModifier = (): UpgradeModifier => ({
     upgradeType: UpgradeType.Ability_to_Proficiency,
@@ -75,7 +62,7 @@ const defaultCharacteristicModifier = (): CharacteristicModifier => ({
 });
 
 const defaultSkillRankModifier = (): SkillRankModifier => ({
-    skill: {id: '', name: '', characteristic: CharacteristicType.Brawn, type: SkillType.General, initiative: false},
+    skill: {id: '', name: '', characteristic: CharacteristicType.Brawn, type: SkillType.General, initiative: false, description: "", summary: ""},
     ranks: 1,
 });
 
@@ -114,43 +101,13 @@ export default function GearModifiersTab(props: Props) {
     };
 
     // ── Dice Modifiers ────────────────────────────────────────────────────────
-    const updateDiceModifier = (index: number, updated: DiceModifier) => {
-        const updated_list = gearModifiers.diceModifiers.map((m, i) => (i === index ? updated : m));
-        updateGearModifiers({...gearModifiers, diceModifiers: updated_list});
-    };
-
-    const addDiceModifier = () => {
-        updateGearModifiers({
-            ...gearModifiers,
-            diceModifiers: [...gearModifiers.diceModifiers, defaultDiceModifier()],
-        });
-    };
-
-    const removeDiceModifier = (index: number) => {
-        updateGearModifiers({
-            ...gearModifiers,
-            diceModifiers: gearModifiers.diceModifiers.filter((_, i) => i !== index),
-        });
+    const updateDiceModifiers = (updated: DiceModifier[]) => {
+        updateGearModifiers({...gearModifiers, diceModifiers: updated});
     };
 
     // ── Results Modifiers ─────────────────────────────────────────────────────
-    const updateResultsModifier = (index: number, updated: ResultsModifier) => {
-        const updated_list = gearModifiers.resultsModifiers.map((m, i) => (i === index ? updated : m));
-        updateGearModifiers({...gearModifiers, resultsModifiers: updated_list});
-    };
-
-    const addResultsModifier = () => {
-        updateGearModifiers({
-            ...gearModifiers,
-            resultsModifiers: [...gearModifiers.resultsModifiers, defaultResultsModifier()],
-        });
-    };
-
-    const removeResultsModifier = (index: number) => {
-        updateGearModifiers({
-            ...gearModifiers,
-            resultsModifiers: gearModifiers.resultsModifiers.filter((_, i) => i !== index),
-        });
+    const updateResultsModifiers = (updated: ResultsModifier[]) => {
+        updateGearModifiers({...gearModifiers, resultsModifiers: updated});
     };
 
     // ── Upgrade Modifiers ─────────────────────────────────────────────────────
@@ -325,220 +282,18 @@ export default function GearModifiersTab(props: Props) {
                 </Grid>
             </GridContainer>
 
-            {/* ── Dice Modifiers ────────────────────────────────── */}
-            <Divider>
-                <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
-                    DICE MODIFIERS
-                </Typography>
-            </Divider>
-
-            {gearModifiers.diceModifiers.map((mod, index) => (
-                <Accordion key={index} disableGutters sx={{bgcolor: "background.paper"}}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                        <Box sx={{display: "flex", alignItems: "center", width: "100%", gap: 1}}>
-                            <Typography variant="body2" sx={{flexGrow: 1}}>
-                                {mod.amount}× {mod.diceType} — {mod.checkContext} / {mod.checkTarget} — {mod.skillType || mod.skill?.name || "No Skill Filter"}
-                            </Typography>
-                            <Tooltip title="Remove">
-                                <IconButton
-                                    size="small"
-                                    color="error"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        removeDiceModifier(index);
-                                    }}
-                                >
-                                    <DeleteIcon fontSize="small"/>
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Stack spacing={2}>
-                            <GridContainer spacing={2}>
-                                <Grid size={6}>
-                                    <GenesysSelectField
-                                        value={mod.diceType}
-                                        label="Dice Type"
-                                        onChange={(v) => updateDiceModifier(index, {
-                                            ...mod,
-                                            diceType: v as DiceModifier["diceType"]
-                                        })}
-                                        options={DiceType}
-                                    />
-                                </Grid>
-                                <Grid size={6}>
-                                    <GenesysNumberField
-                                        value={mod.amount}
-                                        fullwidth
-                                        label="Amount"
-                                        onChange={(v) => updateDiceModifier(index, {...mod, amount: v})}
-                                    />
-                                </Grid>
-                                <Grid size={6}>
-                                    <GenesysSelectField
-                                        value={mod.checkContext}
-                                        label="Check Context"
-                                        onChange={(v) => updateDiceModifier(index, {
-                                            ...mod,
-                                            checkContext: v as DiceModifier["checkContext"]
-                                        })}
-                                        options={CheckContext}
-                                    />
-                                </Grid>
-                                <Grid size={6}>
-                                    <GenesysSelectField
-                                        value={mod.checkTarget}
-                                        label="Check Target"
-                                        onChange={(v) => updateDiceModifier(index, {
-                                            ...mod,
-                                            checkTarget: v as DiceModifier["checkTarget"]
-                                        })}
-                                        options={Target}
-                                    />
-                                </Grid>
-                                <Grid size={6}>
-                                    <GenesysSelectField
-                                        value={mod.skillType ?? ""}
-                                        label="Skill Type Filter (optional)"
-                                        onChange={(v) => updateDiceModifier(index, {
-                                            ...mod,
-                                            skillType: v ? v as DiceModifier["skillType"] : undefined
-                                        })}
-                                        options={{Any: "", ...SkillType}}
-                                    />
-                                </Grid>
-                                <Grid size={6}>
-                                    <SelectSkillField skill={mod.skill!}
-                                                      updateSkill={(updatedSkill) => updateDiceModifier(index, {
-                                                          ...mod, skill: updatedSkill
-                                                      })}/>
-                                </Grid>
-                            </GridContainer>
-                        </Stack>
-                    </AccordionDetails>
-                </Accordion>
-            ))}
-
-            <Box>
-                <IconButton color="primary" onClick={addDiceModifier} size="small">
-                    <AddIcon fontSize="small"/>
-                </IconButton>
-                <Typography variant="caption" color="text.secondary" sx={{ml: 1}}>
-                    Add Dice Modifier
-                </Typography>
-            </Box>
+            <DiceModifierAccordion
+                modifiers={gearModifiers.diceModifiers}
+                onChange={updateDiceModifiers}
+            />
 
             {/* ── Results Modifiers ─────────────────────────────── */}
-            <Divider>
-                <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
-                    RESULTS MODIFIERS
-                </Typography>
-            </Divider>
 
-            {gearModifiers.resultsModifiers.map((mod, index) => (
-                <Accordion key={index} disableGutters sx={{bgcolor: "background.paper"}}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                        <Box sx={{display: "flex", alignItems: "center", width: "100%", gap: 1}}>
-                            <Typography variant="body2" sx={{flexGrow: 1}}>
-                                Results Modifier #{index + 1} — {mod.checkContext} / {mod.checkTarget}
-                            </Typography>
-                            <Tooltip title="Remove">
-                                <IconButton
-                                    size="small"
-                                    color="error"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        removeResultsModifier(index);
-                                    }}
-                                >
-                                    <DeleteIcon fontSize="small"/>
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Stack spacing={2}>
-                            <GridContainer spacing={2}>
-                                <Grid size={6}>
-                                    <GenesysSelectField
-                                        value={mod.checkContext}
-                                        label="Check Context"
-                                        onChange={(v) => updateResultsModifier(index, {
-                                            ...mod,
-                                            checkContext: v as ResultsModifier["checkContext"]
-                                        })}
-                                        options={CheckContext}
-                                    />
-                                </Grid>
-                                <Grid size={6}>
-                                    <GenesysSelectField
-                                        value={mod.checkTarget}
-                                        label="Check Target"
-                                        onChange={(v) => updateResultsModifier(index, {
-                                            ...mod,
-                                            checkTarget: v as ResultsModifier["checkTarget"]
-                                        })}
-                                        options={Target}
-                                    />
-                                </Grid>
-                                <Grid size={6}>
-                                    <GenesysSelectField
-                                        value={mod.skillType ?? ""}
-                                        label="Skill Type Filter (optional)"
-                                        onChange={(v) => updateResultsModifier(index, {
-                                            ...mod,
-                                            skillType: v ? v as ResultsModifier["skillType"] : undefined
-                                        })}
-                                        options={{Any: "", ...SkillType}}
-                                    />
-                                </Grid>
-                            </GridContainer>
 
-                            <Divider>
-                                <Typography variant="caption" color="text.secondary">
-                                    SYMBOL RESULTS
-                                </Typography>
-                            </Divider>
-
-                            <GridContainer spacing={2}>
-                                {(["success", "advantage", "triumph", "failure", "threat", "despair"] as const).map((symbol) => (
-                                    <Grid size={4} key={symbol}>
-                                        <GenesysNumberField
-                                            value={mod.results[symbol]}
-                                            fullwidth
-                                            label={symbol.charAt(0).toUpperCase() + symbol.slice(1)}
-                                            onChange={(v) =>
-                                                updateResultsModifier(index, {
-                                                    ...mod,
-                                                    results: {...mod.results, [symbol]: v},
-                                                })
-                                            }
-                                        />
-                                    </Grid>
-                                ))}
-                            </GridContainer>
-
-                            {mod.skillType && (
-                                <SelectSkillAutocomplete
-                                    currentSkill={mod.skill as Skill}
-                                    handleSkillSelect={(skill: Skill) => updateResultsModifier(index, {...mod, skill})}
-                                    filterByType={mod.skillType}
-                                />
-                            )}
-                        </Stack>
-                    </AccordionDetails>
-                </Accordion>
-            ))}
-
-            <Box>
-                <IconButton color="primary" onClick={addResultsModifier} size="small">
-                    <AddIcon fontSize="small"/>
-                </IconButton>
-                <Typography variant="caption" color="text.secondary" sx={{ml: 1}}>
-                    Add Results Modifier
-                </Typography>
-            </Box>
+            <ResultsModifierAccordion
+                modifiers={gearModifiers.resultsModifiers}
+                onChange={updateResultsModifiers}
+            />
 
             {/* ── Upgrade Modifiers ─────────────────────────────── */}
             <Divider>

@@ -107,7 +107,6 @@ export default function ArchetypeDialog(props: Props) {
     const [formData, setFormData] = useState<Archetype>(archetype || {});
     const [tabValue, setTabValue] = useState(0);
     const [selectedCondition, setSelectedCondition] = useState<SkillConditionType | ''>('');
-    const [abilityStatsEnabled, setAbilityStatsEnabled] = useState<boolean[]>([]);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -115,13 +114,6 @@ export default function ArchetypeDialog(props: Props) {
         if (archetype) {
             setFormData(archetype);
             setSelectedCondition(detectCondition(archetype.skills ?? []));
-            setAbilityStatsEnabled(
-                (archetype.abilities ?? []).map(a =>
-                    a.statModifiers.wounds > 0 || a.statModifiers.strain > 0 ||
-                    a.statModifiers.soak > 0 || a.statModifiers.defense > 0 ||
-                    a.statModifiers.encumbranceThreshold > 0
-                )
-            );
         }
     }, [archetype]);
 
@@ -173,13 +165,11 @@ export default function ArchetypeDialog(props: Props) {
 
     const handleAddAbility = () => {
         handleChange('abilities', [...(formData.abilities ?? []), emptyAbility()]);
-        setAbilityStatsEnabled(prev => [...prev, false]);
     };
 
     const handleRemoveAbility = (index: number) => {
         const updated = (formData.abilities ?? []).filter((_, i) => i !== index);
         handleChange('abilities', updated);
-        setAbilityStatsEnabled(prev => prev.filter((_, i) => i !== index));
     };
 
     const handleAbilityNameChange = (index: number, value: string) => {
@@ -222,19 +212,6 @@ export default function ArchetypeDialog(props: Props) {
             i === index ? {...a, statModifiers: {...a.statModifiers, [field]: value}} : a
         );
         handleChange('abilities', updated);
-    };
-
-    const toggleAbilityStats = (index: number, enabled: boolean) => {
-        setAbilityStatsEnabled(prev => prev.map((v, i) => i === index ? enabled : v));
-        if (!enabled) {
-            const updated = (formData.abilities ?? []).map((a, i) =>
-                i === index ? {
-                    ...a,
-                    statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0}
-                } : a
-            );
-            handleChange('abilities', updated);
-        }
     };
 
     const handleAbilityModifierBoolChange = (index: number, field: keyof AbilityModifiers, value: boolean) => {
@@ -295,14 +272,12 @@ export default function ArchetypeDialog(props: Props) {
         onSave(formData);
         setFormData(emptyArchetype);
         setSelectedCondition('');
-        setAbilityStatsEnabled([]);
         onClose();
     };
 
     const handleClose = () => {
         setFormData(emptyArchetype);
         setSelectedCondition('');
-        setAbilityStatsEnabled([]);
         onClose();
     };
 
@@ -615,7 +590,13 @@ export default function ArchetypeDialog(props: Props) {
                                         </Accordion>
 
                                         {/* Stat Modifiers */}
-                                        <Accordion defaultExpanded={abilityStatsEnabled[index] ?? false}
+                                        <Accordion defaultExpanded={
+                                                       ability.statModifiers.wounds > 0 ||
+                                                       ability.statModifiers.strain > 0 ||
+                                                       ability.statModifiers.soak > 0 ||
+                                                       ability.statModifiers.defense > 0 ||
+                                                       ability.statModifiers.encumbranceThreshold > 0
+                                                   }
                                                    disableGutters sx={{bgcolor: 'background.paper'}}>
                                             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
                                                 <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
@@ -623,51 +604,38 @@ export default function ArchetypeDialog(props: Props) {
                                                 </Typography>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                <Stack spacing={2}>
-                                                    <FormControlLabel
-                                                        control={
-                                                            <Checkbox
-                                                                checked={abilityStatsEnabled[index] ?? false}
-                                                                onChange={(e) => toggleAbilityStats(index, e.target.checked)}
-                                                            />
-                                                        }
-                                                        label="Modify Stats"
+                                                <GridContainer spacing={2}>
+                                                    <GenesysNumberField
+                                                        value={ability.statModifiers.wounds}
+                                                        label={'Increase ' + StatsType.Wounds + ' Threshold'}
+                                                        onChange={(value) => handleAbilityStatChange(index, 'wounds', value)}
+                                                        min={0} max={5} fullwidth
                                                     />
-                                                    {abilityStatsEnabled[index] && (
-                                                        <GridContainer spacing={2}>
-                                                            <GenesysNumberField
-                                                                value={ability.statModifiers.wounds}
-                                                                label={'Increase ' + StatsType.Wounds + ' Threshold'}
-                                                                onChange={(value) => handleAbilityStatChange(index, 'wounds', value)}
-                                                                min={0} max={5} fullwidth
-                                                            />
-                                                            <GenesysNumberField
-                                                                value={ability.statModifiers.strain}
-                                                                label={'Increase ' + StatsType.Strain + ' Threshold'}
-                                                                onChange={(value) => handleAbilityStatChange(index, 'strain', value)}
-                                                                min={0} max={5} fullwidth
-                                                            />
-                                                            <GenesysNumberField
-                                                                value={ability.statModifiers.soak}
-                                                                label="Increase Soak"
-                                                                onChange={(value) => handleAbilityStatChange(index, 'soak', value)}
-                                                                min={0} max={5} fullwidth
-                                                            />
-                                                            <GenesysNumberField
-                                                                value={ability.statModifiers.defense}
-                                                                label="Increase Defense"
-                                                                onChange={(value) => handleAbilityStatChange(index, 'defense', value)}
-                                                                min={0} max={5} fullwidth
-                                                            />
-                                                            <GenesysNumberField
-                                                                value={ability.statModifiers.encumbranceThreshold}
-                                                                label="Increase Encumbrance Threshold"
-                                                                onChange={(value) => handleAbilityStatChange(index, 'encumbranceThreshold', value)}
-                                                                min={0} max={5} fullwidth
-                                                            />
-                                                        </GridContainer>
-                                                    )}
-                                                </Stack>
+                                                    <GenesysNumberField
+                                                        value={ability.statModifiers.strain}
+                                                        label={'Increase ' + StatsType.Strain + ' Threshold'}
+                                                        onChange={(value) => handleAbilityStatChange(index, 'strain', value)}
+                                                        min={0} max={5} fullwidth
+                                                    />
+                                                    <GenesysNumberField
+                                                        value={ability.statModifiers.soak}
+                                                        label="Increase Soak"
+                                                        onChange={(value) => handleAbilityStatChange(index, 'soak', value)}
+                                                        min={0} max={5} fullwidth
+                                                    />
+                                                    <GenesysNumberField
+                                                        value={ability.statModifiers.defense}
+                                                        label="Increase Defense"
+                                                        onChange={(value) => handleAbilityStatChange(index, 'defense', value)}
+                                                        min={0} max={5} fullwidth
+                                                    />
+                                                    <GenesysNumberField
+                                                        value={ability.statModifiers.encumbranceThreshold}
+                                                        label="Increase Encumbrance Threshold"
+                                                        onChange={(value) => handleAbilityStatChange(index, 'encumbranceThreshold', value)}
+                                                        min={0} max={5} fullwidth
+                                                    />
+                                                </GridContainer>
                                             </AccordionDetails>
                                         </Accordion>
 
@@ -676,8 +644,7 @@ export default function ArchetypeDialog(props: Props) {
                                             defaultExpanded={
                                                 ability.abilityModifiers.criticalInjuryCountAsOne ||
                                                 ability.abilityModifiers.freeMoveManeuver ||
-                                                ability.abilityModifiers.moveStoryPoint ||
-                                                ability.abilityModifiers.diceModifiers.length > 0
+                                                ability.abilityModifiers.moveStoryPoint
                                             }
                                             disableGutters sx={{bgcolor: 'background.paper'}}>
                                             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
@@ -686,99 +653,107 @@ export default function ArchetypeDialog(props: Props) {
                                                 </Typography>
                                             </AccordionSummary>
                                             <AccordionDetails>
+                                                <Stack spacing={1}>
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox
+                                                                checked={ability.abilityModifiers.criticalInjuryCountAsOne}
+                                                                onChange={(e) => handleAbilityModifierBoolChange(index, 'criticalInjuryCountAsOne', e.target.checked)}
+                                                            />
+                                                        }
+                                                        label="Critical Injury counts as 01"
+                                                    />
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox
+                                                                checked={ability.abilityModifiers.freeMoveManeuver}
+                                                                onChange={(e) => handleAbilityModifierBoolChange(index, 'freeMoveManeuver', e.target.checked)}
+                                                            />
+                                                        }
+                                                        label="Free second move maneuver"
+                                                    />
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox
+                                                                checked={ability.abilityModifiers.moveStoryPoint}
+                                                                onChange={(e) => handleAbilityModifierBoolChange(index, 'moveStoryPoint', e.target.checked)}
+                                                            />
+                                                        }
+                                                        label="Move Story Point to players"
+                                                    />
+                                                </Stack>
+                                            </AccordionDetails>
+                                        </Accordion>
+
+                                        {/* Dice Modifiers */}
+                                        <Accordion
+                                            defaultExpanded={ability.abilityModifiers.diceModifiers.length > 0}
+                                            disableGutters sx={{bgcolor: 'background.paper'}}>
+                                            <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                                                <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                                                    DICE MODIFIERS
+                                                </Typography>
+                                            </AccordionSummary>
+                                            <AccordionDetails>
                                                 <Stack spacing={2}>
-                                                    <Stack spacing={1}>
-                                                        <FormControlLabel
-                                                            control={
-                                                                <Checkbox
-                                                                    checked={ability.abilityModifiers.criticalInjuryCountAsOne}
-                                                                    onChange={(e) => handleAbilityModifierBoolChange(index, 'criticalInjuryCountAsOne', e.target.checked)}
-                                                                />
-                                                            }
-                                                            label="Critical Injury counts as 01"
-                                                        />
-                                                        <FormControlLabel
-                                                            control={
-                                                                <Checkbox
-                                                                    checked={ability.abilityModifiers.freeMoveManeuver}
-                                                                    onChange={(e) => handleAbilityModifierBoolChange(index, 'freeMoveManeuver', e.target.checked)}
-                                                                />
-                                                            }
-                                                            label="Free second move maneuver"
-                                                        />
-                                                        <FormControlLabel
-                                                            control={
-                                                                <Checkbox
-                                                                    checked={ability.abilityModifiers.moveStoryPoint}
-                                                                    onChange={(e) => handleAbilityModifierBoolChange(index, 'moveStoryPoint', e.target.checked)}
-                                                                />
-                                                            }
-                                                            label="Move Story Point to players"
-                                                        />
-                                                    </Stack>
-                                                    <Typography variant="caption" color="text.secondary">
-                                                        Dice Modifiers
-                                                    </Typography>
-                                                    <Stack spacing={2}>
-                                                        {ability.abilityModifiers.diceModifiers.map((dm, diceIndex) => (
-                                                            <Card key={diceIndex} variant="outlined" sx={{p: 1}}>
-                                                                <Stack spacing={1}>
-                                                                    <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                                        <Button size="small" color="error"
-                                                                                onClick={() => handleRemoveDiceModifier(index, diceIndex)}>
-                                                                            Remove
-                                                                        </Button>
-                                                                    </Box>
-                                                                    <Grid container spacing={1}>
-                                                                        <Grid size={6}>
-                                                                            <GenesysSelectField
-                                                                                value={dm.diceType}
-                                                                                label="Dice Type"
-                                                                                onChange={(value) => handleDiceModifierChange(index, diceIndex, 'diceType', value as DiceType)}
-                                                                                options={DiceType}
-                                                                            />
-                                                                        </Grid>
-                                                                        <Grid size={6}>
-                                                                            <GenesysNumberField
-                                                                                value={dm.amount}
-                                                                                label="Amount"
-                                                                                onChange={(value) => handleDiceModifierChange(index, diceIndex, 'amount', value)}
-                                                                                min={1} max={5} fullwidth
-                                                                            />
-                                                                        </Grid>
-                                                                        <Grid size={6}>
-                                                                            <GenesysSelectField
-                                                                                value={dm.checkContext}
-                                                                                label="Check Context"
-                                                                                onChange={(value) => handleDiceModifierChange(index, diceIndex, 'checkContext', value as CheckContext)}
-                                                                                options={CheckContext}
-                                                                            />
-                                                                        </Grid>
-                                                                        <Grid size={6}>
-                                                                            <GenesysSelectField
-                                                                                value={dm.checkTarget}
-                                                                                label="Check Target"
-                                                                                onChange={(value) => handleDiceModifierChange(index, diceIndex, 'checkTarget', value as Target)}
-                                                                                options={Target}
-                                                                            />
-                                                                        </Grid>
-                                                                        <Grid size={12}>
-                                                                            <GenesysSelectField
-                                                                                value={dm.skillType ?? ''}
-                                                                                label="Skill Type (optional)"
-                                                                                onChange={(value) => handleDiceModifierChange(index, diceIndex, 'skillType', value === '' ? undefined : value as SkillType)}
-                                                                                options={{None: '', ...SkillType}}
-                                                                            />
-                                                                        </Grid>
+                                                    {ability.abilityModifiers.diceModifiers.map((dm, diceIndex) => (
+                                                        <Card key={diceIndex} variant="outlined" sx={{p: 1}}>
+                                                            <Stack spacing={1}>
+                                                                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                                    <Button size="small" color="error"
+                                                                            onClick={() => handleRemoveDiceModifier(index, diceIndex)}>
+                                                                        Remove
+                                                                    </Button>
+                                                                </Box>
+                                                                <Grid container spacing={1}>
+                                                                    <Grid size={6}>
+                                                                        <GenesysSelectField
+                                                                            value={dm.diceType}
+                                                                            label="Dice Type"
+                                                                            onChange={(value) => handleDiceModifierChange(index, diceIndex, 'diceType', value as DiceType)}
+                                                                            options={DiceType}
+                                                                        />
                                                                     </Grid>
-                                                                </Stack>
-                                                            </Card>
-                                                        ))}
-                                                        <Button size="small" variant="outlined"
-                                                                onClick={() => handleAddDiceModifier(index)}>
-                                                            Add Dice Modifier
-                                                        </Button>
-                                                    </Stack>
+                                                                    <Grid size={6}>
+                                                                        <GenesysNumberField
+                                                                            value={dm.amount}
+                                                                            label="Amount"
+                                                                            onChange={(value) => handleDiceModifierChange(index, diceIndex, 'amount', value)}
+                                                                            min={1} max={5} fullwidth
+                                                                        />
+                                                                    </Grid>
+                                                                    <Grid size={6}>
+                                                                        <GenesysSelectField
+                                                                            value={dm.checkContext}
+                                                                            label="Check Context"
+                                                                            onChange={(value) => handleDiceModifierChange(index, diceIndex, 'checkContext', value as CheckContext)}
+                                                                            options={CheckContext}
+                                                                        />
+                                                                    </Grid>
+                                                                    <Grid size={6}>
+                                                                        <GenesysSelectField
+                                                                            value={dm.checkTarget}
+                                                                            label="Check Target"
+                                                                            onChange={(value) => handleDiceModifierChange(index, diceIndex, 'checkTarget', value as Target)}
+                                                                            options={Target}
+                                                                        />
+                                                                    </Grid>
+                                                                    <Grid size={12}>
+                                                                        <GenesysSelectField
+                                                                            value={dm.skillType ?? ''}
+                                                                            label="Skill Type (optional)"
+                                                                            onChange={(value) => handleDiceModifierChange(index, diceIndex, 'skillType', value === '' ? undefined : value as SkillType)}
+                                                                            options={{None: '', ...SkillType}}
+                                                                        />
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Stack>
+                                                        </Card>
+                                                    ))}
+                                                    <Button size="small" variant="outlined"
+                                                            onClick={() => handleAddDiceModifier(index)}>
+                                                        Add Dice Modifier
+                                                    </Button>
                                                 </Stack>
                                             </AccordionDetails>
                                         </Accordion>
