@@ -17,6 +17,7 @@ import {
     DiceType,
     Duration,
     EquipmentType,
+    type Incidental,
     type ItemTemplate,
     LimitType,
     type Maneuver,
@@ -328,6 +329,12 @@ export const emptyAction = {
     diceModifiers: [],
     resultsModifiers: [],
 } as Action;
+
+export const emptyIncidental = {
+    diceModifiers: [],
+    resultsModifiers: [],
+    healEffects: [],
+} as Incidental;
 
 export const emptyManeuver = {
     target: Target.Self,

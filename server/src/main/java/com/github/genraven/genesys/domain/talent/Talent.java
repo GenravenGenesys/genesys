@@ -89,4 +89,16 @@ public class Talent {
     @Builder.Default
     @Schema(description = "Configuration for talents that function as a action activation")
     private Action action = null;
+
+    @Builder.Default
+    @Schema(description = "Configuration for talents that function as a passive activation")
+    private Incidental passive = null;
+
+    @Builder.Default
+    @Schema(description = "Configuration for talents that function as an incidental activation")
+    private Incidental incidental = null;
+
+    @Builder.Default
+    @Schema(description = "Configuration for talents that function as an incidental out of turn activation")
+    private Incidental incidentalOutOfTurn = null;
 }

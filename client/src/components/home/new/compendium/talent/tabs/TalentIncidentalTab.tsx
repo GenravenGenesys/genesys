@@ -3,7 +3,6 @@ import {
     Box,
     Card,
     CardContent,
-    Divider,
     Grid,
     IconButton,
     Stack,
@@ -16,13 +15,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import type {AbilityModifiers, HealEffect, Talent} from '../../../../../../api/model';
+import type {HealEffect, Incidental, Talent} from '../../../../../../api/model';
 import {HealSource, HealTarget} from '../../../../../../api/model';
 import GenesysSelectField from '../../../../common/field/GenesysSelectField.tsx';
 import GenesysNumberField from '../../../../common/field/GenesysNumberField.tsx';
 import GridContainer from '../../../../../common/grid/GridContainer.tsx';
 import DiceModifierAccordion from '../../common/DiceModifierAccordion.tsx';
 import ResultsModifierAccordion from '../../common/ResultsModifierAccordion.tsx';
+import {emptyIncidental} from '../../../../../../models/Template.ts';
 
 const defaultHealEffect = (): HealEffect => ({
     target: HealTarget.Strain,
@@ -33,34 +33,27 @@ const defaultHealEffect = (): HealEffect => ({
 interface Props {
     talent: Talent;
     updateTalent: (talent: Talent) => void;
+    field: 'incidental' | 'incidentalOutOfTurn' | 'passive';
 }
 
-const TalentIncidentalTab: React.FC<Props> = ({talent, updateTalent}) => {
-    const modifiers: AbilityModifiers = talent.abilityModifiers ?? {
-        diceModifiers: [],
-        resultsModifiers: [],
-        healEffects: [],
-        environmentModifiers: [],
-        freeMoveManeuver: false,
-        criticalInjuryCountAsOne: false,
-        moveStoryPoint: false,
-    };
+const TalentIncidentalTab: React.FC<Props> = ({talent, updateTalent, field}) => {
+    const data: Incidental = talent[field] ?? emptyIncidental;
 
-    const patch = (updates: Partial<AbilityModifiers>) => {
-        updateTalent({...talent, abilityModifiers: {...modifiers, ...updates}});
+    const patch = (updates: Partial<Incidental>) => {
+        updateTalent({...talent, [field]: {...data, ...updates}});
     };
 
     // ── Heal Effects ──────────────────────────────────────────────────────────
     const updateHealEffect = (index: number, updated: HealEffect) => {
-        patch({healEffects: modifiers.healEffects.map((m, i) => (i === index ? updated : m))});
+        patch({healEffects: data.healEffects.map((m, i) => (i === index ? updated : m))});
     };
 
     const addHealEffect = () => {
-        patch({healEffects: [...modifiers.healEffects, defaultHealEffect()]});
+        patch({healEffects: [...data.healEffects, defaultHealEffect()]});
     };
 
     const removeHealEffect = (index: number) => {
-        patch({healEffects: modifiers.healEffects.filter((_, i) => i !== index)});
+        patch({healEffects: data.healEffects.filter((_, i) => i !== index)});
     };
 
     return (
@@ -72,7 +65,7 @@ const TalentIncidentalTab: React.FC<Props> = ({talent, updateTalent}) => {
                         Heal Effects
                     </Typography>
                     <Stack spacing={2}>
-                        {modifiers.healEffects.map((mod, index) => (
+                        {data.healEffects.map((mod, index) => (
                             <Accordion key={index} disableGutters sx={{bgcolor: 'background.paper'}}>
                                 <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
                                     <Box sx={{display: 'flex', alignItems: 'center', width: '100%', gap: 1}}>
@@ -148,7 +141,7 @@ const TalentIncidentalTab: React.FC<Props> = ({talent, updateTalent}) => {
             <Card>
                 <CardContent>
                     <DiceModifierAccordion
-                        modifiers={modifiers.diceModifiers}
+                        modifiers={data.diceModifiers}
                         onChange={(updated) => patch({diceModifiers: updated})}
                     />
                 </CardContent>
@@ -158,7 +151,7 @@ const TalentIncidentalTab: React.FC<Props> = ({talent, updateTalent}) => {
             <Card>
                 <CardContent>
                     <ResultsModifierAccordion
-                        modifiers={modifiers.resultsModifiers}
+                        modifiers={data.resultsModifiers}
                         onChange={(updated) => patch({resultsModifiers: updated})}
                     />
                 </CardContent>

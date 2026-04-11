@@ -89,6 +89,7 @@ export default function TalentDialog(props: Props) {
     const isManeuver = formData.activation === Activation['Active_(Maneuver)'];
     const isIncidental = formData.activation === Activation['Active_(Incidental)'];
     const isIncidentalOOT = formData.activation === Activation['Active_(Incidental,_Out_of_Turn)'];
+    const isPassive = formData.activation === Activation.Passive;
 
     return (
         <Dialog
@@ -112,6 +113,7 @@ export default function TalentDialog(props: Props) {
                     <Tab label="Maneuver" disabled={!isManeuver}/>
                     <Tab label="Incidental" disabled={!isIncidental}/>
                     <Tab label="Incidental (Out of Turn)" disabled={!isIncidentalOOT}/>
+                    <Tab label="Passive" disabled={!isPassive}/>
                 </Tabs>
             </Box>
 
@@ -155,12 +157,17 @@ export default function TalentDialog(props: Props) {
 
                 {/* TAB 5: INCIDENTAL */}
                 {tabValue === 4 && isIncidental && (
-                    <TalentIncidentalTab talent={formData} updateTalent={setFormData}/>
+                    <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="incidental"/>
                 )}
 
                 {/* TAB 6: INCIDENTAL OUT OF TURN */}
                 {tabValue === 5 && isIncidentalOOT && (
-                    <TalentIncidentalTab talent={formData} updateTalent={setFormData}/>
+                    <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="incidentalOutOfTurn"/>
+                )}
+
+                {/* TAB 7: PASSIVE */}
+                {tabValue === 6 && isPassive && (
+                    <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="passive"/>
                 )}
             </DialogContent>
 
