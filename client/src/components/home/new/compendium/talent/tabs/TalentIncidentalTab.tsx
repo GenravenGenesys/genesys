@@ -22,6 +22,8 @@ import GenesysNumberField from '../../../../common/field/GenesysNumberField.tsx'
 import GridContainer from '../../../../../common/grid/GridContainer.tsx';
 import DiceModifierAccordion from '../../common/DiceModifierAccordion.tsx';
 import ResultsModifierAccordion from '../../common/ResultsModifierAccordion.tsx';
+import CostLimitAccordion from '../../common/CostLimitAccordion.tsx';
+import DerivedStatsAccordion from '../../common/DerivedStatsAccordion.tsx';
 import {emptyIncidental} from '../../../../../../models/Template.ts';
 
 const defaultHealEffect = (): HealEffect => ({
@@ -58,6 +60,22 @@ const TalentIncidentalTab: React.FC<Props> = ({talent, updateTalent, field}) => 
 
     return (
         <Stack spacing={3}>
+            {/* ── Talent-level Stats ────────────────────────────────────────── */}
+            <CostLimitAccordion
+                cost={talent.cost}
+                limit={talent.limit}
+                onCostChange={(updated) => updateTalent({...talent, cost: updated})}
+                onLimitChange={(updated) => updateTalent({...talent, limit: updated})}
+            />
+            <DerivedStatsAccordion
+                statModifiers={talent.statModifiers}
+                updateStatModifiers={(updated) => updateTalent({...talent, statModifiers: updated})}
+            />
+            <DiceModifierAccordion
+                modifiers={talent.diceModifiers}
+                onChange={(updated) => updateTalent({...talent, diceModifiers: updated})}
+            />
+
             {/* ── Heal Effects ──────────────────────────────────────────────── */}
             <Card>
                 <CardContent>

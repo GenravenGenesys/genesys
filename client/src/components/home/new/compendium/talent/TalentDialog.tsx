@@ -10,7 +10,6 @@ import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
-import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
 import TalentActionTab from "./tabs/TalentActionTab.tsx";
 import TalentManeuverTab from "./tabs/TalentManeuverTab.tsx";
 import TalentIncidentalTab from "./tabs/TalentIncidentalTab.tsx";
@@ -108,7 +107,6 @@ export default function TalentDialog(props: Props) {
             <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                     <Tab label="Basic Information"/>
-                    <Tab label="Modify Stats"/>
                     <Tab label="Action" disabled={!isAction}/>
                     <Tab label="Maneuver" disabled={!isManeuver}/>
                     <Tab label="Incidental" disabled={!isIncidental}/>
@@ -140,33 +138,28 @@ export default function TalentDialog(props: Props) {
                     </Stack>
                 )}
 
-                {/* TAB 2: MODIFY STATS */}
-                {tabValue === 1 && (
-                    <TalentModifyStatsTab talent={formData} updateTalent={setFormData}/>
-                )}
-
-                {/* TAB 3: ACTION */}
-                {tabValue === 2 && isAction && (
+                {/* TAB 2: ACTION */}
+                {tabValue === 1 && isAction && (
                     <TalentActionTab talent={formData} updateTalent={setFormData}/>
                 )}
 
-                {/* TAB 4: MANEUVER */}
-                {tabValue === 3 && isManeuver && (
+                {/* TAB 3: MANEUVER */}
+                {tabValue === 2 && isManeuver && (
                     <TalentManeuverTab talent={formData} updateTalent={setFormData}/>
                 )}
 
-                {/* TAB 5: INCIDENTAL */}
-                {tabValue === 4 && isIncidental && (
+                {/* TAB 4: INCIDENTAL */}
+                {tabValue === 3 && isIncidental && (
                     <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="incidental"/>
                 )}
 
-                {/* TAB 6: INCIDENTAL OUT OF TURN */}
-                {tabValue === 5 && isIncidentalOOT && (
+                {/* TAB 5: INCIDENTAL OUT OF TURN */}
+                {tabValue === 4 && isIncidentalOOT && (
                     <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="incidentalOutOfTurn"/>
                 )}
 
-                {/* TAB 7: PASSIVE */}
-                {tabValue === 6 && isPassive && (
+                {/* TAB 6: PASSIVE */}
+                {tabValue === 5 && isPassive && (
                     <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="passive"/>
                 )}
             </DialogContent>
