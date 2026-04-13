@@ -60,6 +60,7 @@ export * from './genesysSymbolResults';
 export * from './healEffect';
 export * from './healSource';
 export * from './healTarget';
+export * from './incidental';
 export * from './initiativeSlot';
 export * from './initiativeSlotType';
 export * from './itemTemplate';

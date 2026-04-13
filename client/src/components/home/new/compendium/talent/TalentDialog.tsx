@@ -13,6 +13,7 @@ import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
 import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
 import TalentActionTab from "./tabs/TalentActionTab.tsx";
 import TalentManeuverTab from "./tabs/TalentManeuverTab.tsx";
+import TalentIncidentalTab from "./tabs/TalentIncidentalTab.tsx";
 import {emptyAction, emptyTalent} from "../../../../../models/Template.ts";
 
 interface Props {
@@ -86,6 +87,9 @@ export default function TalentDialog(props: Props) {
 
     const isAction = formData.activation === Activation['Active_(Action)'];
     const isManeuver = formData.activation === Activation['Active_(Maneuver)'];
+    const isIncidental = formData.activation === Activation['Active_(Incidental)'];
+    const isIncidentalOOT = formData.activation === Activation['Active_(Incidental,_Out_of_Turn)'];
+    const isPassive = formData.activation === Activation.Passive;
 
     return (
         <Dialog
@@ -107,6 +111,9 @@ export default function TalentDialog(props: Props) {
                     <Tab label="Modify Stats"/>
                     <Tab label="Action" disabled={!isAction}/>
                     <Tab label="Maneuver" disabled={!isManeuver}/>
+                    <Tab label="Incidental" disabled={!isIncidental}/>
+                    <Tab label="Incidental (Out of Turn)" disabled={!isIncidentalOOT}/>
+                    <Tab label="Passive" disabled={!isPassive}/>
                 </Tabs>
             </Box>
 
@@ -146,6 +153,21 @@ export default function TalentDialog(props: Props) {
                 {/* TAB 4: MANEUVER */}
                 {tabValue === 3 && isManeuver && (
                     <TalentManeuverTab talent={formData} updateTalent={setFormData}/>
+                )}
+
+                {/* TAB 5: INCIDENTAL */}
+                {tabValue === 4 && isIncidental && (
+                    <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="incidental"/>
+                )}
+
+                {/* TAB 6: INCIDENTAL OUT OF TURN */}
+                {tabValue === 5 && isIncidentalOOT && (
+                    <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="incidentalOutOfTurn"/>
+                )}
+
+                {/* TAB 7: PASSIVE */}
+                {tabValue === 6 && isPassive && (
+                    <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="passive"/>
                 )}
             </DialogContent>
 

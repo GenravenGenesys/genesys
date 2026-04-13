@@ -10,6 +10,7 @@ import type { Action } from './action';
 import type { Activation } from './activation';
 import type { Cost } from './cost';
 import type { DiceModifier } from './diceModifier';
+import type { Incidental } from './incidental';
 import type { Limit } from './limit';
 import type { Maneuver } from './maneuver';
 import type { StatModifiers } from './statModifiers';
@@ -40,6 +41,12 @@ export interface PlayerTalent {
   maneuver?: Maneuver;
   /** Configuration for talents that function as a action activation */
   action?: Action;
+  /** Configuration for talents that function as a passive activation */
+  passive?: Incidental;
+  /** Configuration for talents that function as an incidental activation */
+  incidental?: Incidental;
+  /** Configuration for talents that function as an incidental out of turn activation */
+  incidentalOutOfTurn?: Incidental;
   /** @minimum 0 */
   ranks: number;
 }
