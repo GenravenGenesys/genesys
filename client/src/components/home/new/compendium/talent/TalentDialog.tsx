@@ -38,6 +38,10 @@ export default function TalentDialog(props: Props) {
         const lowerDescription = value.toLowerCase();
         const updates: Partial<Talent> = {description: value};
 
+        if (lowerDescription.includes('rank')) {
+            updates.ranked = true;
+        }
+
         if (lowerDescription.includes('once per session')) {
             updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Session, limit: 1};
         } else if (lowerDescription.includes('once per encounter')) {
