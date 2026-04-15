@@ -1,4 +1,5 @@
 import {Typography} from '@mui/material';
+import DOMPurify from 'dompurify';
 
 interface Props {
     text: string;
@@ -75,6 +76,11 @@ export default function GenesysDescriptionTypography(props: Props) {
         return final;
     };
 
+    const sanitizedHtml = DOMPurify.sanitize(checkText(), {
+        ALLOWED_TAGS: ['i', 'b'],
+        ALLOWED_ATTR: ['class']
+    });
+
     return <Typography variant={variant} component="div" sx={sx} style={{wordWrap: 'break-word', textAlign: 'center'}}
-                       dangerouslySetInnerHTML={{__html: checkText()}}/>;
+                       dangerouslySetInnerHTML={{__html: sanitizedHtml}}/>;
 }
