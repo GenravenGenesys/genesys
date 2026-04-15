@@ -9,10 +9,11 @@ import type { AbilityModifiers } from './abilityModifiers';
 import type { Action } from './action';
 import type { Activation } from './activation';
 import type { Cost } from './cost';
+import type { DiceModifier } from './diceModifier';
+import type { Incidental } from './incidental';
 import type { Limit } from './limit';
 import type { Maneuver } from './maneuver';
 import type { StatModifiers } from './statModifiers';
-import type { TalentRollModifiers } from './talentRollModifiers';
 import type { TalentSkillCheck } from './talentSkillCheck';
 import type { TalentSkills } from './talentSkills';
 import type { Tier } from './tier';
@@ -35,9 +36,15 @@ export interface Talent {
   statModifiers: StatModifiers;
   abilityModifiers: AbilityModifiers;
   talentSkillCheck: TalentSkillCheck;
-  talentRollModifiers: TalentRollModifiers[];
+  diceModifiers: DiceModifier[];
   /** Configuration for talents that function as a maneuver activation */
   maneuver?: Maneuver;
   /** Configuration for talents that function as a action activation */
-  action: Action;
+  action?: Action;
+  /** Configuration for talents that function as a passive activation */
+  passive?: Incidental;
+  /** Configuration for talents that function as an incidental activation */
+  incidental?: Incidental;
+  /** Configuration for talents that function as an incidental out of turn activation */
+  incidentalOutOfTurn?: Incidental;
 }

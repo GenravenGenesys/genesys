@@ -5,7 +5,6 @@ import {difficultyDie} from "./Difficulty";
 import {proficiencyDie} from "./Proficiency";
 import {challengeDie} from "./Challenge";
 import {Die} from "./Die";
-import {getActorCharacteristicRanks, getCharacteristicRanks} from "../../actor/Actor";
 
 export const dicePoolToRoll = (dicePool: DicePool): Die[] => [
     ...Array(dicePool.boost).fill(boostDie),

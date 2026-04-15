@@ -1,19 +1,19 @@
-import {useState, useEffect, ChangeEvent} from 'react';
+import {useState, useEffect} from 'react';
 import {
-    Box, Typography, Stack, Button,
-    Grid, Divider, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
-    DialogContent, FormControlLabel, Tabs, Tab, FormControl, FormGroup, Checkbox
+    Box, Stack, Button,
+    Grid, Dialog, useTheme, useMediaQuery, DialogActions, DialogTitle,
+    DialogContent, Tabs, Tab
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import {Activation, LimitType, type Talent, Tier} from "../../../../../api/model";
+import {Activation, LimitType, RangeBand, type Talent, Tier} from "../../../../../api/model";
 import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import GenesysTextField from "../../../common/field/GenesysTextField.tsx";
 import GenesysSelectField from "../../../common/field/GenesysSelectField.tsx";
 import GenesysBooleanField from "../../../common/field/GenesysBooleanField.tsx";
-import TalentModifyStatsTab from "./tabs/TalentModifyStatsTab.tsx";
 import TalentActionTab from "./tabs/TalentActionTab.tsx";
 import TalentManeuverTab from "./tabs/TalentManeuverTab.tsx";
-import {emptyTalent} from "../../../../../models/Template.ts";
+import TalentIncidentalTab from "./tabs/TalentIncidentalTab.tsx";
+import {emptyAction, emptyTalent} from "../../../../../models/Template.ts";
 
 interface Props {
     open: boolean;
@@ -25,29 +25,22 @@ interface Props {
 
 export default function TalentDialog(props: Props) {
     const {open, talent, onClose, onSave, isNew} = props;
-    const [formData, setFormData] = useState<Talent>(talent || {});
+    const [formData, setFormData] = useState<Talent>(talent || emptyTalent);
     const [tabValue, setTabValue] = useState(0);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const [state, setState] = useState({
-        stats: talent.statModifiers.wounds > 0 || talent.statModifiers.strain > 0 || talent.statModifiers.soak > 0 || talent.statModifiers.defense > 0
-    });
 
     useEffect(() => {
         if (talent) setFormData(talent);
     }, [talent]);
 
-    const handleActivationToggle = (activation: Activation) => {
-        const current = formData.activations ?? [];
-        const updated = current.includes(activation)
-            ? current.filter((a) => a !== activation)
-            : [...current, activation];
-        handleChange('activations', updated);
-    };
-
     const handleDescriptionChange = (value: string) => {
         const lowerDescription = value.toLowerCase();
         const updates: Partial<Talent> = {description: value};
+
+        if (lowerDescription.includes('rank')) {
+            updates.ranked = true;
+        }
 
         if (lowerDescription.includes('once per session')) {
             updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Session, limit: 1};
@@ -57,8 +50,24 @@ export default function TalentDialog(props: Props) {
             updates.limit = {...(formData.limit ?? {}), type: LimitType.Per_Round, limit: 1};
         }
 
-        if (lowerDescription.includes('use this talent')) {
+        if (lowerDescription.includes('opposed')) {
             updates.activation = Activation['Active_(Action)'];
+            updates.action = {...(updates.action ?? emptyAction), opposed: true};
+        }
+
+        const rangeMap: [string, RangeBand][] = [
+            ['engaged range', RangeBand.Engaged],
+            ['short range', RangeBand.Short],
+            ['medium range', RangeBand.Medium],
+            ['long range', RangeBand.Long],
+            ['extreme range', RangeBand.Extreme],
+            ['strategic range', RangeBand.Strategic],
+        ];
+        for (const [keyword, band] of rangeMap) {
+            if (lowerDescription.includes(keyword)) {
+                updates.action = {...(updates.action ?? emptyAction), range: band};
+                break;
+            }
         }
 
         setFormData((prev: Talent) => ({...prev, ...updates}));
@@ -66,13 +75,6 @@ export default function TalentDialog(props: Props) {
 
     const handleChange = <K extends keyof Talent>(field: K, value: Talent[K]) => {
         setFormData((prev: Talent) => ({...prev, [field]: value}));
-    };
-
-    const handleStateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setState({
-            ...state,
-            [event.target.name]: event.target.checked,
-        });
     };
 
     const handleSave = () => {
@@ -86,10 +88,11 @@ export default function TalentDialog(props: Props) {
         onClose();
     };
 
-    const isAction = formData.activation === Activation['Active_(Action)'] ||
-        (formData.activations ?? []).includes(Activation['Active_(Action)']);
-    const isManeuver = formData.activation === Activation['Active_(Maneuver)'] ||
-        (formData.activations ?? []).includes(Activation['Active_(Maneuver)']);
+    const isAction = formData.activation === Activation['Active_(Action)'];
+    const isManeuver = formData.activation === Activation['Active_(Maneuver)'];
+    const isIncidental = formData.activation === Activation['Active_(Incidental)'];
+    const isIncidentalOOT = formData.activation === Activation['Active_(Incidental,_Out_of_Turn)'];
+    const isPassive = formData.activation === Activation.Passive;
 
     return (
         <Dialog
@@ -108,9 +111,11 @@ export default function TalentDialog(props: Props) {
             <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
                     <Tab label="Basic Information"/>
-                    <Tab label="Modify Stats"/>
                     <Tab label="Action" disabled={!isAction}/>
                     <Tab label="Maneuver" disabled={!isManeuver}/>
+                    <Tab label="Incidental" disabled={!isIncidental}/>
+                    <Tab label="Incidental (Out of Turn)" disabled={!isIncidentalOOT}/>
+                    <Tab label="Passive" disabled={!isPassive}/>
                 </Tabs>
             </Box>
 
@@ -134,76 +139,32 @@ export default function TalentDialog(props: Props) {
                                           onChange={(e) => handleDescriptionChange(e)} fullwidth={true} rows={3}/>
                         <GenesysTextField text={formData.summary || ''} label={"Summary"}
                                           onChange={(e) => handleChange("summary", e)} fullwidth={true} rows={3}/>
-
-                        <Divider sx={{my: 2}}>
-                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                                MODIFICATION OPTIONS
-                            </Typography>
-                        </Divider>
-
-                        <GridContainer centered>
-                            <FormControl component="fieldset" variant="standard">
-                                <FormGroup row>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox checked={state.stats} onChange={handleStateChange} name="stats"/>
-                                        }
-                                        label="Stats"
-                                        labelPlacement={"top"}
-                                    />
-                                </FormGroup>
-                            </FormControl>
-                        </GridContainer>
-
-                        <Divider sx={{my: 2}}>
-                            <Typography variant="caption" sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                                ADDITIONAL ACTIVATIONS
-                            </Typography>
-                        </Divider>
-
-                        <GridContainer centered>
-                            <FormControl component="fieldset" variant="standard">
-                                <FormGroup row>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={(formData.activations ?? []).includes(Activation['Active_(Action)'])}
-                                                onChange={() => handleActivationToggle(Activation['Active_(Action)'])}
-                                            />
-                                        }
-                                        label="Action"
-                                        labelPlacement={"top"}
-                                    />
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={(formData.activations ?? []).includes(Activation['Active_(Maneuver)'])}
-                                                onChange={() => handleActivationToggle(Activation['Active_(Maneuver)'])}
-                                            />
-                                        }
-                                        label="Maneuver"
-                                        labelPlacement={"top"}
-                                    />
-                                </FormGroup>
-                            </FormControl>
-                        </GridContainer>
                     </Stack>
                 )}
 
-                {/* TAB 2: MODIFY STATS */}
-                {tabValue === 1 && (
-                    <TalentModifyStatsTab talent={formData}
-                                          updateTalentStats={(stats) => handleChange('statModifiers', stats)}/>
-                )}
-
-                {/* TAB 3: ACTION */}
-                {tabValue === 2 && isAction && (
+                {/* TAB 2: ACTION */}
+                {tabValue === 1 && isAction && (
                     <TalentActionTab talent={formData} updateTalent={setFormData}/>
                 )}
 
-                {/* TAB 4: MANEUVER */}
-                {tabValue === 3 && isManeuver && (
+                {/* TAB 3: MANEUVER */}
+                {tabValue === 2 && isManeuver && (
                     <TalentManeuverTab talent={formData} updateTalent={setFormData}/>
+                )}
+
+                {/* TAB 4: INCIDENTAL */}
+                {tabValue === 3 && isIncidental && (
+                    <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="incidental"/>
+                )}
+
+                {/* TAB 5: INCIDENTAL OUT OF TURN */}
+                {tabValue === 4 && isIncidentalOOT && (
+                    <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="incidentalOutOfTurn"/>
+                )}
+
+                {/* TAB 6: PASSIVE */}
+                {tabValue === 5 && isPassive && (
+                    <TalentIncidentalTab talent={formData} updateTalent={setFormData} field="passive"/>
                 )}
             </DialogContent>
 

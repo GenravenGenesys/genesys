@@ -41,7 +41,6 @@ export default function SelectSkillField(props: Props) {
                       onChange={(_, newValue) => handleSelect(newValue)}
                       value={skill || null}
                       renderInput={(params) => (
-                          <TextField {...params} label="Search Campaign Library..." size="small"
-                                     placeholder="Select a skill..." fullWidth/>)} sx={{mb: 2}}/>
+                          <TextField {...params} label="Select a skill" fullWidth/>)}/>
     );
 }
