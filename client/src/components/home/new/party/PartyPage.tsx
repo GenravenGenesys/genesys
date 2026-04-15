@@ -17,11 +17,13 @@ import {useState} from "react";
 import PlayerCreationDialog from "./PlayerCreationDialog.tsx";
 import type {PlayerCharacter} from "../../../../api/model";
 import {emptyPlayerCharacter} from "../../../../models/Template.ts";
+import {useCreatePlayer} from "../../../../api/generated/player-controller/player-controller.ts";
 
 export default function PartyPage() {
     const {id} = useParams<{ id: string }>();
     const [player, setPlayer] = useState<PlayerCharacter>(emptyPlayerCharacter);
     const [openDialog, setOpenDialog] = useState(false);
+    const createPlayerMutation = useCreatePlayer();
 
     if (!id) {
         return <Typography variant="h6" color="error">No Campaign ID Provided</Typography>;
@@ -40,13 +42,15 @@ export default function PartyPage() {
     const party = campaign.party;
 
     const handleSave = async (updatedPlayer: PlayerCharacter) => {
-        console.log("Saving player:", updatedPlayer);
-        // await createArchetypeMutation.mutateAsync({
-        //     campaignId: campaign.id,
-        //     data: updatedArchetype
-        // });
-
-        setPlayer(emptyPlayerCharacter);
+        try {
+            await createPlayerMutation.mutateAsync({
+                campaignId: id,
+                data: updatedPlayer
+            });
+            setPlayer(emptyPlayerCharacter);
+        } catch (error) {
+            console.error("Failed to create player character:", error);
+        }
     };
 
     return (
