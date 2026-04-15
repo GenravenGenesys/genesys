@@ -1,5 +1,6 @@
 import {Typography} from '@mui/material';
 import {convertGenesysText} from "../../../../util/GenesysTextHelper.ts";
+import DOMPurify from 'dompurify';
 
 interface Props {
     text: string;
@@ -11,6 +12,11 @@ interface Props {
 export default function GenesysDescriptionTypography(props: Props) {
     const {text, variant, color, sx} = props;
 
+    const sanitizedHtml = DOMPurify.sanitize(convertGenesysText(text), {
+        ALLOWED_TAGS: ['i', 'b'],
+        ALLOWED_ATTR: ['class']
+    });
+
     return <Typography variant={variant} color={color} component="div" sx={sx} style={{wordWrap: 'break-word', textAlign: 'center'}}
-                       dangerouslySetInnerHTML={{__html: convertGenesysText(text)}}/>;
+                       dangerouslySetInnerHTML={{__html: sanitizedHtml}}/>;
 }
