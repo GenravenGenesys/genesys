@@ -19,18 +19,18 @@ export default function CareerGearTab({formData, onChange}: Props) {
 
     const items: ItemTemplate[] = itemsData?.data ?? [];
     const money = formData.startingMoney ?? {base: 0, diceExpression: "1d100"};
-    const gear = formData.startingGear ?? [];
+    const gear = formData.startingGearSlot ?? [];
 
     const handleMoneyChange = (field: keyof StartingMoney, value: string | number) => {
         onChange('startingMoney', {...money, [field]: value} as StartingMoney);
     };
 
     const addGearChoice = () => {
-        onChange('startingGear', [...gear, {options: [{description: '', items: []}]}]);
+        onChange('startingGearSlot', [...gear, {options: [{description: '', items: []}]}]);
     };
 
     const removeGearChoice = (choiceIdx: number) => {
-        onChange('startingGear', gear.filter((_, i) => i !== choiceIdx));
+        onChange('startingGearSlot', gear.filter((_, i) => i !== choiceIdx));
     };
 
     const addOption = (choiceIdx: number) => {
@@ -39,7 +39,7 @@ export default function CareerGearTab({formData, onChange}: Props) {
                 ? {...choice, options: [...choice.options, {description: '', items: []}]}
                 : choice
         );
-        onChange('startingGear', updated);
+        onChange('startingGearSlot', updated);
     };
 
     const removeOption = (choiceIdx: number, optIdx: number) => {
@@ -48,7 +48,7 @@ export default function CareerGearTab({formData, onChange}: Props) {
                 ? {...choice, options: choice.options.filter((_, j) => j !== optIdx)}
                 : choice
         );
-        onChange('startingGear', updated);
+        onChange('startingGearSlot', updated);
     };
 
     const updateOptionDescription = (choiceIdx: number, optIdx: number, desc: string) => {
@@ -61,7 +61,7 @@ export default function CareerGearTab({formData, onChange}: Props) {
                 }
                 : choice
         );
-        onChange('startingGear', updated);
+        onChange('startingGearSlot', updated);
     };
 
     const updateOptionItems = (choiceIdx: number, optIdx: number, selectedItems: ItemTemplate[]) => {
@@ -74,7 +74,7 @@ export default function CareerGearTab({formData, onChange}: Props) {
                 }
                 : choice
         );
-        onChange('startingGear', updated);
+        onChange('startingGearSlot', updated);
     };
 
     return (
