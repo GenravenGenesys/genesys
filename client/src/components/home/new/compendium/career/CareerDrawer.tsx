@@ -21,12 +21,15 @@ interface Props {
 
 export default function CareerDrawer(props: Props) {
     const {open, career, onClose, onSave, isNew} = props;
-    const [formData, setFormData] = useState<Career>(career || {});
+    const [formData, setFormData] = useState<Career>(emptyCareer);
     const [tab, setTab] = useState(0);
 
     useEffect(() => {
-        if (career) setFormData(career);
-    }, [career]);
+        if (open) {
+            setFormData(career ?? emptyCareer);
+            setTab(0);
+        }
+    }, [open, career]);
 
     const handleSkillChange = async (index: number, value: Skill) => {
         const updatedSkills = formData.skills.map((row, i) =>

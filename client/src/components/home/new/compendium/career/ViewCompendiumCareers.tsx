@@ -69,6 +69,7 @@ export default function ViewCompendiumCareers() {
     );
 
     const handleOpenCreate = () => {
+        setCareer(emptyCareer);
         setIsNew(true);
         setOpenDrawer(true);
     };
