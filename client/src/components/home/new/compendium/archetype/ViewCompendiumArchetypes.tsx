@@ -69,6 +69,7 @@ export default function ViewCompendiumArchetypes() {
     );
 
     const handleOpenCreate = () => {
+        setArchetype(emptyArchetype)
         setIsNew(true);
         setOpenDrawer(true);
     };
