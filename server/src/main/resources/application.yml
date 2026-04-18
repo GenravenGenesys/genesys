@@ -2,3 +2,6 @@ spring:
   data:
     mongodb:
       uri: ${ATLAS_MONGODB_URI}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:*}

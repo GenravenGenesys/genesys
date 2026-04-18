@@ -24,12 +24,14 @@ public class DataInitializer implements ApplicationRunner {
 
     private final CampaignRepository campaignRepository;
 
+    private static final String SEED_CAMPAIGN_ID = "00000000-0000-0000-0000-000000000001";
+
     @Override
     public void run(final ApplicationArguments args) {
-        campaignRepository.count()
-            .filter(count -> count == 0)
-            .flatMap(count -> {
-                log.info("No campaigns found. Seeding default campaign with Brigandine armor.");
+        campaignRepository.existsById(SEED_CAMPAIGN_ID)
+            .filter(exists -> !exists)
+            .flatMap(notExists -> {
+                log.info("Seed campaign not found. Creating default campaign with Brigandine armor.");
 
                 final var soak = new Attribute(1, 1);
                 final var defense = new Attribute(1, 1);
@@ -57,6 +59,7 @@ public class DataInitializer implements ApplicationRunner {
                     .build();
 
                 final var campaign = Campaign.builder()
+                    .id(SEED_CAMPAIGN_ID)
                     .name("Default Campaign")
                     .status(Campaign.Status.Building)
                     .compendium(compendium)
