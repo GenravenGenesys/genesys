@@ -1,14 +1,9 @@
 import {
     Alert,
     Box,
-    Button,
-    ButtonGroup,
     Card,
     CardContent,
     Chip,
-    Divider,
-    FormControl,
-    FormLabel,
     Paper,
     Stack,
     ToggleButton,
@@ -22,8 +17,7 @@ import {
     type Career,
     type ItemTemplate,
     type PlayerEquipment,
-    type StartingGearChoice,
-    EquipmentType,
+    EquipmentType, type StartingGearSlot,
 } from "../../../../../api/model";
 
 interface Props {
@@ -40,13 +34,13 @@ export default function SelectGearStep({career, equipment, onSave}: Props) {
     // Track which option index is selected per gear choice (index into choice.options)
     const [selectedOptionIndexes, setSelectedOptionIndexes] = useState<Record<number, number>>(() => {
         const defaults: Record<number, number> = {};
-        (career.startingGear ?? []).forEach((_, i) => {
+        (career.startingGearSlot ?? []).forEach((_, i) => {
             defaults[i] = 0;
         });
         return defaults;
     });
 
-    const startingGear: StartingGearChoice[] = career.startingGear ?? [];
+    const startingGear: StartingGearSlot[] = career.startingGearSlot ?? [];
     const money = career.startingMoney;
 
     const handleModeChange = (_: React.MouseEvent<HTMLElement>, newMode: GearMode | null) => {
@@ -132,7 +126,7 @@ export default function SelectGearStep({career, equipment, onSave}: Props) {
                             <Stack direction="row" spacing={2} alignItems="center">
                                 <Chip
                                     icon={<MonetizationOnIcon/>}
-                                    label={`${money.base} ${money.currency}`}
+                                    label={`${money.base}`}
                                     color="success"
                                     variant="outlined"
                                 />
@@ -140,7 +134,7 @@ export default function SelectGearStep({career, equipment, onSave}: Props) {
                                     <>
                                         <Typography variant="body2" color="text.secondary">+</Typography>
                                         <Chip
-                                            label={`${money.diceExpression} ${money.currency} (rolled at session start)`}
+                                            label={`${money.diceExpression} (rolled at session start)`}
                                             variant="outlined"
                                         />
                                     </>
@@ -154,7 +148,7 @@ export default function SelectGearStep({career, equipment, onSave}: Props) {
                             startingGear={startingGear}
                             selectedOptionIndexes={selectedOptionIndexes}
                             onOptionSelect={handleOptionSelect}
-                            money={money ? {diceExpression: money.diceExpression, currency: money.currency} : undefined}
+                            money={money ? {diceExpression: money.diceExpression} : undefined}
                         />
                     )}
                 </Stack>
@@ -178,10 +172,10 @@ export default function SelectGearStep({career, equipment, onSave}: Props) {
 }
 
 interface GearChoicesPanelProps {
-    startingGear: StartingGearChoice[];
+    startingGear: StartingGearSlot[];
     selectedOptionIndexes: Record<number, number>;
     onOptionSelect: (choiceIdx: number, optIdx: number) => void;
-    money?: {diceExpression?: string; currency: string};
+    money?: {diceExpression?: string};
 }
 
 function GearChoicesPanel({startingGear, selectedOptionIndexes, onOptionSelect, money}: GearChoicesPanelProps) {
@@ -192,7 +186,7 @@ function GearChoicesPanel({startingGear, selectedOptionIndexes, onOptionSelect, 
                     <Stack direction="row" spacing={1} alignItems="center">
                         <MonetizationOnIcon color="primary" fontSize="small"/>
                         <Typography variant="body2">
-                            You also receive <strong>{money.diceExpression} {money.currency}</strong> (rolled at session start)
+                            {money.diceExpression} (rolled at session start)
                         </Typography>
                     </Stack>
                 </Paper>

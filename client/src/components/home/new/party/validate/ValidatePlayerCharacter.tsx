@@ -6,6 +6,7 @@ import {CharacteristicBadge} from "../CharacteristicBadge.tsx";
 import {useState} from "react";
 import SkillTypeAccordion from "./SkillTypeAccordion.tsx";
 import TalentAccordion from "./TalentAccordion.tsx";
+import GearTab from "./GearTab.tsx";
 
 interface Props {
     player: PlayerCharacter;
@@ -106,9 +107,6 @@ export default function ValidatePlayerCharacter(props: Props) {
                                 </Typography>
                             </Paper>
                         </GridContainer>
-                        {/*<GridContainer spacing={3} centered>*/}
-                        {/*    <Typography sx={{mt: 4}}>Abilities would go here...</Typography>*/}
-                        {/*</GridContainer>*/}
                     </Stack>}
 
                     {tabValue === 2 && <Stack spacing={3}>
@@ -132,7 +130,7 @@ export default function ValidatePlayerCharacter(props: Props) {
 
                     {tabValue === 5 && <Stack spacing={3}>
                         <GridContainer spacing={3} centered>
-                            <Typography sx={{mt: 4}}>Gear would go here...</Typography>
+                            <GearTab equipment={player.equipment}/>
                         </GridContainer>
                     </Stack>}
                 </CardContent>
