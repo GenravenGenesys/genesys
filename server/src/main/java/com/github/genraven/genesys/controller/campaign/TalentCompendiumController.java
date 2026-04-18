@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/campaigns/{campaignId}/compendium/talents")
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Talents", description = "Management of the campaign's custom talent library")
 @RequiredArgsConstructor
 public class TalentCompendiumController {

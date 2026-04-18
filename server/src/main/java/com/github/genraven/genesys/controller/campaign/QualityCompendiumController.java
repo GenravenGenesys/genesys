@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/campaigns/{campaignId}/compendium/qualities")
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Qualities", description = "Management of the campaign's custom quality library")
 @RequiredArgsConstructor
 public class QualityCompendiumController {

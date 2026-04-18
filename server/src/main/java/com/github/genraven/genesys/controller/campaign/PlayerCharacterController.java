@@ -17,7 +17,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/campaigns/{campaignId}/party/players")
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Player Controller", description = "Management of player characters within a campaign's party. This includes creating, updating, and deleting player character profiles, as well as retrieving character details for display in the UI.")
 @RequiredArgsConstructor
 public class PlayerCharacterController {

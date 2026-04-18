@@ -49,6 +49,10 @@ public class ItemTemplate {
     private int encumbrance;
 
     @Min(0)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private int hardPoints;
+
+    @Min(0)
     @Max(10)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int rarity;

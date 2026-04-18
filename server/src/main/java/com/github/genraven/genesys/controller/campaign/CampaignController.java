@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/campaigns")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Campaign Controller", description = "Endpoints for managing campaigns")
 public class CampaignController extends AbstractController {
     

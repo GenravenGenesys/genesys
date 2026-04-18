@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/spells")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Spell Controller", description = "Endpoints for managing spells")
 public class SpellController extends AbstractController {
 

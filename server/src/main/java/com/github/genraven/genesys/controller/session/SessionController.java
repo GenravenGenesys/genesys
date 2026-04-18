@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/sessions")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Sessions", description = "Endpoints for managing campaign sessions")
 public class SessionController extends AbstractController {
 
