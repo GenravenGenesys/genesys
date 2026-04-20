@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/campaigns/{campaignId}/compendium/items")
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Item Compendium", description = "Management of the campaign's custom equipment library (weapons, armor, gear)")
 @RequiredArgsConstructor
 public class ItemCompendiumController {

@@ -166,6 +166,16 @@ export default function ItemDialog(props: Props) {
                                     onChange={(e) => handleChange('rarity', e)}
                                 />
                             </Grid>
+                            {(itemType === EquipmentType.Weapon || itemType === EquipmentType.Armor) && (
+                                <Grid size={4}>
+                                    <GenesysNumberField
+                                        value={formData.hardPoints}
+                                        fullwidth
+                                        label="Hard Points"
+                                        onChange={(e) => handleChange('hardPoints', e)}
+                                    />
+                                </Grid>
+                            )}
                         </GridContainer>
 
                         <FormControlLabel
