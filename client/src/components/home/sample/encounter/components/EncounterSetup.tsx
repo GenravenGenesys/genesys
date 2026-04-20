@@ -98,9 +98,26 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
         );
     };
 
+    const pcParticipants = encounter.participants.filter((p) => p.type === "pc");
+    const npcParticipants = encounter.participants.filter((p) => p.type === "npc");
+
+    const allRangeBandsSet =
+        pcParticipants.length > 0 &&
+        npcParticipants.length > 0 &&
+        pcParticipants.every((pc) =>
+            npcParticipants.every((npc) =>
+                encounter.rangeBands.some(
+                    (r) =>
+                        (r.participantId === pc.id && r.targetId === npc.id) ||
+                        (r.participantId === npc.id && r.targetId === pc.id)
+                )
+            )
+        );
+
     const canStart =
         encounter.participants.length >= 2 &&
-        encounter.initiativeSlots.length === encounter.participants.length;
+        encounter.initiativeSlots.length === encounter.participants.length &&
+        allRangeBandsSet;
 
     const pcSlots = encounter.initiativeSlots.filter((s) => s.slotType === "pc");
     const npcSlots = encounter.initiativeSlots.filter(
@@ -395,12 +412,31 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                 </Grid>
             </Grid>
 
+            <Paper sx={{p: 3, mt: 3}}>
+                <Typography variant="h6" gutterBottom>
+                    Range Bands
+                </Typography>
+                <Alert severity={allRangeBandsSet ? "success" : "warning"} sx={{mb: 2}}>
+                    {allRangeBandsSet
+                        ? "All range bands set. Ready to start."
+                        : "Set a range band for every PC–NPC pair before starting. Participants may spend [triumph] from their initiative roll to perform a free maneuver before combat begins."}
+                </Alert>
+                <SampleRangeBandMatrix
+                    pcParticipants={encounter.participants.filter((p) => p.type === "pc")}
+                    npcParticipants={encounter.participants.filter((p) => p.type === "npc")}
+                    rangeBands={encounter.rangeBands}
+                    onUpdateRange={onUpdateRange}
+                />
+            </Paper>
+
             <Paper sx={{p: 3, mt: 3, textAlign: "center"}}>
                 {!canStart && (
                     <Alert severity="warning" sx={{mb: 2}}>
                         {encounter.participants.length < 2
                             ? "Add at least 2 participants to start"
-                            : "All participants must roll initiative before starting"}
+                            : !allRangeBandsSet
+                                ? "Set all range bands before starting"
+                                : "All participants must roll initiative before starting"}
                     </Alert>
                 )}
 
@@ -412,23 +448,6 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                 >
                     Start Encounter
                 </Button>
-            </Paper>
-
-            <Paper sx={{p: 3, mt: 3}}>
-                <Typography variant="h6" gutterBottom>
-                    Range Bands
-                </Typography>
-                <Alert severity="info" sx={{mb: 2}}>
-                    Set starting distances between participants. Participants may spend
-                    [triumph] from their initiative roll to perform a free maneuver before
-                    combat begins — use this to update their position.
-                </Alert>
-                <SampleRangeBandMatrix
-                    pcParticipants={encounter.participants.filter((p) => p.type === "pc")}
-                    npcParticipants={encounter.participants.filter((p) => p.type === "npc")}
-                    rangeBands={encounter.rangeBands}
-                    onUpdateRange={onUpdateRange}
-                />
             </Paper>
 
             {rollerOpen && rollingFor && (

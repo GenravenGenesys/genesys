@@ -89,7 +89,21 @@ export default function StartEncounterView(props: Props) {
     const sortedOrder = [...initiativeOrder].sort(compareSlots);
     const pcSlots = sortedOrder.filter((s) => s.type === InitiativeSlotType.Player);
     const npcSlots = sortedOrder.filter((s) => s.type === InitiativeSlotType.NPC);
-    const canStart = initiativeOrder.length === totalParticipants && totalParticipants > 0;
+
+    const allRangeBandsSet =
+        players.length > 0 &&
+        npcs.length > 0 &&
+        players.every((pc) =>
+            npcs.every((npc) =>
+                rangeBands.some(
+                    (r) =>
+                        (r.participantId === pc.id && r.targetId === npc.id) ||
+                        (r.participantId === npc.id && r.targetId === pc.id)
+                )
+            )
+        );
+
+    const canStart = initiativeOrder.length === totalParticipants && totalParticipants > 0 && allRangeBandsSet;
 
     return (
         <Box>
@@ -136,18 +150,25 @@ export default function StartEncounterView(props: Props) {
                             </Typography>
                         </Box>
 
-                        {canStart && (
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                color="success"
-                                size="large"
-                                startIcon={<PlayArrowIcon/>}
-                                onClick={onStartEncounter}
-                                sx={{mt: 2}}
-                            >
-                                Start Encounter
-                            </Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="success"
+                            size="large"
+                            startIcon={<PlayArrowIcon/>}
+                            onClick={onStartEncounter}
+                            disabled={!canStart}
+                            sx={{mt: 2}}
+                        >
+                            Start Encounter
+                        </Button>
+
+                        {!canStart && totalParticipants > 0 && (
+                            <Alert severity="warning" sx={{mt: 2}}>
+                                {!allRangeBandsSet
+                                    ? "Set all range bands before starting"
+                                    : "All participants must roll initiative before starting"}
+                            </Alert>
                         )}
                     </Paper>
                 </Grid>
@@ -273,10 +294,10 @@ export default function StartEncounterView(props: Props) {
                 <Typography variant="h6" gutterBottom>
                     Range Bands
                 </Typography>
-                <Alert severity="info" sx={{mb: 2}}>
-                    Set starting distances between participants. Participants may spend
-                    [triumph] from their initiative roll to perform a free maneuver before
-                    combat begins — use this to update their position.
+                <Alert severity={allRangeBandsSet ? "success" : "warning"} sx={{mb: 2}}>
+                    {allRangeBandsSet
+                        ? "All range bands set. Ready to start."
+                        : "Required: set a range band for every PC–NPC pair before starting. Participants may spend [triumph] from their initiative roll to perform a free maneuver before combat begins."}
                 </Alert>
                 <RangeBandMatrix
                     rows={players}
