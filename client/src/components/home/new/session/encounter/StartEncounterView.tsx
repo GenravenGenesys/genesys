@@ -325,7 +325,7 @@ export default function StartEncounterView(props: Props) {
                 <Alert severity={allRangeBandsSet ? "success" : "warning"} sx={{mb: 2}}>
                     {allRangeBandsSet
                         ? "All range bands set. Ready to start."
-                        : "Required: set a range band for every PC–NPC pair, PC–PC pair, and PC–position pair before starting."}
+                        : "Required: set a range band for every PC–NPC pair, PC–PC pair, and PC–location pair before starting."}
                 </Alert>
                 <RangeBandMatrix
                     rows={players}

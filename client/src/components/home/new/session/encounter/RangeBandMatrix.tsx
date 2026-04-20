@@ -39,11 +39,11 @@ const RANGE_COLORS: Record<string, string> = {
     [RangeBand.Strategic]: "#7b1fa2",
 };
 
-const COVER_COLORS: Record<string, string> = {
+const COVER_COLORS: Record<string, "default" | "warning" | "error"> = {
     None: "default",
     Soft: "warning",
     Hard: "error",
-} as const;
+};
 
 function RangeSelect({fromId, toId, rangeBands, onUpdateRange}: {
     fromId: string;

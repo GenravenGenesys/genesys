@@ -574,7 +574,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                 <Alert severity={allRangeBandsSet ? "success" : "warning"} sx={{mb: 2}}>
                     {allRangeBandsSet
                         ? "All range bands set. Ready to start."
-                        : "Set a range band for every PC–NPC pair, PC–PC pair, and PC–position pair before starting."}
+                        : "Set a range band for every PC–NPC pair, PC–PC pair, and PC–location pair before starting."}
                 </Alert>
                 <SampleRangeBandMatrix
                     pcParticipants={encounter.participants.filter((p) => p.type === "pc")}
