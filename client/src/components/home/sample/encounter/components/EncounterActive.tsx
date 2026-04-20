@@ -34,6 +34,7 @@ import { RangeTracker } from "./RangeTracker";
 import { StatusEffectsManager } from "./StatusEffectsManager";
 import type {
     Action, CombatLogEntry,
+    EncounterLocation,
     EncounterState,
     Maneuver,
     Participant, RangeType,
@@ -61,6 +62,7 @@ interface EncounterActiveProps {
     onPreviousSlot: () => void;
     onAddLogEntry: (entry: Omit<CombatLogEntry, "id" | "timestamp">) => void;
     onEndEncounter: () => void;
+    onUpdateLocation: (id: string, updates: Partial<EncounterLocation>) => void;
 }
 
 export const EncounterActive: React.FC<EncounterActiveProps> = ({
@@ -76,6 +78,7 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                                                                     onPreviousSlot,
                                                                     onAddLogEntry,
                                                                     onEndEncounter,
+                                                                    onUpdateLocation,
                                                                 }) => {
     const [logDrawerOpen, setLogDrawerOpen] = useState(false);
     const [statusManagerOpen, setStatusManagerOpen] = useState(false);
@@ -837,8 +840,10 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                 open={rangeTrackerOpen}
                 participants={encounter.participants}
                 rangeBands={encounter.rangeBands}
+                locations={encounter.locations}
                 onClose={() => setRangeTrackerOpen(false)}
                 onUpdateRange={onUpdateRange}
+                onUpdateLocation={onUpdateLocation}
             />
         </Box>
     );

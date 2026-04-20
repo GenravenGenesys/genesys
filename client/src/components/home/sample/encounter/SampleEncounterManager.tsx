@@ -120,6 +120,15 @@ export interface RangeBand {
     range: RangeType;
 }
 
+export type CoverType = "None" | "Soft" | "Hard";
+
+export interface EncounterLocation {
+    id: string;
+    name: string;
+    cover: CoverType;
+    occupantIds: string[];
+}
+
 export interface EncounterState {
     id: string;
     name: string;
@@ -132,6 +141,7 @@ export interface EncounterState {
     combatLog: CombatLogEntry[];
     turnActions: TurnAction[];
     rangeBands: RangeBand[];
+    locations: EncounterLocation[];
 }
 
 const availableActions: Action[] = [
@@ -518,6 +528,7 @@ const encounterStateTemplate: EncounterState = {
     combatLog: [],
     turnActions: [],
     rangeBands: [],
+    locations: [],
 };
 
 function SampleEncounterManager() {
@@ -737,6 +748,27 @@ function SampleEncounterManager() {
         }));
     };
 
+    const handleAddLocation = (loc: EncounterLocation) => {
+        setEncounter((prev) => ({...prev, locations: [...prev.locations, loc]}));
+    };
+
+    const handleRemoveLocation = (id: string) => {
+        setEncounter((prev) => ({
+            ...prev,
+            locations: prev.locations.filter((l) => l.id !== id),
+            rangeBands: prev.rangeBands.filter(
+                (r) => r.participantId !== id && r.targetId !== id
+            ),
+        }));
+    };
+
+    const handleUpdateLocation = (id: string, updates: Partial<EncounterLocation>) => {
+        setEncounter((prev) => ({
+            ...prev,
+            locations: prev.locations.map((l) => l.id === id ? {...l, ...updates} : l),
+        }));
+    };
+
     const handleReset = () => {
         setEncounter(encounterStateTemplate);
     };
@@ -758,6 +790,10 @@ function SampleEncounterManager() {
                     onRemoveInitiativeSlot={handleRemoveInitiativeSlot}
                     onUpdateRange={handleUpdateRange}
                     onStartEncounter={handleStartEncounter}
+                    locations={encounter.locations}
+                    onAddLocation={handleAddLocation}
+                    onRemoveLocation={handleRemoveLocation}
+                    onUpdateLocation={handleUpdateLocation}
                 />
             )}
 
@@ -775,6 +811,7 @@ function SampleEncounterManager() {
                     onPreviousSlot={handlePreviousSlot}
                     onAddLogEntry={handleAddLogEntry}
                     onEndEncounter={handleEndEncounter}
+                    onUpdateLocation={handleUpdateLocation}
                 />
             )}
 

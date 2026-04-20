@@ -6,6 +6,7 @@ import {
 } from "../api/model";
 import type {
     CombatLogEntry,
+    EncounterLocation,
     EncounterRangeBand,
     TurnAction
 } from "../components/home/sample/test/TestEncounter.tsx";
@@ -255,6 +256,7 @@ export interface ExtendedCampaignEncounter extends CampaignEncounter {
     combatLog: CombatLogEntry[];
     turnActions: TurnAction[];
     rangeBands: EncounterRangeBand[];
+    locations: EncounterLocation[];
 }
 
 export const encounterTemplate: ExtendedCampaignEncounter = {
@@ -275,4 +277,5 @@ export const encounterTemplate: ExtendedCampaignEncounter = {
     combatLog: [],
     turnActions: [],
     rangeBands: [],
+    locations: [],
 };

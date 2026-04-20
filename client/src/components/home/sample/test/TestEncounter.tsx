@@ -79,6 +79,15 @@ export interface EncounterRangeBand {
     range: RangeBandEnum;
 }
 
+export type CoverType = "None" | "Soft" | "Hard";
+
+export interface EncounterLocation {
+    id: string;
+    name: string;
+    cover: CoverType;
+    occupantIds: string[];
+}
+
 export interface StatusEffect {
     id: string;
     name: string;
@@ -659,6 +668,25 @@ function TestEncounter() {
         });
     };
 
+    const handleAddLocation = (loc: EncounterLocation) => {
+        setEncounter((prev) => ({...prev, locations: [...(prev.locations ?? []), loc]}));
+    };
+
+    const handleRemoveLocation = (id: string) => {
+        setEncounter((prev) => ({
+            ...prev,
+            locations: (prev.locations ?? []).filter((l) => l.id !== id),
+            rangeBands: prev.rangeBands.filter((r) => r.participantId !== id && r.targetId !== id),
+        }));
+    };
+
+    const handleUpdateLocation = (id: string, updates: Partial<EncounterLocation>) => {
+        setEncounter((prev) => ({
+            ...prev,
+            locations: (prev.locations ?? []).map((l) => l.id === id ? {...l, ...updates} : l),
+        }));
+    };
+
     const handleEndEncounter = () => {
         setEncounter((prev) => ({
             ...prev,
@@ -685,7 +713,11 @@ function TestEncounter() {
                     <TestEncounterBuilder encounter={encounter} numberOfParticipants={getAllParticipants().length}
                                           onRemovePartyMember={handleRemovePlayer}
                                           onRemovePartyNPC={handleRemovePartyNPC}
-                                          onRemoveNPC={handleRemoveNPC} onReadyEncounter={handleReadyEncounter}/>
+                                          onRemoveNPC={handleRemoveNPC} onReadyEncounter={handleReadyEncounter}
+                                          locations={encounter.locations ?? []}
+                                          onAddLocation={handleAddLocation}
+                                          onRemoveLocation={handleRemoveLocation}
+                                          onUpdateLocation={handleUpdateLocation}/>
                 </Paper>
             )}
 
@@ -693,6 +725,7 @@ function TestEncounter() {
                 <Paper sx={{p: 3, mb: 3}}>
                     <TestEncounterSetup encounter={encounter} numberOfParticipants={getAllParticipants().length}
                                         rangeBands={encounter.rangeBands}
+                                        locations={encounter.locations ?? []}
                                         onAddInitiativeSlot={handleAddInitiativeSlot}
                                         onRemoveInitiativeSlot={handleRemoveInitiativeSlot}
                                         onUpdateRange={handleUpdateRange}
@@ -745,6 +778,62 @@ function TestEncounter() {
                             </Typography>
                         </Paper>
                     ))}
+
+                    {(encounter.locations ?? []).length > 0 && (
+                        <>
+                            <Typography variant="h6" sx={{mt: 3}}>
+                                Map Positions
+                            </Typography>
+                            {(encounter.locations ?? []).map((loc) => {
+                                const occupants = getAllParticipants().filter((p) => loc.occupantIds.includes(p.id));
+                                return (
+                                    <Paper key={loc.id} sx={{p: 2, mb: 1}}>
+                                        <Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 0.5}}>
+                                            <Typography variant="body1" fontWeight="bold">📍 {loc.name}</Typography>
+                                            {loc.cover !== "None" && (
+                                                <Chip
+                                                    label={`🛡 ${loc.cover} Cover`}
+                                                    size="small"
+                                                    color={loc.cover === "Hard" ? "error" : "warning"}
+                                                />
+                                            )}
+                                        </Box>
+                                        <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, mt: 0.5}}>
+                                            {occupants.length === 0 ? (
+                                                <Typography variant="caption" color="text.secondary">No one at this position.</Typography>
+                                            ) : (
+                                                occupants.map((p) => (
+                                                    <Chip
+                                                        key={p.id}
+                                                        label={p.name}
+                                                        size="small"
+                                                        color={encounter.party.players.some((pl) => pl.id === p.id) ? "primary" : "error"}
+                                                        onClick={() => handleUpdateLocation(loc.id, {
+                                                            occupantIds: loc.occupantIds.filter((id) => id !== p.id),
+                                                        })}
+                                                    />
+                                                ))
+                                            )}
+                                            {getAllParticipants()
+                                                .filter((p) => !loc.occupantIds.includes(p.id))
+                                                .map((p) => (
+                                                    <Chip
+                                                        key={p.id}
+                                                        label={`+ ${p.name}`}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        onClick={() => handleUpdateLocation(loc.id, {
+                                                            occupantIds: [...loc.occupantIds, p.id],
+                                                        })}
+                                                    />
+                                                ))
+                                            }
+                                        </Box>
+                                    </Paper>
+                                );
+                            })}
+                        </>
+                    )}
 
                     <Typography variant="h6" sx={{mt: 3}}>
                         Combat Log

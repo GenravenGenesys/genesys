@@ -26,7 +26,7 @@ import {
 import InitiativeRollDialog from "../../new/session/encounter/InitiativeRollDialog.tsx";
 import InitiativeOrderListItem from "../../new/session/encounter/InitiativeOrderListItem.tsx";
 import RangeBandMatrix from "../../new/session/encounter/RangeBandMatrix.tsx";
-import type {EncounterRangeBand} from "./TestEncounter.tsx";
+import type {EncounterLocation, EncounterRangeBand} from "./TestEncounter.tsx";
 
 type DialogParticipant =
     | {kind: "player"; character: PlayerCharacter}
@@ -36,6 +36,7 @@ interface Props {
     encounter: CampaignEncounter;
     numberOfParticipants: number;
     rangeBands: EncounterRangeBand[];
+    locations: EncounterLocation[];
     onAddInitiativeSlot: (slot: InitiativeSlot) => void;
     onRemoveInitiativeSlot: (index: number) => void;
     onUpdateRange: (participantId: string, targetId: string, range: RangeBandType) => void;
@@ -43,7 +44,7 @@ interface Props {
 }
 
 export default function TestEncounterSetup(props: Props) {
-    const {encounter, numberOfParticipants, rangeBands, onAddInitiativeSlot, onRemoveInitiativeSlot, onUpdateRange, onStartEncounter} = props;
+    const {encounter, numberOfParticipants, rangeBands, locations, onAddInitiativeSlot, onRemoveInitiativeSlot, onUpdateRange, onStartEncounter} = props;
 
     const [dialogParticipant, setDialogParticipant] = useState<DialogParticipant | null>(null);
 
@@ -52,7 +53,7 @@ export default function TestEncounterSetup(props: Props) {
     const encounterNpcs = encounter.npcIds ?? [];
     const allNpcs = [...partyNpcs, ...encounterNpcs];
 
-    const allRangeBandsSet =
+    const pcNpcAllSet =
         players.length > 0 &&
         allNpcs.length > 0 &&
         players.every((pc) =>
@@ -64,6 +65,32 @@ export default function TestEncounterSetup(props: Props) {
                 )
             )
         );
+
+    const pcPcAllSet =
+        players.length < 2 ||
+        players.every((pc1, i) =>
+            players.slice(i + 1).every((pc2) =>
+                rangeBands.some(
+                    (r) =>
+                        (r.participantId === pc1.id && r.targetId === pc2.id) ||
+                        (r.participantId === pc2.id && r.targetId === pc1.id)
+                )
+            )
+        );
+
+    const pcLocationAllSet =
+        locations.length === 0 ||
+        players.every((pc) =>
+            locations.every((loc) =>
+                rangeBands.some(
+                    (r) =>
+                        (r.participantId === pc.id && r.targetId === loc.id) ||
+                        (r.participantId === loc.id && r.targetId === pc.id)
+                )
+            )
+        );
+
+    const allRangeBandsSet = pcNpcAllSet && pcPcAllSet && pcLocationAllSet;
 
     const canStart =
         encounter.initiativeOrder.length === numberOfParticipants &&
@@ -265,11 +292,12 @@ export default function TestEncounterSetup(props: Props) {
                 <Alert severity={allRangeBandsSet ? "success" : "warning"} sx={{mb: 2}}>
                     {allRangeBandsSet
                         ? "All range bands set. Ready to start."
-                        : "Required: set a range band for every PC–NPC pair before starting. Participants may spend [triumph] from their initiative roll to perform a free maneuver before combat begins."}
+                        : "Required: set a range band for every PC–NPC pair, PC–PC pair, and PC–position pair before starting."}
                 </Alert>
                 <RangeBandMatrix
                     rows={players}
                     cols={allNpcs}
+                    locations={locations}
                     rangeBands={rangeBands}
                     onUpdateRange={onUpdateRange}
                 />

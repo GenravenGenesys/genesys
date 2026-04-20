@@ -16,12 +16,15 @@ import {
     ListItem,
     ListItemText,
     ListItemSecondaryAction,
+    MenuItem,
+    Select,
+    TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import CasinoIcon from "@mui/icons-material/Casino";
 import {DiceRoller} from "./DiceRoller";
-import type {EncounterState, InitiativeSlot, Participant, RangeBand, RangeType} from "../SampleEncounterManager.tsx";
+import type {CoverType, EncounterLocation, EncounterState, InitiativeSlot, Participant, RangeBand, RangeType} from "../SampleEncounterManager.tsx";
 import {SampleRangeBandMatrix} from "./RangeTracker.tsx";
 
 interface EncounterSetupProps {
@@ -36,6 +39,10 @@ interface EncounterSetupProps {
     onRemoveInitiativeSlot: (slotId: string) => void;
     onUpdateRange: (participantId: string, targetId: string, range: RangeType) => void;
     onStartEncounter: () => void;
+    locations: EncounterLocation[];
+    onAddLocation: (loc: EncounterLocation) => void;
+    onRemoveLocation: (id: string) => void;
+    onUpdateLocation: (id: string, updates: Partial<EncounterLocation>) => void;
 }
 
 export const EncounterSetup: React.FC<EncounterSetupProps> = ({
@@ -48,10 +55,16 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                                   onRemoveInitiativeSlot,
                                                                   onUpdateRange,
                                                                   onStartEncounter,
+                                                                  locations,
+                                                                  onAddLocation,
+                                                                  onRemoveLocation,
+                                                                  onUpdateLocation,
                                                               }) => {
     const [selectedTab, setSelectedTab] = useState<"pcs" | "npcs">("pcs");
     const [rollerOpen, setRollerOpen] = useState(false);
     const [rollingFor, setRollingFor] = useState<Participant | null>(null);
+    const [newLocationName, setNewLocationName] = useState("");
+    const [newLocationCover, setNewLocationCover] = useState<CoverType>("None");
 
     const handleAddPlayer = (player: Participant) => {
         const newParticipant: Participant = {
@@ -92,6 +105,30 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
         setRollingFor(null);
     };
 
+    const handleAddLocationClick = () => {
+        const trimmed = newLocationName.trim();
+        if (!trimmed) return;
+        onAddLocation({
+            id: `loc-${Date.now()}`,
+            name: trimmed,
+            cover: newLocationCover,
+            occupantIds: [],
+        });
+        setNewLocationName("");
+        setNewLocationCover("None");
+    };
+
+    const toggleOccupant = (locationId: string, participantId: string) => {
+        const loc = locations.find((l) => l.id === locationId);
+        if (!loc) return;
+        const already = loc.occupantIds.includes(participantId);
+        onUpdateLocation(locationId, {
+            occupantIds: already
+                ? loc.occupantIds.filter((id) => id !== participantId)
+                : [...loc.occupantIds, participantId],
+        });
+    };
+
     const participantHasSlot = (participantId: string) => {
         return encounter.initiativeSlots.some(
             (slot) => slot.rolledBy === participantId
@@ -101,7 +138,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
     const pcParticipants = encounter.participants.filter((p) => p.type === "pc");
     const npcParticipants = encounter.participants.filter((p) => p.type === "npc");
 
-    const allRangeBandsSet =
+    const pcNpcAllSet =
         pcParticipants.length > 0 &&
         npcParticipants.length > 0 &&
         pcParticipants.every((pc) =>
@@ -113,6 +150,32 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                 )
             )
         );
+
+    const pcPcAllSet =
+        pcParticipants.length < 2 ||
+        pcParticipants.every((pc1, i) =>
+            pcParticipants.slice(i + 1).every((pc2) =>
+                encounter.rangeBands.some(
+                    (r) =>
+                        (r.participantId === pc1.id && r.targetId === pc2.id) ||
+                        (r.participantId === pc2.id && r.targetId === pc1.id)
+                )
+            )
+        );
+
+    const pcLocationAllSet =
+        locations.length === 0 ||
+        pcParticipants.every((pc) =>
+            locations.every((loc) =>
+                encounter.rangeBands.some(
+                    (r) =>
+                        (r.participantId === pc.id && r.targetId === loc.id) ||
+                        (r.participantId === loc.id && r.targetId === pc.id)
+                )
+            )
+        );
+
+    const allRangeBandsSet = pcNpcAllSet && pcPcAllSet && pcLocationAllSet;
 
     const canStart =
         encounter.participants.length >= 2 &&
@@ -414,16 +477,109 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
 
             <Paper sx={{p: 3, mt: 3}}>
                 <Typography variant="h6" gutterBottom>
+                    Map Positions
+                </Typography>
+                <Alert severity="info" sx={{mb: 2}}>
+                    Pre-build named positions (e.g. Balcony, Crates). PCs and NPCs can be assigned to cover
+                    positions, and range bands must be set from each PC to each position before starting.
+                </Alert>
+
+                <Box sx={{display: "flex", gap: 2, mb: 2, alignItems: "flex-start"}}>
+                    <TextField
+                        label="Position name"
+                        size="small"
+                        value={newLocationName}
+                        onChange={(e) => setNewLocationName(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && handleAddLocationClick()}
+                        sx={{flex: 1}}
+                    />
+                    <Select
+                        size="small"
+                        value={newLocationCover}
+                        onChange={(e) => setNewLocationCover(e.target.value as CoverType)}
+                        sx={{minWidth: 120}}
+                    >
+                        <MenuItem value="None">No Cover</MenuItem>
+                        <MenuItem value="Soft">Soft Cover</MenuItem>
+                        <MenuItem value="Hard">Hard Cover</MenuItem>
+                    </Select>
+                    <Button
+                        variant="contained"
+                        startIcon={<AddIcon/>}
+                        onClick={handleAddLocationClick}
+                        disabled={!newLocationName.trim()}
+                    >
+                        Add
+                    </Button>
+                </Box>
+
+                {locations.length === 0 ? (
+                    <Alert severity="info">No map positions added yet.</Alert>
+                ) : (
+                    <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
+                        {locations.map((loc) => (
+                            <Box key={loc.id} sx={{p: 2, border: 1, borderColor: "grey.300", borderRadius: 1}}>
+                                <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1}}>
+                                    <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+                                        <Typography variant="body1" fontWeight="bold">📍 {loc.name}</Typography>
+                                        <Select
+                                            size="small"
+                                            value={loc.cover}
+                                            onChange={(e) => onUpdateLocation(loc.id, {cover: e.target.value as CoverType})}
+                                            sx={{minWidth: 120}}
+                                        >
+                                            <MenuItem value="None">No Cover</MenuItem>
+                                            <MenuItem value="Soft">🛡 Soft Cover</MenuItem>
+                                            <MenuItem value="Hard">🛡 Hard Cover</MenuItem>
+                                        </Select>
+                                    </Box>
+                                    <IconButton size="small" color="error" onClick={() => onRemoveLocation(loc.id)}>
+                                        <DeleteIcon fontSize="small"/>
+                                    </IconButton>
+                                </Box>
+                                <Typography variant="caption" color="text.secondary" sx={{mb: 0.5, display: "block"}}>
+                                    Occupants (click to toggle):
+                                </Typography>
+                                <Box sx={{display: "flex", flexWrap: "wrap", gap: 1}}>
+                                    {encounter.participants.map((p) => {
+                                        const inCover = loc.occupantIds.includes(p.id);
+                                        return (
+                                            <Chip
+                                                key={p.id}
+                                                label={p.name}
+                                                color={inCover ? (p.type === "pc" ? "primary" : "error") : "default"}
+                                                variant={inCover ? "filled" : "outlined"}
+                                                size="small"
+                                                onClick={() => toggleOccupant(loc.id, p.id)}
+                                                sx={{cursor: "pointer"}}
+                                            />
+                                        );
+                                    })}
+                                    {encounter.participants.length === 0 && (
+                                        <Typography variant="caption" color="text.secondary">
+                                            Add participants first.
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Box>
+                        ))}
+                    </Box>
+                )}
+            </Paper>
+
+            <Paper sx={{p: 3, mt: 3}}>
+                <Typography variant="h6" gutterBottom>
                     Range Bands
                 </Typography>
                 <Alert severity={allRangeBandsSet ? "success" : "warning"} sx={{mb: 2}}>
                     {allRangeBandsSet
                         ? "All range bands set. Ready to start."
-                        : "Set a range band for every PC–NPC pair before starting. Participants may spend [triumph] from their initiative roll to perform a free maneuver before combat begins."}
+                        : "Set a range band for every PC–NPC pair, PC–PC pair, and PC–position pair before starting."}
                 </Alert>
                 <SampleRangeBandMatrix
                     pcParticipants={encounter.participants.filter((p) => p.type === "pc")}
                     npcParticipants={encounter.participants.filter((p) => p.type === "npc")}
+                    locations={locations}
                     rangeBands={encounter.rangeBands}
                     onUpdateRange={onUpdateRange}
                 />
