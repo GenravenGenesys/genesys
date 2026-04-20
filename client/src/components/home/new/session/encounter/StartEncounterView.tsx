@@ -64,13 +64,14 @@ export default function StartEncounterView(props: Props) {
     const handleDialogConfirm = (results: GenesysSymbolResults, _strainSuffered: number) => {
         if (!dialogParticipant) return;
         const isPlayer = dialogParticipant.kind === "player";
-        const newSlot: InitiativeSlot = {
+        const newSlot = {
             type: isPlayer ? InitiativeSlotType.Player : InitiativeSlotType.NPC,
             results,
             rolledBy: isPlayer ? dialogParticipant.character.id : dialogParticipant.adversary.id,
-            playerCharacter: isPlayer ? dialogParticipant.character : undefined!,
-            adversaryTemplate: isPlayer ? undefined! : dialogParticipant.adversary,
-        };
+            ...(isPlayer
+                ? {playerCharacter: dialogParticipant.character}
+                : {adversaryTemplate: dialogParticipant.adversary}),
+        } as InitiativeSlot;
         onAddInitiativeSlot(newSlot);
         setDialogParticipant(null);
     };
