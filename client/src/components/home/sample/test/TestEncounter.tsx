@@ -12,7 +12,7 @@ import {
 import type {
     CampaignEncounter,
     InitiativeSlot,
-    InitiativeSlotResults,
+    GenesysSymbolResults,
     RangeBand as RangeBandEnum,
     PlayerCharacter,
     AdversaryTemplate,
@@ -51,7 +51,7 @@ export interface TurnAction {
         actionId: string;
         actionName: string;
         details?: string;
-        diceResult?: InitiativeSlotResults;
+        diceResult?: GenesysSymbolResults;
         advantageSpent?: string[];
         triumphSpent?: string[];
     };
@@ -501,17 +501,19 @@ function TestEncounter() {
 
     const handleAddInitiativeSlot = (slot: InitiativeSlot) => {
         setEncounter((prev) => {
-            const allSlots = [...prev.initiativeOrder, slot].sort((a, b) => {
-                if (b.results.success !== a.results.success) {
-                    return b.results.success - a.results.success;
-                }
-                return b.results.advantage - a.results.advantage;
+            // Replace existing slot for same participant (re-roll support)
+            const filtered = prev.initiativeOrder.filter((s) => s.rolledBy !== slot.rolledBy);
+            const allSlots = [...filtered, slot].sort((a, b) => {
+                const aSuccess = (a.results?.success ?? 0) + (a.results?.triumph ?? 0)
+                    - (a.results?.failure ?? 0) - (a.results?.despair ?? 0);
+                const bSuccess = (b.results?.success ?? 0) + (b.results?.triumph ?? 0)
+                    - (b.results?.failure ?? 0) - (b.results?.despair ?? 0);
+                if (bSuccess !== aSuccess) return bSuccess - aSuccess;
+                const aAdv = (a.results?.advantage ?? 0) - (a.results?.threat ?? 0);
+                const bAdv = (b.results?.advantage ?? 0) - (b.results?.threat ?? 0);
+                return bAdv - aAdv;
             });
-
-            return {
-                ...prev,
-                initiativeOrder: allSlots,
-            };
+            return {...prev, initiativeOrder: allSlots};
         });
     };
 
@@ -690,6 +692,8 @@ function TestEncounter() {
             {encounter.status === CampaignEncounterStatus.Ready && (
                 <Paper sx={{p: 3, mb: 3}}>
                     <TestEncounterSetup encounter={encounter} numberOfParticipants={getAllParticipants().length}
+                                        onAddInitiativeSlot={handleAddInitiativeSlot}
+                                        onRemoveInitiativeSlot={handleRemoveInitiativeSlot}
                                         onStartEncounter={handleStartEncounter}/>
                 </Paper>
             )}
