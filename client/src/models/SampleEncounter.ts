@@ -1,14 +1,39 @@
 import {
     type AdversaryTemplate, type CampaignEncounter,
     CampaignEncounterStatus,
-    CampaignEncounterType, CharacteristicType,
-    type PlayerCharacter
+    CampaignEncounterType, CharacteristicType, EquipmentType, type ItemTemplate,
+    type PlayerCharacter, type WeaponStats
 } from "../api/model";
 import type {
     CombatLogEntry,
     EncounterRangeBand,
     TurnAction
 } from "../components/home/sample/test/TestEncounter.tsx";
+
+const sampleArmor = {
+    id: "1",
+    name: "Padded",
+    type: EquipmentType.Armor,
+    rarity: 1,
+    price: 50,
+    description: "Padded",
+    restricted: false,
+    hardPoints: 0,
+    encumbrance: 1,
+    weaponStats: {} as WeaponStats,
+    amount: 1,
+    qualities: [],
+    armorStats: {
+        defense: {
+            current: 0,
+            base: 0
+        },
+        soak: {
+            current: 1,
+            base: 1
+        }
+    }
+} as ItemTemplate;
 
 const stormTrooper: AdversaryTemplate = {
     id: "npc-1",
@@ -29,7 +54,12 @@ const stormTrooper: AdversaryTemplate = {
         defense: {current: 0, base: 0},
         soak: {current: 5, base: 5},
     },
-    equipment: {weapons: [], armor: [], gear: []},
+    equipment: {
+        weapons: [],
+        equippedArmor: sampleArmor,
+        otherGear: []
+    },
+    motivations: [],
     skills: [],
     ratings: {combat: 0, social: 0, general: 0},
     size: 1,
@@ -54,7 +84,12 @@ const imperialOfficer: AdversaryTemplate = {
         defense: {current: 0, base: 0},
         soak: {current: 3, base: 3},
     },
-    equipment: {weapons: [], armor: [], gear: []},
+    equipment: {
+        weapons: [],
+        equippedArmor: sampleArmor,
+        otherGear: []
+    },
+    motivations: [],
     skills: [],
     ratings: {combat: 0, social: 0, general: 0},
     size: 1,
@@ -79,7 +114,12 @@ const eliteGuard: AdversaryTemplate = {
         defense: {current: 0, base: 0},
         soak: {current: 4, base: 4},
     },
-    equipment: {weapons: [], armor: [], gear: []},
+    equipment: {
+        weapons: [],
+        equippedArmor: sampleArmor,
+        otherGear: []
+    },
+    motivations: [],
     skills: [],
     ratings: {combat: 0, social: 0, general: 0},
     size: 1,
@@ -112,7 +152,12 @@ const mockPlayerCharacters: PlayerCharacter[] = [
             defense: {current: 2, base: 0},
             soak: {current: 4, base: 4},
         },
-        equipment: {weapons: [], armor: [], gear: []},
+        equipment: {
+            weapons: [],
+            equippedArmor: sampleArmor,
+            otherGear: []
+        },
+        motivations: [],
         skills: [
             {
                 id: "piloting-1", name: "Viligance", ranks: 2, characteristic: CharacteristicType.Willpower,
@@ -129,7 +174,10 @@ const mockPlayerCharacters: PlayerCharacter[] = [
                 description: ""
             }
         ],
-        experience: {total: 100, available: 0},
+        experience: {
+            total: 100, available: 0,
+            initial: 0
+        },
         talents: [],
     },
     {
@@ -152,9 +200,17 @@ const mockPlayerCharacters: PlayerCharacter[] = [
             defense: {current: 1, base: 0},
             soak: {current: 3, base: 3},
         },
-        equipment: {weapons: [], armor: [], gear: []},
+        equipment: {
+            weapons: [],
+            equippedArmor: sampleArmor,
+            otherGear: []
+        },
+        motivations: [],
         skills: [],
-        experience: {total: 100, available: 0},
+        experience: {
+            total: 100, available: 0,
+            initial: 0
+        },
         talents: [],
     },
     {
@@ -177,9 +233,17 @@ const mockPlayerCharacters: PlayerCharacter[] = [
             defense: {current: 0, base: 0},
             soak: {current: 6, base: 6},
         },
-        equipment: {weapons: [], armor: [], gear: []},
+        equipment: {
+            weapons: [],
+            equippedArmor: sampleArmor,
+            otherGear: []
+        },
+        motivations: [],
         skills: [],
-        experience: {total: 100, available: 0},
+        experience: {
+            total: 100, available: 0,
+            initial: 0
+        },
         talents: [],
     },
 ];
