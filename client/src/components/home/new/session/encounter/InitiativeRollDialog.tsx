@@ -19,7 +19,15 @@ import {
     Typography,
 } from "@mui/material";
 import CasinoIcon from "@mui/icons-material/Casino";
-import {type AdversaryTemplate, type GenesysSymbolResults, InitiativeSlotType, type PlayerCharacter} from "../../../../../api/model";
+import {
+    Activation,
+    type AdversaryTemplate,
+    CostType,
+    type GenesysSymbolResults,
+    InitiativeSlotType,
+    type PlayerCharacter,
+    type PlayerTalent,
+} from "../../../../../api/model";
 
 type Participant =
     | {kind: "player"; character: PlayerCharacter}
@@ -32,8 +40,6 @@ interface Props {
     onConfirm: (results: GenesysSymbolResults, strainSuffered: number) => void;
 }
 
-const RAPID_REACTION_NAME = "Rapid Reaction";
-
 const emptyResults = (): GenesysSymbolResults => ({
     success: 0,
     advantage: 0,
@@ -42,6 +48,24 @@ const emptyResults = (): GenesysSymbolResults => ({
     threat: 0,
     despair: 0,
 });
+
+/**
+ * Identifies a Rapid Reaction-style talent mechanically:
+ * - Activated as an incidental out of turn
+ * - Costs strain to activate
+ * - Is ranked (the number of ranks caps the max strain/successes)
+ * - Has a resultsModifier on its incidentalOutOfTurn block that adds [success]
+ */
+function isRapidReactionTalent(talent: PlayerTalent): boolean {
+    return (
+        talent.activation === Activation["Active_(Incidental,_Out_of_Turn)"] &&
+        talent.cost?.type === CostType.Strain &&
+        talent.ranked === true &&
+        (talent.incidentalOutOfTurn?.resultsModifiers ?? []).some(
+            (rm) => (rm.results?.success ?? 0) > 0
+        )
+    );
+}
 
 function getParticipantName(participant: Participant): string {
     return participant.kind === "player"
@@ -75,7 +99,7 @@ export default function InitiativeRollDialog(props: Props) {
     const allSkills = isPlayer ? playerCharacter!.skills : [];
 
     const rapidReactionTalent = isPlayer
-        ? playerCharacter!.talents.find((t) => t.name === RAPID_REACTION_NAME)
+        ? playerCharacter!.talents.find(isRapidReactionTalent)
         : null;
     const rapidReactionRanks = rapidReactionTalent?.ranks ?? 0;
     const hasRapidReaction = rapidReactionRanks > 0;
