@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/campaigns/{campaignId}/compendium/injuries")
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Injuries", description = "Management of the campaign's custom injury library")
 @RequiredArgsConstructor
 public class InjuryCompendiumController {

@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/campaigns/{campaignId}/compendium/adversaries")
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Adversaries", description = "Management of the campaign's custom adversary library")
 @RequiredArgsConstructor
 public class AdversaryCompendiumController {

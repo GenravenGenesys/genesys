@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/campaigns/{campaignId}/compendium/archetypes")
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Archetypes", description = "Management of the campaign's custom archetype library")
 @RequiredArgsConstructor
 public class ArchetypeCompendiumController {

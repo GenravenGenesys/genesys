@@ -25,6 +25,8 @@ export interface ItemTemplate {
   restricted: boolean;
   /** @minimum 0 */
   encumbrance: number;
+  /** @minimum 0 */
+  hardPoints: number;
   /**
      * @minimum 0
      * @maximum 10

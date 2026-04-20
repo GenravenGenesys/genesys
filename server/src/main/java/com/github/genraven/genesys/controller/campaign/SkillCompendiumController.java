@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/campaigns/{campaignId}/compendium/skills")
-@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Skills", description = "Management of the campaign's custom skill library")
 @RequiredArgsConstructor
 public class SkillCompendiumController {

@@ -41,11 +41,14 @@ public class Config extends AbstractReactiveMongoConfiguration {
         return "genesys";
     }
 
+    @Value("${cors.allowed-origins:*}")
+    private String allowedOrigins;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final var source = new UrlBasedCorsConfigurationSource();
         final var config = new CorsConfiguration();
-        final var origins = List.of("http://localhost:5173");
+        final var origins = List.of(allowedOrigins.split(","));
         final var headers = List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE);
         final var methods = List.of(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name());
         final var maxAge = Duration.ofSeconds(86400);
