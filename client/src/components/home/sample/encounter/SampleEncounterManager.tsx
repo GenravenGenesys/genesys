@@ -756,6 +756,7 @@ function SampleEncounterManager() {
                     onRemoveParticipant={handleRemoveParticipant}
                     onAddInitiativeSlot={handleAddInitiativeSlot}
                     onRemoveInitiativeSlot={handleRemoveInitiativeSlot}
+                    onUpdateRange={handleUpdateRange}
                     onStartEncounter={handleStartEncounter}
                 />
             )}

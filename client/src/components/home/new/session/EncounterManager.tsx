@@ -4,9 +4,15 @@ import {
     Container
 } from '@mui/material';
 
-import {type CampaignEncounter, CampaignEncounterStatus, type InitiativeSlot} from "../../../../api/model";
+import {type CampaignEncounter, CampaignEncounterStatus, type InitiativeSlot, type RangeBand as RangeBandType} from "../../../../api/model";
 import StopIcon from '@mui/icons-material/Stop';
 import StartEncounterView from "./encounter/StartEncounterView.tsx";
+
+interface EncounterRangeBand {
+    participantId: string;
+    targetId: string;
+    range: RangeBandType;
+}
 
 interface Props {
     encounter: CampaignEncounter,
@@ -19,6 +25,7 @@ export default function EncounterManager(props: Props) {
     const [initiativeOrder, setInitiativeOrder] = useState<InitiativeSlot[]>(
         encounter.initiativeOrder ?? []
     );
+    const [rangeBands, setRangeBands] = useState<EncounterRangeBand[]>([]);
 
     const handleAddInitiativeSlot = (slot: InitiativeSlot) => {
         setInitiativeOrder((prev) => {
@@ -33,6 +40,20 @@ export default function EncounterManager(props: Props) {
             const sorted = [...prev].sort(compareSlots);
             const slotToRemove = sorted[index];
             return prev.filter((s) => s !== slotToRemove);
+        });
+    };
+
+    const handleUpdateRange = (participantId: string, targetId: string, range: RangeBandType) => {
+        setRangeBands((prev) => {
+            const existingIndex = prev.findIndex(
+                (r) => r.participantId === participantId && r.targetId === targetId
+            );
+            if (existingIndex >= 0) {
+                const updated = [...prev];
+                updated[existingIndex] = {participantId, targetId, range};
+                return updated;
+            }
+            return [...prev, {participantId, targetId, range}];
         });
     };
 
@@ -60,8 +81,10 @@ export default function EncounterManager(props: Props) {
                 <StartEncounterView
                     encounter={encounter}
                     initiativeOrder={initiativeOrder}
+                    rangeBands={rangeBands}
                     onAddInitiativeSlot={handleAddInitiativeSlot}
                     onRemoveInitiativeSlot={handleRemoveInitiativeSlot}
+                    onUpdateRange={handleUpdateRange}
                     onStartEncounter={handleStartEncounter}
                 />
             )}

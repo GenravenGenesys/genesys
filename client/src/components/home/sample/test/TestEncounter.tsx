@@ -692,8 +692,10 @@ function TestEncounter() {
             {encounter.status === CampaignEncounterStatus.Ready && (
                 <Paper sx={{p: 3, mb: 3}}>
                     <TestEncounterSetup encounter={encounter} numberOfParticipants={getAllParticipants().length}
+                                        rangeBands={encounter.rangeBands}
                                         onAddInitiativeSlot={handleAddInitiativeSlot}
                                         onRemoveInitiativeSlot={handleRemoveInitiativeSlot}
+                                        onUpdateRange={handleUpdateRange}
                                         onStartEncounter={handleStartEncounter}/>
                 </Paper>
             )}

@@ -21,7 +21,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import CasinoIcon from "@mui/icons-material/Casino";
 import {DiceRoller} from "./DiceRoller";
-import type {EncounterState, InitiativeSlot, Participant} from "../SampleEncounterManager.tsx";
+import type {EncounterState, InitiativeSlot, Participant, RangeBand, RangeType} from "../SampleEncounterManager.tsx";
+import {SampleRangeBandMatrix} from "./RangeTracker.tsx";
 
 interface EncounterSetupProps {
     encounter: EncounterState;
@@ -33,6 +34,7 @@ interface EncounterSetupProps {
         slot: Omit<InitiativeSlot, "id" | "assignedParticipantId">
     ) => void;
     onRemoveInitiativeSlot: (slotId: string) => void;
+    onUpdateRange: (participantId: string, targetId: string, range: RangeType) => void;
     onStartEncounter: () => void;
 }
 
@@ -44,6 +46,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                                   onRemoveParticipant,
                                                                   onAddInitiativeSlot,
                                                                   onRemoveInitiativeSlot,
+                                                                  onUpdateRange,
                                                                   onStartEncounter,
                                                               }) => {
     const [selectedTab, setSelectedTab] = useState<"pcs" | "npcs">("pcs");
@@ -409,6 +412,23 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                 >
                     Start Encounter
                 </Button>
+            </Paper>
+
+            <Paper sx={{p: 3, mt: 3}}>
+                <Typography variant="h6" gutterBottom>
+                    Range Bands
+                </Typography>
+                <Alert severity="info" sx={{mb: 2}}>
+                    Set starting distances between participants. Participants may spend
+                    [triumph] from their initiative roll to perform a free maneuver before
+                    combat begins — use this to update their position.
+                </Alert>
+                <SampleRangeBandMatrix
+                    pcParticipants={encounter.participants.filter((p) => p.type === "pc")}
+                    npcParticipants={encounter.participants.filter((p) => p.type === "npc")}
+                    rangeBands={encounter.rangeBands}
+                    onUpdateRange={onUpdateRange}
+                />
             </Paper>
 
             {rollerOpen && rollingFor && (

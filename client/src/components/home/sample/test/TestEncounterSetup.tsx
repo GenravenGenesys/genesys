@@ -21,9 +21,12 @@ import {
     type InitiativeSlot,
     InitiativeSlotType,
     type PlayerCharacter,
+    type RangeBand as RangeBandType,
 } from "../../../../api/model";
 import InitiativeRollDialog from "../../new/session/encounter/InitiativeRollDialog.tsx";
 import InitiativeOrderListItem from "../../new/session/encounter/InitiativeOrderListItem.tsx";
+import RangeBandMatrix from "../../new/session/encounter/RangeBandMatrix.tsx";
+import type {EncounterRangeBand} from "./TestEncounter.tsx";
 
 type DialogParticipant =
     | {kind: "player"; character: PlayerCharacter}
@@ -32,13 +35,15 @@ type DialogParticipant =
 interface Props {
     encounter: CampaignEncounter;
     numberOfParticipants: number;
+    rangeBands: EncounterRangeBand[];
     onAddInitiativeSlot: (slot: InitiativeSlot) => void;
     onRemoveInitiativeSlot: (index: number) => void;
+    onUpdateRange: (participantId: string, targetId: string, range: RangeBandType) => void;
     onStartEncounter: () => void;
 }
 
 export default function TestEncounterSetup(props: Props) {
-    const {encounter, numberOfParticipants, onAddInitiativeSlot, onRemoveInitiativeSlot, onStartEncounter} = props;
+    const {encounter, numberOfParticipants, rangeBands, onAddInitiativeSlot, onRemoveInitiativeSlot, onUpdateRange, onStartEncounter} = props;
 
     const [dialogParticipant, setDialogParticipant] = useState<DialogParticipant | null>(null);
 
@@ -236,6 +241,23 @@ export default function TestEncounterSetup(props: Props) {
                     </Paper>
                 </Grid>
             </Grid>
+
+            <Paper sx={{p: 3, mt: 3}}>
+                <Typography variant="h6" gutterBottom>
+                    Range Bands
+                </Typography>
+                <Alert severity="info" sx={{mb: 2}}>
+                    Set starting distances between participants. Participants may spend
+                    [triumph] from their initiative roll to perform a free maneuver before
+                    combat begins — use this to update their position.
+                </Alert>
+                <RangeBandMatrix
+                    rows={players}
+                    cols={allNpcs}
+                    rangeBands={rangeBands}
+                    onUpdateRange={onUpdateRange}
+                />
+            </Paper>
 
             <InitiativeRollDialog
                 open={dialogParticipant !== null}
