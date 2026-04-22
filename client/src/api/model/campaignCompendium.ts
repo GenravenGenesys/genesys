@@ -12,6 +12,7 @@ import type { CriticalInjury } from './criticalInjury';
 import type { ItemTemplate } from './itemTemplate';
 import type { Quality } from './quality';
 import type { Skill } from './skill';
+import type { Spell } from './spell';
 import type { Talent } from './talent';
 
 export interface CampaignCompendium {
@@ -31,4 +32,6 @@ export interface CampaignCompendium {
   qualities: Quality[];
   /** Setting-specific critical injuries */
   criticalInjuries: CriticalInjury[];
+  /** Setting-specific spells */
+  spells: Spell[];
 }

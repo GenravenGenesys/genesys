@@ -82,6 +82,7 @@ export * from './skill';
 export * from './skillRankModifier';
 export * from './skillType';
 export * from './spell';
+export * from './spellEffect';
 export * from './startingGearOption';
 export * from './startingGearSlot';
 export * from './startingMoney';
