@@ -522,7 +522,6 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                             size="small"
                                             startIcon={<GpsMaybeIcon/>}
                                             onClick={handleUseStrainForSecond}
-                                            disabled={hasImmobilized && false /* strain is always payable */}
                                         >
                                             2nd Maneuver (costs −2 Strain)
                                         </Button>
