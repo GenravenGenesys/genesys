@@ -47,6 +47,8 @@ export interface Participant {
     };
     imageUrl?: string;
     notes?: string;
+    weapons?: Weapon[];
+    abilities?: Ability[];
 }
 
 export interface InitiativeSlot {
@@ -58,6 +60,23 @@ export interface InitiativeSlot {
     rolledBy: string;
 }
 
+export interface Weapon {
+    id: string;
+    name: string;
+    skill: string;
+    damage: number;
+    critical: number;
+    range: RangeType;
+    qualities?: string[];
+}
+
+export interface Ability {
+    id: string;
+    name: string;
+    description: string;
+    activationType: "action" | "maneuver" | "incidental";
+}
+
 export interface Action {
     id: string;
     name: string;
@@ -65,6 +84,8 @@ export interface Action {
     category: "combat" | "skill" | "social" | "other";
     requiresDiceRoll?: boolean;
     quickAction?: boolean;
+    /** weapon this action represents, if any */
+    weapon?: Weapon;
 }
 
 export interface Maneuver {
@@ -463,6 +484,14 @@ const mockPlayers: Participant[] = [
         defenses: {melee: 1, ranged: 2},
         soak: 4,
         statusEffects: [],
+        weapons: [
+            {id: "kael-w1", name: "Heavy Blaster Pistol", skill: "Ranged (Light)", damage: 7, critical: 3, range: "medium", qualities: ["Stun Setting"]},
+            {id: "kael-w2", name: "Vibro-knife", skill: "Melee", damage: 4, critical: 3, range: "engaged", qualities: ["Pierce 2"]},
+        ],
+        abilities: [
+            {id: "kael-a1", name: "Quick Strike", description: "Add boost die when attacking targets that have not acted this round.", activationType: "incidental"},
+            {id: "kael-a2", name: "Dodge", description: "Suffer strain up to ranks in Dodge, reduce incoming attack damage by the same amount.", activationType: "incidental"},
+        ],
     },
     {
         id: "pc-2",
@@ -473,6 +502,14 @@ const mockPlayers: Participant[] = [
         defenses: {melee: 0, ranged: 1},
         soak: 3,
         statusEffects: [],
+        weapons: [
+            {id: "mira-w1", name: "Holdout Blaster", skill: "Ranged (Light)", damage: 5, critical: 4, range: "short", qualities: ["Stun Setting", "Concealable"]},
+            {id: "mira-w2", name: "Throwing Knife", skill: "Ranged (Light)", damage: 3, critical: 3, range: "short", qualities: ["Limited Ammo 1"]},
+        ],
+        abilities: [
+            {id: "mira-a1", name: "Sneak Attack", description: "Gain bonus Advantage on attack if target is unaware or engaged with ally.", activationType: "incidental"},
+            {id: "mira-a2", name: "Disengage", description: "Move from engaged to short range as a maneuver without triggering free attacks.", activationType: "maneuver"},
+        ],
     },
     {
         id: "pc-3",
@@ -483,6 +520,14 @@ const mockPlayers: Participant[] = [
         defenses: {melee: 0, ranged: 0},
         soak: 6,
         statusEffects: [],
+        weapons: [
+            {id: "grax-w1", name: "Vibro-axe", skill: "Melee", damage: 7, critical: 3, range: "engaged", qualities: ["Sunder", "Vicious 3"]},
+            {id: "grax-w2", name: "Heavy Blaster Rifle", skill: "Ranged (Heavy)", damage: 10, critical: 3, range: "long", qualities: ["Auto-fire", "Cumbersome 3"]},
+        ],
+        abilities: [
+            {id: "grax-a1", name: "Knockdown", description: "Spend 2 Advantage to knock target prone after a hit.", activationType: "incidental"},
+            {id: "grax-a2", name: "Brace", description: "Remove up to two setback dice from next check caused by environmental factors.", activationType: "maneuver"},
+        ],
     },
 ];
 
@@ -495,6 +540,12 @@ const mockNPCs: Participant[] = [
         strain: {current: 0, threshold: 5},
         soak: 5,
         statusEffects: [],
+        weapons: [
+            {id: "st-w1", name: "E-11 Blaster Rifle", skill: "Ranged (Heavy)", damage: 9, critical: 3, range: "medium", qualities: ["Stun Setting"]},
+        ],
+        abilities: [
+            {id: "st-a1", name: "Minion", description: "Operates as part of a minion group.", activationType: "incidental"},
+        ],
     },
     {
         id: "npc-2",
@@ -504,6 +555,12 @@ const mockNPCs: Participant[] = [
         strain: {current: 0, threshold: 10},
         soak: 3,
         statusEffects: [],
+        weapons: [
+            {id: "io-w1", name: "Imperial Blaster Pistol", skill: "Ranged (Light)", damage: 6, critical: 3, range: "medium"},
+        ],
+        abilities: [
+            {id: "io-a1", name: "Commanding Presence", description: "Once per round, spend 2 Advantage from a Discipline or Leadership check to give one ally within short range a free maneuver.", activationType: "incidental"},
+        ],
     },
     {
         id: "npc-3",
@@ -513,6 +570,14 @@ const mockNPCs: Participant[] = [
         strain: {current: 0, threshold: 8},
         soak: 4,
         statusEffects: [],
+        weapons: [
+            {id: "eg-w1", name: "Force Pike", skill: "Melee", damage: 7, critical: 3, range: "engaged", qualities: ["Stun Setting", "Defensive 1"]},
+            {id: "eg-w2", name: "Heavy Blaster Pistol", skill: "Ranged (Light)", damage: 7, critical: 3, range: "medium"},
+        ],
+        abilities: [
+            {id: "eg-a1", name: "Adversary 1", description: "Upgrade the difficulty of checks targeting this character once.", activationType: "incidental"},
+            {id: "eg-a2", name: "Parry 2", description: "When hit by melee attack, suffer 3 strain to reduce damage by 4.", activationType: "incidental"},
+        ],
     },
 ];
 

@@ -4,6 +4,7 @@ import {
     Typography,
     Button,
     Paper, Alert, Grid, Card, CardContent, Box, Chip, IconButton, ToggleButtonGroup, ToggleButton,
+    Drawer, List, ListItem, ListItemText, Divider, FormControl, InputLabel, Select, MenuItem,
 } from "@mui/material";
 import {
     CampaignEncounterStatus,
@@ -16,13 +17,27 @@ import type {
     RangeBand as RangeBandEnum,
     PlayerCharacter,
     AdversaryTemplate,
+    ItemTemplate,
 } from "../../../../api/model";
 import CasinoIcon from "@mui/icons-material/Casino";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import StopIcon from "@mui/icons-material/Stop";
+import HistoryIcon from "@mui/icons-material/History";
 import {encounterTemplate, type ExtendedCampaignEncounter} from "../../../../models/SampleEncounter.ts";
 import TestEncounterBuilder from "./TestEncounterBuilder.tsx";
 import TestEncounterSetup from "./TestEncounterSetup.tsx";
+import {TurnActions} from "../encounter/components/TurnActions.tsx";
+import type {
+    Participant,
+    Weapon,
+    Action as SampleAction,
+    Maneuver as SampleManeuver,
+    TurnAction as SampleTurnAction,
+} from "../encounter/SampleEncounterManager.tsx";
+import type {RangeType} from "../encounter/SampleEncounterManager.tsx";
 
 // UI-specific types
 export interface Action {
@@ -406,8 +421,62 @@ const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
     },
 ];
 
+/** Convert an ItemTemplate weapon to the Participant.Weapon shape used by TurnActions. */
+function itemToWeapon(item: ItemTemplate): Weapon {
+    return {
+        id: item.id,
+        name: item.name,
+        skill: item.weaponStats?.skill?.name ?? "Unknown",
+        damage: item.weaponStats?.damage ?? 0,
+        critical: item.weaponStats?.critical ?? 4,
+        range: (item.weaponStats?.range?.toLowerCase() ?? "short") as RangeType,
+        qualities: item.qualities?.map((q) => q.name) ?? [],
+    };
+}
+
+/** Convert a PlayerCharacter or AdversaryTemplate to the Participant shape TurnActions needs. */
+function toParticipant(
+    entity: PlayerCharacter | AdversaryTemplate,
+    type: "pc" | "npc"
+): Participant {
+    return {
+        id: entity.id,
+        name: entity.name,
+        type,
+        wounds: {
+            current: entity.derivedStats.woundThreshold.current,
+            threshold: entity.derivedStats.woundThreshold.total,
+        },
+        strain: {
+            current: entity.derivedStats.strainThreshold?.current ?? 0,
+            threshold: entity.derivedStats.strainThreshold?.total ?? 0,
+        },
+        soak: entity.derivedStats.soak?.current,
+        statusEffects: [],
+        weapons: entity.equipment?.weapons?.map(itemToWeapon) ?? [],
+        abilities: [],
+    };
+}
+
+const sharedActions: SampleAction[] = availableActions.map((a) => ({
+    id: a.id,
+    name: a.name,
+    description: a.description,
+    category: a.category,
+    requiresDiceRoll: a.requiresDiceRoll,
+    quickAction: a.quickAction,
+}));
+
+const sharedManeuvers: SampleManeuver[] = availableManeuvers.map((m) => ({
+    id: m.id,
+    name: m.name,
+    description: m.description,
+    category: m.category,
+}));
+
 function TestEncounter() {
     const [encounter, setEncounter] = useState<ExtendedCampaignEncounter>(encounterTemplate);
+    const [logDrawerOpen, setLogDrawerOpen] = useState(false);
 
     // Helper function to get all participants (players + NPCs) from the encounter
     const getAllParticipants = (): Array<PlayerCharacter | AdversaryTemplate> => {
@@ -582,11 +651,63 @@ function TestEncounter() {
         });
     };
 
-    const handleRecordTurnAction = (turnAction: TurnAction) => {
-        setEncounter((prev) => ({
-            ...prev,
-            turnActions: [...prev.turnActions, turnAction],
-        }));
+    const handleRecordTurnAction = (turnAction: SampleTurnAction) => {
+        setEncounter((prev) => {
+            let next = {...prev, turnActions: [...prev.turnActions, turnAction as any]};
+
+            // Apply strain cost for second maneuver
+            if (turnAction.strainSpentForManeuver > 0) {
+                const isPlayer = prev.party.players.some((p) => p.id === turnAction.participantId);
+                if (isPlayer) {
+                    next = {
+                        ...next,
+                        party: {
+                            ...next.party,
+                            players: next.party.players.map((p) =>
+                                p.id === turnAction.participantId
+                                    ? {
+                                        ...p,
+                                        derivedStats: {
+                                            ...p.derivedStats,
+                                            strainThreshold: {
+                                                ...p.derivedStats.strainThreshold,
+                                                current: Math.min(
+                                                    p.derivedStats.strainThreshold.total,
+                                                    p.derivedStats.strainThreshold.current + turnAction.strainSpentForManeuver
+                                                ),
+                                            },
+                                        },
+                                    }
+                                    : p
+                            ),
+                        },
+                    };
+                } else {
+                    next = {
+                        ...next,
+                        npcIds: next.npcIds.map((n) =>
+                            n.id === turnAction.participantId
+                                ? {
+                                    ...n,
+                                    derivedStats: {
+                                        ...n.derivedStats,
+                                        strainThreshold: {
+                                            current: Math.min(
+                                                n.derivedStats.strainThreshold?.total ?? 0,
+                                                (n.derivedStats.strainThreshold?.current ?? 0) + turnAction.strainSpentForManeuver
+                                            ),
+                                            total: n.derivedStats.strainThreshold?.total ?? 0,
+                                        },
+                                    },
+                                }
+                                : n
+                        ),
+                    };
+                }
+            }
+
+            return next;
+        });
 
         // Find participant by ID from either players or NPCs
         const participant = getAllParticipants().find(
@@ -733,121 +854,179 @@ function TestEncounter() {
                 </Paper>
             )}
 
-            {encounter.status === CampaignEncounterStatus.Active && (
-                <Paper sx={{p: 3}}>
-                    <Typography variant="h5" gutterBottom>
-                        Round {encounter.currentRound} - Slot {encounter.currentSlotIndex + 1}
-                    </Typography>
+            {encounter.status === CampaignEncounterStatus.Active && (() => {
+                const currentSlot = encounter.initiativeOrder[encounter.currentSlotIndex];
+                const isLastSlot = encounter.currentSlotIndex === encounter.initiativeOrder.length - 1;
+                let currentParticipant: Participant | null = null;
+                if (currentSlot) {
+                    if (currentSlot.type === InitiativeSlotType.Player && currentSlot.playerCharacter) {
+                        currentParticipant = toParticipant(currentSlot.playerCharacter, "pc");
+                    } else if (currentSlot.type === InitiativeSlotType.NPC && currentSlot.adversaryTemplate) {
+                        currentParticipant = toParticipant(currentSlot.adversaryTemplate, "npc");
+                    }
+                }
 
-                    <Typography variant="body1" sx={{mb: 2}}>
-                        Current initiative slot
-                        type: {encounter.initiativeOrder[encounter.currentSlotIndex]?.type || 'N/A'}
-                    </Typography>
+                const handleCompleteTurn = (turnAction: SampleTurnAction) => {
+                    handleRecordTurnAction(turnAction);
+                    handleNextSlot();
+                };
 
-                    <Button variant="contained" onClick={handlePreviousSlot} sx={{mr: 1}}>
-                        Previous Slot
-                    </Button>
-                    <Button variant="contained" onClick={handleNextSlot} sx={{mr: 1}}>
-                        Next Slot
-                    </Button>
-                    <Button variant="outlined" color="error" onClick={handleEndEncounter}>
-                        End Encounter
-                    </Button>
+                return (
+                    <Paper sx={{p: 3}}>
+                        {/* Header */}
+                        <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 2, mb: 3}}>
+                            <Typography variant="h5" fontWeight="bold">{encounter.name}</Typography>
+                            <Chip label={`Round ${encounter.currentRound}`} color="primary" sx={{fontSize: "1.2rem", fontWeight: "bold", px: 2}}/>
+                            <Box sx={{display: "flex", gap: 1}}>
+                                <Button variant="outlined" color="secondary" startIcon={<HistoryIcon/>} onClick={() => setLogDrawerOpen(true)}>Log</Button>
+                                <Button variant="outlined" color="error" startIcon={<StopIcon/>} onClick={handleEndEncounter}>End</Button>
+                            </Box>
+                        </Box>
 
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        Players in Combat
-                    </Typography>
-                    {encounter.party.players.map((player) => (
-                        <Paper key={player.id} sx={{p: 2, mb: 1}}>
-                            <Typography variant="body1">{player.name}</Typography>
-                            <Typography variant="body2">
-                                Wounds: {player.derivedStats.woundThreshold.current}/{player.derivedStats.woundThreshold.total} |
-                                Strain: {player.derivedStats.strainThreshold.current}/{player.derivedStats.strainThreshold.total}
+                        {/* Current slot info */}
+                        <Paper sx={{p: 2, mb: 3, backgroundColor: currentSlot?.type === InitiativeSlotType.Player ? "primary.light" : "error.light"}}>
+                            <Typography variant="h6">
+                                Slot #{encounter.currentSlotIndex + 1} — {currentSlot?.type === InitiativeSlotType.Player ? "PC SLOT" : "NPC SLOT"}
+                                {currentParticipant && ` — ${currentParticipant.name}`}
                             </Typography>
+                            {!currentParticipant && (
+                                <Alert severity="warning" sx={{mt: 1}}>No participant assigned to this slot.</Alert>
+                            )}
                         </Paper>
-                    ))}
 
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        NPCs in Combat
-                    </Typography>
-                    {encounter.npcIds.map((npc) => (
-                        <Paper key={npc.id} sx={{p: 2, mb: 1}}>
-                            <Typography variant="body1">{npc.name}</Typography>
-                            <Typography variant="body2">
-                                Wounds: {npc.derivedStats.woundThreshold.current}/{npc.derivedStats.woundThreshold.total}
-                            </Typography>
+                        {/* TurnActions for current participant */}
+                        {currentParticipant && (
+                            <TurnActions
+                                currentParticipant={currentParticipant}
+                                slotId={String(encounter.currentSlotIndex)}
+                                round={encounter.currentRound}
+                                availableActions={sharedActions}
+                                availableManeuvers={sharedManeuvers}
+                                onComplete={handleCompleteTurn}
+                                onSkip={handleNextSlot}
+                            />
+                        )}
+
+                        {/* Navigation */}
+                        <Paper sx={{p: 2, mb: 3}}>
+                            <Box sx={{display: "flex", justifyContent: "center", gap: 2}}>
+                                <Button variant="outlined" startIcon={<NavigateBeforeIcon/>} onClick={handlePreviousSlot} disabled={encounter.currentSlotIndex === 0}>Previous</Button>
+                                <Button variant="contained" endIcon={<NavigateNextIcon/>} onClick={handleNextSlot} size="large">
+                                    {isLastSlot ? "Start Next Round" : "Next Slot"}
+                                </Button>
+                            </Box>
                         </Paper>
-                    ))}
 
-                    {(encounter.locations ?? []).length > 0 && (
-                        <>
-                            <Typography variant="h6" sx={{mt: 3}}>
-                                Map Positions
-                            </Typography>
-                            {(encounter.locations ?? []).map((loc) => {
-                                const occupants = getAllParticipants().filter((p) => loc.occupantIds.includes(p.id));
-                                return (
-                                    <Paper key={loc.id} sx={{p: 2, mb: 1}}>
-                                        <Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 0.5}}>
-                                            <Typography variant="body1" fontWeight="bold">📍 {loc.name}</Typography>
-                                            {loc.cover !== "None" && (
-                                                <Chip
-                                                    label={`🛡 ${loc.cover} Cover`}
-                                                    size="small"
-                                                    color={loc.cover === "Hard" ? "error" : "warning"}
-                                                />
-                                            )}
-                                        </Box>
-                                        <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, mt: 0.5}}>
-                                            {occupants.length === 0 ? (
-                                                <Typography variant="caption" color="text.secondary">No one at this position.</Typography>
-                                            ) : (
-                                                occupants.map((p) => (
-                                                    <Chip
-                                                        key={p.id}
-                                                        label={p.name}
-                                                        size="small"
-                                                        color={encounter.party.players.some((pl) => pl.id === p.id) ? "primary" : "error"}
-                                                        onClick={() => handleUpdateLocation(loc.id, {
-                                                            occupantIds: loc.occupantIds.filter((id) => id !== p.id),
-                                                        })}
+                        {/* Initiative order summary */}
+                        <Typography variant="h6" sx={{mt: 2}}>Initiative Order</Typography>
+                        {encounter.initiativeOrder.map((slot, index) => {
+                            const isCurrent = index === encounter.currentSlotIndex;
+                            const name = slot.type === InitiativeSlotType.Player
+                                ? slot.playerCharacter?.name
+                                : slot.adversaryTemplate?.name;
+                            return (
+                                <Paper key={index} sx={{p: 1, mb: 0.5, border: isCurrent ? 2 : 1, borderColor: isCurrent ? "primary.main" : "divider", backgroundColor: isCurrent ? "primary.light" : slot.type === InitiativeSlotType.Player ? "rgba(25,118,210,0.08)" : "rgba(211,47,47,0.08)"}}>
+                                    <Typography variant="body2">
+                                        #{index + 1} {slot.type === InitiativeSlotType.Player ? "PC" : "NPC"}{name ? ` — ${name}` : ""}
+                                        {isCurrent && " ◄ ACTIVE"}
+                                    </Typography>
+                                </Paper>
+                            );
+                        })}
+
+                        {/* Participant status */}
+                        <Typography variant="h6" sx={{mt: 3}}>Players</Typography>
+                        {encounter.party.players.map((player) => (
+                            <Paper key={player.id} sx={{p: 2, mb: 1}}>
+                                <Typography variant="body1" fontWeight="bold">{player.name}</Typography>
+                                <Typography variant="body2">
+                                    Wounds: {player.derivedStats.woundThreshold.current}/{player.derivedStats.woundThreshold.total} |
+                                    Strain: {player.derivedStats.strainThreshold.current}/{player.derivedStats.strainThreshold.total}
+                                </Typography>
+                                {player.equipment?.weapons?.length > 0 && (
+                                    <Box sx={{display: "flex", flexWrap: "wrap", gap: 0.5, mt: 0.5}}>
+                                        {player.equipment.weapons.map((w) => (
+                                            <Chip key={w.id} label={`⚔ ${w.name}`} size="small" color="warning" variant="outlined"/>
+                                        ))}
+                                    </Box>
+                                )}
+                            </Paper>
+                        ))}
+
+                        <Typography variant="h6" sx={{mt: 2}}>NPCs</Typography>
+                        {encounter.npcIds.map((npc) => (
+                            <Paper key={npc.id} sx={{p: 2, mb: 1}}>
+                                <Typography variant="body1" fontWeight="bold">{npc.name}</Typography>
+                                <Typography variant="body2">Wounds: {npc.derivedStats.woundThreshold.current}/{npc.derivedStats.woundThreshold.total}</Typography>
+                                {npc.equipment?.weapons?.length > 0 && (
+                                    <Box sx={{display: "flex", flexWrap: "wrap", gap: 0.5, mt: 0.5}}>
+                                        {npc.equipment.weapons.map((w) => (
+                                            <Chip key={w.id} label={`⚔ ${w.name}`} size="small" color="error" variant="outlined"/>
+                                        ))}
+                                    </Box>
+                                )}
+                            </Paper>
+                        ))}
+
+                        {/* Map positions */}
+                        {(encounter.locations ?? []).length > 0 && (
+                            <>
+                                <Typography variant="h6" sx={{mt: 3}}>Map Positions</Typography>
+                                {(encounter.locations ?? []).map((loc) => {
+                                    const occupants = getAllParticipants().filter((p) => loc.occupantIds.includes(p.id));
+                                    return (
+                                        <Paper key={loc.id} sx={{p: 2, mb: 1}}>
+                                            <Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 0.5}}>
+                                                <Typography variant="body1" fontWeight="bold">📍 {loc.name}</Typography>
+                                                {loc.cover !== "None" && (
+                                                    <Chip label={`🛡 ${loc.cover} Cover`} size="small" color={loc.cover === "Hard" ? "error" : "warning"}/>
+                                                )}
+                                            </Box>
+                                            <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, mt: 0.5}}>
+                                                {occupants.length === 0 ? (
+                                                    <Typography variant="caption" color="text.secondary">No one at this position.</Typography>
+                                                ) : (
+                                                    occupants.map((p) => (
+                                                        <Chip key={p.id} label={p.name} size="small" color={encounter.party.players.some((pl) => pl.id === p.id) ? "primary" : "error"}
+                                                            onClick={() => handleUpdateLocation(loc.id, {occupantIds: loc.occupantIds.filter((id) => id !== p.id)})}
+                                                        />
+                                                    ))
+                                                )}
+                                                {getAllParticipants().filter((p) => !loc.occupantIds.includes(p.id)).map((p) => (
+                                                    <Chip key={p.id} label={`+ ${p.name}`} size="small" variant="outlined"
+                                                        onClick={() => handleUpdateLocation(loc.id, {occupantIds: [...loc.occupantIds, p.id]})}
                                                     />
-                                                ))
-                                            )}
-                                            {getAllParticipants()
-                                                .filter((p) => !loc.occupantIds.includes(p.id))
-                                                .map((p) => (
-                                                    <Chip
-                                                        key={p.id}
-                                                        label={`+ ${p.name}`}
-                                                        size="small"
-                                                        variant="outlined"
-                                                        onClick={() => handleUpdateLocation(loc.id, {
-                                                            occupantIds: [...loc.occupantIds, p.id],
-                                                        })}
-                                                    />
-                                                ))
-                                            }
-                                        </Box>
-                                    </Paper>
-                                );
-                            })}
-                        </>
-                    )}
+                                                ))}
+                                            </Box>
+                                        </Paper>
+                                    );
+                                })}
+                            </>
+                        )}
 
-                    <Typography variant="h6" sx={{mt: 3}}>
-                        Combat Log
-                    </Typography>
-                    {encounter.combatLog.slice(0, 10).map((entry) => (
-                        <Paper key={entry.id} sx={{p: 1, mb: 1, bgcolor: 'grey.100'}}>
-                            <Typography variant="caption">
-                                Round {entry.round}: {entry.participantName} - {entry.action}
-                                {entry.details && ` (${entry.details})`}
-                            </Typography>
-                        </Paper>
-                    ))}
-                </Paper>
-            )}
+                        {/* Combat log drawer */}
+                        <Drawer anchor="right" open={logDrawerOpen} onClose={() => setLogDrawerOpen(false)}>
+                            <Box sx={{width: 360, p: 2}}>
+                                <Typography variant="h6" gutterBottom>Combat Log</Typography>
+                                <Divider sx={{mb: 1}}/>
+                                <List dense>
+                                    {encounter.combatLog.map((entry) => (
+                                        <ListItem key={entry.id}>
+                                            <ListItemText
+                                                primary={`R${entry.round}: ${entry.participantName} — ${entry.action}`}
+                                                secondary={entry.details}
+                                            />
+                                        </ListItem>
+                                    ))}
+                                    {encounter.combatLog.length === 0 && (
+                                        <ListItem><ListItemText primary="No log entries yet."/></ListItem>
+                                    )}
+                                </List>
+                            </Box>
+                        </Drawer>
+                    </Paper>
+                );
+            })()}
 
             {encounter.status === CampaignEncounterStatus.Resolved && (
                 <Paper sx={{p: 4, textAlign: "center"}}>

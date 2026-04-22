@@ -36,6 +36,28 @@ const sampleArmor = {
     }
 } as ItemTemplate;
 
+const stormTrooperWeapon = {
+    id: "st-w1",
+    name: "E-11 Blaster Rifle",
+    type: "Weapon" as any,
+    description: "Standard-issue Imperial blaster rifle",
+    price: 900,
+    restricted: true,
+    encumbrance: 4,
+    hardPoints: 3,
+    rarity: 4,
+    qualities: [],
+    amount: 1,
+    weaponStats: {
+        skill: {id: "ranged-heavy", name: "Ranged (Heavy)", characteristic: CharacteristicType.Agility, type: "Combat", initiative: false, summary: "", description: "", ranks: 0},
+        damage: 9,
+        critical: 3,
+        range: "Medium" as any,
+        brawn: false,
+    },
+    armorStats: {} as any,
+} as ItemTemplate;
+
 const stormTrooper: AdversaryTemplate = {
     id: "npc-1",
     name: "Stormtrooper",
@@ -56,7 +78,7 @@ const stormTrooper: AdversaryTemplate = {
         soak: {current: 5, base: 5},
     },
     equipment: {
-        weapons: [],
+        weapons: [stormTrooperWeapon],
         equippedArmor: sampleArmor,
         otherGear: []
     },
@@ -65,6 +87,72 @@ const stormTrooper: AdversaryTemplate = {
     ratings: {combat: 0, social: 0, general: 0},
     size: 1,
 }
+
+const imperialOfficerWeapon = {
+    id: "io-w1",
+    name: "Imperial Blaster Pistol",
+    type: "Weapon" as any,
+    description: "Standard-issue officer sidearm",
+    price: 400,
+    restricted: true,
+    encumbrance: 1,
+    hardPoints: 3,
+    rarity: 4,
+    qualities: [{id: "q-stun", name: "Stun Setting", description: "", cost: 0, armor: false, weapon: true, stats: {} as any, ranks: 1}],
+    amount: 1,
+    weaponStats: {
+        skill: {id: "ranged-light", name: "Ranged (Light)", characteristic: CharacteristicType.Agility, type: "Combat", initiative: false, summary: "", description: "", ranks: 0},
+        damage: 6,
+        critical: 3,
+        range: "Medium" as any,
+        brawn: false,
+    },
+    armorStats: {} as any,
+} as ItemTemplate;
+
+const eliteGuardPike = {
+    id: "eg-w1",
+    name: "Force Pike",
+    type: "Weapon" as any,
+    description: "Electrified polearm",
+    price: 700,
+    restricted: true,
+    encumbrance: 3,
+    hardPoints: 1,
+    rarity: 5,
+    qualities: [{id: "q-stun2", name: "Stun Setting", description: "", cost: 0, armor: false, weapon: true, stats: {} as any, ranks: 1}],
+    amount: 1,
+    weaponStats: {
+        skill: {id: "melee", name: "Melee", characteristic: CharacteristicType.Brawn, type: "Combat", initiative: false, summary: "", description: "", ranks: 0},
+        damage: 7,
+        critical: 3,
+        range: "Engaged" as any,
+        brawn: false,
+    },
+    armorStats: {} as any,
+} as ItemTemplate;
+
+const eliteGuardBlaster = {
+    id: "eg-w2",
+    name: "Heavy Blaster Pistol",
+    type: "Weapon" as any,
+    description: "High-powered sidearm",
+    price: 700,
+    restricted: true,
+    encumbrance: 2,
+    hardPoints: 3,
+    rarity: 6,
+    qualities: [],
+    amount: 1,
+    weaponStats: {
+        skill: {id: "ranged-light", name: "Ranged (Light)", characteristic: CharacteristicType.Agility, type: "Combat", initiative: false, summary: "", description: "", ranks: 0},
+        damage: 7,
+        critical: 3,
+        range: "Medium" as any,
+        brawn: false,
+    },
+    armorStats: {} as any,
+} as ItemTemplate;
 
 const imperialOfficer: AdversaryTemplate = {
     id: "npc-2",
@@ -86,7 +174,7 @@ const imperialOfficer: AdversaryTemplate = {
         soak: {current: 3, base: 3},
     },
     equipment: {
-        weapons: [],
+        weapons: [imperialOfficerWeapon],
         equippedArmor: sampleArmor,
         otherGear: []
     },
@@ -116,7 +204,7 @@ const eliteGuard: AdversaryTemplate = {
         soak: {current: 4, base: 4},
     },
     equipment: {
-        weapons: [],
+        weapons: [eliteGuardPike, eliteGuardBlaster],
         equippedArmor: sampleArmor,
         otherGear: []
     },
@@ -131,6 +219,116 @@ const mockAdversaries: AdversaryTemplate[] = [
     imperialOfficer,
     eliteGuard,
 ];
+
+const kaelWeapon1 = {
+    id: "kael-w1",
+    name: "Heavy Blaster Pistol",
+    type: "Weapon" as any,
+    description: "Modified heavy sidearm",
+    price: 700,
+    restricted: true,
+    encumbrance: 2,
+    hardPoints: 3,
+    rarity: 6,
+    qualities: [{id: "q-stun-k", name: "Stun Setting", description: "", cost: 0, armor: false, weapon: true, stats: {} as any, ranks: 1}],
+    amount: 1,
+    weaponStats: {
+        skill: {id: "ranged-light", name: "Ranged (Light)", characteristic: CharacteristicType.Agility, type: "Combat", initiative: false, summary: "", description: "", ranks: 0},
+        damage: 7,
+        critical: 3,
+        range: "Medium" as any,
+        brawn: false,
+    },
+    armorStats: {} as any,
+} as ItemTemplate;
+
+const kaelWeapon2 = {
+    id: "kael-w2",
+    name: "Vibro-knife",
+    type: "Weapon" as any,
+    description: "Vibrating mono-edge blade",
+    price: 250,
+    restricted: false,
+    encumbrance: 1,
+    hardPoints: 0,
+    rarity: 3,
+    qualities: [{id: "q-pierce-k", name: "Pierce 2", description: "", cost: 0, armor: false, weapon: true, stats: {} as any, ranks: 2}],
+    amount: 1,
+    weaponStats: {
+        skill: {id: "melee", name: "Melee", characteristic: CharacteristicType.Brawn, type: "Combat", initiative: false, summary: "", description: "", ranks: 0},
+        damage: 4,
+        critical: 3,
+        range: "Engaged" as any,
+        brawn: true,
+    },
+    armorStats: {} as any,
+} as ItemTemplate;
+
+const miraWeapon1 = {
+    id: "mira-w1",
+    name: "Holdout Blaster",
+    type: "Weapon" as any,
+    description: "Concealable short-range blaster",
+    price: 200,
+    restricted: true,
+    encumbrance: 1,
+    hardPoints: 0,
+    rarity: 4,
+    qualities: [{id: "q-stun-m", name: "Stun Setting", description: "", cost: 0, armor: false, weapon: true, stats: {} as any, ranks: 1}],
+    amount: 1,
+    weaponStats: {
+        skill: {id: "ranged-light", name: "Ranged (Light)", characteristic: CharacteristicType.Agility, type: "Combat", initiative: false, summary: "", description: "", ranks: 0},
+        damage: 5,
+        critical: 4,
+        range: "Short" as any,
+        brawn: false,
+    },
+    armorStats: {} as any,
+} as ItemTemplate;
+
+const graxWeapon1 = {
+    id: "grax-w1",
+    name: "Vibro-axe",
+    type: "Weapon" as any,
+    description: "Heavy vibrating axe",
+    price: 600,
+    restricted: false,
+    encumbrance: 4,
+    hardPoints: 1,
+    rarity: 5,
+    qualities: [{id: "q-vicious-g", name: "Vicious 3", description: "", cost: 0, armor: false, weapon: true, stats: {} as any, ranks: 3}],
+    amount: 1,
+    weaponStats: {
+        skill: {id: "melee", name: "Melee", characteristic: CharacteristicType.Brawn, type: "Combat", initiative: false, summary: "", description: "", ranks: 0},
+        damage: 3,
+        critical: 2,
+        range: "Engaged" as any,
+        brawn: true,
+    },
+    armorStats: {} as any,
+} as ItemTemplate;
+
+const graxWeapon2 = {
+    id: "grax-w2",
+    name: "Heavy Blaster Rifle",
+    type: "Weapon" as any,
+    description: "Large two-handed blaster",
+    price: 1200,
+    restricted: true,
+    encumbrance: 6,
+    hardPoints: 4,
+    rarity: 7,
+    qualities: [{id: "q-auto-g", name: "Auto-fire", description: "", cost: 0, armor: false, weapon: true, stats: {} as any, ranks: 1}],
+    amount: 1,
+    weaponStats: {
+        skill: {id: "ranged-heavy", name: "Ranged (Heavy)", characteristic: CharacteristicType.Agility, type: "Combat", initiative: false, summary: "", description: "", ranks: 0},
+        damage: 10,
+        critical: 3,
+        range: "Long" as any,
+        brawn: false,
+    },
+    armorStats: {} as any,
+} as ItemTemplate;
 
 const mockPlayerCharacters: PlayerCharacter[] = [
     {
@@ -154,7 +352,7 @@ const mockPlayerCharacters: PlayerCharacter[] = [
             soak: {current: 4, base: 4},
         },
         equipment: {
-            weapons: [],
+            weapons: [kaelWeapon1, kaelWeapon2],
             equippedArmor: sampleArmor,
             otherGear: []
         },
@@ -202,7 +400,7 @@ const mockPlayerCharacters: PlayerCharacter[] = [
             soak: {current: 3, base: 3},
         },
         equipment: {
-            weapons: [],
+            weapons: [miraWeapon1],
             equippedArmor: sampleArmor,
             otherGear: []
         },
@@ -235,7 +433,7 @@ const mockPlayerCharacters: PlayerCharacter[] = [
             soak: {current: 6, base: 6},
         },
         equipment: {
-            weapons: [],
+            weapons: [graxWeapon1, graxWeapon2],
             equippedArmor: sampleArmor,
             otherGear: []
         },
