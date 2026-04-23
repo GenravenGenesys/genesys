@@ -36,7 +36,82 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
-/**
+export type openCampaignResponse200 = {
+  data: string
+  status: 200
+}
+
+export type openCampaignResponseSuccess = (openCampaignResponse200) & {
+  headers: Headers;
+};
+;
+
+export type openCampaignResponse = (openCampaignResponseSuccess)
+
+export const getOpenCampaignUrl = (id: string,) => {
+
+
+
+
+  return `/api/campaigns/${id}/open`
+}
+
+export const openCampaign = async (id: string, options?: RequestInit): Promise<openCampaignResponse> => {
+
+  return customFetch<openCampaignResponse>(getOpenCampaignUrl(id),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+export const getOpenCampaignMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof openCampaign>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof openCampaign>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['openCampaign'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof openCampaign>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  openCampaign(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type OpenCampaignMutationResult = NonNullable<Awaited<ReturnType<typeof openCampaign>>>
+
+    export type OpenCampaignMutationError = unknown
+
+    export const useOpenCampaign = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof openCampaign>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof openCampaign>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getOpenCampaignMutationOptions(options), queryClient);
+    }
+    /**
  * Retrieve a list of all campaigns.
  * @summary Get all campaigns
  */
