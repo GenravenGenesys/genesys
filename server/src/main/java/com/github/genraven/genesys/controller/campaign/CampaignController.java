@@ -1,5 +1,6 @@
 package com.github.genraven.genesys.controller.campaign;
 
+import com.github.genraven.genesys.configuration.TemplateCache;
 import com.github.genraven.genesys.controller.AbstractController;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.domain.campaign.CampaignCompendium;
@@ -23,10 +24,18 @@ import java.util.List;
 public class CampaignController extends AbstractController {
     
     private final CampaignService campaignService;
+    private final TemplateCache templateCache;
 
     @GetMapping(value = "/{id}/compendium", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<CampaignCompendium> getCampaignCompendium(@PathVariable final String id) {
         return campaignService.getCampaignCompendium(id);
+    }
+
+    @PostMapping("/{id}/open")
+    public Mono<ResponseEntity<String>> openCampaign(@PathVariable String id) {
+        templateCache.loadCampaign(id);
+
+        return Mono.just(ResponseEntity.ok("Campaign " + id + " is now active and cached."));
     }
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
