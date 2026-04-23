@@ -30,6 +30,7 @@ import ViewCompendiumArchetypes from "./new/compendium/archetype/ViewCompendiumA
 import ViewCompendiumCareers from "./new/compendium/career/ViewCompendiumCareers.tsx";
 import ViewCompendiumInjuries from "./new/compendium/injury/ViewCriticalInjuries.tsx";
 import ViewCompendiumQualities from "./new/compendium/quality/ViewCompendiumQualities.tsx";
+import ViewCompendiumSpells from "./new/compendium/spell/ViewCompendiumSpells.tsx";
 import SampleEncounterManager from "./sample/encounter/SampleEncounterManager.tsx";
 import TestEncounter from "./sample/test/TestEncounter.tsx";
 
@@ -103,6 +104,8 @@ export const App: React.FC = () => {
                        element={<ViewCompendiumInjuries/>}/>
                 <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Qualities}
                        element={<ViewCompendiumQualities/>}/>
+                <Route path={RootPath.Campaign + ":id/compendium" + RootPath.Spell}
+                       element={<ViewCompendiumSpells/>}/>
 
                 <Route path={RootPath.Campaign + ":id"} element={<SessionManager/>}/>
                 <Route path={RootPath.Campaign + ":id" + RootPath.Session + ":sessionId"}

@@ -6,15 +6,19 @@
  * OpenAPI spec version: 1.0
  */
 import type { Difficulty } from './difficulty';
-import type { Effect } from './effect';
+import type { RangeBand } from './rangeBand';
 import type { Skill } from './skill';
+import type { SpellEffect } from './spellEffect';
 
+/**
+ * Setting-specific Spell
+ */
 export interface Spell {
   id: string;
   name: string;
   concentration: boolean;
   difficulty: Difficulty;
-  description: string;
+  range: RangeBand;
   skills: Skill[];
-  effects: Effect[];
+  effects: SpellEffect[];
 }
