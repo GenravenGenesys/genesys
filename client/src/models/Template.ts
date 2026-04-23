@@ -88,6 +88,7 @@ export const emptyItemTemplate = {
     modifiers: [],
     qualities: [],
     amount: 0,
+    hardPoints: 0,
     weaponStats: {
         damage: 0,
         critical: 0,
