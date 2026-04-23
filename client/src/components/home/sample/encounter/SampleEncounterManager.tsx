@@ -7,8 +7,6 @@ import {
 } from "@mui/material";
 import {EncounterSetup} from "./components/EncounterSetup";
 import {EncounterActive} from "./components/EncounterActive";
-import {sampleParty} from "../../../../models/SampleParty.ts";
-import type {Party} from "../../../../api/model";
 
 export type EncounterType = "combat" | "social";
 export type SlotType = "pc" | "npc";

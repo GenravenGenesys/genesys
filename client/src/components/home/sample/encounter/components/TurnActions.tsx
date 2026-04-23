@@ -24,7 +24,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CasinoIcon from "@mui/icons-material/Casino";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
 import UndoIcon from "@mui/icons-material/Undo";
-import GpsMaybeIcon from "@mui/icons-material/GpsMaybe";
+import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import ShieldIcon from "@mui/icons-material/Shield";
 import {DiceRoller} from "./DiceRoller";
 import {DiceResultsDialog} from "./DiceRollDialog";
@@ -520,7 +520,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                             variant="outlined"
                                             color="warning"
                                             size="small"
-                                            startIcon={<GpsMaybeIcon/>}
+                                            startIcon={<GppMaybeIcon/>}
                                             onClick={handleUseStrainForSecond}
                                         >
                                             2nd Maneuver (costs −2 Strain)
