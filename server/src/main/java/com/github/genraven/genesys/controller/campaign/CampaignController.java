@@ -24,13 +24,9 @@ public class CampaignController extends AbstractController {
     
     private final CampaignService campaignService;
 
-    @GetMapping(value = "/{id}/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<CampaignCompendium> streamCompendium(@PathVariable final String id) {
-        Mono<CampaignCompendium> initial = campaignService.getCampaignCompendium(id);
-
-        Flux<CampaignCompendium> updates = campaignService.getCampaignCompendiumUpdates(id);
-
-        return Flux.concat(initial, updates);
+    @GetMapping(value = "/{id}/compendium", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<CampaignCompendium> getCampaignCompendium(@PathVariable final String id) {
+        return campaignService.getCampaignCompendium(id);
     }
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
