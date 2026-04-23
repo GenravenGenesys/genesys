@@ -21,15 +21,17 @@ import {
     type ItemTemplate,
     LimitType,
     type Maneuver,
+    type Motivation,
     type PlayerCharacter,
     type PlayerSkill,
     type PlayerTalent,
     type Quality,
     type QualityStats,
-    type Motivation,
     RangeBand,
     type Skill,
     SkillType,
+    type Spell,
+    type SpellEffect,
     type Talent,
     Tier,
 } from "../api/model";
@@ -317,6 +319,22 @@ export const emptyCriticalInjury = {
     min: 0,
     max: 0,
 } as CriticalInjury;
+
+export const emptySpellEffect = {
+    name: '',
+    description: '',
+    difficultyIncrease: 1,
+} as SpellEffect;
+
+export const emptySpell = {
+    id: '',
+    name: '',
+    concentration: false,
+    difficulty: Difficulty.Easy,
+    range: RangeBand.Short,
+    skills: [] as Skill[],
+    effects: [] as SpellEffect[],
+} as Spell;
 
 export const emptyAction = {
     type: ActionType.Skill_Check,

@@ -9,6 +9,7 @@ import ArchetypeCompendiumCard from "./archetype/ArchetypeCompendiumCard.tsx";
 import CareerCompendiumCard from "./career/CareerCompendiumCard.tsx";
 import InjuryCompendiumCard from "./injury/InjuryCompendiumCard.tsx";
 import QualityCompendiumCard from "./quality/QualityCompendiumCard.tsx";
+import SpellCompendiumCard from "./spell/SpellCompendiumCard.tsx";
 
 export default function CompendiumHome() {
     const {id} = useParams<{ id: string }>();
@@ -49,6 +50,7 @@ export default function CompendiumHome() {
                 <CareerCompendiumCard careers={campaign.compendium.careers} campaignId={id}/>
                 <InjuryCompendiumCard injuries={campaign.compendium.criticalInjuries} campaignId={id}/>
                 <QualityCompendiumCard qualities={campaign.compendium.qualities} campaignId={id}/>
+                <SpellCompendiumCard spells={campaign.compendium.spells} campaignId={id}/>
             </Grid>
         </Box>
     );
