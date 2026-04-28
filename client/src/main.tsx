@@ -8,9 +8,15 @@ import {Auth0ProviderWithNavigate} from "./auth/auth0-provider-with-navigate";
 const rootElement = document.getElementById("root");
 const queryClient = new QueryClient();
 
+// Use the Vite base URL as the router basename so the app works correctly
+// both locally (base: './') and on GitHub Pages (base: '/genesys/').
+const routerBasename = import.meta.env.BASE_URL.startsWith('/')
+    ? import.meta.env.BASE_URL
+    : undefined;
+
 if (rootElement) {
     createRoot(rootElement!).render(
-        <BrowserRouter>
+        <BrowserRouter basename={routerBasename}>
             <Auth0ProviderWithNavigate>
                 <QueryClientProvider client={queryClient}>
                     <App/>
