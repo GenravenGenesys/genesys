@@ -6,6 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface GenesysError {
-  message?: string;
+/**
+ * Instance of an Item
+ */
+export interface ItemInstance {
+  id?: string;
+  templateId?: string;
+  ownerId?: string;
+  quantity?: number;
 }

@@ -64,6 +64,9 @@ public class ItemTemplate {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int amount;
 
+    @NotNull
+    private Boolean natural = false;
+
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private WeaponStats weaponStats;
 
