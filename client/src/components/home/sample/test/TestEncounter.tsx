@@ -3,43 +3,32 @@ import {
     Container,
     Typography,
     Button,
-    Paper, Alert, Grid, Card, CardContent, Box, Chip, IconButton, ToggleButtonGroup, ToggleButton,
+    Paper,
 } from "@mui/material";
 import {
+    ActionType,
     CampaignEncounterStatus,
+    Duration,
     InitiativeSlotType,
+    RangeBand,
+    StatusEffectType,
+    Target,
 } from "../../../../api/model";
 import type {
-    CampaignEncounter,
+    Action,
+    GenesysSymbolResults,
     InitiativeSlot,
-    InitiativeSlotResults,
-    RangeBand as RangeBandEnum,
+    Maneuver,
     PlayerCharacter,
     AdversaryTemplate,
+    StatusEffect,
 } from "../../../../api/model";
-import CasinoIcon from "@mui/icons-material/Casino";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
 import {encounterTemplate, type ExtendedCampaignEncounter} from "../../../../models/SampleEncounter.ts";
 import TestEncounterBuilder from "./TestEncounterBuilder.tsx";
 import TestEncounterSetup from "./TestEncounterSetup.tsx";
 
-// UI-specific types
-export interface Action {
-    id: string;
-    name: string;
-    description: string;
-    category: "combat" | "skill" | "social" | "other";
-    requiresDiceRoll?: boolean;
-    quickAction?: boolean;
-}
-
-export interface Maneuver {
-    id: string;
-    name: string;
-    description: string;
-    category: "movement" | "interaction" | "combat" | "other";
-}
+// Unified participant type covering both party members and adversaries
+export type Participant = PlayerCharacter | AdversaryTemplate;
 
 export interface TurnAction {
     id: string;
@@ -48,16 +37,14 @@ export interface TurnAction {
     participantId: string;
     participantType: InitiativeSlotType;
     actionTaken?: {
-        actionId: string;
-        actionName: string;
+        action: Action;
         details?: string;
-        diceResult?: InitiativeSlotResults;
+        diceResult?: GenesysSymbolResults;
         advantageSpent?: string[];
         triumphSpent?: string[];
     };
     maneuversTaken: Array<{
-        maneuverId: string;
-        maneuverName: string;
+        maneuver: Maneuver;
         details?: string;
     }>;
     strainSpentForManeuver: number;
@@ -76,333 +63,46 @@ export interface CombatLogEntry {
 export interface EncounterRangeBand {
     participantId: string;
     targetId: string;
-    range: RangeBandEnum;
+    range: RangeBand;
 }
 
-export interface StatusEffect {
-    id: string;
-    name: string;
-    description: string;
-    duration: "permanent" | "end-of-turn" | "end-of-round" | "end-of-encounter";
-    appliedRound: number;
-    icon?: string;
-}
-
-const availableActions: Action[] = [
-    // Quick Actions (Combat)
-    {
-        id: "attack-ranged",
-        name: "Ranged Attack",
-        description: "Make a ranged combat check",
-        category: "combat",
-        requiresDiceRoll: true,
-        quickAction: true,
-    },
-    {
-        id: "attack-melee",
-        name: "Melee Attack",
-        description: "Make a melee combat check",
-        category: "combat",
-        requiresDiceRoll: true,
-        quickAction: true,
-    },
-    {
-        id: "attack-brawl",
-        name: "Brawl Attack",
-        description: "Make an unarmed combat check",
-        category: "combat",
-        requiresDiceRoll: true,
-        quickAction: true,
-    },
-
-    // Other Combat Actions
-    {
-        id: "aim-action",
-        name: "Aim (Action)",
-        description: "Perform multiple Aim maneuvers as your action",
-        category: "combat",
-    },
-    {
-        id: "guard",
-        name: "Guard",
-        description: "Add setback to attacks against you until your next turn",
-        category: "combat",
-    },
-    {
-        id: "assist-action",
-        name: "Assist (Action)",
-        description: "Help an ally with their next check",
-        category: "combat",
-    },
-
-    // Quick Actions (Skills)
-    {
-        id: "perception",
-        name: "Perception Check",
-        description: "Make a Perception check to notice details",
-        category: "skill",
-        requiresDiceRoll: true,
-        quickAction: true,
-    },
-    {
-        id: "athletics",
-        name: "Athletics Check",
-        description: "Make an Athletics check",
-        category: "skill",
-        requiresDiceRoll: true,
-        quickAction: true,
-    },
-    {
-        id: "stealth",
-        name: "Stealth Check",
-        description: "Make a Stealth check to hide",
-        category: "skill",
-        requiresDiceRoll: true,
-        quickAction: true,
-    },
-
-    // Other Skill Actions
-    {
-        id: "skill-check",
-        name: "Skill Check",
-        description: "Make any skill check",
-        category: "skill",
-        requiresDiceRoll: true,
-    },
-    {
-        id: "medicine",
-        name: "Medicine Check",
-        description: "Treat wounds or critical injuries",
-        category: "skill",
-        requiresDiceRoll: true,
-    },
-    {
-        id: "mechanics",
-        name: "Mechanics Check",
-        description: "Repair or modify equipment",
-        category: "skill",
-        requiresDiceRoll: true,
-    },
-
-    // Quick Actions (Social)
-    {
-        id: "charm",
-        name: "Charm",
-        description: "Make a Charm check",
-        category: "social",
-        requiresDiceRoll: true,
-        quickAction: true,
-    },
-    {
-        id: "coercion",
-        name: "Coercion",
-        description: "Make a Coercion check",
-        category: "social",
-        requiresDiceRoll: true,
-        quickAction: true,
-    },
-
-    // Other Social Actions
-    {
-        id: "deception",
-        name: "Deception",
-        description: "Make a Deception check",
-        category: "social",
-        requiresDiceRoll: true,
-    },
-    {
-        id: "negotiation",
-        name: "Negotiation",
-        description: "Make a Negotiation check",
-        category: "social",
-        requiresDiceRoll: true,
-    },
-    {
-        id: "leadership",
-        name: "Leadership",
-        description: "Make a Leadership check to inspire allies",
-        category: "social",
-        requiresDiceRoll: true,
-    },
-
-    // Other
-    {
-        id: "activate-ability",
-        name: "Activate Ability",
-        description: "Use a talent or special ability",
-        category: "other",
-    },
-    {
-        id: "custom",
-        name: "Custom Action",
-        description: "Describe a custom action",
-        category: "other",
-    },
+// Predefined actions using the API Action shape — exported for use by child components
+export const availableActions: Action[] = [
+    // Combat Checks
+    {type: ActionType.Combat_Check, opposed: false, target: Target.Any_Enemy, range: RangeBand.Long},
+    {type: ActionType.Combat_Check, opposed: false, target: Target.Engaged_Enemy, range: RangeBand.Engaged},
+    // Skill Checks
+    {type: ActionType.Skill_Check, opposed: false, target: Target.Self},
+    {type: ActionType.Skill_Check, opposed: true, target: Target.Any_Enemy},
+    // Spell / Talent / Ability
+    {type: ActionType.Cast_a_Spell, opposed: false, target: Target.Any_Enemy},
+    {type: ActionType.Use_a_Talent, opposed: false, target: Target.Self},
+    {type: ActionType.Use_an_ability, opposed: false, target: Target.Self},
+    // Additional maneuver as action
+    {type: ActionType.Perform_a_Second_Maneuver, opposed: false, target: Target.Self},
 ];
 
-const availableManeuvers: Maneuver[] = [
-    // Movement
-    {
-        id: "move",
-        name: "Move",
-        description: "Move from short to medium range, or medium to long range",
-        category: "movement",
-    },
-    {
-        id: "move-engaged",
-        name: "Disengage",
-        description: "Move from engaged to short range",
-        category: "movement",
-    },
-    {
-        id: "engage",
-        name: "Engage",
-        description: "Move from short range to engaged",
-        category: "movement",
-    },
-
-    // Interaction
-    {
-        id: "interact",
-        name: "Interact",
-        description: "Open a door, flip a switch, pick up an item",
-        category: "interaction",
-    },
-    {
-        id: "draw-weapon",
-        name: "Draw/Holster Weapon",
-        description: "Ready or stow a weapon or item",
-        category: "interaction",
-    },
-
-    // Combat
-    {
-        id: "aim-maneuver",
-        name: "Aim",
-        description: "Gain boost die on next combat check this turn",
-        category: "combat",
-    },
-    {
-        id: "take-cover",
-        name: "Take Cover",
-        description: "Gain ranged defense from available cover",
-        category: "combat",
-    },
-    {
-        id: "mount-dismount",
-        name: "Mount/Dismount",
-        description: "Get on or off a vehicle or mount",
-        category: "combat",
-    },
-    {
-        id: "prepare",
-        name: "Prepare Item",
-        description: "Ready a specific item for immediate use",
-        category: "combat",
-    },
-
-    // Other
-    {
-        id: "recover",
-        name: "Recover",
-        description: "Catch your breath and recover strain",
-        category: "other",
-    },
-    {
-        id: "assist-maneuver",
-        name: "Assist (Maneuver)",
-        description: "Help an ally as a maneuver",
-        category: "other",
-    },
-    {
-        id: "drop-item",
-        name: "Drop Item",
-        description: "Drop a held item (incidental)",
-        category: "other",
-    },
-    {
-        id: "speak",
-        name: "Speak/Gesture",
-        description: "Communicate with others (incidental)",
-        category: "other",
-    },
-    {
-        id: "custom-maneuver",
-        name: "Custom Maneuver",
-        description: "Describe a custom maneuver",
-        category: "other",
-    },
+// Predefined maneuvers using the API Maneuver shape — exported for use by child components
+export const availableManeuvers: Maneuver[] = [
+    {target: Target.Self, duration: Duration.Next_Turn},
+    {target: Target.Self, duration: Duration.Scene},
+    {target: Target.Engaged_Ally, duration: Duration.Next_Turn},
+    {target: Target.Engaged_Enemy, duration: Duration.Next_Turn},
+    {target: Target.Any_Ally, duration: Duration.Next_Turn},
 ];
 
-const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
-    {
-        name: "Aimed",
-        description: "Add boost die to next combat check",
-        duration: "end-of-turn",
-        icon: "🎯",
-    },
-    {
-        name: "Staggered",
-        description: "Cannot perform actions, only maneuvers",
-        duration: "end-of-turn",
-        icon: "💫",
-    },
-    {
-        name: "Stunned",
-        description: "Cannot perform actions or maneuvers",
-        duration: "end-of-turn",
-        icon: "⚡",
-    },
-    {
-        name: "Immobilized",
-        description: "Cannot perform movement maneuvers",
-        duration: "end-of-turn",
-        icon: "🔒",
-    },
-    {
-        name: "Disoriented",
-        description: "Add setback die to all checks",
-        duration: "end-of-turn",
-        icon: "😵",
-    },
-    {
-        name: "Cover",
-        description: "Increase ranged defense",
-        duration: "end-of-turn",
-        icon: "🛡️",
-    },
-    {
-        name: "Prone",
-        description: "Add setback to ranged attacks, boost to melee defense",
-        duration: "permanent",
-        icon: "⬇️",
-    },
-    {
-        name: "Engaged",
-        description: "In melee range with an enemy",
-        duration: "permanent",
-        icon: "⚔️",
-    },
-    {
-        name: "Inspired",
-        description: "Upgrade ability die once on next check",
-        duration: "end-of-turn",
-        icon: "⭐",
-    },
-    {
-        name: "Frightened",
-        description: "Upgrade difficulty of all checks",
-        duration: "end-of-encounter",
-        icon: "😱",
-    },
+// Predefined status effects using the API StatusEffect shape — exported for use by child components
+export const availableStatusEffects: StatusEffect[] = [
+    {type: StatusEffectType.Disoriented, rounds: 1},
+    {type: StatusEffectType.Immobilized, rounds: 1},
+    {type: StatusEffectType.Staggered, rounds: 1},
 ];
 
 function TestEncounter() {
     const [encounter, setEncounter] = useState<ExtendedCampaignEncounter>(encounterTemplate);
 
-    // Helper function to get all participants (players + NPCs) from the encounter
-    const getAllParticipants = (): Array<PlayerCharacter | AdversaryTemplate> => {
-        return [...encounter.party.players, ...encounter.party.adversaryTemplates, ...encounter.npcIds];
+    // Returns all participants (players + party NPCs + adversaries) as a unified list
+    const getAllParticipants = (): Participant[] => {        return [...encounter.party.players, ...encounter.party.adversaryTemplates, ...encounter.npcIds];
     };
 
     const handleAddPlayer = (player: PlayerCharacter) => {
@@ -543,12 +243,11 @@ function TestEncounter() {
             const nextIndex = prev.currentSlotIndex + 1;
 
             if (nextIndex >= prev.initiativeOrder.length) {
-                // New round - clear slot assignments and clean up end-of-round effects
+                // New round
                 return {
                     ...prev,
                     currentRound: prev.currentRound + 1,
                     currentSlotIndex: 0,
-                    // TODO: Clear end-of-round status effects from players and NPCs
                 };
             }
 
@@ -577,7 +276,6 @@ function TestEncounter() {
             turnActions: [...prev.turnActions, turnAction],
         }));
 
-        // Find participant by ID from either players or NPCs
         const participant = getAllParticipants().find(
             (p) => p.id === turnAction.participantId
         );
@@ -588,18 +286,18 @@ function TestEncounter() {
                     round: encounter.currentRound,
                     participantId: participant.id,
                     participantName: participant.name,
-                    action: `Action: ${turnAction.actionTaken.actionName}`,
+                    action: `Action: ${turnAction.actionTaken.action.type}`,
                     details: turnAction.actionTaken.details,
                 });
             }
 
-            turnAction.maneuversTaken.forEach((maneuver) => {
+            turnAction.maneuversTaken.forEach((entry) => {
                 handleAddLogEntry({
                     round: encounter.currentRound,
                     participantId: participant.id,
                     participantName: participant.name,
-                    action: `Maneuver: ${maneuver.maneuverName}`,
-                    details: maneuver.details,
+                    action: `Maneuver: target=${entry.maneuver.target}`,
+                    details: entry.details,
                 });
             });
 
@@ -632,7 +330,7 @@ function TestEncounter() {
     const handleUpdateRange = (
         participantId: string,
         targetId: string,
-        range: RangeBandEnum
+        range: RangeBand
     ) => {
         setEncounter((prev) => {
             const existingIndex = prev.rangeBands.findIndex(
