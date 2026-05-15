@@ -9,26 +9,30 @@ interface Props {
     onRemoveInitiativeSlot: (index: number) => void,
 }
 
-export default function EncounterSetup(props: Props) {
+export default function InitiativeOrderListItem(props: Props) {
     const {slot, index, onRemoveInitiativeSlot} = props;
 
-    // const rolledByParticipant = encounter.participants.find(
-    //     (p) => p.id === slot.rolledBy
-    // );
+    const isPlayer = slot.type === InitiativeSlotType.Player;
+    const label = isPlayer
+        ? (slot.playerCharacter?.name ?? "PC")
+        : (slot.adversaryTemplate?.name ?? "NPC");
 
     return (
         <ListItem
             key={index}
+            secondaryAction={
+                <IconButton
+                    edge="end"
+                    color="error"
+                    onClick={() => onRemoveInitiativeSlot(index)}
+                >
+                    <DeleteIcon/>
+                </IconButton>
+            }
             sx={{
                 border: 2,
-                borderColor:
-                    slot.type === InitiativeSlotType.Player
-                        ? "primary.main"
-                        : "error.main",
-                backgroundColor:
-                    slot.type === InitiativeSlotType.Player
-                        ? "primary.light"
-                        : "error.light",
+                borderColor: isPlayer ? "primary.main" : "error.main",
+                backgroundColor: isPlayer ? "primary.light" : "error.light",
                 borderRadius: 1,
                 mb: 1,
             }}
@@ -41,40 +45,22 @@ export default function EncounterSetup(props: Props) {
 
             <ListItemText
                 primary={
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                        }}
-                    >
+                    <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
                         <Chip
-                            label={slot.type.toUpperCase()}
+                            label={isPlayer ? "PC" : "NPC"}
                             size="small"
-                            color={
-                                slot.type === InitiativeSlotType.Player ? "primary" : "error"
-                            }
+                            color={isPlayer ? "primary" : "error"}
                             sx={{fontWeight: "bold"}}
                         />
-                        {/*<Typography variant="body2">*/}
-                        {/*    Rolled by: {rolledByParticipant?.name}*/}
-                        {/*</Typography>*/}
+                        <Typography variant="body2" fontWeight="bold">
+                            {label}
+                        </Typography>
                     </Box>
                 }
                 secondary={
                     <GenesysResultsTypography result={slot.results} variant={"h6"}/>
                 }
             />
-
-            secondaryAction={
-            <IconButton
-                edge="end"
-                color="error"
-                onClick={() => onRemoveInitiativeSlot(index)}
-            >
-                <DeleteIcon/>
-            </IconButton>
-        }
         </ListItem>
     );
 }
