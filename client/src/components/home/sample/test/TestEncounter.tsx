@@ -33,28 +33,13 @@ import {TurnActions} from "../encounter/components/TurnActions.tsx";
 import type {
     Participant,
     Weapon,
-    Action as SampleAction,
-    Maneuver as SampleManeuver,
+    EncounterAction,
+    EncounterManeuver,
     TurnAction as SampleTurnAction,
 } from "../encounter/SampleEncounterManager.tsx";
-import type {RangeType} from "../encounter/SampleEncounterManager.tsx";
+import type {RangeBand as RangeType} from "../encounter/SampleEncounterManager.tsx";
 
-// UI-specific types
-export interface Action {
-    id: string;
-    name: string;
-    description: string;
-    category: "combat" | "skill" | "social" | "other";
-    requiresDiceRoll?: boolean;
-    quickAction?: boolean;
-}
-
-export interface Maneuver {
-    id: string;
-    name: string;
-    description: string;
-    category: "movement" | "interaction" | "combat" | "other";
-}
+// UI-specific types — Action/Maneuver migrated to EncounterAction/EncounterManeuver in SampleEncounterManager
 
 export interface TurnAction {
     id: string;
@@ -112,7 +97,7 @@ export interface StatusEffect {
     icon?: string;
 }
 
-const availableActions: Action[] = [
+const availableActions: EncounterAction[] = [
     // Quick Actions (Combat)
     {
         id: "attack-ranged",
@@ -264,7 +249,7 @@ const availableActions: Action[] = [
     },
 ];
 
-const availableManeuvers: Maneuver[] = [
+const availableManeuvers: EncounterManeuver[] = [
     // Movement
     {
         id: "move",
@@ -363,13 +348,13 @@ const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
         name: "Aimed",
         description: "Add boost die to next combat check",
         duration: "end-of-turn",
-        icon: "🎯",
+        icon: "",
     },
     {
         name: "Staggered",
         description: "Cannot perform actions, only maneuvers",
         duration: "end-of-turn",
-        icon: "💫",
+        icon: "",
     },
     {
         name: "Stunned",
@@ -381,19 +366,19 @@ const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
         name: "Immobilized",
         description: "Cannot perform movement maneuvers",
         duration: "end-of-turn",
-        icon: "🔒",
+        icon: "",
     },
     {
         name: "Disoriented",
         description: "Add setback die to all checks",
         duration: "end-of-turn",
-        icon: "😵",
+        icon: "",
     },
     {
         name: "Cover",
         description: "Increase ranged defense",
         duration: "end-of-turn",
-        icon: "🛡️",
+        icon: "️",
     },
     {
         name: "Prone",
@@ -417,7 +402,7 @@ const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
         name: "Frightened",
         description: "Upgrade difficulty of all checks",
         duration: "end-of-encounter",
-        icon: "😱",
+        icon: "",
     },
 ];
 
@@ -458,7 +443,7 @@ function toParticipant(
     };
 }
 
-const sharedActions: SampleAction[] = availableActions.map((a) => ({
+const sharedActions: EncounterAction[] = availableActions.map((a) => ({
     id: a.id,
     name: a.name,
     description: a.description,
@@ -467,7 +452,7 @@ const sharedActions: SampleAction[] = availableActions.map((a) => ({
     quickAction: a.quickAction,
 }));
 
-const sharedManeuvers: SampleManeuver[] = availableManeuvers.map((m) => ({
+const sharedManeuvers: EncounterManeuver[] = availableManeuvers.map((m) => ({
     id: m.id,
     name: m.name,
     description: m.description,
@@ -977,9 +962,9 @@ function TestEncounter() {
                                     return (
                                         <Paper key={loc.id} sx={{p: 2, mb: 1}}>
                                             <Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 0.5}}>
-                                                <Typography variant="body1" fontWeight="bold">📍 {loc.name}</Typography>
+                                                <Typography variant="body1" fontWeight="bold"> {loc.name}</Typography>
                                                 {loc.cover !== "None" && (
-                                                    <Chip label={`🛡 ${loc.cover} Cover`} size="small" color={loc.cover === "Hard" ? "error" : "warning"}/>
+                                                    <Chip label={` ${loc.cover} Cover`} size="small" color={loc.cover === "Hard" ? "error" : "warning"}/>
                                                 )}
                                             </Box>
                                             <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, mt: 0.5}}>

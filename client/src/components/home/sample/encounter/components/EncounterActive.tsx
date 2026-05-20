@@ -33,20 +33,20 @@ import { TurnActions } from "./TurnActions";
 import { RangeTracker } from "./RangeTracker";
 import { StatusEffectsManager } from "./StatusEffectsManager";
 import type {
-    Action, CombatLogEntry,
+    EncounterAction, CombatLogEntry,
     EncounterLocation,
     EncounterState,
-    Maneuver,
-    Participant, RangeType,
-    StatusEffect,
+    EncounterManeuver,
+    Participant, RangeBand,
+    EncounterStatusEffect,
     TurnAction
 } from "../SampleEncounterManager.tsx";
 
 interface EncounterActiveProps {
     encounter: EncounterState;
-    availableActions: Action[];
-    availableManeuvers: Maneuver[];
-    availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[];
+    availableActions: EncounterAction[];
+    availableManeuvers: EncounterManeuver[];
+    availableStatusEffects: Omit<EncounterStatusEffect, "id" | "appliedRound">[];
     onUpdateParticipant: (
         participantId: string,
         updates: Partial<Participant>
@@ -56,7 +56,7 @@ interface EncounterActiveProps {
     onUpdateRange: (
         participantId: string,
         targetId: string,
-        range: RangeType
+        range: RangeBand
     ) => void;
     onNextSlot: () => void;
     onPreviousSlot: () => void;
@@ -426,6 +426,8 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                     round={encounter.currentRound}
                     availableActions={availableActions}
                     availableManeuvers={availableManeuvers}
+                    participants={encounter.participants}
+                    rangeBands={encounter.rangeBands}
                     onComplete={handleCompleteTurn}
                     onSkip={handleNextWithLog}
                 />

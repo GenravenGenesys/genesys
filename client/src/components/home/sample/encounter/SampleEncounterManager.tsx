@@ -7,18 +7,28 @@ import {
 } from "@mui/material";
 import {EncounterSetup} from "./components/EncounterSetup";
 import {EncounterActive} from "./components/EncounterActive";
+import type {Activation, GenesysSymbolResults, RangeBand, Skill} from "../../../../api/model";
 
 export type EncounterType = "combat" | "social";
-export type SlotType = "pc" | "npc";
-export type RangeType = "engaged" | "short" | "medium" | "long" | "extreme";
+export type {RangeBand};
 
-export interface StatusEffect {
+export interface EncounterStatusEffect {
     id: string;
     name: string;
     description: string;
     duration: "permanent" | "end-of-turn" | "end-of-round" | "end-of-encounter";
     appliedRound: number;
     icon?: string;
+}
+
+export interface EncounterSkill {
+    id: string;
+    name: string;
+    rank: number;
+    /** Value of the linked characteristic */
+    characteristic: number;
+    /** Whether this skill can be used for initiative */
+    initiative: boolean;
 }
 
 export interface Participant {
@@ -38,7 +48,7 @@ export interface Participant {
         ranged: number;
     };
     soak?: number;
-    statusEffects: StatusEffect[];
+    statusEffects: EncounterStatusEffect[];
     position?: {
         x: number;
         y: number;
@@ -46,12 +56,13 @@ export interface Participant {
     imageUrl?: string;
     notes?: string;
     weapons?: Weapon[];
-    abilities?: Ability[];
+    abilities?: EncounterAbility[];
+    skills?: Skill[];
 }
 
-export interface InitiativeSlot {
+export interface EncounterInitiativeSlot {
     id: string;
-    slotType: SlotType;
+    slotType: "pc" | "npc";
     success: number;
     advantage: number;
     assignedParticipantId: string | null;
@@ -64,18 +75,18 @@ export interface Weapon {
     skill: string;
     damage: number;
     critical: number;
-    range: RangeType;
+    range: RangeBand;
     qualities?: string[];
 }
 
-export interface Ability {
+export interface EncounterAbility {
     id: string;
     name: string;
     description: string;
-    activationType: "action" | "maneuver" | "incidental";
+    activation: Activation;
 }
 
-export interface Action {
+export interface EncounterAction {
     id: string;
     name: string;
     description: string;
@@ -86,21 +97,14 @@ export interface Action {
     weapon?: Weapon;
 }
 
-export interface Maneuver {
+export interface EncounterManeuver {
     id: string;
     name: string;
     description: string;
     category: "movement" | "interaction" | "combat" | "other";
 }
 
-export interface DiceResult {
-    success: number;
-    advantage: number;
-    triumph: number;
-    failure: number;
-    threat: number;
-    despair: number;
-}
+export type {GenesysSymbolResults};
 
 export interface TurnAction {
     id: string;
@@ -111,9 +115,11 @@ export interface TurnAction {
         actionId: string;
         actionName: string;
         details?: string;
-        diceResult?: DiceResult;
+        diceResult?: GenesysSymbolResults;
         advantageSpent?: string[];
         triumphSpent?: string[];
+        targetId?: string;
+        targetName?: string;
     };
     maneuversTaken: Array<{
         maneuverId: string;
@@ -133,10 +139,10 @@ export interface CombatLogEntry {
     details?: string;
 }
 
-export interface RangeBand {
+export interface EncounterRangeBand {
     participantId: string;
     targetId: string;
-    range: RangeType;
+    range: RangeBand;
 }
 
 export type CoverType = "None" | "Soft" | "Hard";
@@ -156,14 +162,14 @@ export interface EncounterState {
     currentRound: number;
     currentSlotIndex: number;
     participants: Participant[];
-    initiativeSlots: InitiativeSlot[];
+    initiativeSlots: EncounterInitiativeSlot[];
     combatLog: CombatLogEntry[];
     turnActions: TurnAction[];
-    rangeBands: RangeBand[];
+    rangeBands: EncounterRangeBand[];
     locations: EncounterLocation[];
 }
 
-const availableActions: Action[] = [
+const availableActions: EncounterAction[] = [
     // Quick Actions (Combat)
     {
         id: "attack-ranged",
@@ -315,7 +321,7 @@ const availableActions: Action[] = [
     },
 ];
 
-const availableManeuvers: Maneuver[] = [
+const availableManeuvers: EncounterManeuver[] = [
     // Movement
     {
         id: "move",
@@ -409,18 +415,18 @@ const availableManeuvers: Maneuver[] = [
     },
 ];
 
-const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
+const availableStatusEffects: Omit<EncounterStatusEffect, "id" | "appliedRound">[] = [
     {
         name: "Aimed",
         description: "Add boost die to next combat check",
         duration: "end-of-turn",
-        icon: "🎯",
+        icon: "",
     },
     {
         name: "Staggered",
         description: "Cannot perform actions, only maneuvers",
         duration: "end-of-turn",
-        icon: "💫",
+        icon: "",
     },
     {
         name: "Stunned",
@@ -432,19 +438,19 @@ const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
         name: "Immobilized",
         description: "Cannot perform movement maneuvers",
         duration: "end-of-turn",
-        icon: "🔒",
+        icon: "",
     },
     {
         name: "Disoriented",
         description: "Add setback die to all checks",
         duration: "end-of-turn",
-        icon: "😵",
+        icon: "",
     },
     {
         name: "Cover",
         description: "Increase ranged defense",
         duration: "end-of-turn",
-        icon: "🛡️",
+        icon: "️",
     },
     {
         name: "Prone",
@@ -468,7 +474,7 @@ const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
         name: "Frightened",
         description: "Upgrade difficulty of all checks",
         duration: "end-of-encounter",
-        icon: "😱",
+        icon: "",
     },
 ];
 
@@ -482,13 +488,17 @@ const mockPlayers: Participant[] = [
         defenses: {melee: 1, ranged: 2},
         soak: 4,
         statusEffects: [],
+        skills: [
+            {id: "kael-cool", name: "Cool", rank: 3, characteristic: 3, initiative: true},
+            {id: "kael-vig", name: "Vigilance", rank: 2, characteristic: 2, initiative: true},
+        ],
         weapons: [
-            {id: "kael-w1", name: "Heavy Blaster Pistol", skill: "Ranged (Light)", damage: 7, critical: 3, range: "medium", qualities: ["Stun Setting"]},
-            {id: "kael-w2", name: "Vibro-knife", skill: "Melee", damage: 4, critical: 3, range: "engaged", qualities: ["Pierce 2"]},
+            {id: "kael-w1", name: "Heavy Blaster Pistol", skill: "Ranged (Light)", damage: 7, critical: 3, range: "Medium", qualities: ["Stun Setting"]},
+            {id: "kael-w2", name: "Vibro-knife", skill: "Melee", damage: 4, critical: 3, range: "Engaged", qualities: ["Pierce 2"]},
         ],
         abilities: [
-            {id: "kael-a1", name: "Quick Strike", description: "Add boost die when attacking targets that have not acted this round.", activationType: "incidental"},
-            {id: "kael-a2", name: "Dodge", description: "Suffer strain up to ranks in Dodge, reduce incoming attack damage by the same amount.", activationType: "incidental"},
+            {id: "kael-a1", name: "Quick Strike", description: "Add boost die when attacking targets that have not acted this round.", activation: "Active (Incidental)" as Activation},
+            {id: "kael-a2", name: "Dodge", description: "Suffer strain up to ranks in Dodge, reduce incoming attack damage by the same amount.", activation: "Active (Incidental)" as Activation},
         ],
     },
     {
@@ -500,13 +510,17 @@ const mockPlayers: Participant[] = [
         defenses: {melee: 0, ranged: 1},
         soak: 3,
         statusEffects: [],
+        skills: [
+            {id: "mira-cool", name: "Cool", rank: 2, characteristic: 2, initiative: true},
+            {id: "mira-vig", name: "Vigilance", rank: 3, characteristic: 3, initiative: true},
+        ],
         weapons: [
-            {id: "mira-w1", name: "Holdout Blaster", skill: "Ranged (Light)", damage: 5, critical: 4, range: "short", qualities: ["Stun Setting", "Concealable"]},
-            {id: "mira-w2", name: "Throwing Knife", skill: "Ranged (Light)", damage: 3, critical: 3, range: "short", qualities: ["Limited Ammo 1"]},
+            {id: "mira-w1", name: "Holdout Blaster", skill: "Ranged (Light)", damage: 5, critical: 4, range: "Short", qualities: ["Stun Setting", "Concealable"]},
+            {id: "mira-w2", name: "Throwing Knife", skill: "Ranged (Light)", damage: 3, critical: 3, range: "Short", qualities: ["Limited Ammo 1"]},
         ],
         abilities: [
-            {id: "mira-a1", name: "Sneak Attack", description: "Gain bonus Advantage on attack if target is unaware or engaged with ally.", activationType: "incidental"},
-            {id: "mira-a2", name: "Disengage", description: "Move from engaged to short range as a maneuver without triggering free attacks.", activationType: "maneuver"},
+            {id: "mira-a1", name: "Sneak Attack", description: "Gain bonus Advantage on attack if target is unaware or engaged with ally.", activation: "Active (Incidental)" as Activation},
+            {id: "mira-a2", name: "Disengage", description: "Move from engaged to short range as a maneuver without triggering free attacks.", activation: "Active (Maneuver)" as Activation},
         ],
     },
     {
@@ -518,13 +532,17 @@ const mockPlayers: Participant[] = [
         defenses: {melee: 0, ranged: 0},
         soak: 6,
         statusEffects: [],
+        skills: [
+            {id: "grax-cool", name: "Cool", rank: 1, characteristic: 2, initiative: true},
+            {id: "grax-vig", name: "Vigilance", rank: 2, characteristic: 3, initiative: true},
+        ],
         weapons: [
-            {id: "grax-w1", name: "Vibro-axe", skill: "Melee", damage: 7, critical: 3, range: "engaged", qualities: ["Sunder", "Vicious 3"]},
-            {id: "grax-w2", name: "Heavy Blaster Rifle", skill: "Ranged (Heavy)", damage: 10, critical: 3, range: "long", qualities: ["Auto-fire", "Cumbersome 3"]},
+            {id: "grax-w1", name: "Vibro-axe", skill: "Melee", damage: 7, critical: 3, range: "Engaged", qualities: ["Sunder", "Vicious 3"]},
+            {id: "grax-w2", name: "Heavy Blaster Rifle", skill: "Ranged (Heavy)", damage: 10, critical: 3, range: "Long", qualities: ["Auto-fire", "Cumbersome 3"]},
         ],
         abilities: [
-            {id: "grax-a1", name: "Knockdown", description: "Spend 2 Advantage to knock target prone after a hit.", activationType: "incidental"},
-            {id: "grax-a2", name: "Brace", description: "Remove up to two setback dice from next check caused by environmental factors.", activationType: "maneuver"},
+            {id: "grax-a1", name: "Knockdown", description: "Spend 2 Advantage to knock target prone after a hit.", activation: "Active (Incidental)" as Activation},
+            {id: "grax-a2", name: "Brace", description: "Remove up to two setback dice from next check caused by environmental factors.", activation: "Active (Maneuver)" as Activation},
         ],
     },
 ];
@@ -538,11 +556,15 @@ const mockNPCs: Participant[] = [
         strain: {current: 0, threshold: 5},
         soak: 5,
         statusEffects: [],
+        skills: [
+            {id: "st-cool", name: "Cool", rank: 1, characteristic: 2, initiative: true},
+            {id: "st-vig", name: "Vigilance", rank: 1, characteristic: 2, initiative: true},
+        ],
         weapons: [
-            {id: "st-w1", name: "E-11 Blaster Rifle", skill: "Ranged (Heavy)", damage: 9, critical: 3, range: "medium", qualities: ["Stun Setting"]},
+            {id: "st-w1", name: "E-11 Blaster Rifle", skill: "Ranged (Heavy)", damage: 9, critical: 3, range: "Medium", qualities: ["Stun Setting"]},
         ],
         abilities: [
-            {id: "st-a1", name: "Minion", description: "Operates as part of a minion group.", activationType: "incidental"},
+            {id: "st-a1", name: "Minion", description: "Operates as part of a minion group.", activation: "Active (Incidental)" as Activation},
         ],
     },
     {
@@ -553,11 +575,15 @@ const mockNPCs: Participant[] = [
         strain: {current: 0, threshold: 10},
         soak: 3,
         statusEffects: [],
+        skills: [
+            {id: "io-cool", name: "Cool", rank: 3, characteristic: 3, initiative: true},
+            {id: "io-vig", name: "Vigilance", rank: 2, characteristic: 2, initiative: true},
+        ],
         weapons: [
-            {id: "io-w1", name: "Imperial Blaster Pistol", skill: "Ranged (Light)", damage: 6, critical: 3, range: "medium"},
+            {id: "io-w1", name: "Imperial Blaster Pistol", skill: "Ranged (Light)", damage: 6, critical: 3, range: "Medium"},
         ],
         abilities: [
-            {id: "io-a1", name: "Commanding Presence", description: "Once per round, spend 2 Advantage from a Discipline or Leadership check to give one ally within short range a free maneuver.", activationType: "incidental"},
+            {id: "io-a1", name: "Commanding Presence", description: "Once per round, spend 2 Advantage from a Discipline or Leadership check to give one ally within short range a free maneuver.", activation: "Active (Incidental)" as Activation},
         ],
     },
     {
@@ -568,13 +594,17 @@ const mockNPCs: Participant[] = [
         strain: {current: 0, threshold: 8},
         soak: 4,
         statusEffects: [],
+        skills: [
+            {id: "eg-cool", name: "Cool", rank: 2, characteristic: 2, initiative: true},
+            {id: "eg-vig", name: "Vigilance", rank: 3, characteristic: 3, initiative: true},
+        ],
         weapons: [
-            {id: "eg-w1", name: "Force Pike", skill: "Melee", damage: 7, critical: 3, range: "engaged", qualities: ["Stun Setting", "Defensive 1"]},
-            {id: "eg-w2", name: "Heavy Blaster Pistol", skill: "Ranged (Light)", damage: 7, critical: 3, range: "medium"},
+            {id: "eg-w1", name: "Force Pike", skill: "Melee", damage: 7, critical: 3, range: "Engaged", qualities: ["Stun Setting", "Defensive 1"]},
+            {id: "eg-w2", name: "Heavy Blaster Pistol", skill: "Ranged (Light)", damage: 7, critical: 3, range: "Medium"},
         ],
         abilities: [
-            {id: "eg-a1", name: "Adversary 1", description: "Upgrade the difficulty of checks targeting this character once.", activationType: "incidental"},
-            {id: "eg-a2", name: "Parry 2", description: "When hit by melee attack, suffer 3 strain to reduce damage by 4.", activationType: "incidental"},
+            {id: "eg-a1", name: "Adversary 1", description: "Upgrade the difficulty of checks targeting this character once.", activation: "Active (Incidental)" as Activation},
+            {id: "eg-a2", name: "Parry 2", description: "When hit by melee attack, suffer 3 strain to reduce damage by 4.", activation: "Active (Incidental)" as Activation},
         ],
     },
 ];
@@ -630,9 +660,9 @@ function SampleEncounterManager() {
     };
 
     const handleAddInitiativeSlot = (
-        slot: Omit<InitiativeSlot, "id" | "assignedParticipantId">
+        slot: Omit<EncounterInitiativeSlot, "id" | "assignedParticipantId">
     ) => {
-        const newSlot: InitiativeSlot = {
+        const newSlot: EncounterInitiativeSlot = {
             ...slot,
             id: `slot-${Date.now()}-${Math.random()}`,
             assignedParticipantId: null,
@@ -779,14 +809,14 @@ function SampleEncounterManager() {
     const handleUpdateRange = (
         participantId: string,
         targetId: string,
-        range: RangeType
+        range: RangeBand
     ) => {
         setEncounter((prev) => {
             const existingIndex = prev.rangeBands.findIndex(
                 (r) => r.participantId === participantId && r.targetId === targetId
             );
 
-            let newRangeBands: RangeBand[];
+            let newRangeBands: EncounterRangeBand[];
             if (existingIndex >= 0) {
                 newRangeBands = [...prev.rangeBands];
                 newRangeBands[existingIndex] = {participantId, targetId, range};

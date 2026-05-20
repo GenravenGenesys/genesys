@@ -11,9 +11,14 @@ import {
     DialogContent,
     DialogTitle,
     Divider,
+    FormControl,
+    FormHelperText,
     Grid,
     IconButton,
+    InputLabel,
+    MenuItem,
     Paper,
+    Select,
     TextField,
     Tooltip,
     Typography,
@@ -28,21 +33,45 @@ import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import ShieldIcon from "@mui/icons-material/Shield";
 import {DiceRoller} from "./DiceRoller";
 import {DiceResultsDialog} from "./DiceRollDialog";
-import type {Ability, Action, DiceResult, Maneuver, Participant, TurnAction, Weapon} from "../SampleEncounterManager.tsx";
+import type {Activation, GenesysSymbolResults} from "../../../../../api/model";
+import type {EncounterAbility, EncounterAction, EncounterManeuver, EncounterRangeBand, Participant, RangeBand, TurnAction, Weapon} from "../SampleEncounterManager.tsx";
+
+// Range order for comparison — lower index = closer
+const RANGE_ORDER: RangeBand[] = ["Engaged", "Short", "Medium", "Long", "Extreme"];
+
+function getRangeBetween(
+    attackerId: string,
+    targetId: string,
+    rangeBands: EncounterRangeBand[]
+): RangeBand | null {
+    const found = rangeBands.find(
+        (r) =>
+            (r.participantId === attackerId && r.targetId === targetId) ||
+            (r.participantId === targetId && r.targetId === attackerId)
+    );
+    return found?.range ?? null;
+}
+
+/** Returns true if weaponRange can reach targetRange */
+function isInRange(weaponRange: RangeBand, targetRange: RangeBand): boolean {
+    return RANGE_ORDER.indexOf(targetRange) <= RANGE_ORDER.indexOf(weaponRange);
+}
 
 interface TurnActionsProps {
     currentParticipant: Participant;
     slotId: string;
     round: number;
-    availableActions: Action[];
-    availableManeuvers: Maneuver[];
+    availableActions: EncounterAction[];
+    availableManeuvers: EncounterManeuver[];
+    participants: Participant[];
+    rangeBands: EncounterRangeBand[];
     onComplete: (turnAction: TurnAction) => void;
     onSkip: () => void;
 }
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
-function weaponToAction(weapon: Weapon): Action {
+function weaponToAction(weapon: Weapon): EncounterAction {
     return {
         id: `weapon-${weapon.id}`,
         name: weapon.name,
@@ -53,8 +82,8 @@ function weaponToAction(weapon: Weapon): Action {
     };
 }
 
-function abilityToAction(ability: Ability): Action | null {
-    if (ability.activationType !== "action") return null;
+function abilityToAction(ability: EncounterAbility): EncounterAction | null {
+    if (ability.activation !== ("Active (Action)" as Activation)) return null;
     return {
         id: `ability-${ability.id}`,
         name: ability.name,
@@ -64,8 +93,8 @@ function abilityToAction(ability: Ability): Action | null {
     };
 }
 
-function abilityToManeuver(ability: Ability): Maneuver | null {
-    if (ability.activationType !== "maneuver") return null;
+function abilityToManeuver(ability: EncounterAbility): EncounterManeuver | null {
+    if (ability.activation !== ("Active (Maneuver)" as Activation)) return null;
     return {
         id: `ability-${ability.id}`,
         name: ability.name,
@@ -77,16 +106,18 @@ function abilityToManeuver(ability: Ability): Maneuver | null {
 // ─── component ────────────────────────────────────────────────────────────────
 
 export const TurnActions: React.FC<TurnActionsProps> = ({
-                                                            currentParticipant,
-                                                            slotId,
-                                                            round,
-                                                            availableActions,
-                                                            availableManeuvers,
-                                                            onComplete,
-                                                            onSkip,
-                                                        }) => {
+                                                             currentParticipant,
+                                                             slotId,
+                                                             round,
+                                                             availableActions,
+                                                             availableManeuvers,
+                                                             participants,
+                                                             rangeBands,
+                                                             onComplete,
+                                                             onSkip,
+                                                         }) => {
     // ── maneuver state ──────────────────────────────────────────────────────
-    const [selectedManeuvers, setSelectedManeuvers] = useState<Maneuver[]>([]);
+    const [selectedManeuvers, setSelectedManeuvers] = useState<EncounterManeuver[]>([]);
     const [maneuverDetails, setManeuverDetails] = useState<Record<string, string>>({});
     /** true = the second maneuver slot was unlocked by spending 2 strain */
     const [strainManeuverUsed, setStrainManeuverUsed] = useState(false);
@@ -94,9 +125,10 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
     const [actionAsManeuver, setActionAsManeuver] = useState(false);
 
     // ── action state ────────────────────────────────────────────────────────
-    const [selectedAction, setSelectedAction] = useState<Action | null>(null);
+    const [selectedAction, setSelectedAction] = useState<EncounterAction | null>(null);
     const [actionDetails, setActionDetails] = useState("");
-    const [diceResult, setDiceResult] = useState<DiceResult | null>(null);
+    const [diceResult, setDiceResult] = useState<GenesysSymbolResults | null>(null);
+    const [selectedTarget, setSelectedTarget] = useState<Participant | null>(null);
 
     // ── dialog state ────────────────────────────────────────────────────────
     const [actionDialogOpen, setActionDialogOpen] = useState(false);
@@ -118,20 +150,20 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
     const hasImmobilized = currentParticipant.statusEffects.some((e) => e.name === "Immobilized");
 
     // Build enriched lists that include this participant's own weapons / ability-actions
-    const participantWeaponActions: Action[] = (currentParticipant.weapons ?? []).map(weaponToAction);
-    const participantAbilityActions: Action[] = (currentParticipant.abilities ?? [])
+    const participantWeaponActions: EncounterAction[] = (currentParticipant.weapons ?? []).map(weaponToAction);
+    const participantAbilityActions: EncounterAction[] = (currentParticipant.abilities ?? [])
         .map(abilityToAction)
-        .filter((a): a is Action => a !== null);
-    const participantAbilityManeuvers: Maneuver[] = (currentParticipant.abilities ?? [])
+        .filter((a): a is EncounterAction => a !== null);
+    const participantAbilityManeuvers: EncounterManeuver[] = (currentParticipant.abilities ?? [])
         .map(abilityToManeuver)
-        .filter((m): m is Maneuver => m !== null);
+        .filter((m): m is EncounterManeuver => m !== null);
 
-    const allActions: Action[] = [...participantWeaponActions, ...participantAbilityActions, ...availableActions];
-    const allManeuvers: Maneuver[] = [...participantAbilityManeuvers, ...availableManeuvers];
+    const allActions: EncounterAction[] = [...participantWeaponActions, ...participantAbilityActions, ...availableActions];
+    const allManeuvers: EncounterManeuver[] = [...participantAbilityManeuvers, ...availableManeuvers];
 
     // ── maneuver handlers ───────────────────────────────────────────────────
 
-    const handleAddManeuver = (maneuver: Maneuver) => {
+    const handleAddManeuver = (maneuver: EncounterManeuver) => {
         if (canAddManeuver) {
             setSelectedManeuvers((prev) => [...prev, maneuver]);
         }
@@ -164,8 +196,9 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
 
     // ── action handlers ─────────────────────────────────────────────────────
 
-    const handleSelectAction = (action: Action) => {
+    const handleSelectAction = (action: EncounterAction) => {
         setSelectedAction(action);
+        setSelectedTarget(null); // reset target when action changes
         setActionDialogOpen(false);
         if (action.requiresDiceRoll) setDiceRollerOpen(true);
     };
@@ -174,6 +207,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
         setSelectedAction(null);
         setActionDetails("");
         setDiceResult(null);
+        setSelectedTarget(null);
     };
 
     /** Use the action slot as a free second maneuver — mutually exclusive with strain spend */
@@ -196,7 +230,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
         }
     };
 
-    const handleDiceRolled = (result: DiceResult) => {
+    const handleDiceRolled = (result: GenesysSymbolResults) => {
         setDiceResult(result);
         setDiceRollerOpen(false);
         setDiceResultsDialogOpen(true);
@@ -222,6 +256,8 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                         actionName: selectedAction.name,
                         details: actionDetails || undefined,
                         diceResult: diceResult || undefined,
+                        targetId: selectedTarget?.id,
+                        targetName: selectedTarget?.name,
                     }
                     : actionAsManeuver
                         ? {actionId: "action-as-maneuver", actionName: "Action used as extra maneuver", details: undefined}
@@ -237,6 +273,31 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
     };
 
     const hasCompletedTurn = selectedAction !== null || selectedManeuvers.length > 0 || actionAsManeuver;
+
+    // ── target helpers ───────────────────────────────────────────────────────
+
+    const isCombatAction = (action: EncounterAction) =>
+        action.category === "combat" && (action.requiresDiceRoll || !!action.weapon);
+
+    /** Opponents of the current participant */
+    const opponents = participants.filter(
+        (p) => p.type !== currentParticipant.type && p.id !== currentParticipant.id
+    );
+
+    /**
+     * For weapon attacks, only show opponents within the weapon's range.
+     * For ranged-type generic attacks, show all opponents (range unknown).
+     * Marks each with their current range band (or "Unknown").
+     */
+    const getAvailableTargets = (action: EncounterAction): { participant: Participant; range: RangeBand | null; inRange: boolean }[] => {
+        return opponents.map((p) => {
+            const range = getRangeBetween(currentParticipant.id, p.id, rangeBands);
+            const inRange = action.weapon
+                ? range !== null && isInRange(action.weapon.range, range)
+                : true; // generic combat actions — no range filter
+            return {participant: p, range, inRange};
+        });
+    };
 
     // ── maneuver dialog contents ─────────────────────────────────────────────
     const renderManeuverDialog = () => (
@@ -617,6 +678,73 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                 </IconButton>
                             </Box>
 
+                            {/* ── Target selection for combat actions ── */}
+                            {isCombatAction(selectedAction) && (() => {
+                                const targets = getAvailableTargets(selectedAction);
+                                const hasAnyTarget = targets.length > 0;
+                                const hasInRange = targets.some((t) => t.inRange);
+                                return (
+                                    <FormControl fullWidth sx={{mt: 1, mb: 1}} error={!selectedTarget && targets.some(t => t.inRange)}>
+                                        <InputLabel>Target</InputLabel>
+                                        <Select
+                                            value={selectedTarget?.id ?? ""}
+                                            label="Target"
+                                            onChange={(e) => {
+                                                const t = opponents.find((p) => p.id === e.target.value) ?? null;
+                                                setSelectedTarget(t);
+                                            }}
+                                        >
+                                            <MenuItem value=""><em>— Select a target —</em></MenuItem>
+                                            {targets.map(({participant, range, inRange}) => {
+                                                const defeated = participant.wounds.current >= participant.wounds.threshold;
+                                                const rangeLabel = range ?? "Unknown range";
+                                                const outOfRange = selectedAction.weapon && !inRange;
+                                                return (
+                                                    <MenuItem
+                                                        key={participant.id}
+                                                        value={participant.id}
+                                                        disabled={defeated || !!outOfRange}
+                                                    >
+                                                        <Box sx={{display: "flex", alignItems: "center", gap: 1, width: "100%"}}>
+                                                            <Typography variant="body2" sx={{flexGrow: 1}}>
+                                                                {participant.name}
+                                                            </Typography>
+                                                            <Chip
+                                                                label={rangeLabel}
+                                                                size="small"
+                                                                sx={{fontSize: "0.7rem"}}
+                                                                color={
+                                                                    outOfRange ? "error"
+                                                                        : range === "Engaged" ? "default"
+                                                                            : range === "Short" ? "warning"
+                                                                                : "info"
+                                                                }
+                                                            />
+                                                            {defeated && <Chip label="Defeated" size="small" color="error"/>}
+                                                            {outOfRange && <Chip label="Out of range" size="small" color="error" variant="outlined"/>}
+                                                        </Box>
+                                                    </MenuItem>
+                                                );
+                                            })}
+                                        </Select>
+                                        {!hasAnyTarget && (
+                                            <FormHelperText>No valid targets found</FormHelperText>
+                                        )}
+                                        {hasAnyTarget && !hasInRange && selectedAction.weapon && (
+                                            <FormHelperText error>
+                                                No targets within {selectedAction.weapon.range} range — adjust range bands first
+                                            </FormHelperText>
+                                        )}
+                                        {selectedTarget && (
+                                            <FormHelperText sx={{color: "success.main"}}>
+                                                Targeting: {selectedTarget.name}
+                                                {selectedAction.weapon && ` • Weapon range: ${selectedAction.weapon.range}`}
+                                            </FormHelperText>
+                                        )}
+                                    </FormControl>
+                                );
+                            })()}
+
                             {diceResult && (
                                 <Alert severity={diceResult.success + diceResult.triumph - diceResult.failure - diceResult.despair > 0 ? "success" : "error"} sx={{mb: 1}}>
                                     <Typography variant="body2" fontWeight="bold">
@@ -626,7 +754,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                         Net: {diceResult.success + diceResult.triumph - diceResult.failure - diceResult.despair}S /{" "}
                                         {diceResult.advantage - diceResult.threat}A
                                         {diceResult.triumph > 0 && ` / ${diceResult.triumph}⚡`}
-                                        {diceResult.despair > 0 && ` / ${diceResult.despair}💀`}
+                                        {diceResult.despair > 0 && ` / ${diceResult.despair}`}
                                     </Typography>
                                 </Alert>
                             )}
@@ -637,7 +765,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                 label="Additional Details (optional)"
                                 value={actionDetails}
                                 onChange={(e) => setActionDetails(e.target.value)}
-                                placeholder="e.g., Target: Stormtrooper #2"
+                                placeholder="e.g., Aim at the head"
                                 sx={{mt: 1}}
                             />
 
@@ -698,7 +826,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
             )}
 
             {/* Participant abilities reference (incidentals shown read-only) */}
-            {(currentParticipant.abilities ?? []).filter((a) => a.activationType === "incidental").length > 0 && (
+            {(currentParticipant.abilities ?? []).filter((a) => a.activation === "Active (Incidental)").length > 0 && (
                 <>
                     <Divider sx={{mb: 2}}/>
                     <Box>
@@ -707,7 +835,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                         </Typography>
                         <Box sx={{display: "flex", flexWrap: "wrap", gap: 1}}>
                             {(currentParticipant.abilities ?? [])
-                                .filter((a) => a.activationType === "incidental")
+                                .filter((a) => a.activation === "Active (Incidental)")
                                 .map((a) => (
                                     <Tooltip key={a.id} title={a.description} arrow>
                                         <Chip label={a.name} size="small" variant="outlined" color="secondary"/>
