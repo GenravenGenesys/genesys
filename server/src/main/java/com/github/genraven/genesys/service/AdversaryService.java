@@ -33,6 +33,12 @@ public class AdversaryService {
         return reactiveMongoTemplate.updateFirst(query, update, Campaign.class).thenReturn(adversary);
     }
 
+    public Mono<AdversaryTemplate> findAdversaryById(final String campaignId, final String adversaryId) {
+        return findAllByCampaignId(campaignId)
+                .filter(adversary -> adversaryId.equals(adversary.getId()))
+                .next();
+    }
+
     public Mono<AdversaryTemplate> updateAdversary(final String campaignId, final String adversaryId, final AdversaryTemplate updatedAdversary) {
         Query query = new Query(Criteria.where("id").is(campaignId).and("compendium.adversarys.id").is(adversaryId));
 
