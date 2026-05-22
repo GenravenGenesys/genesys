@@ -37,7 +37,7 @@ import type {
     EncounterLocation,
     EncounterState,
     EncounterManeuver,
-    Participant, RangeBand,
+    ParticipantUI, RangeBand,
     EncounterStatusEffect,
     TurnAction
 } from "../SampleEncounterManager.tsx";
@@ -49,7 +49,7 @@ interface EncounterActiveProps {
     availableStatusEffects: Omit<EncounterStatusEffect, "id" | "appliedRound">[];
     onUpdateParticipant: (
         participantId: string,
-        updates: Partial<Participant>
+        updates: Partial<ParticipantUI>
     ) => void;
     onAssignSlot: (slotId: string, participantId: string | null) => void;
     onRecordTurnAction: (turnAction: TurnAction) => void;

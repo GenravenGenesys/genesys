@@ -18,11 +18,11 @@ import {
     TableRow,
     Typography,
 } from "@mui/material";
-import type {EncounterLocation, EncounterRangeBand, Participant, RangeBand} from "../SampleEncounterManager.tsx";
+import type {EncounterLocation, EncounterRangeBand, ParticipantUI, RangeBand} from "../SampleEncounterManager.tsx";
 
 interface RangeTrackerProps {
     open: boolean;
-    participants: Participant[];
+    participants: ParticipantUI[];
     rangeBands: EncounterRangeBand[];
     locations: EncounterLocation[];
     onClose: () => void;
@@ -49,8 +49,8 @@ const COVER_CHIP_COLOR: Record<string, "default" | "warning" | "error"> = {
 };
 
 interface RangeMatrixProps {
-    pcParticipants: Participant[];
-    npcParticipants: Participant[];
+    pcParticipants: ParticipantUI[];
+    npcParticipants: ParticipantUI[];
     locations: EncounterLocation[];
     rangeBands: EncounterRangeBand[];
     onUpdateRange: (fromId: string, toId: string, range: RangeBand) => void;
@@ -112,7 +112,7 @@ export const SampleRangeBandMatrix: React.FC<RangeMatrixProps> = ({
         );
     }
 
-    const pcPairs: Array<[Participant, Participant]> = [];
+    const pcPairs: Array<[ParticipantUI, ParticipantUI]> = [];
     for (let i = 0; i < pcParticipants.length; i++) {
         for (let j = i + 1; j < pcParticipants.length; j++) {
             pcPairs.push([pcParticipants[i], pcParticipants[j]]);

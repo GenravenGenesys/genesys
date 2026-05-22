@@ -21,12 +21,12 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import type {EncounterStatusEffect, Participant} from "../SampleEncounterManager.tsx";
+import type {EncounterStatusEffect, ParticipantUI} from "../SampleEncounterManager.tsx";
 
 
 interface StatusEffectsManagerProps {
     open: boolean;
-    participant: Participant;
+    participant: ParticipantUI;
     availableEffects: Omit<EncounterStatusEffect, "id" | "appliedRound">[];
     onClose: () => void;
     onAddEffect: (effect: Omit<EncounterStatusEffect, "id" | "appliedRound">) => void;

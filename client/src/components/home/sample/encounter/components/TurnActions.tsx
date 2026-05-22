@@ -34,7 +34,7 @@ import ShieldIcon from "@mui/icons-material/Shield";
 import {DiceRoller} from "./DiceRoller";
 import {DiceResultsDialog} from "./DiceRollDialog";
 import type {Activation, GenesysSymbolResults} from "../../../../../api/model";
-import type {EncounterAbility, EncounterAction, EncounterManeuver, EncounterRangeBand, Participant, RangeBand, TurnAction, Weapon} from "../SampleEncounterManager.tsx";
+import type {EncounterAbility, EncounterAction, EncounterManeuver, EncounterRangeBand, ParticipantUI, RangeBand, TurnAction, Weapon} from "../SampleEncounterManager.tsx";
 
 // Range order for comparison — lower index = closer
 const RANGE_ORDER: RangeBand[] = ["Engaged", "Short", "Medium", "Long", "Extreme"];
@@ -58,12 +58,12 @@ function isInRange(weaponRange: RangeBand, targetRange: RangeBand): boolean {
 }
 
 interface TurnActionsProps {
-    currentParticipant: Participant;
+    currentParticipant: ParticipantUI;
     slotId: string;
     round: number;
     availableActions: EncounterAction[];
     availableManeuvers: EncounterManeuver[];
-    participants: Participant[];
+    participants: ParticipantUI[];
     rangeBands: EncounterRangeBand[];
     onComplete: (turnAction: TurnAction) => void;
     onSkip: () => void;
@@ -128,7 +128,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
     const [selectedAction, setSelectedAction] = useState<EncounterAction | null>(null);
     const [actionDetails, setActionDetails] = useState("");
     const [diceResult, setDiceResult] = useState<GenesysSymbolResults | null>(null);
-    const [selectedTarget, setSelectedTarget] = useState<Participant | null>(null);
+    const [selectedTarget, setSelectedTarget] = useState<ParticipantUI | null>(null);
 
     // ── dialog state ────────────────────────────────────────────────────────
     const [actionDialogOpen, setActionDialogOpen] = useState(false);
@@ -289,7 +289,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
      * For ranged-type generic attacks, show all opponents (range unknown).
      * Marks each with their current range band (or "Unknown").
      */
-    const getAvailableTargets = (action: EncounterAction): { participant: Participant; range: RangeBand | null; inRange: boolean }[] => {
+    const getAvailableTargets = (action: EncounterAction): { participant: ParticipantUI; range: RangeBand | null; inRange: boolean }[] => {
         return opponents.map((p) => {
             const range = getRangeBetween(currentParticipant.id, p.id, rangeBands);
             const inRange = action.weapon

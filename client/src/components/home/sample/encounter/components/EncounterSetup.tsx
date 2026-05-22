@@ -31,16 +31,16 @@ import type {
     EncounterInitiativeSlot,
     EncounterLocation,
     EncounterState,
-    Participant,
+    ParticipantUI,
     RangeBand
 } from "../SampleEncounterManager.tsx";
 import {SampleRangeBandMatrix} from "./RangeTracker.tsx";
 
 interface EncounterSetupProps {
     encounter: EncounterState;
-    availablePlayers: Participant[];
-    availableNPCs: Participant[];
-    onAddParticipant: (participant: Participant) => void;
+    availablePlayers: ParticipantUI[];
+    availableNPCs: ParticipantUI[];
+    onAddParticipant: (participant: ParticipantUI) => void;
     onRemoveParticipant: (participantId: string) => void;
     onAddInitiativeSlot: (
         slot: Omit<EncounterInitiativeSlot, "id" | "assignedParticipantId">
@@ -71,14 +71,14 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                               }) => {
     const [selectedTab, setSelectedTab] = useState<"pcs" | "npcs">("pcs");
     const [rollerOpen, setRollerOpen] = useState(false);
-    const [rollingFor, setRollingFor] = useState<Participant | null>(null);
+    const [rollingFor, setRollingFor] = useState<ParticipantUI | null>(null);
     const [newLocationName, setNewLocationName] = useState("");
     const [newLocationCover, setNewLocationCover] = useState<CoverType>("None");
     /** participantId → chosen initiative skill id */
     const [selectedSkillIds, setSelectedSkillIds] = useState<Record<string, string>>({});
 
-    const handleAddPlayer = (player: Participant) => {
-        const newParticipant: Participant = {
+    const handleAddPlayer = (player: ParticipantUI) => {
+        const newParticipant: ParticipantUI = {
             ...player,
             id: `${player.id}-${Date.now()}`,
             statusEffects: [],
@@ -86,8 +86,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
         onAddParticipant(newParticipant);
     };
 
-    const handleAddNPC = (npc: Participant) => {
-        const newParticipant: Participant = {
+    const handleAddNPC = (npc: ParticipantUI) => {
+        const newParticipant: ParticipantUI = {
             ...npc,
             id: `${npc.id}-${Date.now()}`,
             statusEffects: [],
@@ -95,7 +95,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
         onAddParticipant(newParticipant);
     };
 
-    const handleRollInitiative = (participant: Participant) => {
+    const handleRollInitiative = (participant: ParticipantUI) => {
         // Default skill to first initiative skill if not yet chosen
         if (!selectedSkillIds[participant.id]) {
             const firstSkill = participant.skills?.find((s) => s.initiative);

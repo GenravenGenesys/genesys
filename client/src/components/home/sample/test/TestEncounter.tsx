@@ -31,7 +31,7 @@ import TestEncounterBuilder from "./TestEncounterBuilder.tsx";
 import TestEncounterSetup from "./TestEncounterSetup.tsx";
 import {TurnActions} from "../encounter/components/TurnActions.tsx";
 import type {
-    Participant,
+    ParticipantUI,
     Weapon,
     EncounterAction,
     EncounterManeuver,
@@ -423,7 +423,7 @@ function itemToWeapon(item: ItemTemplate): Weapon {
 function toParticipant(
     entity: PlayerCharacter | AdversaryTemplate,
     type: "pc" | "npc"
-): Participant {
+): ParticipantUI {
     return {
         id: entity.id,
         name: entity.name,
@@ -842,7 +842,7 @@ function TestEncounter() {
             {encounter.status === CampaignEncounterStatus.Active && (() => {
                 const currentSlot = encounter.initiativeOrder[encounter.currentSlotIndex];
                 const isLastSlot = encounter.currentSlotIndex === encounter.initiativeOrder.length - 1;
-                let currentParticipant: Participant | null = null;
+                let currentParticipant: ParticipantUI | null = null;
                 if (currentSlot) {
                     if (currentSlot.type === InitiativeSlotType.Player && currentSlot.playerCharacter) {
                         currentParticipant = toParticipant(currentSlot.playerCharacter, "pc");

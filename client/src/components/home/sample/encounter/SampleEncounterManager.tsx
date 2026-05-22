@@ -7,7 +7,19 @@ import {
 } from "@mui/material";
 import {EncounterSetup} from "./components/EncounterSetup";
 import {EncounterActive} from "./components/EncounterActive";
-import type {Activation, GenesysSymbolResults, RangeBand, Skill} from "../../../../api/model";
+import type {
+    Activation,
+    Ability,
+    Characteristics,
+    DerivedStats,
+    PlayerSkill,
+    GenesysSymbolResults,
+    RangeBand,
+    CharacteristicType,
+    SkillType,
+    CostType,
+    LimitType,
+} from "../../../../api/model";
 
 export type EncounterType = "combat" | "social";
 export type {RangeBand};
@@ -21,33 +33,12 @@ export interface EncounterStatusEffect {
     icon?: string;
 }
 
-export interface EncounterSkill {
-    id: string;
-    name: string;
-    rank: number;
-    /** Value of the linked characteristic */
-    characteristic: number;
-    /** Whether this skill can be used for initiative */
-    initiative: boolean;
-}
-
-export interface Participant {
+export interface ParticipantUI {
     id: string;
     name: string;
     type: "pc" | "npc";
-    wounds: {
-        current: number;
-        threshold: number;
-    };
-    strain: {
-        current: number;
-        threshold: number;
-    };
-    defenses?: {
-        melee: number;
-        ranged: number;
-    };
-    soak?: number;
+    characteristics: Characteristics;
+    derivedStats: DerivedStats;
     statusEffects: EncounterStatusEffect[];
     position?: {
         x: number;
@@ -56,8 +47,8 @@ export interface Participant {
     imageUrl?: string;
     notes?: string;
     weapons?: Weapon[];
-    abilities?: EncounterAbility[];
-    skills?: Skill[];
+    abilities?: Ability[];
+    skills?: PlayerSkill[];
 }
 
 export interface EncounterInitiativeSlot {
@@ -161,7 +152,7 @@ export interface EncounterState {
     status: "setup" | "active" | "completed";
     currentRound: number;
     currentSlotIndex: number;
-    participants: Participant[];
+    participants: ParticipantUI[];
     initiativeSlots: EncounterInitiativeSlot[];
     combatLog: CombatLogEntry[];
     turnActions: TurnAction[];
@@ -478,133 +469,366 @@ const availableStatusEffects: Omit<EncounterStatusEffect, "id" | "appliedRound">
     },
 ];
 
-const mockPlayers: Participant[] = [
+const mockPlayers: ParticipantUI[] = [
     {
         id: "pc-1",
         name: "Kael Starwind",
         type: "pc",
-        wounds: {current: 0, threshold: 15},
-        strain: {current: 0, threshold: 12},
-        defenses: {melee: 1, ranged: 2},
-        soak: 4,
+        characteristics: {
+            brawn:     {current: 3, base: 3},
+            agility:   {current: 3, base: 3},
+            intellect: {current: 2, base: 2},
+            cunning:   {current: 2, base: 2},
+            willpower: {current: 2, base: 2},
+            presence:  {current: 3, base: 3},
+        },
+        derivedStats: {
+            woundThreshold:  {current: 0, total: 15},
+            strainThreshold: {current: 0, total: 12},
+            melee:           {current: 1, base: 1},
+            ranged:          {current: 2, base: 2},
+            soak:            {current: 4, base: 4},
+        },
         statusEffects: [],
         skills: [
-            {id: "kael-cool", name: "Cool", rank: 3, characteristic: 3, initiative: true},
-            {id: "kael-vig", name: "Vigilance", rank: 2, characteristic: 2, initiative: true},
+            {
+                id: "kael-cool", name: "Cool",
+                characteristic: "Presence" as CharacteristicType,
+                type: "Social" as SkillType,
+                ranks: 3, initiative: true,
+                summary: "Composure under pressure",
+                description: "Used for initiative and remaining calm in dangerous situations.",
+            },
+            {
+                id: "kael-vig", name: "Vigilance",
+                characteristic: "Willpower" as CharacteristicType,
+                type: "General" as SkillType,
+                ranks: 2, initiative: true,
+                summary: "Alertness and reaction speed",
+                description: "Used for initiative and noticing immediate threats.",
+            },
         ],
         weapons: [
             {id: "kael-w1", name: "Heavy Blaster Pistol", skill: "Ranged (Light)", damage: 7, critical: 3, range: "Medium", qualities: ["Stun Setting"]},
             {id: "kael-w2", name: "Vibro-knife", skill: "Melee", damage: 4, critical: 3, range: "Engaged", qualities: ["Pierce 2"]},
         ],
         abilities: [
-            {id: "kael-a1", name: "Quick Strike", description: "Add boost die when attacking targets that have not acted this round.", activation: "Active (Incidental)" as Activation},
-            {id: "kael-a2", name: "Dodge", description: "Suffer strain up to ranks in Dodge, reduce incoming attack damage by the same amount.", activation: "Active (Incidental)" as Activation},
+            {
+                name: "Quick Strike",
+                description: "Add a boost die to any combat check against a target that has not yet acted this round.",
+                activation: "Active (Incidental)" as Activation,
+                cost: {type: "None" as CostType, amount: 0},
+                limit: {type: "None" as LimitType, limit: 0},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
+            {
+                name: "Dodge",
+                description: "Suffer strain up to ranks in Dodge; reduce incoming attack damage by the same amount.",
+                activation: "Active (Incidental, Out of Turn)" as Activation,
+                cost: {type: "Strain" as CostType, amount: 1},
+                limit: {type: "None" as LimitType, limit: 0},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
         ],
     },
     {
         id: "pc-2",
         name: "Mira Shadowstep",
         type: "pc",
-        wounds: {current: 0, threshold: 12},
-        strain: {current: 0, threshold: 14},
-        defenses: {melee: 0, ranged: 1},
-        soak: 3,
+        characteristics: {
+            brawn:     {current: 2, base: 2},
+            agility:   {current: 3, base: 3},
+            intellect: {current: 2, base: 2},
+            cunning:   {current: 3, base: 3},
+            willpower: {current: 2, base: 2},
+            presence:  {current: 2, base: 2},
+        },
+        derivedStats: {
+            woundThreshold:  {current: 0, total: 12},
+            strainThreshold: {current: 0, total: 14},
+            melee:           {current: 0, base: 0},
+            ranged:          {current: 1, base: 1},
+            soak:            {current: 3, base: 3},
+        },
         statusEffects: [],
         skills: [
-            {id: "mira-cool", name: "Cool", rank: 2, characteristic: 2, initiative: true},
-            {id: "mira-vig", name: "Vigilance", rank: 3, characteristic: 3, initiative: true},
+            {
+                id: "mira-cool", name: "Cool",
+                characteristic: "Presence" as CharacteristicType,
+                type: "Social" as SkillType,
+                ranks: 2, initiative: true,
+                summary: "Composure under pressure",
+                description: "Used for initiative and remaining calm in dangerous situations.",
+            },
+            {
+                id: "mira-vig", name: "Vigilance",
+                characteristic: "Willpower" as CharacteristicType,
+                type: "General" as SkillType,
+                ranks: 3, initiative: true,
+                summary: "Alertness and reaction speed",
+                description: "Used for initiative and noticing immediate threats.",
+            },
         ],
         weapons: [
             {id: "mira-w1", name: "Holdout Blaster", skill: "Ranged (Light)", damage: 5, critical: 4, range: "Short", qualities: ["Stun Setting", "Concealable"]},
             {id: "mira-w2", name: "Throwing Knife", skill: "Ranged (Light)", damage: 3, critical: 3, range: "Short", qualities: ["Limited Ammo 1"]},
         ],
         abilities: [
-            {id: "mira-a1", name: "Sneak Attack", description: "Gain bonus Advantage on attack if target is unaware or engaged with ally.", activation: "Active (Incidental)" as Activation},
-            {id: "mira-a2", name: "Disengage", description: "Move from engaged to short range as a maneuver without triggering free attacks.", activation: "Active (Maneuver)" as Activation},
+            {
+                name: "Sneak Attack",
+                description: "Gain bonus Advantage on attack if the target is unaware or engaged with an ally.",
+                activation: "Active (Incidental)" as Activation,
+                cost: {type: "None" as CostType, amount: 0},
+                limit: {type: "Per Round" as LimitType, limit: 1},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
+            {
+                name: "Disengage",
+                description: "Move from engaged to short range as a maneuver without triggering free attacks.",
+                activation: "Active (Maneuver)" as Activation,
+                cost: {type: "None" as CostType, amount: 0},
+                limit: {type: "Per Round" as LimitType, limit: 1},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
         ],
     },
     {
         id: "pc-3",
         name: "Grax the Mighty",
         type: "pc",
-        wounds: {current: 0, threshold: 18},
-        strain: {current: 0, threshold: 10},
-        defenses: {melee: 0, ranged: 0},
-        soak: 6,
+        characteristics: {
+            brawn:     {current: 4, base: 4},
+            agility:   {current: 2, base: 2},
+            intellect: {current: 2, base: 2},
+            cunning:   {current: 2, base: 2},
+            willpower: {current: 2, base: 2},
+            presence:  {current: 2, base: 2},
+        },
+        derivedStats: {
+            woundThreshold:  {current: 0, total: 18},
+            strainThreshold: {current: 0, total: 10},
+            melee:           {current: 0, base: 0},
+            ranged:          {current: 0, base: 0},
+            soak:            {current: 6, base: 6},
+        },
         statusEffects: [],
         skills: [
-            {id: "grax-cool", name: "Cool", rank: 1, characteristic: 2, initiative: true},
-            {id: "grax-vig", name: "Vigilance", rank: 2, characteristic: 3, initiative: true},
+            {
+                id: "grax-cool", name: "Cool",
+                characteristic: "Presence" as CharacteristicType,
+                type: "Social" as SkillType,
+                ranks: 1, initiative: true,
+                summary: "Composure under pressure",
+                description: "Used for initiative and remaining calm in dangerous situations.",
+            },
+            {
+                id: "grax-vig", name: "Vigilance",
+                characteristic: "Willpower" as CharacteristicType,
+                type: "General" as SkillType,
+                ranks: 2, initiative: true,
+                summary: "Alertness and reaction speed",
+                description: "Used for initiative and noticing immediate threats.",
+            },
         ],
         weapons: [
             {id: "grax-w1", name: "Vibro-axe", skill: "Melee", damage: 7, critical: 3, range: "Engaged", qualities: ["Sunder", "Vicious 3"]},
             {id: "grax-w2", name: "Heavy Blaster Rifle", skill: "Ranged (Heavy)", damage: 10, critical: 3, range: "Long", qualities: ["Auto-fire", "Cumbersome 3"]},
         ],
         abilities: [
-            {id: "grax-a1", name: "Knockdown", description: "Spend 2 Advantage to knock target prone after a hit.", activation: "Active (Incidental)" as Activation},
-            {id: "grax-a2", name: "Brace", description: "Remove up to two setback dice from next check caused by environmental factors.", activation: "Active (Maneuver)" as Activation},
+            {
+                name: "Knockdown",
+                description: "Spend 2 Advantage after a successful hit to knock the target prone.",
+                activation: "Active (Incidental)" as Activation,
+                cost: {type: "None" as CostType, amount: 0},
+                limit: {type: "None" as LimitType, limit: 0},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
+            {
+                name: "Brace",
+                description: "Remove up to two setback dice from the next check caused by environmental factors.",
+                activation: "Active (Maneuver)" as Activation,
+                cost: {type: "None" as CostType, amount: 0},
+                limit: {type: "Per Round" as LimitType, limit: 1},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
         ],
     },
 ];
 
-const mockNPCs: Participant[] = [
+const mockNPCs: ParticipantUI[] = [
     {
         id: "npc-1",
         name: "Stormtrooper",
         type: "npc",
-        wounds: {current: 0, threshold: 5},
-        strain: {current: 0, threshold: 5},
-        soak: 5,
+        characteristics: {
+            brawn:     {current: 3, base: 3},
+            agility:   {current: 2, base: 2},
+            intellect: {current: 2, base: 2},
+            cunning:   {current: 2, base: 2},
+            willpower: {current: 2, base: 2},
+            presence:  {current: 2, base: 2},
+        },
+        derivedStats: {
+            woundThreshold:  {current: 0, total: 5},
+            strainThreshold: {current: 0, total: 5},
+            melee:           {current: 0, base: 0},
+            ranged:          {current: 0, base: 0},
+            soak:            {current: 5, base: 5},
+        },
         statusEffects: [],
         skills: [
-            {id: "st-cool", name: "Cool", rank: 1, characteristic: 2, initiative: true},
-            {id: "st-vig", name: "Vigilance", rank: 1, characteristic: 2, initiative: true},
+            {
+                id: "st-cool", name: "Cool",
+                characteristic: "Presence" as CharacteristicType,
+                type: "Social" as SkillType,
+                ranks: 1, initiative: true,
+                summary: "Composure under pressure",
+                description: "Used for initiative and remaining calm in dangerous situations.",
+            },
+            {
+                id: "st-vig", name: "Vigilance",
+                characteristic: "Willpower" as CharacteristicType,
+                type: "General" as SkillType,
+                ranks: 1, initiative: true,
+                summary: "Alertness and reaction speed",
+                description: "Used for initiative and noticing immediate threats.",
+            },
         ],
         weapons: [
             {id: "st-w1", name: "E-11 Blaster Rifle", skill: "Ranged (Heavy)", damage: 9, critical: 3, range: "Medium", qualities: ["Stun Setting"]},
         ],
         abilities: [
-            {id: "st-a1", name: "Minion", description: "Operates as part of a minion group.", activation: "Active (Incidental)" as Activation},
+            {
+                name: "Minion",
+                description: "Operates as part of a minion group. Uses the group's combined skills.",
+                activation: "Passive" as Activation,
+                cost: {type: "None" as CostType, amount: 0},
+                limit: {type: "None" as LimitType, limit: 0},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
         ],
     },
     {
         id: "npc-2",
         name: "Imperial Officer",
         type: "npc",
-        wounds: {current: 0, threshold: 10},
-        strain: {current: 0, threshold: 10},
-        soak: 3,
+        characteristics: {
+            brawn:     {current: 2, base: 2},
+            agility:   {current: 2, base: 2},
+            intellect: {current: 3, base: 3},
+            cunning:   {current: 2, base: 2},
+            willpower: {current: 3, base: 3},
+            presence:  {current: 3, base: 3},
+        },
+        derivedStats: {
+            woundThreshold:  {current: 0, total: 10},
+            strainThreshold: {current: 0, total: 10},
+            melee:           {current: 0, base: 0},
+            ranged:          {current: 0, base: 0},
+            soak:            {current: 3, base: 3},
+        },
         statusEffects: [],
         skills: [
-            {id: "io-cool", name: "Cool", rank: 3, characteristic: 3, initiative: true},
-            {id: "io-vig", name: "Vigilance", rank: 2, characteristic: 2, initiative: true},
+            {
+                id: "io-cool", name: "Cool",
+                characteristic: "Presence" as CharacteristicType,
+                type: "Social" as SkillType,
+                ranks: 3, initiative: true,
+                summary: "Composure under pressure",
+                description: "Used for initiative and remaining calm in dangerous situations.",
+            },
+            {
+                id: "io-vig", name: "Vigilance",
+                characteristic: "Willpower" as CharacteristicType,
+                type: "General" as SkillType,
+                ranks: 2, initiative: true,
+                summary: "Alertness and reaction speed",
+                description: "Used for initiative and noticing immediate threats.",
+            },
         ],
         weapons: [
             {id: "io-w1", name: "Imperial Blaster Pistol", skill: "Ranged (Light)", damage: 6, critical: 3, range: "Medium"},
         ],
         abilities: [
-            {id: "io-a1", name: "Commanding Presence", description: "Once per round, spend 2 Advantage from a Discipline or Leadership check to give one ally within short range a free maneuver.", activation: "Active (Incidental)" as Activation},
+            {
+                name: "Commanding Presence",
+                description: "Once per round, spend 2 Advantage from a Discipline or Leadership check to give one ally within short range a free maneuver.",
+                activation: "Active (Incidental)" as Activation,
+                cost: {type: "None" as CostType, amount: 0},
+                limit: {type: "Per Round" as LimitType, limit: 1},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
         ],
     },
     {
         id: "npc-3",
         name: "Elite Guard",
         type: "npc",
-        wounds: {current: 0, threshold: 12},
-        strain: {current: 0, threshold: 8},
-        soak: 4,
+        characteristics: {
+            brawn:     {current: 3, base: 3},
+            agility:   {current: 3, base: 3},
+            intellect: {current: 2, base: 2},
+            cunning:   {current: 2, base: 2},
+            willpower: {current: 3, base: 3},
+            presence:  {current: 2, base: 2},
+        },
+        derivedStats: {
+            woundThreshold:  {current: 0, total: 12},
+            strainThreshold: {current: 0, total: 8},
+            melee:           {current: 1, base: 1},
+            ranged:          {current: 0, base: 0},
+            soak:            {current: 4, base: 4},
+        },
         statusEffects: [],
         skills: [
-            {id: "eg-cool", name: "Cool", rank: 2, characteristic: 2, initiative: true},
-            {id: "eg-vig", name: "Vigilance", rank: 3, characteristic: 3, initiative: true},
+            {
+                id: "eg-cool", name: "Cool",
+                characteristic: "Presence" as CharacteristicType,
+                type: "Social" as SkillType,
+                ranks: 2, initiative: true,
+                summary: "Composure under pressure",
+                description: "Used for initiative and remaining calm in dangerous situations.",
+            },
+            {
+                id: "eg-vig", name: "Vigilance",
+                characteristic: "Willpower" as CharacteristicType,
+                type: "General" as SkillType,
+                ranks: 3, initiative: true,
+                summary: "Alertness and reaction speed",
+                description: "Used for initiative and noticing immediate threats.",
+            },
         ],
         weapons: [
             {id: "eg-w1", name: "Force Pike", skill: "Melee", damage: 7, critical: 3, range: "Engaged", qualities: ["Stun Setting", "Defensive 1"]},
             {id: "eg-w2", name: "Heavy Blaster Pistol", skill: "Ranged (Light)", damage: 7, critical: 3, range: "Medium"},
         ],
         abilities: [
-            {id: "eg-a1", name: "Adversary 1", description: "Upgrade the difficulty of checks targeting this character once.", activation: "Active (Incidental)" as Activation},
-            {id: "eg-a2", name: "Parry 2", description: "When hit by melee attack, suffer 3 strain to reduce damage by 4.", activation: "Active (Incidental)" as Activation},
+            {
+                name: "Adversary 1",
+                description: "Upgrade the difficulty of checks targeting this character once.",
+                activation: "Passive" as Activation,
+                cost: {type: "None" as CostType, amount: 0},
+                limit: {type: "None" as LimitType, limit: 0},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
+            {
+                name: "Parry 2",
+                description: "When hit by a melee attack, suffer 3 strain to reduce damage by 4.",
+                activation: "Active (Incidental, Out of Turn)" as Activation,
+                cost: {type: "Strain" as CostType, amount: 3},
+                limit: {type: "None" as LimitType, limit: 0},
+                statModifiers: {wounds: 0, strain: 0, soak: 0, defense: 0, encumbranceThreshold: 0},
+                abilityModifiers: {diceModifiers: [], resultsModifiers: [], healEffects: [], environmentModifiers: [], criticalInjuryCountAsOne: false, freeMoveManeuver: false, moveStoryPoint: false},
+            },
         ],
     },
 ];
@@ -627,7 +851,7 @@ const encounterStateTemplate: EncounterState = {
 function SampleEncounterManager() {
     const [encounter, setEncounter] = useState<EncounterState>(encounterStateTemplate);
 
-    const handleAddParticipant = (participant: Participant) => {
+    const handleAddParticipant = (participant: ParticipantUI) => {
         setEncounter((prev) => ({
             ...prev,
             participants: [...prev.participants, participant],
@@ -649,7 +873,7 @@ function SampleEncounterManager() {
 
     const handleUpdateParticipant = (
         participantId: string,
-        updates: Partial<Participant>
+        updates: Partial<ParticipantUI>
     ) => {
         setEncounter((prev) => ({
             ...prev,
