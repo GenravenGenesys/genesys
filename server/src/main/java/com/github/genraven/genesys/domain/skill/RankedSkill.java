@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain.actor.adversary;
+package com.github.genraven.genesys.domain.skill;
 
 import com.github.genraven.genesys.domain.enums.CharacteristicType;
 import com.github.genraven.genesys.domain.enums.SkillType;
@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Setting-specific skills on adversary")
-public class AdversarySkill {
+@Schema(description = "Setting-specific skills on player")
+public class RankedSkill {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String id;
@@ -37,12 +37,15 @@ public class AdversarySkill {
 
     @Builder.Default
     @NotNull
-    private boolean initiative = false;
+    private Boolean initiative = false;
 
     @Min(0)
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int ranks;
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Boolean group = null;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "A short summary of the skill")
+    private String summary;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "A detailed description of the skill")
+    private String description;
 }

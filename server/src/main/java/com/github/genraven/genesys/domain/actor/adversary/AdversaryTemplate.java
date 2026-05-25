@@ -4,6 +4,7 @@ import com.github.genraven.genesys.domain.actor.Characteristics;
 import com.github.genraven.genesys.domain.actor.DerivedStats;
 import com.github.genraven.genesys.domain.error.GenesysError;
 import com.github.genraven.genesys.domain.actor.Motivation;
+import com.github.genraven.genesys.domain.skill.RankedSkill;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -50,7 +51,7 @@ public class AdversaryTemplate {
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Adversary Skills")
-    private List<AdversarySkill> skills;
+    private List<RankedSkill> skills;
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Adversary Ratings")

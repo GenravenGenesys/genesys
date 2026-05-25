@@ -7,6 +7,7 @@ import com.github.genraven.genesys.domain.actor.DerivedStats;
 import com.github.genraven.genesys.domain.actor.StatusEffect;
 import com.github.genraven.genesys.domain.actor.Threshold;
 import com.github.genraven.genesys.domain.equipment.ItemTemplate;
+import com.github.genraven.genesys.domain.skill.RankedSkill;
 import com.github.genraven.genesys.domain.skill.Skill;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -63,7 +64,7 @@ public class Participant {
 
     @Valid
     @Schema(description = "Skills possessed by this participant")
-    private List<Skill> skills = new ArrayList<>();
+    private List<RankedSkill> skills = new ArrayList<>();
 
     @Getter
     @AllArgsConstructor

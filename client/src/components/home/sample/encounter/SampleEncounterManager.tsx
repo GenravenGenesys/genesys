@@ -18,7 +18,7 @@ import type {
     CharacteristicType,
     SkillType,
     CostType,
-    LimitType,
+    LimitType, Participant,
 } from "../../../../api/model";
 
 export type EncounterType = "combat" | "social";
@@ -469,7 +469,7 @@ const availableStatusEffects: Omit<EncounterStatusEffect, "id" | "appliedRound">
     },
 ];
 
-const mockPlayers: ParticipantUI[] = [
+const mockPlayers: Participant[] = [
     {
         id: "pc-1",
         name: "Kael Starwind",
@@ -661,7 +661,7 @@ const mockPlayers: ParticipantUI[] = [
     },
 ];
 
-const mockNPCs: ParticipantUI[] = [
+const mockNPCs: Participant[] = [
     {
         id: "npc-1",
         name: "Stormtrooper",
