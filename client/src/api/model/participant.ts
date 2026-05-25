@@ -9,7 +9,7 @@ import type { Ability } from './ability';
 import type { Characteristics } from './characteristics';
 import type { DerivedStats } from './derivedStats';
 import type { ParticipantType } from './participantType';
-import type { Skill } from './skill';
+import type { RankedSkill } from './rankedSkill';
 import type { StatusEffect } from './statusEffect';
 
 /**
@@ -34,5 +34,5 @@ export interface Participant {
   /** Special abilities available to this participant */
   abilities?: Ability[];
   /** Skills possessed by this participant */
-  skills?: Skill[];
+  skills?: RankedSkill[];
 }

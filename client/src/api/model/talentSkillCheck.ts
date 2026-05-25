@@ -5,15 +5,14 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { AdversarySkill } from './adversarySkill';
 import type { Difficulty } from './difficulty';
-import type { PlayerSkill } from './playerSkill';
+import type { RankedSkill } from './rankedSkill';
 import type { StatusEffect } from './statusEffect';
 
 export interface TalentSkillCheck {
-  skill: PlayerSkill;
+  skill: RankedSkill;
   difficulty: Difficulty;
-  opposedSkill: AdversarySkill;
+  opposedSkill: RankedSkill;
   /** Condition inflicted on the opponent when the check succeeds */
   onSuccessCondition?: StatusEffect;
 }

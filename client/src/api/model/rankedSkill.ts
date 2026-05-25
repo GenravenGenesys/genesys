@@ -9,9 +9,9 @@ import type { CharacteristicType } from './characteristicType';
 import type { SkillType } from './skillType';
 
 /**
- * Setting-specific skills on adversary
+ * Setting-specific skills on player
  */
-export interface AdversarySkill {
+export interface RankedSkill {
   id: string;
   /** @minLength 1 */
   name: string;
@@ -20,5 +20,8 @@ export interface AdversarySkill {
   initiative: boolean;
   /** @minimum 0 */
   ranks: number;
-  group: boolean;
+  /** A short summary of the skill */
+  summary: string;
+  /** A detailed description of the skill */
+  description: string;
 }

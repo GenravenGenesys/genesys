@@ -7,12 +7,12 @@
  */
 import type { AdversaryEquipment } from './adversaryEquipment';
 import type { AdversaryRatings } from './adversaryRatings';
-import type { AdversarySkill } from './adversarySkill';
 import type { AdversaryTemplateType } from './adversaryTemplateType';
 import type { Characteristics } from './characteristics';
 import type { DerivedStats } from './derivedStats';
 import type { GenesysError } from './genesysError';
 import type { Motivation } from './motivation';
+import type { RankedSkill } from './rankedSkill';
 
 /**
  * Setting-specific adversaries such as Nemeses, Rivals, and Minions
@@ -32,7 +32,7 @@ export interface AdversaryTemplate {
   /** Weapons, armor, and gear of the adversary */
   equipment: AdversaryEquipment;
   /** Adversary Skills */
-  skills: AdversarySkill[];
+  skills: RankedSkill[];
   /** Adversary Ratings */
   ratings: AdversaryRatings;
   size: number;

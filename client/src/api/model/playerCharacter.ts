@@ -12,8 +12,8 @@ import type { DerivedStats } from './derivedStats';
 import type { Experience } from './experience';
 import type { Motivation } from './motivation';
 import type { PlayerEquipment } from './playerEquipment';
-import type { PlayerSkill } from './playerSkill';
 import type { PlayerTalent } from './playerTalent';
+import type { RankedSkill } from './rankedSkill';
 
 /**
  * Setting-specific Player for a specific Campaign
@@ -34,7 +34,7 @@ export interface PlayerCharacter {
   /** Weapons, armor, and gear of the player */
   equipment: PlayerEquipment;
   /** Player Skills */
-  skills: PlayerSkill[];
+  skills: RankedSkill[];
   /** Experience points */
   experience: Experience;
   /** Player talents */
