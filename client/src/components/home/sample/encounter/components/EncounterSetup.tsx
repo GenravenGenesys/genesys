@@ -31,16 +31,16 @@ import type {
     EncounterInitiativeSlot,
     EncounterLocation,
     EncounterState,
-    ParticipantUI,
     RangeBand
 } from "../SampleEncounterManager.tsx";
 import {SampleRangeBandMatrix} from "./RangeTracker.tsx";
+import type {Participant, RankedSkill} from "../../../../../api/model";
 
 interface EncounterSetupProps {
     encounter: EncounterState;
-    availablePlayers: ParticipantUI[];
-    availableNPCs: ParticipantUI[];
-    onAddParticipant: (participant: ParticipantUI) => void;
+    availablePlayers: Participant[];
+    availableNPCs: Participant[];
+    onAddParticipant: (participant: Participant) => void;
     onRemoveParticipant: (participantId: string) => void;
     onAddInitiativeSlot: (
         slot: Omit<EncounterInitiativeSlot, "id" | "assignedParticipantId">
@@ -71,14 +71,14 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                               }) => {
     const [selectedTab, setSelectedTab] = useState<"pcs" | "npcs">("pcs");
     const [rollerOpen, setRollerOpen] = useState(false);
-    const [rollingFor, setRollingFor] = useState<ParticipantUI | null>(null);
+    const [rollingFor, setRollingFor] = useState<Participant | null>(null);
     const [newLocationName, setNewLocationName] = useState("");
     const [newLocationCover, setNewLocationCover] = useState<CoverType>("None");
     /** participantId → chosen initiative skill id */
     const [selectedSkillIds, setSelectedSkillIds] = useState<Record<string, string>>({});
 
-    const handleAddPlayer = (player: ParticipantUI) => {
-        const newParticipant: ParticipantUI = {
+    const handleAddPlayer = (player: Participant) => {
+        const newParticipant: Participant = {
             ...player,
             id: `${player.id}-${Date.now()}`,
             statusEffects: [],
@@ -86,8 +86,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
         onAddParticipant(newParticipant);
     };
 
-    const handleAddNPC = (npc: ParticipantUI) => {
-        const newParticipant: ParticipantUI = {
+    const handleAddNPC = (npc: Participant) => {
+        const newParticipant: Participant = {
             ...npc,
             id: `${npc.id}-${Date.now()}`,
             statusEffects: [],
@@ -95,7 +95,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
         onAddParticipant(newParticipant);
     };
 
-    const handleRollInitiative = (participant: ParticipantUI) => {
+    const handleRollInitiative = (participant: Participant) => {
         // Default skill to first initiative skill if not yet chosen
         if (!selectedSkillIds[participant.id]) {
             const firstSkill = participant.skills?.find((s) => s.initiative);
@@ -157,8 +157,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
         encounter.participants
             .filter((p) => !participantHasSlot(p.id))
             .forEach((p) => {
-                const initiativeSkills = p.skills?.filter((s) => s.initiative) ?? [];
-                const chosenSkill = initiativeSkills.find((s) => s.id === selectedSkillIds[p.id]);
+                const initiativeSkills = p.skills?.filter((s: RankedSkill) => s.initiative) ?? [];
+                const chosenSkill = initiativeSkills.find((s: RankedSkill) => s.id === selectedSkillIds[p.id]);
                 if (!chosenSkill) return; // button is disabled until all skills are set, so this is a safety guard only
                 const roll = simulateInitiativeRoll(chosenSkill);
                 onAddInitiativeSlot({
@@ -176,7 +176,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
 
     const allSkillsChosen =
         encounter.participants.every((p) => {
-            const initSkills = p.skills?.filter((s) => s.initiative) ?? [];
+            const initSkills = p.skills?.filter((s: RankedSkill) => s.initiative) ?? [];
             return initSkills.length === 0 || !!selectedSkillIds[p.id];
         });
 
@@ -367,11 +367,11 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                 {encounter.participants.map((participant) => {
                                     const hasSlot = participantHasSlot(participant.id);
 
-                                    const initSkills = participant.skills?.filter((s) => s.initiative) ?? [];
+                                    const initSkills = participant.skills?.filter((s: RankedSkill) => s.initiative) ?? [];
                                     console.log("skills", participant)
                                     console.log("initSkills", initSkills);
                                     const chosenSkillId = selectedSkillIds[participant.id] ?? "";
-                                    const chosenSkill = initSkills.find((s) => s.id === chosenSkillId) ?? null;
+                                    const chosenSkill = initSkills.find((s: RankedSkill) => s.id === chosenSkillId) ?? null;
 
                                     return (
                                         <Grid size={{xs: 12}} sx={{mt: 4}}>
@@ -420,8 +420,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
 
                                                     {/* Row 2: stats */}
                                                     <Typography variant="body2" color="text.secondary" sx={{mb: 1}}>
-                                                        Wounds: {participant.wounds.threshold} |
-                                                        Strain: {participant.strain.threshold}
+                                                        Wounds: {participant.derivedStats.woundThreshold.total} |
+                                                        Strain: {participant.derivedStats.strainThreshold.total} |
                                                     </Typography>
 
                                                     {/* Row 3: initiative skill selector */}
@@ -445,9 +445,9 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                                     }))
                                                                 }
                                                             >
-                                                                {initSkills.map((skill) => (
+                                                                {initSkills.map((skill: RankedSkill) => (
                                                                     <MenuItem key={skill.id} value={skill.id}>
-                                                                        {skill.name} — Rank {skill.rank} /
+                                                                        {skill.name} — Rank {skill.ranks} /
                                                                         Char {skill.characteristic}
                                                                     </MenuItem>
                                                                 ))}
@@ -503,8 +503,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                     color="text.secondary"
                                                     gutterBottom
                                                 >
-                                                    Wounds: {player.wounds.threshold} | Strain:{" "}
-                                                    {player.strain.threshold}
+                                                    Wounds: {player.derivedStats.woundThreshold.total} | Strain:{" "}
+                                                    {player.derivedStats.strainThreshold.total}
                                                 </Typography>
                                                 <Button
                                                     fullWidth
@@ -532,7 +532,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                     color="text.secondary"
                                                     gutterBottom
                                                 >
-                                                    Wounds: {npc.wounds.threshold} | Soak: {npc.soak || 0}
+                                                    Wounds: {npc.derivedStats.woundThreshold.total} | Soak: {npc.derivedStats.soak.base || 0}
                                                 </Typography>
                                                 <Button
                                                     fullWidth

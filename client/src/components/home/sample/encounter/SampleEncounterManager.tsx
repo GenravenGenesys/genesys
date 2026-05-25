@@ -18,7 +18,7 @@ import type {
     CharacteristicType,
     SkillType,
     CostType,
-    LimitType, Participant,
+    LimitType, Participant, StatusEffect,
 } from "../../../../api/model";
 
 export type EncounterType = "combat" | "social";
@@ -152,7 +152,7 @@ export interface EncounterState {
     status: "setup" | "active" | "completed";
     currentRound: number;
     currentSlotIndex: number;
-    participants: ParticipantUI[];
+    participants: Participant[];
     initiativeSlots: EncounterInitiativeSlot[];
     combatLog: CombatLogEntry[];
     turnActions: TurnAction[];
@@ -949,7 +949,7 @@ function SampleEncounterManager() {
                     participants: prev.participants.map((p) => ({
                         ...p,
                         statusEffects: p.statusEffects.filter(
-                            (e) => e.duration !== "end-of-round"
+                            (e: StatusEffect) => e.duration !== "end-of-round"
                         ),
                     })),
                 };
