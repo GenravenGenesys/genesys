@@ -49,7 +49,7 @@ public class Participant {
     private DerivedStats derivedStats;
 
     @Valid
-    @Schema(description = "Active status effects currently applied to this participant")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Active status effects currently applied to this participant")
     private List<StatusEffect> statusEffects = new ArrayList<>();
 
     @Schema(description = "URL of the participant's portrait or token image")
@@ -59,11 +59,11 @@ public class Participant {
     private String notes;
 
     @Valid
-    @Schema(description = "Special abilities available to this participant")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Special abilities available to this participant")
     private List<Ability> abilities = new ArrayList<>();
 
     @Valid
-    @Schema(description = "Skills possessed by this participant")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Skills possessed by this participant")
     private List<RankedSkill> skills = new ArrayList<>();
 
     @Getter
