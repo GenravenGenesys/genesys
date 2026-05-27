@@ -12,7 +12,7 @@ import {
     TextField,
     Typography
 } from '@mui/material';
-import type {AdversarySkill, Difficulty, Skill, Talent, TalentSkillCheck} from '../../../../../../api/model';
+import type {Difficulty, RankedSkill, Skill, Talent, TalentSkillCheck} from '../../../../../../api/model';
 import {StatusEffectType} from '../../../../../../api/model';
 import SkillAutocompleteCard from '../../../../../common/card/SkillAutocompleteCard.tsx';
 import DifficultyCard from '../../../../../common/card/select/DifficultyCard.tsx';
@@ -99,7 +99,7 @@ const TalentActionTab: React.FC<Props> = ({talent, updateTalent}) => {
                                 skills={skills}
                                 startingSkill={check.opposedSkill as unknown as Skill}
                                 handleSkillChange={(value: Skill) =>
-                                    patchCheck({opposedSkill: value as unknown as AdversarySkill})
+                                    patchCheck({opposedSkill: value as unknown as RankedSkill})
                                 }
                             />
                         )}

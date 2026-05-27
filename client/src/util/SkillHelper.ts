@@ -1,13 +1,14 @@
 import {
-    type AdversarySkill, type AdversaryTemplate,
+    type AdversaryTemplate,
     CharacteristicType,
     DiceType,
     type PlayerCharacter,
-    type PlayerSkill
+    type RankedSkill,
+    Target,
 } from "../api/model";
 
 
-export const getPlayerSkillCharacteristicRanks = (player: PlayerCharacter, skill: PlayerSkill): number => {
+export const getPlayerSkillCharacteristicRanks = (player: PlayerCharacter, skill: RankedSkill): number => {
     switch (skill.characteristic) {
         case CharacteristicType.Agility:
             return player.characteristics.agility.current;
@@ -26,7 +27,7 @@ export const getPlayerSkillCharacteristicRanks = (player: PlayerCharacter, skill
     }
 };
 
-export const getGearDiceModifierCount = (player: PlayerCharacter, skill: PlayerSkill, diceType: DiceType): number => {
+export const getGearDiceModifierCount = (player: PlayerCharacter, skill: RankedSkill, diceType: DiceType): number => {
     const allGear = [
         ...(player.equipment?.otherGear ?? []),
         ...(player.equipment?.weapons ?? []),
@@ -36,7 +37,7 @@ export const getGearDiceModifierCount = (player: PlayerCharacter, skill: PlayerS
         return total + modifiers
             .filter(mod =>
                 mod.diceType === diceType &&
-                mod.checkTarget === CheckTarget.Self &&
+                mod.checkTarget === Target.Self &&
                 (mod.skillType === null || mod.skillType === undefined || mod.skillType === skill.type) &&
                 (mod.skill === null || mod.skill === undefined || mod.skill.id === skill.id)
             )
@@ -44,7 +45,7 @@ export const getGearDiceModifierCount = (player: PlayerCharacter, skill: PlayerS
     }, 0);
 };
 
-export const getAdversaryCharacteristicRanks = (adversary: AdversaryTemplate, skill: AdversarySkill): number => {
+export const getAdversaryCharacteristicRanks = (adversary: AdversaryTemplate, skill: RankedSkill): number => {
     switch (skill.characteristic) {
         case CharacteristicType.Agility:
             return adversary.characteristics.agility.current;

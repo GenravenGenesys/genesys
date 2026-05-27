@@ -5,11 +5,11 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { AdversaryEquipment } from './adversaryEquipment';
 import type { AdversaryRatings } from './adversaryRatings';
 import type { AdversaryTemplateType } from './adversaryTemplateType';
 import type { Characteristics } from './characteristics';
 import type { DerivedStats } from './derivedStats';
+import type { Equipment } from './equipment';
 import type { GenesysError } from './genesysError';
 import type { Motivation } from './motivation';
 import type { RankedSkill } from './rankedSkill';
@@ -30,7 +30,7 @@ export interface AdversaryTemplate {
   /** The stats of the adversary */
   derivedStats: DerivedStats;
   /** Weapons, armor, and gear of the adversary */
-  equipment: AdversaryEquipment;
+  equipment: Equipment;
   /** Adversary Skills */
   skills: RankedSkill[];
   /** Adversary Ratings */

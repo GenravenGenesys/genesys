@@ -2,6 +2,7 @@ package com.github.genraven.genesys.domain.actor.player;
 
 import com.github.genraven.genesys.domain.actor.Characteristics;
 import com.github.genraven.genesys.domain.actor.DerivedStats;
+import com.github.genraven.genesys.domain.actor.Equipment;
 import com.github.genraven.genesys.domain.actor.Motivation;
 import com.github.genraven.genesys.domain.skill.RankedSkill;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,7 +50,7 @@ public class PlayerCharacter {
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Weapons, armor, and gear of the player")
-    private PlayerEquipment equipment;
+    private Equipment equipment;
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Player Skills")

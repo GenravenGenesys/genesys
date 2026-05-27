@@ -12,7 +12,7 @@ import type {
     Ability,
     Characteristics,
     DerivedStats,
-    PlayerSkill,
+    RankedSkill,
     GenesysSymbolResults,
     RangeBand,
     CharacteristicType,
@@ -48,7 +48,7 @@ export interface ParticipantUI {
     notes?: string;
     weapons?: Weapon[];
     abilities?: Ability[];
-    skills?: PlayerSkill[];
+    skills?: RankedSkill[];
 }
 
 export interface EncounterInitiativeSlot {

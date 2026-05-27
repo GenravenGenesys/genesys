@@ -23,7 +23,7 @@ import {
     type Maneuver,
     type Motivation,
     type PlayerCharacter,
-    type PlayerSkill,
+    type RankedSkill,
     type PlayerTalent,
     type Quality,
     type QualityStats,
@@ -296,7 +296,7 @@ export const emptyPlayerCharacter = {
             base: 0
         },
     },
-    skills: [] as PlayerSkill[],
+    skills: [] as RankedSkill[],
     talents: [] as PlayerTalent[],
     equipment: {
         weapons: [] as ItemTemplate[],

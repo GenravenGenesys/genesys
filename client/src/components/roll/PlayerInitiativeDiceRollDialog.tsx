@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import type {GenesysSymbolResults, PlayerCharacter, PlayerSkill} from "../../api/model";
+import type {GenesysSymbolResults, PlayerCharacter, RankedSkill} from "../../api/model";
 import handleDiceRoll from "../../models/roll/DiceRoll.ts";
 import {
     Alert,
@@ -22,7 +22,7 @@ interface Props {
     open: boolean;
     onClose: () => void;
     player: PlayerCharacter;
-    skill: PlayerSkill;
+    skill: RankedSkill;
     results: GenesysSymbolResults;
     onRollComplete: (result: GenesysSymbolResults) => void;
 }

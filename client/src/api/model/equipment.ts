@@ -7,7 +7,7 @@
  */
 import type { ItemTemplate } from './itemTemplate';
 
-export interface PlayerEquipment {
+export interface Equipment {
   weapons: ItemTemplate[];
   equippedArmor: ItemTemplate;
   otherGear: ItemTemplate[];
