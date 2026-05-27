@@ -2,16 +2,10 @@ package com.github.genraven.genesys.domain.campaign.encounter;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.genraven.genesys.domain.Ability;
-import com.github.genraven.genesys.domain.actor.Characteristics;
-import com.github.genraven.genesys.domain.actor.DerivedStats;
-import com.github.genraven.genesys.domain.actor.StatusEffect;
-import com.github.genraven.genesys.domain.actor.Threshold;
-import com.github.genraven.genesys.domain.equipment.ItemTemplate;
+import com.github.genraven.genesys.domain.actor.*;
 import com.github.genraven.genesys.domain.skill.RankedSkill;
-import com.github.genraven.genesys.domain.skill.Skill;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,6 +51,10 @@ public class Participant {
 
     @Schema(description = "Free-text notes about this participant")
     private String notes;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "The items currently in the participant's possession")
+    private Equipment equipment;
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Special abilities available to this participant")

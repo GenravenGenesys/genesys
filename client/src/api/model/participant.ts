@@ -8,6 +8,7 @@
 import type { Ability } from './ability';
 import type { Characteristics } from './characteristics';
 import type { DerivedStats } from './derivedStats';
+import type { Equipment } from './equipment';
 import type { ParticipantType } from './participantType';
 import type { RankedSkill } from './rankedSkill';
 import type { StatusEffect } from './statusEffect';
@@ -31,6 +32,8 @@ export interface Participant {
   imageUrl?: string;
   /** Free-text notes about this participant */
   notes?: string;
+  /** The items currently in the participant's possession */
+  equipment: Equipment;
   /** Special abilities available to this participant */
   abilities: Ability[];
   /** Skills possessed by this participant */

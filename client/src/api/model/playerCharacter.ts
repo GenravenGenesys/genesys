@@ -9,9 +9,9 @@ import type { Archetype } from './archetype';
 import type { Career } from './career';
 import type { Characteristics } from './characteristics';
 import type { DerivedStats } from './derivedStats';
+import type { Equipment } from './equipment';
 import type { Experience } from './experience';
 import type { Motivation } from './motivation';
-import type { PlayerEquipment } from './playerEquipment';
 import type { PlayerTalent } from './playerTalent';
 import type { RankedSkill } from './rankedSkill';
 
@@ -32,7 +32,7 @@ export interface PlayerCharacter {
   /** The stats of the player */
   derivedStats: DerivedStats;
   /** Weapons, armor, and gear of the player */
-  equipment: PlayerEquipment;
+  equipment: Equipment;
   /** Player Skills */
   skills: RankedSkill[];
   /** Experience points */

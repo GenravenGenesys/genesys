@@ -33,7 +33,13 @@ import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import ShieldIcon from "@mui/icons-material/Shield";
 import {DiceRoller} from "./DiceRoller";
 import {DiceResultsDialog} from "./DiceRollDialog";
-import type {Activation, GenesysSymbolResults, Participant, RangeBand} from "../../../../../api/model";
+import {
+    type Activation,
+    type GenesysSymbolResults,
+    type Participant,
+    type RangeBand,
+    StatusEffectType
+} from "../../../../../api/model";
 import type {EncounterAbility, EncounterAction, EncounterManeuver, EncounterRangeBand, TurnAction, Weapon} from "../SampleEncounterManager.tsx";
 
 // Range order for comparison — lower index = closer
@@ -145,12 +151,12 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
     /** Action is available only if it has NOT been given up as an extra maneuver */
     const actionAvailable = !actionAsManeuver;
 
-    const hasStaggered = currentParticipant.statusEffects.some((e) => e.name === "Staggered");
-    const hasStunned = currentParticipant.statusEffects.some((e) => e.name === "Stunned");
-    const hasImmobilized = currentParticipant.statusEffects.some((e) => e.name === "Immobilized");
+    const hasStaggered = currentParticipant.statusEffects.some((e) => e.type === StatusEffectType.Staggered);
+    const hasDisoriented = currentParticipant.statusEffects.some((e) => e.type === StatusEffectType.Disoriented);
+    const hasImmobilized = currentParticipant.statusEffects.some((e) => e.type === StatusEffectType.Immobilized);
 
     // Build enriched lists that include this participant's own weapons / ability-actions
-    const participantWeaponActions: EncounterAction[] = (currentParticipant.weapons ?? []).map(weaponToAction);
+    const participantWeaponActions: EncounterAction[] = (currentParticipant. ?? []).map(weaponToAction);
     const participantAbilityActions: EncounterAction[] = (currentParticipant.abilities ?? [])
         .map(abilityToAction)
         .filter((a): a is EncounterAction => a !== null);
