@@ -1,6 +1,8 @@
 package com.github.genraven.genesys.controller.campaign;
 
+import com.github.genraven.genesys.domain.campaign.encounter.CombatLogEntry;
 import com.github.genraven.genesys.domain.campaign.encounter.CombatRollRequest;
+import com.github.genraven.genesys.domain.campaign.encounter.ResolveChoicesRequest;
 import com.github.genraven.genesys.domain.campaign.encounter.RollEvaluationResponse;
 import com.github.genraven.genesys.service.DicePoolService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,13 +25,19 @@ public class DiceRollController {
     private DicePoolService dicePoolService;
 
     @PostMapping("/combat/melee")
-    public Mono<ResponseEntity<RollEvaluationResponse>> executeAttack(@RequestBody CombatRollRequest request) {
+    public Mono<ResponseEntity<RollEvaluationResponse>> executeMeleeAttack(@RequestBody CombatRollRequest request) {
         return dicePoolService.executeCombatRoll(request)
             .map(ResponseEntity::ok);
     }
 
     @PostMapping("/combat/ranged")
-    public Mono<ResponseEntity<RollEvaluationResponse>> executeAttack(@RequestBody CombatRollRequest request) {
+    public Mono<ResponseEntity<RollEvaluationResponse>> executeRangedAttack(@RequestBody CombatRollRequest request) {
+        return dicePoolService.executeCombatRoll(request)
+            .map(ResponseEntity::ok);
+    }
+
+    @PostMapping("/resolve")
+    public Mono<ResponseEntity<CombatLogEntry>> addCombatLog(@RequestBody ResolveChoicesRequest request) {
         return dicePoolService.executeCombatRoll(request)
             .map(ResponseEntity::ok);
     }
