@@ -54,7 +54,7 @@ public class Participant {
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "The items currently in the participant's possession")
-    private Equipment equipment;
+    private ParticipantEquipment equipment;
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Special abilities available to this participant")

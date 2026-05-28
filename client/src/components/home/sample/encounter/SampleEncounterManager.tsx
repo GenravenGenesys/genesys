@@ -851,7 +851,7 @@ const encounterStateTemplate: EncounterState = {
 function SampleEncounterManager() {
     const [encounter, setEncounter] = useState<EncounterState>(encounterStateTemplate);
 
-    const handleAddParticipant = (participant: ParticipantUI) => {
+    const handleAddParticipant = (participant: Participant) => {
         setEncounter((prev) => ({
             ...prev,
             participants: [...prev.participants, participant],
@@ -873,7 +873,7 @@ function SampleEncounterManager() {
 
     const handleUpdateParticipant = (
         participantId: string,
-        updates: Partial<ParticipantUI>
+        updates: Partial<Participant>
     ) => {
         setEncounter((prev) => ({
             ...prev,

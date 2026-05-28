@@ -156,7 +156,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
     const hasImmobilized = currentParticipant.statusEffects.some((e: StatusEffect) => e.type === StatusEffectType.Immobilized);
 
     // Build enriched lists that include this participant's own weapons / ability-actions
-    const participantWeaponActions: EncounterAction[] = (currentParticipant ?? []).map(weaponToAction);
+    const participantWeaponActions: EncounterAction[] = (currentParticipant.equipment.weapons ?? []).map(weaponToAction);
     const participantAbilityActions: EncounterAction[] = (currentParticipant.abilities ?? [])
         .map(abilityToAction)
         .filter((a): a is EncounterAction => a !== null);
