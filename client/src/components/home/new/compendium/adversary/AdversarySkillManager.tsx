@@ -6,7 +6,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import type {RankedSkill} from "../../../../../api/model";
 import {useParams} from "react-router-dom";
 import {useGetSkills} from "../../../../../api/generated/skills/skills.ts";
-import SelectSkillAutocomplete from "../../../common/SelectSkillAutocomplete.tsx";
 
 interface Props {
     npcSkills: RankedSkill[]
@@ -28,7 +27,7 @@ export default function AdversarySkillManager(props: Props) {
         return <CircularProgress/>;
     }
 
-    if (!skills || skills.length === 0) {
+    if (!skills || skills.data.length === 0) {
         return <Typography variant="h6" color="error">Skills Not Found</Typography>;
     }
 
@@ -64,10 +63,10 @@ export default function AdversarySkillManager(props: Props) {
 
             {/* 1. SEARCH & ADD */}
             <Autocomplete
-                options={skills}
+                options={skills.data}
                 getOptionLabel={(option) => option.name}
                 onChange={(_, val) => {
-                    if (val) handleAddSkill(val);
+                    if (val) handleAddSkill({...val, ranks: isMinion ? 0 : 1});
                 }}
                 renderInput={(params) => (
                     <TextField {...params} label="Search Skills..." size="small" sx={{mb: 2}}/>

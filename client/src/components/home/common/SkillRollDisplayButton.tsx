@@ -1,8 +1,9 @@
 import {
+    type AdversarySkill,
     type AdversaryTemplate,
     type Difficulty, type GenesysSymbolResults,
     type PlayerCharacter,
-    type RankedSkill
+    type PlayerSkill
 } from "../../../api/model";
 import React from "react";
 import {getDifficultyDice} from "../../../util/DiceHelper.ts";
@@ -13,12 +14,12 @@ import {DiceType} from "../../../api/model";
 
 interface Target {
     adversary: AdversaryTemplate;
-    adversarySkill: RankedSkill;
+    adversarySkill: AdversarySkill;
 }
 
 interface Props {
     player: PlayerCharacter;
-    skill: RankedSkill;
+    skill: PlayerSkill;
     baseResult: GenesysSymbolResults;
     difficulty?: Difficulty;
     target?: Target;

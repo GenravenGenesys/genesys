@@ -4,6 +4,7 @@ import {
     Typography,
     Button,
     Paper,
+    Alert,
 } from "@mui/material";
 import {EncounterSetup} from "./components/EncounterSetup";
 import {EncounterActive} from "./components/EncounterActive";
@@ -12,7 +13,7 @@ import type {
     Ability,
     Characteristics,
     DerivedStats,
-    RankedSkill,
+    PlayerSkill,
     GenesysSymbolResults,
     RangeBand,
     CharacteristicType,
@@ -20,6 +21,10 @@ import type {
     CostType,
     LimitType, Participant, StatusEffect,
 } from "../../../../api/model";
+import {
+    useStartEncounter,
+    useEndEncounter,
+} from "../../../../api/generated/dice/dice";
 
 export type EncounterType = "combat" | "social";
 export type {RangeBand};
@@ -48,7 +53,7 @@ export interface ParticipantUI {
     notes?: string;
     weapons?: Weapon[];
     abilities?: Ability[];
-    skills?: RankedSkill[];
+    skills?: PlayerSkill[];
 }
 
 export interface EncounterInitiativeSlot {
@@ -850,6 +855,11 @@ const encounterStateTemplate: EncounterState = {
 
 function SampleEncounterManager() {
     const [encounter, setEncounter] = useState<EncounterState>(encounterStateTemplate);
+    const [encounterApiError, setEncounterApiError] = useState<string | null>(null);
+    const [participantsRegistered, setParticipantsRegistered] = useState(false);
+
+    const startEncounterMutation = useStartEncounter();
+    const endEncounterMutation = useEndEncounter();
 
     const handleAddParticipant = (participant: Participant) => {
         setEncounter((prev) => ({
@@ -923,6 +933,19 @@ function SampleEncounterManager() {
         }));
     };
 
+    /** Phase 1 of setup: register all participants with the server so initiative
+     *  rolls (which require a registered encounter) can be made. */
+    const handleRegisterParticipants = async () => {
+        setEncounterApiError(null);
+        try {
+            await startEncounterMutation.mutateAsync({ data: encounter.participants });
+            setParticipantsRegistered(true);
+        } catch {
+            setEncounterApiError("Failed to register participants with the server. Check your connection and try again.");
+        }
+    };
+
+    /** Phase 2 of setup: all initiative rolls are done — begin the encounter. */
     const handleStartEncounter = () => {
         setEncounter((prev) => ({
             ...prev,
@@ -949,7 +972,8 @@ function SampleEncounterManager() {
                     participants: prev.participants.map((p) => ({
                         ...p,
                         statusEffects: p.statusEffects.filter(
-                            (e: StatusEffect) => e.duration !== "end-of-round"
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            (e: any) => e.duration !== "end-of-round"
                         ),
                     })),
                 };
@@ -1058,7 +1082,14 @@ function SampleEncounterManager() {
         });
     };
 
-    const handleEndEncounter = () => {
+    const handleEndEncounter = async () => {
+        setEncounterApiError(null);
+        try {
+            await endEncounterMutation.mutateAsync();
+        } catch {
+            // Non-fatal: log the error but still mark encounter as completed locally
+            setEncounterApiError("Failed to close encounter on the server — encounter marked complete locally.");
+        }
         setEncounter((prev) => ({
             ...prev,
             status: "completed",
@@ -1088,6 +1119,10 @@ function SampleEncounterManager() {
 
     const handleReset = () => {
         setEncounter(encounterStateTemplate);
+        setEncounterApiError(null);
+        setParticipantsRegistered(false);
+        startEncounterMutation.reset();
+        endEncounterMutation.reset();
     };
 
     return (
@@ -1095,6 +1130,12 @@ function SampleEncounterManager() {
             <Typography variant="h3" gutterBottom align="center" sx={{mb: 2}}>
                 {encounter.name}
             </Typography>
+
+            {encounterApiError && (
+                <Alert severity="error" sx={{mb: 2}} onClose={() => setEncounterApiError(null)}>
+                    {encounterApiError}
+                </Alert>
+            )}
 
             {encounter.status === "setup" && (
                 <EncounterSetup
@@ -1106,6 +1147,9 @@ function SampleEncounterManager() {
                     onAddInitiativeSlot={handleAddInitiativeSlot}
                     onRemoveInitiativeSlot={handleRemoveInitiativeSlot}
                     onUpdateRange={handleUpdateRange}
+                    onRegisterParticipants={handleRegisterParticipants}
+                    isRegistering={startEncounterMutation.isPending}
+                    participantsRegistered={participantsRegistered}
                     onStartEncounter={handleStartEncounter}
                     locations={encounter.locations}
                     onAddLocation={handleAddLocation}
@@ -1128,6 +1172,7 @@ function SampleEncounterManager() {
                     onPreviousSlot={handlePreviousSlot}
                     onAddLogEntry={handleAddLogEntry}
                     onEndEncounter={handleEndEncounter}
+                    isEnding={endEncounterMutation.isPending}
                     onUpdateLocation={handleUpdateLocation}
                 />
             )}

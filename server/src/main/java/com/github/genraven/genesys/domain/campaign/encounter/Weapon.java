@@ -1,6 +1,7 @@
 package com.github.genraven.genesys.domain.campaign.encounter;
 
 import com.github.genraven.genesys.domain.enums.RangeBand;
+import com.github.genraven.genesys.domain.quality.EquipmentQuality;
 import com.github.genraven.genesys.domain.skill.Skill;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,6 +10,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -39,4 +43,9 @@ public class Weapon {
 
     @Schema(description = "Whether the weapon damage is increased by Brawn", requiredMode = Schema.RequiredMode.REQUIRED)
     private boolean brawn;
+
+    @Valid
+    @Builder.Default
+    @Schema(description = "Active qualities on this weapon")
+    private List<EquipmentQuality> qualities = new ArrayList<>();
 }

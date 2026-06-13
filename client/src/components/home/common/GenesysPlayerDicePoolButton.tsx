@@ -1,8 +1,7 @@
 import {
     type AdversaryTemplate,
     type Difficulty, type GenesysSymbolResults,
-    type PlayerCharacter,
-    type RankedSkill
+    type PlayerCharacter, type RankedSkill,
 } from "../../../api/model";
 import React, {useState} from "react";
 import {getDifficultyDice} from "../../../util/DiceHelper.ts";
@@ -10,7 +9,6 @@ import {Box, Button} from "@mui/material";
 import GenesysSkillDiceTypography from "./typography/GenesysSkillDiceTypography.tsx";
 import {getAdversaryCharacteristicRanks, getGearDiceModifierCount, getPlayerSkillCharacteristicRanks} from "../../../util/SkillHelper.ts";
 import {DiceType} from "../../../api/model";
-import {TestPlayerDiceRoller} from "../sample/test/TestPlayerDiceRoller.tsx";
 
 interface Target {
     adversary: AdversaryTemplate;
@@ -94,12 +92,6 @@ const GenesysPlayerDicePoolButton: React.FC<Props> = ({
                     />
                 )}
             </Button>
-
-            {/*{openCustomRollBackDrop && (*/}
-            {/*    <TestPlayerDiceRoller open={openCustomRollBackDrop} player={player} skill={skill}*/}
-            {/*                          onClose={() => setOpenCustomRollBackDrop(false)}*/}
-            {/*                          onRollComplete={onRollComplete} baseResult={baseResult}/>*/}
-            {/*)}*/}
         </Box>
     );
 };

@@ -33,14 +33,17 @@ import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import ShieldIcon from "@mui/icons-material/Shield";
 import {DiceRoller} from "./DiceRoller";
 import {DiceResultsDialog} from "./DiceRollDialog";
+import {CombatRollDialog} from "./CombatRollDialog";
 import {
     type Activation,
+    type CombatLogEntry as ApiCombatLogEntry,
     type GenesysSymbolResults,
     type Participant,
     type RangeBand, type StatusEffect,
     StatusEffectType
 } from "../../../../../api/model";
-import type {EncounterAbility, EncounterAction, EncounterManeuver, EncounterRangeBand, TurnAction, Weapon} from "../SampleEncounterManager.tsx";
+import type {EncounterAction, EncounterManeuver, EncounterRangeBand, TurnAction, Weapon} from "../SampleEncounterManager.tsx";
+import type {Weapon as ApiWeapon} from "../../../../../api/model";
 
 // Range order for comparison — lower index = closer
 const RANGE_ORDER: RangeBand[] = ["Engaged", "Short", "Medium", "Long", "Extreme"];
@@ -73,39 +76,30 @@ interface TurnActionsProps {
     rangeBands: EncounterRangeBand[];
     onComplete: (turnAction: TurnAction) => void;
     onSkip: () => void;
+    /** Optional: called when a weapon attack fully resolves via the backend API. */
+    onApiCombatLogEntry?: (entry: ApiCombatLogEntry) => void;
 }
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
-function weaponToAction(weapon: Weapon): EncounterAction {
+/** Convert an API Weapon (skill as Skill object) to an EncounterAction. */
+function apiWeaponToEncounterAction(weapon: ApiWeapon): EncounterAction {
+    const localWeapon: Weapon = {
+        id: weapon.id,
+        name: weapon.name,
+        skill: weapon.skill?.name ?? "Unknown",
+        damage: weapon.damage,
+        critical: weapon.critical,
+        range: weapon.range,
+        qualities: weapon.qualities?.map((q) => q.name),
+    };
     return {
         id: `weapon-${weapon.id}`,
         name: weapon.name,
-        description: `${weapon.skill} • Dmg ${weapon.damage} • Crit ${weapon.critical} • ${weapon.range}${weapon.qualities?.length ? " • " + weapon.qualities.join(", ") : ""}`,
+        description: `${localWeapon.skill} • Dmg ${weapon.damage} • Crit ${weapon.critical} • ${weapon.range}${localWeapon.qualities?.length ? " • " + localWeapon.qualities.join(", ") : ""}`,
         category: "combat",
         requiresDiceRoll: true,
-        weapon,
-    };
-}
-
-function abilityToAction(ability: EncounterAbility): EncounterAction | null {
-    if (ability.activation !== ("Active (Action)" as Activation)) return null;
-    return {
-        id: `ability-${ability.id}`,
-        name: ability.name,
-        description: ability.description,
-        category: "other",
-        requiresDiceRoll: false,
-    };
-}
-
-function abilityToManeuver(ability: EncounterAbility): EncounterManeuver | null {
-    if (ability.activation !== ("Active (Maneuver)" as Activation)) return null;
-    return {
-        id: `ability-${ability.id}`,
-        name: ability.name,
-        description: ability.description,
-        category: "other",
+        weapon: localWeapon,
     };
 }
 
@@ -121,13 +115,12 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                                              rangeBands,
                                                              onComplete,
                                                              onSkip,
+                                                             onApiCombatLogEntry,
                                                          }) => {
     // ── maneuver state ──────────────────────────────────────────────────────
     const [selectedManeuvers, setSelectedManeuvers] = useState<EncounterManeuver[]>([]);
     const [maneuverDetails, setManeuverDetails] = useState<Record<string, string>>({});
-    /** true = the second maneuver slot was unlocked by spending 2 strain */
     const [strainManeuverUsed, setStrainManeuverUsed] = useState(false);
-    /** true = the action slot was spent to grant a free second maneuver */
     const [actionAsManeuver, setActionAsManeuver] = useState(false);
 
     // ── action state ────────────────────────────────────────────────────────
@@ -141,31 +134,36 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
     const [maneuverDialogOpen, setManeuverDialogOpen] = useState(false);
     const [diceRollerOpen, setDiceRollerOpen] = useState(false);
     const [diceResultsDialogOpen, setDiceResultsDialogOpen] = useState(false);
+    const [combatRollOpen, setCombatRollOpen] = useState(false);
 
     // ── derived ─────────────────────────────────────────────────────────────
     const totalManeuvers = selectedManeuvers.length;
-    /** Slot budget: 1 free + 1 extra (via strain OR action-as-maneuver). Cap = 2. */
     const maxManeuvers = strainManeuverUsed || actionAsManeuver ? 2 : 1;
     const canAddManeuver = totalManeuvers < maxManeuvers;
 
-    /** Action is available only if it has NOT been given up as an extra maneuver */
-    const actionAvailable = !actionAsManeuver;
-
+    // Stunned is not in the current StatusEffectType enum — default to false
+    const hasStunned = false;
     const hasStaggered = currentParticipant.statusEffects.some((e: StatusEffect) => e.type === StatusEffectType.Staggered);
     const hasDisoriented = currentParticipant.statusEffects.some((e: StatusEffect) => e.type === StatusEffectType.Disoriented);
     const hasImmobilized = currentParticipant.statusEffects.some((e: StatusEffect) => e.type === StatusEffectType.Immobilized);
 
-    // Build enriched lists that include this participant's own weapons / ability-actions
-    const participantWeaponActions: EncounterAction[] = (currentParticipant.equipment.weapons ?? []).map(weaponToAction);
+    // Build enriched action/maneuver lists from participant's API equipment
+    const participantWeaponActions: EncounterAction[] = (currentParticipant.equipment?.weapons ?? []).map(apiWeaponToEncounterAction);
     const participantAbilityActions: EncounterAction[] = (currentParticipant.abilities ?? [])
-        .map(abilityToAction)
+        .map((a): EncounterAction | null => {
+            if (a.activation !== ("Active (Action)" as Activation)) return null;
+            return { id: `ability-${a.name}`, name: a.name, description: a.description, category: "other", requiresDiceRoll: false };
+        })
         .filter((a): a is EncounterAction => a !== null);
     const participantAbilityManeuvers: EncounterManeuver[] = (currentParticipant.abilities ?? [])
-        .map(abilityToManeuver)
+        .map((a): EncounterManeuver | null => {
+            if (a.activation !== ("Active (Maneuver)" as Activation)) return null;
+            return { id: `ability-${a.name}`, name: a.name, description: a.description, category: "other" };
+        })
         .filter((m): m is EncounterManeuver => m !== null);
 
-    const allActions: EncounterAction[] = [...participantWeaponActions, ...participantAbilityActions, ...availableActions];
-    const allManeuvers: EncounterManeuver[] = [...participantAbilityManeuvers, ...availableManeuvers];
+    // Combined maneuver/action lists (prop + participant abilities)
+    const allManeuvers: EncounterManeuver[] = [...availableManeuvers, ...participantAbilityManeuvers];
 
     // ── maneuver handlers ───────────────────────────────────────────────────
 
@@ -178,15 +176,11 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
 
     const handleRemoveManeuver = (index: number) => {
         setSelectedManeuvers((prev) => prev.filter((_, i) => i !== index));
-        // If we remove the second maneuver, also clear the strain flag if that was the reason it existed
-        // (keep the flag so user can add a different 2nd maneuver without re-clicking)
     };
 
-    /** Unlock second maneuver via 2 strain — mutually exclusive with action-as-maneuver */
     const handleUseStrainForSecond = () => {
         setStrainManeuverUsed(true);
         setActionAsManeuver(false);
-        // If there was a "action as maneuver" 2nd maneuver, remove it
         if (selectedManeuvers.length === 2) {
             setSelectedManeuvers((prev) => prev.slice(0, 1));
         }
@@ -194,7 +188,6 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
 
     const handleUndoStrainManeuver = () => {
         setStrainManeuverUsed(false);
-        // Remove the second maneuver if it was added via this mode
         if (selectedManeuvers.length === 2) {
             setSelectedManeuvers((prev) => prev.slice(0, 1));
         }
@@ -204,9 +197,13 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
 
     const handleSelectAction = (action: EncounterAction) => {
         setSelectedAction(action);
-        setSelectedTarget(null); // reset target when action changes
+        setSelectedTarget(null);
         setActionDialogOpen(false);
-        if (action.requiresDiceRoll) setDiceRollerOpen(true);
+        // For weapon attacks the dice roll is triggered after target selection;
+        // for other roll-required actions use the existing local DiceRoller.
+        if (action.requiresDiceRoll && !action.weapon) {
+            setDiceRollerOpen(true);
+        }
     };
 
     const handleClearAction = () => {
@@ -216,13 +213,10 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
         setSelectedTarget(null);
     };
 
-    /** Use the action slot as a free second maneuver — mutually exclusive with strain spend */
     const handleActionAsManeuver = () => {
         setActionAsManeuver(true);
         setStrainManeuverUsed(false);
-        // Clear any selected action
         handleClearAction();
-        // Remove any strain-funded second maneuver
         if (selectedManeuvers.length === 2) {
             setSelectedManeuvers((prev) => prev.slice(0, 1));
         }
@@ -230,20 +224,33 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
 
     const handleUndoActionAsManeuver = () => {
         setActionAsManeuver(false);
-        // Remove the extra maneuver if one was taken
         if (selectedManeuvers.length === 2) {
             setSelectedManeuvers((prev) => prev.slice(0, 1));
         }
     };
 
-    const handleDiceRolled = (result: GenesysSymbolResults) => {
-        setDiceResult(result);
+    const handleDiceRolled = (result: GenesysSymbolResults | { success: number; advantage: number }) => {
+        const fullResult: GenesysSymbolResults = {
+            success: result.success,
+            advantage: result.advantage,
+            triumph: ('triumph' in result) ? result.triumph : 0,
+            failure: ('failure' in result) ? result.failure : 0,
+            threat: ('threat' in result) ? result.threat : 0,
+            despair: ('despair' in result) ? result.despair : 0,
+        };
+        setDiceResult(fullResult);
         setDiceRollerOpen(false);
         setDiceResultsDialogOpen(true);
     };
 
     const handleAdvantageSpent = () => {
         setDiceResultsDialogOpen(false);
+    };
+
+    /** Called when CombatRollDialog finishes all three phases. */
+    const handleCombatRollResolved = (entry: ApiCombatLogEntry) => {
+        setCombatRollOpen(false);
+        onApiCombatLogEntry?.(entry);
     };
 
     // ── complete turn ───────────────────────────────────────────────────────
@@ -285,22 +292,16 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
     const isCombatAction = (action: EncounterAction) =>
         action.category === "combat" && (action.requiresDiceRoll || !!action.weapon);
 
-    /** Opponents of the current participant */
     const opponents = participants.filter(
         (p) => p.type !== currentParticipant.type && p.id !== currentParticipant.id
     );
 
-    /**
-     * For weapon attacks, only show opponents within the weapon's range.
-     * For ranged-type generic attacks, show all opponents (range unknown).
-     * Marks each with their current range band (or "Unknown").
-     */
-    const getAvailableTargets = (action: EncounterAction): { participant: ParticipantUI; range: RangeBand | null; inRange: boolean }[] => {
+    const getAvailableTargets = (action: EncounterAction): { participant: Participant; range: RangeBand | null; inRange: boolean }[] => {
         return opponents.map((p) => {
             const range = getRangeBetween(currentParticipant.id, p.id, rangeBands);
             const inRange = action.weapon
                 ? range !== null && isInRange(action.weapon.range, range)
-                : true; // generic combat actions — no range filter
+                : true;
             return {participant: p, range, inRange};
         });
     };
@@ -390,7 +391,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                             <Typography variant="body2" color="text.secondary">
                                                 {action.description}
                                             </Typography>
-                                            <Chip label="Requires Roll" size="small" icon={<CasinoIcon/>} sx={{mt: 1}}/>
+                                            <Chip label="Select Target to Roll" size="small" icon={<CasinoIcon/>} sx={{mt: 1}}/>
                                         </CardContent>
                                     </Card>
                                 </Grid>
@@ -492,6 +493,11 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                     <strong>IMMOBILIZED:</strong> Cannot perform movement maneuvers.
                 </Alert>
             )}
+            {hasDisoriented && !hasStunned && (
+                <Alert severity="warning" sx={{mb: 2}}>
+                    <strong>DISORIENTED:</strong> Add setback die to all checks.
+                </Alert>
+            )}
 
             {/* Turn budget reminder */}
             {!hasStunned && !hasStaggered && (
@@ -517,7 +523,6 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                         </Typography>
                     </Box>
 
-                    {/* Listed maneuvers */}
                     {selectedManeuvers.map((maneuver, index) => {
                         const blocked = hasImmobilized && maneuver.category === "movement";
                         return (
@@ -549,7 +554,6 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                         );
                     })}
 
-                    {/* Add first maneuver */}
                     {totalManeuvers === 0 && (
                         <Button
                             variant="contained"
@@ -562,11 +566,9 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                         </Button>
                     )}
 
-                    {/* Second maneuver row: either "add it" (slot unlocked) or buttons to unlock */}
                     {totalManeuvers === 1 && (
                         <>
                             {canAddManeuver ? (
-                                /* Slot already unlocked — add the actual maneuver */
                                 <Button
                                     variant="outlined"
                                     color="secondary"
@@ -580,7 +582,6 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                     {actionAsManeuver && " (action traded)"}
                                 </Button>
                             ) : (
-                                /* Neither unlock path chosen yet — show both unlock options */
                                 <Box sx={{display: "flex", gap: 1, mt: 1, flexWrap: "wrap"}}>
                                     <Tooltip title="Suffer 2 strain to gain a second maneuver. Your action remains available.">
                                         <Button
@@ -611,7 +612,6 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                         </>
                     )}
 
-                    {/* Undo buttons */}
                     {strainManeuverUsed && (
                         <Box sx={{mt: 1}}>
                             <Button
@@ -654,7 +654,6 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                     </Typography>
 
                     {actionAsManeuver ? (
-                        /* Action has been traded away */
                         <Alert severity="info" sx={{mb: 1}}>
                             Your action was used to gain a free second maneuver.
                             <Button size="small" startIcon={<UndoIcon/>} onClick={handleUndoActionAsManeuver} sx={{ml: 1}}>
@@ -662,7 +661,6 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                             </Button>
                         </Alert>
                     ) : selectedAction ? (
-                        /* Action chosen */
                         <Box sx={{p: 2, border: 1, borderColor: "primary.main", borderRadius: 1}}>
                             <Box sx={{display: "flex", justifyContent: "space-between", mb: 1}}>
                                 <Box>
@@ -690,7 +688,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                 const hasAnyTarget = targets.length > 0;
                                 const hasInRange = targets.some((t) => t.inRange);
                                 return (
-                                    <FormControl fullWidth sx={{mt: 1, mb: 1}} error={!selectedTarget && targets.some(t => t.inRange)}>
+                                    <FormControl fullWidth sx={{mt: 1, mb: 1}}>
                                         <InputLabel>Target</InputLabel>
                                         <Select
                                             value={selectedTarget?.id ?? ""}
@@ -702,7 +700,10 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                         >
                                             <MenuItem value=""><em>— Select a target —</em></MenuItem>
                                             {targets.map(({participant, range, inRange}) => {
-                                                const defeated = participant.wounds.current >= participant.wounds.threshold;
+                                                const woundThreshold = participant.derivedStats?.woundThreshold;
+                                                const defeated = woundThreshold
+                                                    ? woundThreshold.current >= woundThreshold.total
+                                                    : false;
                                                 const rangeLabel = range ?? "Unknown range";
                                                 const outOfRange = selectedAction.weapon && !inRange;
                                                 return (
@@ -751,16 +752,25 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                 );
                             })()}
 
-                            {diceResult && (
+                            {/* ── Weapon attack: launch CombatRollDialog once target is set ── */}
+                            {selectedAction.weapon && selectedTarget && (
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    color="warning"
+                                    startIcon={<CasinoIcon/>}
+                                    onClick={() => setCombatRollOpen(true)}
+                                    sx={{mt: 1}}
+                                >
+                                    Roll Attack vs {selectedTarget.name}
+                                </Button>
+                            )}
+
+                            {/* ── Non-weapon dice roll ── */}
+                            {!selectedAction.weapon && diceResult && (
                                 <Alert severity={diceResult.success + diceResult.triumph - diceResult.failure - diceResult.despair > 0 ? "success" : "error"} sx={{mb: 1}}>
                                     <Typography variant="body2" fontWeight="bold">
                                         {diceResult.success + diceResult.triumph - diceResult.failure - diceResult.despair > 0 ? "SUCCESS" : "FAILURE"}
-                                    </Typography>
-                                    <Typography variant="caption">
-                                        Net: {diceResult.success + diceResult.triumph - diceResult.failure - diceResult.despair}S /{" "}
-                                        {diceResult.advantage - diceResult.threat}A
-                                        {diceResult.triumph > 0 && ` / ${diceResult.triumph}⚡`}
-                                        {diceResult.despair > 0 && ` / ${diceResult.despair}`}
                                     </Typography>
                                 </Alert>
                             )}
@@ -775,7 +785,7 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                                 sx={{mt: 1}}
                             />
 
-                            {selectedAction.requiresDiceRoll && (
+                            {!selectedAction.weapon && selectedAction.requiresDiceRoll && (
                                 <Button
                                     fullWidth
                                     variant="outlined"
@@ -788,7 +798,6 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                             )}
                         </Box>
                     ) : (
-                        /* No action chosen yet */
                         <Box sx={{display: "flex", gap: 1, flexWrap: "wrap"}}>
                             <Button
                                 variant="contained"
@@ -799,20 +808,19 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                             </Button>
 
                             {/* Quick weapon shortcuts */}
-                            {(currentParticipant.weapons ?? []).map((w) => (
+                            {(currentParticipant.equipment?.weapons ?? []).map((w) => (
                                 <Button
                                     key={w.id}
                                     variant="outlined"
                                     color="warning"
                                     size="small"
                                     startIcon={<CasinoIcon/>}
-                                    onClick={() => handleSelectAction(weaponToAction(w))}
+                                    onClick={() => handleSelectAction(apiWeaponToEncounterAction(w))}
                                 >
                                     {w.name}
                                 </Button>
                             ))}
 
-                            {/* Option to use action as extra maneuver (only if no strain unlock active) */}
                             {!strainManeuverUsed && totalManeuvers < 2 && (
                                 <Tooltip title="Give up your action to gain a free second maneuver (no strain cost). Cap is still 2 total maneuvers.">
                                     <Button
@@ -842,9 +850,9 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                         <Box sx={{display: "flex", flexWrap: "wrap", gap: 1}}>
                             {(currentParticipant.abilities ?? [])
                                 .filter((a) => a.activation === "Active (Incidental)")
-                                .map((a) => (
-                                    <Tooltip key={a.id} title={a.description} arrow>
-                                        <Chip label={a.name} size="small" variant="outlined" color="secondary"/>
+                             .map((a) => (
+                                     <Tooltip key={a.name} title={a.description} arrow>
+                                         <Chip label={a.name} size="small" variant="outlined" color="secondary"/>
                                     </Tooltip>
                                 ))}
                         </Box>
@@ -886,6 +894,22 @@ export const TurnActions: React.FC<TurnActionsProps> = ({
                     diceResult={diceResult}
                     onClose={() => setDiceResultsDialogOpen(false)}
                     onSpendComplete={handleAdvantageSpent}
+                />
+            )}
+
+            {/* ── Combat Roll Dialog (weapon attacks via backend API) ── */}
+            {combatRollOpen && selectedAction?.weapon && selectedTarget && (
+                <CombatRollDialog
+                    open={combatRollOpen}
+                    onClose={() => setCombatRollOpen(false)}
+                    attackerId={currentParticipant.id}
+                    attackerName={currentParticipant.name}
+                    weaponInstanceId={selectedAction.weapon.id}
+                    weaponName={selectedAction.weapon.name}
+                    weaponSkillName={selectedAction.weapon.skill}
+                    targetEnemyInstanceId={selectedTarget.id}
+                    targetName={selectedTarget.name}
+                    onResolved={handleCombatRollResolved}
                 />
             )}
         </Paper>

@@ -5,6 +5,7 @@ import {
     Card,
     CardContent,
     Chip,
+    CircularProgress,
     Grid,
     List,
     Paper,
@@ -41,10 +42,12 @@ interface Props {
     onRemoveInitiativeSlot: (index: number) => void;
     onUpdateRange: (participantId: string, targetId: string, range: RangeBandType) => void;
     onStartEncounter: () => void;
+    /** True while the startEncounter API call is pending. */
+    isStarting?: boolean;
 }
 
 export default function TestEncounterSetup(props: Props) {
-    const {encounter, numberOfParticipants, rangeBands, locations, onAddInitiativeSlot, onRemoveInitiativeSlot, onUpdateRange, onStartEncounter} = props;
+    const {encounter, numberOfParticipants, rangeBands, locations, onAddInitiativeSlot, onRemoveInitiativeSlot, onUpdateRange, onStartEncounter, isStarting} = props;
 
     const [dialogParticipant, setDialogParticipant] = useState<DialogParticipant | null>(null);
 
@@ -166,11 +169,12 @@ export default function TestEncounterSetup(props: Props) {
                                 variant="contained"
                                 color="success"
                                 size="large"
-                                startIcon={<PlayArrowIcon/>}
+                                startIcon={isStarting ? <CircularProgress size={20} color="inherit"/> : <PlayArrowIcon/>}
                                 onClick={onStartEncounter}
+                                disabled={isStarting}
                                 sx={{mt: 2}}
                             >
-                                Start Encounter
+                                {isStarting ? "Starting…" : "Start Encounter"}
                             </Button>
                         )}
 
@@ -261,7 +265,7 @@ export default function TestEncounterSetup(props: Props) {
                                                             </Box>
                                                             <Typography variant="body2" color="text.secondary">
                                                                 W: {npc.derivedStats?.woundThreshold?.total ?? "—"} |{" "}
-                                                                Soak: {npc.derivedStats?.soak?.total ?? "—"}
+                                                                Soak: {npc.derivedStats?.soak?.base ?? "—"}
                                                             </Typography>
                                                         </Box>
                                                         <Button

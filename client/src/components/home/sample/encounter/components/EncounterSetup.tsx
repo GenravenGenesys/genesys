@@ -21,11 +21,12 @@ import {
     TextField,
     FormControl,
     InputLabel,
+    CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import CasinoIcon from "@mui/icons-material/Casino";
-import {DiceRoller, simulateInitiativeRoll} from "./DiceRoller";
+import {DiceRoller} from "./DiceRoller";
 import type {
     CoverType,
     EncounterInitiativeSlot,
@@ -34,7 +35,8 @@ import type {
     RangeBand
 } from "../SampleEncounterManager.tsx";
 import {SampleRangeBandMatrix} from "./RangeTracker.tsx";
-import type {Participant, RankedSkill} from "../../../../../api/model";
+import type {Participant} from "../../../../../api/model";
+import {getParticipantSkillCharacteristicRanks} from "../../../../../util/SkillHelper.ts";
 
 interface EncounterSetupProps {
     encounter: EncounterState;
@@ -47,6 +49,11 @@ interface EncounterSetupProps {
     ) => void;
     onRemoveInitiativeSlot: (slotId: string) => void;
     onUpdateRange: (participantId: string, targetId: string, range: RangeBand) => void;
+    /** Phase 1: registers all participants with the server so the backend can handle rolls. */
+    onRegisterParticipants: () => void;
+    isRegistering?: boolean;
+    participantsRegistered?: boolean;
+    /** Phase 2: all initiative rolled — transitions to active encounter. */
     onStartEncounter: () => void;
     locations: EncounterLocation[];
     onAddLocation: (loc: EncounterLocation) => void;
@@ -63,6 +70,9 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                                   onAddInitiativeSlot,
                                                                   onRemoveInitiativeSlot,
                                                                   onUpdateRange,
+                                                                  onRegisterParticipants,
+                                                                  isRegistering = false,
+                                                                  participantsRegistered = false,
                                                                   onStartEncounter,
                                                                   locations,
                                                                   onAddLocation,
@@ -153,30 +163,13 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
         );
     };
 
-    const handleAutoRollAll = () => {
-        encounter.participants
-            .filter((p) => !participantHasSlot(p.id))
-            .forEach((p) => {
-                const initiativeSkills = p.skills?.filter((s: RankedSkill) => s.initiative) ?? [];
-                const chosenSkill = initiativeSkills.find((s: RankedSkill) => s.id === selectedSkillIds[p.id]);
-                if (!chosenSkill) return; // button is disabled until all skills are set, so this is a safety guard only
-                const roll = simulateInitiativeRoll(chosenSkill);
-                onAddInitiativeSlot({
-                    slotType: p.type,
-                    success: roll.success,
-                    advantage: roll.advantage,
-                    rolledBy: p.id,
-                });
-            });
-    };
-
     const allRolled =
         encounter.participants.length > 0 &&
         encounter.participants.every((p) => participantHasSlot(p.id));
 
     const allSkillsChosen =
         encounter.participants.every((p) => {
-            const initSkills = p.skills?.filter((s: RankedSkill) => s.initiative) ?? [];
+            const initSkills = p.skills?.filter((s) => s.initiative) ?? [];
             return initSkills.length === 0 || !!selectedSkillIds[p.id];
         });
 
@@ -246,17 +239,6 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                             the encounter, players can choose which PC acts in PC slots, and
                             GM chooses for NPC slots.
                         </Alert>
-
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            startIcon={<CasinoIcon/>}
-                            onClick={handleAutoRollAll}
-                            disabled={encounter.participants.length === 0 || allRolled || !allSkillsChosen}
-                            sx={{mb: 2}}
-                        >
-                            {allRolled ? "All Initiative Rolled" : !allSkillsChosen ? "Select Skills First" : "Auto Roll All Initiative"}
-                        </Button>
 
                         {encounter.initiativeSlots.length === 0 ? (
                             <Alert severity="warning">
@@ -367,11 +349,11 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                 {encounter.participants.map((participant) => {
                                     const hasSlot = participantHasSlot(participant.id);
 
-                                    const initSkills = participant.skills?.filter((s: RankedSkill) => s.initiative) ?? [];
+                                    const initSkills = participant.skills?.filter((s) => s.initiative) ?? [];
                                     console.log("skills", participant)
                                     console.log("initSkills", initSkills);
                                     const chosenSkillId = selectedSkillIds[participant.id] ?? "";
-                                    const chosenSkill = initSkills.find((s: RankedSkill) => s.id === chosenSkillId) ?? null;
+                                    const chosenSkill = initSkills.find((s) => s.id === chosenSkillId) ?? null;
 
                                     return (
                                         <Grid size={{xs: 12}} sx={{mt: 4}}>
@@ -402,12 +384,12 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                             )}
                                                         </Box>
                                                         <Box sx={{display: "flex", gap: 1, flexShrink: 0}}>
-                                                            <Button
+                                                             <Button
                                                                 variant="contained"
                                                                 size="small"
                                                                 startIcon={<CasinoIcon/>}
                                                                 onClick={() => handleRollInitiative(participant)}
-                                                                disabled={hasSlot || (initSkills.length > 0 && !chosenSkillId)}
+                                                                disabled={hasSlot || (initSkills.length > 0 && !chosenSkillId) || !participantsRegistered}
                                                             >
                                                                 {hasSlot ? "Rolled" : "Roll"}
                                                             </Button>
@@ -421,7 +403,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                     {/* Row 2: stats */}
                                                     <Typography variant="body2" color="text.secondary" sx={{mb: 1}}>
                                                         Wounds: {participant.derivedStats.woundThreshold.total} |
-                                                        Strain: {participant.derivedStats.strainThreshold.total} |
+                                                        Strain: {participant.derivedStats.strainThreshold.total}
                                                     </Typography>
 
                                                     {/* Row 3: initiative skill selector */}
@@ -445,7 +427,7 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                                     }))
                                                                 }
                                                             >
-                                                                {initSkills.map((skill: RankedSkill) => (
+                                                                {initSkills.map((skill) => (
                                                                     <MenuItem key={skill.id} value={skill.id}>
                                                                         {skill.name} — Rank {skill.ranks} /
                                                                         Char {skill.characteristic}
@@ -457,10 +439,10 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                             <Typography variant="body2" color="text.secondary">
                                                                 Pool:&nbsp;
                                                                 <strong
-                                                                    style={{color: "#b8860b"}}>{Math.min(chosenSkill.rank, chosenSkill.characteristic)}P</strong>
+                                                                    style={{color: "#b8860b"}}>{Math.min(chosenSkill.ranks, getParticipantSkillCharacteristicRanks(participant, chosenSkill))}P</strong>
                                                                 {" + "}
                                                                 <strong
-                                                                    style={{color: "#2e7d32"}}>{Math.max(chosenSkill.rank, chosenSkill.characteristic) - Math.min(chosenSkill.rank, chosenSkill.characteristic)}A</strong>
+                                                                    style={{color: "#2e7d32"}}>{Math.max(chosenSkill.ranks, getParticipantSkillCharacteristicRanks(participant, chosenSkill)) - Math.min(chosenSkill.ranks, getParticipantSkillCharacteristicRanks(participant, chosenSkill))}A</strong>
                                                             </Typography>
                                                         )}
                                                     </Box>
@@ -532,7 +514,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                     color="text.secondary"
                                                     gutterBottom
                                                 >
-                                                    Wounds: {npc.derivedStats.woundThreshold.total} | Soak: {npc.derivedStats.soak.base || 0}
+                                                    Wounds: {npc.derivedStats.woundThreshold.total} |
+                                                    Soak: {npc.derivedStats.soak.base || 0}
                                                 </Typography>
                                                 <Button
                                                     fullWidth
@@ -667,24 +650,57 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
             </Paper>
 
             <Paper sx={{p: 3, mt: 3, textAlign: "center"}}>
-                {!canStart && (
-                    <Alert severity="warning" sx={{mb: 2}}>
-                        {encounter.participants.length < 2
-                            ? "Add at least 2 participants to start"
-                            : !allRangeBandsSet
-                                ? "Set all range bands before starting"
-                                : "All participants must roll initiative before starting"}
-                    </Alert>
+                {/* ── Phase 1: Lock & Register participants ── */}
+                {!participantsRegistered && (
+                    <>
+                        {encounter.participants.length < 2 && (
+                            <Alert severity="warning" sx={{mb: 2}}>
+                                Add at least 2 participants before registering.
+                            </Alert>
+                        )}
+                        {!allRangeBandsSet && encounter.participants.length >= 2 && (
+                            <Alert severity="warning" sx={{mb: 2}}>
+                                Set all range bands before registering.
+                            </Alert>
+                        )}
+                        <Alert severity="info" sx={{mb: 2}}>
+                            <strong>Step 1:</strong> Lock in participants and register them with the server.
+                            Initiative rolls use the server, so this must happen first.
+                        </Alert>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            onClick={onRegisterParticipants}
+                            disabled={encounter.participants.length < 2 || !allRangeBandsSet || isRegistering}
+                            startIcon={isRegistering ? <CircularProgress size={18} color="inherit" /> : undefined}
+                        >
+                            {isRegistering ? "Registering…" : "Lock Participants & Register with Server"}
+                        </Button>
+                    </>
                 )}
 
-                <Button
-                    variant="contained"
-                    size="large"
-                    onClick={onStartEncounter}
-                    disabled={!canStart}
-                >
-                    Start Encounter
-                </Button>
+                {/* ── Phase 2: Roll initiative, then begin ── */}
+                {participantsRegistered && (
+                    <>
+                        <Alert severity="success" sx={{mb: 2}}>
+                            ✓ Participants registered. Roll initiative for each below, then begin.
+                        </Alert>
+                        {!allRolled && (
+                            <Alert severity="warning" sx={{mb: 2}}>
+                                All participants must roll initiative before starting.
+                            </Alert>
+                        )}
+                        <Button
+                            variant="contained"
+                            color="success"
+                            size="large"
+                            onClick={onStartEncounter}
+                            disabled={!canStart}
+                        >
+                            Begin Encounter
+                        </Button>
+                    </>
+                )}
             </Paper>
 
             {rollerOpen && rollingFor && (
@@ -692,8 +708,14 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                     open={rollerOpen}
                     participantName={rollingFor.name}
                     rollType="initiative"
-                    initiativeSkills={rollingFor.skills?.filter((s) => s.initiative)}
+                    initiativeSkills={(rollingFor.skills?.filter((s) => s.initiative) ?? []).map((s) => ({
+                        id: s.id,
+                        name: s.name,
+                        rank: s.ranks,
+                        characteristic: getParticipantSkillCharacteristicRanks(rollingFor, s),
+                    }))}
                     initialSkillId={selectedSkillIds[rollingFor.id] ?? rollingFor.skills?.find((s) => s.initiative)?.id}
+                    participantId={rollingFor.id}
                     onClose={() => setRollerOpen(false)}
                     onRollComplete={handleInitiativeRolled}
                 />
