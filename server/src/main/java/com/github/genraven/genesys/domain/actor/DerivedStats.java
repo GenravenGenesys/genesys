@@ -24,7 +24,11 @@ public class DerivedStats {
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Attribute defense;
+    private Attribute melee;
+
+    @Valid
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private Attribute ranged;
 
     @Valid
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)

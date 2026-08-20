@@ -3,14 +3,13 @@ import {
     IconButton, Slider, Paper, CircularProgress
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import type {AdversarySkill} from "../../../../../api/model";
+import type {RankedSkill} from "../../../../../api/model";
 import {useParams} from "react-router-dom";
 import {useGetSkills} from "../../../../../api/generated/skills/skills.ts";
-import SelectSkillAutocomplete from "../../../common/SelectSkillAutocomplete.tsx";
 
 interface Props {
-    npcSkills: AdversarySkill[]
-    onUpdate: (skills: AdversarySkill[]) => void;
+    npcSkills: RankedSkill[]
+    onUpdate: (skills: RankedSkill[]) => void;
     isMinion: boolean;
 }
 
@@ -28,21 +27,22 @@ export default function AdversarySkillManager(props: Props) {
         return <CircularProgress/>;
     }
 
-    if (!skills || skills.length === 0) {
+    if (!skills || skills.data.length === 0) {
         return <Typography variant="h6" color="error">Skills Not Found</Typography>;
     }
 
-    const handleAddSkill = (skill: AdversarySkill) => {
+    const handleAddSkill = (skill: RankedSkill) => {
         if (!skill || npcSkills.find(s => s.id === skill.id)) return;
 
-        const newSkill: AdversarySkill = {
+        const newSkill: RankedSkill = {
             id: skill.id,
             name: skill.name,
             characteristic: skill.characteristic,
             initiative: skill.initiative,
             type: skill.type,
             ranks: isMinion ? 0 : 1,
-            group: isMinion
+            summary: skill.summary,
+            description: skill.description,
         };
 
         onUpdate([...npcSkills, newSkill]);
@@ -63,10 +63,10 @@ export default function AdversarySkillManager(props: Props) {
 
             {/* 1. SEARCH & ADD */}
             <Autocomplete
-                options={skills}
+                options={skills.data}
                 getOptionLabel={(option) => option.name}
                 onChange={(_, val) => {
-                    if (val) handleAddSkill(val);
+                    if (val) handleAddSkill({...val, ranks: isMinion ? 0 : 1});
                 }}
                 renderInput={(params) => (
                     <TextField {...params} label="Search Skills..." size="small" sx={{mb: 2}}/>

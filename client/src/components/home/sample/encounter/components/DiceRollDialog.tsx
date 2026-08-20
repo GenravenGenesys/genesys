@@ -17,12 +17,12 @@ import {
     Divider,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import type {DiceResult} from "../SampleEncounterManager.tsx";
+import type {GenesysSymbolResults} from "../../../../../api/model";
 
 
 interface DiceResultsDialogProps {
     open: boolean;
-    diceResult: DiceResult;
+    diceResult: GenesysSymbolResults;
     onClose: () => void;
     onSpendComplete: (advantageSpent: string[], triumphSpent: string[]) => void;
 }

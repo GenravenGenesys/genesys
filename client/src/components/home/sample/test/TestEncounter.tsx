@@ -3,25 +3,26 @@ import {
     Container,
     Typography,
     Button,
-    Paper, Alert, Grid, Card, CardContent, Box, Chip, IconButton, ToggleButtonGroup, ToggleButton,
-    Drawer, List, ListItem, ListItemText, Divider, FormControl, InputLabel, Select, MenuItem,
+    Paper, Alert, Box, Chip,
+    Drawer, List, ListItem, ListItemText, Divider,
+    CircularProgress,
 } from "@mui/material";
 import {
     CampaignEncounterStatus,
     InitiativeSlotType,
+    ParticipantType,
 } from "../../../../api/model";
 import type {
-    CampaignEncounter,
     InitiativeSlot,
     GenesysSymbolResults,
     RangeBand as RangeBandEnum,
     PlayerCharacter,
     AdversaryTemplate,
     ItemTemplate,
+    Participant,
+    CombatLogEntry as ApiCombatLogEntry,
 } from "../../../../api/model";
-import CasinoIcon from "@mui/icons-material/Casino";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
+import {useStartEncounter, useEndEncounter} from "../../../../api/generated/dice/dice";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import StopIcon from "@mui/icons-material/Stop";
@@ -31,30 +32,12 @@ import TestEncounterBuilder from "./TestEncounterBuilder.tsx";
 import TestEncounterSetup from "./TestEncounterSetup.tsx";
 import {TurnActions} from "../encounter/components/TurnActions.tsx";
 import type {
-    Participant,
-    Weapon,
-    Action as SampleAction,
-    Maneuver as SampleManeuver,
+    EncounterAction,
+    EncounterManeuver,
     TurnAction as SampleTurnAction,
 } from "../encounter/SampleEncounterManager.tsx";
-import type {RangeType} from "../encounter/SampleEncounterManager.tsx";
 
-// UI-specific types
-export interface Action {
-    id: string;
-    name: string;
-    description: string;
-    category: "combat" | "skill" | "social" | "other";
-    requiresDiceRoll?: boolean;
-    quickAction?: boolean;
-}
-
-export interface Maneuver {
-    id: string;
-    name: string;
-    description: string;
-    category: "movement" | "interaction" | "combat" | "other";
-}
+// UI-specific types — Action/Maneuver migrated to EncounterAction/EncounterManeuver in SampleEncounterManager
 
 export interface TurnAction {
     id: string;
@@ -112,7 +95,7 @@ export interface StatusEffect {
     icon?: string;
 }
 
-const availableActions: Action[] = [
+const availableActions: EncounterAction[] = [
     // Quick Actions (Combat)
     {
         id: "attack-ranged",
@@ -264,7 +247,7 @@ const availableActions: Action[] = [
     },
 ];
 
-const availableManeuvers: Maneuver[] = [
+const availableManeuvers: EncounterManeuver[] = [
     // Movement
     {
         id: "move",
@@ -358,107 +341,52 @@ const availableManeuvers: Maneuver[] = [
     },
 ];
 
-const availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[] = [
-    {
-        name: "Aimed",
-        description: "Add boost die to next combat check",
-        duration: "end-of-turn",
-        icon: "🎯",
-    },
-    {
-        name: "Staggered",
-        description: "Cannot perform actions, only maneuvers",
-        duration: "end-of-turn",
-        icon: "💫",
-    },
-    {
-        name: "Stunned",
-        description: "Cannot perform actions or maneuvers",
-        duration: "end-of-turn",
-        icon: "⚡",
-    },
-    {
-        name: "Immobilized",
-        description: "Cannot perform movement maneuvers",
-        duration: "end-of-turn",
-        icon: "🔒",
-    },
-    {
-        name: "Disoriented",
-        description: "Add setback die to all checks",
-        duration: "end-of-turn",
-        icon: "😵",
-    },
-    {
-        name: "Cover",
-        description: "Increase ranged defense",
-        duration: "end-of-turn",
-        icon: "🛡️",
-    },
-    {
-        name: "Prone",
-        description: "Add setback to ranged attacks, boost to melee defense",
-        duration: "permanent",
-        icon: "⬇️",
-    },
-    {
-        name: "Engaged",
-        description: "In melee range with an enemy",
-        duration: "permanent",
-        icon: "⚔️",
-    },
-    {
-        name: "Inspired",
-        description: "Upgrade ability die once on next check",
-        duration: "end-of-turn",
-        icon: "⭐",
-    },
-    {
-        name: "Frightened",
-        description: "Upgrade difficulty of all checks",
-        duration: "end-of-encounter",
-        icon: "😱",
-    },
-];
-
-/** Convert an ItemTemplate weapon to the Participant.Weapon shape used by TurnActions. */
-function itemToWeapon(item: ItemTemplate): Weapon {
-    return {
+/** Convert a PlayerCharacter or AdversaryTemplate to the API Participant shape. */
+function buildApiParticipant(
+    entity: PlayerCharacter | AdversaryTemplate,
+    participantType: "pc" | "npc"
+): Participant {
+    const apiWeapons = (entity.equipment?.weapons ?? []).map((item: ItemTemplate) => ({
         id: item.id,
         name: item.name,
-        skill: item.weaponStats?.skill?.name ?? "Unknown",
+        skill: item.weaponStats?.skill ?? {id: "", name: "Unknown", characteristic: "Brawn" as any, type: "Combat" as any, initiative: false, summary: "", description: ""},
         damage: item.weaponStats?.damage ?? 0,
         critical: item.weaponStats?.critical ?? 4,
-        range: (item.weaponStats?.range?.toLowerCase() ?? "short") as RangeType,
-        qualities: item.qualities?.map((q) => q.name) ?? [],
-    };
-}
+        range: item.weaponStats?.range ?? "Short" as RangeBandEnum,
+        brawn: item.weaponStats?.brawn ?? false,
+        qualities: item.qualities ?? [],
+    }));
 
-/** Convert a PlayerCharacter or AdversaryTemplate to the Participant shape TurnActions needs. */
-function toParticipant(
-    entity: PlayerCharacter | AdversaryTemplate,
-    type: "pc" | "npc"
-): Participant {
+    const equippedArmor = entity.equipment?.equippedArmor
+        ? {
+            id: entity.equipment.equippedArmor.id,
+            name: entity.equipment.equippedArmor.name,
+            soak: (entity.equipment.equippedArmor.armorStats as any)?.soak?.current ?? 0,
+            defense: (entity.equipment.equippedArmor.armorStats as any)?.defense?.current ?? 0,
+            qualities: entity.equipment.equippedArmor.qualities ?? [],
+        }
+        : {id: "", name: "None", soak: 0, defense: 0};
+
     return {
         id: entity.id,
         name: entity.name,
-        type,
-        wounds: {
-            current: entity.derivedStats.woundThreshold.current,
-            threshold: entity.derivedStats.woundThreshold.total,
-        },
-        strain: {
-            current: entity.derivedStats.strainThreshold?.current ?? 0,
-            threshold: entity.derivedStats.strainThreshold?.total ?? 0,
-        },
-        soak: entity.derivedStats.soak?.current,
+        type: participantType === "pc" ? ParticipantType.pc : ParticipantType.npc,
+        characteristics: entity.characteristics,
+        derivedStats: entity.derivedStats,
         statusEffects: [],
-        weapons: entity.equipment?.weapons?.map(itemToWeapon) ?? [],
         abilities: [],
+        skills: entity.skills ?? [],
+        equipment: {
+            equippedWeapons: apiWeapons,
+            weapons: apiWeapons,
+            equippedArmor,
+            armor: [equippedArmor],
+            otherGear: [],
+        },
     };
 }
 
-const sharedActions: SampleAction[] = availableActions.map((a) => ({
+const sharedActions: EncounterAction[] = availableActions.map((a) => ({
     id: a.id,
     name: a.name,
     description: a.description,
@@ -467,7 +395,7 @@ const sharedActions: SampleAction[] = availableActions.map((a) => ({
     quickAction: a.quickAction,
 }));
 
-const sharedManeuvers: SampleManeuver[] = availableManeuvers.map((m) => ({
+const sharedManeuvers: EncounterManeuver[] = availableManeuvers.map((m) => ({
     id: m.id,
     name: m.name,
     description: m.description,
@@ -477,21 +405,23 @@ const sharedManeuvers: SampleManeuver[] = availableManeuvers.map((m) => ({
 function TestEncounter() {
     const [encounter, setEncounter] = useState<ExtendedCampaignEncounter>(encounterTemplate);
     const [logDrawerOpen, setLogDrawerOpen] = useState(false);
+    const [startError, setStartError] = useState<string | null>(null);
+    const [endError, setEndError] = useState<string | null>(null);
+
+    const startEncounterMutation = useStartEncounter();
+    const endEncounterMutation = useEndEncounter();
 
     // Helper function to get all participants (players + NPCs) from the encounter
     const getAllParticipants = (): Array<PlayerCharacter | AdversaryTemplate> => {
         return [...encounter.party.players, ...encounter.party.adversaryTemplates, ...encounter.npcIds];
     };
 
-    const handleAddPlayer = (player: PlayerCharacter) => {
-        setEncounter((prev) => ({
-            ...prev,
-            party: {
-                ...prev.party,
-                players: [...prev.party.players, player],
-            },
-        }));
-    };
+    /** All participants as API Participant objects (for startEncounter + TurnActions). */
+    const allApiParticipants: Participant[] = [
+        ...encounter.party.players.map((p) => buildApiParticipant(p, "pc")),
+        ...encounter.party.adversaryTemplates.map((n) => buildApiParticipant(n, "npc")),
+        ...encounter.npcIds.map((n) => buildApiParticipant(n, "npc")),
+    ];
 
     const handleRemovePlayer = (playerId: string) => {
         if (encounter.status === CampaignEncounterStatus.Building) {
@@ -530,13 +460,6 @@ function TestEncounter() {
         }
     };
 
-    const handleAddNPC = (npc: AdversaryTemplate) => {
-        setEncounter((prev) => ({
-            ...prev,
-            npcIds: [...prev.npcIds, npc],
-        }));
-    };
-
     const handleRemoveNPC = (npcId: string) => {
         setEncounter((prev) => ({
             ...prev,
@@ -546,33 +469,6 @@ function TestEncounter() {
             ),
             rangeBands: prev.rangeBands.filter(
                 (r) => r.participantId !== npcId && r.targetId !== npcId
-            ),
-        }));
-    };
-
-    const handleUpdatePlayer = (
-        playerId: string,
-        updates: Partial<PlayerCharacter>
-    ) => {
-        setEncounter((prev) => ({
-            ...prev,
-            party: {
-                ...prev.party,
-                players: prev.party.players.map((p) =>
-                    p.id === playerId ? {...p, ...updates} : p
-                ),
-            },
-        }));
-    };
-
-    const handleUpdateNPC = (
-        npcId: string,
-        updates: Partial<AdversaryTemplate>
-    ) => {
-        setEncounter((prev) => ({
-            ...prev,
-            npcIds: prev.npcIds.map((n) =>
-                n.id === npcId ? {...n, ...updates} : n
             ),
         }));
     };
@@ -609,13 +505,19 @@ function TestEncounter() {
         }));
     }
 
-    const handleStartEncounter = () => {
-        setEncounter((prev) => ({
-            ...prev,
-            status: CampaignEncounterStatus.Active,
-            currentRound: 1,
-            currentSlotIndex: 0,
-        }));
+    const handleStartEncounter = async () => {
+        setStartError(null);
+        try {
+            await startEncounterMutation.mutateAsync({data: allApiParticipants});
+            setEncounter((prev) => ({
+                ...prev,
+                status: CampaignEncounterStatus.Active,
+                currentRound: 1,
+                currentSlotIndex: 0,
+            }));
+        } catch (err) {
+            setStartError("Failed to start encounter on server. Check connection and try again.");
+        }
     };
 
     const handleNextSlot = () => {
@@ -808,15 +710,33 @@ function TestEncounter() {
         }));
     };
 
-    const handleEndEncounter = () => {
+    const handleEndEncounter = async () => {
+        setEndError(null);
+        try {
+            await endEncounterMutation.mutateAsync();
+        } catch {
+            setEndError("Failed to end encounter on server.");
+        }
         setEncounter((prev) => ({
             ...prev,
             status: CampaignEncounterStatus.Resolved,
         }));
     };
 
-    const handleReset = () => {
-        setEncounter(encounterTemplate);
+    /** Append a resolved CombatLogEntry from the backend to the local combat log. */
+    const handleApiCombatLogEntry = (entry: ApiCombatLogEntry) => {
+        const lines = [
+            ...(entry.narrativeLines ?? []),
+            ...(entry.finalSummary ? [entry.finalSummary] : []),
+        ];
+        lines.forEach((line, i) => {
+            handleAddLogEntry({
+                round: encounter.currentRound,
+                participantId: entry.rollSessionId ?? `api-${Date.now()}-${i}`,
+                participantName: "Combat",
+                action: line,
+            });
+        });
     };
 
     return (
@@ -844,13 +764,17 @@ function TestEncounter() {
 
             {encounter.status === CampaignEncounterStatus.Ready && (
                 <Paper sx={{p: 3, mb: 3}}>
+                    {startError && (
+                        <Alert severity="error" sx={{mb: 2}}>{startError}</Alert>
+                    )}
                     <TestEncounterSetup encounter={encounter} numberOfParticipants={getAllParticipants().length}
                                         rangeBands={encounter.rangeBands}
                                         locations={encounter.locations ?? []}
                                         onAddInitiativeSlot={handleAddInitiativeSlot}
                                         onRemoveInitiativeSlot={handleRemoveInitiativeSlot}
                                         onUpdateRange={handleUpdateRange}
-                                        onStartEncounter={handleStartEncounter}/>
+                                        onStartEncounter={handleStartEncounter}
+                                        isStarting={startEncounterMutation.isPending}/>
                 </Paper>
             )}
 
@@ -860,9 +784,9 @@ function TestEncounter() {
                 let currentParticipant: Participant | null = null;
                 if (currentSlot) {
                     if (currentSlot.type === InitiativeSlotType.Player && currentSlot.playerCharacter) {
-                        currentParticipant = toParticipant(currentSlot.playerCharacter, "pc");
+                        currentParticipant = buildApiParticipant(currentSlot.playerCharacter, "pc");
                     } else if (currentSlot.type === InitiativeSlotType.NPC && currentSlot.adversaryTemplate) {
-                        currentParticipant = toParticipant(currentSlot.adversaryTemplate, "npc");
+                        currentParticipant = buildApiParticipant(currentSlot.adversaryTemplate, "npc");
                     }
                 }
 
@@ -879,9 +803,18 @@ function TestEncounter() {
                             <Chip label={`Round ${encounter.currentRound}`} color="primary" sx={{fontSize: "1.2rem", fontWeight: "bold", px: 2}}/>
                             <Box sx={{display: "flex", gap: 1}}>
                                 <Button variant="outlined" color="secondary" startIcon={<HistoryIcon/>} onClick={() => setLogDrawerOpen(true)}>Log</Button>
-                                <Button variant="outlined" color="error" startIcon={<StopIcon/>} onClick={handleEndEncounter}>End</Button>
+                                <Button
+                                    variant="outlined"
+                                    color="error"
+                                    startIcon={endEncounterMutation.isPending ? <CircularProgress size={16} color="inherit"/> : <StopIcon/>}
+                                    onClick={handleEndEncounter}
+                                    disabled={endEncounterMutation.isPending}
+                                >
+                                    End
+                                </Button>
                             </Box>
                         </Box>
+                        {endError && <Alert severity="error" sx={{mb: 2}}>{endError}</Alert>}
 
                         {/* Current slot info */}
                         <Paper sx={{p: 2, mb: 3, backgroundColor: currentSlot?.type === InitiativeSlotType.Player ? "primary.light" : "error.light"}}>
@@ -902,8 +835,11 @@ function TestEncounter() {
                                 round={encounter.currentRound}
                                 availableActions={sharedActions}
                                 availableManeuvers={sharedManeuvers}
+                                participants={allApiParticipants}
+                                rangeBands={encounter.rangeBands}
                                 onComplete={handleCompleteTurn}
                                 onSkip={handleNextSlot}
+                                onApiCombatLogEntry={handleApiCombatLogEntry}
                             />
                         )}
 
@@ -977,9 +913,9 @@ function TestEncounter() {
                                     return (
                                         <Paper key={loc.id} sx={{p: 2, mb: 1}}>
                                             <Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 0.5}}>
-                                                <Typography variant="body1" fontWeight="bold">📍 {loc.name}</Typography>
+                                                <Typography variant="body1" fontWeight="bold"> {loc.name}</Typography>
                                                 {loc.cover !== "None" && (
-                                                    <Chip label={`🛡 ${loc.cover} Cover`} size="small" color={loc.cover === "Hard" ? "error" : "warning"}/>
+                                                    <Chip label={` ${loc.cover} Cover`} size="small" color={loc.cover === "Hard" ? "error" : "warning"}/>
                                                 )}
                                             </Box>
                                             <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, mt: 0.5}}>

@@ -1,9 +1,9 @@
 import {
     type AdversarySkill, type AdversaryTemplate,
     CharacteristicType,
-    DiceType,
+    DiceType, type Participant,
     type PlayerCharacter,
-    type PlayerSkill
+    type PlayerSkill, type RankedSkill
 } from "../api/model";
 
 
@@ -58,6 +58,25 @@ export const getAdversaryCharacteristicRanks = (adversary: AdversaryTemplate, sk
             return adversary.characteristics.presence.current;
         case CharacteristicType.Willpower:
             return adversary.characteristics.willpower.current;
+        default:
+            return 0;
+    }
+};
+
+export const getParticipantSkillCharacteristicRanks = (player: Participant, skill: RankedSkill): number => {
+    switch (skill.characteristic) {
+        case CharacteristicType.Agility:
+            return player.characteristics.agility.current;
+        case CharacteristicType.Brawn:
+            return player.characteristics.brawn.current;
+        case CharacteristicType.Cunning:
+            return player.characteristics.cunning.current;
+        case CharacteristicType.Intellect:
+            return player.characteristics.intellect.current;
+        case CharacteristicType.Presence:
+            return player.characteristics.presence.current;
+        case CharacteristicType.Willpower:
+            return player.characteristics.willpower.current;
         default:
             return 0;
     }

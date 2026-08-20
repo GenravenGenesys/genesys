@@ -1,5 +1,6 @@
 package com.github.genraven.genesys.controller.campaign;
 
+import com.github.genraven.genesys.configuration.GenesysTemplateCache;
 import com.github.genraven.genesys.controller.AbstractController;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 import com.github.genraven.genesys.domain.campaign.CampaignCompendium;
@@ -11,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -21,16 +21,20 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Campaign Controller", description = "Endpoints for managing campaigns")
 public class CampaignController extends AbstractController {
-    
+
     private final CampaignService campaignService;
+    private final GenesysTemplateCache templateCache;
 
-    @GetMapping(value = "/{id}/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<CampaignCompendium> streamCompendium(@PathVariable final String id) {
-        Mono<CampaignCompendium> initial = campaignService.getCampaignCompendium(id);
+    @GetMapping(value = "/{id}/compendium", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<CampaignCompendium> getCampaignCompendium(@PathVariable final String id) {
+        return campaignService.getCampaignCompendium(id);
+    }
 
-        Flux<CampaignCompendium> updates = campaignService.getCampaignCompendiumUpdates(id);
+    @PostMapping("/{id}/open")
+    public Mono<ResponseEntity<String>> openCampaign(@PathVariable String id) {
+        templateCache.loadCampaign(id);
 
-        return Flux.concat(initial, updates);
+        return Mono.just(ResponseEntity.ok("Campaign " + id + " is now active and cached."));
     }
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -28,25 +28,27 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import HistoryIcon from "@mui/icons-material/History";
 import SettingsIcon from "@mui/icons-material/Settings";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { TurnActions } from "./TurnActions";
 import { RangeTracker } from "./RangeTracker";
 import { StatusEffectsManager } from "./StatusEffectsManager";
 import type {
-    Action, CombatLogEntry,
+    EncounterAction, CombatLogEntry,
     EncounterLocation,
     EncounterState,
-    Maneuver,
-    Participant, RangeType,
-    StatusEffect,
+    EncounterManeuver,
+    RangeBand,
+    EncounterStatusEffect,
     TurnAction
 } from "../SampleEncounterManager.tsx";
+import type {Participant, StatusEffect} from "../../../../../api/model";
 
 interface EncounterActiveProps {
     encounter: EncounterState;
-    availableActions: Action[];
-    availableManeuvers: Maneuver[];
-    availableStatusEffects: Omit<StatusEffect, "id" | "appliedRound">[];
+    availableActions: EncounterAction[];
+    availableManeuvers: EncounterManeuver[];
+    availableStatusEffects: Omit<EncounterStatusEffect, "id" | "appliedRound">[];
     onUpdateParticipant: (
         participantId: string,
         updates: Partial<Participant>
@@ -56,12 +58,13 @@ interface EncounterActiveProps {
     onUpdateRange: (
         participantId: string,
         targetId: string,
-        range: RangeType
+        range: RangeBand
     ) => void;
     onNextSlot: () => void;
     onPreviousSlot: () => void;
     onAddLogEntry: (entry: Omit<CombatLogEntry, "id" | "timestamp">) => void;
     onEndEncounter: () => void;
+    isEnding?: boolean;
     onUpdateLocation: (id: string, updates: Partial<EncounterLocation>) => void;
 }
 
@@ -78,6 +81,7 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                                                                     onPreviousSlot,
                                                                     onAddLogEntry,
                                                                     onEndEncounter,
+                                                                    isEnding = false,
                                                                     onUpdateLocation,
                                                                 }) => {
     const [logDrawerOpen, setLogDrawerOpen] = useState(false);
@@ -99,16 +103,17 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
         );
         if (!participant) return;
 
+        const threshold = participant.derivedStats.woundThreshold;
         const newCurrent = Math.max(
             0,
-            Math.min(
-                participant.wounds.threshold,
-                participant.wounds.current + amount
-            )
+            Math.min(threshold.total, threshold.current + amount)
         );
 
         onUpdateParticipant(participantId, {
-            wounds: { ...participant.wounds, current: newCurrent },
+            derivedStats: {
+                ...participant.derivedStats,
+                woundThreshold: { ...threshold, current: newCurrent },
+            },
         });
 
         if (amount > 0) {
@@ -136,16 +141,17 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
         );
         if (!participant) return;
 
+        const threshold = participant.derivedStats.strainThreshold;
         const newCurrent = Math.max(
             0,
-            Math.min(
-                participant.strain.threshold,
-                participant.strain.current + amount
-            )
+            Math.min(threshold.total, threshold.current + amount)
         );
 
         onUpdateParticipant(participantId, {
-            strain: { ...participant.strain, current: newCurrent },
+            derivedStats: {
+                ...participant.derivedStats,
+                strainThreshold: { ...threshold, current: newCurrent },
+            },
         });
 
         if (amount > 0) {
@@ -185,7 +191,8 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
 
                 // Clear end-of-turn status effects from previous turn
                 const updatedEffects = participant.statusEffects.filter(
-                    (e) => e.duration !== "end-of-turn"
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (e: any) => e.duration !== "end-of-turn"
                 );
                 if (updatedEffects.length !== participant.statusEffects.length) {
                     onUpdateParticipant(participantId, { statusEffects: updatedEffects });
@@ -198,12 +205,16 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
         onRecordTurnAction(turnAction);
 
         if (turnAction.strainSpentForManeuver > 0 && currentParticipant) {
+            const strainThreshold = currentParticipant.derivedStats.strainThreshold;
             const newStrain = Math.min(
-                currentParticipant.strain.threshold,
-                currentParticipant.strain.current + turnAction.strainSpentForManeuver
+                strainThreshold.total,
+                strainThreshold.current + turnAction.strainSpentForManeuver
             );
             onUpdateParticipant(currentParticipant.id, {
-                strain: { ...currentParticipant.strain, current: newStrain },
+                derivedStats: {
+                    ...currentParticipant.derivedStats,
+                    strainThreshold: { ...strainThreshold, current: newStrain },
+                },
             });
         }
 
@@ -333,10 +344,11 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                         <Button
                             variant="outlined"
                             color="error"
-                            startIcon={<StopIcon />}
+                            startIcon={isEnding ? <CircularProgress size={16} color="inherit" /> : <StopIcon />}
                             onClick={onEndEncounter}
+                            disabled={isEnding}
                         >
-                            End
+                            {isEnding ? "Ending…" : "End"}
                         </Button>
                     </Box>
                 </Box>
@@ -426,8 +438,24 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                     round={encounter.currentRound}
                     availableActions={availableActions}
                     availableManeuvers={availableManeuvers}
+                    participants={encounter.participants}
+                    rangeBands={encounter.rangeBands}
                     onComplete={handleCompleteTurn}
                     onSkip={handleNextWithLog}
+                    onApiCombatLogEntry={(entry) => {
+                        // Translate the backend CombatLogEntry into the local log format
+                        const lines = [
+                            ...(entry.narrativeLines ?? []),
+                            ...(entry.finalSummary ? [entry.finalSummary] : []),
+                        ].join(" | ");
+                        onAddLogEntry({
+                            round: encounter.currentRound,
+                            participantId: currentParticipant.id,
+                            participantName: currentParticipant.name,
+                            action: "⚔️ Combat Resolved",
+                            details: lines || undefined,
+                        });
+                    }}
                 />
             )}
 
@@ -528,14 +556,14 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
 
                     <Grid container spacing={2}>
                         {encounter.participants.map((participant) => {
+                            const woundThreshold = participant.derivedStats.woundThreshold;
+                            const strainThreshold = participant.derivedStats.strainThreshold;
                             const woundPercent =
-                                (participant.wounds.current / participant.wounds.threshold) *
-                                100;
+                                (woundThreshold.current / woundThreshold.total) * 100;
                             const strainPercent =
-                                (participant.strain.current / participant.strain.threshold) *
-                                100;
+                                (strainThreshold.current / strainThreshold.total) * 100;
                             const isDefeated =
-                                participant.wounds.current >= participant.wounds.threshold;
+                                woundThreshold.current >= woundThreshold.total;
 
                             return (
                                 <Grid size={{xs: 12, lg: 6}} sx={{mt: 4}}>
@@ -614,7 +642,7 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                                                 </Box>
                                             )}
 
-                                            {/* Wounds */}
+                                             {/* Wounds */}
                                             <Box sx={{ mb: 2 }}>
                                                 <Box
                                                     sx={{
@@ -625,8 +653,8 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                                                 >
                                                     <Typography variant="body2">Wounds</Typography>
                                                     <Typography variant="body2" fontWeight="bold">
-                                                        {participant.wounds.current} /{" "}
-                                                        {participant.wounds.threshold}
+                                                        {woundThreshold.current} /{" "}
+                                                        {woundThreshold.total}
                                                     </Typography>
                                                 </Box>
                                                 <LinearProgress
@@ -665,7 +693,7 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                                                 </Box>
                                             </Box>
 
-                                            {/* Strain */}
+                                             {/* Strain */}
                                             <Box>
                                                 <Box
                                                     sx={{
@@ -676,8 +704,8 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                                                 >
                                                     <Typography variant="body2">Strain</Typography>
                                                     <Typography variant="body2" fontWeight="bold">
-                                                        {participant.strain.current} /{" "}
-                                                        {participant.strain.threshold}
+                                                        {strainThreshold.current} /{" "}
+                                                        {strainThreshold.total}
                                                     </Typography>
                                                 </Box>
                                                 <LinearProgress
@@ -711,8 +739,8 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                                                 </Box>
                                             </Box>
 
-                                            {/* Stats */}
-                                            {participant.soak !== undefined && (
+                                             {/* Stats */}
+                                            {participant.derivedStats.soak && (
                                                 <Box
                                                     sx={{
                                                         mt: 2,
@@ -722,21 +750,17 @@ export const EncounterActive: React.FC<EncounterActiveProps> = ({
                                                     }}
                                                 >
                                                     <Chip
-                                                        label={`Soak: ${participant.soak}`}
+                                                        label={`Soak: ${participant.derivedStats.soak.current}`}
                                                         size="small"
                                                     />
-                                                    {participant.defenses && (
-                                                        <>
-                                                            <Chip
-                                                                label={`Melee: ${participant.defenses.melee}`}
-                                                                size="small"
-                                                            />
-                                                            <Chip
-                                                                label={`Ranged: ${participant.defenses.ranged}`}
-                                                                size="small"
-                                                            />
-                                                        </>
-                                                    )}
+                                                    <Chip
+                                                        label={`Melee Def: ${participant.derivedStats.melee.current}`}
+                                                        size="small"
+                                                    />
+                                                    <Chip
+                                                        label={`Ranged Def: ${participant.derivedStats.ranged.current}`}
+                                                        size="small"
+                                                    />
                                                 </Box>
                                             )}
                                         </CardContent>

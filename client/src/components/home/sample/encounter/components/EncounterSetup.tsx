@@ -19,13 +19,24 @@ import {
     MenuItem,
     Select,
     TextField,
+    FormControl,
+    InputLabel,
+    CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import CasinoIcon from "@mui/icons-material/Casino";
 import {DiceRoller} from "./DiceRoller";
-import type {CoverType, EncounterLocation, EncounterState, InitiativeSlot, Participant, RangeBand, RangeType} from "../SampleEncounterManager.tsx";
+import type {
+    CoverType,
+    EncounterInitiativeSlot,
+    EncounterLocation,
+    EncounterState,
+    RangeBand
+} from "../SampleEncounterManager.tsx";
 import {SampleRangeBandMatrix} from "./RangeTracker.tsx";
+import type {Participant} from "../../../../../api/model";
+import {getParticipantSkillCharacteristicRanks} from "../../../../../util/SkillHelper.ts";
 
 interface EncounterSetupProps {
     encounter: EncounterState;
@@ -34,10 +45,15 @@ interface EncounterSetupProps {
     onAddParticipant: (participant: Participant) => void;
     onRemoveParticipant: (participantId: string) => void;
     onAddInitiativeSlot: (
-        slot: Omit<InitiativeSlot, "id" | "assignedParticipantId">
+        slot: Omit<EncounterInitiativeSlot, "id" | "assignedParticipantId">
     ) => void;
     onRemoveInitiativeSlot: (slotId: string) => void;
-    onUpdateRange: (participantId: string, targetId: string, range: RangeType) => void;
+    onUpdateRange: (participantId: string, targetId: string, range: RangeBand) => void;
+    /** Phase 1: registers all participants with the server so the backend can handle rolls. */
+    onRegisterParticipants: () => void;
+    isRegistering?: boolean;
+    participantsRegistered?: boolean;
+    /** Phase 2: all initiative rolled — transitions to active encounter. */
     onStartEncounter: () => void;
     locations: EncounterLocation[];
     onAddLocation: (loc: EncounterLocation) => void;
@@ -54,6 +70,9 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                                   onAddInitiativeSlot,
                                                                   onRemoveInitiativeSlot,
                                                                   onUpdateRange,
+                                                                  onRegisterParticipants,
+                                                                  isRegistering = false,
+                                                                  participantsRegistered = false,
                                                                   onStartEncounter,
                                                                   locations,
                                                                   onAddLocation,
@@ -65,6 +84,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
     const [rollingFor, setRollingFor] = useState<Participant | null>(null);
     const [newLocationName, setNewLocationName] = useState("");
     const [newLocationCover, setNewLocationCover] = useState<CoverType>("None");
+    /** participantId → chosen initiative skill id */
+    const [selectedSkillIds, setSelectedSkillIds] = useState<Record<string, string>>({});
 
     const handleAddPlayer = (player: Participant) => {
         const newParticipant: Participant = {
@@ -85,6 +106,13 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
     };
 
     const handleRollInitiative = (participant: Participant) => {
+        // Default skill to first initiative skill if not yet chosen
+        if (!selectedSkillIds[participant.id]) {
+            const firstSkill = participant.skills?.find((s) => s.initiative);
+            if (firstSkill) {
+                setSelectedSkillIds((prev) => ({...prev, [participant.id]: firstSkill.id}));
+            }
+        }
         setRollingFor(participant);
         setRollerOpen(true);
     };
@@ -134,6 +162,16 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
             (slot) => slot.rolledBy === participantId
         );
     };
+
+    const allRolled =
+        encounter.participants.length > 0 &&
+        encounter.participants.every((p) => participantHasSlot(p.id));
+
+    const allSkillsChosen =
+        encounter.participants.every((p) => {
+            const initSkills = p.skills?.filter((s) => s.initiative) ?? [];
+            return initSkills.length === 0 || !!selectedSkillIds[p.id];
+        });
 
     const pcParticipants = encounter.participants.filter((p) => p.type === "pc");
     const npcParticipants = encounter.participants.filter((p) => p.type === "npc");
@@ -311,82 +349,102 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                 {encounter.participants.map((participant) => {
                                     const hasSlot = participantHasSlot(participant.id);
 
+                                    const initSkills = participant.skills?.filter((s) => s.initiative) ?? [];
+                                    console.log("skills", participant)
+                                    console.log("initSkills", initSkills);
+                                    const chosenSkillId = selectedSkillIds[participant.id] ?? "";
+                                    const chosenSkill = initSkills.find((s) => s.id === chosenSkillId) ?? null;
+
                                     return (
                                         <Grid size={{xs: 12}} sx={{mt: 4}}>
                                             <Card variant="outlined">
                                                 <CardContent>
-                                                    <Box
-                                                        sx={{
+                                                    {/* Row 1: name + chips + buttons */}
+                                                    <Box sx={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        alignItems: "flex-start",
+                                                        mb: 1
+                                                    }}>
+                                                        <Box sx={{
                                                             display: "flex",
-                                                            justifyContent: "space-between",
                                                             alignItems: "center",
-                                                        }}
-                                                    >
-                                                        <Box>
-                                                            <Box
-                                                                sx={{
-                                                                    display: "flex",
-                                                                    alignItems: "center",
-                                                                    gap: 1,
-                                                                    mb: 1,
-                                                                }}
-                                                            >
-                                                                <Typography variant="h6">
-                                                                    {participant.name}
-                                                                </Typography>
-                                                                <Chip
-                                                                    label={
-                                                                        participant.type === "pc" ? "Player" : "NPC"
-                                                                    }
-                                                                    size="small"
-                                                                    color={
-                                                                        participant.type === "pc"
-                                                                            ? "primary"
-                                                                            : "default"
-                                                                    }
-                                                                />
-                                                                {hasSlot && (
-                                                                    <Chip
-                                                                        label="Initiative Rolled"
-                                                                        size="small"
-                                                                        color="success"
-                                                                        icon={<CasinoIcon/>}
-                                                                    />
-                                                                )}
-                                                            </Box>
-
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                Wounds: {participant.wounds.threshold} | Strain:{" "}
-                                                                {participant.strain.threshold}
-                                                            </Typography>
+                                                            gap: 1,
+                                                            flexWrap: "wrap"
+                                                        }}>
+                                                            <Typography variant="h6">{participant.name}</Typography>
+                                                            <Chip
+                                                                label={participant.type === "pc" ? "Player" : "NPC"}
+                                                                size="small"
+                                                                color={participant.type === "pc" ? "primary" : "default"}
+                                                            />
+                                                            {hasSlot && (
+                                                                <Chip label="Initiative Rolled" size="small"
+                                                                      color="success" icon={<CasinoIcon/>}/>
+                                                            )}
                                                         </Box>
-
-                                                        <Box sx={{display: "flex", gap: 1}}>
-                                                            <Button
+                                                        <Box sx={{display: "flex", gap: 1, flexShrink: 0}}>
+                                                             <Button
                                                                 variant="contained"
                                                                 size="small"
                                                                 startIcon={<CasinoIcon/>}
-                                                                onClick={() =>
-                                                                    handleRollInitiative(participant)
-                                                                }
-                                                                disabled={hasSlot}
+                                                                onClick={() => handleRollInitiative(participant)}
+                                                                disabled={hasSlot || (initSkills.length > 0 && !chosenSkillId) || !participantsRegistered}
                                                             >
                                                                 {hasSlot ? "Rolled" : "Roll"}
                                                             </Button>
-
-                                                            <IconButton
-                                                                size="small"
-                                                                color="error"
-                                                                onClick={() =>
-                                                                    onRemoveParticipant(participant.id)
-                                                                }
-                                                            >
+                                                            <IconButton size="small" color="error"
+                                                                        onClick={() => onRemoveParticipant(participant.id)}>
                                                                 <DeleteIcon/>
                                                             </IconButton>
                                                         </Box>
+                                                    </Box>
+
+                                                    {/* Row 2: stats */}
+                                                    <Typography variant="body2" color="text.secondary" sx={{mb: 1}}>
+                                                        Wounds: {participant.derivedStats.woundThreshold.total} |
+                                                        Strain: {participant.derivedStats.strainThreshold.total}
+                                                    </Typography>
+
+                                                    {/* Row 3: initiative skill selector */}
+                                                    <Box sx={{
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        gap: 2,
+                                                        flexWrap: "wrap",
+                                                        mt: 1
+                                                    }}>
+                                                        <FormControl size="small" sx={{minWidth: 240}}
+                                                                     disabled={hasSlot}>
+                                                            <InputLabel>Initiative Skill</InputLabel>
+                                                            <Select
+                                                                value={chosenSkillId}
+                                                                label="Initiative Skill"
+                                                                onChange={(e) =>
+                                                                    setSelectedSkillIds((prev) => ({
+                                                                        ...prev,
+                                                                        [participant.id]: e.target.value,
+                                                                    }))
+                                                                }
+                                                            >
+                                                                {initSkills.map((skill) => (
+                                                                    <MenuItem key={skill.id} value={skill.id}>
+                                                                        {skill.name} — Rank {skill.ranks} /
+                                                                        Char {skill.characteristic}
+                                                                    </MenuItem>
+                                                                ))}
+                                                            </Select>
+                                                        </FormControl>
+                                                        {chosenSkill && (
+                                                            <Typography variant="body2" color="text.secondary">
+                                                                Pool:&nbsp;
+                                                                <strong
+                                                                    style={{color: "#b8860b"}}>{Math.min(chosenSkill.ranks, getParticipantSkillCharacteristicRanks(participant, chosenSkill))}P</strong>
+                                                                {" + "}
+                                                                <strong
+                                                                    style={{color: "#2e7d32"}}>{Math.max(chosenSkill.ranks, getParticipantSkillCharacteristicRanks(participant, chosenSkill)) - Math.min(chosenSkill.ranks, getParticipantSkillCharacteristicRanks(participant, chosenSkill))}A</strong>
+                                                            </Typography>
+                                                        )}
                                                     </Box>
                                                 </CardContent>
                                             </Card>
@@ -427,8 +485,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                     color="text.secondary"
                                                     gutterBottom
                                                 >
-                                                    Wounds: {player.wounds.threshold} | Strain:{" "}
-                                                    {player.strain.threshold}
+                                                    Wounds: {player.derivedStats.woundThreshold.total} | Strain:{" "}
+                                                    {player.derivedStats.strainThreshold.total}
                                                 </Typography>
                                                 <Button
                                                     fullWidth
@@ -456,7 +514,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                                     color="text.secondary"
                                                     gutterBottom
                                                 >
-                                                    Wounds: {npc.wounds.threshold} | Soak: {npc.soak || 0}
+                                                    Wounds: {npc.derivedStats.woundThreshold.total} |
+                                                    Soak: {npc.derivedStats.soak.base || 0}
                                                 </Typography>
                                                 <Button
                                                     fullWidth
@@ -519,9 +578,14 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                     <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
                         {locations.map((loc) => (
                             <Box key={loc.id} sx={{p: 2, border: 1, borderColor: "grey.300", borderRadius: 1}}>
-                                <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1}}>
+                                <Box sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    mb: 1
+                                }}>
                                     <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
-                                        <Typography variant="body1" fontWeight="bold">📍 {loc.name}</Typography>
+                                        <Typography variant="body1" fontWeight="bold"> {loc.name}</Typography>
                                         <Select
                                             size="small"
                                             value={loc.cover}
@@ -529,8 +593,8 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                                             sx={{minWidth: 120}}
                                         >
                                             <MenuItem value="None">No Cover</MenuItem>
-                                            <MenuItem value="Soft">🛡 Soft Cover</MenuItem>
-                                            <MenuItem value="Hard">🛡 Hard Cover</MenuItem>
+                                            <MenuItem value="Soft"> Soft Cover</MenuItem>
+                                            <MenuItem value="Hard"> Hard Cover</MenuItem>
                                         </Select>
                                     </Box>
                                     <IconButton size="small" color="error" onClick={() => onRemoveLocation(loc.id)}>
@@ -586,24 +650,57 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
             </Paper>
 
             <Paper sx={{p: 3, mt: 3, textAlign: "center"}}>
-                {!canStart && (
-                    <Alert severity="warning" sx={{mb: 2}}>
-                        {encounter.participants.length < 2
-                            ? "Add at least 2 participants to start"
-                            : !allRangeBandsSet
-                                ? "Set all range bands before starting"
-                                : "All participants must roll initiative before starting"}
-                    </Alert>
+                {/* ── Phase 1: Lock & Register participants ── */}
+                {!participantsRegistered && (
+                    <>
+                        {encounter.participants.length < 2 && (
+                            <Alert severity="warning" sx={{mb: 2}}>
+                                Add at least 2 participants before registering.
+                            </Alert>
+                        )}
+                        {!allRangeBandsSet && encounter.participants.length >= 2 && (
+                            <Alert severity="warning" sx={{mb: 2}}>
+                                Set all range bands before registering.
+                            </Alert>
+                        )}
+                        <Alert severity="info" sx={{mb: 2}}>
+                            <strong>Step 1:</strong> Lock in participants and register them with the server.
+                            Initiative rolls use the server, so this must happen first.
+                        </Alert>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            onClick={onRegisterParticipants}
+                            disabled={encounter.participants.length < 2 || !allRangeBandsSet || isRegistering}
+                            startIcon={isRegistering ? <CircularProgress size={18} color="inherit" /> : undefined}
+                        >
+                            {isRegistering ? "Registering…" : "Lock Participants & Register with Server"}
+                        </Button>
+                    </>
                 )}
 
-                <Button
-                    variant="contained"
-                    size="large"
-                    onClick={onStartEncounter}
-                    disabled={!canStart}
-                >
-                    Start Encounter
-                </Button>
+                {/* ── Phase 2: Roll initiative, then begin ── */}
+                {participantsRegistered && (
+                    <>
+                        <Alert severity="success" sx={{mb: 2}}>
+                            ✓ Participants registered. Roll initiative for each below, then begin.
+                        </Alert>
+                        {!allRolled && (
+                            <Alert severity="warning" sx={{mb: 2}}>
+                                All participants must roll initiative before starting.
+                            </Alert>
+                        )}
+                        <Button
+                            variant="contained"
+                            color="success"
+                            size="large"
+                            onClick={onStartEncounter}
+                            disabled={!canStart}
+                        >
+                            Begin Encounter
+                        </Button>
+                    </>
+                )}
             </Paper>
 
             {rollerOpen && rollingFor && (
@@ -611,6 +708,14 @@ export const EncounterSetup: React.FC<EncounterSetupProps> = ({
                     open={rollerOpen}
                     participantName={rollingFor.name}
                     rollType="initiative"
+                    initiativeSkills={(rollingFor.skills?.filter((s) => s.initiative) ?? []).map((s) => ({
+                        id: s.id,
+                        name: s.name,
+                        rank: s.ranks,
+                        characteristic: getParticipantSkillCharacteristicRanks(rollingFor, s),
+                    }))}
+                    initialSkillId={selectedSkillIds[rollingFor.id] ?? rollingFor.skills?.find((s) => s.initiative)?.id}
+                    participantId={rollingFor.id}
                     onClose={() => setRollerOpen(false)}
                     onRollComplete={handleInitiativeRolled}
                 />

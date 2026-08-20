@@ -21,15 +21,15 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import type {Participant, StatusEffect} from "../SampleEncounterManager.tsx";
+import type {EncounterStatusEffect, ParticipantUI} from "../SampleEncounterManager.tsx";
 
 
 interface StatusEffectsManagerProps {
     open: boolean;
-    participant: Participant;
-    availableEffects: Omit<StatusEffect, "id" | "appliedRound">[];
+    participant: ParticipantUI;
+    availableEffects: Omit<EncounterStatusEffect, "id" | "appliedRound">[];
     onClose: () => void;
-    onAddEffect: (effect: Omit<StatusEffect, "id" | "appliedRound">) => void;
+    onAddEffect: (effect: Omit<EncounterStatusEffect, "id" | "appliedRound">) => void;
     onRemoveEffect: (effectId: string) => void;
 }
 
@@ -77,7 +77,7 @@ export const StatusEffectsManager: React.FC<StatusEffectsManagerProps> = ({
                 (e) => getCategoryForEffect(e.name) === selectedCategory
             );
 
-    const getDurationColor = (duration: StatusEffect["duration"]) => {
+    const getDurationColor = (duration: EncounterStatusEffect["duration"]) => {
         switch (duration) {
             case "end-of-turn":
                 return "info";
@@ -92,7 +92,7 @@ export const StatusEffectsManager: React.FC<StatusEffectsManagerProps> = ({
         }
     };
 
-    const getDurationLabel = (duration: StatusEffect["duration"]) => {
+    const getDurationLabel = (duration: EncounterStatusEffect["duration"]) => {
         switch (duration) {
             case "end-of-turn":
                 return "End of Turn";

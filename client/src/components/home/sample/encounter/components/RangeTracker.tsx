@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {
     Alert,
     Box,
@@ -18,28 +18,29 @@ import {
     TableRow,
     Typography,
 } from "@mui/material";
-import type {EncounterLocation, Participant, RangeBand, RangeType} from "../SampleEncounterManager.tsx";
+import type {EncounterLocation, EncounterRangeBand, RangeBand} from "../SampleEncounterManager.tsx";
+import type {Participant} from "../../../../../api/model";
 
 interface RangeTrackerProps {
     open: boolean;
     participants: Participant[];
-    rangeBands: RangeBand[];
+    rangeBands: EncounterRangeBand[];
     locations: EncounterLocation[];
     onClose: () => void;
     onUpdateRange: (
         participantId: string,
         targetId: string,
-        range: RangeType
+        range: RangeBand
     ) => void;
     onUpdateLocation: (id: string, updates: Partial<EncounterLocation>) => void;
 }
 
-export const SAMPLE_RANGE_OPTIONS: {value: RangeType; label: string; color: string}[] = [
-    {value: "engaged", label: "Engaged", color: "#d32f2f"},
-    {value: "short", label: "Short", color: "#f57c00"},
-    {value: "medium", label: "Medium", color: "#fbc02d"},
-    {value: "long", label: "Long", color: "#388e3c"},
-    {value: "extreme", label: "Extreme", color: "#1976d2"},
+export const SAMPLE_RANGE_OPTIONS: {value: RangeBand; label: string; color: string}[] = [
+    {value: "Engaged", label: "Engaged", color: "#d32f2f"},
+    {value: "Short", label: "Short", color: "#f57c00"},
+    {value: "Medium", label: "Medium", color: "#fbc02d"},
+    {value: "Long", label: "Long", color: "#388e3c"},
+    {value: "Extreme", label: "Extreme", color: "#1976d2"},
 ];
 
 const COVER_CHIP_COLOR: Record<string, "default" | "warning" | "error"> = {
@@ -52,15 +53,15 @@ interface RangeMatrixProps {
     pcParticipants: Participant[];
     npcParticipants: Participant[];
     locations: EncounterLocation[];
-    rangeBands: RangeBand[];
-    onUpdateRange: (fromId: string, toId: string, range: RangeType) => void;
+    rangeBands: EncounterRangeBand[];
+    onUpdateRange: (fromId: string, toId: string, range: RangeBand) => void;
 }
 
 function RangeSelect({fromId, toId, rangeBands, onUpdateRange}: {
     fromId: string;
     toId: string;
-    rangeBands: RangeBand[];
-    onUpdateRange: (from: string, to: string, r: RangeType) => void;
+    rangeBands: EncounterRangeBand[];
+    onUpdateRange: (from: string, to: string, r: RangeBand) => void;
 }) {
     const found = rangeBands.find(
         (r) =>
@@ -74,7 +75,7 @@ function RangeSelect({fromId, toId, rangeBands, onUpdateRange}: {
             value={range}
             size="small"
             displayEmpty
-            onChange={(e) => onUpdateRange(fromId, toId, e.target.value as RangeType)}
+            onChange={(e) => onUpdateRange(fromId, toId, e.target.value as RangeBand)}
             sx={{
                 minWidth: 130,
                 "& .MuiSelect-select": {py: 0.5, color: color ?? "text.secondary", fontWeight: range ? "bold" : "normal"},
@@ -138,12 +139,12 @@ export const SampleRangeBandMatrix: React.FC<RangeMatrixProps> = ({
                                     <TableCell key={loc.id} sx={{fontWeight: "bold", minWidth: 160, backgroundColor: "grey.100"}}>
                                         <Box sx={{display: "flex", flexDirection: "column", gap: 0.5}}>
                                             <Box sx={{display: "flex", alignItems: "center", gap: 0.5}}>
-                                                <Typography variant="body2">📍</Typography>
+                                                <Typography variant="body2"></Typography>
                                                 <Typography variant="body2" fontWeight="bold">{loc.name}</Typography>
                                             </Box>
                                             {loc.cover !== "None" && (
                                                 <Chip
-                                                    label={`🛡 ${loc.cover} Cover`}
+                                                    label={` ${loc.cover} Cover`}
                                                     size="small"
                                                     color={COVER_CHIP_COLOR[loc.cover]}
                                                     sx={{alignSelf: "flex-start", height: 18, fontSize: "0.65rem"}}
@@ -259,10 +260,10 @@ export const RangeTracker: React.FC<RangeTrackerProps> = ({
                         {locations.map((loc) => (
                             <Box key={loc.id} sx={{mb: 2, p: 2, border: 1, borderColor: "grey.300", borderRadius: 1}}>
                                 <Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 1}}>
-                                    <Typography variant="body1" fontWeight="bold">📍 {loc.name}</Typography>
+                                    <Typography variant="body1" fontWeight="bold"> {loc.name}</Typography>
                                     {loc.cover !== "None" && (
                                         <Chip
-                                            label={`🛡 ${loc.cover} Cover`}
+                                            label={` ${loc.cover} Cover`}
                                             size="small"
                                             color={COVER_CHIP_COLOR[loc.cover]}
                                         />
@@ -303,8 +304,8 @@ export const RangeTracker: React.FC<RangeTrackerProps> = ({
                         <br/>• <strong>Medium:</strong> Average difficulty ranged attacks
                         <br/>• <strong>Long:</strong> Hard ranged attacks; requires long-range weapons
                         <br/>• <strong>Extreme:</strong> Daunting difficulty; extreme-range weapons only
-                        <br/>• <strong>🛡 Soft Cover:</strong> Adds 1 Setback die to attacks targeting occupants
-                        <br/>• <strong>🛡 Hard Cover:</strong> Upgrades difficulty once for attacks targeting occupants
+                        <br/>• <strong> Soft Cover:</strong> Adds 1 Setback die to attacks targeting occupants
+                        <br/>• <strong> Hard Cover:</strong> Upgrades difficulty once for attacks targeting occupants
                     </Typography>
                 </Alert>
             </DialogContent>
