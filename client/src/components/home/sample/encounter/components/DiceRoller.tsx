@@ -12,35 +12,27 @@ import {
     Paper,
     Chip,
     Alert,
+    CircularProgress,
 } from "@mui/material";
 import CasinoIcon from "@mui/icons-material/Casino";
 import {convertGenesysText} from "../../../../../util/GenesysTextHelper.ts";
 import DOMPurify from "dompurify";
 import type {GenesysSymbolResults} from "../../../../../api/model";
-import type {EncounterSkill} from "../SampleEncounterManager.tsx";
+import {
+    useExecuteMeleeAttack,
+    useExecuteRangedAttack,
+    useRollInitiative,
+} from "../../../../../api/generated/dice/dice";
 
-// ── Dice simulation helpers ────────────────────────────────────────────────
-
-function rollAbilityDie(): { success: number; advantage: number } {
-    const f = Math.floor(Math.random() * 8);
-    // faces: 1 blank | 3× 1S | 1× 2S | 2× 1A | 1× 1S+1A
-    if (f === 0) return { success: 0, advantage: 0 };
-    if (f <= 3)  return { success: 1, advantage: 0 };
-    if (f === 4) return { success: 2, advantage: 0 };
-    if (f <= 6)  return { success: 0, advantage: 1 };
-    return           { success: 1, advantage: 1 };
+/** Skill data needed to build an initiative dice pool. */
+export interface EncounterSkill {
+    id: string;
+    name: string;
+    rank: number;
+    characteristic: number;
 }
 
-function rollProficiencyDie(): { success: number; advantage: number } {
-    const f = Math.floor(Math.random() * 12);
-    // faces: 1 blank | 3× 1S | 2× 2S | 3× 1A | 1 triumph(=1S) | 2× 1S+1A
-    if (f === 0)  return { success: 0, advantage: 0 };
-    if (f <= 3)   return { success: 1, advantage: 0 };
-    if (f <= 5)   return { success: 2, advantage: 0 };
-    if (f <= 8)   return { success: 0, advantage: 1 };
-    if (f === 9)  return { success: 1, advantage: 0 }; // triumph counts as success for initiative
-    return              { success: 1, advantage: 1 };
-}
+// ── Dice pool helper ───────────────────────────────────────────────────────
 
 export function computeDicePool(skill: EncounterSkill): { ability: number; proficiency: number } {
     const proficiency = Math.min(skill.characteristic, skill.rank);
@@ -48,21 +40,10 @@ export function computeDicePool(skill: EncounterSkill): { ability: number; profi
     return { ability, proficiency };
 }
 
-export function simulateInitiativeRoll(skill: EncounterSkill): { success: number; advantage: number } {
-    const { ability, proficiency } = computeDicePool(skill);
-    let success = 0;
-    let advantage = 0;
-    for (let i = 0; i < ability; i++) {
-        const d = rollAbilityDie();
-        success   += d.success;
-        advantage += d.advantage;
-    }
-    for (let i = 0; i < proficiency; i++) {
-        const d = rollProficiencyDie();
-        success   += d.success;
-        advantage += d.advantage;
-    }
-    return { success, advantage };
+/** Returns true when the weapon skill name suggests a melee attack. */
+function isMeleeSkill(skillName: string): boolean {
+    const lower = skillName.toLowerCase();
+    return lower.includes("melee") || lower.includes("brawl");
 }
 
 // ── Component ──────────────────────────────────────────────────────────────
@@ -77,27 +58,60 @@ interface DiceRollerProps {
     onRollComplete: (
         result: GenesysSymbolResults | { success: number; advantage: number }
     ) => void;
+    /** When provided for initiative rolls, the backend /dice/initiative endpoint is used. */
+    participantId?: string;
+    /** When provided for action rolls, the backend /combat/melee or /combat/ranged endpoint is used. */
+    attackerId?: string;
+    weaponInstanceId?: string;
+    targetEnemyInstanceId?: string;
+    weaponSkillName?: string;
 }
 
 export const DiceRoller: React.FC<DiceRollerProps> = ({
-                                                          open,
-                                                          participantName,
-                                                          rollType,
-                                                          initiativeSkills,
-                                                          initialSkillId,
-                                                          onClose,
-                                                          onRollComplete,
-                                                      }) => {
+    open,
+    participantName,
+    rollType,
+    initiativeSkills,
+    initialSkillId,
+    onClose,
+    onRollComplete,
+    participantId,
+    attackerId,
+    weaponInstanceId,
+    targetEnemyInstanceId,
+    weaponSkillName,
+}) => {
     const [result, setResult] = useState<GenesysSymbolResults>({
         success: 0, advantage: 0, triumph: 0, failure: 0, threat: 0, despair: 0,
     });
     const [rolled, setRolled] = useState(false);
-    const [selectedSkillId, setSelectedSkillId] = useState<string>(
+    const [backendError, setBackendError] = useState<string | null>(null);
+    const [selectedSkillId] = useState<string>(
         initialSkillId ?? initiativeSkills?.[0]?.id ?? ""
     );
 
+    const meleeAttack = useExecuteMeleeAttack();
+    const rangedAttack = useExecuteRangedAttack();
+    const initiativeRoll = useRollInitiative();
+
     const selectedSkill = initiativeSkills?.find((s) => s.id === selectedSkillId) ?? null;
     const dicePool = selectedSkill ? computeDicePool(selectedSkill) : null;
+
+    /** True when we have all the data needed to call the backend combat endpoint. */
+    const canUseBackend =
+        rollType === "action" &&
+        !!attackerId &&
+        !!weaponInstanceId &&
+        !!targetEnemyInstanceId &&
+        !!weaponSkillName;
+
+    /** True when we have all the data needed to call the backend initiative endpoint. */
+    const canUseBackendInitiative =
+        rollType === "initiative" &&
+        !!participantId &&
+        !!selectedSkill;
+
+    const isBackendRolling = meleeAttack.isPending || rangedAttack.isPending || initiativeRoll.isPending;
 
     const diceLabel = dicePool
         ? [
@@ -108,27 +122,67 @@ export const DiceRoller: React.FC<DiceRollerProps> = ({
         ? "[ability] [proficiency]"
         : "[ability] [proficiency] [difficulty] [challenge]";
 
-    const handleAutoRoll = () => {
-        if (rollType === "initiative" && selectedSkill) {
-            const r = simulateInitiativeRoll(selectedSkill);
-            setResult({ success: r.success, advantage: r.advantage, triumph: 0, failure: 0, threat: 0, despair: 0 });
-        } else if (rollType === "initiative") {
-            setResult({
-                success: Math.floor(Math.random() * 3) + 1,
-                advantage: Math.floor(Math.random() * 4),
-                triumph: 0, failure: 0, threat: 0, despair: 0,
-            });
-        } else {
-            setResult({
-                success:   Math.floor(Math.random() * 4),
-                advantage: Math.floor(Math.random() * 5),
-                triumph:   Math.random() > 0.9  ? 1 : 0,
-                failure:   Math.floor(Math.random() * 2),
-                threat:    Math.floor(Math.random() * 3),
-                despair:   Math.random() > 0.95 ? 1 : 0,
-            });
+    const handleAutoRoll = async () => {
+        setBackendError(null);
+
+        if (canUseBackendInitiative) {
+            // ── Backend roll via /dice/initiative ──
+            try {
+                const resp = await initiativeRoll.mutateAsync({
+                    data: {
+                        participantId: participantId!,
+                        initiativeSkillName: selectedSkill!.name,
+                    },
+                });
+                const r = resp.data.results;
+                if (r) {
+                    setResult({
+                        success:   r.success   ?? 0,
+                        advantage: r.advantage ?? 0,
+                        triumph:   r.triumph   ?? 0,
+                        failure:   r.failure   ?? 0,
+                        threat:    r.threat    ?? 0,
+                        despair:   r.despair   ?? 0,
+                    });
+                    setRolled(true);
+                }
+            } catch {
+                setBackendError("Initiative roll failed — check your connection and try again.");
+            }
+            return;
         }
-        setRolled(true);
+
+        if (canUseBackend) {
+            // ── Backend roll via /combat/melee or /combat/ranged ──
+            const req = {
+                attackerId: attackerId!,
+                weaponInstanceId: weaponInstanceId!,
+                targetEnemyInstanceId: targetEnemyInstanceId!,
+            };
+            try {
+                const resp = isMeleeSkill(weaponSkillName!)
+                    ? await meleeAttack.mutateAsync({ data: req })
+                    : await rangedAttack.mutateAsync({ data: req });
+
+                const r = resp.data.results;
+                if (r) {
+                    setResult({
+                        success:   r.success   ?? 0,
+                        advantage: r.advantage ?? 0,
+                        triumph:   r.triumph   ?? 0,
+                        failure:   r.failure   ?? 0,
+                        threat:    r.threat    ?? 0,
+                        despair:   r.despair   ?? 0,
+                    });
+                    setRolled(true);
+                }
+            } catch {
+                setBackendError("Backend roll failed — check your connection and try again.");
+            }
+            return;
+        }
+
+        // No local simulation — only manual entry is available when no backend context is provided.
     };
 
     const handleManualUpdate = (field: keyof GenesysSymbolResults, value: number) => {
@@ -144,6 +198,7 @@ export const DiceRoller: React.FC<DiceRollerProps> = ({
         }
         setResult({ success: 0, advantage: 0, triumph: 0, failure: 0, threat: 0, despair: 0 });
         setRolled(false);
+        setBackendError(null);
     };
 
     const netSuccess  = result.success + result.triumph - result.failure - result.despair;
@@ -203,30 +258,56 @@ export const DiceRoller: React.FC<DiceRollerProps> = ({
                     {rollType === "initiative" && !selectedSkill && (
                         <Alert severity="info" sx={{ mb: 2 }}>Roll Cool or Vigilance for initiative</Alert>
                     )}
-                    {rollType === "action" && (
+                    {canUseBackendInitiative && (
+                        <Alert severity="info" sx={{ mb: 2 }}>
+                            Dice will be rolled by the server via <strong>/dice/initiative</strong>
+                        </Alert>
+                    )}
+                    {rollType === "action" && canUseBackend && (
+                        <Alert severity="info" sx={{ mb: 2 }}>
+                            Dice will be rolled by the server via&nbsp;
+                            <strong>/combat/{isMeleeSkill(weaponSkillName!) ? "melee" : "ranged"}</strong>
+                        </Alert>
+                    )}
+                    {rollType === "action" && !canUseBackend && (
                         <Alert severity="info" sx={{ mb: 2 }}>Roll for your action check</Alert>
                     )}
 
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        size="large"
-                        startIcon={<CasinoIcon />}
-                        onClick={handleAutoRoll}
-                        disabled={rollType === "initiative" && !!initiativeSkills?.length && !selectedSkillId}                        sx={{ mb: 2 }}
-                    >
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                            Roll&nbsp;
-                            <span
-                                dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(
-                                        convertGenesysText(diceLabel),
-                                        { ALLOWED_TAGS: ["i", "b"], ALLOWED_ATTR: ["class"] }
-                                    ),
-                                }}
-                            />
-                        </Box>
-                    </Button>
+                    {backendError && (
+                        <Alert severity="error" sx={{ mb: 2 }}>{backendError}</Alert>
+                    )}
+
+                    {(canUseBackend || canUseBackendInitiative) && (
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            size="large"
+                            startIcon={
+                                isBackendRolling
+                                    ? <CircularProgress size={20} color="inherit" />
+                                    : <CasinoIcon />
+                            }
+                            onClick={handleAutoRoll}
+                            disabled={isBackendRolling}
+                            sx={{ mb: 2 }}
+                        >
+                            {isBackendRolling ? (
+                                "Rolling…"
+                            ) : (
+                                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                                    Roll&nbsp;
+                                    <span
+                                        dangerouslySetInnerHTML={{
+                                            __html: DOMPurify.sanitize(
+                                                convertGenesysText(diceLabel),
+                                                { ALLOWED_TAGS: ["i", "b"], ALLOWED_ATTR: ["class"] }
+                                            ),
+                                        }}
+                                    />
+                                </Box>
+                            )}
+                        </Button>
+                    )}
 
                     <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 2 }}>
                         Or enter results manually:
