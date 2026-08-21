@@ -1,6 +1,7 @@
-package com.github.genraven.genesys.domain;
+package com.github.genraven.genesys.domain.injury;
 
 import com.github.genraven.genesys.domain.enums.Difficulty;
+import com.github.genraven.genesys.domain.modifier.StatModifiers;
 import com.github.genraven.genesys.validator.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -35,4 +36,8 @@ public class CriticalInjury {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int max;
+
+    @Builder.Default
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    private StatModifiers statModifiers = null;
 }

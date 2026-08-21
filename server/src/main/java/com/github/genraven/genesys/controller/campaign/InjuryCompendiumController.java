@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.controller.campaign;
 
-import com.github.genraven.genesys.domain.CriticalInjury;
+import com.github.genraven.genesys.domain.injury.CriticalInjury;
 import com.github.genraven.genesys.service.InjuryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
