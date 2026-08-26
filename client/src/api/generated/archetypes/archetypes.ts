@@ -190,7 +190,7 @@ export const getCreateArchetypeUrl = (campaignId: string,) => {
 export const createArchetype = async (campaignId: string,
     archetype: Archetype, options?: Parameters<typeof customFetch>[1]): Promise<createArchetypeResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -210,8 +210,8 @@ return customFetch<createArchetypeResponse>(getCreateArchetypeUrl(campaignId),
 
 
 export const getCreateArchetypeMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{campaignId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{campaignId: string;data: Archetype}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,CreateArchetypeMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,CreateArchetypeMutationVariables, TContext> => {
 
 const mutationKey = ['createArchetype'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -223,7 +223,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createArchetype>>, {campaignId: string;data: Archetype}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createArchetype>>, CreateArchetypeMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createArchetype(campaignId,data,requestOptions)
@@ -239,16 +239,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateArchetypeMutationResult = NonNullable<Awaited<ReturnType<typeof createArchetype>>>
     export type CreateArchetypeMutationBody = Archetype
     export type CreateArchetypeMutationError = unknown
+    export type CreateArchetypeMutationVariables = {campaignId: string;data: Archetype}
 
     /**
  * @summary Create a new archetype
  */
 export const useCreateArchetype = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,{campaignId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,CreateArchetypeMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createArchetype>>,
         TError,
-        {campaignId: string;data: Archetype},
+        CreateArchetypeMutationVariables,
         TContext
       > => {
       return useMutation(getCreateArchetypeMutationOptions(options), queryClient);
@@ -282,7 +283,7 @@ export const updateArchetype = async (campaignId: string,
     archetypeId: string,
     archetype: Archetype, options?: Parameters<typeof customFetch>[1]): Promise<updateArchetypeResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -302,8 +303,8 @@ return customFetch<updateArchetypeResponse>(getUpdateArchetypeUrl(campaignId,arc
 
 
 export const getUpdateArchetypeMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{campaignId: string;archetypeId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{campaignId: string;archetypeId: string;data: Archetype}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,UpdateArchetypeMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,UpdateArchetypeMutationVariables, TContext> => {
 
 const mutationKey = ['updateArchetype'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -315,7 +316,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateArchetype>>, {campaignId: string;archetypeId: string;data: Archetype}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateArchetype>>, UpdateArchetypeMutationVariables> = (props) => {
           const {campaignId,archetypeId,data} = props ?? {};
 
           return  updateArchetype(campaignId,archetypeId,data,requestOptions)
@@ -331,16 +332,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateArchetypeMutationResult = NonNullable<Awaited<ReturnType<typeof updateArchetype>>>
     export type UpdateArchetypeMutationBody = Archetype
     export type UpdateArchetypeMutationError = unknown
+    export type UpdateArchetypeMutationVariables = {campaignId: string;archetypeId: string;data: Archetype}
 
     /**
  * @summary Update a archetype
  */
 export const useUpdateArchetype = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,{campaignId: string;archetypeId: string;data: Archetype}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,UpdateArchetypeMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateArchetype>>,
         TError,
-        {campaignId: string;archetypeId: string;data: Archetype},
+        UpdateArchetypeMutationVariables,
         TContext
       > => {
       return useMutation(getUpdateArchetypeMutationOptions(options), queryClient);

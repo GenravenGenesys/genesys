@@ -1,12 +1,11 @@
 import {
     type DiceModifier,
-    type QualityStats,
     type ResultsModifier,
     type Skill,
     CheckContext,
     Target,
     DiceType,
-    SkillType,
+    SkillType, type CriticalInjuryStats,
 } from "../../../../../api/model";
 import {
     Accordion,
@@ -24,16 +23,16 @@ import GridContainer from "../../../../common/grid/GridContainer.tsx";
 import SelectSkillAutocomplete from "../../../common/SelectSkillAutocomplete.tsx";
 
 interface Props {
-    stats: QualityStats;
-    updateStats: (updatedStats: QualityStats) => void;
+    stats: CriticalInjuryStats;
+    updateStats: (updatedStats: CriticalInjuryStats) => void;
 }
 
 export default function CriticalInjuryStatsTab(props: Props) {
     const {stats, updateStats} = props;
 
-    const handleChange = <K extends keyof QualityStats>(field: K, value: QualityStats[K]) => {
-        updateStats({...stats, [field]: value});
-    };
+    // const handleChange = <K extends keyof CriticalInjuryStats>(field: K, value: CriticalInjuryStats[K]) => {
+    //     updateStats({...stats, [field]: value});
+    // };
 
     const defaultDiceModifier: DiceModifier = {
         diceType: DiceType.Boost,
@@ -51,8 +50,6 @@ export default function CriticalInjuryStatsTab(props: Props) {
     const dm: DiceModifier = stats.diceModifier ?? defaultDiceModifier;
     const rm: ResultsModifier = stats.resultsModifier ?? defaultResultsModifier;
 
-    const hadDefenseModifier = stats.rangedDefense > 0 || stats.meleeDefense > 0;
-    const hasCriticalInjuryData = stats.criticalInjury > 0;
     const hasDiceData = dm.amount > 0;
     const hasResultsData = Object.values(rm.results ?? {}).some((v) => v !== 0);
 
@@ -66,46 +63,6 @@ export default function CriticalInjuryStatsTab(props: Props) {
 
     return (
         <Stack spacing={3}>
-            <Accordion defaultExpanded={hadDefenseModifier} disableGutters sx={{bgcolor: "background.paper"}}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
-                        DEFENSE MODIFIER
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <GridContainer spacing={2}>
-                        <Grid size={6}>
-                            <GenesysNumberField value={stats.meleeDefense} fullwidth
-                                                label="Increase Melee Defense by amount"
-                                                onChange={(e) => handleChange('meleeDefense', e)}
-                            />
-                        </Grid>
-                        <Grid size={6}>
-                            <GenesysNumberField value={stats.rangedDefense} fullwidth
-                                                label="Increase Ranged Defense by amount"
-                                                onChange={(e) => handleChange('rangedDefense', e)}
-                            />
-                        </Grid>
-                    </GridContainer>
-                </AccordionDetails>
-            </Accordion>
-
-            <Accordion defaultExpanded={hasCriticalInjuryData} disableGutters sx={{bgcolor: "background.paper"}}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>
-                        CRITICAL INJURY MODIFIER
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <GridContainer spacing={2}>
-                        <GenesysNumberField value={stats.criticalInjury} fullwidth
-                                            label="Increase Critical Injury roll by amount"
-                                            onChange={(e) => handleChange('criticalInjury', e)}
-                        />
-                    </GridContainer>
-                </AccordionDetails>
-            </Accordion>
-
             <Accordion defaultExpanded={hasDiceData} disableGutters sx={{bgcolor: "background.paper"}}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
                     <Typography variant="caption" sx={{fontWeight: "bold", color: "primary.main"}}>

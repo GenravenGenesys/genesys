@@ -76,7 +76,7 @@ export const getCreateCampaignSessionUrl = () => {
  */
 export const createCampaignSession = async (campaignSession: CampaignSession, options?: Parameters<typeof customFetch>[1]): Promise<createCampaignSessionResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -96,8 +96,8 @@ return customFetch<createCampaignSessionResponse>(getCreateCampaignSessionUrl(),
 
 
 export const getCreateCampaignSessionMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,{data: CampaignSession}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,{data: CampaignSession}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,CreateCampaignSessionMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,CreateCampaignSessionMutationVariables, TContext> => {
 
 const mutationKey = ['createCampaignSession'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -109,7 +109,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCampaignSession>>, {data: CampaignSession}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCampaignSession>>, CreateCampaignSessionMutationVariables> = (props) => {
           const {data} = props ?? {};
 
           return  createCampaignSession(data,requestOptions)
@@ -125,16 +125,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateCampaignSessionMutationResult = NonNullable<Awaited<ReturnType<typeof createCampaignSession>>>
     export type CreateCampaignSessionMutationBody = CampaignSession
     export type CreateCampaignSessionMutationError = unknown
+    export type CreateCampaignSessionMutationVariables = {data: CampaignSession}
 
     /**
  * @summary Create a new  campaign session
  */
 export const useCreateCampaignSession = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,{data: CampaignSession}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaignSession>>, TError,CreateCampaignSessionMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createCampaignSession>>,
         TError,
-        {data: CampaignSession},
+        CreateCampaignSessionMutationVariables,
         TContext
       > => {
       return useMutation(getCreateCampaignSessionMutationOptions(options), queryClient);

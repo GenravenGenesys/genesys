@@ -5,8 +5,8 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
+import type { CriticalInjuryStats } from './criticalInjuryStats';
 import type { Difficulty } from './difficulty';
-import type { StatModifiers } from './statModifiers';
 
 /**
  * Setting-specific Critical Injuries
@@ -18,5 +18,5 @@ export interface CriticalInjury {
   severity: Difficulty;
   min: number;
   max: number;
-  statModifiers: StatModifiers;
+  stats: CriticalInjuryStats;
 }

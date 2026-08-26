@@ -53,7 +53,7 @@ export const getValidatePlayerCharacterUrl = (campaignId: string,) => {
 export const validatePlayerCharacter = async (campaignId: string,
     playerCharacter: PlayerCharacter, options?: Parameters<typeof customFetch>[1]): Promise<validatePlayerCharacterResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -73,8 +73,8 @@ return customFetch<validatePlayerCharacterResponse>(getValidatePlayerCharacterUr
 
 
 export const getValidatePlayerCharacterMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof validatePlayerCharacter>>, TError,{campaignId: string;data: PlayerCharacter}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof validatePlayerCharacter>>, TError,{campaignId: string;data: PlayerCharacter}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof validatePlayerCharacter>>, TError,ValidatePlayerCharacterMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof validatePlayerCharacter>>, TError,ValidatePlayerCharacterMutationVariables, TContext> => {
 
 const mutationKey = ['validatePlayerCharacter'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -86,7 +86,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof validatePlayerCharacter>>, {campaignId: string;data: PlayerCharacter}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof validatePlayerCharacter>>, ValidatePlayerCharacterMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  validatePlayerCharacter(campaignId,data,requestOptions)
@@ -102,16 +102,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type ValidatePlayerCharacterMutationResult = NonNullable<Awaited<ReturnType<typeof validatePlayerCharacter>>>
     export type ValidatePlayerCharacterMutationBody = PlayerCharacter
     export type ValidatePlayerCharacterMutationError = unknown
+    export type ValidatePlayerCharacterMutationVariables = {campaignId: string;data: PlayerCharacter}
 
     /**
  * @summary Validates a new Player Character
  */
 export const useValidatePlayerCharacter = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof validatePlayerCharacter>>, TError,{campaignId: string;data: PlayerCharacter}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof validatePlayerCharacter>>, TError,ValidatePlayerCharacterMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof validatePlayerCharacter>>,
         TError,
-        {campaignId: string;data: PlayerCharacter},
+        ValidatePlayerCharacterMutationVariables,
         TContext
       > => {
       return useMutation(getValidatePlayerCharacterMutationOptions(options), queryClient);
@@ -143,7 +144,7 @@ export const getCreatePlayerUrl = (campaignId: string,) => {
 export const createPlayer = async (campaignId: string,
     playerCharacter: PlayerCharacter, options?: Parameters<typeof customFetch>[1]): Promise<createPlayerResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -163,8 +164,8 @@ return customFetch<createPlayerResponse>(getCreatePlayerUrl(campaignId),
 
 
 export const getCreatePlayerMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPlayer>>, TError,{campaignId: string;data: PlayerCharacter}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createPlayer>>, TError,{campaignId: string;data: PlayerCharacter}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPlayer>>, TError,CreatePlayerMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createPlayer>>, TError,CreatePlayerMutationVariables, TContext> => {
 
 const mutationKey = ['createPlayer'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -176,7 +177,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createPlayer>>, {campaignId: string;data: PlayerCharacter}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createPlayer>>, CreatePlayerMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createPlayer(campaignId,data,requestOptions)
@@ -192,16 +193,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreatePlayerMutationResult = NonNullable<Awaited<ReturnType<typeof createPlayer>>>
     export type CreatePlayerMutationBody = PlayerCharacter
     export type CreatePlayerMutationError = unknown
+    export type CreatePlayerMutationVariables = {campaignId: string;data: PlayerCharacter}
 
     /**
  * @summary Create a new Player Character
  */
 export const useCreatePlayer = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPlayer>>, TError,{campaignId: string;data: PlayerCharacter}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPlayer>>, TError,CreatePlayerMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createPlayer>>,
         TError,
-        {campaignId: string;data: PlayerCharacter},
+        CreatePlayerMutationVariables,
         TContext
       > => {
       return useMutation(getCreatePlayerMutationOptions(options), queryClient);

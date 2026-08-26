@@ -63,7 +63,7 @@ export default function CriticalInjuryDialog(props: Props) {
             scroll="paper"
             slotProps={{paper: {sx: {borderRadius: 4, bgcolor: '#050c14', backgroundImage: 'none'}}}}
         >
-            <DialogTitle>{isNew ? "Create Custom Quality" : "Edit Quality"}</DialogTitle>
+            <DialogTitle>{isNew ? "Create Custom Injury" : "Edit Injury"}</DialogTitle>
 
             <Box sx={{borderBottom: 1, borderColor: 'divider', px: 3}}>
                 <Tabs value={tabValue} onChange={(_, val) => setTabValue(val)} color="primary" centered>
@@ -75,14 +75,10 @@ export default function CriticalInjuryDialog(props: Props) {
             <DialogContent sx={{minHeight: '500px', py: 3}} dividers>
                 {tabValue === 0 && (
                     <Stack spacing={3}>
-                        <GenesysTextField text={formData.name || ''} label={"Quality Name"}
+                        <GenesysTextField text={formData.name || ''} label={"Injury Name"}
                                           onChange={(e) => handleChange("name", e)} fullwidth={true}/>
                         <GenesysTextField text={formData.description || ''} label={"Description"}
                                           onChange={(e) => handleChange("description", e)} fullwidth={true} rows={3}/>
-                        <GenesysNumberField value={formData.cost} fullwidth
-                                            label="Number of Advantages to Activate"
-                                            onChange={(e) => handleChange('cost', e)}
-                        />
                     </Stack>
                 )}
 

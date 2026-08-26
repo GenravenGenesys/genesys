@@ -190,7 +190,7 @@ export const getCreateItemUrl = (campaignId: string,) => {
 export const createItem = async (campaignId: string,
     itemTemplate: ItemTemplate, options?: Parameters<typeof customFetch>[1]): Promise<createItemResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -210,8 +210,8 @@ return customFetch<createItemResponse>(getCreateItemUrl(campaignId),
 
 
 export const getCreateItemMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,CreateItemMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,CreateItemMutationVariables, TContext> => {
 
 const mutationKey = ['createItem'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -223,7 +223,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createItem>>, {campaignId: string;data: ItemTemplate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createItem>>, CreateItemMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createItem(campaignId,data,requestOptions)
@@ -239,16 +239,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateItemMutationResult = NonNullable<Awaited<ReturnType<typeof createItem>>>
     export type CreateItemMutationBody = ItemTemplate
     export type CreateItemMutationError = unknown
+    export type CreateItemMutationVariables = {campaignId: string;data: ItemTemplate}
 
     /**
  * @summary Create a new item
  */
 export const useCreateItem = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,{campaignId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItem>>, TError,CreateItemMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createItem>>,
         TError,
-        {campaignId: string;data: ItemTemplate},
+        CreateItemMutationVariables,
         TContext
       > => {
       return useMutation(getCreateItemMutationOptions(options), queryClient);
@@ -295,8 +296,8 @@ export const deleteItem = async (campaignId: string,
 
 
 export const getDeleteItemMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,{campaignId: string;itemId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,{campaignId: string;itemId: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,DeleteItemMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,DeleteItemMutationVariables, TContext> => {
 
 const mutationKey = ['deleteItem'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -308,7 +309,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteItem>>, {campaignId: string;itemId: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteItem>>, DeleteItemMutationVariables> = (props) => {
           const {campaignId,itemId} = props ?? {};
 
           return  deleteItem(campaignId,itemId,requestOptions)
@@ -324,16 +325,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type DeleteItemMutationResult = NonNullable<Awaited<ReturnType<typeof deleteItem>>>
 
     export type DeleteItemMutationError = unknown
+    export type DeleteItemMutationVariables = {campaignId: string;itemId: string}
 
     /**
  * @summary Delete an item
  */
 export const useDeleteItem = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,{campaignId: string;itemId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItem>>, TError,DeleteItemMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteItem>>,
         TError,
-        {campaignId: string;itemId: string},
+        DeleteItemMutationVariables,
         TContext
       > => {
       return useMutation(getDeleteItemMutationOptions(options), queryClient);
@@ -367,7 +369,7 @@ export const updateItem = async (campaignId: string,
     itemId: string,
     itemTemplate: ItemTemplate, options?: Parameters<typeof customFetch>[1]): Promise<updateItemResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -387,8 +389,8 @@ return customFetch<updateItemResponse>(getUpdateItemUrl(campaignId,itemId),
 
 
 export const getUpdateItemMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,UpdateItemMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,UpdateItemMutationVariables, TContext> => {
 
 const mutationKey = ['updateItem'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -400,7 +402,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateItem>>, {campaignId: string;itemId: string;data: ItemTemplate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateItem>>, UpdateItemMutationVariables> = (props) => {
           const {campaignId,itemId,data} = props ?? {};
 
           return  updateItem(campaignId,itemId,data,requestOptions)
@@ -416,16 +418,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateItemMutationResult = NonNullable<Awaited<ReturnType<typeof updateItem>>>
     export type UpdateItemMutationBody = ItemTemplate
     export type UpdateItemMutationError = unknown
+    export type UpdateItemMutationVariables = {campaignId: string;itemId: string;data: ItemTemplate}
 
     /**
  * @summary Update an item
  */
 export const useUpdateItem = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,{campaignId: string;itemId: string;data: ItemTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateItem>>, TError,UpdateItemMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateItem>>,
         TError,
-        {campaignId: string;itemId: string;data: ItemTemplate},
+        UpdateItemMutationVariables,
         TContext
       > => {
       return useMutation(getUpdateItemMutationOptions(options), queryClient);

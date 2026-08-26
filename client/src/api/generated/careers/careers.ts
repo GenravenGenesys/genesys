@@ -190,7 +190,7 @@ export const getCreateCareerUrl = (campaignId: string,) => {
 export const createCareer = async (campaignId: string,
     career: Career, options?: Parameters<typeof customFetch>[1]): Promise<createCareerResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -210,8 +210,8 @@ return customFetch<createCareerResponse>(getCreateCareerUrl(campaignId),
 
 
 export const getCreateCareerMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,{campaignId: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,{campaignId: string;data: Career}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,CreateCareerMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,CreateCareerMutationVariables, TContext> => {
 
 const mutationKey = ['createCareer'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -223,7 +223,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCareer>>, {campaignId: string;data: Career}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCareer>>, CreateCareerMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createCareer(campaignId,data,requestOptions)
@@ -239,16 +239,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateCareerMutationResult = NonNullable<Awaited<ReturnType<typeof createCareer>>>
     export type CreateCareerMutationBody = Career
     export type CreateCareerMutationError = unknown
+    export type CreateCareerMutationVariables = {campaignId: string;data: Career}
 
     /**
  * @summary Create a new career
  */
 export const useCreateCareer = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,{campaignId: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareer>>, TError,CreateCareerMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createCareer>>,
         TError,
-        {campaignId: string;data: Career},
+        CreateCareerMutationVariables,
         TContext
       > => {
       return useMutation(getCreateCareerMutationOptions(options), queryClient);
@@ -282,7 +283,7 @@ export const updateCareer = async (campaignId: string,
     careerId: string,
     career: Career, options?: Parameters<typeof customFetch>[1]): Promise<updateCareerResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -302,8 +303,8 @@ return customFetch<updateCareerResponse>(getUpdateCareerUrl(campaignId,careerId)
 
 
 export const getUpdateCareerMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{campaignId: string;careerId: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{campaignId: string;careerId: string;data: Career}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,UpdateCareerMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,UpdateCareerMutationVariables, TContext> => {
 
 const mutationKey = ['updateCareer'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -315,7 +316,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCareer>>, {campaignId: string;careerId: string;data: Career}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCareer>>, UpdateCareerMutationVariables> = (props) => {
           const {campaignId,careerId,data} = props ?? {};
 
           return  updateCareer(campaignId,careerId,data,requestOptions)
@@ -331,16 +332,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateCareerMutationResult = NonNullable<Awaited<ReturnType<typeof updateCareer>>>
     export type UpdateCareerMutationBody = Career
     export type UpdateCareerMutationError = unknown
+    export type UpdateCareerMutationVariables = {campaignId: string;careerId: string;data: Career}
 
     /**
  * @summary Update a career
  */
 export const useUpdateCareer = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,{campaignId: string;careerId: string;data: Career}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCareer>>, TError,UpdateCareerMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateCareer>>,
         TError,
-        {campaignId: string;careerId: string;data: Career},
+        UpdateCareerMutationVariables,
         TContext
       > => {
       return useMutation(getUpdateCareerMutationOptions(options), queryClient);

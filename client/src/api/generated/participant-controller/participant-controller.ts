@@ -77,7 +77,7 @@ export const getFromPlayerCharacterUrl = () => {
  */
 export const fromPlayerCharacter = async (playerCharacter: PlayerCharacter, options?: Parameters<typeof customFetch>[1]): Promise<fromPlayerCharacterResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -97,8 +97,8 @@ return customFetch<fromPlayerCharacterResponse>(getFromPlayerCharacterUrl(),
 
 
 export const getFromPlayerCharacterMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof fromPlayerCharacter>>, TError,{data: PlayerCharacter}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof fromPlayerCharacter>>, TError,{data: PlayerCharacter}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof fromPlayerCharacter>>, TError,FromPlayerCharacterMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof fromPlayerCharacter>>, TError,FromPlayerCharacterMutationVariables, TContext> => {
 
 const mutationKey = ['fromPlayerCharacter'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -110,7 +110,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof fromPlayerCharacter>>, {data: PlayerCharacter}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof fromPlayerCharacter>>, FromPlayerCharacterMutationVariables> = (props) => {
           const {data} = props ?? {};
 
           return  fromPlayerCharacter(data,requestOptions)
@@ -126,16 +126,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type FromPlayerCharacterMutationResult = NonNullable<Awaited<ReturnType<typeof fromPlayerCharacter>>>
     export type FromPlayerCharacterMutationBody = PlayerCharacter
     export type FromPlayerCharacterMutationError = unknown
+    export type FromPlayerCharacterMutationVariables = {data: PlayerCharacter}
 
     /**
  * @summary Convert a Player Character to a Participant
  */
 export const useFromPlayerCharacter = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof fromPlayerCharacter>>, TError,{data: PlayerCharacter}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof fromPlayerCharacter>>, TError,FromPlayerCharacterMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof fromPlayerCharacter>>,
         TError,
-        {data: PlayerCharacter},
+        FromPlayerCharacterMutationVariables,
         TContext
       > => {
       return useMutation(getFromPlayerCharacterMutationOptions(options), queryClient);

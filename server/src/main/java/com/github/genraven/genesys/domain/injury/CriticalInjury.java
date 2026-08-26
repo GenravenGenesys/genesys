@@ -37,7 +37,6 @@ public class CriticalInjury {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int max;
 
-    @Builder.Default
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private StatModifiers statModifiers = null;
+    private CriticalInjuryStats stats = new CriticalInjuryStats();
 }

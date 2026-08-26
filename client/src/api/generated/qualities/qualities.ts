@@ -190,7 +190,7 @@ export const getCreateQualityUrl = (campaignId: string,) => {
 export const createQuality = async (campaignId: string,
     quality: Quality, options?: Parameters<typeof customFetch>[1]): Promise<createQualityResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -210,8 +210,8 @@ return customFetch<createQualityResponse>(getCreateQualityUrl(campaignId),
 
 
 export const getCreateQualityMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,{campaignId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,{campaignId: string;data: Quality}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,CreateQualityMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,CreateQualityMutationVariables, TContext> => {
 
 const mutationKey = ['createQuality'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -223,7 +223,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createQuality>>, {campaignId: string;data: Quality}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createQuality>>, CreateQualityMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createQuality(campaignId,data,requestOptions)
@@ -239,16 +239,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateQualityMutationResult = NonNullable<Awaited<ReturnType<typeof createQuality>>>
     export type CreateQualityMutationBody = Quality
     export type CreateQualityMutationError = unknown
+    export type CreateQualityMutationVariables = {campaignId: string;data: Quality}
 
     /**
  * @summary Create a new quality
  */
 export const useCreateQuality = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,{campaignId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuality>>, TError,CreateQualityMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createQuality>>,
         TError,
-        {campaignId: string;data: Quality},
+        CreateQualityMutationVariables,
         TContext
       > => {
       return useMutation(getCreateQualityMutationOptions(options), queryClient);
@@ -282,7 +283,7 @@ export const updateQuality = async (campaignId: string,
     qualityId: string,
     quality: Quality, options?: Parameters<typeof customFetch>[1]): Promise<updateQualityResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -302,8 +303,8 @@ return customFetch<updateQualityResponse>(getUpdateQualityUrl(campaignId,quality
 
 
 export const getUpdateQualityMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,{campaignId: string;qualityId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,{campaignId: string;qualityId: string;data: Quality}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,UpdateQualityMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,UpdateQualityMutationVariables, TContext> => {
 
 const mutationKey = ['updateQuality'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -315,7 +316,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateQuality>>, {campaignId: string;qualityId: string;data: Quality}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateQuality>>, UpdateQualityMutationVariables> = (props) => {
           const {campaignId,qualityId,data} = props ?? {};
 
           return  updateQuality(campaignId,qualityId,data,requestOptions)
@@ -331,16 +332,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateQualityMutationResult = NonNullable<Awaited<ReturnType<typeof updateQuality>>>
     export type UpdateQualityMutationBody = Quality
     export type UpdateQualityMutationError = unknown
+    export type UpdateQualityMutationVariables = {campaignId: string;qualityId: string;data: Quality}
 
     /**
  * @summary Update a quality
  */
 export const useUpdateQuality = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,{campaignId: string;qualityId: string;data: Quality}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateQuality>>, TError,UpdateQualityMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateQuality>>,
         TError,
-        {campaignId: string;qualityId: string;data: Quality},
+        UpdateQualityMutationVariables,
         TContext
       > => {
       return useMutation(getUpdateQualityMutationOptions(options), queryClient);

@@ -60,7 +60,7 @@ export const getResolveChoicesUrl = () => {
  */
 export const resolveChoices = async (resolveChoicesRequest: ResolveChoicesRequest, options?: Parameters<typeof customFetch>[1]): Promise<resolveChoicesResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -80,8 +80,8 @@ return customFetch<resolveChoicesResponse>(getResolveChoicesUrl(),
 
 
 export const getResolveChoicesMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof resolveChoices>>, TError,{data: ResolveChoicesRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof resolveChoices>>, TError,{data: ResolveChoicesRequest}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof resolveChoices>>, TError,ResolveChoicesMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof resolveChoices>>, TError,ResolveChoicesMutationVariables, TContext> => {
 
 const mutationKey = ['resolveChoices'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -93,7 +93,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof resolveChoices>>, {data: ResolveChoicesRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof resolveChoices>>, ResolveChoicesMutationVariables> = (props) => {
           const {data} = props ?? {};
 
           return  resolveChoices(data,requestOptions)
@@ -109,16 +109,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type ResolveChoicesMutationResult = NonNullable<Awaited<ReturnType<typeof resolveChoices>>>
     export type ResolveChoicesMutationBody = ResolveChoicesRequest
     export type ResolveChoicesMutationError = unknown
+    export type ResolveChoicesMutationVariables = {data: ResolveChoicesRequest}
 
     /**
  * @summary Resolve player's symbol spends
  */
 export const useResolveChoices = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof resolveChoices>>, TError,{data: ResolveChoicesRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof resolveChoices>>, TError,ResolveChoicesMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof resolveChoices>>,
         TError,
-        {data: ResolveChoicesRequest},
+        ResolveChoicesMutationVariables,
         TContext
       > => {
       return useMutation(getResolveChoicesMutationOptions(options), queryClient);
@@ -149,7 +150,7 @@ export const getRollInitiativeUrl = () => {
  */
 export const rollInitiative = async (initiativeRollRequest: InitiativeRollRequest, options?: Parameters<typeof customFetch>[1]): Promise<rollInitiativeResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -169,8 +170,8 @@ return customFetch<rollInitiativeResponse>(getRollInitiativeUrl(),
 
 
 export const getRollInitiativeMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof rollInitiative>>, TError,{data: InitiativeRollRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof rollInitiative>>, TError,{data: InitiativeRollRequest}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof rollInitiative>>, TError,RollInitiativeMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof rollInitiative>>, TError,RollInitiativeMutationVariables, TContext> => {
 
 const mutationKey = ['rollInitiative'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -182,7 +183,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof rollInitiative>>, {data: InitiativeRollRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof rollInitiative>>, RollInitiativeMutationVariables> = (props) => {
           const {data} = props ?? {};
 
           return  rollInitiative(data,requestOptions)
@@ -198,16 +199,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type RollInitiativeMutationResult = NonNullable<Awaited<ReturnType<typeof rollInitiative>>>
     export type RollInitiativeMutationBody = InitiativeRollRequest
     export type RollInitiativeMutationError = unknown
+    export type RollInitiativeMutationVariables = {data: InitiativeRollRequest}
 
     /**
  * @summary Roll initiative for a participant
  */
 export const useRollInitiative = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof rollInitiative>>, TError,{data: InitiativeRollRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof rollInitiative>>, TError,RollInitiativeMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof rollInitiative>>,
         TError,
-        {data: InitiativeRollRequest},
+        RollInitiativeMutationVariables,
         TContext
       > => {
       return useMutation(getRollInitiativeMutationOptions(options), queryClient);
@@ -238,7 +240,7 @@ export const getStartEncounterUrl = () => {
  */
 export const startEncounter = async (participant: Participant[], options?: Parameters<typeof customFetch>[1]): Promise<startEncounterResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -258,8 +260,8 @@ return customFetch<startEncounterResponse>(getStartEncounterUrl(),
 
 
 export const getStartEncounterMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startEncounter>>, TError,{data: Participant[]}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof startEncounter>>, TError,{data: Participant[]}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startEncounter>>, TError,StartEncounterMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof startEncounter>>, TError,StartEncounterMutationVariables, TContext> => {
 
 const mutationKey = ['startEncounter'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -271,7 +273,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startEncounter>>, {data: Participant[]}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startEncounter>>, StartEncounterMutationVariables> = (props) => {
           const {data} = props ?? {};
 
           return  startEncounter(data,requestOptions)
@@ -287,16 +289,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type StartEncounterMutationResult = NonNullable<Awaited<ReturnType<typeof startEncounter>>>
     export type StartEncounterMutationBody = Participant[]
     export type StartEncounterMutationError = unknown
+    export type StartEncounterMutationVariables = {data: Participant[]}
 
     /**
  * @summary Start an encounter
  */
 export const useStartEncounter = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startEncounter>>, TError,{data: Participant[]}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startEncounter>>, TError,StartEncounterMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof startEncounter>>,
         TError,
-        {data: Participant[]},
+        StartEncounterMutationVariables,
         TContext
       > => {
       return useMutation(getStartEncounterMutationOptions(options), queryClient);
@@ -371,6 +374,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
     export type EndEncounterMutationError = unknown
 
+
     /**
  * @summary End an encounter
  */
@@ -410,7 +414,7 @@ export const getExecuteRangedAttackUrl = () => {
  */
 export const executeRangedAttack = async (combatRollRequest: CombatRollRequest, options?: Parameters<typeof customFetch>[1]): Promise<executeRangedAttackResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -430,8 +434,8 @@ return customFetch<executeRangedAttackResponse>(getExecuteRangedAttackUrl(),
 
 
 export const getExecuteRangedAttackMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeRangedAttack>>, TError,{data: CombatRollRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof executeRangedAttack>>, TError,{data: CombatRollRequest}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeRangedAttack>>, TError,ExecuteRangedAttackMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof executeRangedAttack>>, TError,ExecuteRangedAttackMutationVariables, TContext> => {
 
 const mutationKey = ['executeRangedAttack'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -443,7 +447,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof executeRangedAttack>>, {data: CombatRollRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof executeRangedAttack>>, ExecuteRangedAttackMutationVariables> = (props) => {
           const {data} = props ?? {};
 
           return  executeRangedAttack(data,requestOptions)
@@ -459,16 +463,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type ExecuteRangedAttackMutationResult = NonNullable<Awaited<ReturnType<typeof executeRangedAttack>>>
     export type ExecuteRangedAttackMutationBody = CombatRollRequest
     export type ExecuteRangedAttackMutationError = unknown
+    export type ExecuteRangedAttackMutationVariables = {data: CombatRollRequest}
 
     /**
  * @summary Execute a ranged attack roll
  */
 export const useExecuteRangedAttack = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeRangedAttack>>, TError,{data: CombatRollRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeRangedAttack>>, TError,ExecuteRangedAttackMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof executeRangedAttack>>,
         TError,
-        {data: CombatRollRequest},
+        ExecuteRangedAttackMutationVariables,
         TContext
       > => {
       return useMutation(getExecuteRangedAttackMutationOptions(options), queryClient);
@@ -499,7 +504,7 @@ export const getExecuteMeleeAttackUrl = () => {
  */
 export const executeMeleeAttack = async (combatRollRequest: CombatRollRequest, options?: Parameters<typeof customFetch>[1]): Promise<executeMeleeAttackResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -519,8 +524,8 @@ return customFetch<executeMeleeAttackResponse>(getExecuteMeleeAttackUrl(),
 
 
 export const getExecuteMeleeAttackMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeMeleeAttack>>, TError,{data: CombatRollRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof executeMeleeAttack>>, TError,{data: CombatRollRequest}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeMeleeAttack>>, TError,ExecuteMeleeAttackMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof executeMeleeAttack>>, TError,ExecuteMeleeAttackMutationVariables, TContext> => {
 
 const mutationKey = ['executeMeleeAttack'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -532,7 +537,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof executeMeleeAttack>>, {data: CombatRollRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof executeMeleeAttack>>, ExecuteMeleeAttackMutationVariables> = (props) => {
           const {data} = props ?? {};
 
           return  executeMeleeAttack(data,requestOptions)
@@ -548,16 +553,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type ExecuteMeleeAttackMutationResult = NonNullable<Awaited<ReturnType<typeof executeMeleeAttack>>>
     export type ExecuteMeleeAttackMutationBody = CombatRollRequest
     export type ExecuteMeleeAttackMutationError = unknown
+    export type ExecuteMeleeAttackMutationVariables = {data: CombatRollRequest}
 
     /**
  * @summary Execute a melee attack roll
  */
 export const useExecuteMeleeAttack = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeMeleeAttack>>, TError,{data: CombatRollRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeMeleeAttack>>, TError,ExecuteMeleeAttackMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof executeMeleeAttack>>,
         TError,
-        {data: CombatRollRequest},
+        ExecuteMeleeAttackMutationVariables,
         TContext
       > => {
       return useMutation(getExecuteMeleeAttackMutationOptions(options), queryClient);

@@ -190,7 +190,7 @@ export const getCreateSpellUrl = (campaignId: string,) => {
 export const createSpell = async (campaignId: string,
     spell: Spell, options?: Parameters<typeof customFetch>[1]): Promise<createSpellResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -210,8 +210,8 @@ return customFetch<createSpellResponse>(getCreateSpellUrl(campaignId),
 
 
 export const getCreateSpellMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{campaignId: string;data: Spell}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{campaignId: string;data: Spell}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,CreateSpellMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,CreateSpellMutationVariables, TContext> => {
 
 const mutationKey = ['createSpell'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -223,7 +223,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createSpell>>, {campaignId: string;data: Spell}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createSpell>>, CreateSpellMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createSpell(campaignId,data,requestOptions)
@@ -239,16 +239,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateSpellMutationResult = NonNullable<Awaited<ReturnType<typeof createSpell>>>
     export type CreateSpellMutationBody = Spell
     export type CreateSpellMutationError = unknown
+    export type CreateSpellMutationVariables = {campaignId: string;data: Spell}
 
     /**
  * @summary Create a new spell
  */
 export const useCreateSpell = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,{campaignId: string;data: Spell}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,CreateSpellMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createSpell>>,
         TError,
-        {campaignId: string;data: Spell},
+        CreateSpellMutationVariables,
         TContext
       > => {
       return useMutation(getCreateSpellMutationOptions(options), queryClient);
@@ -282,7 +283,7 @@ export const updateSpell = async (campaignId: string,
     spellId: string,
     spell: Spell, options?: Parameters<typeof customFetch>[1]): Promise<updateSpellResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -302,8 +303,8 @@ return customFetch<updateSpellResponse>(getUpdateSpellUrl(campaignId,spellId),
 
 
 export const getUpdateSpellMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{campaignId: string;spellId: string;data: Spell}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{campaignId: string;spellId: string;data: Spell}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,UpdateSpellMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,UpdateSpellMutationVariables, TContext> => {
 
 const mutationKey = ['updateSpell'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -315,7 +316,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateSpell>>, {campaignId: string;spellId: string;data: Spell}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateSpell>>, UpdateSpellMutationVariables> = (props) => {
           const {campaignId,spellId,data} = props ?? {};
 
           return  updateSpell(campaignId,spellId,data,requestOptions)
@@ -331,16 +332,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateSpellMutationResult = NonNullable<Awaited<ReturnType<typeof updateSpell>>>
     export type UpdateSpellMutationBody = Spell
     export type UpdateSpellMutationError = unknown
+    export type UpdateSpellMutationVariables = {campaignId: string;spellId: string;data: Spell}
 
     /**
  * @summary Update a spell
  */
 export const useUpdateSpell = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,{campaignId: string;spellId: string;data: Spell}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,UpdateSpellMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateSpell>>,
         TError,
-        {campaignId: string;spellId: string;data: Spell},
+        UpdateSpellMutationVariables,
         TContext
       > => {
       return useMutation(getUpdateSpellMutationOptions(options), queryClient);

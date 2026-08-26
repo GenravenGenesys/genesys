@@ -33,7 +33,7 @@ import {
     type Spell,
     type SpellEffect,
     type Talent,
-    Tier,
+    Tier, type CriticalInjuryStats,
 } from "../api/model";
 
 export const emptySkill = {
@@ -318,6 +318,7 @@ export const emptyCriticalInjury = {
     severity: Difficulty.Easy,
     min: 0,
     max: 0,
+    stats: {} as CriticalInjuryStats
 } as CriticalInjury;
 
 export const emptySpellEffect = {

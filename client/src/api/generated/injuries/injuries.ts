@@ -190,7 +190,7 @@ export const getCreateCriticalInjuryUrl = (campaignId: string,) => {
 export const createCriticalInjury = async (campaignId: string,
     criticalInjury: CriticalInjury, options?: Parameters<typeof customFetch>[1]): Promise<createCriticalInjuryResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -210,8 +210,8 @@ return customFetch<createCriticalInjuryResponse>(getCreateCriticalInjuryUrl(camp
 
 
 export const getCreateCriticalInjuryMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCriticalInjury>>, TError,{campaignId: string;data: CriticalInjury}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createCriticalInjury>>, TError,{campaignId: string;data: CriticalInjury}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCriticalInjury>>, TError,CreateCriticalInjuryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createCriticalInjury>>, TError,CreateCriticalInjuryMutationVariables, TContext> => {
 
 const mutationKey = ['createCriticalInjury'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -223,7 +223,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCriticalInjury>>, {campaignId: string;data: CriticalInjury}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCriticalInjury>>, CreateCriticalInjuryMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createCriticalInjury(campaignId,data,requestOptions)
@@ -239,16 +239,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateCriticalInjuryMutationResult = NonNullable<Awaited<ReturnType<typeof createCriticalInjury>>>
     export type CreateCriticalInjuryMutationBody = CriticalInjury
     export type CreateCriticalInjuryMutationError = unknown
+    export type CreateCriticalInjuryMutationVariables = {campaignId: string;data: CriticalInjury}
 
     /**
  * @summary Create a new criticalInjury
  */
 export const useCreateCriticalInjury = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCriticalInjury>>, TError,{campaignId: string;data: CriticalInjury}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCriticalInjury>>, TError,CreateCriticalInjuryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createCriticalInjury>>,
         TError,
-        {campaignId: string;data: CriticalInjury},
+        CreateCriticalInjuryMutationVariables,
         TContext
       > => {
       return useMutation(getCreateCriticalInjuryMutationOptions(options), queryClient);
@@ -282,7 +283,7 @@ export const updateCriticalInjury = async (campaignId: string,
     criticalInjuryId: string,
     criticalInjury: CriticalInjury, options?: Parameters<typeof customFetch>[1]): Promise<updateCriticalInjuryResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -302,8 +303,8 @@ return customFetch<updateCriticalInjuryResponse>(getUpdateCriticalInjuryUrl(camp
 
 
 export const getUpdateCriticalInjuryMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCriticalInjury>>, TError,{campaignId: string;criticalInjuryId: string;data: CriticalInjury}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateCriticalInjury>>, TError,{campaignId: string;criticalInjuryId: string;data: CriticalInjury}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCriticalInjury>>, TError,UpdateCriticalInjuryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateCriticalInjury>>, TError,UpdateCriticalInjuryMutationVariables, TContext> => {
 
 const mutationKey = ['updateCriticalInjury'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -315,7 +316,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCriticalInjury>>, {campaignId: string;criticalInjuryId: string;data: CriticalInjury}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCriticalInjury>>, UpdateCriticalInjuryMutationVariables> = (props) => {
           const {campaignId,criticalInjuryId,data} = props ?? {};
 
           return  updateCriticalInjury(campaignId,criticalInjuryId,data,requestOptions)
@@ -331,16 +332,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateCriticalInjuryMutationResult = NonNullable<Awaited<ReturnType<typeof updateCriticalInjury>>>
     export type UpdateCriticalInjuryMutationBody = CriticalInjury
     export type UpdateCriticalInjuryMutationError = unknown
+    export type UpdateCriticalInjuryMutationVariables = {campaignId: string;criticalInjuryId: string;data: CriticalInjury}
 
     /**
  * @summary Update a criticalInjury
  */
 export const useUpdateCriticalInjury = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCriticalInjury>>, TError,{campaignId: string;criticalInjuryId: string;data: CriticalInjury}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCriticalInjury>>, TError,UpdateCriticalInjuryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateCriticalInjury>>,
         TError,
-        {campaignId: string;criticalInjuryId: string;data: CriticalInjury},
+        UpdateCriticalInjuryMutationVariables,
         TContext
       > => {
       return useMutation(getUpdateCriticalInjuryMutationOptions(options), queryClient);

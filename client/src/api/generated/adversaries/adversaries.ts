@@ -190,7 +190,7 @@ export const getCreateAdversaryUrl = (campaignId: string,) => {
 export const createAdversary = async (campaignId: string,
     adversaryTemplate: AdversaryTemplate, options?: Parameters<typeof customFetch>[1]): Promise<createAdversaryResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -210,8 +210,8 @@ return customFetch<createAdversaryResponse>(getCreateAdversaryUrl(campaignId),
 
 
 export const getCreateAdversaryMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,{campaignId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,{campaignId: string;data: AdversaryTemplate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,CreateAdversaryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,CreateAdversaryMutationVariables, TContext> => {
 
 const mutationKey = ['createAdversary'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -223,7 +223,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createAdversary>>, {campaignId: string;data: AdversaryTemplate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createAdversary>>, CreateAdversaryMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createAdversary(campaignId,data,requestOptions)
@@ -239,16 +239,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateAdversaryMutationResult = NonNullable<Awaited<ReturnType<typeof createAdversary>>>
     export type CreateAdversaryMutationBody = AdversaryTemplate
     export type CreateAdversaryMutationError = unknown
+    export type CreateAdversaryMutationVariables = {campaignId: string;data: AdversaryTemplate}
 
     /**
  * @summary Create a new adversary
  */
 export const useCreateAdversary = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,{campaignId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,CreateAdversaryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createAdversary>>,
         TError,
-        {campaignId: string;data: AdversaryTemplate},
+        CreateAdversaryMutationVariables,
         TContext
       > => {
       return useMutation(getCreateAdversaryMutationOptions(options), queryClient);
@@ -282,7 +283,7 @@ export const updateAdversary = async (campaignId: string,
     adversaryId: string,
     adversaryTemplate: AdversaryTemplate, options?: Parameters<typeof customFetch>[1]): Promise<updateAdversaryResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -302,8 +303,8 @@ return customFetch<updateAdversaryResponse>(getUpdateAdversaryUrl(campaignId,adv
 
 
 export const getUpdateAdversaryMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,{campaignId: string;adversaryId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,{campaignId: string;adversaryId: string;data: AdversaryTemplate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,UpdateAdversaryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,UpdateAdversaryMutationVariables, TContext> => {
 
 const mutationKey = ['updateAdversary'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -315,7 +316,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateAdversary>>, {campaignId: string;adversaryId: string;data: AdversaryTemplate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateAdversary>>, UpdateAdversaryMutationVariables> = (props) => {
           const {campaignId,adversaryId,data} = props ?? {};
 
           return  updateAdversary(campaignId,adversaryId,data,requestOptions)
@@ -331,16 +332,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateAdversaryMutationResult = NonNullable<Awaited<ReturnType<typeof updateAdversary>>>
     export type UpdateAdversaryMutationBody = AdversaryTemplate
     export type UpdateAdversaryMutationError = unknown
+    export type UpdateAdversaryMutationVariables = {campaignId: string;adversaryId: string;data: AdversaryTemplate}
 
     /**
  * @summary Update a adversary
  */
 export const useUpdateAdversary = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,{campaignId: string;adversaryId: string;data: AdversaryTemplate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,UpdateAdversaryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateAdversary>>,
         TError,
-        {campaignId: string;adversaryId: string;data: AdversaryTemplate},
+        UpdateAdversaryMutationVariables,
         TContext
       > => {
       return useMutation(getUpdateAdversaryMutationOptions(options), queryClient);

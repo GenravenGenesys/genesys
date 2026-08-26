@@ -190,7 +190,7 @@ export const getCreateSkillUrl = (campaignId: string,) => {
 export const createSkill = async (campaignId: string,
     skill: Skill, options?: Parameters<typeof customFetch>[1]): Promise<createSkillResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -210,8 +210,8 @@ return customFetch<createSkillResponse>(getCreateSkillUrl(campaignId),
 
 
 export const getCreateSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,CreateSkillMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,CreateSkillMutationVariables, TContext> => {
 
 const mutationKey = ['createSkill'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -223,7 +223,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createSkill>>, {campaignId: string;data: Skill}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createSkill>>, CreateSkillMutationVariables> = (props) => {
           const {campaignId,data} = props ?? {};
 
           return  createSkill(campaignId,data,requestOptions)
@@ -239,16 +239,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateSkillMutationResult = NonNullable<Awaited<ReturnType<typeof createSkill>>>
     export type CreateSkillMutationBody = Skill
     export type CreateSkillMutationError = unknown
+    export type CreateSkillMutationVariables = {campaignId: string;data: Skill}
 
     /**
  * @summary Create a new skill
  */
 export const useCreateSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,{campaignId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSkill>>, TError,CreateSkillMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createSkill>>,
         TError,
-        {campaignId: string;data: Skill},
+        CreateSkillMutationVariables,
         TContext
       > => {
       return useMutation(getCreateSkillMutationOptions(options), queryClient);
@@ -282,7 +283,7 @@ export const updateSkill = async (campaignId: string,
     skillId: string,
     skill: Skill, options?: Parameters<typeof customFetch>[1]): Promise<updateSkillResponse> => {
 
-    const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -302,8 +303,8 @@ return customFetch<updateSkillResponse>(getUpdateSkillUrl(campaignId,skillId),
 
 
 export const getUpdateSkillMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,UpdateSkillMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,UpdateSkillMutationVariables, TContext> => {
 
 const mutationKey = ['updateSkill'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -315,7 +316,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateSkill>>, {campaignId: string;skillId: string;data: Skill}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateSkill>>, UpdateSkillMutationVariables> = (props) => {
           const {campaignId,skillId,data} = props ?? {};
 
           return  updateSkill(campaignId,skillId,data,requestOptions)
@@ -331,16 +332,17 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateSkillMutationResult = NonNullable<Awaited<ReturnType<typeof updateSkill>>>
     export type UpdateSkillMutationBody = Skill
     export type UpdateSkillMutationError = unknown
+    export type UpdateSkillMutationVariables = {campaignId: string;skillId: string;data: Skill}
 
     /**
  * @summary Update a skill
  */
 export const useUpdateSkill = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,{campaignId: string;skillId: string;data: Skill}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSkill>>, TError,UpdateSkillMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateSkill>>,
         TError,
-        {campaignId: string;skillId: string;data: Skill},
+        UpdateSkillMutationVariables,
         TContext
       > => {
       return useMutation(getUpdateSkillMutationOptions(options), queryClient);
