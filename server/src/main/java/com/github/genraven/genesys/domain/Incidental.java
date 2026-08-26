@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain.talent;
+package com.github.genraven.genesys.domain;
 
 import com.github.genraven.genesys.domain.modifier.DiceModifier;
 import com.github.genraven.genesys.domain.modifier.HealEffect;

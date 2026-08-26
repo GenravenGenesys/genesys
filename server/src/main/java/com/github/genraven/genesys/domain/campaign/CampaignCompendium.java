@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.domain.campaign;
 
-import com.github.genraven.genesys.domain.CriticalInjury;
+import com.github.genraven.genesys.domain.injury.CriticalInjury;
 import com.github.genraven.genesys.domain.actor.adversary.AdversaryTemplate;
 import com.github.genraven.genesys.domain.actor.player.Archetype;
 import com.github.genraven.genesys.domain.actor.player.Career;
