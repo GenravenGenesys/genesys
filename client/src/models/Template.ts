@@ -43,6 +43,92 @@ export const emptySkill = {
     initiative: false,
 } as Skill;
 
+export const emptyCriticalInjury = {
+    id: '',
+    name: '',
+    description: '',
+    severity: Difficulty.Easy,
+    min: 0,
+    max: 0,
+    stats: {} as CriticalInjuryStats
+} as CriticalInjury;
+
+export const emptySpellEffect = {
+    name: '',
+    description: '',
+    difficultyIncrease: 1,
+} as SpellEffect;
+
+export const emptySpell = {
+    id: '',
+    name: '',
+    concentration: false,
+    difficulty: Difficulty.Easy,
+    range: RangeBand.Short,
+    skills: [] as Skill[],
+    effects: [] as SpellEffect[],
+} as Spell;
+
+export const emptyAction = {
+    type: ActionType.Skill_Check,
+    opposed: false,
+    difficulty: Difficulty.Easy,
+    target: Target.Self,
+    range: RangeBand.Engaged,
+    damage: 0,
+    brawnBonus: false,
+    critical: 0,
+    diceModifiers: [],
+    resultsModifiers: [],
+} as Action;
+
+export const emptyIncidental = {
+    diceModifiers: [],
+    resultsModifiers: [],
+    healEffects: [],
+} as Incidental;
+
+export const emptyManeuver = {
+    target: Target.Self,
+    duration: Duration.Scene,
+    stackable: false,
+    maxTargets: 1,
+    rangeScalesWithRank: false,
+    diceModifiers: [],
+    resultsModifiers: [],
+    defenseModifiers: [],
+} as Maneuver;
+
+export const emptyAbility = {
+    name: '',
+    description: '',
+    activation: Activation.Passive,
+    cost: {
+        type: CostType.None,
+        amount: 0,
+    },
+    limit: {
+        type: LimitType.None,
+        limit: 0,
+    },
+    statModifiers: {
+        wounds: 0,
+        strain: 0,
+        soak: 0,
+        defense: 0,
+        encumbranceThreshold: 0,
+    },
+    abilityModifiers: {
+        diceModifiers: [],
+        resultsModifiers: [],
+        healEffects: [],
+        environmentModifiers: [],
+        criticalInjuryCountAsOne: false,
+        freeMoveManeuver: false,
+        moveStoryPoint: false,
+    },
+} as Ability;
+
 export const emptyQuality = {
     id: '',
     name: '',
@@ -325,90 +411,3 @@ export const emptyPlayerCharacter = {
         available: 0
     },
 } as PlayerCharacter;
-
-export const emptyCriticalInjury = {
-    id: '',
-    name: '',
-    description: '',
-    severity: Difficulty.Easy,
-    min: 0,
-    max: 0,
-    stats: {} as CriticalInjuryStats
-} as CriticalInjury;
-
-export const emptySpellEffect = {
-    name: '',
-    description: '',
-    difficultyIncrease: 1,
-} as SpellEffect;
-
-export const emptySpell = {
-    id: '',
-    name: '',
-    concentration: false,
-    difficulty: Difficulty.Easy,
-    range: RangeBand.Short,
-    skills: [] as Skill[],
-    effects: [] as SpellEffect[],
-} as Spell;
-
-export const emptyAction = {
-    type: ActionType.Skill_Check,
-    opposed: false,
-    difficulty: Difficulty.Easy,
-    target: Target.Self,
-    range: RangeBand.Engaged,
-    damage: 0,
-    brawnBonus: false,
-    critical: 0,
-    diceModifiers: [],
-    resultsModifiers: [],
-} as Action;
-
-export const emptyIncidental = {
-    diceModifiers: [],
-    resultsModifiers: [],
-    healEffects: [],
-} as Incidental;
-
-export const emptyManeuver = {
-    target: Target.Self,
-    duration: Duration.Scene,
-    stackable: false,
-    maxTargets: 1,
-    rangeScalesWithRank: false,
-    diceModifiers: [],
-    resultsModifiers: [],
-    defenseModifiers: [],
-} as Maneuver;
-
-export const emptyAbility = {
-    name: '',
-    description: '',
-    activation: Activation.Passive,
-    cost: {
-        type: CostType.None,
-        amount: 0,
-    },
-    limit: {
-        type: LimitType.None,
-        limit: 0,
-    },
-    statModifiers: {
-        wounds: 0,
-        strain: 0,
-        soak: 0,
-        defense: 0,
-        encumbranceThreshold: 0,
-    },
-    abilityModifiers: {
-        diceModifiers: [],
-        resultsModifiers: [],
-        healEffects: [],
-        environmentModifiers: [],
-        criticalInjuryCountAsOne: false,
-        freeMoveManeuver: false,
-        moveStoryPoint: false,
-    },
-} as Ability;
-
