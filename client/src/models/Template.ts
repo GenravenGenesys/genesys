@@ -33,7 +33,7 @@ import {
     type SpellEffect,
     type Talent,
     Tier, type CriticalInjuryStats, type RankedSkill, type StatModifiers, type DiceModifier, type ResultsModifier,
-    type GenesysSymbolResults, type HealEffect, HealSource, HealTarget,
+    type GenesysSymbolResults, type HealEffect, HealSource, HealTarget, type DefenseModifier, DefenseType,
 } from "../api/model";
 
 export const emptySkill = {
@@ -94,7 +94,13 @@ export const emptyHealEffect = {
     source: HealSource.Fixed,
     amount: 0,
     characteristic: CharacteristicType.Brawn,
-} as HealEffect
+} as HealEffect;
+
+export const emptyDefenseModifier = {
+    defenseType: DefenseType.Melee,
+    amount: 0,
+    appliesTo: Target.Self,
+} as DefenseModifier;
 
 export const emptyCriticalInjuryStats = {
     statModifiers: [
@@ -115,7 +121,7 @@ export const emptyCriticalInjury = {
     severity: Difficulty.Easy,
     min: 0,
     max: 0,
-    stats: {} as CriticalInjuryStats
+    stats: emptyCriticalInjuryStats
 } as CriticalInjury;
 
 export const emptySpellEffect = {
@@ -173,9 +179,15 @@ export const emptyManeuver = {
     stackable: false,
     maxTargets: 1,
     rangeScalesWithRank: false,
-    diceModifiers: [],
-    resultsModifiers: [],
-    defenseModifiers: [],
+    diceModifiers: [
+        emptyDiceModifier,
+    ],
+    resultsModifiers: [
+        emptyResultsModifier,
+    ],
+    defenseModifiers: [
+
+    ],
 } as Maneuver;
 
 export const emptyAbility = {
