@@ -80,8 +80,16 @@ export const fromPlayerCharacter = async (playerCharacter: PlayerCharacter, opti
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<fromPlayerCharacterResponse>(getFromPlayerCharacterUrl(),
   {
@@ -96,11 +104,13 @@ return customFetch<fromPlayerCharacterResponse>(getFromPlayerCharacterUrl(),
 
 
 
+export const getFromPlayerCharacterMutationKey = () => ['fromPlayerCharacter'] as const;
+
 export const getFromPlayerCharacterMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof fromPlayerCharacter>>, TError,FromPlayerCharacterMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof fromPlayerCharacter>>, TError,FromPlayerCharacterMutationVariables, TContext> => {
 
-const mutationKey = ['fromPlayerCharacter'];
+const mutationKey = getFromPlayerCharacterMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options

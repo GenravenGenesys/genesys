@@ -193,8 +193,16 @@ export const createSpell = async (campaignId: string,
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<createSpellResponse>(getCreateSpellUrl(campaignId),
   {
@@ -209,11 +217,13 @@ return customFetch<createSpellResponse>(getCreateSpellUrl(campaignId),
 
 
 
+export const getCreateSpellMutationKey = () => ['createSpell'] as const;
+
 export const getCreateSpellMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,CreateSpellMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createSpell>>, TError,CreateSpellMutationVariables, TContext> => {
 
-const mutationKey = ['createSpell'];
+const mutationKey = getCreateSpellMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -286,8 +296,16 @@ export const updateSpell = async (campaignId: string,
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<updateSpellResponse>(getUpdateSpellUrl(campaignId,spellId),
   {
@@ -302,11 +320,13 @@ return customFetch<updateSpellResponse>(getUpdateSpellUrl(campaignId,spellId),
 
 
 
+export const getUpdateSpellMutationKey = () => ['updateSpell'] as const;
+
 export const getUpdateSpellMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,UpdateSpellMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateSpell>>, TError,UpdateSpellMutationVariables, TContext> => {
 
-const mutationKey = ['updateSpell'];
+const mutationKey = getUpdateSpellMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options

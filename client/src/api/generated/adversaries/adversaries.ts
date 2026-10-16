@@ -193,8 +193,16 @@ export const createAdversary = async (campaignId: string,
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<createAdversaryResponse>(getCreateAdversaryUrl(campaignId),
   {
@@ -209,11 +217,13 @@ return customFetch<createAdversaryResponse>(getCreateAdversaryUrl(campaignId),
 
 
 
+export const getCreateAdversaryMutationKey = () => ['createAdversary'] as const;
+
 export const getCreateAdversaryMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,CreateAdversaryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createAdversary>>, TError,CreateAdversaryMutationVariables, TContext> => {
 
-const mutationKey = ['createAdversary'];
+const mutationKey = getCreateAdversaryMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -286,8 +296,16 @@ export const updateAdversary = async (campaignId: string,
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<updateAdversaryResponse>(getUpdateAdversaryUrl(campaignId,adversaryId),
   {
@@ -302,11 +320,13 @@ return customFetch<updateAdversaryResponse>(getUpdateAdversaryUrl(campaignId,adv
 
 
 
+export const getUpdateAdversaryMutationKey = () => ['updateAdversary'] as const;
+
 export const getUpdateAdversaryMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,UpdateAdversaryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateAdversary>>, TError,UpdateAdversaryMutationVariables, TContext> => {
 
-const mutationKey = ['updateAdversary'];
+const mutationKey = getUpdateAdversaryMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options

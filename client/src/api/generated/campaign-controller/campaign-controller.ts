@@ -86,11 +86,13 @@ export const openCampaign = async (id: string, options?: Parameters<typeof custo
 
 
 
+export const getOpenCampaignMutationKey = () => ['openCampaign'] as const;
+
 export const getOpenCampaignMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof openCampaign>>, TError,OpenCampaignMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof openCampaign>>, TError,OpenCampaignMutationVariables, TContext> => {
 
-const mutationKey = ['openCampaign'];
+const mutationKey = getOpenCampaignMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -270,8 +272,16 @@ export const createCampaign = async (campaign: Campaign, options?: Parameters<ty
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<createCampaignResponse>(getCreateCampaignUrl(),
   {
@@ -286,11 +296,13 @@ return customFetch<createCampaignResponse>(getCreateCampaignUrl(),
 
 
 
+export const getCreateCampaignMutationKey = () => ['createCampaign'] as const;
+
 export const getCreateCampaignMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCampaign>>, TError,CreateCampaignMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createCampaign>>, TError,CreateCampaignMutationVariables, TContext> => {
 
-const mutationKey = ['createCampaign'];
+const mutationKey = getCreateCampaignMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options

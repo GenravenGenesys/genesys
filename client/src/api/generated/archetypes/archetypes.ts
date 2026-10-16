@@ -193,8 +193,16 @@ export const createArchetype = async (campaignId: string,
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<createArchetypeResponse>(getCreateArchetypeUrl(campaignId),
   {
@@ -209,11 +217,13 @@ return customFetch<createArchetypeResponse>(getCreateArchetypeUrl(campaignId),
 
 
 
+export const getCreateArchetypeMutationKey = () => ['createArchetype'] as const;
+
 export const getCreateArchetypeMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,CreateArchetypeMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createArchetype>>, TError,CreateArchetypeMutationVariables, TContext> => {
 
-const mutationKey = ['createArchetype'];
+const mutationKey = getCreateArchetypeMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -286,8 +296,16 @@ export const updateArchetype = async (campaignId: string,
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<updateArchetypeResponse>(getUpdateArchetypeUrl(campaignId,archetypeId),
   {
@@ -302,11 +320,13 @@ return customFetch<updateArchetypeResponse>(getUpdateArchetypeUrl(campaignId,arc
 
 
 
+export const getUpdateArchetypeMutationKey = () => ['updateArchetype'] as const;
+
 export const getUpdateArchetypeMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,UpdateArchetypeMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateArchetype>>, TError,UpdateArchetypeMutationVariables, TContext> => {
 
-const mutationKey = ['updateArchetype'];
+const mutationKey = getUpdateArchetypeMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options

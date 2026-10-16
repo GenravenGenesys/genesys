@@ -23,7 +23,6 @@ import {
     type Maneuver,
     type Motivation,
     type PlayerCharacter,
-    type PlayerSkill,
     type PlayerTalent,
     type Quality,
     type QualityStats,
@@ -33,7 +32,7 @@ import {
     type Spell,
     type SpellEffect,
     type Talent,
-    Tier, type CriticalInjuryStats,
+    Tier, type CriticalInjuryStats, type RankedSkill,
 } from "../api/model";
 
 export const emptySkill = {
@@ -199,6 +198,14 @@ export const emptyAdversary = {
             current: 0,
             base: 0
         },
+        melee: {
+            current: 0,
+            base: 0
+        },
+        ranged: {
+            current: 0,
+            base: 0
+        }
     },
     equipment: {
         weapons: [],
@@ -295,8 +302,16 @@ export const emptyPlayerCharacter = {
             current: 0,
             base: 0
         },
+        melee: {
+            current: 0,
+            base: 0
+        },
+        ranged: {
+            current: 0,
+            base: 0
+        }
     },
-    skills: [] as PlayerSkill[],
+    skills: [] as RankedSkill[],
     talents: [] as PlayerTalent[],
     equipment: {
         weapons: [] as ItemTemplate[],

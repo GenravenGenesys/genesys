@@ -63,8 +63,16 @@ export const resolveChoices = async (resolveChoicesRequest: ResolveChoicesReques
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<resolveChoicesResponse>(getResolveChoicesUrl(),
   {
@@ -79,11 +87,13 @@ return customFetch<resolveChoicesResponse>(getResolveChoicesUrl(),
 
 
 
+export const getResolveChoicesMutationKey = () => ['resolveChoices'] as const;
+
 export const getResolveChoicesMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof resolveChoices>>, TError,ResolveChoicesMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof resolveChoices>>, TError,ResolveChoicesMutationVariables, TContext> => {
 
-const mutationKey = ['resolveChoices'];
+const mutationKey = getResolveChoicesMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -153,8 +163,16 @@ export const rollInitiative = async (initiativeRollRequest: InitiativeRollReques
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<rollInitiativeResponse>(getRollInitiativeUrl(),
   {
@@ -169,11 +187,13 @@ return customFetch<rollInitiativeResponse>(getRollInitiativeUrl(),
 
 
 
+export const getRollInitiativeMutationKey = () => ['rollInitiative'] as const;
+
 export const getRollInitiativeMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof rollInitiative>>, TError,RollInitiativeMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof rollInitiative>>, TError,RollInitiativeMutationVariables, TContext> => {
 
-const mutationKey = ['rollInitiative'];
+const mutationKey = getRollInitiativeMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -243,8 +263,16 @@ export const startEncounter = async (participant: Participant[], options?: Param
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<startEncounterResponse>(getStartEncounterUrl(),
   {
@@ -259,11 +287,13 @@ return customFetch<startEncounterResponse>(getStartEncounterUrl(),
 
 
 
+export const getStartEncounterMutationKey = () => ['startEncounter'] as const;
+
 export const getStartEncounterMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startEncounter>>, TError,StartEncounterMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof startEncounter>>, TError,StartEncounterMutationVariables, TContext> => {
 
-const mutationKey = ['startEncounter'];
+const mutationKey = getStartEncounterMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -343,11 +373,13 @@ export const endEncounter = async ( options?: Parameters<typeof customFetch>[1])
 
 
 
+export const getEndEncounterMutationKey = () => ['endEncounter'] as const;
+
 export const getEndEncounterMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof endEncounter>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof endEncounter>>, TError,void, TContext> => {
 
-const mutationKey = ['endEncounter'];
+const mutationKey = getEndEncounterMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -417,8 +449,16 @@ export const executeRangedAttack = async (combatRollRequest: CombatRollRequest, 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<executeRangedAttackResponse>(getExecuteRangedAttackUrl(),
   {
@@ -433,11 +473,13 @@ return customFetch<executeRangedAttackResponse>(getExecuteRangedAttackUrl(),
 
 
 
+export const getExecuteRangedAttackMutationKey = () => ['executeRangedAttack'] as const;
+
 export const getExecuteRangedAttackMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeRangedAttack>>, TError,ExecuteRangedAttackMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof executeRangedAttack>>, TError,ExecuteRangedAttackMutationVariables, TContext> => {
 
-const mutationKey = ['executeRangedAttack'];
+const mutationKey = getExecuteRangedAttackMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -507,8 +549,16 @@ export const executeMeleeAttack = async (combatRollRequest: CombatRollRequest, o
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<executeMeleeAttackResponse>(getExecuteMeleeAttackUrl(),
   {
@@ -523,11 +573,13 @@ return customFetch<executeMeleeAttackResponse>(getExecuteMeleeAttackUrl(),
 
 
 
+export const getExecuteMeleeAttackMutationKey = () => ['executeMeleeAttack'] as const;
+
 export const getExecuteMeleeAttackMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof executeMeleeAttack>>, TError,ExecuteMeleeAttackMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof executeMeleeAttack>>, TError,ExecuteMeleeAttackMutationVariables, TContext> => {
 
-const mutationKey = ['executeMeleeAttack'];
+const mutationKey = getExecuteMeleeAttackMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options

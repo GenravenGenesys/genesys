@@ -193,8 +193,16 @@ export const createTalent = async (campaignId: string,
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<createTalentResponse>(getCreateTalentUrl(campaignId),
   {
@@ -209,11 +217,13 @@ return customFetch<createTalentResponse>(getCreateTalentUrl(campaignId),
 
 
 
+export const getCreateTalentMutationKey = () => ['createTalent'] as const;
+
 export const getCreateTalentMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createTalent>>, TError,CreateTalentMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createTalent>>, TError,CreateTalentMutationVariables, TContext> => {
 
-const mutationKey = ['createTalent'];
+const mutationKey = getCreateTalentMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -286,8 +296,16 @@ export const updateTalent = async (campaignId: string,
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return customFetch<updateTalentResponse>(getUpdateTalentUrl(campaignId,talentId),
   {
@@ -302,11 +320,13 @@ return customFetch<updateTalentResponse>(getUpdateTalentUrl(campaignId,talentId)
 
 
 
+export const getUpdateTalentMutationKey = () => ['updateTalent'] as const;
+
 export const getUpdateTalentMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateTalent>>, TError,UpdateTalentMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof updateTalent>>, TError,UpdateTalentMutationVariables, TContext> => {
 
-const mutationKey = ['updateTalent'];
+const mutationKey = getUpdateTalentMutationKey();
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
