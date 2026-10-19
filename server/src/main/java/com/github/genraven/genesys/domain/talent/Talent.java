@@ -1,5 +1,6 @@
 package com.github.genraven.genesys.domain.talent;
 
+import com.github.genraven.genesys.domain.Incidental;
 import com.github.genraven.genesys.domain.campaign.encounter.Action;
 import com.github.genraven.genesys.domain.campaign.encounter.Maneuver;
 import com.github.genraven.genesys.domain.enums.Activation;
@@ -18,7 +19,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

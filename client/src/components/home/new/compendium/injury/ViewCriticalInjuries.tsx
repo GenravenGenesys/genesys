@@ -20,6 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import {renderSingleRowTableHeader} from "../../../../common/table/TableRenders.tsx";
 import {emptyCriticalInjury} from "../../../../../models/Template.ts";
 import {useCreateCriticalInjury, useUpdateCriticalInjury} from "../../../../../api/generated/injuries/injuries.ts";
+import CriticalInjuryDialog from "./CriticalInjuryDialog.tsx";
 
 interface Props {
     injury: CriticalInjury;
@@ -143,8 +144,8 @@ export default function ViewCompendiumInjuries() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {/*<AdversaryDialog open={Boolean(openDrawer)} adversary={criticalInjury} onClose={() => setOpenDrawer(false)}*/}
-            {/*                 onSave={handleSave} isNew={isNew}/>*/}
+            <CriticalInjuryDialog open={Boolean(openDrawer)} injury={criticalInjury} onClose={() => setOpenDrawer(false)}
+                             onSave={handleSave} isNew={isNew}/>
         </Box>
     );
 }

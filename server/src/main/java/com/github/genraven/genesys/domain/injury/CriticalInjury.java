@@ -1,4 +1,4 @@
-package com.github.genraven.genesys.domain;
+package com.github.genraven.genesys.domain.injury;
 
 import com.github.genraven.genesys.domain.enums.Difficulty;
 import com.github.genraven.genesys.validator.EnumValidator;

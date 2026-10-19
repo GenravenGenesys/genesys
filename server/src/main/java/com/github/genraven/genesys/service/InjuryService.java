@@ -1,6 +1,6 @@
 package com.github.genraven.genesys.service;
 
-import com.github.genraven.genesys.domain.CriticalInjury;
+import com.github.genraven.genesys.domain.injury.CriticalInjury;
 import com.github.genraven.genesys.domain.campaign.Campaign;
 
 import lombok.RequiredArgsConstructor;

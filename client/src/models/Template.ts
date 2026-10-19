@@ -23,7 +23,6 @@ import {
     type Maneuver,
     type Motivation,
     type PlayerCharacter,
-    type PlayerSkill,
     type PlayerTalent,
     type Quality,
     type QualityStats,
@@ -33,7 +32,8 @@ import {
     type Spell,
     type SpellEffect,
     type Talent,
-    Tier,
+    Tier, type RankedSkill, type StatModifiers, type DiceModifier, type ResultsModifier,
+    type GenesysSymbolResults, type HealEffect, HealSource, HealTarget, type DefenseModifier, DefenseType,
 } from "../api/model";
 
 export const emptySkill = {
@@ -43,6 +43,171 @@ export const emptySkill = {
     type: SkillType.General,
     initiative: false,
 } as Skill;
+
+export const emptyRankedSkill = {
+    id: '',
+    name: '',
+    characteristic: CharacteristicType.Brawn,
+    type: SkillType.General,
+    initiative: false,
+    ranks: 0,
+    summary: "",
+    description: "",
+} as RankedSkill;
+
+export const emptyGenesysSymbolResults = {
+    success: 0,
+    advantage: 0,
+    triumph: 0,
+    failure: 0,
+    threat: 0,
+    despair: 0,
+} as GenesysSymbolResults;
+
+export const emptyStatModifier = {
+    wounds: 0,
+    strain: 0,
+    soak: 0,
+    defense: 0,
+    encumbranceThreshold: 0,
+} as StatModifiers;
+
+export const emptyDiceModifier = {
+    diceType: DiceType.Boost,
+    amount: 0,
+    checkContext: CheckContext.All,
+    skillType: SkillType.General,
+    skill: emptySkill,
+    checkTarget: Target.Self
+} as DiceModifier;
+
+export const emptyResultsModifier = {
+    results: emptyGenesysSymbolResults,
+    checkContext: CheckContext.All,
+    skillType: SkillType.General,
+    checkTarget: Target.Self,
+    skill: emptySkill,
+} as ResultsModifier;
+
+export const emptyHealEffect = {
+    target: HealTarget.Wounds,
+    source: HealSource.Fixed,
+    amount: 0,
+    characteristic: CharacteristicType.Brawn,
+} as HealEffect;
+
+export const emptyDefenseModifier = {
+    defenseType: DefenseType.Melee,
+    amount: 0,
+    appliesTo: Target.Self,
+} as DefenseModifier;
+
+export const emptyCriticalInjury = {
+    id: '',
+    name: '',
+    description: '',
+    severity: Difficulty.Easy,
+    min: 0,
+    max: 0,
+} as CriticalInjury;
+
+export const emptySpellEffect = {
+    name: '',
+    description: '',
+    difficultyIncrease: 1,
+} as SpellEffect;
+
+export const emptySpell = {
+    id: '',
+    name: '',
+    concentration: false,
+    difficulty: Difficulty.Easy,
+    range: RangeBand.Short,
+    skills: [
+        emptySkill
+    ],
+    effects: [
+        emptySpellEffect
+    ],
+} as Spell;
+
+export const emptyAction = {
+    type: ActionType.Skill_Check,
+    opposed: false,
+    difficulty: Difficulty.Easy,
+    target: Target.Self,
+    range: RangeBand.Engaged,
+    damage: 0,
+    brawnBonus: false,
+    critical: 0,
+    diceModifiers: [
+        emptyDiceModifier,
+    ],
+    resultsModifiers: [
+        emptyResultsModifier,
+    ],
+} as Action;
+
+export const emptyIncidental = {
+    diceModifiers: [
+        emptyDiceModifier,
+    ],
+    resultsModifiers: [
+        emptyResultsModifier,
+    ],
+    healEffects: [
+        emptyHealEffect
+    ],
+} as Incidental;
+
+export const emptyManeuver = {
+    target: Target.Self,
+    duration: Duration.Scene,
+    stackable: false,
+    maxTargets: 1,
+    rangeScalesWithRank: false,
+    diceModifiers: [
+        emptyDiceModifier,
+    ],
+    resultsModifiers: [
+        emptyResultsModifier,
+    ],
+    defenseModifiers: [
+
+    ],
+} as Maneuver;
+
+export const emptyAbility = {
+    name: '',
+    description: '',
+    activation: Activation.Passive,
+    cost: {
+        type: CostType.None,
+        amount: 0,
+    },
+    limit: {
+        type: LimitType.None,
+        limit: 0,
+    },
+    statModifiers: {
+        wounds: 0,
+        strain: 0,
+        soak: 0,
+        defense: 0,
+        encumbranceThreshold: 0,
+    },
+    abilityModifiers: {
+        diceModifiers: [],
+        resultsModifiers: [],
+        healEffects: [
+            emptyHealEffect
+        ],
+        environmentModifiers: [],
+        criticalInjuryCountAsOne: false,
+        freeMoveManeuver: false,
+        moveStoryPoint: false,
+    },
+} as Ability;
 
 export const emptyQuality = {
     id: '',
@@ -127,7 +292,9 @@ export const emptyTalent = {
     abilityModifiers: {
         diceModifiers: [],
         resultsModifiers: [],
-        healEffects: [],
+        healEffects: [
+            emptyHealEffect
+        ],
         environmentModifiers: [],
         freeMoveManeuver: false,
         criticalInjuryCountAsOne: false,
@@ -199,6 +366,14 @@ export const emptyAdversary = {
             current: 0,
             base: 0
         },
+        melee: {
+            current: 0,
+            base: 0
+        },
+        ranged: {
+            current: 0,
+            base: 0
+        }
     },
     equipment: {
         weapons: [],
@@ -295,8 +470,16 @@ export const emptyPlayerCharacter = {
             current: 0,
             base: 0
         },
+        melee: {
+            current: 0,
+            base: 0
+        },
+        ranged: {
+            current: 0,
+            base: 0
+        }
     },
-    skills: [] as PlayerSkill[],
+    skills: [] as RankedSkill[],
     talents: [] as PlayerTalent[],
     equipment: {
         weapons: [] as ItemTemplate[],
@@ -310,89 +493,3 @@ export const emptyPlayerCharacter = {
         available: 0
     },
 } as PlayerCharacter;
-
-export const emptyCriticalInjury = {
-    id: '',
-    name: '',
-    description: '',
-    severity: Difficulty.Easy,
-    min: 0,
-    max: 0,
-} as CriticalInjury;
-
-export const emptySpellEffect = {
-    name: '',
-    description: '',
-    difficultyIncrease: 1,
-} as SpellEffect;
-
-export const emptySpell = {
-    id: '',
-    name: '',
-    concentration: false,
-    difficulty: Difficulty.Easy,
-    range: RangeBand.Short,
-    skills: [] as Skill[],
-    effects: [] as SpellEffect[],
-} as Spell;
-
-export const emptyAction = {
-    type: ActionType.Skill_Check,
-    opposed: false,
-    difficulty: Difficulty.Easy,
-    target: Target.Self,
-    range: RangeBand.Engaged,
-    damage: 0,
-    brawnBonus: false,
-    critical: 0,
-    diceModifiers: [],
-    resultsModifiers: [],
-} as Action;
-
-export const emptyIncidental = {
-    diceModifiers: [],
-    resultsModifiers: [],
-    healEffects: [],
-} as Incidental;
-
-export const emptyManeuver = {
-    target: Target.Self,
-    duration: Duration.Scene,
-    stackable: false,
-    maxTargets: 1,
-    rangeScalesWithRank: false,
-    diceModifiers: [],
-    resultsModifiers: [],
-    defenseModifiers: [],
-} as Maneuver;
-
-export const emptyAbility = {
-    name: '',
-    description: '',
-    activation: Activation.Passive,
-    cost: {
-        type: CostType.None,
-        amount: 0,
-    },
-    limit: {
-        type: LimitType.None,
-        limit: 0,
-    },
-    statModifiers: {
-        wounds: 0,
-        strain: 0,
-        soak: 0,
-        defense: 0,
-        encumbranceThreshold: 0,
-    },
-    abilityModifiers: {
-        diceModifiers: [],
-        resultsModifiers: [],
-        healEffects: [],
-        environmentModifiers: [],
-        criticalInjuryCountAsOne: false,
-        freeMoveManeuver: false,
-        moveStoryPoint: false,
-    },
-} as Ability;
-
