@@ -40,7 +40,6 @@ export * from './combatRollRequest';
 export * from './cost';
 export * from './costType';
 export * from './criticalInjury';
-export * from './criticalInjuryStats';
 export * from './defenseModifier';
 export * from './defenseType';
 export * from './derivedStats';

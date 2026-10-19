@@ -32,7 +32,7 @@ import {
     type Spell,
     type SpellEffect,
     type Talent,
-    Tier, type CriticalInjuryStats, type RankedSkill, type StatModifiers, type DiceModifier, type ResultsModifier,
+    Tier, type RankedSkill, type StatModifiers, type DiceModifier, type ResultsModifier,
     type GenesysSymbolResults, type HealEffect, HealSource, HealTarget, type DefenseModifier, DefenseType,
 } from "../api/model";
 
@@ -83,7 +83,7 @@ export const emptyDiceModifier = {
 
 export const emptyResultsModifier = {
     results: emptyGenesysSymbolResults,
-    checkContext: CheckContext,
+    checkContext: CheckContext.All,
     skillType: SkillType.General,
     checkTarget: Target.Self,
     skill: emptySkill,

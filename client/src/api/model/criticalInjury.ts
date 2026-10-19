@@ -5,7 +5,6 @@
  * Interactive API documentation
  * OpenAPI spec version: 1.0
  */
-import type { CriticalInjuryStats } from './criticalInjuryStats';
 import type { Difficulty } from './difficulty';
 
 /**
@@ -18,5 +17,4 @@ export interface CriticalInjury {
   severity: Difficulty;
   min: number;
   max: number;
-  stats: CriticalInjuryStats;
 }
