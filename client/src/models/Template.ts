@@ -102,18 +102,6 @@ export const emptyDefenseModifier = {
     appliesTo: Target.Self,
 } as DefenseModifier;
 
-export const emptyCriticalInjuryStats = {
-    statModifiers: [
-        emptyStatModifier,
-    ],
-    diceModifiers: [
-        emptyDiceModifier,
-    ],
-    resultsModifiers: [
-        emptyResultsModifier,
-    ],
-} as CriticalInjuryStats;
-
 export const emptyCriticalInjury = {
     id: '',
     name: '',
@@ -121,7 +109,6 @@ export const emptyCriticalInjury = {
     severity: Difficulty.Easy,
     min: 0,
     max: 0,
-    stats: emptyCriticalInjuryStats
 } as CriticalInjury;
 
 export const emptySpellEffect = {
